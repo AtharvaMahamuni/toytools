@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'date-time',
   tags: ['age calculator', 'calculate age from date of birth', 'how old am i', 'exact age', 'age in months', 'age in days', 'days until birthday', 'chronological age'],
   updatedAt: '2026-07-08',
-  isNew: true,
   trustVariant: 'private',
   engine: 'datetime',
   pattern: 'datetime-calculate',

@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Generate a SHA-512 hash from any text.',
   categorySlug: 'developer-utilities',
   tags: ['sha512', 'sha-512', 'sha512 hash', 'sha512 generator', 'hash generator', 'checksum', 'sha512 online', 'generate sha512', 'developer'],
-  isNew: true,
   updatedAt: '2026-06-14',
   engine: 'hashing',
   pattern: 'hash',
@@ -31,6 +30,6 @@ export const config: ToolConfig = {
     title: 'SHA-512 Hash Generator: Complete Guide',
     description: 'Learn what SHA-512 is, how it compares to SHA-256, and when to use it. Includes real-world uses, common mistakes, and examples.',
     readMinutes: 5,
-    updatedAt: '2026-06-15',
+    updatedAt: '2026-10-05',
   },
 };

@@ -175,11 +175,16 @@ export interface ToolConfig {
   tagline?: string;
   categorySlug: string;
   tags: string[];
-  isNew?: boolean;
   /**
-   * Calendar day the tool was added, `YYYY-MM-DD` in UTC. The New badge renders only while this
-   * day is at most five whole UTC days ago. `isNew` does not drive the badge, and neither does
-   * `updatedAt`.
+   * Removed. A permanent flag never drove the badge, so the next tool that copied it got none.
+   * Set `addedOn` instead. Typed `never` so `isNew: true` fails the type check.
+   */
+  isNew?: never;
+  /**
+   * Calendar day the tool was added, `YYYY-MM-DD` in UTC. The New badge renders on that day and
+   * the four UTC days after it (`NEW_TAG_DAYS` in src/lib/tools/freshness.ts). `updatedAt` does
+   * not drive the badge. Static HTML keeps a badge until the next build, and a small inline
+   * script removes it in the browser once `data-new-until` has passed.
    */
   addedOn?: string;
   updatedAt?: string;

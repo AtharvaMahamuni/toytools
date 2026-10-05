@@ -37,4 +37,15 @@ describe('typeScale', () => {
     expect(typeScale(Number.NaN, 1.25).ok).toBe(false);
     expect(typeScale(0, 1.25).ok).toBe(false);
   });
+
+  it('keeps the base inside the 1 to 200 pixels its error message promises', () => {
+    for (const base of [0.5, 1e-9, 0.999, 200.01]) {
+      const scale = typeScale(base, 1.25);
+      expect(scale.ok).toBe(false);
+      if (scale.ok) continue;
+      expect(scale.error).toBe('Enter a base size between 1 and 200 pixels.');
+    }
+    expect(typeScale(1, 1.25).ok).toBe(true);
+    expect(typeScale(200, 1.25).ok).toBe(true);
+  });
 });

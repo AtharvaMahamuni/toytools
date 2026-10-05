@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'text-utilities',
   tags: ['character map', 'special characters', 'copy paste symbols', 'unicode characters', 'symbol picker', 'html entity list', 'text symbols'],
   updatedAt: '2026-08-22',
-  isNew: true,
   trustVariant: 'private',
   engine: 'text-interactive',
   pattern: 'text-interactive',

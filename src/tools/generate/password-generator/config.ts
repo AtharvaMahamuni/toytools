@@ -17,7 +17,6 @@ export const config: ToolConfig = {
     'password strength',
     'entropy',
   ],
-  isNew: true,
   updatedAt: '2026-09-25',
   trustVariant: 'private',
   engine: 'generation',

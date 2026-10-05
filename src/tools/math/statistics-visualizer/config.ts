@@ -15,7 +15,6 @@ export const config: ToolConfig = {
     'box plot generator',
   ],
   updatedAt: '2026-09-15',
-  isNew: true,
   trustVariant: 'private',
   engine: 'math',
   pattern: 'math-calculate',
@@ -44,6 +43,6 @@ export const config: ToolConfig = {
     description:
       'What mean, median, mode, quartiles, and standard deviation each tell you, how to read a histogram with a box plot, and when to use sample versus population SD.',
     readMinutes: 6,
-    updatedAt: '2026-09-15',
+    updatedAt: '2026-10-05',
   },
 };

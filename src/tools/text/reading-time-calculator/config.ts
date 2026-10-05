@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Minutes to read or speak a text. Nothing is uploaded.',
   categorySlug: 'text-utilities',
   tags: ['reading time calculator', 'read time estimator', 'how long to read', 'reading time', 'speaking time', 'presentation timer', 'blog post reading time', 'article reading time', 'minutes to read'],
-  isNew: true,
   updatedAt: '2026-10-05',
   engine: 'text-analysis',
   craft: {

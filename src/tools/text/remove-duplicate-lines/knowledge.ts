@@ -31,6 +31,8 @@ export const knowledge: Knowledge = {
     'Why did the order of my lines change after deduplicating?',
   ],
   usedWith: [
+    { slug: 'find-replace', reason: 'Fix a repeated word inside lines that are not exact duplicates', strength: 0.75 },
+    { slug: 'lowercase-converter', reason: 'Lowercase the list first so lines that differ only in case collapse', strength: 0.75 },
     { slug: 'trim-text', reason: 'Trim edges first so true duplicates collapse', strength: 0.7 },
     { slug: 'remove-blank-lines', reason: 'Drop empties before or after deduping', strength: 0.6 },
   ],

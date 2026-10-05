@@ -46,19 +46,23 @@ const formatHref = toolPathBySlug('color-format-converter');
   </section>
 
   <section id="tints">
-    <h2>What is the difference between tints and shades? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>How do tints and shades split the ramp? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       A tint moves a color toward white. A shade moves it toward black. On this ramp the light
-      stops are the tints and the dark stops are the shades. Stop 500 is the step whose lightness
-      is closest to the color you typed, so a mid blue lands near 500 and a pale yellow lands
-      nearer 100 or 50. The number is a label for a lightness target, not a promise that 500
-      equals your hex.
+      stops are the tints and the dark stops are the shades. The stop whose lightness is closest
+      to the color you typed holds your exact hex, so a mid blue lands on 500 and a pale yellow
+      lands nearer 100 or 50. The other stops are lightness targets in the same hue.
     </p>
     <p>
-      People search this as a color shades generator, a tints and shades tool, and a 50 to 900
-      color palette. The stops use those names because stylesheets already do. A token called
+      A 50 to 950 color palette contains eleven stops, named the way a Tailwind color scale names
+      them, and tints versus shades is simply the light half against the dark half. The stops use
+      those names because stylesheets already do. A token called
       --shade-700 reads as the dark step of the same family. You still have to look at the hex.
-      Two different brands with the same stop number are not the same color.
+    </p>
+    <p>
+      For example, try a familiar blue. Input: #3b82f6. Output: it lands on stop 500, and on white
+      it is 3.68:1, under the 4.5 that body text needs. Stop 600, #1961d2, reaches 5.70:1, so it is
+      the first stop in this ramp that can carry body text on white.
     </p>
     <p>
       The row is a grid that fills the width you have. On a phone the stops wrap. On a wide
@@ -72,16 +76,6 @@ const formatHref = toolPathBySlug('color-format-converter');
       Here the nearest stop moves with the source, and the CSS names stay put so a stylesheet
       can keep referring to --shade-500 while you try another brand.
     </p>
-    <p>
-      A 50 to 900 color palette contains the eleven named stops. Which stop is the brand stop
-      is the step whose lightness sits closest to the color you typed. Tints versus shades
-      split that ramp into a light half and a dark half. OKLCH ramps stay more even than HSL
-      steps of the same size. OKLCH lightness versus HSL lightness is the step this ramp walks.
-      This OKLCH palette generator builds a shade scale with the stop names of a
-      Tailwind color scale. The note under the row is WCAG contrast on white. For example,
-      try a familiar blue. Input: #3b82f6. Output: stop 500 on white is 4.03:1, and body
-      text needs 4.5.
-    </p>
   </section>
 
   <section id="oklch">
@@ -89,9 +83,10 @@ const formatHref = toolPathBySlug('color-format-converter');
     <p>
       HSL calls yellow and blue the same lightness when one looks much lighter than the other.
       A ramp that steps HSL lightness by equal numbers goes dull in the middle and jumps at the
-      ends. OKLCH, from Bjorn Ottosson's OKLab, steps lightness in a space where those steps look
-      closer to even. Hue is an angle. Chroma is a distance from gray. The page holds the angle
-      and walks the lightness.
+      ends. OKLCH, from Björn Ottosson's OKLab, steps lightness in a space where those steps look
+      closer to even, which is why OKLCH ramps stay more even than HSL ramps of the same step size.
+      Hue is an angle. Chroma is a distance from gray. This OKLCH palette generator holds the angle
+      and walks the lightness, so the whole shade scale keeps one hue.
     </p>
     <p>
       Chroma is the part that breaks first. A lightness of 0.97 cannot carry the chroma of a
@@ -140,7 +135,7 @@ const formatHref = toolPathBySlug('color-format-converter');
     <h2>Common mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
     <ReferenceBlock type="common-mistake" heading="Expecting a Tailwind match">
       <p>
-        Stop 500 from this page is your color's neighbor, not Tailwind's blue-500. The names
+        Stop 500 from this page is built from your color, not Tailwind's blue-500. The names
         line up. The hex values do not, and they are not supposed to.
       </p>
     </ReferenceBlock>

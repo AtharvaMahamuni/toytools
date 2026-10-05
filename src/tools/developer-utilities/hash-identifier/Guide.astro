@@ -145,7 +145,9 @@ const sha1Href = toolPathBySlug('sha1-hash-generator');
       Pick the file. The browser reads the bytes with a file reader and hashes them here. The
       bytes stay on this device. Nothing is sent. There is no form and no server. Files over
       32 MB are refused so the tab does not lock up. That refusal happens before the read
-      finishes the hash, and it is still local.
+      finishes the hash, and it is still local. Once the length names the algorithm, check the
+      downloaded file itself in the <a href={toolPathBySlug('file-hash-verifier')}>file hash
+      verifier</a>. Nothing is uploaded.
     </p>
     <p>
       The algorithm is the one you pick, or the one inferred when the digest matches exactly

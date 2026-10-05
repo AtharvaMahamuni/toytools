@@ -9,6 +9,8 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { getToolMetadata } from '../src/data/metadata';
 import { isIsoDate } from '../src/lib/dates';
+import { parseAddedOn } from '../src/lib/tools/freshness';
+import { guidePublishedAt } from '../src/data/guide-published';
 import { registeredGuideSlugSet } from '../src/data/guide-registry';
 import { toolGroups, getToolGroup } from '../src/data/tool-groups';
 import { PROCESSORS } from '../src/lib/text/processors/registry';
@@ -61,6 +63,12 @@ const ENGINE_REGISTRIES: Record<string, Record<string, unknown>> = {
 
 const categorySlugSet = new Set(categories.map(c => c.slug));
 const allSlugs = new Set(tools.map(t => t.slug));
+// Dead first-published entries (a removed tool or a dropped guide) are errors too, so the map
+// stays a list of real guides.
+const guideToolSlugs = new Set(tools.filter(t => t.guide).map(t => t.slug));
+// The repository's first commit, 2026-06-02 19:33 IST. No guide can have been published before it.
+const FIRST_COMMIT_DAY = '2026-06-02';
+const stalePublished = Object.keys(guidePublishedAt).filter(slug => !guideToolSlugs.has(slug));
 const segmentOf = (categorySlug: string) =>
   categories.find(c => c.slug === categorySlug)?.segment ?? categorySlug;
 
@@ -137,9 +145,39 @@ for (const tool of tools) {
     errors.push(`Tool "${m.slug}" updatedAt must be an ISO 8601 date (YYYY-MM-DD), got "${tool.updatedAt}". It is the SoftwareApplication schema's dateModified.`);
   }
 
+  // addedOn drives the New badge and the featured row (src/lib/tools/freshness.ts). A typo or an
+  // impossible date silently means no badge, so it is checked here. "Future" allows one day of
+  // slack, because a tool added in the early IST morning is still yesterday in UTC.
+  if (tool.addedOn !== undefined) {
+    const added = parseAddedOn(tool.addedOn);
+    if (added === null) {
+      errors.push(`Tool "${m.slug}" addedOn must be a real calendar date (YYYY-MM-DD), got "${tool.addedOn}". It drives the New badge.`);
+    } else if (added > Date.now() + 86_400_000) {
+      errors.push(`Tool "${m.slug}" addedOn "${tool.addedOn}" is in the future. Use the day the tool ships.`);
+    }
+  }
+  if ('isNew' in (tool as object)) {
+    errors.push(`Tool "${m.slug}" still sets isNew, which no longer exists. Set addedOn: 'YYYY-MM-DD' instead.`);
+  }
+
   // guide.updatedAt is the Article schema's datePublished/dateModified, so it must be ISO 8601.
   // It held a display string ("Jul 2026") until 2026-08-17, which made Google drop the dates on
   // 102 of 121 guides. Nothing caught it, because a wrong-but-present string renders fine.
+  // The Article datePublished comes from src/data/guide-published.ts, not from updatedAt, so a
+  // rewrite does not claim the guide is new. Every guide needs its first-published day there.
+  if (tool.guide) {
+    const published = guidePublishedAt[m.slug];
+    if (published === undefined) {
+      errors.push(`Tool "${m.slug}" has a guide but no first-published date in src/data/guide-published.ts. Add '${m.slug}': 'YYYY-MM-DD' (the day it ships).`);
+    } else if (!isIsoDate(published)) {
+      errors.push(`Tool "${m.slug}" guide-published date must be YYYY-MM-DD, got "${published}".`);
+    } else if (published < FIRST_COMMIT_DAY) {
+      errors.push(`Tool "${m.slug}" guide-published date ${published} is before the repository's first commit (${FIRST_COMMIT_DAY}). Use the day its guide first landed on main.`);
+    } else if (isIsoDate(tool.guide.updatedAt) && published > tool.guide.updatedAt) {
+      errors.push(`Tool "${m.slug}" guide was first published ${published}, after its guide.updatedAt ${tool.guide.updatedAt}.`);
+    }
+  }
+
   if (tool.guide && !isIsoDate(tool.guide.updatedAt)) {
     errors.push(`Tool "${m.slug}" guide.updatedAt must be an ISO 8601 date (YYYY-MM-DD), got "${tool.guide.updatedAt}". It is the Article schema date; the visible "Updated Jun 2026" line is derived from it by formatMonthYear.`);
   }
@@ -406,6 +444,10 @@ errors.push(...nonGoalRatchetErrors(tools, NON_GOAL_BACKLOG));
 // The backlog is a ratchet: it only shrinks, and a backlog tool that gains a job must leave it
 // in the same change. The field is not rendered. docs/tool-design.md.
 errors.push(...jobRatchetErrors(tools, JOB_BACKLOG));
+
+for (const slug of stalePublished) {
+  errors.push(`src/data/guide-published.ts has '${slug}', which is not a tool with a guide. Remove the entry.`);
+}
 
 if (errors.length > 0) {
   console.error('\n[validate-registry] Errors found:\n');

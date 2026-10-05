@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'The tip, the total, and the split between any number of people.',
   categorySlug: 'number-utilities',
   tags: ['tip calculator', 'gratuity calculator', 'how much to tip', 'split the bill', 'restaurant tip', 'tip percentage', 'bill splitter', 'calculate tip', 'numbers', 'math'],
-  isNew: true,
   updatedAt: '2026-10-05',
   engine: 'calculator',
   pattern: 'calculate',

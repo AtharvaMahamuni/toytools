@@ -38,6 +38,7 @@ export const knowledge: Knowledge = {
   ],
   nextSteps: [
     { slug: 'color-contrast-checker', reason: 'Verify the color meets WCAG contrast', priority: 1 },
+    { slug: 'color-shades-generator', reason: 'Turn the converted color into a 50 to 950 scale', priority: 2 },
   ],
   workflowStage: ['transform'],
   keywords: ['color format converter', 'hex to rgb', 'rgb to hex', 'hex to hsl', 'hex to oklch', 'rgb to cmyk', 'css color converter'],

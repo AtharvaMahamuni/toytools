@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   tagline: 'Identify a digest and verify the checksum.',
   categorySlug: 'developer-utilities',
   tags: ['hash identifier', 'identify hash', 'checksum verifier', 'digest length'],
-  isNew: true,
   updatedAt: '2026-09-18',
   trustVariant: 'local',
   engine: 'hashing',
@@ -42,6 +41,6 @@ export const config: ToolConfig = {
     description:
       'Tell MD5, SHA-1, SHA-256, SHA-512, and CRC32 apart by length, then check a digest against text or a local file.',
     readMinutes: 7,
-    updatedAt: '2026-09-18',
+    updatedAt: '2026-10-05',
   },
 };

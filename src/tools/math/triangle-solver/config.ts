@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Triangle Solver',
   seoTitle: 'Triangle Calculator: Law of Sines and Cosines',
   description:
-    'Solve a triangle from any three parts with the law of sines, the law of cosines, and the Pythagorean theorem. Both SSA triangles are drawn.',
+    'Solve SSS, SAS, ASA, AAS or SSA triangles with trig: the law of sines, cosines, or the Pythagorean theorem. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Enter any three parts and see the triangle drawn to scale.',
   categorySlug: 'applied-math',
   tags: [
@@ -15,7 +15,7 @@ export const config: ToolConfig = {
     'pythagorean theorem',
     'ambiguous case',
   ],
-  updatedAt: '2026-10-02',
+  updatedAt: '2026-10-05',
   addedOn: '2026-10-02',
   trustVariant: 'private',
   engine: 'math',
@@ -32,7 +32,7 @@ export const config: ToolConfig = {
   },
   citation: {
     problem: 'Use Triangle Solver when three sides or angles should produce the missing parts on a figure drawn to scale.',
-    nonGoal: 'treat three angles as a sized triangle, hide the second SSA solution, or send the measurements to an AI model.',
+    nonGoal: 'compute area or perimeter, take angles in radians, or send the measurements to an AI model.',
   },
   job: {
     intent: 'calculate',
@@ -51,6 +51,6 @@ export const config: ToolConfig = {
     description:
       'Which three parts determine a triangle, how the law of sines and the law of cosines are used, and why SSA can return two answers.',
     readMinutes: 7,
-    updatedAt: '2026-10-02',
+    updatedAt: '2026-10-05',
   },
 };

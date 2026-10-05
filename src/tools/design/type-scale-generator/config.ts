@@ -3,13 +3,13 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'type-scale-generator',
   name: 'Type Scale Generator',
-  seoTitle: 'Modular Type Scale: CSS Font Sizes and Golden Ratio',
+  seoTitle: 'Type Scale Generator: Modular Font Sizes in rem',
   description:
-    'A modular type scale of font sizes in px and rem, including a golden ratio, copied as CSS for typography.',
+    'A CSS type ramp for typography: modular font sizes from a base and a ratio, golden ratio included, in rem. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Font sizes from a ratio, in rem and CSS variables.',
   categorySlug: 'design-tools',
-  tags: ['modular', 'font', 'size', 'golden', 'ratio', 'typography', 'css', 'rem'],
-  updatedAt: '2026-10-02',
+  tags: ['type scale generator', 'modular scale', 'font size scale', 'golden ratio typography', 'css type scale', 'rem'],
+  updatedAt: '2026-10-05',
   addedOn: '2026-10-02',
   trustVariant: 'private',
   engine: 'units',
@@ -44,6 +44,6 @@ export const config: ToolConfig = {
     description:
       'How a base size and a ratio become caption-to-display steps in rem, and when a step is too small or too large for a phone.',
     readMinutes: 6,
-    updatedAt: '2026-10-02',
+    updatedAt: '2026-10-05',
   },
 };

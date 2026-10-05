@@ -33,6 +33,7 @@ export const knowledge: Knowledge = {
   ],
   usedWith: [
     { slug: 'percentage-calculator', reason: 'Reach for a dedicated tool when the whole task is a percentage', strength: 0.7 },
+    { slug: 'triangle-solver', reason: 'Solve a whole triangle from three parts instead of one sine at a time', strength: 0.5 },
   ],
   alternatives: [
     { slug: 'percentage-calculator', reason: 'Use a focused calculator for a single percentage question' },

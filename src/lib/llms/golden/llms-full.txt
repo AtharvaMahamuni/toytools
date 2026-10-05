@@ -19,9 +19,9 @@ Does not: Call an AI model.
 ## Matrix Calculator
 
 URL: https://toytoolsapp.com/tool/math/matrix-calculator/
-Use for: Multiply two matrices and read the first step.
+Use for: Add, multiply, transpose or invert matrices, with the first step shown.
 Privacy: Runs entirely on your device. Nothing is uploaded.
-Does not: Row-reduce to rref, solve a linear system, or send the entries to an AI model.
+Does not: Row-reduce to RREF, solve a linear system, or send the entries to an AI model.
 
 ## Prime Factorization Calculator
 
@@ -56,7 +56,7 @@ Does not: Fit a regression or infer a population the paste does not contain, or 
 URL: https://toytoolsapp.com/tool/math/triangle-solver/
 Use for: Enter any three parts and see the triangle drawn to scale.
 Privacy: Runs entirely on your device. Nothing is uploaded.
-Does not: Treat three angles as a sized triangle, hide the second SSA solution, or send the measurements to an AI model.
+Does not: Compute area or perimeter, take angles in radians, or send the measurements to an AI model.
 
 ## Interactive Unit Circle Calculator
 
@@ -271,9 +271,9 @@ Does not: Call an AI model.
 ## File Hash Verifier
 
 URL: https://toytoolsapp.com/tool/developer-utilities/file-hash-verifier/
-Use for: SHA256 checksum of a local file, compared with the published digest.
+Use for: Hash a local file and compare it with the published checksum.
 Privacy: Runs entirely on your device. Nothing is uploaded.
-Does not: Upload the file to a server, treat an empty download as a finished ISO, or send the bytes to an AI model.
+Does not: Upload the file, verify a GPG or PGP signature, or send the bytes to an AI model.
 
 ## Hash Identifier
 

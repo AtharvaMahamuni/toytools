@@ -17,7 +17,6 @@ export const config: ToolConfig = {
     'digital pop it',
   ],
   updatedAt: '2026-09-24',
-  isNew: true,
   trustVariant: 'private',
   engine: 'feel',
   pattern: 'fidget-interact',
@@ -39,6 +38,6 @@ export const config: ToolConfig = {
     description:
       'How a browser Pop It works, why sound and haptics stay separate, how Feel motion and Infinite mode work, and how Reset continues without a reload.',
     readMinutes: 6,
-    updatedAt: '2026-09-08',
+    updatedAt: '2026-10-05',
   },
 };

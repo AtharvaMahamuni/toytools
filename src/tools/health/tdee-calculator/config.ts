@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'calories to lose weight', 'mifflin st jeor', 'macro calorie calculator', 'energy expenditure',
     'free tdee calculator', 'online calorie calculator', 'calorie needs calculator',
   ],
-  isNew: true,
   updatedAt: '2026-07-23',
   trustVariant: 'private',
   engine: 'wellness',

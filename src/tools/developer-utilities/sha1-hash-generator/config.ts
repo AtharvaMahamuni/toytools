@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Generate a SHA-1 hash from any text.',
   categorySlug: 'developer-utilities',
   tags: ['sha1', 'sha-1', 'sha1 hash', 'sha1 generator', 'hash generator', 'checksum', 'sha1 online', 'generate sha1', 'developer'],
-  isNew: true,
   updatedAt: '2026-10-05',
   engine: 'hashing',
   pattern: 'hash',
@@ -31,5 +30,5 @@ export const config: ToolConfig = {
     title: 'What Is SHA-1?',
     description: 'Understand what SHA-1 is, why it was deprecated after the SHAttered collision attack in 2017, and where it still appears today.',
     readMinutes: 5,
-    updatedAt: '2026-06-09',
+    updatedAt: '2026-10-05',
   },};

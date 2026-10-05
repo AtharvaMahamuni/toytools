@@ -24,6 +24,6 @@ export const config: ToolConfig = {
     title: 'How To Slugify Text',
     description: 'Learn what a URL slug is, why clean slugs matter for SEO, and how to turn any title into a safe, hyphenated slug.',
     readMinutes: 3,
-    updatedAt: '2026-06-01',
+    updatedAt: '2026-10-05',
   },
 };

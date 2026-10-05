@@ -31,13 +31,17 @@ export const knowledge: Knowledge = {
     'How does SHA-256 compare to MD5 and SHA-1?',
   ],
   usedWith: [
+    { slug: 'hex-encoder-decoder', reason: 'Convert between hex and text when a value is printed as hex', strength: 0.75 },
+    { slug: 'jwt-decoder', reason: 'Read an HS256 token, whose signature is an HMAC over SHA-256', strength: 0.75 },
     { slug: 'base64-encoder-decoder', reason: 'Encode the digest for a header or a token', strength: 0.6 },
   ],
   alternatives: [
     { slug: 'md5-hash-generator', reason: 'Faster but broken for security' },
     { slug: 'sha1-hash-generator', reason: 'Deprecated predecessor' },
   ],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'file-hash-verifier', reason: 'Hash a downloaded file instead of typed text', strength: 0.6 },
+  ],
   workflowStage: ['transform', 'validate'],
   keywords: ['sha256', 'sha-256', 'sha256 hash', 'sha256 generator', 'checksum'],
   entityAliases: ['secure hash algorithm 256', 'sha2'],

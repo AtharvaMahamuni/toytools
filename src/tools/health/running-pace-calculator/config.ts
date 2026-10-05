@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     '5k pace calculator', 'half marathon pace', 'running speed calculator',
     'riegel formula', 'race time predictor', 'free pace calculator',
   ],
-  isNew: true,
   updatedAt: '2026-08-04',
   trustVariant: 'private',
   engine: 'wellness',

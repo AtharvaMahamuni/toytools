@@ -32,6 +32,7 @@ export const knowledge: Knowledge = {
     'Are my numbers uploaded?',
   ],
   usedWith: [
+    { slug: 'sip-calculator', reason: 'See what a monthly SIP grows to, the other side of a savings target', strength: 0.75 },
     { slug: 'compound-interest-calculator', reason: 'See how the balance compounds toward the goal', strength: 0.8 },
     { slug: 'emergency-fund-calculator', reason: 'Fund emergencies before other goals', strength: 0.6 },
   ],

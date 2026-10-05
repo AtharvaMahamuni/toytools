@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'money-finance',
   tags: ['bill'],
   updatedAt: '2026-09-18',
-  isNew: true,
   trustVariant: 'local',
   engine: 'finance',
   pattern: 'finance-planning',

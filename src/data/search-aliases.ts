@@ -14,6 +14,7 @@
  */
 export const searchAliases: Record<string, string[]> = {
   // Developer utilities
+  'file-hash-verifier': ['verify checksum', 'sha256sum', 'iso checksum', 'file checksum checker'],
   'base64-encoder-decoder': ['b64', 'base 64'],
   'binary-text-converter': ['text to binary', 'ascii to binary'],
   'binary-converter': ['decimal to binary', 'binary to decimal', 'base 2', 'number to binary'],
@@ -112,6 +113,8 @@ export const searchAliases: Record<string, string[]> = {
   'random-choice-picker': ['decide for me', 'pick for me', 'what should i eat', 'shuffle a list'],
 
   // Design
+  'color-shades-generator': ['50 to 950 palette', 'tint generator', 'oklch scale'],
+  'type-scale-generator': ['modular scale', 'type ramp', 'font size scale'],
   'aspect-ratio-calculator': ['16 9', 'screen ratio'],
   'color-contrast-checker': ['wcag contrast', 'contrast ratio', 'accessible colors'],
   'color-format-converter': ['hex to rgb', 'rgb to hex', 'hsl'],
@@ -135,6 +138,8 @@ export const searchAliases: Record<string, string[]> = {
   'tip-calculator': ['gratuity'],
 
   // Numbers and applied math
+  'triangle-solver': ['solve a triangle', 'sss sas asa', 'trig triangle calculator'],
+  'matrix-calculator': ['determinant calculator', 'inverse matrix', 'matrix multiplication'],
   'combinations-permutations-calculator': ['ncr', 'npr'],
   'fraction-calculator': ['simplify fraction'],
   'percentage-calculator': ['percent of', 'percent change'],
@@ -148,6 +153,7 @@ export const searchAliases: Record<string, string[]> = {
   'unit-circle-calculator': ['sin cos tan', 'trig circle'],
 
   // Date and time
+  'sleep-cycle-calculator': ['what time should i go to bed', 'wake up time', 'sleep time calculator'],
   'age-calculator': ['how old am i', 'birthday age'],
   'date-difference-calculator': ['days between dates', 'days until'],
   'timezone-converter': ['time zone', 'utc offset'],

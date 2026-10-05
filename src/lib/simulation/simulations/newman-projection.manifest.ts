@@ -103,7 +103,6 @@ export const manifest: SimulationManifest = {
     // needed for retrieval is repeated here on purpose.
     tags: ['newman projection calculator', 'newman projection', 'conformational analysis', 'conformational analysis butane', 'dihedral angle', 'torsion angle', 'torsional strain', 'steric strain', 'anti conformer', 'gauche conformer', 'anti vs gauche', 'anti vs gauche butane', 'staggered vs eclipsed', 'butane conformers', 'organic chemistry'],
     updatedAt: '2026-09-23',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

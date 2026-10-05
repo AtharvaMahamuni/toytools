@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Turn YAML into JSON, anchors and multi-line strings handled.',
   categorySlug: 'developer-utilities',
   tags: ['yaml to json', 'yaml json converter', 'json converter', 'convert yaml to json', 'developer', 'data conversion', 'kubernetes', 'devops'],
-  isNew: true,
   updatedAt: '2026-07-10',
   engine: 'structured-data',
   pattern: 'structured-transform',

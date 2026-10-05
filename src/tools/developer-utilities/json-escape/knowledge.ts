@@ -31,6 +31,7 @@ export const knowledge: Knowledge = {
     'How do I unescape a JSON string back to plain text?',
   ],
   usedWith: [
+    { slug: 'shell-quote-escalator', reason: 'Quote the escaped JSON safely for a shell command', strength: 0.75 },
     { slug: 'json-validator', reason: 'Verify the document parses after pasting the escaped value', strength: 0.8 },
     { slug: 'json-formatter', reason: 'Pretty-print the document the escaped string lands in', strength: 0.6 },
   ],

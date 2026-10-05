@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'money-finance',
   tags: ['emergency fund calculator', 'how much emergency fund', 'rainy day fund', 'emergency savings', 'months of expenses', 'financial safety net', 'how much to save for emergencies', 'emergency fund goal'],
   updatedAt: '2026-09-25',
-  isNew: true,
   trustVariant: 'private',
   engine: 'finance',
   pattern: 'finance-planning',

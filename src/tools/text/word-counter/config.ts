@@ -12,7 +12,6 @@ export const config: ToolConfig = {
   tagline: 'Count words as you type, and set a goal to write to.',
   categorySlug: 'text-utilities',
   tags: ['text', 'count', 'words', 'characters', 'count words online', 'word count checker', 'character counter', 'words in text', 'online word counter free', 'word count tool', 'word counter online', 'reading time calculator'],
-  isNew: true,
   updatedAt: '2026-06-02',
   engine: 'text-analysis',
   pattern: 'text-metric',
@@ -39,5 +38,5 @@ export const config: ToolConfig = {
     title: 'How to Count Words in Your Writing',
     description: 'How word count works, why tools disagree, and how to write to a limit. Runs entirely on your device. Nothing is uploaded.',
     readMinutes: 4,
-    updatedAt: '2026-06-02',
+    updatedAt: '2026-06-05',
   },};

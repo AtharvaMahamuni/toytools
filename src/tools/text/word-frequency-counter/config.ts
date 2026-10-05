@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'text-utilities',
   tags: ['word frequency counter', 'word frequency', 'count word occurrences', 'word repetition checker', 'most used words', 'word frequency analysis', 'keyword density', 'word count by word'],
   updatedAt: '2026-07-02',
-  isNew: true,
   engine: 'text-analysis',
   pattern: 'text-metric',
   family: 'text-counting',

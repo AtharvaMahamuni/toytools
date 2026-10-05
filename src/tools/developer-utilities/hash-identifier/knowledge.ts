@@ -57,6 +57,7 @@ export const knowledge: Knowledge = {
   usedWith: [
     { slug: 'sha256-hash-generator', reason: 'Create a SHA-256 digest when you do not have one yet' },
     { slug: 'md5-hash-generator', reason: 'Create an MD5 digest for a checksum that asked for MD5' },
+    { slug: 'file-hash-verifier', reason: 'Hash the downloaded file once the algorithm is named', strength: 0.8 },
   ],
   alternatives: [
     { slug: 'sha1-hash-generator', reason: 'Choose this when the job is to produce a SHA-1 digest, not to name one' },

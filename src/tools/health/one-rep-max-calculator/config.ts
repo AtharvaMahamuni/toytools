@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'training percentage chart', 'how to calculate 1rm', 'free 1rm calculator',
     'estimate max lift', 'strength calculator',
   ],
-  isNew: true,
   updatedAt: '2026-08-04',
   trustVariant: 'private',
   engine: 'wellness',

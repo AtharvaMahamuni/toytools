@@ -34,6 +34,7 @@ export const knowledge: Knowledge = {
     'Is my text uploaded?',
   ],
   usedWith: [
+    { slug: 'encoding-detector', reason: 'Check whether a string is hex or another encoding before decoding it', strength: 0.75 },
     { slug: 'base64-encoder-decoder', reason: 'Alternative binary-to-text encoding', strength: 0.7 },
     { slug: 'md5-hash-generator', reason: 'Hash output is commonly displayed in hex', strength: 0.6 },
     { slug: 'sha256-hash-generator', reason: 'Hash output is commonly displayed in hex', strength: 0.6 },

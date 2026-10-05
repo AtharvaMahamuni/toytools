@@ -83,7 +83,6 @@ export const manifest: SimulationManifest = {
   presentation: {
     tags: ['nuclear reactor calculator', 'nuclear reactor', 'reactivity', 'point kinetics', 'control rod', 'prompt critical', 'chain reaction', 'reactor trip', 'nuclear physics'],
     updatedAt: '2026-08-23',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [
@@ -140,7 +139,7 @@ export const manifest: SimulationManifest = {
     description:
       'What reactivity and prompt critical mean, how control rods and delayed neutrons make a chain reaction controllable, and how temperature feedback affects it.',
     readMinutes: 8,
-    updatedAt: '2026-08-23',
+    updatedAt: '2026-08-24',
     quickAnswer:
       'A nuclear reactor is controllable because most of the neutrons sustaining its chain reaction arrive seconds after fission, not instantly. Reactivity measures how far the reactor sits from critical: positive reactivity makes power rise, negative makes it fall, and zero holds it steady. For example, withdrawing a control rod a little adds a small positive reactivity, and power climbs slowly over many seconds. Push reactivity past 1 dollar, the prompt-critical threshold, and the chain reaction sustains itself on prompt neutrons alone, rising in a fraction of a second instead. In this simulator, drag the control rod and watch reactor power, reactivity, period, and core temperature respond live, with an automatic trip standing in for a real reactor protection system.',
     sections: [

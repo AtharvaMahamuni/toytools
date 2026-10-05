@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'prep',
   tags: ['context window', 'token estimate', 'prompt length', 'context fit'],
   updatedAt: '2026-09-25',
-  isNew: true,
   trustVariant: 'private',
   engine: 'text-processor',
   pattern: 'text-assemble',

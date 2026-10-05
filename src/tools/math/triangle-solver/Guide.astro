@@ -79,7 +79,8 @@ const fractionHref = toolPathBySlug('fraction-calculator');
   <section id="sines">
     <h2>When do you use the law of sines? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Use the law of sines when you already know an angle and the side opposite it, and you need
+      Law of sines versus law of cosines comes down to the parts you know. Use the law of sines
+      when you already know an angle and the side opposite it, and you need
       another pair. The rule is a / sin A = b / sin B = c / sin C. ASA and AAS both start by
       finding the third angle, because the three angles of a triangle add to 180 degrees. With
       three angles and one side, every other side is a scale factor times the sine of its angle.
@@ -103,6 +104,7 @@ const fractionHref = toolPathBySlug('fraction-calculator');
     <p>
       SSA means two sides and an angle that is not sandwiched between them. Sine of an acute
       angle equals sine of its supplement, so the law of sines can return two legal angles.
+      One SSA triangle versus two is decided by a height test.
       Drop a perpendicular from the third vertex to the side of the given angle. Call that
       height h. If the opposite side is shorter than h, it never reaches, and there is no
       triangle. If it equals h, there is one right triangle. If it is longer than the other
@@ -111,7 +113,7 @@ const fractionHref = toolPathBySlug('fraction-calculator');
     <p>
       The standard classroom numbers are angle A = 30 degrees, opposite side a = 7, and other
       side b = 10. The height is b times sin 30, which is 5. Side a is longer than 5 and shorter
-      than 10, so both answers survive. One angle B is about 45.58 degrees. The other is about
+      than 10, so both answers survive. One angle B is about 45.585 degrees. The other is about
       134.42 degrees. The two angle C values add to 120 degrees, because each is what remains
       after 30 degrees and its own angle B. Both figures share side a and side b. Side c differs.
     </p>
@@ -149,14 +151,10 @@ const fractionHref = toolPathBySlug('fraction-calculator');
       one of them. Add the other leg, or add an acute angle, and the rest follows.
     </p>
     <p>
-      For example, check a 3-4-5 triangle against the Pythagorean theorem. Checking a 3-4-5
-      layout on a small build is that test before trusting a square corner. Input: sides 3, 4,
-      and 5. Output: the angle opposite 5 is 90 degrees. A Pythagorean theorem calculator is
-      that check. A law of cosines calculator takes over when the angle is not 90. A law of
-      sines calculator takes over once an opposite pair is known. Law of sines versus law of
-      cosines is which pair you already have. One SSA triangle versus two is the ambiguous
-      case calculator. An SSS SAS ASA triangle solver covers the single-figure patterns. To
-      solve triangle work you still bring three parts.
+      For example, check a 3-4-5 triangle against the Pythagorean theorem before you trust a
+      square corner: 3² + 4² = 5². Input: sides 3, 4, and
+      5. Output: the angle opposite 5 is 90 degrees. Change the 5 to 5.1 and that angle reads
+      about 92.41 degrees, so the corner is not square.
     </p>
   </section>
 

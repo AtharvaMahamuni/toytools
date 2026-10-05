@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   tagline: 'See added, removed, and changed JSON paths.',
   categorySlug: 'developer-utilities',
   tags: ['compare json'],
-  isNew: true,
   updatedAt: '2026-09-18',
   trustVariant: 'local',
   engine: 'structured-data',

@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'money-finance',
   tags: ['rule of 72', 'rule of 72 calculator', 'doubling time', 'how long to double money', 'investment doubling', 'compound growth', 'rate of return', 'time to double'],
   updatedAt: '2026-09-08',
-  isNew: true,
   trustVariant: 'private',
   engine: 'finance',
   pattern: 'finance-growth',

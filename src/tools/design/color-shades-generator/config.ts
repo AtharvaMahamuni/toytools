@@ -3,13 +3,13 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'color-shades-generator',
   name: 'Color Shades Generator',
-  seoTitle: 'Tailwind Color Shades: Tints, 50 to 900',
+  seoTitle: 'Color Shades Generator: Tailwind 50 to 950 Scale',
   description:
-    'A color scale of tints and shades you can copy as a 50 to 900 palette of CSS variables.',
+    'Turn one color into a 50 to 950 palette of OKLCH tints and shades, with 100 to 900 between, as CSS variables. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'A 50 to 950 OKLCH scale, copied as CSS variables.',
   categorySlug: 'design-tools',
   tags: ['color shades generator', 'tints and shades', 'tailwind color shades', 'oklch palette'],
-  updatedAt: '2026-10-02',
+  updatedAt: '2026-10-05',
   addedOn: '2026-10-02',
   trustVariant: 'private',
   engine: 'color',
@@ -40,10 +40,10 @@ export const config: ToolConfig = {
   guide: {
     slug: 'color-shades-generator',
     categorySlug: 'design',
-    title: 'How to Build a 50 to 950 Color Scale in OKLCH',
+    title: 'How to Build a 50 to 950 OKLCH Color Scale',
     description:
       'How a tint and shade scale holds hue in OKLCH, why chroma drops at the ends, and when the brand stop fails on white.',
     readMinutes: 6,
-    updatedAt: '2026-10-02',
+    updatedAt: '2026-10-05',
   },
 };

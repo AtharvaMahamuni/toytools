@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'money-finance',
   tags: ['cagr calculator', 'compound annual growth rate', 'annualized return calculator', 'cagr formula', 'growth rate calculator', 'annual growth rate', 'investment growth calculator', 'revenue cagr'],
   updatedAt: '2026-07-04',
-  isNew: true,
   trustVariant: 'private',
   engine: 'finance',
   pattern: 'finance-growth',

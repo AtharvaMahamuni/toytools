@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'money-finance',
   tags: ['savings goal calculator', 'how much to save', 'monthly savings calculator', 'savings target', 'save for a goal', 'savings plan', 'how much to save per month', 'goal based saving'],
   updatedAt: '2026-09-25',
-  isNew: true,
   trustVariant: 'private',
   engine: 'finance',
   pattern: 'finance-planning',
@@ -26,6 +25,6 @@ export const config: ToolConfig = {
     title: 'How to Reach a Savings Goal',
     description: 'Work out the monthly saving needed to reach a goal by a date. Runs entirely on your device. Nothing is uploaded.',
     readMinutes: 5,
-    updatedAt: '2026-09-25',
+    updatedAt: '2026-10-05',
   },
 };

@@ -4,6 +4,7 @@ import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath } from '@lib/paths';
 import { categories } from '@data/categories';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import type { EcosystemEntry } from '@data/types';
 
 interface Props {
@@ -95,7 +96,9 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       <strong>Verify a transfer.</strong> For example, compute the CRC32 of a file before upload and
-      again after download. If both read the same eight hex digits, the data integrity held.
+      again after download. If both read the same eight hex digits, the data integrity held. To get the CRC32 or SHA-256
+      of a whole file, such as a zip or an ISO, use the
+      <a href={toolPathBySlug('file-hash-verifier')}>file hash verifier</a>.
     </p>
     <p>
       <strong>Spot a one-bit change.</strong> For example, hashing <code>hello</code> and

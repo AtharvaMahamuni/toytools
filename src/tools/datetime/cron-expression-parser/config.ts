@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'date-time',
   tags: ['cron expression parser', 'cron expression explained', 'crontab generator', 'cron schedule', 'cron next run time', 'what does this cron mean', 'cron to english', 'cron parser'],
   updatedAt: '2026-07-10',
-  isNew: true,
   trustVariant: 'private',
   engine: 'datetime',
   pattern: 'datetime-schedule',

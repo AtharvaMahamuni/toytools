@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Sale price and how much you save, by percentage or amount.',
   categorySlug: 'number-utilities',
   tags: ['discount calculator', 'sale price calculator', 'percent off calculator', 'how much you save', 'price after discount', 'markdown calculator', 'numbers', 'math'],
-  isNew: true,
   updatedAt: '2026-09-25',
   engine: 'calculator',
   pattern: 'calculate',

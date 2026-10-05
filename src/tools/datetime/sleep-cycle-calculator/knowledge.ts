@@ -64,7 +64,7 @@ export const knowledge: Knowledge = {
     'bedtime calculator',
     '90 minute sleep cycles',
   ],
-  entityAliases: ['sleepyti.me alternative', 'wake time calculator'],
+  entityAliases: ['wake time calculator'],
   inputs: ['text', 'number'],
   outputs: ['metric'],
   difficulty: 'beginner',

@@ -19,7 +19,6 @@ export const config: ToolConfig = {
     'quote command remote shell',
     'shell escaping tool',
   ],
-  isNew: true,
   updatedAt: '2026-08-16',
   engine: 'text-interactive',
   pattern: 'text-interactive',

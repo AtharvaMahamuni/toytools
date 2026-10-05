@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Turn CSV into a JSON array of objects, with type detection.',
   categorySlug: 'developer-utilities',
   tags: ['csv to json', 'csv json converter', 'convert csv to json', 'csv to array', 'import csv', 'developer', 'data conversion'],
-  isNew: true,
   updatedAt: '2026-07-10',
   engine: 'structured-data',
   pattern: 'structured-transform',
@@ -22,6 +21,6 @@ export const config: ToolConfig = {
     title: 'CSV to JSON Converter: Complete Guide',
     description: 'Learn how CSV to JSON conversion works, how type detection and quoting are handled, and when to use each format. Includes examples and common pitfalls.',
     readMinutes: 5,
-    updatedAt: '2026-07-10',
+    updatedAt: '2026-10-05',
   },
 };

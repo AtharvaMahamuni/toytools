@@ -32,6 +32,7 @@ export const knowledge: Knowledge = {
     'What is the difference between binary numbers and binary text?',
   ],
   usedWith: [
+    { slug: 'roman-numeral-converter', reason: 'Write the same number as Roman numerals', strength: 0.75 },
     { slug: 'hex-encoder-decoder', reason: 'Move the same value into and out of hex', strength: 0.7 },
     { slug: 'binary-text-converter', reason: 'When the input is characters rather than a number', strength: 0.7 },
   ],

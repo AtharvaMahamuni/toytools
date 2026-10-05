@@ -14,6 +14,7 @@ import { formatMonthYear } from '@lib/dates';
 import { withBase, canonicalFor, categoryPath } from '../lib/paths';
 import { withPrivacy } from '@lib/privacy';
 import { orgRef, personRef } from '@lib/schema/identity';
+import { guidePublishedAt } from '@data/guide-published';
 
 interface Props {
   title: string;
@@ -55,12 +56,17 @@ const breadcrumbSchema = {
 // is the only shape Google parses, and reaches the visitor through formatMonthYear below.
 const updatedDisplay = formatMonthYear(updatedAt);
 
+// datePublished is the day the guide first shipped (src/data/guide-published.ts). It used to be
+// `updatedAt`, so every rewrite claimed the article was brand new. validate-registry keeps every
+// guide in that map and never later than `updatedAt`; the fallback only covers a scaffold mid-edit.
+const publishedAt = guidePublishedAt[toolSlug] ?? updatedAt;
+
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: title,
   description: withPrivacy(description),
-  datePublished: updatedAt,
+  datePublished: publishedAt <= updatedAt ? publishedAt : updatedAt,
   dateModified: updatedAt,
   url: Astro.url.href,
   inLanguage: 'en',

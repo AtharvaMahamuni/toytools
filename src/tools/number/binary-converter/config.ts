@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'number-utilities',
   tags: ['binary converter', 'decimal to binary', 'binary to decimal', 'number to binary', 'binary calculator', 'base converter', 'hex and binary'],
   updatedAt: '2026-08-22',
-  isNew: true,
   trustVariant: 'private',
   engine: 'encoding',
   pattern: 'encode-decode',
@@ -31,6 +30,6 @@ export const config: ToolConfig = {
     title: 'Decimal, Binary and Hex, and Why Bit Width Matters',
     description: 'How place value works in base two, why one hex digit is exactly four bits, what leading zeros are for, and how this differs from converting text to binary.',
     readMinutes: 5,
-    updatedAt: '2026-08-22',
+    updatedAt: '2026-10-05',
   },
 };

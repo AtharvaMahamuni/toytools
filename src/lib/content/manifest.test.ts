@@ -68,6 +68,17 @@ describe('buildContentManifest', () => {
     }
   });
 
+  it('dates each guide by its own guide.updatedAt, not by its tool', () => {
+    // A guide rewrite used to need a tool updatedAt bump to move this lastmod, which made the tool
+    // page and its category claim a change that was not there.
+    const withGuide = tools.filter(t => t.guide);
+    expect(withGuide.some(t => t.guide!.updatedAt !== t.updatedAt)).toBe(true);
+    for (const t of withGuide) {
+      const entry = contentByType('guide').find(e => e.slug === t.guide!.slug);
+      expect(entry?.updatedAt, `guide ${t.guide!.slug}`).toBe(t.guide!.updatedAt);
+    }
+  });
+
   it('home lastmod is the freshest tool date in the catalog', () => {
     const home = manifest.find(e => e.type === 'home')!;
     const newest = tools

@@ -44,6 +44,7 @@ export const knowledge: Knowledge = {
     'How do I convert a time to UTC?',
   ],
   usedWith: [
+    { slug: 'systemd-timer-converter', reason: 'Write the systemd timer once you know the time in the server zone', strength: 0.75 },
     { slug: 'unix-timestamp-converter', reason: 'Convert the same instant to or from epoch seconds', strength: 0.8 },
   ],
   alternatives: [],

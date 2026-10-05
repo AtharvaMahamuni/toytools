@@ -14,7 +14,6 @@ export const config: ToolConfig = {
     'capture groups',
     'regex match groups',
   ],
-  isNew: true,
   updatedAt: '2026-09-25',
   engine: 'text-interactive',
   pattern: 'text-interactive',

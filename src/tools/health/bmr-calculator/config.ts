@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'how many calories do i burn at rest', 'rmr calculator', 'free bmr calculator',
     'bmr and tdee', 'daily calorie burn',
   ],
-  isNew: true,
   updatedAt: '2026-08-04',
   trustVariant: 'private',
   engine: 'wellness',

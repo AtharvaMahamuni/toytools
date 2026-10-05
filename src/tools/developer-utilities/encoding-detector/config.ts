@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['encoding detector', 'what encoding is this', 'identify base64 or hex', 'detect string encoding', 'is this base64url', 'decode unknown string', 'base64 or hex checker', 'double encoded string'],
   updatedAt: '2026-08-21',
-  isNew: true,
   trustVariant: 'private',
   engine: 'encoding',
   pattern: 'encode-detect',

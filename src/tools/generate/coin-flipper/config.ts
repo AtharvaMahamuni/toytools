@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'generate',
   tags: ['coin flip', 'flip a coin', 'coin flipper', 'heads or tails', 'coin toss', 'random yes or no', 'virtual coin', 'online coin flip'],
   updatedAt: '2026-08-22',
-  isNew: true,
   trustVariant: 'private',
   engine: 'generation',
   pattern: 'generate-chance',

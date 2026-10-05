@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'weight progress tracker', 'weight moving average', 'scale weight log',
     'free weight tracker', 'online weight tracker', 'private weight tracker',
   ],
-  isNew: true,
   updatedAt: '2026-07-23',
   trustVariant: 'local',
   engine: 'tracker',

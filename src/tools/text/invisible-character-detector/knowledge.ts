@@ -32,6 +32,7 @@ export const knowledge: Knowledge = {
     'What is a homoglyph, and why is it flagged as dangerous?',
   ],
   usedWith: [
+    { slug: 'character-map', reason: 'Look up and copy the exact character the detector flagged', strength: 0.75 },
     { slug: 'normalize-whitespace', reason: 'Collapse the spacing once the odd characters are gone', strength: 0.8 },
     { slug: 'text-compare', reason: 'Diff the two strings that would not match', strength: 0.7 },
   ],

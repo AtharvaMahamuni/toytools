@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'track water intake', 'hydration log', 'water drinking tracker',
     'free water tracker', 'online water tracker', 'water streak',
   ],
-  isNew: true,
   updatedAt: '2026-07-23',
   trustVariant: 'local',
   engine: 'tracker',

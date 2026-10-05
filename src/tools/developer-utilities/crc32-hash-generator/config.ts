@@ -25,6 +25,6 @@ export const config: ToolConfig = {
     title: 'What Is A CRC32 Checksum',
     description: 'Learn what CRC32 is, how it detects accidental data corruption, and why it is not a security hash.',
     readMinutes: 4,
-    updatedAt: '2026-06-01',
+    updatedAt: '2026-10-05',
   },
 };

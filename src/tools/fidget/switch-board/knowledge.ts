@@ -59,6 +59,7 @@ export const knowledge: Knowledge = {
     'Is this Switch Board free, and do I need to download it?',
   ],
   usedWith: [
+    { slug: 'spinner', reason: 'Spin something when you want motion instead of a click', strength: 0.75 },
     { slug: 'pop-it', reason: 'Another browser fidget when you want bubbles instead of latches', strength: 0.8 },
     { slug: 'pomodoro-timer', reason: 'Fidget between focus blocks without leaving the browser', strength: 0.6 },
   ],

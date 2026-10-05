@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'generate',
   tags: ['random choice picker', 'random picker', 'decision maker', 'what should i eat', 'random option picker', 'pick for me', 'random list shuffler'],
   updatedAt: '2026-08-22',
-  isNew: true,
   trustVariant: 'private',
   engine: 'generation',
   pattern: 'generate-chance',

@@ -296,8 +296,21 @@ Both discovery pages are compact, registry-derived indexes — no tile grids.
 - `ToolCard.astro` remains in use by the search page; `CategoryCard.astro` is currently unused by
   the homepage.
 
+- **New badge and featured row** (`src/lib/tools/freshness.ts`, `FeaturedRow.astro`,
+  `NewBadgeExpiry.astro`): driven only by a tool's `addedOn: 'YYYY-MM-DD'` (UTC). The window is
+  `NEW_TAG_DAYS` = 5 whole UTC days, the added day included, and closes at `newUntilIso`.
+  `validate-registry` rejects an impossible or future `addedOn`; `isNew` is typed `never`.
+  - **Static badge removal needs a rebuild.** The build decides which badges and featured cards
+    to render, and deploy.yml has no schedule, so the HTML that crawlers and no-JS visitors see
+    keeps them until the next push to main. In the browser, an inline script removes each badge
+    and card once `data-new-until` / `data-featured-until` has passed, so visitors with JS see the
+    window close on time.
+  - The featured row advances every 5 s. It pauses while hovered or focused, stops for good on
+    any pointer, touch, wheel, key or user scroll, and has a 48px Pause toggle (`aria-pressed`).
+    Reduced motion never starts it and hides the toggle.
+
 Coverage is pinned by `tests/e2e/discovery.spec.ts` (directory entry count, group collapse,
-recent chips, section titles).
+recent chips, section titles, runtime badge expiry under a pinned clock, carousel pause).
 
 ---
 

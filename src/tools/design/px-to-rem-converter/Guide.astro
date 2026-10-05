@@ -3,6 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import { config } from './config';
 import { toolPath } from '@lib/paths';
 import { categories } from '@data/categories';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import type { EcosystemEntry } from '@data/types';
 
 interface Props {
@@ -92,7 +93,9 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       Additionally, for native mobile work, the sibling PX to DP Converter does the equivalent job in
       Android dp and iOS points, whereas the Aspect Ratio Calculator sizes elements to a fixed
       proportion. Reach for rem as your default, px for hairline borders, and pt only when matching a
-      print or design-tool spec.
+      print or design-tool spec. For a whole set of heading sizes from one base, use the
+      <a href={toolPathBySlug('type-scale-generator')}>type scale generator</a>, which prints every
+      step in rem.
     </p>
   </section>
 

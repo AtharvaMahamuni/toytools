@@ -150,7 +150,6 @@ export const manifest: SimulationManifest = {
       'lone pairs',
     ],
     updatedAt: '2026-09-25',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

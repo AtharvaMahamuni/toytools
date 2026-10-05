@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Turn JSON arrays into CSV, nested objects handled.',
   categorySlug: 'developer-utilities',
   tags: ['json to csv', 'convert json to csv', 'json csv converter', 'export json', 'json to spreadsheet', 'developer', 'data conversion'],
-  isNew: true,
   updatedAt: '2026-06-14',
   engine: 'structured-data',
   pattern: 'structured-transform',
@@ -27,6 +26,6 @@ export const config: ToolConfig = {
     title: 'JSON to CSV Converter: Complete Guide',
     description: 'Learn how JSON to CSV conversion works, how nested objects are handled, and when to use each format. Includes examples and common mistakes.',
     readMinutes: 5,
-    updatedAt: '2026-06-15',
+    updatedAt: '2026-10-05',
   },
 };

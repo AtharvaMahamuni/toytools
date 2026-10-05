@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Percent-encode and decode URL components.',
   categorySlug: 'developer-utilities',
   tags: ['url encode', 'url decode', 'percent encoding', 'uri encode', 'uri decode', 'url encoder', 'url decoder', 'encode url online', 'decode url online', 'developer'],
-  isNew: true,
   updatedAt: '2026-10-05',
   engine: 'encoding',
   pattern: 'encode-decode',
@@ -27,5 +26,5 @@ export const config: ToolConfig = {
     title: 'What Is URL Encoding?',
     description: 'Understand how percent-encoding works, why URLs need it, what characters get encoded, and the mistakes that cause silent bugs.',
     readMinutes: 5,
-    updatedAt: '2026-06-09',
+    updatedAt: '2026-06-10',
   },};

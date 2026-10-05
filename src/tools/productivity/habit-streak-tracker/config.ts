@@ -14,7 +14,6 @@ export const config: ToolConfig = {
     'daily habit tracker',
     'habit streak',
   ],
-  isNew: true,
   updatedAt: '2026-09-16',
   engine: 'productivity',
   pattern: 'stateful',

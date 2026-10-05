@@ -94,7 +94,6 @@ export const manifest: SimulationManifest = {
   presentation: {
     tags: ["Ohm's law", 'I = V / R', 'voltage', 'current', 'resistance', 'electrical power', 'circuit simulator', 'electronics'],
     updatedAt: '2026-07-12',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

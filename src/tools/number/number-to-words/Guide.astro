@@ -2,7 +2,7 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import { config } from './config';
 import { toolPath } from '@lib/paths';
-import { toolPathBySlug } from '@lib/tools/tool-link';
+import { guidePathBySlug, toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -38,6 +38,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       The <a href={toolHref}>number to words converter</a> works out which direction you meant from
       what you typed. Paste an amount straight out of a spreadsheet and it offers to strip the
       currency symbol and the commas for you.
+      <a href={guidePathBySlug('roman-numeral-converter')}>Writing the same number as Roman
+      numerals</a> has its own guide.
     </p>
     <a href={toolHref} class="cta-link">Spell Out A Number →</a>
   </section>

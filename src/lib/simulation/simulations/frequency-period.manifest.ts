@@ -92,7 +92,6 @@ export const manifest: SimulationManifest = {
   presentation: {
     tags: ['frequency to period calculator', 'frequency', 'period', 'T = 1/f', 'angular frequency', 'oscillation', 'frequency to period', 'hertz', 'cycles per second'],
     updatedAt: '2026-09-24',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

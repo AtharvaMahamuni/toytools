@@ -3,7 +3,7 @@ import type { FAQItem } from '@data/types';
 export const items: FAQItem[] = [
   {
     id: 'color-shades-generator-faq-1',
-    question: 'How do I generate a 50 to 900 color palette from one hex?',
+    question: 'How do I generate a 50 to 950 color palette from one hex?',
     answer:
       'Paste a color such as #3b82f6, or pick one. The page builds eleven stops, from 50 through 950, and shows the CSS custom properties under the row. Copy CSS puts the whole :root block on the clipboard. Tap one stop to copy only that hex. The hue stays the hue you typed. Lightness is what changes from the pale stop to the near-black stop.',
   },
@@ -41,13 +41,13 @@ export const items: FAQItem[] = [
     id: 'color-shades-generator-faq-7',
     question: 'Can I paste rgb(), hsl(), or a CSS color name?',
     answer:
-      'Yes. #3b82f6, rgb(59, 130, 246), hsl(217, 91%, 60%), and names such as teal all parse. The picker writes a six-digit hex back into the field when you change it. Alpha is ignored, because a shade ramp is a set of opaque tokens. If the text is not a color, the previous scale stays and the error line says so, instead of inventing a gray.',
+      'Yes. #3b82f6, rgb(59, 130, 246), hsl(217, 91%, 60%), and names such as teal all parse. The picker writes a six-digit hex back into the field when you change it. Alpha is ignored, because a shade ramp is a set of opaque tokens. If the text is not a color, the scale and the CSS clear and the error line says why.',
   },
   {
     id: 'color-shades-generator-faq-8',
     question: 'Does this color scale generator upload my brand color?',
     answer:
-      'No. Parsing, the OKLCH math, and the CSS block all run in the browser after the page loads. Nothing is uploaded, and there is no account. A brand hex can stay on the device. The last color you typed is remembered in local storage on this browser only, so a refresh does not wipe the ramp.',
+      'No. Parsing, the OKLCH math, and the CSS block all run in the browser after the page loads. There is no account. The last color you typed is remembered in local storage on this browser only, so a refresh does not wipe the ramp. Runs entirely on your device. Nothing is uploaded.',
   },
   {
     id: 'color-shades-generator-faq-9',
@@ -59,6 +59,6 @@ export const items: FAQItem[] = [
     id: 'color-shades-generator-faq-10',
     question: 'Does a passing brand stop mean the whole palette is accessible?',
     answer:
-      'No. The note is one pair: the brand stop as text on white. A light 50 stop will fail that same test, and a dark 900 stop can fail as a background behind black text. This page does not score every pair. When you need a specific foreground on a specific background, open the contrast checker and type those two hex values. The scale is the ramp. The checker is the verdict.',
+      'No. The note is one pair: the color you typed, which sits at the brand stop, as text on white. A light 50 stop will fail that same test, and a dark 900 stop can fail as a background behind black text. This page does not score every pair. When you need a specific foreground on a specific background, open the contrast checker and type those two hex values. The scale is the ramp. The checker is the verdict.',
   },
 ];

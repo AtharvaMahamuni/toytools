@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'move every day', 'fitness habit tracker', 'simple habit tracker',
     'free habit tracker', 'online streak tracker', 'daily exercise log',
   ],
-  isNew: true,
   updatedAt: '2026-07-23',
   trustVariant: 'local',
   engine: 'tracker',
@@ -28,6 +27,6 @@ export const config: ToolConfig = {
     title: 'How to Build a Daily Movement Habit With a Streak',
     description: 'Learn why a one-tap streak beats an ambitious plan, how "do not break the chain" works, and how a low bar keeps a movement habit alive.',
     readMinutes: 5,
-    updatedAt: '2026-07-23',
+    updatedAt: '2026-07-24',
   },
 };

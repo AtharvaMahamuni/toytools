@@ -16,7 +16,6 @@ export const config: ToolConfig = {
     'nil uuid',
     'what version is this uuid',
   ],
-  isNew: true,
   updatedAt: '2026-09-18',
   trustVariant: 'local',
   engine: 'generation',

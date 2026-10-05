@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'fidgets',
   tags: ['spinner online', 'virtual spinner', 'spin fidget', 'spinner toy', 'browser spinner'],
   updatedAt: '2026-09-24',
-  isNew: true,
   trustVariant: 'private',
   engine: 'feel',
   pattern: 'fidget-interact',

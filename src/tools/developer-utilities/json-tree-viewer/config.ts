@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Explore JSON as a collapsible tree, and copy any path or value.',
   categorySlug: 'developer-utilities',
   tags: ['json tree viewer', 'json viewer', 'json visualizer', 'view json', 'json explorer', 'json tree', 'collapsible json', 'developer'],
-  isNew: true,
   updatedAt: '2026-06-17',
   engine: 'structured-data',
   pattern: 'structured-transform',
@@ -22,6 +21,6 @@ export const config: ToolConfig = {
     title: 'JSON Tree Viewer: Explore JSON Visually',
     description: 'Learn how a tree viewer reveals JSON structure, how to search nested data, and how to copy the dot path or JSONPath of any value.',
     readMinutes: 5,
-    updatedAt: '2026-06-17',
+    updatedAt: '2026-10-05',
   },
 };

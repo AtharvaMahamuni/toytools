@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'fidgets',
   tags: ['box breathing', '4-7-8', 'coherent breathing', 'breathing timer', 'breathing visual'],
   updatedAt: '2026-09-24',
-  isNew: true,
   trustVariant: 'private',
   engine: 'feel',
   pattern: 'fidget-interact',

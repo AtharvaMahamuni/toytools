@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'target weight calculator', 'healthy weight calculator', 'body weight calculator',
     'free ideal weight calculator', 'online ideal weight calculator',
   ],
-  isNew: true,
   updatedAt: '2026-07-23',
   trustVariant: 'private',
   engine: 'wellness',

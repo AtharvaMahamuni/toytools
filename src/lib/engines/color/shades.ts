@@ -1,6 +1,7 @@
 // A 50–950 tint and shade scale in OKLCH. Hue stays put. Lightness walks a fixed ramp.
 // Chroma is the source chroma, or less when that chroma would leave sRGB. The stop whose
-// lightness is nearest the source is the brand stop, and it is the one checked against white.
+// lightness is nearest the source is the brand stop. It carries the typed color itself, so the
+// scale contains the user's color, and the contrast note is about the typed color, not a neighbour.
 
 import { parseColor, rgbToHex, rgbToOklch } from './convert';
 import { contrastRatio } from './contrast';
@@ -15,13 +16,15 @@ export interface ShadeStop {
   hex: string;
   /** Contrast of this stop as text on white. */
   onWhite: number;
+  /** Label color for text on this swatch: whichever of near-black or white has more contrast. */
+  ink: string;
 }
 
 export interface ShadeScale {
   stops: ShadeStop[];
   /** The stop nearest the source lightness. */
   brandStop: number;
-  /** Set when the brand stop fails WCAG 4.5 as text on white. Null when it passes. */
+  /** Set when the typed color fails WCAG 4.5 as text on white. Null when it passes. */
   onWhiteNote: string | null;
   css: string;
 }
@@ -41,6 +44,22 @@ const RAMP: { stop: number; l: number }[] = [
 ];
 
 const WHITE: RGB = { r: 255, g: 255, b: 255, a: 1 };
+const INK_DARK: RGB = { r: 26, g: 26, b: 26, a: 1 };
+
+const BLACK: RGB = { r: 0, g: 0, b: 0, a: 1 };
+
+/**
+ * The swatch label color, chosen by WCAG contrast rather than a brightness guess. Near-black or
+ * white, whichever is higher, when one of them clears 4.5:1. A mid-tone such as #a17a00 clears
+ * neither (4.39:1 at best), so it falls back to pure black or white, one of which always reaches
+ * at least 4.58:1.
+ */
+export function inkFor(bg: RGB): string {
+  const dark = contrastRatio(INK_DARK, bg);
+  const white = contrastRatio(WHITE, bg);
+  if (Math.max(dark, white) >= 4.5) return dark >= white ? '#1a1a1a' : '#ffffff';
+  return contrastRatio(BLACK, bg) >= white ? '#000000' : '#ffffff';
+}
 
 function linearToSrgb(c: number): number {
   const clamped = Math.min(1, Math.max(0, c));
@@ -98,13 +117,21 @@ export function shadeScale(input: string): { ok: true; scale: ShadeScale } | { o
       h: src.h,
       hex: rgbToHex(rgb),
       onWhite: contrastRatio(rgb, WHITE),
+      ink: inkFor(rgb),
     };
   });
   const brand = stops.reduce((best, stop) =>
     Math.abs(stop.l - src.l) < Math.abs(best.l - src.l) ? stop : best,
   );
-  const onWhiteNote = brand.onWhite + 1e-9 < 4.5
-    ? `Stop ${brand.stop} on white is ${brand.onWhite.toFixed(2)}:1. Body text needs 4.5.`
+  // The brand stop is the typed color itself (opaque), so the note and the swatch agree with it.
+  const srcRgb: RGB = { ...parsed.rgb, a: 1 };
+  const srcHex = rgbToHex(srcRgb);
+  const srcOnWhite = contrastRatio(srcRgb, WHITE);
+  brand.hex = srcHex;
+  brand.onWhite = srcOnWhite;
+  brand.ink = inkFor(srcRgb);
+  const onWhiteNote = srcOnWhite + 1e-9 < 4.5
+    ? `${srcHex} (stop ${brand.stop}) on white is ${srcOnWhite.toFixed(2)}:1. Body text needs 4.5.`
     : null;
   const css = `:root {\n${stops.map((s) => `  --shade-${s.stop}: ${s.hex};`).join('\n')}\n}`;
   return { ok: true, scale: { stops, brandStop: brand.stop, onWhiteNote, css } };

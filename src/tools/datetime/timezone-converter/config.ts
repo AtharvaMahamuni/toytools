@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'date-time',
   tags: ['timezone converter', 'time zone converter', 'convert time between time zones', 'utc converter', 'time difference between cities', 'gmt converter', 'world clock converter', 'time conversion'],
   updatedAt: '2026-07-10',
-  isNew: true,
   trustVariant: 'private',
   engine: 'datetime',
   pattern: 'datetime-convert',
@@ -22,6 +21,6 @@ export const config: ToolConfig = {
     title: 'How to Convert Time Between Timezones',
     description: 'Learn how a wall-clock time in one timezone maps to another, how UTC offsets and daylight saving work, and how to read the difference between two cities.',
     readMinutes: 4,
-    updatedAt: '2026-07-10',
+    updatedAt: '2026-10-05',
   },
 };

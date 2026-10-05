@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Count characters, with and without spaces.',
   categorySlug: 'text-utilities',
   tags: ['character counter', 'count characters', 'character count', 'characters with spaces', 'characters without spaces', 'text length', 'string length', 'twitter character counter', 'character limit checker'],
-  isNew: true,
   updatedAt: '2026-09-25',
   engine: 'text-analysis',
   citation: {
@@ -26,7 +25,7 @@ export const config: ToolConfig = {
     title: 'How to Count Characters in Text',
     description: 'Learn characters with vs without spaces, and why platform limits differ. Runs entirely on your device. Nothing is uploaded.',
     readMinutes: 4,
-    updatedAt: '2026-09-25',
+    updatedAt: '2026-10-05',
   },  pattern: 'text-metric',
   toolGroup: 'text-counters',
   family: 'text-counting',

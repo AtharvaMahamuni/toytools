@@ -110,9 +110,9 @@ export const config: ToolConfig = {
   categorySlug: 'text-utilities', // must exist in src/data/categories.ts
   tags: ['tag1', 'tag2'],         // SEO keyword array, 5–15 entries
 
-  // optional temporal fields
-  isNew: true,
-  updatedAt: '2026-06-14',
+  // temporal fields
+  addedOn: '2026-06-14',          // ship day, UTC. Drives the New badge and featured row for 5 days
+  updatedAt: '2026-06-14',        // last visible change; never bump it for an invisible edit
 
   // engine wiring — all four required
   engine: 'text-processor',       // must be registered in src/data/engines.ts
@@ -321,6 +321,18 @@ Only required when adding a brand-new engine type — rare. See `references/add-
 },
 ```
 All group members must share the same `engine` + `pattern`. The validator enforces this.
+
+### `src/data/guide-published.ts` (every tool with a guide)
+
+The guide's Article `datePublished`. `scaffold:tool` writes today's date for you; add it by hand
+only if you create the guide without the scaffold. Use the ship day, never change it afterwards,
+and keep it on or before `guide.updatedAt`, which stays `dateModified`. The ship day is the India-time
+day the guide lands on main. validate-registry fails a guide without an entry, with an entry after
+`guide.updatedAt`, or with a date before the first commit (2026-06-02).
+
+```ts
+'my-tool-slug': '2026-06-14',
+```
 
 ---
 

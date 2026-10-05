@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Search and replace text, with regex and a live match count.',
   categorySlug: 'text-utilities',
   tags: ['find and replace', 'text replace', 'find replace', 'regex replace', 'search and replace', 'text substitution', 'string replace'],
-  isNew: true,
   updatedAt: '2026-07-10',
   engine: 'text-interactive',
   pattern: 'text-interactive',

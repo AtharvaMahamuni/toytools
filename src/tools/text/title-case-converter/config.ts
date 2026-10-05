@@ -26,5 +26,5 @@ export const config: ToolConfig = {
     title: 'How To Convert Text To Title Case',
     description: 'Learn what Title Case is, the rules for which words to capitalize, and when to use it for headings and titles.',
     readMinutes: 4,
-    updatedAt: '2026-06-01',
+    updatedAt: '2026-06-07',
   },};

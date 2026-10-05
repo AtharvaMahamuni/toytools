@@ -32,6 +32,8 @@ export const knowledge: Knowledge = {
     'Can I view very large JSON files?',
   ],
   usedWith: [
+    { slug: 'yaml-to-json-converter', reason: 'Convert YAML to JSON so the tree can open it', strength: 0.75 },
+    { slug: 'json-to-yaml-converter', reason: 'Convert the same JSON to YAML once you have read its structure', strength: 0.75 },
     { slug: 'json-validator', reason: 'Confirm the JSON is valid before exploring it', strength: 0.9 },
     { slug: 'json-formatter', reason: 'Pretty-print the same data as text', strength: 0.7 },
   ],

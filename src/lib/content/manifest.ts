@@ -105,9 +105,10 @@ export function buildContentManifest(): ContentEntry[] {
         slug: t.guide.slug,
         url: guidePath(t.guide),
         categorySlug: t.categorySlug,
-        // Use the tool's machine date (YYYY-MM-DD), not the guide's human display string
-        // ("Jul 2026"), so the guide emits a valid <lastmod>. A guide changes with its tool.
-        updatedAt: t.updatedAt,
+        // The guide's own date, ISO 8601 since 2026-08-17 (validate-registry enforces it). Using the
+        // tool's date made a guide rewrite bump the tool's updatedAt just to move this lastmod, so
+        // the tool page and its category claimed a change that was not there (fixed in beta-v12.4.0).
+        updatedAt: t.guide.updatedAt,
         priority: 0.7,
         changefreq: 'monthly',
       });

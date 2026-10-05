@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['public ip address', 'whats my ip', 'show my ip', 'ipv4', 'ipv6'],
   updatedAt: '2026-09-10',
-  isNew: true,
   trustVariant: 'lookup',
   engine: 'network',
   pattern: 'network-lookup',
@@ -36,6 +35,6 @@ export const config: ToolConfig = {
     description:
       'How a public IP lookup works, why IPv4 and IPv6 can both show up, and how a CGNAT address is not something the internet can dial back.',
     readMinutes: 5,
-    updatedAt: '2026-09-10',
+    updatedAt: '2026-09-11',
   },
 };

@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'calories to lose a pound a week', 'weight loss timeline', 'cutting calories',
     'calorie calculator to lose weight', 'free calorie deficit calculator',
   ],
-  isNew: true,
   updatedAt: '2026-08-04',
   trustVariant: 'private',
   engine: 'wellness',

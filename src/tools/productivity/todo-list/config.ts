@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'daily task list', 'subtasks', 'organize tasks', 'productivity',
     'free todo list online', 'to-do list online', 'task list browser', 'checklist online free', 'simple task manager',
   ],
-  isNew: true,
   updatedAt: '2026-07-10',
   engine: 'productivity',
   pattern: 'stateful',
@@ -24,7 +23,7 @@ export const config: ToolConfig = {
     title: 'How To Use A Todo List',
     description: 'Learn how simple task lists reduce mental load, improve focus, and help you finish work more consistently.',
     readMinutes: 5,
-    updatedAt: '2026-06-01',
+    updatedAt: '2026-06-04',
   },
   trustVariant: 'local',
 };

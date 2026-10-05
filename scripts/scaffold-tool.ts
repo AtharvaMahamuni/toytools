@@ -77,6 +77,9 @@ if (args.remove) {
   // Registration is derived, so removal is: delete the directory, regenerate the barrels. Only
   // an engine impl that no other tool uses still has hand-wired registry lines to strip.
   const dropSpecs: { file: string; drop: (l: string) => boolean }[] = [];
+  // A removed tool's guide no longer needs a first-published date (validate-registry would not
+  // complain, but the entry would be dead data).
+  dropSpecs.push({ file: 'src/data/guide-published.ts', drop: l => l.trim().startsWith(`'${rslug}':`) });
 
   // If the tool has an engine impl no other tool uses, remove the impl + its registry lines
   // too (the inverse of the scaffold-time impl stub). A shared processorId is left alone.
@@ -157,7 +160,6 @@ if (REGISTRY_ENGINES.has(engine) && !processorId) {
 
 const segment = categories.find(c => c.slug === category)!.segment;
 const today = new Date().toISOString().slice(0, 10);
-const monthYear = new Date().toLocaleString('en-US', { month: 'short', year: 'numeric' });
 
 // ---- file templates -------------------------------------------------------------------------
 const WIDGETS: Record<string, { comp: string; prop: string }> = {
@@ -274,6 +276,8 @@ function configSource(): string {
     `  categorySlug: '${category}',`,
     `  tags: ['${slug.replace(/-/g, ' ')}'], // TODO: add search keywords`,
     `  updatedAt: '${today}',`,
+    // addedOn, not a permanent flag, gives the tool its New badge for five UTC days.
+    `  addedOn: '${today}',`,
     `  engine: '${engine}',`,
     `  pattern: '${pattern}',`,
     `  family: '${family}',`,
@@ -301,7 +305,7 @@ function configSource(): string {
       `    title: '${name} Guide', // TODO`,
       `    description: 'TODO: one-line guide description.',`,
       `    readMinutes: 3,`,
-      `    updatedAt: '${monthYear}',`,
+      `    updatedAt: '${today}',`,
       `  },`,
     );
   }
@@ -345,6 +349,15 @@ const files: { path: string; body: string }[] = [
 if (wantFaq) files.push({ path: join(toolDir, 'faq.ts'), body: faqSource() });
 if (wantGuide) files.push({ path: join(toolDir, 'Guide.astro'), body: guideSource() });
 if (wantKnowledge) files.push({ path: join(toolDir, 'knowledge.ts'), body: knowledgeSource() });
+// The guide's Article datePublished comes from src/data/guide-published.ts; validate-registry fails
+// a guide without an entry, so the scaffold writes today's date for it.
+if (wantGuide) {
+  edits.push({
+    file: 'src/data/guide-published.ts',
+    anchor: 'export const guidePublishedAt: Record<string, string> = {',
+    line: `  '${slug}': '${today}',`,
+  });
+}
 
 const implSpec = engineImplSpec();
 if (implSpec) {

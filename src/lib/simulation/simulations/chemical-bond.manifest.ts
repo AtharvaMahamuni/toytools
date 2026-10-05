@@ -98,7 +98,6 @@ export const manifest: SimulationManifest = {
     // seo.keywords does NOT reach the index, so a phrase needed for retrieval is repeated here.
     tags: ['chemical bond calculator', 'bond polarity calculator', 'bond polarity', 'electronegativity', 'electronegativity difference', 'electronegativity difference calculator', 'percent ionic character', 'ionic character', 'ionic or covalent', 'polar or nonpolar bond', 'bond type calculator', 'pauling scale', 'partial charge', 'chemical bonding'],
     updatedAt: '2026-08-29',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['subnet calculator', 'cidr to ip range', 'wildcard mask', 'network address', 'cidr notation'],
   updatedAt: '2026-09-10',
-  isNew: true,
   trustVariant: 'private',
   engine: 'network',
   pattern: 'network-calculate',
@@ -37,6 +36,6 @@ export const config: ToolConfig = {
     description:
       'What CIDR notation means, how a subnet mask carves a network from an IPv4 address, and why /31 and /32 do not use the minus-two host rule.',
     readMinutes: 6,
-    updatedAt: '2026-09-10',
+    updatedAt: '2026-09-11',
   },
 };

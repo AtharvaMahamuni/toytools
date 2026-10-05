@@ -60,9 +60,9 @@ const ageHref = toolPathBySlug('age-calculator');
       carry more REM. A page of clock times cannot see which kind of sleep you are in.
     </p>
     <p>
-      What the clock can do is avoid the middle. Waking at the end of a cycle is easier to climb
-      out of than waking in the middle of deep sleep. That is the reason a bedtime list exists
-      at all. The list is 6, 5, 4, and 3 cycles because those are the lengths people actually
+      What the clock can do is avoid the middle. Many people find that waking near the end of a cycle feels easier
+      than waking from deep sleep, where grogginess, called sleep inertia, tends to be stronger.
+      That idea, not a measurement of you, is why a bedtime list exists at all. The list is 6, 5, 4, and 3 cycles because those are the lengths people actually
       choose: a long night, a full night, a short night, and a very short one. At 90 minutes,
       the sleep itself is 9 hours, 7.5 hours, 6 hours, or 4.5 hours.
     </p>
@@ -72,9 +72,8 @@ const ageHref = toolPathBySlug('age-calculator');
       it will not tell you that your new number is either. It only keeps the arithmetic honest.
     </p>
     <p>
-      People also search this as a bedtime calculator or a plain sleep calculator. The job is the
-      same either way: a clock time in, four clock times out, with the fall-asleep minutes kept
-      separate from the cycles. A list that only prints one "ideal" bedtime is hiding the nights
+      A bedtime calculator has one job: a clock time in, four clock times out, with the
+      fall-asleep minutes kept separate from the cycles. A list that only prints one "ideal" bedtime is hiding the nights
       you can actually keep. Four rows make the trade visible before you set the alarm.
     </p>
   </section>
@@ -82,11 +81,12 @@ const ageHref = toolPathBySlug('age-calculator');
   <section id="latency">
     <h2>Why is time to fall asleep outside the cycle? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Getting into bed is not the start of cycle one. Most people lie there for a while. If you
+      The time to fall asleep, called sleep latency, is not part of the cycle. Getting into
+      bed is not the start of cycle one. Most people lie there for a while. If you
       subtract only multiples of 90 from a 7:00 am alarm, you are planning to be asleep at 10:00
       pm for six cycles, or at 11:30 pm for five. You are not planning the moment you turn the
-      light off. The alarm then rings about 15 minutes after a cycle boundary, which is the
-      thing the list was supposed to avoid.
+      light off. Sleep then starts about 15 minutes late, so the alarm rings about 15 minutes before the last
+      cycle ends, which is the thing the list was supposed to avoid.
     </p>
     <p>
       Put the gap in the other box. Fifteen minutes is the default because it is a common
@@ -113,8 +113,9 @@ const ageHref = toolPathBySlug('age-calculator');
     <p>
       "When I wake" counts backward. You type the alarm. The results are bedtimes: when to get
       into bed so that sleep, after the gap, contains a whole number of cycles. "When I go to
-      bed" counts forward. You type when you get into bed. The results are wake times. Same
-      formula, opposite direction.
+      bed" counts forward. You type when you get into bed. The results are wake times, so the
+      page works as a wake time calculator. Bedtime from a wake time versus wake time from a
+      bedtime is the same formula in the opposite direction.
     </p>
     <p>
       Try 10:30 pm, 15 minutes to fall asleep, and 90 minute cycles. Five cycles wake you at
@@ -128,13 +129,9 @@ const ageHref = toolPathBySlug('age-calculator');
       hour. That keeps a typo from shifting the whole night by twelve hours.
     </p>
     <p>
-      Find what time you should go to bed by counting back from the alarm. Time to fall asleep
-      is its own part, counted before the cycle starts. Bedtime from a wake time versus wake
-      time from a bedtime uses the same two fields. Six cycles versus five is a longer night.
-      Sleep latency is the gap before cycle one. For example, run a wake time calculator at
-      7:00 am with 15 minutes of sleep latency. Input: alarm 7:00 am, latency 15, cycle 90.
-      Output: 11:15 pm in bed for five cycles. A sleepyti.me alternative is this page when
-      the list should stay on your device.
+      For example, set the alarm to 7:00 am, keep 15 minutes to fall asleep, and leave the cycle
+      at 90. The five-cycle row says 11:15 pm in bed. Switch to "When I go to bed", type 11:15
+      pm, and the five-cycle wake time is 7:00 am again.
     </p>
   </section>
 
@@ -154,7 +151,7 @@ const ageHref = toolPathBySlug('age-calculator');
     </ReferenceBlock>
     <ReferenceBlock type="common-mistake" heading="Treating five cycles as a prescription">
       <p>
-        7.5 hours is one row on the list. If you need to be up for a shift, four cycles may be
+        Six cycles versus five is 9 hours of sleep versus 7.5, and 7.5 hours is one row on the list. If you need to be up for a shift, four cycles may be
         the time you can keep. The page shows the clock. It does not rank your health.
       </p>
     </ReferenceBlock>

@@ -55,6 +55,7 @@ export const knowledge: Knowledge = {
   alternatives: [],
   nextSteps: [
     { slug: 'aspect-ratio-calculator', reason: 'Size a frame once the type ramp is chosen', strength: 0.4 },
+    { slug: 'color-shades-generator', reason: 'Build the color tokens that sit beside the type ramp', strength: 0.4 },
   ],
   workflowStage: ['transform'],
   keywords: [

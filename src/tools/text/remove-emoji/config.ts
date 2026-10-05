@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'text-utilities',
   tags: ['remove emoji', 'emoji remover', 'delete emoji from text', 'strip emoji', 'remove emoji from text online', 'clean emoji', 'text without emoji', 'emoji cleaner'],
   updatedAt: '2026-07-02',
-  isNew: true,
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',

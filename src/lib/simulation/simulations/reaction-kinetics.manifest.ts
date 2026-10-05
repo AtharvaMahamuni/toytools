@@ -102,7 +102,6 @@ export const manifest: SimulationManifest = {
     // needed for retrieval is repeated here on purpose.
     tags: ['reaction rate calculator', 'arrhenius equation', 'arrhenius equation calculator', 'activation energy', 'rate constant', 'rate law', 'reaction order', 'half-life', 'first order half life', 'first order half life calculator', 'chemical kinetics', 'physical chemistry'],
     updatedAt: '2026-08-29',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

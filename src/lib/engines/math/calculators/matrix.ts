@@ -11,24 +11,90 @@ const OPS = ['multiply', 'add', 'subtract', 'transpose', 'determinant', 'inverse
 type Op = (typeof OPS)[number];
 
 const MAX = 8;
-const EPS = 1e-10;
 
 export type Matrix = number[][];
 
-/** Drop binary noise around an integer. A value already near zero stays, so 1e-9 is not rewritten to 0. */
-export function tidy(n: number): number {
+/**
+ * Drop binary noise without changing a real value. A value within 1e-12 (relative) of an integer
+ * snaps to it, everything else keeps 12 significant digits, so 0.1 + 0.2 prints 0.3 while
+ * 12345.0001, 1e-13 and 1e297 print as typed. `scale` is the size of the numbers the value was
+ * computed from: a result that small next to them is cancellation noise and becomes 0. With no
+ * scale nothing snaps to 0, so a tiny typed value is never erased.
+ */
+export function tidy(n: number, scale = 0): number {
   if (!Number.isFinite(n)) return n;
-  const rounded = Math.round(n * 1e12) / 1e12;
-  const nearest = Math.round(rounded);
-  if (nearest === 0) return Math.abs(rounded) < 1e-12 ? 0 : rounded;
-  if (Math.abs(rounded - nearest) < 1e-8 * Math.abs(nearest)) return nearest;
-  return Math.round(rounded * 1e8) / 1e8;
+  if (scale > 0 && Math.abs(n) <= 1e-12 * scale) return 0;
+  const nearest = Math.round(n);
+  if (nearest !== 0 && Math.abs(n - nearest) <= 1e-12 * Math.max(1, Math.abs(n))) return nearest;
+  return Number(n.toPrecision(12));
 }
 
 export function fmt(n: number): string {
-  const t = tidy(n);
-  if (Number.isInteger(t)) return String(t);
-  return String(t);
+  return String(tidy(n));
+}
+
+function maxAbs(m: Matrix): number {
+  let max = 0;
+  for (const row of m) for (const v of row) max = Math.max(max, Math.abs(v));
+  return max;
+}
+
+/**
+ * One singularity test for determinant and inverse, relative to the size of the entries, so a
+ * matrix scaled by 1e5 is judged the same as the unscaled one and diag(1e-9) is not called singular.
+ * `scale` is the largest entry of the pivot's own row as typed (a scaled pivot), so a row of small
+ * entries is not judged against a large row: diag(1e160, 1) and diag(1, 1e-15) are invertible,
+ * the same way diag(1e-9) is.
+ */
+function isSingularPivot(pivot: number, n: number, scale: number): boolean {
+  return Math.abs(pivot) <= n * Number.EPSILON * scale * 16;
+}
+
+/** Every entry is a safe integer, so determinant and inverse can be computed exactly. */
+function isIntegerMatrix(m: Matrix): boolean {
+  return m.every((row) => row.every((v) => Number.isSafeInteger(v)));
+}
+
+/**
+ * Fraction-free Gauss-Jordan (Bareiss) on [A | I] in BigInt. Every division is exact, so this gives
+ * the exact determinant and, when it is not 0, the inverse as adj / det with no rounding on the way.
+ */
+function exact(m: Matrix): { det: bigint; adj: bigint[][] } {
+  const n = m.length;
+  const a = m.map((row, i) => [...row.map(BigInt), ...row.map((_, j) => BigInt(i === j))]);
+  let prev = 1n;
+  let sign = 1n;
+  for (let k = 0; k < n; k++) {
+    const p = a.findIndex((row, r) => r >= k && row[k] !== 0n);
+    if (p < 0) return { det: 0n, adj: [] };
+    if (p !== k) {
+      [a[k], a[p]] = [a[p], a[k]];
+      sign = -sign;
+    }
+    const pivot = a[k][k];
+    for (let r = 0; r < n; r++) {
+      if (r === k) continue;
+      const f = a[r][k];
+      for (let c = 0; c < 2 * n; c++) a[r][c] = (pivot * a[r][c] - f * a[k][c]) / prev;
+    }
+    prev = pivot;
+  }
+  // The left half is now prev times I, so the right half is prev times the inverse.
+  return { det: sign * prev, adj: a.map((row) => row.slice(n).map((v) => sign * v)) };
+}
+
+/** An exact value as the tool shows numbers: every digit below 1e21, as JavaScript does, else fmt. */
+function showExact(v: bigint): string {
+  return (v < 0n ? -v : v) < 10n ** 21n ? String(v) : fmt(Number(v));
+}
+
+/** The determinant as shown: exact for integer matrices. */
+function detText(m: Matrix, det: number): string {
+  return isIntegerMatrix(m) ? showExact(exact(m).det) : fmt(det);
+}
+
+function rowScales(m: Matrix): number[] {
+  return m.map((row) => row.reduce((max, v) => Math.max(max, Math.abs(v)), 0));
 }
 
 export function shapeOf(m: Matrix): string {
@@ -73,8 +139,12 @@ export function multiply(a: Matrix, b: Matrix): Matrix | string {
     const row: number[] = [];
     for (let j = 0; j < b[0].length; j++) {
       let sum = 0;
-      for (let k = 0; k < b.length; k++) sum += a[i][k] * b[k][j];
-      row.push(tidy(sum));
+      let size = 0;
+      for (let k = 0; k < b.length; k++) {
+        sum += a[i][k] * b[k][j];
+        size += Math.abs(a[i][k] * b[k][j]);
+      }
+      row.push(tidy(sum, size));
     }
     out.push(row);
   }
@@ -83,19 +153,24 @@ export function multiply(a: Matrix, b: Matrix): Matrix | string {
 
 export function determinant(m: Matrix): number | string {
   if (m.length !== m[0].length) return `A is ${shapeOf(m)}. Determinant needs a square matrix.`;
+  if (isIntegerMatrix(m)) return Number(exact(m).det);
   const n = m.length;
+  const scale = maxAbs(m);
+  if (scale === 0) return 0;
   const a = m.map((row) => row.slice());
+  const rows = rowScales(m);
   let det = 1;
   for (let col = 0; col < n; col++) {
     let pivot = col;
     for (let r = col + 1; r < n; r++) {
       if (Math.abs(a[r][col]) > Math.abs(a[pivot][col])) pivot = r;
     }
-    if (Math.abs(a[pivot][col]) < EPS) return 0;
+    if (isSingularPivot(a[pivot][col], n, rows[pivot])) return 0;
     if (pivot !== col) {
       const swap = a[col];
       a[col] = a[pivot];
       a[pivot] = swap;
+      [rows[col], rows[pivot]] = [rows[pivot], rows[col]];
       det = -det;
     }
     det *= a[col][col];
@@ -104,12 +179,26 @@ export function determinant(m: Matrix): number | string {
       for (let c = col; c < n; c++) a[r][c] -= factor * a[col][c];
     }
   }
+  // Float path, for input with a non-integer (or beyond 2^53) entry. The scaled pivot test above is
+  // its only singular verdict, and it can miss a singular matrix whose elimination noise stays
+  // above n·ε·16 of a row, so a tiny nonzero determinant can show. There is no snap to 0 against
+  // the row sizes: that erased real determinants (Hilbert 6 and 7). Integer input never gets here.
   return tidy(det);
 }
 
 export function inverse(m: Matrix): Matrix | string {
   if (m.length !== m[0].length) return `A is ${shapeOf(m)}. Inverse needs a square matrix.`;
+  const SINGULAR = 'The determinant is 0, so this matrix has no inverse.';
+  // Inverse and Determinant must never disagree, so the determinant decides first. For an integer
+  // matrix both use the exact determinant, and the inverse is adj / det, exact up to the last digit.
+  if (isIntegerMatrix(m)) {
+    const { det, adj } = exact(m);
+    if (det === 0n) return SINGULAR;
+    return adj.map((row) => row.map((v) => (v % det ? tidy(Number(v) / Number(det)) : Number(v / det))));
+  }
+  if (determinant(m) === 0) return SINGULAR;
   const n = m.length;
+  const rows = rowScales(m);
   const a = m.map((row, i) => {
     const aug = row.slice();
     for (let j = 0; j < n; j++) aug.push(i === j ? 1 : 0);
@@ -120,11 +209,12 @@ export function inverse(m: Matrix): Matrix | string {
     for (let r = col + 1; r < n; r++) {
       if (Math.abs(a[r][col]) > Math.abs(a[pivot][col])) pivot = r;
     }
-    if (Math.abs(a[pivot][col]) < EPS) return 'The determinant is 0, so this matrix has no inverse.';
+    if (isSingularPivot(a[pivot][col], n, rows[pivot])) return SINGULAR;
     if (pivot !== col) {
       const swap = a[col];
       a[col] = a[pivot];
       a[pivot] = swap;
+      [rows[col], rows[pivot]] = [rows[pivot], rows[col]];
     }
     const div = a[col][col];
     for (let c = 0; c < n * 2; c++) a[col][c] /= div;
@@ -134,7 +224,14 @@ export function inverse(m: Matrix): Matrix | string {
       for (let c = 0; c < n * 2; c++) a[r][c] -= factor * a[col][c];
     }
   }
-  return a.map((row) => row.slice(n).map(tidy));
+  // Zero an entry only when it is rounding-sized next to its own row of the inverse (the same
+  // n·ε·16 bound as the pivot test), so the 1e-160 in the inverse of diag(1e160, 1) survives and the
+  // 1 in the wide row [1, -1e12] of the inverse of [[1, 1e12], [0, 1]] is not wiped.
+  const inv = a.map((row) => row.slice(n));
+  return inv.map((row) => {
+    const rowScale = row.reduce((max, v) => Math.max(max, Math.abs(v)), 0);
+    return row.map((v) => (Math.abs(v) <= n * Number.EPSILON * 16 * rowScale ? 0 : tidy(v)));
+  });
 }
 
 function sameShape(a: Matrix, b: Matrix, verb: string): string | null {
@@ -143,11 +240,15 @@ function sameShape(a: Matrix, b: Matrix, verb: string): string | null {
 }
 
 function combine(a: Matrix, b: Matrix, op: 'add' | 'subtract'): Matrix {
-  return a.map((row, i) => row.map((value, j) => tidy(op === 'add' ? value + b[i][j] : value - b[i][j])));
+  return a.map((row, i) =>
+    row.map((value, j) =>
+      tidy(op === 'add' ? value + b[i][j] : value - b[i][j], Math.max(Math.abs(value), Math.abs(b[i][j]))),
+    ),
+  );
 }
 
 function transpose(m: Matrix): Matrix {
-  return m[0].map((_, j) => m.map((row) => tidy(row[j])));
+  return m[0].map((_, j) => m.map((row) => row[j]));
 }
 
 function firstStep(op: Op, a: Matrix, b: Matrix | null, result: Matrix | number): string {
@@ -161,9 +262,16 @@ function firstStep(op: Op, a: Matrix, b: Matrix | null, result: Matrix | number)
   }
   if (op === 'transpose') return 'Row 1 of A becomes column 1 of the result.';
   if (op === 'determinant' && a.length === 2) {
-    return `${fmt(a[0][0])}×${fmt(a[1][1])} - ${fmt(a[0][1])}×${fmt(a[1][0])} = ${fmt(result as number)}.`;
+    const line = `${fmt(a[0][0])}×${fmt(a[1][1])} - ${fmt(a[0][1])}×${fmt(a[1][0])}`;
+    const raw = a[0][0] * a[1][1] - a[0][1] * a[1][0];
+    // The singularity test can call a rounding-sized ad - bc zero. Printing "= 0" then would be a
+    // false equation, so the step says what happened instead. Integer input is exact, so it never does.
+    if (result === 0 && raw !== 0 && !isIntegerMatrix(a)) {
+      return `${line} ≈ 0. That is rounding error for entries this size, so the matrix is treated as singular.`;
+    }
+    return `${line} = ${detText(a, result as number)}.`;
   }
-  if (op === 'determinant') return `Elimination on this ${shapeOf(a)} matrix gives ${fmt(result as number)}.`;
+  if (op === 'determinant') return `Elimination on this ${shapeOf(a)} matrix gives ${detText(a, result as number)}.`;
   return `Gauss-Jordan on the augmented matrix puts ${fmt((result as Matrix)[0][0])} in the top-left of the inverse.`;
 }
 
@@ -272,7 +380,7 @@ export const matrixCalculator: MathCalculator = {
     if (typeof result === 'number') {
       return successResult({
         ...shared,
-        hero: card('determinant', 'Determinant', fmt(result), { raw: result, emphasis: 'hero' }),
+        hero: card('determinant', 'Determinant', detText(a, result), { raw: result, emphasis: 'hero' }),
         metrics: [card('order', 'Order', String(a.length), { raw: a.length })],
       });
     }

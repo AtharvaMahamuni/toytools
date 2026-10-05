@@ -18,7 +18,6 @@ export const config: ToolConfig = {
     'order of operations calculator',
   ],
   updatedAt: '2026-07-09',
-  isNew: true,
   engine: 'calculator',
   pattern: 'calculate',
   family: 'arithmetic',
@@ -29,6 +28,6 @@ export const config: ToolConfig = {
     title: 'How to Use a Scientific Calculator',
     description: 'Order of operations, degrees vs radians, functions and constants, memory keys, and worked examples so your scientific results always come out right.',
     readMinutes: 5,
-    updatedAt: '2026-07-09',
+    updatedAt: '2026-10-05',
   },
 };

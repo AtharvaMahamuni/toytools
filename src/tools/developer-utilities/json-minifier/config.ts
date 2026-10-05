@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Strip whitespace from JSON to make it smaller.',
   categorySlug: 'developer-utilities',
   tags: ['json minifier', 'minify json', 'compress json', 'json compact', 'json minify online', 'shrink json', 'json compressor', 'developer'],
-  isNew: true,
   updatedAt: '2026-06-09',
   engine: 'structured-data',
   pattern: 'structured-transform',
@@ -27,5 +26,5 @@ export const config: ToolConfig = {
     title: 'What Is JSON Minification?',
     description: 'Understand how JSON minification reduces payload size, when to minify vs format, and how minification stacks with gzip compression.',
     readMinutes: 4,
-    updatedAt: '2026-06-09',
+    updatedAt: '2026-06-10',
   },};
