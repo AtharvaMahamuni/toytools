@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { getRelatedTools, getRelatedGuides, relatedCandidates, relationTier, tierStrength } from './related';
 import type { ToolConfig } from '@data/types';
+import { tools as liveTools } from '@data/registry';
+import { graph as liveGraph } from '@lib/knowledge/graph';
+import { RELATION_TYPES } from '@lib/knowledge/types';
 
 function tool(overrides: Partial<ToolConfig> & Pick<ToolConfig, 'slug'>): ToolConfig {
   return {
@@ -235,5 +238,95 @@ describe('relatedCandidates', () => {
     const current = tool({ slug: 'a', categorySlug: 'text', family: 'cleanup' });
     const others = ['b', 'c', 'd', 'e', 'f', 'g', 'h'].map(s => tool({ slug: s, categorySlug: 'text', family: 'cleanup' }));
     expect(relatedCandidates(current, [current, ...others])).toHaveLength(7);
+  });
+});
+
+describe('tier rotation (SEO GEO audit item 19)', () => {
+  const t = (slug: string, categorySlug = 'text') =>
+    tool({ slug, categorySlug, engine: 'e', pattern: 'p', family: 'f' });
+  const reg = ['a', 'b', 'c', 'd', 'e', 'f', 'g'].map(s => t(s));
+  const slugs = (list: ToolConfig[]) => list.map(x => x.slug);
+
+  it('starts each tier just after the current tool in registry order and wraps round', () => {
+    expect(slugs(relatedCandidates(reg[3], reg))).toEqual(['e', 'f', 'g', 'a', 'b', 'c']);
+    expect(slugs(getRelatedTools(reg[3], reg, 3))).toEqual(['e', 'f', 'g']);
+    expect(slugs(getRelatedTools(reg[6], reg, 3))).toEqual(['a', 'b', 'c']);
+  });
+
+  it('spreads the slots: every tier member is in someone\'s top 3, not just the first three', () => {
+    const shown = new Set(reg.flatMap(cur => slugs(getRelatedTools(cur, reg, 3))));
+    expect([...shown].sort()).toEqual(slugs(reg));
+  });
+
+  it('puts same-category candidates first inside a tier, each half rotated', () => {
+    const mixed = [t('a', 'number'), t('b'), t('c', 'number'), t('d'), t('e'), t('f', 'number')];
+    // current d (text): text half after d is e, then wraps to b; then the number half after d: f, a, c.
+    expect(slugs(relatedCandidates(mixed[3], mixed))).toEqual(['e', 'b', 'f', 'a', 'c']);
+  });
+
+  it('keeps tier order: a lower tier never jumps above a higher one', () => {
+    const cur = t('c');
+    const tier1 = [t('a'), t('e')];
+    const tier4 = [tool({ slug: 'b', categorySlug: 'text' }), tool({ slug: 'd', categorySlug: 'text' })];
+    const all = [tier1[0], tier4[0], cur, tier4[1], tier1[1]];
+    expect(slugs(relatedCandidates(cur, all))).toEqual(['e', 'a', 'd', 'b']);
+  });
+
+  it('changes order only, never membership', () => {
+    for (const cur of reg) {
+      expect(slugs(relatedCandidates(cur, reg)).sort()).toEqual(slugs(reg.filter(x => x !== cur)));
+    }
+  });
+
+  it('is deterministic: same input, same rows, on every call', () => {
+    const first = reg.map(cur => slugs(getRelatedTools(cur, reg, 3)));
+    for (let i = 0; i < 5; i++) {
+      expect(reg.map(cur => slugs(getRelatedTools(cur, reg, 3)))).toEqual(first);
+    }
+  });
+
+  it('getRelatedGuides pivots at the tool\'s place in the full registry, even without a guide', () => {
+    const g = (slug: string) => ({ ...t(slug), guide: { slug, categorySlug: 'text', title: slug, description: '', readMinutes: 1, updatedAt: '2026-10-05' } });
+    const all = [g('a'), g('b'), t('c'), g('d'), g('e')];
+    expect(slugs(getRelatedGuides(all[2], all, 2))).toEqual(['d', 'e']);
+  });
+});
+
+// Live catalog (SEO GEO audit item 19): content-graph / platform-health floors.
+// Rotation changes WHO appears in related rows, not WHETHER a page with siblings has any.
+// No assertion here pins a specific sibling order — that was the bug the audit fixed.
+describe('live catalog — related cascade floors (item 19)', () => {
+  it('every tool with a same-category sibling still has at least one related tool (platform-health floor)', () => {
+    const byCat = new Map<string, number>();
+    for (const t of liveTools) byCat.set(t.categorySlug, (byCat.get(t.categorySlug) ?? 0) + 1);
+    const withSibling = liveTools.filter(t => (byCat.get(t.categorySlug) ?? 0) > 1);
+    expect(withSibling.length).toBeGreaterThan(100);
+    const dead = withSibling.filter(t => getRelatedTools(t, liveTools, 1).length === 0).map(t => t.slug);
+    expect(dead).toEqual([]);
+  });
+
+  it('spreads related slots: late-registry tools appear in someone else\'s related row, not only the first few', () => {
+    const shown = new Set(liveTools.flatMap(cur => getRelatedTools(cur, liveTools, 6).map(t => t.slug)));
+    // Alphabetically-late / registry-late ungrouped tools were previously never shown (audit: 28).
+    // After rotation, a large majority of the catalog must appear in at least one related row.
+    expect(shown.size).toBeGreaterThanOrEqual(Math.floor(liveTools.length * 0.85));
+  });
+
+  it('content graph still emits RELATED_TOOL edges for every tool that has related candidates', () => {
+    const withRelated = liveTools.filter(t => getRelatedTools(t, liveTools, 1).length > 0);
+    expect(withRelated.length).toBeGreaterThan(100);
+    for (const t of withRelated) {
+      const edges = liveGraph.edges.filter(
+        e => e.from === `tool:${t.slug}` && e.type === RELATION_TYPES.RELATED_TOOL,
+      );
+      expect(edges.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('live related rows are deterministic across calls', () => {
+    const sample = liveTools.filter((_, i) => i % 17 === 0);
+    const first = sample.map(t => getRelatedTools(t, liveTools, 6).map(x => x.slug));
+    const second = sample.map(t => getRelatedTools(t, liveTools, 6).map(x => x.slug));
+    expect(second).toEqual(first);
   });
 });

@@ -37,7 +37,7 @@ export function sitemapStubHtml(entry: SitemapRedirect, site: URL | undefined): 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>${entry.title} — moved</title>
+    <title>${entry.title} has moved</title>
     <meta http-equiv="refresh" content="0; url=${target}" />
     <link rel="canonical" href="${canonical}" />
     <meta name="robots" content="noindex" />

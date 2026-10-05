@@ -52,3 +52,18 @@ export function formatMonthYear(iso: string): string {
   if (month < 1 || month > 12) return iso;
   return `${MONTHS[month - 1]} ${m[1]}`;
 }
+
+/** India Standard Time is UTC+05:30 all year (no daylight saving), in milliseconds. */
+const IST_OFFSET_MS = 330 * 60_000;
+
+/**
+ * The India-time calendar day of `now` as `YYYY-MM-DD`: the day every authored date in this repo
+ * uses (CHANGELOG, guide-published.ts, addedOn, updatedAt).
+ *
+ * `toISOString().slice(0, 10)` is the UTC day, which is still yesterday before 05:30 IST, so a tool
+ * scaffolded in the early morning got the previous day. The fixed offset is exact because India has
+ * no daylight saving, and it does not depend on the build machine's timezone or ICU data.
+ */
+export function indiaDay(now: Date = new Date()): string {
+  return new Date(now.getTime() + IST_OFFSET_MS).toISOString().slice(0, 10);
+}

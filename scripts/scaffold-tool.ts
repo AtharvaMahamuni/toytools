@@ -23,6 +23,7 @@ import { execSync } from 'node:child_process';
 
 import { tools } from '../src/data/registry';
 import { categories } from '../src/data/categories';
+import { indiaDay } from '../src/lib/dates';
 import { engineIds, getEngine, knownPatterns } from '../src/data/engines';
 import { PROCESSORS } from '../src/lib/text/processors/registry';
 import { ENCODERS } from '../src/lib/engines/encoding/registry';
@@ -159,7 +160,8 @@ if (REGISTRY_ENGINES.has(engine) && !processorId) {
 }
 
 const segment = categories.find(c => c.slug === category)!.segment;
-const today = new Date().toISOString().slice(0, 10);
+// The India-time day, not UTC: before 05:30 IST the UTC date is still yesterday (src/lib/dates.ts).
+const today = indiaDay();
 
 // ---- file templates -------------------------------------------------------------------------
 const WIDGETS: Record<string, { comp: string; prop: string }> = {
