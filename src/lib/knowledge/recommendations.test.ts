@@ -72,4 +72,32 @@ describe('getRecommendations', () => {
     const used = getRecommendations('base64', 4, g2).find(b => b.key === 'used-with');
     expect(used?.items).toHaveLength(1);
   });
+
+  it('renders each target once across blocks, in the first block that names it (audit item 20)', () => {
+    const kn = buildKnowledgeMap([
+      makeKnowledge({
+        slug: 'base64',
+        usedWith: [{ slug: 'json-formatter' }],
+        nextSteps: [{ slug: 'json-formatter' }, { slug: 'json-validator' }],
+        alternatives: [{ slug: 'json-formatter' }, { slug: 'json-validator' }],
+      }),
+    ]);
+    const blocks = getRecommendations('base64', 4, buildGraph(tools, categories, kn));
+    expect(blocks.map(b => [b.key, b.items.map(i => i.node.slug)])).toEqual([
+      ['used-with', ['json-formatter']],
+      ['next-steps', ['json-validator']],
+    ]); // alternatives held only repeats, so the block is omitted
+  });
+
+  it('caps a block after the dedupe, so a repeat does not cost it a slot', () => {
+    const kn = buildKnowledgeMap([
+      makeKnowledge({
+        slug: 'base64',
+        usedWith: [{ slug: 'json-formatter' }],
+        nextSteps: [{ slug: 'json-formatter' }, { slug: 'json-validator' }, { slug: 'json-minifier' }],
+      }),
+    ]);
+    const next = getRecommendations('base64', 2, buildGraph(tools, categories, kn)).find(b => b.key === 'next-steps');
+    expect(next?.items.map(i => i.node.slug)).toEqual(['json-validator', 'json-minifier']);
+  });
 });
