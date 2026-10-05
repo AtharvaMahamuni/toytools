@@ -7,24 +7,25 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 ### Fixed
 
 - **Color Shades Generator checks the color you typed.** The contrast note names your hex and the stop that holds it (#3b82f6 at stop 500 is 3.68:1 on white), that stop keeps your exact hex, and swatch text is picked by WCAG contrast instead of lightness, so every label reaches 4.5:1.
-- **Matrix Calculator agrees with itself on singular matrices.** Determinant and Inverse use one test scaled to the entries, so a singular matrix of 100000s is singular in both, diag(1e-9) keeps its 1e-18 determinant, and tidying no longer rounds real values such as 12345.0001, 1e-13 or 1e297.
+- **Matrix Calculator agrees with itself on singular matrices.** Determinant and Inverse use one test that judges each pivot against its own row, so a singular matrix of 100000s is singular in both, while diag(1e-9), diag(1, 1e-15) and diag(1e160, 1) stay invertible and keep their determinants (1e-18, 1e-15 and 1e160). Determinants of well-conditioned matrices with large rows are never rounded to 0, so Pascal 8 (1), Vandermonde 1..8 (125411328000), Hilbert 6 and 7 and [[1, 1e12], [0, 1]] all invert. An integer matrix shows an integer determinant, an inverse keeps a small real entry next to a large one, and a 2 by 2 step that rounding calls singular says ≈ 0 instead of a false = 0. Tidying no longer rounds real values such as 12345.0001, 1e-13 or 1e297.
 - **Triangle Solver rounds each angle on its own.** An isosceles 1, 3, 3 triangle shows 80.406° twice instead of 80.41° and 80.4°. Values show significant figures, so a 0.003 side is not printed as 0, "Right triangle" needs a real 90°, and a thin 179.97° triangle solves. The three rounded angles can add to anything from 179.994 to 180.006, and the result says so. This replaces the beta-v12.3 sum fix.
 - **The New badge lasts five days, as documented.** It lasted six. The six beta-v12.3 tools lose it on 7 October at 05:30 IST.
-- **The New tools row can be stopped.** A 48px Pause button, and any touch, wheel, key or scroll on the row, stop it for good. Reduced motion still never starts it.
+- **The New tools row can be paused.** A 48px Pause button stops it and reads Play while it is paused, and Play starts it again, on phones too. Any touch, wheel, key or scroll on the row pauses it the same way, and a mouse over the row holds it only while the mouse stays there. Reduced motion still never starts it.
 - **Type Scale samples are no longer scroll traps.** A 1.3 line box holds the descender of g, and a base under 1px is rejected, as the message always said.
-- **File Hash Verifier no longer judges a new file against an old checksum.** The expected digest is not saved between visits any more, and a Clear button empties the page.
+- **File Hash Verifier no longer judges a new file against an old checksum.** The expected digest is not saved between visits any more, and a Clear button empties the page. Its description now says what the tool does: an ISO by SHA-256, or a file up to 32 MB by MD5.
 - **Sleep Cycle Calculator arithmetic in the FAQ and guide.** Skipping the minutes to fall asleep makes the alarm ring about 15 minutes before the last cycle ends, not after it. With zero minutes, bedtimes move later and wake times earlier.
-- **Guides carry their real publish date.** The Article datePublished is the day each guide first shipped, not its last update, and a guide's sitemap lastmod follows the guide's own date, so rewriting a guide no longer moves its tool's date.
+- **Guides carry their real publish date.** The Article datePublished is the day each guide first shipped in IST, taken from git history, not its last update, and no guide claims a day before the first commit. Where that day was later than a guide's update date, the update date moved up to match (27 guides). A guide's sitemap lastmod follows the guide's own date, so rewriting a guide no longer moves its tool's date.
 - **Remove Extra Spaces examples use ordinary spaces.** The tool collapses spaces and tabs, not the non-breaking spaces the examples used.
 
 ### Changed
 
 - **Shorter titles and fuller descriptions for the new tools.** Matrix, Type Scale, File Hash and Color Shades titles fit 60 characters, the matrix and file hash guide titles are shorter, and the six new tools and Pomodoro Timer end their descriptions with "Runs entirely on your device. Nothing is uploaded."
 - **Applied Math is titled Math Calculators and Simulations.** The Applied Math, Design and Date and Time descriptions now name the triangle, matrix, shade scale, type scale and sleep tools.
-- **The six new guides lost their keyword lists.** Each keeps one worked example, the sleep guide hedges its one sleep-stage claim, and a competitor name is gone.
+- **The six new guides lost their keyword lists.** Each keeps one worked example, the sleep guide hedges its one sleep-stage claim, and a competitor name is gone. The type scale guide no longer calls the golden ratio a musical interval.
 - **More guides link where readers go next.** 22 guides now link back to a tool whose guide links them, 8 guides that no other page linked get a link, and the scientific calculator guide points to the triangle solver.
 - **Search understands more phrasings** for the six new tools, such as "what time should i go to bed", "inverse matrix" and "sha256sum".
 - **New tools are marked with `addedOn` only.** The unused `isNew` flag is gone from every tool, the add-tool skill and the scaffold, and the registry check rejects a missing, impossible or future `addedOn`.
+- **The New row tests run on a pinned clock.** The end-to-end tests for the New badge and the row build and browse at a fixed date, so they no longer break after 7 October.
 
 ## [beta-v12.3.1] - 2026-10-05
 
