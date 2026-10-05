@@ -9,7 +9,8 @@ import {
 } from './tool-redirects';
 import { faqRedirects } from './faq-redirects';
 import { guideRedirects } from './guide-redirects';
-import { sitemapRedirects, SITEMAP_STUB_TARGET } from './sitemap-redirects';
+import { sitemapRedirects, sitemapStubHtml, SITEMAP_STUB_TARGET } from './sitemap-redirects';
+import { readFileSync } from 'node:fs';
 import { contentByType } from '@lib/content/manifest';
 
 function liveToolPath(slug: string): string {
@@ -150,6 +151,28 @@ describe('redirect stubs', () => {
     }
     const moved = guideRedirects.find(r => r.oldPath === 'text/how-to-change-text-case');
     expect(moved?.targetPath).toBe('/tool/text/title-case-converter/');
+  });
+
+  it('every redirect stub title says "has moved", with no em dash', () => {
+    // The six .astro stub shells plus the sitemap stubs: noindex pages, but the title is still copy.
+    const shells = [
+      'src/pages/guide/[...oldPath].astro',
+      'src/pages/tool/[...oldPath].astro',
+      'src/pages/tools/[...oldPath].astro',
+      'src/pages/faq/[...slug].astro',
+      'src/pages/category/[oldSlug].astro',
+      'src/pages/categories/[oldSlug].astro',
+    ];
+    for (const shell of shells) {
+      const source = readFileSync(new URL(`../../${shell}`, import.meta.url), 'utf8');
+      const title = source.match(/<title>([^<]*)<\/title>/)?.[1];
+      expect(title, shell).toMatch(/ has moved$/);
+      expect(title, shell).not.toContain('\u2014');
+    }
+    for (const entry of sitemapRedirects) {
+      const title = sitemapStubHtml(entry, new URL('https://example.com')).match(/<title>([^<]*)<\/title>/)?.[1];
+      expect(title).toBe(`${entry.title} has moved`);
+    }
   });
 
   it('retired sitemap filenames point at the current index and nowhere else', () => {
