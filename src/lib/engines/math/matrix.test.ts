@@ -55,6 +55,70 @@ describe('matrix singularity', () => {
     expect(r.explanation).toContain('treated as singular');
   });
 
+  // Fix round 2: round 1 snapped det to 0 against the product of the row sizes, which erased the
+  // real determinants of these well-conditioned (or merely ill-scaled) invertible matrices.
+  const pascal = (n: number) =>
+    Array.from({ length: n }, (_, i) =>
+      Array.from({ length: n }, (_, j) => {
+        let c = 1;
+        for (let k = 0; k < j; k++) c = (c * (i + j - k)) / (k + 1);
+        return c;
+      }),
+    );
+  const hilbert = (n: number) =>
+    Array.from({ length: n }, (_, i) => Array.from({ length: n }, (_, j) => 1 / (i + j + 1)));
+
+  it('gives Pascal 7 and Pascal 8 their determinant of 1, with an inverse', () => {
+    expect(determinant(pascal(8))).toBe(1);
+    expect(Array.isArray(inverse(pascal(8)))).toBe(true);
+    expect(determinant(pascal(7))).toBe(1);
+  });
+
+  it('gives [[1, 1e12], [0, 1]] its determinant of 1, with an inverse', () => {
+    expect(determinant([[1, 1e12], [0, 1]])).toBe(1);
+    expect(Array.isArray(inverse([[1, 1e12], [0, 1]]))).toBe(true);
+  });
+
+  it('inverts Vandermonde 1..8 and gives its determinant 125411328000', () => {
+    const vandermonde = Array.from({ length: 8 }, (_, i) => Array.from({ length: 8 }, (_, j) => (i + 1) ** j));
+    expect(Array.isArray(inverse(vandermonde))).toBe(true);
+    expect(determinant(vandermonde)).toBe(125411328000);
+  });
+
+  it('inverts Hilbert 6 and 7 and keeps their tiny determinants', () => {
+    // Exact values: det(H6) = 1/186313420339200000, det(H7) = 1/2067909047925770649600000.
+    expect(Array.isArray(inverse(hilbert(6)))).toBe(true);
+    expect(Array.isArray(inverse(hilbert(7)))).toBe(true);
+    expect(Math.abs((determinant(hilbert(6)) as number) * 186313420339200000 - 1)).toBeLessThan(1e-6);
+    expect(Math.abs((determinant(hilbert(7)) as number) * 2067909047925770649600000 - 1)).toBeLessThan(1e-3);
+  });
+
+  it('still calls singular input singular after dropping the determinant snap', () => {
+    const SINGULAR: number[][][] = [
+      [[1, 2], [2, 4]],
+      [[0.1, 0.2], [0.3, 0.6]],
+      [[1, 2], [2, 4.000000000000001]],
+      [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
+      SCALED_SINGULAR,
+      [[1e5, 2e5], [3e5, 6e5]],
+      [[1, 2, 3], [2, 4, 6], [1, 1, 1]],
+      [[1e-10, 2e-10, 3e-10], [4, 5, 6], [7, 8, 9]],
+      [[1e-5, 1], [1, 1e5]],
+      [[0.1, 0.2, 0.3], [0.4, 0.5, 0.6], [0.7, 0.8, 0.9]],
+      [[1 / 3, 2 / 3], [1, 2]],
+      [[1e-20, 2e-20], [1, 2]],
+      [[1e-300, 2e-300], [1, 2]],
+      [[0, 0], [1, 2]],
+      [[0.1, 0.2, 0.3], [0.2, 0.4, 0.6], [0.3, 0.5, 0.7]],
+      [[1e200, 2e200, 3e200], [4e200, 5e200, 6e200], [7e200, 8e200, 9e200]],
+      [[1e-200, 1], [1, 1e200]],
+    ];
+    for (const m of SINGULAR) {
+      expect(determinant(m)).toBe(0);
+      expect(inverse(m)).toBe('The determinant is 0, so this matrix has no inverse.');
+    }
+  });
+
   it('agrees on an ordinary invertible matrix', () => {
     expect(determinant([[1, 2], [3, 4]])).toBe(-2);
     expect(inverse([[1, 2], [3, 4]])).toEqual([[-2, 1], [1.5, -0.5]]);

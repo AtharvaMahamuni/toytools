@@ -50,6 +50,16 @@ function isSingularPivot(pivot: number, n: number, scale: number): boolean {
   return Math.abs(pivot) <= n * Number.EPSILON * scale * 16;
 }
 
+/** The determinant of a matrix of integers is an integer, so elimination noise around one is dropped. */
+function isIntegerMatrix(m: Matrix): boolean {
+  return m.every((row) => row.every((v) => Number.isInteger(v)));
+}
+
+function nearInteger(v: number): number {
+  const nearest = Math.round(v);
+  return Math.abs(v - nearest) <= 1e-8 * Math.max(1, Math.abs(nearest)) ? nearest : tidy(v);
+}
+
 function rowScales(m: Matrix): number[] {
   return m.map((row) => row.reduce((max, v) => Math.max(max, Math.abs(v)), 0));
 }
@@ -135,12 +145,9 @@ export function determinant(m: Matrix): number | string {
       for (let c = col; c < n; c++) a[r][c] -= factor * a[col][c];
     }
   }
-  // Snap to 0 only against the size a determinant of these rows could have (the product of the
-  // row sizes), so diag(1e-9) keeps its 1e-18 and diag(1, 1e-15) keeps its 1e-15. That product
-  // overflows to Infinity for large entries ([[1e160, 0], [0, 1]]), and an infinite scale would
-  // tidy every determinant to 0, so the snap is skipped when it cannot be computed.
-  const s = rowScales(m).reduce((product, v) => product * v, 1);
-  return tidy(det, Number.isFinite(s) ? s : 0);
+  // No snap to 0 here: the scaled pivot test above already returns 0 for singular input, and a
+  // snap against the size of the rows erased real determinants (Pascal 8 has det 1).
+  return isIntegerMatrix(m) ? nearInteger(det) : tidy(det);
 }
 
 export function inverse(m: Matrix): Matrix | string {
