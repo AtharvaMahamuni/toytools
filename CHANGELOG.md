@@ -2,6 +2,28 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.4.1] - 2026-10-05
+
+### Changed
+
+- **Related tools rotate within each tier.** Same-category siblings come first inside a tier, and
+  the list starts just after the current tool in registry order, wrapping round. Tier membership
+  and tier order are unchanged. Pages that used to hog every sibling's related row (for example
+  camel-case-converter at 61 inbound) share those slots; late-registry tools and previously
+  peer-orphan guides gain inbound links. Measured on 365 indexable pages: peer orphans among the
+  audit's 13 guides go from 3 to 0; tools with no other tool page linking them go from 28 to 4.
+- **You May Also Need shows each target once.** usedWith, nextSteps and alternatives share one
+  seen set, in that order, so a tool named in an earlier block is not repeated later. A block that
+  loses a repeat still fills from the rest of its authored list. 121 of 172 guides used to list
+  the same tool two or three times.
+
+### Fixed
+
+- **Scaffold dates use the India-time day.** New tools and guides get today's date in Asia/Kolkata
+  (the day rolls at 05:30 IST), not the UTC day.
+- **Redirect stub titles say "has moved".** The seven stub templates no longer put an em dash
+  between the tool name and "moved".
+
 ## [beta-v12.4] - 2026-10-05
 
 ### Fixed
