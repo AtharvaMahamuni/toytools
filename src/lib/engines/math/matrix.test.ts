@@ -137,6 +137,144 @@ describe('matrix singularity', () => {
   });
 });
 
+describe('matrix exact integer path (fix round 3)', () => {
+  const SINGULAR_TEXT = 'The determinant is 0, so this matrix has no inverse.';
+  // Exact det 0, but float elimination leaves -0.00000146 and the pivot test lets it through.
+  const REPRO_5 = [
+    [-729, -58, -309, 16, -265],
+    [65, 99, 84, -41, 73],
+    [63, 79, 72, -55, 98],
+    [-80, 71, 13, -39, 92],
+    [84, -92, -24, 50, 63],
+  ];
+
+  it('calls the review 5 by 5 singular in both Determinant and Inverse', () => {
+    expect(determinant(REPRO_5)).toBe(0);
+    expect(inverse(REPRO_5)).toBe(SINGULAR_TEXT);
+    const a = REPRO_5.map((row) => row.join(' ')).join('\n');
+    expect(runMath('matrix', { operation: 'determinant', a }).hero?.value).toBe('0');
+    expect(runMath('matrix', { operation: 'inverse', a }).ok).toBe(false);
+  });
+
+  it('gives [[1e8, 1e8+1], [1e8-1, 1e8]] det 1 and its exact inverse', () => {
+    const m = [[1e8, 1e8 + 1], [1e8 - 1, 1e8]];
+    expect(determinant(m)).toBe(1);
+    expect(inverse(m)).toEqual([[1e8, -(1e8 + 1)], [-(1e8 - 1), 1e8]]);
+  });
+
+  it('gives [[1e6, 1e6+1], [1e6-1, 1e6]] det 1, and the 2 by 2 step says = 1', () => {
+    expect(determinant([[1e6, 1e6 + 1], [1e6 - 1, 1e6]])).toBe(1);
+    const r = runMath('matrix', { operation: 'determinant', a: '1000000 1000001\n999999 1000000' });
+    expect(r.hero?.value).toBe('1');
+    expect(r.explanation).toBe('1000000×1000000 - 1000001×999999 = 1.');
+  });
+
+  it('shows an exact determinant past 2^53 in full digits', () => {
+    // (1e9 + 7)(1e9 + 9) = 1000000016000000063, which a double rounds to ...6000000000.
+    const r = runMath('matrix', { operation: 'determinant', a: '1000000007 0\n0 1000000009' });
+    expect(r.hero?.value).toBe('1000000016000000063');
+  });
+
+  it('keeps the shear [[1, 1e12], [0, 1]] and its inverse', () => {
+    expect(determinant([[1, 1e12], [0, 1]])).toBe(1);
+    expect(inverse([[1, 1e12], [0, 1]])).toEqual([[1, -1e12], [0, 1]]);
+  });
+
+  // Independent reference: Gaussian elimination over exact fractions (BigInt numerator and
+  // denominator), not Bareiss.
+  type Frac = [bigint, bigint];
+  const gcd = (x: bigint, y: bigint): bigint => {
+    let a = x < 0n ? -x : x;
+    let b = y < 0n ? -y : y;
+    while (b) [a, b] = [b, a % b];
+    return a;
+  };
+  const norm = ([p, q]: Frac): Frac => {
+    if (q < 0n) [p, q] = [-p, -q];
+    const g = gcd(p, q) || 1n;
+    return [p / g, q / g];
+  };
+  const sub = (a: Frac, b: Frac): Frac => norm([a[0] * b[1] - b[0] * a[1], a[1] * b[1]]);
+  const mul = (a: Frac, b: Frac): Frac => norm([a[0] * b[0], a[1] * b[1]]);
+  const div = (a: Frac, b: Frac): Frac => norm([a[0] * b[1], a[1] * b[0]]);
+  const reference = (m: number[][]): { det: bigint; inv: Frac[][] | null } => {
+    const n = m.length;
+    const a: Frac[][] = m.map((row, i) => [
+      ...row.map((v): Frac => [BigInt(v), 1n]),
+      ...row.map((_, j): Frac => [i === j ? 1n : 0n, 1n]),
+    ]);
+    let det: Frac = [1n, 1n];
+    for (let k = 0; k < n; k++) {
+      const p = a.findIndex((row, r) => r >= k && row[k]![0] !== 0n);
+      if (p < 0) return { det: 0n, inv: null };
+      if (p !== k) {
+        [a[k], a[p]] = [a[p]!, a[k]!];
+        det = [-det[0], det[1]];
+      }
+      const pivot = a[k]![k]!;
+      det = mul(det, pivot);
+      a[k] = a[k]!.map((v) => div(v, pivot));
+      for (let r = 0; r < n; r++) {
+        if (r === k) continue;
+        const f = a[r]![k]!;
+        a[r] = a[r]!.map((v, c) => sub(v, mul(f, a[k]![c]!)));
+      }
+    }
+    return { det: det[0] / det[1], inv: a.map((row) => row.slice(n)) };
+  };
+  const cofactor = (m: bigint[][]): bigint =>
+    m.length === 1
+      ? m[0]![0]!
+      : m[0]!.reduce(
+          (sum, v, j) =>
+            sum + (j % 2 ? -1n : 1n) * v * cofactor(m.slice(1).map((row) => row.filter((_, c) => c !== j))),
+          0n,
+        );
+
+  it('agrees with an exact reference on random integer matrices, singular ones included', () => {
+    let seed = 20261005;
+    const rand = () => {
+      seed = (seed * 1103515245 + 12345) % 2147483648;
+      return seed / 2147483648;
+    };
+    const int = (lo: number, hi: number) => lo + Math.floor(rand() * (hi - lo + 1));
+    let singular = 0;
+    for (let t = 0; t < 600; t++) {
+      const n = int(1, 8);
+      const size = [3, 9, 100, 1000][t % 4]!;
+      const m = Array.from({ length: n }, () => Array.from({ length: n }, () => int(-size, size)));
+      if (n > 1 && t % 3 === 0) {
+        // Make it singular: one row becomes a combination of two others (or of one, n = 2).
+        const target = int(0, n - 1);
+        const i = (target + 1) % n;
+        const j = (target + 2) % n;
+        const ci = int(-3, 3);
+        const cj = n > 2 ? int(-3, 3) : 0;
+        m[target] = m[i]!.map((v, c) => ci * v + cj * m[j]![c]!);
+      }
+      const ref = reference(m);
+      if (n <= 5) expect(cofactor(m.map((row) => row.map(BigInt)))).toBe(ref.det);
+      const det = determinant(m);
+      const inv = inverse(m);
+      const label = JSON.stringify(m);
+      expect(det, label).toBe(Number(ref.det));
+      expect(det === 0, label).toBe(inv === SINGULAR_TEXT);
+      if (ref.det === 0n) {
+        singular += 1;
+        continue;
+      }
+      const got = inv as number[][];
+      ref.inv!.forEach((row, i) =>
+        row.forEach(([p, q], j) => {
+          const want = Number(p) / Number(q);
+          expect(Math.abs(got[i]![j]! - want), `${label} [${i}][${j}]`).toBeLessThanOrEqual(1e-11 * Math.abs(want));
+        }),
+      );
+    }
+    expect(singular).toBeGreaterThan(150);
+  });
+});
+
 describe('matrix tidy', () => {
   it.each([
     [12345.0001, 12345.0001],
