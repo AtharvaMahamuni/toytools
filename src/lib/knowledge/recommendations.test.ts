@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { buildGraph } from './graph';
-import { buildKnowledgeMap } from './registry';
+import { buildGraph, graph as liveGraph } from './graph';
+import { buildKnowledgeMap, KNOWLEDGE } from './registry';
 import { makeKnowledge } from './fixtures';
 import { getRecommendations } from './recommendations';
 import type { Category, Knowledge } from './types';
@@ -99,5 +99,36 @@ describe('getRecommendations', () => {
     ]);
     const next = getRecommendations('base64', 2, buildGraph(tools, categories, kn)).find(b => b.key === 'next-steps');
     expect(next?.items.map(i => i.node.slug)).toEqual(['json-validator', 'json-minifier']);
+  });
+});
+
+// Live catalog (SEO GEO audit item 20): cross-block dedupe floors.
+// Before, 121 of 172 guides repeated a target across You May Also Need blocks.
+describe('live catalog — You May Also Need dedupe (item 20)', () => {
+  it('never repeats a target across usedWith, nextSteps, and alternatives on any tool', () => {
+    const offenders: string[] = [];
+    for (const slug of KNOWLEDGE.keys()) {
+      const blocks = getRecommendations(slug, 4, liveGraph);
+      const seen = new Set<string>();
+      for (const b of blocks) {
+        for (const item of b.items) {
+          if (seen.has(item.node.slug)) offenders.push(`${slug}:${b.key}:${item.node.slug}`);
+          seen.add(item.node.slug);
+        }
+      }
+    }
+    expect(offenders).toEqual([]);
+  });
+
+  it('is deterministic for a sample of tools with overlay relationships', () => {
+    const withOverlay = [...KNOWLEDGE.keys()].filter(slug => {
+      const kn = KNOWLEDGE.get(slug)!;
+      return (kn.usedWith?.length ?? 0) + (kn.nextSteps?.length ?? 0) + (kn.alternatives?.length ?? 0) > 0;
+    });
+    expect(withOverlay.length).toBeGreaterThan(50);
+    const sample = withOverlay.filter((_, i) => i % 11 === 0);
+    const first = sample.map(s => getRecommendations(s, 4, liveGraph).map(b => [b.key, b.items.map(i => i.node.slug)]));
+    const second = sample.map(s => getRecommendations(s, 4, liveGraph).map(b => [b.key, b.items.map(i => i.node.slug)]));
+    expect(second).toEqual(first);
   });
 });
