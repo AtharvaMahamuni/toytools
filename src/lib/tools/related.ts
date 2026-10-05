@@ -17,6 +17,49 @@ import type { ToolConfig } from '@data/types';
  */
 const CROSS_FAMILY_SLOTS = 1;
 
+/** Each tool's position in the registry list the caller passed, by slug. */
+type RegistryOrder = ReadonlyMap<string, number>;
+
+function registryOrder(allTools: ToolConfig[]): RegistryOrder {
+  return new Map(allTools.map((t, i) => [t.slug, i]));
+}
+
+/**
+ * The order of one tier: same-category candidates first, and each of the two halves rotated so it
+ * starts at the first candidate AFTER the current tool in registry order, wrapping round to the
+ * start (SEO GEO audit 2026-10-05, item 19).
+ *
+ * Why. Every tier used to keep plain registry order and the callers slice the front of it, so the
+ * first few tools of a large tier (alphabetically early slugs, plus the simulations, which come
+ * first in the registry) filled every sibling's related rows, and the rest of the tier was never
+ * linked from anywhere (the audit, measured on 8431902: 13 guides with no peer inbound link, 28
+ * ungrouped tools in no related row). Starting each tool's list just after itself spreads the
+ * slots across the whole tier, and each tool links its nearest registry neighbours, so every tier
+ * member is reached by the tools just before it.
+ *
+ * Same category first because a tier is defined by engine, pattern or family, and those cross
+ * categories (the `encoding` engine holds developer encoders and number converters alike). Inside
+ * one tier, a sibling from the same category is the closer neighbour.
+ *
+ * Deterministic by construction: the only inputs are the registry order (a generated, slug-sorted
+ * list after the static simulation manifest list) and the current tool, so the same commit always
+ * renders the same rows. No randomness, no dates, no build-machine state.
+ *
+ * Membership of every tier is unchanged; only the order inside it moves. Tier order is unchanged.
+ */
+function orderTier(currentTool: ToolConfig, tier: ToolConfig[], order: RegistryOrder): ToolConfig[] {
+  const pivot = order.get(currentTool.slug) ?? -1;
+  const indexOf = (t: ToolConfig) => order.get(t.slug) ?? Number.MAX_SAFE_INTEGER;
+  const rotate = (list: ToolConfig[]): ToolConfig[] => {
+    const sorted = [...list].sort((a, b) => indexOf(a) - indexOf(b));
+    const start = sorted.findIndex(t => indexOf(t) > pivot);
+    return start <= 0 ? sorted : [...sorted.slice(start), ...sorted.slice(0, start)];
+  };
+  const sameCategory = tier.filter(t => t.categorySlug === currentTool.categorySlug);
+  const otherCategory = tier.filter(t => t.categorySlug !== currentTool.categorySlug);
+  return [...rotate(sameCategory), ...rotate(otherCategory)];
+}
+
 /**
  * The 4-tier cascade, best first: same pattern+engine, same engine, same family, same category.
  *
@@ -28,15 +71,20 @@ const CROSS_FAMILY_SLOTS = 1;
  * 5,000 tools, and the graph build plus the two per-page callers run that pass four times. Set
  * membership makes the exclusion O(1) and the whole cascade linear in the catalog.
  *
- * Tier order and membership are unchanged; this is a pure performance refactor.
+ * Tier order and membership are unchanged by the Set refactor. What changes inside a tier is the
+ * ORDER, through `orderTier` below (2026-10-05, SEO GEO audit item 19).
  */
-function rankCandidates(currentTool: ToolConfig, allTools: ToolConfig[]): ToolConfig[] {
+function rankCandidates(
+  currentTool: ToolConfig,
+  allTools: ToolConfig[],
+  order: RegistryOrder = registryOrder(allTools),
+): ToolConfig[] {
   const others = allTools.filter(t => t.slug !== currentTool.slug);
   const claimed = new Set<string>();
 
   const claim = (tier: ToolConfig[]): ToolConfig[] => {
     for (const t of tier) claimed.add(t.slug);
-    return tier;
+    return orderTier(currentTool, tier, order);
   };
 
   const tier1 = claim(others.filter(
@@ -61,11 +109,11 @@ function rankCandidates(currentTool: ToolConfig, allTools: ToolConfig[]): ToolCo
       !claimed.has(t.slug),
   ));
 
-  const tier4 = others.filter(
+  const tier4 = orderTier(currentTool, others.filter(
     t =>
       t.categorySlug === currentTool.categorySlug &&
       !claimed.has(t.slug),
-  );
+  ), order);
 
   return [...tier1, ...tier2, ...tier3, ...tier4];
 }
@@ -82,7 +130,16 @@ export function getRelatedTools(
   allTools: ToolConfig[],
   max = 6,
 ): ToolConfig[] {
-  const ranked = rankCandidates(currentTool, allTools);
+  return relatedFrom(currentTool, allTools, max, registryOrder(allTools));
+}
+
+function relatedFrom(
+  currentTool: ToolConfig,
+  allTools: ToolConfig[],
+  max: number,
+  order: RegistryOrder,
+): ToolConfig[] {
+  const ranked = rankCandidates(currentTool, allTools, order);
   if (ranked.length === 0) return curated(currentTool, allTools, max);
   const natural = ranked.slice(0, max);
   if (!currentTool.family || natural.length < 2) return natural;
@@ -152,5 +209,7 @@ export function getRelatedGuides(
   allTools: ToolConfig[],
   max = 6,
 ): ToolConfig[] {
-  return getRelatedTools(currentTool, allTools.filter(t => t.guide !== undefined), max);
+  // Rotate by the position in the FULL list, so a tool without a guide still pivots at its own
+  // place in the registry instead of falling back to the start of the guide-only list.
+  return relatedFrom(currentTool, allTools.filter(t => t.guide !== undefined), max, registryOrder(allTools));
 }
