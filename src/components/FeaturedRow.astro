@@ -66,6 +66,16 @@ const featured = tools
         </li>
       ))}
     </ul>
+    {/*
+      Notes for the inline script below. They live here, not in the script, so the home page does
+      not ship them (an is:inline script is sent as written).
+      - The toggle label names the action, Pause or Play (the WAI-ARIA carousel pattern), so the
+        button carries no aria-pressed: a pressed state on a label that flips reads twice.
+      - Hover pauses only for a real mouse. A tap on a phone fires mouseenter and never
+        mouseleave, so counting it left the row paused forever after Play.
+      - Any touch, wheel, key or scroll on the row pauses it, as the Pause button does. Play on the
+        toggle starts it again.
+    */}
     <script is:inline>
       (function () {
         var root = document.querySelector('[data-featured]');
@@ -122,8 +132,6 @@ const featured = tools
           timer = 0;
         }
 
-        // The label names the action, Pause or Play (the WAI-ARIA carousel pattern), so the
-        // button carries no aria-pressed: a pressed state on a label that flips reads twice.
         function setPaused(value) {
           paused = value;
           if (toggle) toggle.setAttribute('data-paused', paused ? 'true' : 'false');
@@ -140,8 +148,6 @@ const featured = tools
           }
         }
 
-        // Hover pauses only for a real mouse. A tap on a phone fires mouseenter and never
-        // mouseleave, so counting it left the row paused forever after Play.
         root.addEventListener('pointerenter', function (event) {
           if (event.pointerType !== 'mouse') return;
           hover = true;
@@ -152,7 +158,6 @@ const featured = tools
           hover = false;
           sync();
         });
-        // Any hand on the row stops autoplay for good. Play on the toggle is the only way back.
         function takeOver(event) {
           if (toggle && toggle.contains(event.target)) return;
           if (!paused) setPaused(true);
