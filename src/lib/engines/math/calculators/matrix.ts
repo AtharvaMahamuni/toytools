@@ -154,7 +154,10 @@ export function inverse(m: Matrix): Matrix | string {
   if (m.length !== m[0].length) return `A is ${shapeOf(m)}. Inverse needs a square matrix.`;
   const SINGULAR = 'The determinant is 0, so this matrix has no inverse.';
   // Inverse and Determinant must never disagree, so the determinant decides first.
-  if (determinant(m) === 0) return SINGULAR;
+  const det = determinant(m);
+  if (det === 0) return SINGULAR;
+  // An integer matrix with determinant ±1 (Pascal 8) has an integer inverse.
+  const exact = isIntegerMatrix(m) && Math.abs(det as number) === 1 ? nearInteger : tidy;
   const n = m.length;
   const rows = rowScales(m);
   const a = m.map((row, i) => {
@@ -182,12 +185,13 @@ export function inverse(m: Matrix): Matrix | string {
       for (let c = 0; c < n * 2; c++) a[r][c] -= factor * a[col][c];
     }
   }
-  // Tidy each entry against its own row of the inverse, so the 1e-160 in the inverse of
-  // diag(1e160, 1) is not snapped to 0 by the 1 in the other row.
+  // Zero an entry only when it is rounding-sized next to its own row of the inverse (the same
+  // n·ε·16 bound as the pivot test), so the 1e-160 in the inverse of diag(1e160, 1) survives and the
+  // 1 in the wide row [1, -1e12] of the inverse of [[1, 1e12], [0, 1]] is not wiped.
   const inv = a.map((row) => row.slice(n));
   return inv.map((row) => {
     const rowScale = row.reduce((max, v) => Math.max(max, Math.abs(v)), 0);
-    return row.map((v) => tidy(v, rowScale));
+    return row.map((v) => (Math.abs(v) <= n * Number.EPSILON * 16 * rowScale ? 0 : exact(v)));
   });
 }
 

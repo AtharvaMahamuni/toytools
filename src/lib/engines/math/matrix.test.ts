@@ -71,6 +71,8 @@ describe('matrix singularity', () => {
   it('gives Pascal 7 and Pascal 8 their determinant of 1, with an inverse', () => {
     expect(determinant(pascal(8))).toBe(1);
     expect(Array.isArray(inverse(pascal(8)))).toBe(true);
+    // det 1 and integer entries, so the inverse is an integer matrix too.
+    expect((inverse(pascal(8)) as number[][])[0]).toEqual([8, -28, 56, -70, 56, -28, 8, -1]);
     expect(determinant(pascal(7))).toBe(1);
   });
 
@@ -91,6 +93,16 @@ describe('matrix singularity', () => {
     expect(Array.isArray(inverse(hilbert(7)))).toBe(true);
     expect(Math.abs((determinant(hilbert(6)) as number) * 186313420339200000 - 1)).toBeLessThan(1e-6);
     expect(Math.abs((determinant(hilbert(7)) as number) * 2067909047925770649600000 - 1)).toBeLessThan(1e-3);
+  });
+
+  it('keeps the small real entries of a wide inverse row (fix round 2)', () => {
+    // The inverse row [1, -1e12] spans 1e12, and a 1e-12 relative snap used to wipe its 1.
+    expect(inverse([[1, 1e12], [0, 1]])).toEqual([[1, -1e12], [0, 1]]);
+    const wide = inverse([[1e-13, 1e-13], [1, 2]]) as number[][];
+    expect(wide[0][1]).toBeCloseTo(-1, 2);
+    expect(wide[1][1]).toBeCloseTo(1, 2);
+    expect(wide[0][0] / 2e13).toBeCloseTo(1, 2);
+    expect(wide[1][0] / -1e13).toBeCloseTo(1, 2);
   });
 
   it('still calls singular input singular after dropping the determinant snap', () => {
