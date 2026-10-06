@@ -92,6 +92,9 @@
 //   - whether a tool may use this at all is decided at BUILD time (src/lib/url-state.ts) from
 //   its engine/pattern and arrives as data-url-state on the widget. Nothing here can opt a
 //   JWT decoder or a hash generator in, and the health tools are explicit-action only.
+//   - private pages never auto-sync: toolUrlStateMode turns auto into manual there at build time,
+//   and write() is a no-op on a data-ephemeral page as a second guard. build() and share() (Copy
+//   link) and read() (an incoming link fills the form) still work.
 //
 // isTyping:
 //   ── Global keyboard shortcuts ─────────────────────────────────────────
@@ -598,6 +601,7 @@
     },
     /** Debounced replaceState. Auto-sync tools only; never call this from a manual-mode tool. */
     write: function (values) {
+      if (eph) return;
       clearTimeout(_urlTimer);
       _urlTimer = setTimeout(function () {
         var url = TT.url.build(values);

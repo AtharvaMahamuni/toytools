@@ -14,7 +14,8 @@
  *   manual — the input is personal (body metrics) or arbitrary pasted content. The page never
  *            touches location on its own; a link is built only when someone asks for one.
  *   auto   — short, structured, impersonal values (amounts, rates, dates, units). Synced to the
- *            URL as they change, so reload and back both do the obvious thing.
+ *            URL as they change, so reload and back both do the obvious thing. Only on pages
+ *            that are not private: see toolUrlStateMode, which every widget uses.
  */
 
 import { SENSITIVE_ENGINES, SENSITIVE_PATTERNS } from './feedback/config';
@@ -44,6 +45,18 @@ export function urlStateMode(engine?: string, pattern?: string): UrlStateMode {
   if (engine && MANUAL_URL_ENGINES.includes(engine)) return 'manual';
   if (pattern && MANUAL_URL_PATTERNS.includes(pattern)) return 'manual';
   return 'auto';
+}
+
+/**
+ * The mode a tool page actually uses. A private tool (trust variant `private`, the default, whose
+ * notice says "Nothing stored unless you choose to save it") never auto-syncs: the address bar is
+ * browser history, and a reload would refill what was typed. So `auto` becomes `manual` there:
+ * incoming links still fill the form and Copy link still builds one, but the page never writes to
+ * location by itself. `off` stays off.
+ */
+export function toolUrlStateMode(tool: { engine?: string; pattern?: string; trustVariant?: string }): UrlStateMode {
+  const mode = urlStateMode(tool.engine, tool.pattern);
+  return mode === 'auto' && (tool.trustVariant ?? 'private') === 'private' ? 'manual' : mode;
 }
 
 /** Whether a shareable link may be offered at all (true for auto and manual, false for off). */

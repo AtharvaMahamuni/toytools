@@ -6,7 +6,7 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { Window } from 'happy-dom';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const source = readFileSync(path.resolve(__dirname, '../../components/ToyToolsRuntime.astro'), 'utf8');
 const inline = /<script is:inline>([\s\S]*?)<\/script>/.exec(source)?.[1] ?? '';
@@ -17,6 +17,7 @@ interface Runtime {
     save(id: string, data: unknown, keep?: string[]): boolean;
     load(id: string, keep?: string[]): Record<string, unknown> | null;
   };
+  url: { write(values: Record<string, string>): void };
   history: {
     get(key: string): { input: string }[];
     push(key: string, item: { input: string }): { input: string }[];
@@ -210,5 +211,24 @@ describe('group hand-off (text follows a switcher pill, never storage)', () => {
     page!.name = 'tt:{broken';
     expect(() => boot(true)).not.toThrow();
     expect(name()).toBe('');
+  });
+});
+
+describe('ToyTools.url.write (auto URL sync)', () => {
+  beforeEach(() => { vi.useFakeTimers(); history.replaceState(null, '', '/tool/x/'); });
+  afterEach(() => { vi.useRealTimers(); history.replaceState(null, '', '/'); });
+
+  it('never writes typed values into the address bar on a private page', () => {
+    const TT = boot(true);
+    TT.url.write({ birthDate: '2000-01-31' });
+    vi.advanceTimersByTime(1000);
+    expect(location.search).toBe('');
+  });
+
+  it('still syncs on a page that is not private', () => {
+    const TT = boot(false);
+    TT.url.write({ principal: '5000' });
+    vi.advanceTimersByTime(1000);
+    expect(location.search).toBe('?principal=5000');
   });
 });

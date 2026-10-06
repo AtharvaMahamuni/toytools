@@ -70,30 +70,59 @@ test.describe('typed input is gone after a reload', () => {
     await expect(page.locator('#sha256-hash-generator-history li')).toHaveCount(0);
   });
 
-  test('age: a date of birth is not refilled on a fresh visit', async ({ page }) => {
+  test('age: a date of birth is gone after a reload, and never reaches the address bar', async ({ page }) => {
     const url = '/tool/datetime/age-calculator/';
     await page.goto(url);
     const birth = page.locator('#age-calculator-f-birthDate');
     await birth.fill('2000-01-31');
     await expect(page.locator('#age-calculator-hero')).toContainText('years');
+    await page.waitForTimeout(600); // longer than the 300ms URL-write debounce
+    expect(new URL(page.url()).search).toBe('');
     expect(await storedText(page)).not.toContain('2000-01-31');
 
-    // The bug log's repro: open the bare URL again. (A shared link carries its own values in the
-    // query string, which is the user's choice, so a reload of that link may refill them.)
-    await page.goto(url);
+    await page.reload();
     await expect(birth).toHaveValue('');
+    expect(new URL(page.url()).search).toBe('');
   });
 
-  test('date difference: dates are not refilled on a fresh visit', async ({ page }) => {
+  test('age: an incoming link still fills the form', async ({ page }) => {
+    await page.goto('/tool/datetime/age-calculator/?birthDate=1990-05-15&asOf=2026-07-08');
+    await expect(page.locator('#age-calculator-f-birthDate')).toHaveValue('1990-05-15');
+    await expect(page.locator('#age-calculator-hero')).toContainText('36 years');
+  });
+
+  test('date difference: dates are gone after a reload, and never reach the address bar', async ({ page }) => {
     const url = '/tool/datetime/date-difference-calculator/';
     await page.goto(url);
     await page.locator('#date-difference-calculator-f-startDate').fill('2026-01-01');
     await page.locator('#date-difference-calculator-f-endDate').fill('2026-07-08');
+    await page.waitForTimeout(600);
+    expect(new URL(page.url()).search).toBe('');
     expect(await storedText(page)).not.toMatch(/2026-01-01|2026-07-08/);
-    await page.goto(url);
+
+    await page.reload();
     await expect(page.locator('#date-difference-calculator-f-startDate')).toHaveValue('');
     await expect(page.locator('#date-difference-calculator-f-endDate')).toHaveValue('');
+    expect(new URL(page.url()).search).toBe('');
   });
+
+  // The other shared widgets that used to auto-sync: Math, Network and EQ (the preset name).
+  for (const [path, field, value] of [
+    ['/tool/math/fraction-calculator/', 'input[data-field-id]:visible >> nth=0', '7'],
+    ['/tool/developer-utilities/cidr-calculator/', 'input[data-field-id]:visible >> nth=0', '10.1.2.0/24'],
+    ['/tool/music/equalizer-settings-generator/', '#equalizer-settings-generator-name', 'My Car Preset'],
+  ] as const) {
+    test(`${path}: typing writes no query, reload does not refill`, async ({ page }) => {
+      await page.goto(path);
+      const el = page.locator(field);
+      const before = await el.inputValue();
+      await el.fill(value);
+      await page.waitForTimeout(600);
+      expect(new URL(page.url()).search).toBe('');
+      await page.reload();
+      await expect(page.locator(field)).toHaveValue(before);
+    });
+  }
 
   test('qr Wi-Fi: SSID and password are never stored, the options are', async ({ page }) => {
     const errors = guardConsole(page);

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { urlStateMode, allowsUrlState, autoSyncsUrlState } from './url-state';
+import { urlStateMode, allowsUrlState, autoSyncsUrlState, toolUrlStateMode } from './url-state';
 import { tools } from '@data/registry';
 
 describe('urlStateMode', () => {
@@ -29,6 +29,21 @@ describe('urlStateMode', () => {
 
   it('defaults to auto when a tool declares no engine metadata', () =>
     expect(urlStateMode()).toBe('auto'));
+});
+
+describe('toolUrlStateMode', () => {
+  it('turns auto into manual on a private page, including the default variant', () => {
+    expect(toolUrlStateMode({ engine: 'finance', pattern: 'finance-growth' })).toBe('manual');
+    expect(toolUrlStateMode({ engine: 'datetime', trustVariant: 'private' })).toBe('manual');
+  });
+
+  it('leaves other variants and the off and manual modes alone', () => {
+    expect(toolUrlStateMode({ engine: 'finance', trustVariant: 'local' })).toBe('auto');
+    expect(toolUrlStateMode({ engine: 'math', trustVariant: 'offline' })).toBe('auto');
+    expect(toolUrlStateMode({ engine: 'jwt', trustVariant: 'private' })).toBe('off');
+    expect(toolUrlStateMode({ engine: 'jwt', trustVariant: 'local' })).toBe('off');
+    expect(toolUrlStateMode({ engine: 'wellness', trustVariant: 'local' })).toBe('manual');
+  });
 });
 
 describe('allowsUrlState / autoSyncsUrlState', () => {
@@ -67,11 +82,30 @@ describe('the live catalog', () => {
     }
   });
 
-  it('auto-syncs the money and date calculators people actually share', () => {
+  it('classes the money and date calculators as shareable', () => {
     expect(modeOf('compound-interest-calculator')).toBe('auto');
     expect(modeOf('sip-calculator')).toBe('auto');
     expect(modeOf('discount-calculator')).toBe('auto');
     expect(modeOf('date-difference-calculator')).toBe('auto');
+  });
+
+  // beta-v12.4.2: a private page ("Nothing stored unless you choose to save it") never writes what
+  // was typed into the address bar, where a reload would refill it. Copy link stays.
+  it('never auto-syncs a private tool page; shareable ones become explicit Copy link', () => {
+    const autoPrivate: string[] = [];
+    for (const tool of tools) {
+      const mode = toolUrlStateMode(tool);
+      if ((tool.trustVariant ?? 'private') === 'private') {
+        expect(mode, `${tool.slug} is private`).not.toBe('auto');
+        if (urlStateMode(tool.engine, tool.pattern) === 'auto' && mode === 'manual') autoPrivate.push(tool.slug);
+      } else {
+        expect(mode).toBe(urlStateMode(tool.engine, tool.pattern));
+      }
+    }
+    for (const slug of ['age-calculator', 'date-difference-calculator', 'sip-calculator', 'cidr-calculator',
+      'matrix-calculator', 'equalizer-settings-generator', 'unix-timestamp-converter']) {
+      expect(autoPrivate, slug).toContain(slug);
+    }
   });
 
   it('keeps every health tool on an explicit action', () => {

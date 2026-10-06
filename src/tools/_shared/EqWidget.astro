@@ -11,7 +11,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 import CraftNote from '@tools/_shared/CraftNote.astro';
 import { eqDefinition } from '@lib/engines/audio/registry';
 import { curvePath, EQ_VIEW } from '@lib/engines/audio/curve';
-import { urlStateMode } from '@lib/url-state';
+import { toolUrlStateMode } from '@lib/url-state';
 import type { ToolConfig } from '@data/types';
 
 interface Props {
@@ -23,7 +23,7 @@ interface Props {
 
 const { slug, eqId, config } = Astro.props;
 const def = eqDefinition(eqId);
-const urlMode = urlStateMode(config.engine, config.pattern);
+const urlMode = toolUrlStateMode(config);
 
 // The page opens flat, which is the only honest starting point: it is the reader's player
 // untouched, so the first preset they load is a change they can actually hear the shape of.

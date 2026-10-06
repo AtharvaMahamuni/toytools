@@ -17,7 +17,7 @@ import { getFinanceCalculator } from '@lib/engines/finance/registry';
 import { financeExamplesFor } from '@lib/engines/finance/examples';
 import { SUPPORTED_CURRENCIES, groupingFor } from '@lib/inputs/currency';
 import { DEFAULT_CAPABILITIES } from '@lib/results/types';
-import { urlStateMode } from '@lib/url-state';
+import { toolUrlStateMode } from '@lib/url-state';
 import type { ToolConfig } from '@data/types';
 
 interface Props {
@@ -41,9 +41,10 @@ const defaults = Object.fromEntries(fields.map((f) => [f.id, f.default]));
 const resolvedEmpty = emptyText ?? 'Enter your values to calculate, visualize milestones, and see what happens over time.';
 
 // "A shareable link to this calculation" is the most requested thing an online calculator does, and
-// finance inputs are impersonal amounts, so these auto-sync. The mode is decided at build time from
-// the registry, never here: see src/lib/url-state.ts.
-const urlMode = urlStateMode(config.engine, config.pattern);
+// finance inputs are impersonal amounts, so these are shareable. On a private page (all of them
+// today) that means an explicit Copy link, never an automatic address-bar write: see
+// toolUrlStateMode in src/lib/url-state.ts.
+const urlMode = toolUrlStateMode(config);
 
 // Per-currency client metadata: tentative magnitude factor + the locale that drives grouping (Indian
 // for INR). The widget scales default amounts/presets to the active currency and formats chip labels
@@ -300,8 +301,8 @@ const currencyMeta = Object.fromEntries(
 
     // ── Shareable link ────────────────────────────────────────────────────────
     // urlMode is decided at build time from the tool's engine/pattern (src/lib/url-state.ts) and
-    // arrives as an attribute; the client cannot widen it. Finance tools are "auto", so the
-    // address bar follows the inputs and a reload or a shared link reproduces the calculation.
+    // arrives as an attribute; the client cannot widen it. On a private page it is "manual": a
+    // shared link fills the form, Copy link builds one, nothing is written on its own.
     var urlMode = root.getAttribute('data-url-state') || 'off';
 
     /** Absolute field values (raw, unformatted) plus the display currency. */

@@ -13,7 +13,7 @@ import ExperienceRenderer from '@components/experience/ExperienceRenderer.astro'
 import { getMathCalculator } from '@lib/engines/math/registry';
 import { mathExamplesFor } from '@lib/engines/math/examples';
 import { DEFAULT_CAPABILITIES } from '@lib/results/types';
-import { urlStateMode } from '@lib/url-state';
+import { toolUrlStateMode } from '@lib/url-state';
 import type { ToolConfig } from '@data/types';
 
 interface Props {
@@ -29,7 +29,7 @@ const { slug, mathId, config, emptyText, craftOn = 'visualization' } = Astro.pro
 
 // Shareable-link mode, decided at build time from the registry (src/lib/url-state.ts).
 // "auto" syncs the address bar as you type; "manual" only builds a link when asked.
-const urlMode = urlStateMode(config.engine, config.pattern);
+const urlMode = toolUrlStateMode(config);
 const tool = getMathCalculator(mathId);
 const fields = tool?.fields ?? [];
 const splitRatio = fields.length <= 2 ? '1-1' : '3-2';
