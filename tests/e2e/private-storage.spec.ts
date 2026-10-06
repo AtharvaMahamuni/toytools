@@ -3,6 +3,10 @@
 // conversions in memory for the page view only, and still remembers its options. Visitors whose
 // browser holds input an older build saved get it removed once, on their next page load.
 //
+// The exception is the work-in-progress tools flagged keepInput (JSON, CSV, regex, find and
+// replace, text compare): their notice says "Your input stays on this device (never uploaded)",
+// a reload restores the input, Clear saved input wipes it, and the cleanup leaves their keys.
+//
 // The policy itself is unit tested against the inline runtime (src/lib/privacy/*.test.ts); this
 // proves it end to end through the real widgets, on desktop and Pixel 5.
 import { test, expect, type Page } from '@playwright/test';
@@ -200,7 +204,7 @@ test.describe('grouped tools', () => {
 });
 
 test.describe('JSON tools group', () => {
-  test('Tree View receives and passes text through the pills, and forgets it on reload', async ({ page }) => {
+  test('Tree View receives and passes text through the pills, and keeps it on this device', async ({ page }) => {
     const json = '{"carry":"tree-view-check","n":1}';
     await page.goto('/tool/developer-utilities/json-formatter/');
     await page.locator('#json-formatter-input').fill(json);
@@ -219,24 +223,64 @@ test.describe('JSON tools group', () => {
     await nav.getByRole('link', { name: 'Format' }).click();
     await expect(page).toHaveURL(/\/json-formatter\/$/);
     await expect(page.locator('#json-formatter-input')).toHaveValue(edited);
-    expect(await storedText(page)).not.toMatch(/tree-view-check|edited-in-tree/);
+    // JSON tools are keep-input tools: the group text is saved on this device.
+    await expect.poll(() => storedText(page)).toContain('edited-in-tree');
 
     await nav.getByRole('link', { name: 'Tree View' }).click();
     await page.reload();
-    await expect(page.locator('#json-tree-viewer-input')).toHaveValue('');
+    if (await inputTab.isVisible()) await inputTab.click();
+    await expect(page.locator('#json-tree-viewer-input')).toHaveValue(edited);
+  });
+});
+
+test.describe('work-in-progress tools keep typed input (keepInput)', () => {
+  test('JSON formatter: a reload restores the input, Clear saved input wipes it', async ({ page }) => {
+    const json = '{"wip":"keep-me-on-device"}';
+    await page.goto('/tool/developer-utilities/json-formatter/');
+    await expect(page.locator('.tool-signature .trust-tooltip')).toContainText('Your input stays on this device (never uploaded).');
+    await expect(page.locator('.tool-signature .trust-tooltip')).not.toContainText('Nothing stored');
+    const input = page.locator('#json-formatter-input');
+    await input.fill(json);
+    await expect.poll(() => storedText(page)).toContain('keep-me-on-device');
+    await page.reload();
+    await expect(input).toHaveValue(json);
+
+    const clear = page.getByRole('button', { name: 'Clear saved input' });
+    await expect(clear).toBeVisible();
+    await Promise.all([page.waitForEvent('load'), clear.click()]);
+    await expect(input).toHaveValue('');
+    expect(await page.evaluate(() => localStorage.getItem('toytools:group:json-tools'))).toBeNull();
+    expect(await storedText(page)).not.toContain('keep-me-on-device');
+    await page.reload();
+    await expect(input).toHaveValue('');
+  });
+
+  test('regex tester: a reload restores the pattern and test text', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/regex-tester/');
+    await page.locator('#rt-pattern').fill('wip-\\d+');
+    await page.locator('#rt-text').fill('wip-42 and wip-7');
+    await expect.poll(() => storedText(page)).toContain('wip-42 and wip-7');
+    await page.reload();
+    await expect(page.locator('#rt-pattern')).toHaveValue('wip-\\d+');
+    await expect(page.locator('#rt-text')).toHaveValue('wip-42 and wip-7');
+  });
+
+  test('a quick converter beside them still keeps nothing', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/json-escape/');
+    await expect(page.locator('.tool-signature .trust-tooltip')).toContainText('Nothing stored unless you choose to save it.');
+    await expect(page.getByRole('button', { name: 'Clear saved input' })).toHaveCount(0);
   });
 });
 
 test.describe('options still persist', () => {
-  test('regex tester keeps only real flag letters, never the pattern or text', async ({ page }) => {
+  test('regex tester keeps only real flag letters in its flags setting', async ({ page }) => {
     await page.goto('/tool/developer-utilities/regex-tester/');
-    await page.locator('#rt-pattern').fill('secret-pattern');
+    await page.locator('#rt-pattern').fill('some-pattern');
     await page.locator('#rt-flags').fill('gzqx1ii');
     await expect.poll(() => storedText(page)).toContain('"flags":"gi"');
-    expect(await storedText(page)).not.toMatch(/secret-pattern|zqx/);
+    expect(await storedText(page)).not.toMatch(/zqx/);
     await page.reload();
     await expect(page.locator('#rt-flags')).toHaveValue('gi');
-    await expect(page.locator('#rt-pattern')).toHaveValue('');
 
     // Only invalid letters: the default g is kept, not an empty setting.
     await page.locator('#rt-pattern').fill('x');
@@ -273,6 +317,7 @@ test.describe('one-time cleanup of what older builds saved', () => {
       localStorage.setItem('toytools:password-generator', env({ options: { length: 30 } }));
       localStorage.setItem('toytools:notepad', env({ text: 'my notes' }));
       localStorage.setItem('toytools:prefs', JSON.stringify({ currency: 'INR' }));
+      localStorage.setItem('toytools:group:json-tools', env({ input: '{"legacy":"saved-json"}' }));
       sessionStorage.setItem('toytools:hist:sha256-hash-generator', JSON.stringify([{ input: 'persist-test-xyz', output: 'x' }]));
       sessionStorage.setItem('pb1-seeded', '1');
     });
@@ -291,7 +336,10 @@ test.describe('one-time cleanup of what older builds saved', () => {
       notepad: localStorage.getItem('toytools:notepad'),
       prefs: localStorage.getItem('toytools:prefs'),
       hist: sessionStorage.getItem('toytools:hist:sha256-hash-generator'),
+      json: localStorage.getItem('toytools:group:json-tools'),
     }));
+    // Keep-input tools are exempt: a returning visitor keeps their saved JSON.
+    expect(JSON.parse(left.json!).data).toEqual({ input: '{"legacy":"saved-json"}' });
     expect(JSON.parse(left.qr!).data).toEqual({ options: { contentType: 'wifi', errorCorrection: 'Q' } });
     expect(JSON.parse(left.base64!).data).toEqual({ mode: 'decode' });
     expect(left.group).toBeNull();
