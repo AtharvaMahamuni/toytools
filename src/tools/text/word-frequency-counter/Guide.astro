@@ -39,10 +39,11 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
   <section id="how-it-works">
     <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      The counter first splits the text into words, a step called tokenization. Words are
-      matched by Unicode letters, so every language works; internal apostrophes and hyphens
-      stay attached, therefore don't and well-known each count once instead of splitting into
-      fragments. Counting is case insensitive: The and the tally together. Each distinct word
+      The counter first splits the text into words, a step called tokenization. A word is
+      anything between spaces or line breaks, the same rule the Word Counter uses, so every
+      language works. Punctuation at either end is trimmed, while internal apostrophes, hyphens
+      and number separators stay attached, therefore don't, well-known and 1,000 each count once
+      instead of splitting into fragments. Counting is case insensitive: The and the tally together. Each distinct word
       then gets a count and a share, its count divided by the total number of words, and the
       table shows the top 50 with a bar for quick visual comparison.
     </p>

@@ -101,8 +101,10 @@ import { config } from './config';
   var currentWords = [];
   var sortMode = 'freq';
 
+  // The same tokenizer as the Words count (ToyTools.wordTokens, src/lib/text/analysis.ts), so Top
+  // Words and Unique Words agree with the headline: "well-known" and "1,000" are one word each.
   function tokenize(text) {
-    return (text.match(/\b[a-zA-Z']+\b/g) || []).map(function (w) { return w.toLowerCase(); });
+    return (window.ToyTools && ToyTools.wordTokens) ? ToyTools.wordTokens(text) : [];
   }
 
   function updateGoal() {
@@ -148,17 +150,21 @@ import { config } from './config';
       var pct = Math.round((entry[1] / maxFreq) * 100);
       html +=
         '<li class="wc-word-row">' +
-        '<span class="wc-word-text">' + entry[0] + '</span>' +
+        '<span class="wc-word-text"></span>' +
         '<span class="wc-word-bar-track"><span class="wc-word-bar" style="width:' + pct + '%"></span></span>' +
         '<span class="wc-word-count">' + entry[1] + '</span>' +
         '</li>';
     });
     topList.innerHTML = html || '<li class="wc-word-empty">No words found.</li>';
+    // Word text via textContent, never innerHTML: tokens keep inner punctuation now, so a pasted
+    // "<b>" stays text.
+    var wordEls = topList.querySelectorAll('.wc-word-text');
+    top.forEach(function (entry, i) { if (wordEls[i]) wordEls[i].textContent = entry[0]; });
   }
 
   function buildInsights(words) {
     if (!words.length) { insightsList.innerHTML = ''; return; }
-    var alpha = words.filter(function (w) { return /^[a-z]+$/.test(w); });
+    var alpha = words.filter(function (w) { return /^[\p{L}\p{M}'’-]+$/u.test(w); });
     var longest = alpha.reduce(function (a, b) { return b.length > a.length ? b : a; }, '');
     var shortest = alpha.reduce(function (a, b) { return b.length < a.length ? b : a; }, alpha[0] || '');
     var freq = {};

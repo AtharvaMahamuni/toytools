@@ -15,6 +15,30 @@ export interface TextAnalysis {
   averageSentenceLength: number;
 }
 
+// Punctuation (or symbols) at either end of a whitespace-separated word. Letters, combining marks
+// and digits are kept, so "dog." and "dog" are one word while "well-known", "don't", "1,000" and
+// "3.14" keep their inner punctuation.
+const EDGE_PUNCTUATION = /^[^\p{L}\p{M}\p{N}]+|[^\p{L}\p{M}\p{N}]+$/gu;
+
+/**
+ * The words of `text`, lowercased, using the SAME rule as the headline Words count: split on
+ * whitespace, so a hyphenated word, a contraction, or a number like 1,000 or 3.14 is one token. Each
+ * piece is then normalized for counting distinct words: punctuation at either end is trimmed and the
+ * case is folded. A piece with no letter or digit at all (a lone dash, "...", an emoji) is not a
+ * word to list, so it is dropped. Every token comes from exactly one counted word, which is why
+ * Unique Words can never exceed Words. Shared by Unique Words, the Word Counter's Top Words and the
+ * Word Frequency Counter's table.
+ */
+export function wordTokens(text: string): string[] {
+  const out: string[] = [];
+  for (const piece of text.split(/\s+/)) {
+    if (!piece) continue;
+    const token = piece.replace(EDGE_PUNCTUATION, '').toLowerCase();
+    if (token) out.push(token);
+  }
+  return out;
+}
+
 export function analyzeText(text: string): TextAnalysis {
   // Only truly empty input is "nothing". Whitespace-only text still has characters, spaces and
   // lines (three spaces are three characters), it just has no words, sentences or paragraphs.
@@ -56,9 +80,8 @@ export function analyzeText(text: string): TextAnalysis {
   const readingTime = words === 0 ? 0 : Math.max(1, Math.round(words / 200));
   const speakingTime = words === 0 ? 0 : Math.max(1, Math.round(words / 130));
 
-  // Unicode-aware tokens: letters, digits, apostrophes — "café" and "2024" are words.
-  const tokens = text.toLowerCase().match(/[\p{L}\p{N}']+/gu) ?? [];
-  const uniqueWords = new Set(tokens).size;
+  // Same tokenizer as the Words count above, so Unique Words <= Words always.
+  const uniqueWords = new Set(wordTokens(text)).size;
 
   const letters = (text.match(/\p{L}/gu) ?? []).length;
   const spaces = (text.match(/ /g) ?? []).length;

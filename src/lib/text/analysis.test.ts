@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { analyzeText } from './analysis';
+import { analyzeText, wordTokens } from './analysis';
 
 describe('analyzeText', () => {
   it('returns all zeros for empty string', () => {
@@ -140,5 +140,63 @@ describe('analyzeText', () => {
 
   it('counts whitespace-only lines as empty', () => {
     expect(analyzeText('a\n   \nb').nonEmptyLines).toBe(2);
+  });
+});
+
+describe('wordTokens: one tokenizer for Words, Unique Words and Top Words (Phase B PR 3)', () => {
+  it('keeps hyphenated words, contractions and numbers whole (bug-log repros)', () => {
+    expect(wordTokens("don't stop well-known e-mail")).toEqual(["don't", 'stop', 'well-known', 'e-mail']);
+    expect(wordTokens('1,000 and 3.14')).toEqual(['1,000', 'and', '3.14']);
+    const a = analyzeText("don't stop well-known e-mail");
+    expect([a.words, a.uniqueWords]).toEqual([4, 4]);
+    const b = analyzeText('1,000 and 3.14');
+    expect([b.words, b.uniqueWords]).toEqual([3, 3]);
+  });
+
+  it('trims punctuation at either end and folds case', () => {
+    expect(wordTokens('Dog. dog, "DOG" (dog)!')).toEqual(['dog', 'dog', 'dog', 'dog']);
+    expect(analyzeText('Dog. dog, "DOG" (dog)!').uniqueWords).toBe(1);
+    expect(wordTokens("'quoted' end...")).toEqual(['quoted', 'end']);
+  });
+
+  it('drops pieces with no letter or digit (dashes, ellipses, emoji)', () => {
+    expect(wordTokens('wait - what ... 😀 ok')).toEqual(['wait', 'what', 'ok']);
+  });
+
+  it('keeps non-Latin words whole, including trailing combining marks', () => {
+    expect(wordTokens('नमस्ते दुनिया Café')).toEqual(['नमस्ते', 'दुनिया', 'café']);
+    expect(wordTokens('Привет, мир!')).toEqual(['привет', 'мир']);
+  });
+
+  it('returns nothing for empty or whitespace-only text', () => {
+    expect(wordTokens('')).toEqual([]);
+    expect(wordTokens('  \n\t ')).toEqual([]);
+  });
+
+  // Property-style: Unique Words <= Words, and every token comes from one counted word, over a
+  // deterministic spread of awkward inputs (hyphens, numbers, punctuation, unicode, whitespace).
+  it('Unique Words never exceeds Words over varied generated inputs', () => {
+    const parts = [
+      'well-known', 'e-mail', "don't", 'don’t', '1,000', '3.14', '-', '--', '...', '😀', '👍🏽',
+      'Café', 'café', 'नमस्ते', '日本語', '(dog)', 'dog.', 'DOG', '"quoted"', 'a', 'I', '#tag',
+      'https://example.com/a-b', 'x/y', '2024', '$5', '50%', "rock'n'roll", '\u2014', 'e.g.', '¿qué?',
+    ];
+    const seps = [' ', '  ', '\n', '\t', '\u00a0', ' \n ', ''];
+    let seed = 42;
+    const rand = (n: number) => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed % n; };
+    for (let i = 0; i < 2000; i++) {
+      const len = rand(12);
+      let text = '';
+      for (let j = 0; j < len; j++) text += parts[rand(parts.length)] + seps[rand(seps.length)];
+      const r = analyzeText(text);
+      const tokens = wordTokens(text);
+      expect(r.uniqueWords, JSON.stringify(text)).toBeLessThanOrEqual(r.words);
+      expect(tokens.length, JSON.stringify(text)).toBeLessThanOrEqual(r.words);
+      expect(r.uniqueWords).toBe(new Set(tokens).size);
+      for (const t of tokens) {
+        expect(t).toBe(t.toLowerCase());
+        expect(/\s/.test(t)).toBe(false);
+      }
+    }
   });
 });

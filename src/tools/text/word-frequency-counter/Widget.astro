@@ -49,8 +49,10 @@ import { config } from './config';
   var sortMode = 'freq';
   var currentWords = [];
 
+  // The same tokenizer as the Words and Unique Words counts (ToyTools.wordTokens), so the table's
+  // distinct words match the Unique Words figure above it.
   function tokenize(text) {
-    return (text.match(/\p{L}[\p{L}\p{N}'’-]*/gu) || []).map(function (w) { return w.toLowerCase(); });
+    return (window.ToyTools && ToyTools.wordTokens) ? ToyTools.wordTokens(text) : [];
   }
 
   function build() {
