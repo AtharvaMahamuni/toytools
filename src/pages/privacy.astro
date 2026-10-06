@@ -75,11 +75,14 @@ const keepList = `${keepNames.slice(0, -1).join(', ')} and ${keepNames[keepNames
       the form from it. A tool's Recent conversions list lives in the open tab and is gone on
       reload too. Older versions of the site saved some of that input, and a body profile for
       the health calculators, in this browser; it is removed the next time you open any page here.
+      The one exception is CSV Cleaner or CSV to TSV text an older version shared with CSV Diff: it
+      stays in CSV Diff until you press Clear saved input there.
     </p>
     <p>
       A few tools are for work you come back to, so they keep what you type on this device instead,
       and their notice reads "Your input stays on this device (never uploaded)": {keepList}. Their
-      Clear saved input button removes it from this browser. Like the tools above, they never write
+      Clear saved input button removes what you typed from this browser, while settings such as
+      the regex flags stay. Like the tools above, they never write
       your input into the page address on their own, they keep Recent conversions in the open tab
       only, and the removal of older saved input leaves what they saved in place.
     </p>
