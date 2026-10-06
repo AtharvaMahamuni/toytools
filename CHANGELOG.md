@@ -2,6 +2,43 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.4.2] - 2026-10-06
+
+### Fixed
+
+- **Private tools stop saving what you type.** Every tool page whose notice says "Nothing stored
+  unless you choose to save it" (134 tools, flagged with `data-ephemeral` on the page) now keeps
+  typed input on the page only. `ToyTools.state` writes and returns only the option fields a tool
+  names (a converter's direction, a calculator's units, generator options without their free-text
+  fields), so a reload starts with an empty form. Reported on Base64, URL, SHA-256, age, date
+  difference, title case, color format and QR; fixed in the shared runtime, so it covers all 115
+  private tools that saved state, plus JSON tree viewer and color shades, which saved on their own.
+- **QR Wi-Fi password is never stored.** Neither are the SSID, the Text or URL value, or vCard
+  details. The password field is masked, with a Show toggle.
+- **Recent conversions live in the open tab only.** The list is kept in memory for the page view
+  and is gone on reload. Nothing is written to session or local storage.
+- **One-time cleanup for returning visitors.** The first page load after this release removes what
+  older builds saved from private tools: input envelopes, shared group input, the raw Base64, color
+  shades and expected-digest keys, the health body profile and session Recent conversions. Mixed
+  envelopes are reduced to their options, so settings survive. Option-only keys and data tools
+  (notepad, todo, trackers, pomodoro, ledgers) are never touched.
+
+### Changed
+
+- **Health calculators no longer keep a reading history or a shared body profile.** Both were
+  stored typed input. The "change since your last check" line and the prefill between BMI, TDEE,
+  body fat and macro calculators are gone; the unit choice is still remembered.
+- **Grouped tools carry text through the switcher in tab memory.** A plain click on a group pill
+  hands your text to the sibling page via `window.name`, which that page reads and wipes; a reload
+  or a new tab starts empty.
+- **Copy says what is saved.** FAQs and guides for the health calculators, color shades, shell
+  quote, text repeater, name and choice pickers, scientific calculator and QR, plus the privacy
+  page, now match the behaviour.
+- **Inline runtime notes moved to the component frontmatter** so they stop shipping in every
+  page's HTML. Net of this release's additions, the heaviest tool page (JSON tree viewer) is
+  about 1.7 KB gzipped lighter. The cleanup chunk is fetched once per browser and has its own
+  3 KB ceiling in the budget check.
+
 ## [beta-v12.4.1] - 2026-10-05
 
 ### Changed
