@@ -11,8 +11,16 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   typed input on the page only. `ToyTools.state` writes and returns only the option fields a tool
   names (a converter's direction, a calculator's units, generator options without their free-text
   fields), so a reload starts with an empty form. Reported on Base64, URL, SHA-256, age, date
-  difference, title case, color format and QR; fixed in the shared runtime, so it covers all 115
-  private tools that saved state, plus JSON tree viewer and color shades, which saved on their own.
+  difference, title case, color format and QR; fixed in the shared runtime, so it covers the 111
+  private tools that saved typed input through it, plus JSON tree viewer and color shades, which
+  saved on their own (4 more, the password, UUID, lorem and coin generators, only ever saved
+  options and are unchanged). A tool with no setting to keep writes no record at all.
+- **Private tools stop writing typed values into the address bar.** 23 of them (age, date
+  difference, timezone, Unix timestamp, cron, systemd timer, sleep cycle, the finance growth
+  calculators, CIDR, fraction, matrix, prime factorization, statistics, triangle, combinations and
+  the equalizer preset name) synced inputs to the URL as you typed, so a reload refilled them. On a
+  private page that sync is now off. Copy link still builds a link with your values, and opening
+  such a link still fills the form.
 - **QR Wi-Fi password is never stored.** Neither are the SSID, the Text or URL value, or vCard
   details. The password field is masked, with a Show toggle.
 - **Recent conversions live in the open tab only.** The list is kept in memory for the page view
@@ -30,7 +38,9 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   body fat and macro calculators are gone; the unit choice is still remembered.
 - **Grouped tools carry text through the switcher in tab memory.** A plain click on a group pill
   hands your text to the sibling page via `window.name`, which that page reads and wipes; a reload
-  or a new tab starts empty.
+  or a new tab starts empty. JSON Tree View takes part again, with Format and Minify.
+- **Regex tester remembers only real flag letters** from its flags box (d g i m s u v y, each
+  once), never other text typed there.
 - **Copy says what is saved.** FAQs and guides for the health calculators, color shades, shell
   quote, text repeater, name and choice pickers, scientific calculator and QR, plus the privacy
   page, now match the behaviour.

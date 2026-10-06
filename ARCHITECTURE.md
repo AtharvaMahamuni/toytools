@@ -334,7 +334,10 @@ recent chips, section titles, runtime badge expiry under a pinned clock, carouse
   counts, generator options minus free text) and `load(id, keep)` returns only those, even from an
   envelope an older build wrote. Typed input, results and history never reach storage; pass a `keep`
   list for every setting you want remembered. `ToyTools.history` (Recent conversions) is in memory
-  for the page view. Group input (`group:{id}`) follows a plain click on a switcher pill through
+  for the page view. Inputs are never auto-synced to the URL there: `toolUrlStateMode` (in
+  `src/lib/url-state.ts`) turns `auto` into `manual` for private tools and `ToyTools.url.write` is a
+  no-op on the page, while Copy link and incoming links still work. Group input (`group:{id}`)
+  follows a plain click on a switcher pill through
   `window.name`, which the next page reads and wipes. `src/lib/privacy/legacy-storage.ts` removes
   what older builds saved, once per browser (gated on `toytools.private-inputs-cleared`). Data tools
   (`local`/`offline`/`lookup` variants) are unaffected.
