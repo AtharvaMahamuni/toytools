@@ -235,11 +235,14 @@ const craftId = config.craft?.id;
 
     function persist() {
       if (!(window.ToyTools && ToyTools.state)) return;
-      var data = { fields: {} };
+      // Selects and segmented choices are settings and may persist; typed values are input and,
+      // on a private page, never leave the page (TT.state keeps only `opts` there).
+      var data = { fields: {}, opts: {} };
       for (var i = 0; i < fieldEls.length; i++) {
-        data.fields[fieldEls[i].getAttribute('data-field-id')] = fieldEls[i].value;
+        var ft = fieldEls[i].getAttribute('data-field-type');
+        data[ft === 'select' || ft === 'segmented' ? 'opts' : 'fields'][fieldEls[i].getAttribute('data-field-id')] = fieldEls[i].value;
       }
-      ToyTools.state.save(slug, data);
+      ToyTools.state.save(slug, data, ['opts']);
       if (urlMode === 'auto' && ToyTools.url) ToyTools.url.write(shareValues());
     }
 
@@ -248,9 +251,11 @@ const craftId = config.craft?.id;
     }
 
     try {
-      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug, ['opts']);
       var savedFields = (saved && saved.fields) || {};
       for (var id in savedFields) setField(id, savedFields[id]);
+      var savedOpts = (saved && saved.opts) || {};
+      for (var oid in savedOpts) setField(oid, savedOpts[oid]);
     } catch (_) {}
 
     if (urlMode !== 'off') {

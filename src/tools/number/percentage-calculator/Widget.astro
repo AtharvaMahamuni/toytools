@@ -110,12 +110,12 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     }
 
     function persist() {
-      if (window.ToyTools && ToyTools.state) ToyTools.state.save('percentage-calculator', { mode: modeEl.value, values: { a: aEl.value, b: bEl.value } });
+      if (window.ToyTools && ToyTools.state) ToyTools.state.save('percentage-calculator', { mode: modeEl.value, values: { a: aEl.value, b: bEl.value } }, ['mode']);
     }
 
     // Restore
     try {
-      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load('percentage-calculator');
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load('percentage-calculator', ['mode']);
       if (saved) {
         if (saved.mode) modeEl.value = saved.mode;
         if (saved.values) { if (saved.values.a != null) aEl.value = saved.values.a; if (saved.values.b != null) bEl.value = saved.values.b; }

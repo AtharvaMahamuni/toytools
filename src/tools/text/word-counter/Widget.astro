@@ -220,10 +220,10 @@ import { config } from './config';
   function saveGoal() {
     if (!ToyTools.state) return;
     var prior = null;
-    try { prior = ToyTools.state.load('word-counter'); } catch (_) {}
+    try { prior = ToyTools.state.load('word-counter', ['goal']); } catch (_) {}
     var data = prior && typeof prior === 'object' ? prior : {};
     data.goal = goalInput ? goalInput.value : '';
-    ToyTools.state.save('word-counter', data);
+    ToyTools.state.save('word-counter', data, ['goal']);
   }
 
   if (goalInput) {
@@ -255,7 +255,7 @@ import { config } from './config';
   }
 
   try {
-    var saved = ToyTools.state && ToyTools.state.load('word-counter');
+    var saved = ToyTools.state && ToyTools.state.load('word-counter', ['goal']);
     if (saved && goalInput && saved.goal) goalInput.value = saved.goal;
   } catch (_) {}
 

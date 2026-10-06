@@ -31,6 +31,10 @@ interface Props {
   /** Tool slug, when this page is a tool. Only use: the footer's feedback link prefills it, so a
    *  report keeps its per-tool context now that tool pages no longer carry their own invite. */
   feedbackTool?: string;
+  /** Tool pages whose trust notice promises "Nothing stored unless you choose to save it" (the
+   *  `private` trust variant). Emitted as data-ephemeral on <html>, which switches ToyTools.state
+   *  to options-only and keeps typed input out of storage. See ToyToolsRuntime.astro. */
+  ephemeral?: boolean;
 }
 
 const {
@@ -42,6 +46,7 @@ const {
   pwa,
   engines = [],
   feedbackTool,
+  ephemeral = false,
 } = Astro.props;
 
 const pageTitle = title;
@@ -60,7 +65,7 @@ const maxWidthVar =
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-ephemeral={ephemeral ? '' : undefined}>
   <head>
     <meta charset="utf-8" />
     <script is:inline>

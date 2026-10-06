@@ -165,7 +165,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     }
 
     function persist() {
-      if (TT && TT.state) TT.state.save('discount-calculator', { mode: modeEl.value, price: priceEl.value, amount: amountEl.value, basePrice: basePrice });
+      if (TT && TT.state) TT.state.save('discount-calculator', { mode: modeEl.value, price: priceEl.value, amount: amountEl.value, basePrice: basePrice }, ['mode']);
     }
 
     if (noteBtn) noteBtn.addEventListener('click', function () {
@@ -182,7 +182,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
 
     // Restore
     try {
-      var saved = TT && TT.state && TT.state.load('discount-calculator');
+      var saved = TT && TT.state && TT.state.load('discount-calculator', ['mode']);
       if (saved) {
         if (saved.mode) modeEl.value = saved.mode;
         if (saved.price != null) priceEl.value = saved.price;

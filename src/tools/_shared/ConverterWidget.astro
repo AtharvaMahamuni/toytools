@@ -253,7 +253,7 @@ const matchId = `${slug}-match`;
       return { render: render, clear: clear };
     })(document.getElementById(slug + '-meta'));
 
-    // ── History controller (sessionStorage, last 5) ───────────────────────
+    // ── History controller (in memory for this page view, last 5) ─────────
     var history = (function (listEl) {
       var section = listEl ? listEl.closest('.conv-history') : null;
       function preview(s) { s = (s || '').replace(/\s+/g, ' ').trim(); return s.length > 42 ? s.slice(0, 41) + '…' : s; }
@@ -380,16 +380,19 @@ const matchId = `${slug}-match`;
       if (res && res.ok && res.output) history.push(t, res.output);
     }
 
+    // Direction is an option and may persist; the text never does on a private page (TT.state
+    // drops every field not in KEEP there), so a reload starts with an empty input.
+    var KEEP = ['mode', 'override'];
     function persist() {
       if (!TT.state) return;
       if (stateKey !== slug) {
         // Grouped: input is shared across the group; direction stays per-tool.
         TT.state.save(stateKey, { input: input.value });
-        if (reversible) TT.state.save(slug, { mode: modeEl.value, override: override });
+        if (reversible) TT.state.save(slug, { mode: modeEl.value, override: override }, KEEP);
       } else {
         var data = { input: input.value };
         if (reversible) { data.mode = modeEl.value; data.override = override; }
-        TT.state.save(slug, data);
+        TT.state.save(slug, data, KEEP);
       }
     }
     function restore(text) { input.value = text; override = false; execForward(); persist(); input.focus(); }
@@ -431,16 +434,11 @@ const matchId = `${slug}-match`;
       groupSize = info.groupSize || 8;
       try {
         // Input: shared group envelope first, then the tool's old per-slug key (migration).
-        var shared = TT.state && TT.state.load(stateKey);
-        var own = stateKey !== slug ? (TT.state && TT.state.load(slug)) : shared;
+        var shared = TT.state && TT.state.load(stateKey, KEEP);
+        var own = stateKey !== slug ? (TT.state && TT.state.load(slug, KEEP)) : shared;
         var savedInput = shared && typeof shared.input === 'string' ? shared.input
           : own && typeof own.input === 'string' ? own.input : null;
-        if (savedInput !== null) {
-          input.value = savedInput;
-        } else if (slug === 'base64-encoder-decoder' && TT.storage) {
-          var legacy = TT.storage.get('toytools.base64.input');
-          if (legacy) input.value = legacy;
-        }
+        if (savedInput !== null) input.value = savedInput;
         // Direction: always the tool's own key.
         if (own && reversible) {
           if (own.mode === 'encode' || own.mode === 'decode') modeEl.value = own.mode;

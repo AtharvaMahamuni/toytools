@@ -316,13 +316,18 @@ const currencyMeta = Object.fromEntries(
       return out;
     }
 
+    // Currency and select choices (compounding frequency) are settings and may persist. Amounts
+    // are input and, on a private page, never leave the page (TT.state keeps only KEEP there).
+    var KEEP = ['currency', 'opts'];
     function persist() {
       if (!(window.ToyTools && ToyTools.state)) return;
-      var data = { currency: currencyEl ? currencyEl.value : 'USD', fields: {} };
+      var data = { currency: currencyEl ? currencyEl.value : 'USD', fields: {}, opts: {} };
       for (var i = 0; i < fieldEls.length; i++) {
-        data.fields[fieldEls[i].getAttribute('data-field-id')] = { value: fieldEls[i].value, raw: fieldEls[i].getAttribute('data-raw') };
+        var key = fieldEls[i].getAttribute('data-field-id');
+        if (fieldEls[i].getAttribute('data-field-type') === 'select') data.opts[key] = fieldEls[i].value;
+        else data.fields[key] = { value: fieldEls[i].value, raw: fieldEls[i].getAttribute('data-raw') };
       }
-      ToyTools.state.save(slug, data);
+      ToyTools.state.save(slug, data, KEEP);
       // Every mutation path in this widget ends in persist(), so syncing here covers typing,
       // currency changes, preset chips, scenarios, undo and reset in one place.
       if (urlMode === 'auto' && ToyTools.url) ToyTools.url.write(shareValues());
@@ -335,8 +340,9 @@ const currencyMeta = Object.fromEntries(
         var pc = ToyTools.prefs.get('currency', null);
         if (pc) currencyEl.value = pc;
       }
-      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug, KEEP);
       var savedFields = (saved && saved.fields) || {};
+      var savedOpts = (saved && saved.opts) || {};
       if (saved && saved.currency && currencyEl) currencyEl.value = saved.currency;
       prevCurrency = currencyEl ? currencyEl.value : 'USD';
 
@@ -345,7 +351,9 @@ const currencyMeta = Object.fromEntries(
       for (var i = 0; i < fieldEls.length; i++) {
         var fel = fieldEls[i];
         var fid2 = fel.getAttribute('data-field-id');
-        if (savedFields[fid2]) {
+        if (savedOpts[fid2] != null) {
+          fel.value = savedOpts[fid2];
+        } else if (savedFields[fid2]) {
           fel.value = savedFields[fid2].value;
           if (fel.getAttribute('data-field-type') !== 'select') fel.setAttribute('data-raw', savedFields[fid2].raw == null ? '' : savedFields[fid2].raw);
         } else if (isCurrencyField(fel) && defaults[fid2] && Number(defaults[fid2]) !== 0) {

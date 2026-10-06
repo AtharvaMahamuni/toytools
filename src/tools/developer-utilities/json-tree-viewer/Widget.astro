@@ -11,12 +11,10 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 import { config } from './config';
 
 const slug = config.slug;
-// Group members share one state envelope so input survives switching modes.
-const stateKey = config.toolGroup ? `group:${config.toolGroup}` : slug;
 const inputId = `${slug}-input`;
 ---
 
-<div class="jtv-widget" data-slug={slug} data-state-key={stateKey} data-mobile-view="input">
+<div class="jtv-widget" data-slug={slug} data-mobile-view="input">
   <div class="jtv-mswitch" role="tablist" aria-label="Show input or tree">
     <button class="jtv-mtab" type="button" data-view="input" role="tab" aria-selected="true">Input</button>
     <button class="jtv-mtab" type="button" data-view="tree" role="tab" aria-selected="false">Tree</button>
@@ -333,7 +331,6 @@ const inputId = `${slug}-input`;
   var root = document.querySelector('.jtv-widget[data-slug]');
   if (!root) return;
   var slug = root.getAttribute('data-slug');
-  var stateKey = root.getAttribute('data-state-key') || slug;
   var TT = window.ToyTools;
 
   var input      = document.getElementById(slug + '-input');
@@ -702,17 +699,16 @@ const inputId = `${slug}-input`;
   });
 
   // Input actions
-  function persist() { if (TT && TT.state) TT.state.save(stateKey, { input: input.value }); }
-  input.addEventListener('input', function () { forceRender = false; update(); persist(); });
+  input.addEventListener('input', function () { forceRender = false; update(); });
 
   document.getElementById('jtv-sample').addEventListener('click', function () {
     input.value = '{\n  "user": {\n    "name": "Ada Lovelace",\n    "id": 1843,\n    "active": true,\n    "roles": ["admin", "author"]\n  },\n  "posts": [\n    { "title": "On Computing", "tags": ["math", "history"], "likes": 42 },\n    { "title": "Notes", "tags": [], "likes": 0 }\n  ],\n  "meta": null\n}';
-    forceRender = false; update(); persist(); autoShowTree();
+    forceRender = false; update(); autoShowTree();
   });
 
   document.getElementById('jtv-paste').addEventListener('click', function () {
     if (navigator.clipboard && navigator.clipboard.readText) {
-      navigator.clipboard.readText().then(function (t) { input.value = t; forceRender = false; update(); persist(); autoShowTree(); })
+      navigator.clipboard.readText().then(function (t) { input.value = t; forceRender = false; update(); autoShowTree(); })
         .catch(function () { TT && TT.toast('Clipboard blocked. Paste with Ctrl/Cmd+V'); });
     } else { TT && TT.toast('Paste with Ctrl/Cmd+V'); }
   });
@@ -738,7 +734,7 @@ const inputId = `${slug}-input`;
     }
     clearTimeout(clearTimer); clearBtn.classList.remove('is-confirming'); clearBtn.textContent = 'Clear';
     input.value = ''; searchBox.value = ''; lastSig = ''; forceRender = false;
-    resetView(); persist(); setMobileView('input'); input.focus();
+    resetView(); setMobileView('input'); input.focus();
   });
   document.addEventListener('click', function (e) {
     if (clearBtn.classList.contains('is-confirming') && !e.target.closest('#jtv-clear')) {
@@ -746,13 +742,8 @@ const inputId = `${slug}-input`;
     }
   });
 
-  // Restore prior input — group key first, then the tool's old per-slug key (migration).
-  try {
-    var saved = TT && TT.state && (TT.state.load(stateKey) || TT.state.load(slug));
-    if (saved && typeof saved.input === 'string') input.value = saved.input;
-  } catch (_) {}
-
-  // ToyTools.json attaches via a deferred module; wait so restored input renders on load.
+  // Nothing typed here is stored: this is a private page, so a reload starts empty.
+  // ToyTools.json attaches via a deferred module; wait for it before the first render.
   function init() { update(); autoShowTree(); }
   if (TT && TT.onReady) TT.onReady(init); else init();
 })();

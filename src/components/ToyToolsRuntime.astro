@@ -69,12 +69,24 @@
   // Versioned per-tool state: one JSON envelope per tool under "toytools:{toolId}".
   // Never throws; corruption yields null (caller uses defaults).
   //
+  // Private pages (trust variant `private`, the "Nothing stored unless you choose to save it"
+  // promise) carry data-ephemeral on <html>. There only the option fields a caller names in
+  // `keep` (mode, units, counts) reach storage, and load returns only those, even from an
+  // envelope an older build wrote. Typed input and history stay in the page. Data tools are
+  // not private pages, so their saving is untouched.
+  //
   // Durability rules, because some of this data is irreplaceable (a year of weight
   // logs cannot be recomputed the way a converter's last input can):
   //  - a write that exceeds the cap or the browser quota TELLS the user instead of
   //    failing silently, which is how a tracker could quietly stop saving,
   //  - an older envelope is MIGRATED rather than discarded, so bumping VERSION no
   //    longer means wiping everyone's history.
+  var eph = document.documentElement.hasAttribute('data-ephemeral');
+  function pick(d, keep) {
+    var o = null;
+    if (d && keep) for (var i = 0; i < keep.length; i++) if (d[keep[i]] !== undefined) (o = o || {})[keep[i]] = d[keep[i]];
+    return o;
+  }
   TT.state = {
     PREFIX: 'toytools:',
     VERSION: 1,
@@ -82,7 +94,9 @@
     // walks them in order. A missing step means that version is unmigratable, so the
     // caller falls back to defaults (the pre-existing behaviour) rather than crashing.
     MIGRATIONS: {},
-    save: function (toolId, data) {
+    ephemeral: eph,
+    save: function (toolId, data, keep) {
+      if (eph && !(data = pick(data, keep))) { TT.state.clear(toolId); return true; }
       var payload;
       try { payload = JSON.stringify({ v: TT.state.VERSION, data: data }); } catch (_) { return false; }
       if (payload.length > TT.storage.MAX) {
@@ -98,7 +112,7 @@
         return false;
       }
     },
-    load: function (toolId) {
+    load: function (toolId, keep) {
       try {
         var raw = localStorage.getItem(TT.state.PREFIX + toolId);
         if (!raw) return null;
@@ -112,7 +126,7 @@
           data = step(data);
           v++;
         }
-        return v === TT.state.VERSION ? data : null;
+        return v !== TT.state.VERSION ? null : eph ? pick(data, keep) : data;
       } catch (_) { return null; }
     },
     clear: function (toolId) {
@@ -211,10 +225,12 @@
   //
   // Only ever holds what a health calculator already asks for on screen. Nothing is inferred, and
   // the widget always shows what it filled in, so this is a convenience, never a hidden dossier.
+  // On a private page (see TT.state) it neither reads nor writes: body details are typed input.
   TT.profile = {
     KEY: 'toytools:profile:body',
     FIELDS: ['unit', 'sex', 'age', 'height', 'weight'],
     get: function () {
+      if (eph) return {};
       try { return JSON.parse(localStorage.getItem(TT.profile.KEY)) || {}; } catch (_) { return {}; }
     },
     /** Merge in the recognised fields of `values`; blank/absent values never overwrite a good one. */
@@ -229,7 +245,7 @@
         all[k] = v;
         changed = true;
       }
-      if (!changed) return all;
+      if (!changed || eph) return all;
       try { localStorage.setItem(TT.profile.KEY, JSON.stringify(all)); } catch (_) {}
       return all;
     },
@@ -244,7 +260,7 @@
     setDerived: function (name, value) {
       var all = TT.profile.get();
       if (!all.derived) all.derived = {};
-      if (String(all.derived[name]) === String(value)) return;
+      if (eph || String(all.derived[name]) === String(value)) return;
       all.derived[name] = value;
       try { localStorage.setItem(TT.profile.KEY, JSON.stringify(all)); } catch (_) {}
     },
@@ -288,31 +304,19 @@
     }
   };
 
-  // Session history — last few conversions per tool, sessionStorage only (cleared when
-  // the tab closes; never written to localStorage). Privacy-first: deduped on input,
+  // Recent conversions: the last few per tool, held in memory for this page view only. Nothing
+  // is written to any storage, so a reload or a closed tab forgets them. Deduped on input,
   // most-recent-first, capped at 5. Never throws.
+  var hist = {};
   TT.history = {
-    PREFIX: 'toytools:hist:',
     MAX: 5,
-    get: function (key) {
-      try {
-        var raw = sessionStorage.getItem(TT.history.PREFIX + key);
-        var arr = raw ? JSON.parse(raw) : [];
-        return Array.isArray(arr) ? arr : [];
-      } catch (_) { return []; }
-    },
+    get: function (key) { return (hist[key] || []).slice(); },
     push: function (key, item) {
-      try {
-        var arr = TT.history.get(key).filter(function (e) { return e && e.input !== item.input; });
-        arr.unshift(item);
-        if (arr.length > TT.history.MAX) arr = arr.slice(0, TT.history.MAX);
-        sessionStorage.setItem(TT.history.PREFIX + key, JSON.stringify(arr));
-        return arr;
-      } catch (_) { return TT.history.get(key); }
+      var arr = TT.history.get(key).filter(function (e) { return e && e.input !== item.input; });
+      arr.unshift(item);
+      return (hist[key] = arr.slice(0, TT.history.MAX));
     },
-    clear: function (key) {
-      try { sessionStorage.removeItem(TT.history.PREFIX + key); } catch (_) {}
-    }
+    clear: function (key) { delete hist[key]; }
   };
 
   // Recent tools — deduped, most-recent-first, capped at 10.

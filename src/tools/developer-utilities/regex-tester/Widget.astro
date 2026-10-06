@@ -520,7 +520,7 @@ const REGEX_WORKER_SOURCE = regexWorkerSource();
       flags: flagsEl ? flagsEl.value : 'g',
       text: textEl.value,
       replace: replaceEl ? replaceEl.value : '',
-    });
+    }, ['flags']);
   }
 
   function run() {
@@ -574,7 +574,7 @@ const REGEX_WORKER_SOURCE = regexWorkerSource();
 
   function boot() {
     if (TT && TT.state) {
-      var saved = TT.state.load('regex-tester');
+      var saved = TT.state.load('regex-tester', ['flags']);
       if (saved) {
         if (saved.pattern) patternEl.value = saved.pattern;
         if (flagsEl && saved.flags != null) flagsEl.value = saved.flags;

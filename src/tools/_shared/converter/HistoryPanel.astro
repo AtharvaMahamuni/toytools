@@ -1,7 +1,8 @@
 ---
-// Recent conversions (last 5, sessionStorage). The ConverterWidget fills the <ul> from
+// Recent conversions (last 5, this page view only). The ConverterWidget fills the <ul> from
 // ToyTools.history and toggles the section's `hidden`. Each item restores on click.
-// Privacy-first: nothing here is ever written to localStorage or leaves the tab.
+// Privacy-first: ToyTools.history keeps the list in memory, never in any browser storage, so a
+// reload or a closed tab forgets it.
 interface Props {
   id: string;
 }

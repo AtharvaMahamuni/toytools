@@ -218,6 +218,8 @@ const craftId = config.craft?.id;
     // A calculator used to keep only the values you last typed, so every recalculation overwrote
     // the last and your BMI from a month ago existed nowhere. Snapshots make a one-shot calculator
     // worth returning to: at most one a day, capped, and only when the answer actually moved.
+    // Every wellness calculator is a private page, so TT.state never writes these snapshots and
+    // the delta line stays hidden; the code serves a non-private host if one ever exists.
     var HISTORY_MAX = 50;
     var history = [];
 
@@ -289,11 +291,15 @@ const craftId = config.craft?.id;
 
     function persist() {
       if (!(window.ToyTools && ToyTools.state)) return;
-      var data = { fields: {}, history: history };
+      var data = { fields: {}, history: history, opts: {} };
       for (var i = 0; i < fieldEls.length; i++) {
         data.fields[fieldEls[i].getAttribute('data-field-id')] = fieldEls[i].value;
       }
-      ToyTools.state.save(slug, data);
+      // Units are the one setting here. Body details, the result history and the shared profile
+      // are personal input, and on a private page TT.state keeps only `opts`.
+      var unitEl = fieldById('unit');
+      if (unitEl) data.opts.unit = unitEl.value;
+      ToyTools.state.save(slug, data, ['opts']);
       // Every mutation path ends in persist(), so one call here covers typing, presets and reset.
       if (urlMode === 'auto' && ToyTools.url) ToyTools.url.write(shareValues());
     }
@@ -350,10 +356,11 @@ const craftId = config.craft?.id;
     // Restore: this tool's own saved input first, then the shared profile for anything still unset.
     var savedFields = {};
     try {
-      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug, ['opts']);
       savedFields = (saved && saved.fields) || {};
       if (saved && Array.isArray(saved.history)) history = saved.history;
       for (var id in savedFields) setField(id, savedFields[id]);
+      if (saved && saved.opts && saved.opts.unit) setField('unit', saved.opts.unit);
     } catch (_) {}
 
     // A shared link beats saved state: someone followed it to see THOSE values.

@@ -111,7 +111,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
         var h = TT.color.hex(parsed.rgb);
         if (/^#[0-9a-f]{6}$/i.test(h)) pickerEl.value = h;
       }
-      try { TT.storage && TT.storage.set('toytools.color-shades-generator.color', value); } catch (_) {}
     }
 
     textEl.addEventListener('input', render);
@@ -125,11 +124,8 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     });
 
     function boot() {
-      var TT = window.ToyTools;
-      try {
-        var saved = TT && TT.storage && TT.storage.get('toytools.color-shades-generator.color');
-        if (saved) textEl.value = saved;
-      } catch (_) {}
+      // The typed color is input, and this page promises nothing is stored unless you save it,
+      // so it is not remembered. Older builds kept it; the one-time cleanup removes that key.
       render();
     }
     var TT = window.ToyTools;

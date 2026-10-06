@@ -213,7 +213,9 @@ const craftId = config.craft?.id ?? 'eq-preamp-headroom';
     function currentName() { return TT.eq.name(def, gains, nameEl.value); }
 
     function persist() {
-      try { TT.state.save(slug, { eq: TT.eq.encode(gains), name: nameEl.value }); } catch (_) {}
+      // The band gains are the settings and persist; the typed name is input, kept out of storage
+      // on this private page by TT.state.
+      try { TT.state.save(slug, { eq: TT.eq.encode(gains), name: nameEl.value }, ['eq']); } catch (_) {}
       // Not on the first render: a page nobody has touched should not grow a query string.
       if (booted && urlMode === 'auto') TT.url.write(TT.eq.shareValues(gains, nameEl.value));
     }
@@ -225,7 +227,7 @@ const craftId = config.craft?.id ?? 'eq-preamp-headroom';
       // A link beats saved state: someone opening a shared preset means to see that preset.
       var query = TT.url.read();
       var saved = null;
-      try { saved = TT.state.load(slug); } catch (_) {}
+      try { saved = TT.state.load(slug, ['eq']); } catch (_) {}
       var source = query.eq ? query : (saved && saved.eq ? saved : null);
       if (source) {
         gains = TT.eq.decode(source.eq, def.bands.length, def.minGain, def.maxGain);

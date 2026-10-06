@@ -82,7 +82,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     }
 
     function persist() {
-      if (TT && TT.state) TT.state.save('px-to-rem-converter', { value: valEl.value, unit: unitEl.value, base: baseEl.value });
+      if (TT && TT.state) TT.state.save('px-to-rem-converter', { value: valEl.value, unit: unitEl.value, base: baseEl.value }, ['unit', 'base']);
     }
 
     outEl.addEventListener('click', function (e) {
@@ -99,7 +99,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
 
     function boot() {
       try {
-        var saved = TT && TT.state && TT.state.load('px-to-rem-converter');
+        var saved = TT && TT.state && TT.state.load('px-to-rem-converter', ['unit', 'base']);
         if (saved) { if (saved.value != null) valEl.value = saved.value; if (saved.unit) unitEl.value = saved.unit; if (saved.base != null) baseEl.value = saved.base; }
       } catch (_) {}
       render();

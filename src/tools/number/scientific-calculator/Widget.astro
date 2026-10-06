@@ -114,6 +114,9 @@ const attrs = (k: Key) => ({
   } from '@lib/calculator';
 
   const SLUG = 'scientific-calculator';
+  // Angle mode is a setting and persists. The expression, history, memory and Ans are what you
+  // typed and worked out, so on this private page TT.state keeps them out of storage.
+  const KEEP = ['angleMode'];
   const TT = (window as unknown as { ToyTools?: any }).ToyTools;
 
   const root = document.querySelector<HTMLElement>('[data-tool="scientific-calculator"]');
@@ -131,7 +134,7 @@ const attrs = (k: Key) => ({
 
     // Restore prior session.
     try {
-      const saved = TT?.state?.load(SLUG);
+      const saved = TT?.state?.load(SLUG, KEEP);
       if (saved) {
         state = createInitialState({
           angleMode: saved.angleMode === 'rad' ? 'rad' : 'deg',
@@ -152,7 +155,7 @@ const attrs = (k: Key) => ({
         ans: state.ans,
         history: state.history,
         expression: state.expression,
-      });
+      }, KEEP);
     }
 
     function renderHistory(): void {

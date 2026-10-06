@@ -42,6 +42,11 @@ export interface GeneratorField {
    * that carries it rather than on the widget generally.
    */
   craft?: string;
+  /**
+   * text only: the value is a secret (a Wi-Fi password). Rendered as a masked input with a Show
+   * toggle. Like every free-text field it is never written to storage on a private page.
+   */
+  secret?: boolean;
   /** Conditional visibility — show only when another field matches (equals, or is one of oneOf). */
   showWhen?: { field: string; equals?: string; oneOf?: string[] };
 }

@@ -104,7 +104,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     }
 
     function persist() {
-      if (TT && TT.state) TT.state.save('px-to-dp-converter', { mode: modeEl.value, value: valEl.value, density: densEl ? densEl.value : '' });
+      if (TT && TT.state) TT.state.save('px-to-dp-converter', { mode: modeEl.value, value: valEl.value, density: densEl ? densEl.value : '' }, ['mode', 'density']);
     }
 
     outEl.addEventListener('click', function (e) {
@@ -122,7 +122,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     function boot() {
       fillDensities();
       try {
-        var saved = TT && TT.state && TT.state.load('px-to-dp-converter');
+        var saved = TT && TT.state && TT.state.load('px-to-dp-converter', ['mode', 'density']);
         if (saved) { if (saved.mode) modeEl.value = saved.mode; if (saved.value != null) valEl.value = saved.value; if (saved.density && densEl) densEl.value = saved.density; }
       } catch (_) {}
       render();

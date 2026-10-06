@@ -280,7 +280,7 @@ import { config } from './config';
       useRegex: regexCheck.checked,
       useWord: wordCheck.checked,
       highlight: highlightCheck.checked,
-    });
+    }, ['useCase', 'useRegex', 'useWord', 'highlight']);
   }
 
   function run() {
@@ -355,7 +355,7 @@ import { config } from './config';
 
   // Restore state (including toggles) before the first run.
   if (TT && TT.state) {
-    var saved = TT.state.load('find-replace');
+    var saved = TT.state.load('find-replace', ['useCase', 'useRegex', 'useWord', 'highlight']);
     if (saved) {
       if (saved.source)  sourceEl.value  = saved.source;
       if (saved.find)    findEl.value    = saved.find;
