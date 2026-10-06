@@ -77,10 +77,14 @@ test.describe('shell quoting escalator', () => {
     await expect(page.locator('#sq-ladder li')).toHaveCount(3); // ssh-sudo
   });
 
-  test('the command survives a reload', async ({ page }) => {
+  // A private page: the chain is a setting and is remembered, the command is typed input and is
+  // not (beta-v12.4.2; it used to be restored).
+  test('the chain survives a reload, the command does not', async ({ page }) => {
     await type(page, 'uptime', 'sudo');
     await page.reload();
-    await expect(page.locator('#sq-input')).toHaveValue('uptime');
+    await expect(page.locator('#sq-input')).toHaveValue('');
     await expect(page.locator('#sq-chain')).toHaveValue('sudo');
+    const stored = await page.evaluate(() => localStorage.getItem('toytools:shell-quote-escalator'));
+    expect(stored).not.toContain('uptime');
   });
 });
