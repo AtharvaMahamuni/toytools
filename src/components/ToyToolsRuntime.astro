@@ -35,7 +35,8 @@
 //   Private pages (trust variant `private`, the "Nothing stored unless you choose to save it"
 //   promise) carry data-ephemeral on <html>. There only the option fields a caller names in
 //   `keep` (mode, units, counts) reach storage, and load returns only those, even from an
-//   envelope an older build wrote. Typed input and history stay in the page. Data tools are
+//   envelope an older build wrote. An empty kept value ({} or []) counts as nothing, so a tool with
+//   no settings writes no record at all. Typed input and history stay in the page. Data tools are
 //   not private pages, so their saving is untouched.
 //
 //   Durability rules, because some of this data is irreplaceable (a year of weight
@@ -167,8 +168,11 @@
   // TT.state: see the notes in the frontmatter.
   var eph = document.documentElement.hasAttribute('data-ephemeral');
   function pick(d, keep) {
-    var o = null;
-    if (d && keep) for (var i = 0; i < keep.length; i++) if (d[keep[i]] !== undefined) (o = o || {})[keep[i]] = d[keep[i]];
+    var o = null, v;
+    if (d && keep) for (var i = 0; i < keep.length; i++) {
+      v = d[keep[i]];
+      if (v !== undefined && !(v && typeof v == 'object' && !Object.keys(v).length)) (o = o || {})[keep[i]] = v;
+    }
     return o;
   }
   // Group hand-off: see the notes in the frontmatter.

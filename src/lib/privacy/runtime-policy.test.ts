@@ -94,6 +94,17 @@ describe('ToyTools.state on a private page', () => {
     expect(localStorage.getItem('toytools:sha256-hash-generator')).toBeNull();
   });
 
+  it('writes no record when the kept fields are empty', () => {
+    const TT = boot(true);
+    localStorage.setItem('toytools:age-calculator', JSON.stringify({ v: 1, data: { opts: {} } }));
+    TT.state.save('age-calculator', { fields: { birthDate: '2000-01-31' }, opts: {} }, ['opts']);
+    expect(localStorage.getItem('toytools:age-calculator')).toBeNull();
+    TT.state.save('x', { list: [], mode: 'a' }, ['list', 'mode']);
+    expect(stored('x')).toEqual({ v: 1, data: { mode: 'a' } });
+    TT.state.save('y', { opts: { unit: 'metric' } }, ['opts']);
+    expect(stored('y')).toEqual({ v: 1, data: { opts: { unit: 'metric' } } });
+  });
+
   it('returns only kept fields, even from an envelope an older build wrote', () => {
     localStorage.setItem('toytools:qr-code-generator', JSON.stringify({ v: 1, data: { options: { errorLevel: 'H' }, input: 'Wi-Fi pw' } }));
     const TT = boot(true);
