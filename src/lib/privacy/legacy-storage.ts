@@ -50,7 +50,6 @@ export const LEGACY_RULES: Readonly<Record<string, LegacyRule>> = {
   'discount-calculator': { keep: ['mode'] },
   'emergency-fund-calculator': { keep: ['currency'] },
   'equalizer-settings-generator': { keep: ['eq'] },
-  'find-replace': { keep: ['useCase', 'useRegex', 'useWord', 'highlight'] },
   'fraction-calculator': { fieldOpts: ['op'] },
   'hex-encoder-decoder': { keep: ['mode', 'override'] },
   'html-entity-encoder-decoder': { keep: ['mode', 'override'] },
@@ -72,7 +71,6 @@ export const LEGACY_RULES: Readonly<Record<string, LegacyRule>> = {
   'random-choice-picker': { keep: ['options'], dropOptions: ['options'] },
   'random-name-picker': { keep: ['options'], dropOptions: ['names'] },
   'random-string-generator': { keep: ['options'], dropOptions: ['custom'] },
-  'regex-tester': { keep: ['flags'] },
   'roi-calculator': { keep: ['currency'] },
   'roman-numeral-converter': { keep: ['mode', 'override'] },
   'rot13-encoder-decoder': { keep: ['mode', 'override'] },
@@ -103,22 +101,32 @@ export const LEGACY_RULES: Readonly<Record<string, LegacyRule>> = {
 export const LEGACY_INPUT_IDS: readonly string[] = [
   'age-calculator', 'aspect-ratio-calculator', 'camel-case-converter', 'cidr-calculator',
   'color-contrast-checker', 'color-format-converter', 'cron-expression-parser', 'csv-cleaner',
-  'csv-diff', 'csv-to-json-converter', 'csv-to-tsv', 'date-difference-calculator',
-  'heart-rate-zone-calculator', 'json-formatter', 'json-minifier', 'json-to-csv-converter',
-  'json-to-schema', 'json-to-yaml-converter', 'json-validator', 'jwt-decoder',
+  'csv-to-tsv', 'date-difference-calculator', 'heart-rate-zone-calculator', 'jwt-decoder',
   'kebab-case-converter', 'letter-counter', 'line-counter', 'lowercase-converter',
   'macro-calculator', 'normalize-whitespace', 'paragraph-counter',
   'prime-factorization-calculator', 'reading-time-calculator', 'remove-accents',
   'remove-blank-lines', 'remove-duplicate-lines', 'remove-emoji', 'remove-extra-spaces',
   'remove-line-breaks', 'remove-tabs', 'reverse-text', 'sentence-case-converter',
   'sentence-counter', 'slugify-text', 'snake-case-converter', 'space-counter',
-  'systemd-timer-converter', 'text-compare', 'tip-calculator', 'title-case-converter',
-  'triangle-solver', 'trim-text', 'uppercase-converter', 'word-frequency-counter',
-  'yaml-to-json-converter', 'json-tree-viewer', 'case-converter', 'csv-diff:b',
-  'group:case-converters', 'group:csv-tools', 'group:encoders', 'group:hash-generators',
-  'group:json-csv', 'group:json-tools', 'group:json-yaml', 'group:text-cleanup',
+  'systemd-timer-converter', 'tip-calculator', 'title-case-converter', 'triangle-solver',
+  'trim-text', 'uppercase-converter', 'word-frequency-counter', 'case-converter',
+  'group:case-converters', 'group:encoders', 'group:hash-generators', 'group:text-cleanup',
   'group:text-counters',
 ];
+
+/**
+ * Work-in-progress tools flagged `keepInput` (see ToolConfig): their typed input is meant to stay on
+ * this device, so the cleanup never touches these keys and a returning visitor keeps their saved
+ * JSON, CSV, regex and text. Their own keys, their second inputs and the group keys they read.
+ * group:csv-tools is shared with CSV Cleaner and CSV to TSV, but CSV Diff reads it as its input.
+ */
+export const KEEP_INPUT_KEYS: readonly string[] = [
+  'csv-diff', 'csv-diff:b', 'csv-to-json-converter', 'find-replace', 'json-formatter', 'json-minifier',
+  'json-schema-validator', 'json-to-csv-converter', 'json-to-schema', 'json-to-yaml-converter',
+  'json-tree-viewer', 'json-validator', 'regex-tester', 'text-compare', 'yaml-to-json-converter',
+  'group:csv-tools', 'group:json-csv', 'group:json-tools', 'group:json-yaml',
+];
+const KEEP = new Set(KEEP_INPUT_KEYS);
 
 /** Raw keys outside the envelope convention that held typed input or personal details. */
 export const LEGACY_RAW_KEYS: readonly string[] = [
@@ -190,9 +198,10 @@ export function clearLegacyInputs(local: KeyValueStore | null, session: KeyValue
 
   if (local) {
     for (const key of LEGACY_RAW_KEYS) remove(local, key, report);
-    for (const id of LEGACY_INPUT_IDS) remove(local, STATE_PREFIX + id, report);
+    for (const id of LEGACY_INPUT_IDS) if (!KEEP.has(id)) remove(local, STATE_PREFIX + id, report);
 
     for (const [id, rule] of Object.entries(LEGACY_RULES)) {
+      if (KEEP.has(id)) continue;
       const key = STATE_PREFIX + id;
       const raw = local.getItem(key);
       if (raw === null) continue;

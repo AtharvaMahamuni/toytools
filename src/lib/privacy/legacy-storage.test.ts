@@ -13,6 +13,7 @@ import {
   MARK,
   reduceEnvelope,
   runLegacyCleanup,
+  KEEP_INPUT_KEYS,
   type KeyValueStore,
 } from './legacy-storage';
 
@@ -78,8 +79,8 @@ describe('clearLegacyInputs', () => {
     const local = new MemoryStore({
       'toytools:age-calculator': env({ fields: { dob: '1990-01-01' } }),
       'toytools:group:encoders': env({ input: 'shared secret' }),
-      'toytools:csv-diff:b': env({ input: 'b,c' }),
-      'toytools:json-tree-viewer': env({ input: '{"a":1}' }),
+      'toytools:group:text-counters': env({ input: 'b,c' }),
+      'toytools:title-case-converter': env({ input: 'hello' }),
       'toytools.base64.input': 'aGVsbG8=',
       'toytools.file-hash-verifier.expected': 'abc123',
       'toytools.color-shades-generator.color': '#ff0000',
@@ -279,12 +280,16 @@ describe('completeness', () => {
   const RAW_KEY_ONLY = ['color-shades-generator', 'file-hash-verifier'];
   const NO_STATE = [
     'breathing-circle', 'character-map', 'chat-export-cleaner', 'context-fit-checker', 'encoding-detector',
-    'gears', 'invisible-character-detector', 'json-schema-validator', 'kinetic-sand', 'llms-txt-generator',
+    'gears', 'invisible-character-detector', 'kinetic-sand', 'llms-txt-generator',
     'pop-it', 'prompt-packer', 'slime', 'spinner', 'switch-board', 'type-scale-generator',
   ];
 
+  // Work-in-progress tools (config keepInput) keep typed input on purpose: named exemptions.
+  const KEEP_TOOLS = tools.filter((t) => t.keepInput).map((t) => t.slug);
+
   it('classifies every private tool that existed at this release', () => {
     const covered = new Set<string>([
+      ...KEEP_TOOLS,
       ...Object.keys(LEGACY_RULES),
       ...LEGACY_INPUT_IDS,
       ...OPTION_ONLY,
@@ -302,7 +307,46 @@ describe('completeness', () => {
   it('keeps the exemptions honest: none of them is also in the lists', () => {
     const listed = new Set<string>([...Object.keys(LEGACY_RULES), ...LEGACY_INPUT_IDS]);
     for (const slug of [...OPTION_ONLY, ...RAW_KEY_ONLY, ...NO_STATE]) expect(listed.has(slug), slug).toBe(false);
+    for (const key of KEEP_INPUT_KEYS) expect(listed.has(key), key).toBe(false);
+    for (const slug of KEEP_TOOLS) {
+      expect(KEEP_INPUT_KEYS, slug).toContain(slug);
+      expect(NO_STATE, slug).not.toContain(slug);
+    }
     expect(LEGACY_RAW_KEYS).toContain('toytools.color-shades-generator.color');
     expect(LEGACY_RAW_KEYS).toContain('toytools.file-hash-verifier.expected');
+  });
+
+  it('the keep list is exactly the 14 work-in-progress tools, all private', () => {
+    expect([...KEEP_TOOLS].sort()).toEqual([
+      'csv-diff', 'csv-to-json-converter', 'find-replace', 'json-formatter', 'json-minifier',
+      'json-schema-validator', 'json-to-csv-converter', 'json-to-schema', 'json-to-yaml-converter',
+      'json-tree-viewer', 'json-validator', 'regex-tester', 'text-compare', 'yaml-to-json-converter',
+    ]);
+    for (const t of tools.filter((x) => x.keepInput)) expect(t.trustVariant ?? 'private', t.slug).toBe('private');
+    // Secrets, personal data and quick converters never keep input, even beside a keep tool.
+    for (const slug of ['json-escape', 'jwt-decoder', 'base64-encoder-decoder', 'url-encoder-decoder',
+      'sha256-hash-generator', 'md5-hash-generator', 'password-generator', 'qr-code-generator',
+      'age-calculator', 'bmi-calculator', 'csv-to-tsv', 'title-case-converter', 'word-counter']) {
+      expect(KEEP_TOOLS, slug).not.toContain(slug);
+    }
+  });
+
+  it('a returning visitor keeps saved work-in-progress input', () => {
+    const json = '{"saved":true}';
+    const local = new MemoryStore({
+      'toytools:group:json-tools': env({ input: json }),
+      'toytools:json-formatter': env({ input: json }),
+      'toytools:json-validator': env({ input: json }),
+      'toytools:regex-tester': env({ pattern: 'a+', text: 'aaa', flags: 'g' }),
+      'toytools:find-replace': env({ text: 'abc', find: 'b', useCase: true }),
+      'toytools:csv-diff:b': env({ input: 'a,b' }),
+      'toytools:group:encoders': env({ input: 'secret' }),
+    });
+    const before = new Map(local.map);
+    clearLegacyInputs(local, null);
+    for (const key of before.keys()) {
+      if (key === 'toytools:group:encoders') expect(local.getItem(key)).toBeNull();
+      else expect(local.getItem(key), key).toBe(before.get(key));
+    }
   });
 });
