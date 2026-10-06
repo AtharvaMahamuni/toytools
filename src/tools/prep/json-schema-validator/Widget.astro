@@ -213,13 +213,23 @@ import ToolActions from '@components/tool/ToolActions.astro';
       if (clearTimer) window.clearTimeout(clearTimer);
     }
 
-    schema.addEventListener('input', paint);
-    data.addEventListener('input', paint);
+    // A keep-input tool (config keepInput): both boxes are work in progress, kept on this device
+    // through TT.state (the runtime removes the record once both are empty).
+    function persist() { ToyTools.state.save('json-schema-validator', { schema: schema.value, data: data.value }); }
+    var saved = ToyTools.state.load('json-schema-validator');
+    if (saved) {
+      if (typeof saved.schema === 'string') schema.value = saved.schema;
+      if (typeof saved.data === 'string') data.value = saved.data;
+    }
+
+    schema.addEventListener('input', function () { paint(); persist(); });
+    data.addEventListener('input', function () { paint(); persist(); });
     sample.addEventListener('click', function () {
       schema.value = SAMPLE_SCHEMA;
       data.value = SAMPLE_DATA;
       disarm();
       paint();
+      persist();
     });
     clearBtn.addEventListener('click', function () {
       if (!clearArmed) {
@@ -232,6 +242,7 @@ import ToolActions from '@components/tool/ToolActions.astro';
       data.value = '';
       disarm();
       paint();
+      persist();
     });
     paint();
   });
