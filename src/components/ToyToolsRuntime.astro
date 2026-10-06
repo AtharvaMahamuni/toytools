@@ -46,9 +46,9 @@
 //   saves and loads the whole record, as before beta-v12.4.2, so typed input survives a reload on
 //   this device. A record whose every field is empty is removed instead of written. Everything
 //   else private stays: Recent conversions in memory, no URL auto-sync, the shared-link query strip.
-//   The trust notice renders a [data-tt-clear-input] button: it removes every key this page saved
-//   or loaded, ignores any save still pending, and reloads the bare path, so the fields come back
-//   empty and the keys are gone.
+//   The trust notice renders a [data-tt-clear-input="<slug>"] button: it removes every key this page
+//   saved or loaded plus the tool's own <slug> and <slug>:b keys, ignores any save still pending,
+//   and reloads the bare path, so the fields come back empty and the keys are gone.
 //
 //   Durability rules, because some of this data is irreplaceable (a year of weight
 //   logs cannot be recomputed the way a converter's last input can):
@@ -266,8 +266,12 @@
 
   // Clear saved input (keep-input pages): see the notes in the frontmatter.
   if (keepIn) document.addEventListener('click', function (e) {
-    if (!e.target.closest || !e.target.closest('[data-tt-clear-input]')) return;
+    var b = e.target.closest && e.target.closest('[data-tt-clear-input]'), slug = b && b.getAttribute('data-tt-clear-input');
+    if (!b) return;
     wiped = 1;
+    // The tool's own key and second input too: a grouped tool's load(group) || load(slug) never
+    // reaches its own key once the group key answers.
+    if (slug) used[slug] = used[slug + ':b'] = 1;
     for (var k in used) TT.state.clear(k);
     try { location.replace(location.pathname + location.hash); } catch (_) {}
   });

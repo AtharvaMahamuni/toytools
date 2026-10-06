@@ -174,6 +174,22 @@ describe('ToyTools.state on a keep-input page (work-in-progress tools)', () => {
     expect(localStorage.getItem('toytools:csv-diff')).toBeNull();
   });
 
+  it('Clear saved input also removes the tool\'s own and second keys when the group key answered', () => {
+    localStorage.setItem('toytools:json-formatter', JSON.stringify({ v: 1, data: { input: 'old own' } }));
+    localStorage.setItem('toytools:csv-diff:b', JSON.stringify({ v: 1, data: { input: 'b' } }));
+    const TT = boot(true, true);
+    TT.state.save('group:json-tools', { input: 'group text' });
+    Object.defineProperty(page!, 'location', { value: { pathname: '/tool/x/', hash: '', replace: vi.fn() }, configurable: true });
+    const btn = page!.document.createElement('button');
+    btn.setAttribute('data-tt-clear-input', 'json-formatter');
+    page!.document.body.appendChild(btn);
+    btn.click();
+    expect(localStorage.getItem('toytools:group:json-tools')).toBeNull();
+    expect(localStorage.getItem('toytools:json-formatter')).toBeNull();
+    // Another tool's second input is not this page's to remove.
+    expect(localStorage.getItem('toytools:csv-diff:b')).not.toBeNull();
+  });
+
   it('a plain private page in the same group neither shows nor removes the kept group text', () => {
     let TT = boot(true, true);
     TT.state.save('group:csv-tools', { input: 'a,b' });

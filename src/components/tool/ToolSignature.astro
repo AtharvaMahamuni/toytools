@@ -29,7 +29,7 @@ const { tool } = Astro.props;
   {/* Work-in-progress tools keep typed input on this device, so the wipe sits beside the notice
       that says so. ToyToolsRuntime handles [data-tt-clear-input] (keys removed, page reloaded). */}
   {tool.keepInput === true && (tool.trustVariant ?? 'private') === 'private' && (
-    <button type="button" class="action-btn" data-tt-clear-input>Clear saved input</button>
+    <button type="button" class="action-btn" data-tt-clear-input={tool.slug}>Clear saved input</button>
   )}
   {/* The published method the numbers come from, where the engine implements a named one. One row,
       not a section: it belongs beside the privacy badge because it answers the same question a
