@@ -17,27 +17,55 @@ describe('runStructuredData', () => {
 });
 
 describe('json-formatter', () => {
-  const run = (s: string) => STRUCTURED_TOOLS['json-formatter'].execute(s);
-  it('pretty-prints with 2-space indent', () => {
-    const r = run('{"a":1,"b":[2,3]}');
+  const run = (s: string) => Promise.resolve(STRUCTURED_TOOLS['json-formatter'].execute(s));
+  it('pretty-prints with 2-space indent', async () => {
+    const r = await run('{"a":1,"b":[2,3]}');
     expect(r.ok).toBe(true);
     expect(r.output).toBe('{\n  "a": 1,\n  "b": [\n    2,\n    3\n  ]\n}');
   });
-  it('returns empty output for empty input', () => expect(run('   ')).toEqual({ ok: true, output: '' }));
-  it('reports an error for invalid JSON', () => {
-    const r = run('{bad}');
+  it('returns empty output for empty input', async () => expect(await run('   ')).toEqual({ ok: true, output: '' }));
+  it('reports an error for invalid JSON', async () => {
+    const r = await run('{bad}');
     expect(r.ok).toBe(false);
     expect(r.error).toBeTruthy();
   });
-  it('handles nested structures', () => expect(run(MESSY).ok).toBe(true));
+  it('handles nested structures', async () => expect((await run(MESSY)).ok).toBe(true));
+  it('lays out like JSON.stringify(v, null, 2) for ordinary JSON', async () => {
+    const samples = [MESSY, '[]', '{}', '{"a":{},"b":[],"c":[{}]}', '"x"', '  42 ', '[[1,[2,[3]]],{"k":{"j":null}}]', '{"s":"a,b:{c}[d] \\"q\\" \\\\"}'];
+    for (const s of samples) expect((await run(s)).output, s).toBe(JSON.stringify(JSON.parse(s), null, 2));
+  });
+  it('is lossless: big integers and number literals stay exactly as written', async () => {
+    const r = await run('{"n":12345678901234567890,"f":1.0,"e":1e5,"E":-2.50E-3,"z":-0}');
+    expect(r.output).toBe('{\n  "n": 12345678901234567890,\n  "f": 1.0,\n  "e": 1e5,\n  "E": -2.50E-3,\n  "z": -0\n}');
+    expect(r.warning).toBeUndefined();
+    expect((await run('9007199254740993')).output).toBe('9007199254740993');
+  });
+  it('keeps string escapes as written and changes only whitespace', async () => {
+    const input = ' { "u" : "\\u0041\\/\\n" ,\n\t"k":[ true , false,null ] } ';
+    const r = await run(input);
+    expect(r.output.replace(/\s+/g, '')).toBe(input.replace(/\s+/g, ''));
+    expect(r.output).toContain('"\\u0041\\/\\n"');
+  });
+  it('warns on duplicate keys and keeps both', async () => {
+    const r = await run('{"a":1,"a":2,"b":{"c":1,"c":2,"c":3},"d":[{"a":1},{"a":2}]}');
+    expect(r.ok).toBe(true);
+    expect(r.output).toContain('"a": 1,\n  "a": 2');
+    expect(r.warning).toBe('Duplicate keys "a", "c": kept as written here, but most JSON parsers keep only the last value.');
+    expect((await run('{"a":1,"a":2}')).warning).toMatch(/^Duplicate key "a":/);
+    // Same key in sibling objects, or a key equal to a value, is not a duplicate.
+    expect((await run('[{"a":1},{"a":1}]')).warning).toBeUndefined();
+    expect((await run('{"a":"a","b":"a"}')).warning).toBeUndefined();
+    // Keys compared decoded: "\u0061" is "a".
+    expect((await run('{"a":1,"\\u0061":2}')).warning).toMatch(/Duplicate key "a"/);
+  });
 });
 
 describe('json-minifier', () => {
   const run = (s: string) => STRUCTURED_TOOLS['json-minifier'].execute(s);
   it('strips whitespace', () =>
     expect(run('{\n  "a": 1,\n  "b": 2\n}').output).toBe('{"a":1,"b":2}'));
-  it('round-trips with the formatter', () => {
-    const formatted = STRUCTURED_TOOLS['json-formatter'].execute(MESSY).output;
+  it('round-trips with the formatter', async () => {
+    const formatted = (await STRUCTURED_TOOLS['json-formatter'].execute(MESSY)).output;
     expect(run(formatted).output).toBe(JSON.stringify(JSON.parse(MESSY)));
   });
   it('reports an error for invalid JSON', () => expect(run('[1,2,').ok).toBe(false));

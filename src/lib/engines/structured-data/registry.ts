@@ -7,7 +7,6 @@
 import { repairJson } from './repair';
 import type { JsonRepair } from './repair';
 import type { StructuredDataTool, StructuredDataResult } from './types';
-import { jsonFormatter } from './jsonFormatter';
 import { jsonMinifier } from './jsonMinifier';
 import { jsonValidator } from './jsonValidator';
 import { jsonToCsv } from './jsonToCsv';
@@ -18,7 +17,14 @@ import { csvToJson } from './csvToJson';
 
 // Keyed by tool id, referenced from a tool config's `processorId`.
 export const STRUCTURED_TOOLS: Record<string, StructuredDataTool> = {
-  'json-formatter': jsonFormatter,
+  // Own chunk, like json-to-schema below: the lossless tokenizer would otherwise land in the shared
+  // structured-data runtime, and json-tree-viewer (which loads it) is near its byte ceiling.
+  'json-formatter': {
+    id: 'json-formatter',
+    family: 'json',
+    jsonInput: true,
+    execute: (input) => import('./jsonFormatter').then((mod) => mod.jsonFormatter.execute(input)),
+  },
   'json-minifier': jsonMinifier,
   'json-validator': jsonValidator,
   'json-to-csv': jsonToCsv,

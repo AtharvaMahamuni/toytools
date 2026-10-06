@@ -11,6 +11,8 @@ export interface StructuredDataResult {
   ok: boolean;
   output: string;
   error?: string;
+  /** A valid result the user should still know about (e.g. a duplicate key). Shown with ✓ Valid. */
+  warning?: string;
 }
 
 export interface StructuredDataTool {

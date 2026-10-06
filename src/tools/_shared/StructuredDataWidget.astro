@@ -150,7 +150,7 @@ const statusId = `${slug}-status`;
     var runSeq = 0;
     function apply(res) {
       status.setAttribute('data-ok', res.ok ? 'true' : 'false');
-      status.textContent = res.ok ? '✓ Valid' : '✗ ' + (res.error || 'Invalid');
+      status.textContent = res.ok ? '✓ Valid' + (res.warning ? '. ⚠ ' + res.warning : '') : '✗ ' + (res.error || 'Invalid');
       setOutput(res.ok ? (res.output || '') : 'Output will appear here', !res.ok);
       repair.offer(res.ok);
     }
