@@ -2,6 +2,32 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.4.3] - 2026-10-06
+
+### Fixed
+
+- **JSON formatter keeps your data exactly.** It used to parse and re-serialize, so integers above
+  2^53 were rounded (12345678901234567890 became 12345678901234567000), 1.0 became 1, 1e5 became
+  100000 and string escapes were rewritten. It now re-indents the original tokens, so numbers,
+  escapes and key order stay exactly as written; only whitespace changes. Duplicate keys are kept
+  as written and named in a warning, because most JSON parsers keep only the last value. The JSON
+  minifier and validator have their own code paths and are unchanged by this release.
+- **Whitespace-only text counts.** Three spaces are 3 characters. The empty state now shows only
+  for truly empty input. The fix is in the shared text counter, so the character, space, letter,
+  line, word, sentence, paragraph, word frequency and reading time counters all count
+  whitespace-only text (no words, sentences or paragraphs; lines and spaces as typed).
+- **Month-end ages and durations never show negative days.** The age calculator and the date
+  difference calculator share one years-months-days breakdown that counts whole months from the
+  start date and clamps to the last day of a shorter month: 31 January to 1 March is 1 month and
+  1 day, and 31 March to 1 May is 1 month and 1 day. Total days, weeks and weekdays are unchanged.
+- **A 29 February birthday falls on 28 February in non-leap years, for the age too.** Born
+  2000-02-29, on 2027-02-28 the age reads 27 years, 0 months, 0 days, matching the "Happy
+  birthday!" banner and the FAQ.
+- **Percentage change from a negative value has the right sign.** The change divides by the size of
+  the starting value, so -20 to 50 is a 350% increase, not -350%.
+- **QR codes with emoji and non-Latin text scan back exactly.** Text is encoded as UTF-8, so
+  `Héllo 😀` and `日本語 测试` decode as typed. Tests decode the generated code with a real QR reader.
+
 ## [beta-v12.4.2] - 2026-10-06
 
 ### Fixed
