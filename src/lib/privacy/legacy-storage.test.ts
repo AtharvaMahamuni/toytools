@@ -239,3 +239,70 @@ describe('the frozen key lists', () => {
     expect(src).toContain("import('@lib/privacy/legacy-storage')");
   });
 });
+
+describe('completeness', () => {
+  // The spec-named offenders (manual bug log, Phase B batches 1 and 2), seeded with every key each
+  // of them wrote before beta-v12.4.2. Dropping any of them from the lists fails here.
+  it('leaves no typed value behind for the eight reported tools', () => {
+    const typed = 'zq-typed-marker';
+    const local = new MemoryStore({
+      'toytools:base64-encoder-decoder': env({ input: typed, mode: 'encode' }),
+      'toytools.base64.input': typed,
+      'toytools:url-encoder-decoder': env({ input: typed, mode: 'decode' }),
+      'toytools:group:encoders': env({ input: typed }),
+      'toytools:sha256-hash-generator': env({ input: typed }),
+      'toytools:group:hash-generators': env({ input: typed }),
+      'toytools:age-calculator': env({ fields: { birthDate: typed } }),
+      'toytools:date-difference-calculator': env({ fields: { startDate: typed, endDate: typed } }),
+      'toytools:title-case-converter': env({ input: typed }),
+      'toytools:group:case-converters': env({ input: typed }),
+      'toytools:color-format-converter': env({ input: typed }),
+      'toytools:qr-code-generator': env({ options: { contentType: 'wifi', text: typed, ssid: typed, wifiPassword: typed, errorCorrection: 'M' } }),
+    });
+    const session = new MemoryStore({
+      [`${LEGACY_HISTORY_PREFIX}base64-encoder-decoder`]: JSON.stringify([{ input: typed }]),
+      [`${LEGACY_HISTORY_PREFIX}url-encoder-decoder`]: JSON.stringify([{ input: typed }]),
+      [`${LEGACY_HISTORY_PREFIX}sha256-hash-generator`]: JSON.stringify([{ input: typed }]),
+    });
+    clearLegacyInputs(local, session);
+    expect([...local.map.values(), ...session.map.values()].join()).not.toContain(typed);
+    expect(session.length).toBe(0);
+    expect(local.getItem('toytools:color-format-converter')).toBeNull();
+    expect(local.getItem('toytools:title-case-converter')).toBeNull();
+  });
+
+  // Every private tool that existed at this release is classified: its key is rewritten (rules),
+  // removed (input ids), or it is listed below with the reason it needs neither. A tool dropped
+  // from the lists, or one added before this date without a decision, fails here.
+  const RELEASE = '2026-10-06';
+  const OPTION_ONLY = ['coin-flipper', 'lorem-ipsum-generator', 'password-generator', 'uuid-generator'];
+  const RAW_KEY_ONLY = ['color-shades-generator', 'file-hash-verifier'];
+  const NO_STATE = [
+    'breathing-circle', 'character-map', 'chat-export-cleaner', 'context-fit-checker', 'encoding-detector',
+    'gears', 'invisible-character-detector', 'json-schema-validator', 'kinetic-sand', 'llms-txt-generator',
+    'pop-it', 'prompt-packer', 'slime', 'spinner', 'switch-board', 'type-scale-generator',
+  ];
+
+  it('classifies every private tool that existed at this release', () => {
+    const covered = new Set<string>([
+      ...Object.keys(LEGACY_RULES),
+      ...LEGACY_INPUT_IDS,
+      ...OPTION_ONLY,
+      ...RAW_KEY_ONLY,
+      ...NO_STATE,
+    ]);
+    const missing = tools
+      .filter((t) => (t.trustVariant ?? 'private') === 'private')
+      .filter((t) => !t.addedOn || t.addedOn <= RELEASE)
+      .map((t) => t.slug)
+      .filter((slug) => !covered.has(slug));
+    expect(missing).toEqual([]);
+  });
+
+  it('keeps the exemptions honest: none of them is also in the lists', () => {
+    const listed = new Set<string>([...Object.keys(LEGACY_RULES), ...LEGACY_INPUT_IDS]);
+    for (const slug of [...OPTION_ONLY, ...RAW_KEY_ONLY, ...NO_STATE]) expect(listed.has(slug), slug).toBe(false);
+    expect(LEGACY_RAW_KEYS).toContain('toytools.color-shades-generator.color');
+    expect(LEGACY_RAW_KEYS).toContain('toytools.file-hash-verifier.expected');
+  });
+});
