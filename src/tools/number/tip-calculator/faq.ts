@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'tip-faq-4',
     question: 'How do I split the bill between people?',
     answer:
-      'Add the tip to the bill total to get the grand total, then divide by the number of people. On a $80 bill with a $16 tip (20%): grand total = $96; split among 4 people = $24 each. The calculator handles this automatically: enter the bill, tip percentage, and number of people.',
+      'Add the tip to the bill total to get the grand total, then divide by the number of people. On a $80 bill with a $16 tip (20%): grand total = $96; split among 4 people = $24 each. The calculator handles this automatically: enter the bill, tip percentage, and number of people. Split Between starts at 1 and takes whole numbers only; the per-person rows appear from 2 people up.',
   },
   {
     id: 'tip-faq-5',
