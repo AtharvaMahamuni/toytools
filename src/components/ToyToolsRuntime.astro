@@ -97,6 +97,13 @@
 //   and write() is a no-op on a data-ephemeral page as a second guard. build() and share() (Copy
 //   link) and read() (an incoming link fills the form) still work.
 //
+// Shared link, first edit:
+//   A private page opened from a ?params link keeps that query until the visitor first changes
+//   something in the tool (a trusted input or change inside [data-url-state], or a click on one of
+//   its buttons other than copy/share). Then the address goes back to the bare path with
+//   replaceState, once, writing no values, so a reload shows the plain page rather than restoring
+//   the link's old values over what was typed.
+//
 // isTyping:
 //   ── Global keyboard shortcuts ─────────────────────────────────────────
 //   Esc blurs an active field; Ctrl/Cmd+Shift+C/X drive the primary Copy/Clear
@@ -627,6 +634,20 @@
       TT.copy(url);
     }
   };
+
+  // Shared link, first edit: see the notes in the frontmatter.
+  if (eph && location.search) (function () {
+    var ev = ['input', 'change', 'click'];
+    function off() { for (var i = 0; i < 3; i++) document.removeEventListener(ev[i], edit, true); }
+    function edit(e) {
+      var t = e.target;
+      if (!e.isTrusted || !t || !t.closest || !t.closest('[data-url-state]')) return;
+      if (e.type == 'click' && (!t.closest('button') || t.closest('[id$="-share"],[data-eq-link],[data-action="copy"],[data-eq-copy],[data-eq-image]'))) return;
+      off();
+      try { history.replaceState(history.state, '', location.pathname + location.hash); } catch (_) {}
+    }
+    for (var i = 0; i < 3; i++) document.addEventListener(ev[i], edit, true);
+  })();
 
   // isTyping: see the notes in the frontmatter.
   function isTyping(el) {

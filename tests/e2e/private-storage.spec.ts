@@ -91,6 +91,25 @@ test.describe('typed input is gone after a reload', () => {
     await expect(page.locator('#age-calculator-hero')).toContainText('36 years');
   });
 
+  test('age: after an edit, the shared link query leaves the address, so a reload does not bring it back', async ({ page }) => {
+    await page.goto('/tool/datetime/age-calculator/?birthDate=1990-05-15&asOf=2026-07-08');
+    const birth = page.locator('#age-calculator-f-birthDate');
+    await expect(birth).toHaveValue('1990-05-15');
+    // Filling the form from the link is not an edit: the query stays until the visitor changes something.
+    expect(new URL(page.url()).search).not.toBe('');
+
+    // A real keystroke (trusted events, as a person typing would send).
+    await birth.click();
+    await page.keyboard.press('ArrowUp');
+    await expect(birth).not.toHaveValue('1990-05-15');
+    await expect.poll(() => new URL(page.url()).search).toBe('');
+    expect(new URL(page.url()).pathname).toBe('/tool/datetime/age-calculator/');
+
+    await page.reload();
+    await expect(birth).toHaveValue('');
+    expect(new URL(page.url()).search).toBe('');
+  });
+
   test('date difference: dates are gone after a reload, and never reach the address bar', async ({ page }) => {
     const url = '/tool/datetime/date-difference-calculator/';
     await page.goto(url);
