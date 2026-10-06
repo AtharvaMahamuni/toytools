@@ -7,6 +7,7 @@ export const config: ToolConfig = {
   description: 'Visualize JSON as a collapsible tree. Explore structure, search keys and values, and copy any node path or value. Fast, private, and free.',
   tagline: 'Explore JSON as a collapsible tree, and copy any path or value.',
   categorySlug: 'developer-utilities',
+  keepInput: true,
   tags: ['json tree viewer', 'json viewer', 'json visualizer', 'view json', 'json explorer', 'json tree', 'collapsible json', 'developer'],
   updatedAt: '2026-06-17',
   engine: 'structured-data',

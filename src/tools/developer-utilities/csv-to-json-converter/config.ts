@@ -7,6 +7,7 @@ export const config: ToolConfig = {
   description: 'Convert CSV to a JSON array of objects for APIs, JavaScript, and databases. Smart type detection, custom delimiters, and RFC 4180 quoting. In-browser and free.',
   tagline: 'Turn CSV into a JSON array of objects, with type detection.',
   categorySlug: 'developer-utilities',
+  keepInput: true,
   tags: ['csv to json', 'csv json converter', 'convert csv to json', 'csv to array', 'import csv', 'developer', 'data conversion'],
   updatedAt: '2026-07-10',
   engine: 'structured-data',

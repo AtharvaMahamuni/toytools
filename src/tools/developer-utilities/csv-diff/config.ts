@@ -10,6 +10,7 @@ export const config: ToolConfig = {
   tags: ['csv diff', 'compare csv files', 'csv compare online', 'diff two csv', 'csv difference checker', 'compare spreadsheets', 'csv comparison tool', 'find changed rows csv'],
   updatedAt: '2026-07-04',
   trustVariant: 'private',
+  keepInput: true,
   engine: 'csv',
   pattern: 'csv-transform',
   family: 'compare',

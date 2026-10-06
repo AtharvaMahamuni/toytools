@@ -39,11 +39,12 @@ interface Runtime {
 let page: Window | null = null;
 let tabName = '';
 
-function boot(ephemeral: boolean): Runtime {
+function boot(ephemeral: boolean, keepInput = false): Runtime {
   if (page) tabName = page.name;
   const win = new Window({ url: 'https://toytoolsapp.com/' }) as unknown as globalThis.Window;
   win.name = tabName;
   if (ephemeral) win.document.documentElement.setAttribute('data-ephemeral', '');
+  if (keepInput) win.document.documentElement.setAttribute('data-keep-input', '');
   const w = win as unknown as { ToyTools?: Runtime };
   new Function('window', 'document', 'localStorage', 'sessionStorage', inline)(win, win.document, localStorage, sessionStorage);
   page = win;
@@ -120,6 +121,66 @@ describe('ToyTools.state on a private page', () => {
     TT.profile.merge({ unit: 'metric', weight: 70 });
     TT.profile.setDerived('tdee', 2400);
     expect(localStorage.getItem(TT.profile.KEY)).toBeNull();
+  });
+});
+
+describe('ToyTools.state on a keep-input page (work-in-progress tools)', () => {
+  it('saves and loads the whole record, typed input included', () => {
+    let TT = boot(true, true);
+    TT.state.save('regex-tester', { pattern: 'a+', text: 'aaa', flags: 'g' }, ['flags']);
+    expect(stored('regex-tester').data).toEqual({ pattern: 'a+', text: 'aaa', flags: 'g' });
+    TT = boot(true, true);
+    expect(TT.state.load('regex-tester', ['flags'])).toEqual({ pattern: 'a+', text: 'aaa', flags: 'g' });
+    TT.state.save('group:json-tools', { input: '{"a":1}' });
+    TT = boot(true, true);
+    expect(TT.state.load('group:json-tools')).toEqual({ input: '{"a":1}' });
+  });
+
+  it('removes the key instead of writing an all-empty record', () => {
+    const TT = boot(true, true);
+    TT.state.save('group:json-tools', { input: '{}' });
+    TT.state.save('group:json-tools', { input: '' });
+    expect(localStorage.getItem('toytools:group:json-tools')).toBeNull();
+  });
+
+  it('keeps Recent conversions in memory only', () => {
+    let TT = boot(true, true);
+    TT.history.push('json-formatter', { input: 'x' });
+    expect(TT.history.get('json-formatter')).toHaveLength(1);
+    TT = boot(true, true);
+    expect(TT.history.get('json-formatter')).toEqual([]);
+    expect(JSON.stringify({ ...localStorage })).not.toContain('"input":"x"');
+  });
+
+  it('Clear saved input removes every key the page used and ignores a pending save', () => {
+    const TT = boot(true, true);
+    TT.state.save('csv-diff', { input: 'a,b' });
+    TT.state.save('csv-diff:b', { input: 'a,c' });
+    TT.state.load('group:csv-tools');
+    localStorage.setItem('toytools:group:csv-tools', JSON.stringify({ v: 1, data: { input: 'x' } }));
+    localStorage.setItem('toytools:sha256-hash-generator', JSON.stringify({ v: 1, data: { mode: 'hex' } }));
+    const replace = vi.fn();
+    Object.defineProperty(page!, 'location', { value: { pathname: '/tool/x/', hash: '', replace }, configurable: true });
+    const btn = page!.document.createElement('button');
+    btn.setAttribute('data-tt-clear-input', '');
+    page!.document.body.appendChild(btn);
+    btn.click();
+    expect(localStorage.getItem('toytools:csv-diff')).toBeNull();
+    expect(localStorage.getItem('toytools:csv-diff:b')).toBeNull();
+    expect(localStorage.getItem('toytools:group:csv-tools')).toBeNull();
+    // A key this page never touched is not its to remove.
+    expect(localStorage.getItem('toytools:sha256-hash-generator')).not.toBeNull();
+    TT.state.save('csv-diff', { input: 'late' });
+    expect(localStorage.getItem('toytools:csv-diff')).toBeNull();
+  });
+
+  it('a plain private page in the same group neither shows nor removes the kept group text', () => {
+    let TT = boot(true, true);
+    TT.state.save('group:csv-tools', { input: 'a,b' });
+    TT = boot(true);
+    expect(TT.state.load('group:csv-tools')).toBeNull();
+    TT.state.save('group:csv-tools', { input: 'typed on csv-cleaner' });
+    expect(stored('group:csv-tools').data).toEqual({ input: 'a,b' });
   });
 });
 

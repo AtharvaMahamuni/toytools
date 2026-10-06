@@ -35,6 +35,9 @@ interface Props {
    *  `private` trust variant). Emitted as data-ephemeral on <html>, which switches ToyTools.state
    *  to options-only and keeps typed input out of storage. See ToyToolsRuntime.astro. */
   ephemeral?: boolean;
+  /** A private tool flagged `keepInput` (work in progress): typed input is kept on this device.
+   *  Emitted as data-keep-input next to data-ephemeral. See ToyToolsRuntime.astro. */
+  keepInput?: boolean;
 }
 
 const {
@@ -47,6 +50,7 @@ const {
   engines = [],
   feedbackTool,
   ephemeral = false,
+  keepInput = false,
 } = Astro.props;
 
 const pageTitle = title;
@@ -65,7 +69,7 @@ const maxWidthVar =
 ---
 
 <!doctype html>
-<html lang="en" data-ephemeral={ephemeral ? '' : undefined}>
+<html lang="en" data-ephemeral={ephemeral ? '' : undefined} data-keep-input={ephemeral && keepInput ? '' : undefined}>
   <head>
     <meta charset="utf-8" />
     <script is:inline>
