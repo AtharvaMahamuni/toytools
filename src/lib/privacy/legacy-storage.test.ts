@@ -13,6 +13,7 @@ import {
   MARK,
   reduceEnvelope,
   runLegacyCleanup,
+  KEEP_GROUP_OWN_KEYS,
   KEEP_INPUT_KEYS,
   type KeyValueStore,
 } from './legacy-storage';
@@ -307,11 +308,21 @@ describe('completeness', () => {
   it('keeps the exemptions honest: none of them is also in the lists', () => {
     const listed = new Set<string>([...Object.keys(LEGACY_RULES), ...LEGACY_INPUT_IDS]);
     for (const slug of [...OPTION_ONLY, ...RAW_KEY_ONLY, ...NO_STATE]) expect(listed.has(slug), slug).toBe(false);
-    for (const key of KEEP_INPUT_KEYS) expect(listed.has(key), key).toBe(false);
+    for (const key of [...KEEP_INPUT_KEYS, ...Object.keys(KEEP_GROUP_OWN_KEYS)]) expect(listed.has(key), key).toBe(false);
+    // Each keep tool has exactly one live input key: its own (ungrouped) or its group's (grouped,
+    // whose legacy own key is merged away), never both.
     for (const slug of KEEP_TOOLS) {
-      expect(KEEP_INPUT_KEYS, slug).toContain(slug);
+      const group = KEEP_GROUP_OWN_KEYS[slug];
+      if (group) {
+        expect(KEEP_INPUT_KEYS, slug).not.toContain(slug);
+        expect(KEEP_INPUT_KEYS, slug).toContain(group);
+        expect(tools.find((t) => t.slug === slug)?.toolGroup, slug).toBe(group.slice('group:'.length));
+      } else {
+        expect(KEEP_INPUT_KEYS, slug).toContain(slug);
+      }
       expect(NO_STATE, slug).not.toContain(slug);
     }
+    for (const slug of Object.keys(KEEP_GROUP_OWN_KEYS)) expect(KEEP_TOOLS, slug).toContain(slug);
     expect(LEGACY_RAW_KEYS).toContain('toytools.color-shades-generator.color');
     expect(LEGACY_RAW_KEYS).toContain('toytools.file-hash-verifier.expected');
   });
@@ -335,7 +346,6 @@ describe('completeness', () => {
     const json = '{"saved":true}';
     const local = new MemoryStore({
       'toytools:group:json-tools': env({ input: json }),
-      'toytools:json-formatter': env({ input: json }),
       'toytools:json-validator': env({ input: json }),
       'toytools:regex-tester': env({ pattern: 'a+', text: 'aaa', flags: 'g' }),
       'toytools:find-replace': env({ text: 'abc', find: 'b', useCase: true }),
@@ -348,5 +358,48 @@ describe('completeness', () => {
       if (key === 'toytools:group:encoders') expect(local.getItem(key)).toBeNull();
       else expect(local.getItem(key), key).toBe(before.get(key));
     }
+  });
+
+  it('a grouped tool\'s legacy own key yields to a group key that holds input', () => {
+    const local = new MemoryStore({
+      'toytools:group:json-tools': env({ input: 'group text' }),
+      'toytools:json-formatter': env({ input: 'older own text' }),
+      'toytools:json-tree-viewer': env({ input: 'dead tree key' }),
+    });
+    clearLegacyInputs(local, null);
+    expect(local.getItem('toytools:json-formatter')).toBeNull();
+    expect(local.getItem('toytools:json-tree-viewer')).toBeNull();
+    expect(JSON.parse(local.getItem('toytools:group:json-tools')!).data).toEqual({ input: 'group text' });
+  });
+
+  it('a lone legacy own key moves into the group key, so its text is not lost', () => {
+    const local = new MemoryStore({
+      'toytools:json-minifier': env({ input: 'only copy' }),
+      'toytools:yaml-to-json-converter': env({ input: 'a: 1' }),
+      'toytools:csv-diff': env({ input: 'a,b' }),
+      'toytools:csv-diff:b': env({ input: 'a,c' }),
+      'toytools:group:json-csv': env({ input: '' }),
+      'toytools:csv-to-json-converter': env({ input: 'x,y' }),
+      'toytools:json-to-csv-converter': env({ input: '' }),
+    });
+    const report = clearLegacyInputs(local, null);
+    const input = (k: string) => JSON.parse(local.getItem(`toytools:${k}`)!).data.input;
+    expect(input('group:json-tools')).toBe('only copy');
+    expect(input('group:json-yaml')).toBe('a: 1');
+    expect(input('group:csv-tools')).toBe('a,b');
+    expect(input('group:json-csv')).toBe('x,y');
+    expect(input('csv-diff:b')).toBe('a,c');
+    for (const id of Object.keys(KEEP_GROUP_OWN_KEYS)) expect(local.getItem(`toytools:${id}`), id).toBeNull();
+    expect(report.rewritten).toEqual(expect.arrayContaining(['toytools:group:json-tools', 'toytools:group:csv-tools']));
+  });
+
+  it('with two own keys and no group key, the first in the list wins and both own keys go', () => {
+    const local = new MemoryStore({
+      'toytools:json-formatter': env({ input: 'formatter' }),
+      'toytools:json-minifier': env({ input: 'minifier' }),
+    });
+    clearLegacyInputs(local, null);
+    expect(JSON.parse(local.getItem('toytools:group:json-tools')!).data).toEqual({ input: 'formatter' });
+    expect(local.length).toBe(1);
   });
 });

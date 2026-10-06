@@ -117,15 +117,32 @@ export const LEGACY_INPUT_IDS: readonly string[] = [
 /**
  * Work-in-progress tools flagged `keepInput` (see ToolConfig): their typed input is meant to stay on
  * this device, so the cleanup never touches these keys and a returning visitor keeps their saved
- * JSON, CSV, regex and text. Their own keys, their second inputs and the group keys they read.
- * group:csv-tools is shared with CSV Cleaner and CSV to TSV, but CSV Diff reads it as its input.
+ * JSON, CSV, regex and text. The ungrouped tools' own keys, CSV Diff's second input and the group
+ * keys the grouped ones read. group:csv-tools is shared with CSV Cleaner and CSV to TSV, but CSV
+ * Diff reads it as its input.
  */
 export const KEEP_INPUT_KEYS: readonly string[] = [
-  'csv-diff', 'csv-diff:b', 'csv-to-json-converter', 'find-replace', 'json-formatter', 'json-minifier',
-  'json-schema-validator', 'json-to-csv-converter', 'json-to-schema', 'json-to-yaml-converter',
-  'json-tree-viewer', 'json-validator', 'regex-tester', 'text-compare', 'yaml-to-json-converter',
+  'csv-diff:b', 'find-replace', 'json-schema-validator', 'json-to-schema', 'json-validator',
+  'regex-tester', 'text-compare',
   'group:csv-tools', 'group:json-csv', 'group:json-tools', 'group:json-yaml',
 ];
+
+/**
+ * Grouped keep-input tools whose own key (written before the group existed) is superseded by the
+ * group key their page reads now. The cleanup leaves exactly one live key: when the group key holds
+ * no input, the first own key with input moves into it; every own key is then removed. A grouped
+ * page also clears its own key on Clear saved input.
+ */
+export const KEEP_GROUP_OWN_KEYS: Readonly<Record<string, string>> = {
+  'json-formatter': 'group:json-tools',
+  'json-minifier': 'group:json-tools',
+  'json-tree-viewer': 'group:json-tools',
+  'json-to-csv-converter': 'group:json-csv',
+  'csv-to-json-converter': 'group:json-csv',
+  'json-to-yaml-converter': 'group:json-yaml',
+  'yaml-to-json-converter': 'group:json-yaml',
+  'csv-diff': 'group:csv-tools',
+};
 const KEEP = new Set(KEEP_INPUT_KEYS);
 
 /** Raw keys outside the envelope convention that held typed input or personal details. */
@@ -186,6 +203,14 @@ export function reduceEnvelope(data: unknown, rule: LegacyRule): Bag | null {
   return Object.keys(out).length ? out : null;
 }
 
+/** The typed text in a { v, data: { input } } envelope, or '' when there is none. */
+function inputOf(raw: string | null): string {
+  try {
+    const env: unknown = raw === null ? null : JSON.parse(raw);
+    return isBag(env) && typeof env.v === 'number' && isBag(env.data) && typeof env.data.input === 'string' ? env.data.input : '';
+  } catch { return ''; }
+}
+
 function remove(store: KeyValueStore, key: string, report: CleanupReport): void {
   if (store.getItem(key) === null) return;
   store.removeItem(key);
@@ -197,6 +222,16 @@ export function clearLegacyInputs(local: KeyValueStore | null, session: KeyValue
   const report: CleanupReport = { removed: [], rewritten: [] };
 
   if (local) {
+    for (const [id, group] of Object.entries(KEEP_GROUP_OWN_KEYS)) {
+      const own = local.getItem(STATE_PREFIX + id);
+      if (own === null) continue;
+      const text = inputOf(own);
+      if (text && !inputOf(local.getItem(STATE_PREFIX + group))) {
+        local.setItem(STATE_PREFIX + group, JSON.stringify({ v: 1, data: { input: text } }));
+        report.rewritten.push(STATE_PREFIX + group);
+      }
+      remove(local, STATE_PREFIX + id, report);
+    }
     for (const key of LEGACY_RAW_KEYS) remove(local, key, report);
     for (const id of LEGACY_INPUT_IDS) if (!KEEP.has(id)) remove(local, STATE_PREFIX + id, report);
 
