@@ -14,7 +14,9 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   difference, title case, color format and QR; fixed in the shared runtime, so it covers the 111
   private tools that saved typed input through it, plus JSON tree viewer and color shades, which
   saved on their own (4 more, the password, UUID, lorem and coin generators, only ever saved
-  options and are unchanged). A tool with no setting to keep writes no record at all.
+  options and are unchanged). A tool with no setting to keep writes no record at all. Of the 134,
+  the 14 work-in-progress tools below keep typed input again and now say so in their notice; the
+  other 120 private tools keep the "Nothing stored unless you choose to save it" promise.
 - **Private tools stop writing typed values into the address bar.** 23 of them (age, date
   difference, timezone, Unix timestamp, cron, systemd timer, sleep cycle, the finance growth
   calculators, CIDR, fraction, matrix, prime factorization, statistics, triangle, combinations and
@@ -35,6 +37,18 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   envelopes are reduced to their options, so settings survive. Option-only keys and data tools
   (notepad, todo, trackers, pomodoro, ledgers) are never touched.
 
+- **Work-in-progress tools keep what you type, on this device.** People come back to JSON and
+  CSV they are working on, so 14 private tools keep typed input in this browser as they did before
+  this release: JSON Formatter, JSON Validator, JSON Minifier, JSON Tree Viewer, JSON to CSV, JSON
+  to YAML, YAML to JSON, CSV to JSON, CSV Diff, JSON Schema Validator (new: it never saved before),
+  JSON to JSON Schema, Find and Replace, Text Compare and Regex Tester (pattern and test text). One
+  catalog flag, `keepInput`, drives it. Their notice says "Your input stays on this device (never
+  uploaded)", a Clear saved input button wipes the saved input and the fields, and the one-time
+  cleanup leaves their keys, so returning visitors keep their saved JSON. Recent conversions stay
+  in the open tab and the address bar is never written. Tools that can hold a secret (JWT, the
+  encoders including JSON Escape, hashes, passwords, QR), personal or health data, and quick
+  converters, calculators and counters still keep nothing.
+
 ### Changed
 
 - **Health calculators no longer keep a reading history or a shared body profile.** Both were
@@ -42,7 +56,9 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   body fat and macro calculators are gone; the unit choice is still remembered.
 - **Grouped tools carry text through the switcher in tab memory.** A plain click on a group pill
   hands your text to the sibling page via `window.name`, which that page reads and wipes; a reload
-  or a new tab starts empty. JSON Tree View takes part again, with Format and Minify.
+  or a new tab starts empty. JSON Tree View takes part again, with Format and Minify. The JSON
+  tools, JSON and CSV, and JSON and YAML groups are work-in-progress tools, so there the text is
+  also kept on this device.
 - **Regex tester remembers only real flag letters** from its flags box (d g i m s u v y, each
   once), never other text typed there. A box of only invalid letters keeps the default g.
 - **Copy says what is saved.** FAQs and guides for the health calculators, color shades, shell

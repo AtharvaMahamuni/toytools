@@ -10,11 +10,17 @@ import { generatePageTitle } from '@lib/titles';
 import { withBase } from '@lib/paths';
 import { GA_MEASUREMENT_ID } from '@lib/analytics/guard';
 import { PRIVACY_LINE } from '@lib/privacy';
+import { tools } from '@data/registry';
 
 const description =
   `${PRIVACY_LINE} No account, no database, no server sees your input. Analytics is the one exception, named below.`;
 
 const updated = '6 October 2026';
+
+// The work-in-progress tools that keep typed input on this device (config keepInput), named from
+// the catalog so this list cannot drift from the code.
+const keepNames = tools.filter((t) => t.keepInput).map((t) => t.name).sort();
+const keepList = `${keepNames.slice(0, -1).join(', ')} and ${keepNames[keepNames.length - 1]}`;
 ---
 
 <BaseLayout title={generatePageTitle('privacy')} description={description} maxWidth="tool">
@@ -56,6 +62,7 @@ const updated = '6 October 2026';
     </p>
     <ul>
       <li><strong>Per-tool state</strong> (<code>toytools:&lt;tool&gt;</code>) such as notes, todo items and tracker entries.</li>
+      <li><strong>Work in progress</strong> on the JSON, CSV, regex and text editing tools named below: what you typed, so it is there when you come back.</li>
       <li><strong>Tool settings</strong> on the other tools, such as a converter's direction, a calculator's units or a generator's options. Never what you typed into them.</li>
       <li><strong>Preferences</strong> (<code>toytools:prefs</code>) such as display currency, Feel sound/haptics/motion choices, and the theme (<code>toytools.theme</code>).</li>
       <li><strong>Favourites and recently used tools</strong>, to make the catalog navigable.</li>
@@ -68,6 +75,13 @@ const updated = '6 October 2026';
       the form from it. A tool's Recent conversions list lives in the open tab and is gone on
       reload too. Older versions of the site saved some of that input, and a body profile for
       the health calculators, in this browser; it is removed the next time you open any page here.
+    </p>
+    <p>
+      A few tools are for work you come back to, so they keep what you type on this device instead,
+      and their notice reads "Your input stays on this device (never uploaded)": {keepList}. Their
+      Clear saved input button removes it from this browser. Like the tools above, they never write
+      your input into the page address on their own, they keep Recent conversions in the open tab
+      only, and the removal of older saved input leaves what they saved in place.
     </p>
     <p>
       Clearing your browser's site data erases all of it permanently. Because some of it is not

@@ -345,6 +345,17 @@ recent chips, section titles, runtime badge expiry under a pinned clock, carouse
   `window.name`, which the next page reads and wipes. `src/lib/privacy/legacy-storage.ts` removes
   what older builds saved, once per browser (gated on `toytools.private-inputs-cleared`). Data tools
   (`local`/`offline`/`lookup` variants) are unaffected.
+- **Keep-input tools**: a private tool whose config sets `keepInput: true` (work in progress: the
+  JSON, CSV, regex, find and replace and text compare tools) also renders `data-keep-input`. There
+  `ToyTools.state` saves and loads the whole record, typed input included, and removes a record whose
+  fields are all empty. History stays in memory, URL auto-sync stays off and the shared-link query
+  strip still applies. The trust notice reads "Your input stays on this device (never uploaded)" and
+  renders a `[data-tt-clear-input]` Clear saved input button: the runtime removes every key the page
+  saved or loaded and reloads the bare path. `KEEP_INPUT_KEYS` in `legacy-storage.ts` exempts their
+  keys from the cleanup. Never set it on a tool that can hold a secret (JWT, encoders, hashes,
+  passwords, QR), personal or health data, or on a quick converter, calculator or counter. On a
+  plain private page a `group:*` save with nothing to keep leaves storage alone, so a keep-input
+  sibling's text survives (CSV Diff shares `group:csv-tools` with CSV Cleaner and CSV to TSV).
 - **Portability** — `ToyTools.data.serialize/download/restore()` exports every `toytools:*` key as
   one JSON backup and restores it. Restore **merges** (never wipes keys the file omits) and refuses
   to write outside the `toytools:` namespace. `ToyTools.data.persist()` requests durable storage
