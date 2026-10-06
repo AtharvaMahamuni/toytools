@@ -265,6 +265,19 @@ test.describe('work-in-progress tools keep typed input (keepInput)', () => {
     await expect(page.locator('#rt-text')).toHaveValue('wip-42 and wip-7');
   });
 
+  test('regex tester: Clear saved input wipes the input and keeps the flags setting', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/regex-tester/');
+    await page.locator('#rt-pattern').fill('wipe-me');
+    await page.locator('#rt-text').fill('wipe-me too');
+    await page.locator('#rt-flags').fill('gi');
+    await expect.poll(() => storedText(page)).toContain('"flags":"gi"');
+    await Promise.all([page.waitForEvent('load'), page.getByRole('button', { name: 'Clear saved input' }).click()]);
+    await expect(page.locator('#rt-pattern')).toHaveValue('');
+    await expect(page.locator('#rt-text')).toHaveValue('');
+    await expect(page.locator('#rt-flags')).toHaveValue('gi');
+    expect(await storedText(page)).not.toContain('wipe-me');
+  });
+
   test('Clear saved input removes a leftover own key as well as the group key', async ({ page }) => {
     // A grouped tool's own key from before its group existed, with the cleanup already done (so
     // only Clear can remove it).

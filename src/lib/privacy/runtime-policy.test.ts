@@ -160,7 +160,8 @@ describe('ToyTools.state on a keep-input page (work-in-progress tools)', () => {
     localStorage.setItem('toytools:group:csv-tools', JSON.stringify({ v: 1, data: { input: 'x' } }));
     localStorage.setItem('toytools:sha256-hash-generator', JSON.stringify({ v: 1, data: { mode: 'hex' } }));
     const replace = vi.fn();
-    Object.defineProperty(page!, 'location', { value: { pathname: '/tool/x/', hash: '', replace }, configurable: true });
+    const reload = vi.fn();
+    Object.defineProperty(page!, 'location', { value: { pathname: '/tool/x/', hash: '', replace, reload }, configurable: true });
     const btn = page!.document.createElement('button');
     btn.setAttribute('data-tt-clear-input', '');
     page!.document.body.appendChild(btn);
@@ -179,7 +180,7 @@ describe('ToyTools.state on a keep-input page (work-in-progress tools)', () => {
     localStorage.setItem('toytools:csv-diff:b', JSON.stringify({ v: 1, data: { input: 'b' } }));
     const TT = boot(true, true);
     TT.state.save('group:json-tools', { input: 'group text' });
-    Object.defineProperty(page!, 'location', { value: { pathname: '/tool/x/', hash: '', replace: vi.fn() }, configurable: true });
+    Object.defineProperty(page!, 'location', { value: { pathname: '/tool/x/', hash: '', replace: vi.fn(), reload: vi.fn() }, configurable: true });
     const btn = page!.document.createElement('button');
     btn.setAttribute('data-tt-clear-input', 'json-formatter');
     page!.document.body.appendChild(btn);
@@ -188,6 +189,18 @@ describe('ToyTools.state on a keep-input page (work-in-progress tools)', () => {
     expect(localStorage.getItem('toytools:json-formatter')).toBeNull();
     // Another tool's second input is not this page's to remove.
     expect(localStorage.getItem('toytools:csv-diff:b')).not.toBeNull();
+  });
+
+  it('Clear saved input wipes input only: named settings survive', () => {
+    const TT = boot(true, true);
+    TT.state.load('regex-tester', ['flags']);
+    TT.state.save('regex-tester', { pattern: 'a+', text: 'aaa', flags: 'gi' }, ['flags']);
+    Object.defineProperty(page!, 'location', { value: { pathname: '/tool/x/', hash: '', replace: vi.fn(), reload: vi.fn() }, configurable: true });
+    const btn = page!.document.createElement('button');
+    btn.setAttribute('data-tt-clear-input', 'regex-tester');
+    page!.document.body.appendChild(btn);
+    btn.click();
+    expect(stored('regex-tester').data).toEqual({ flags: 'gi' });
   });
 
   it('a plain private page in the same group neither shows nor removes the kept group text', () => {
