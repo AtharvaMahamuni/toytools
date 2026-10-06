@@ -41,10 +41,16 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   CSV they are working on, so 14 private tools keep typed input in this browser as they did before
   this release: JSON Formatter, JSON Validator, JSON Minifier, JSON Tree Viewer, JSON to CSV, JSON
   to YAML, YAML to JSON, CSV to JSON, CSV Diff, JSON Schema Validator (new: it never saved before),
-  JSON to JSON Schema, Find and Replace, Text Compare and Regex Tester (pattern and test text). One
+  JSON to JSON Schema, Find and Replace, Text Compare and Regex Tester (pattern, test text and
+  replacement). One
   catalog flag, `keepInput`, drives it. Their notice says "Your input stays on this device (never
   uploaded)", a Clear saved input button wipes the saved input and the fields, and the one-time
-  cleanup leaves their keys, so returning visitors keep their saved JSON. Recent conversions stay
+  cleanup leaves their keys, so returning visitors keep their saved JSON. Clear wipes input only:
+  settings such as the regex flags and find and replace toggles stay. It also removes a grouped
+  tool's own key, and reloads the page without a view transition, so no error reaches the
+  console. A grouped tool's older own key (JSON Formatter, Minifier, Tree View, JSON to CSV, CSV to
+  JSON, JSON to YAML, YAML to JSON, CSV Diff) is merged into the group key the page reads: moved
+  there when the group key holds no input, removed otherwise, so each tool has one live key. Recent conversions stay
   in the open tab and the address bar is never written. Tools that can hold a secret (JWT, the
   encoders including JSON Escape, hashes, passwords, QR), personal or health data, and quick
   converters, calculators and counters still keep nothing.
