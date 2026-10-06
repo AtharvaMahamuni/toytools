@@ -72,7 +72,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   page, now match the behaviour.
 - **Inline runtime notes moved to the component frontmatter** so they stop shipping in every
   page's HTML. Net of this release's additions, the heaviest tool page (JSON tree viewer) is
-  about 0.9 KB gzipped lighter. The cleanup chunk is fetched once per browser and has its own
+  about 0.6 KB gzipped lighter. The cleanup chunk is fetched once per browser and has its own
   3 KB ceiling in the budget check.
 
 ## [beta-v12.4.1] - 2026-10-05
