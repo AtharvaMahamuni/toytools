@@ -265,6 +265,58 @@ test.describe('work-in-progress tools keep typed input (keepInput)', () => {
     await expect(page.locator('#rt-text')).toHaveValue('wip-42 and wip-7');
   });
 
+  test('Clear saved input removes a leftover own key as well as the group key', async ({ page }) => {
+    // A grouped tool's own key from before its group existed, with the cleanup already done (so
+    // only Clear can remove it).
+    await page.addInitScript((mark) => {
+      if (sessionStorage.getItem('r4-seeded')) return;
+      const env = (data: unknown) => JSON.stringify({ v: 1, data });
+      localStorage.setItem(mark, '1');
+      localStorage.setItem('toytools:group:json-tools', env({ input: '{"from":"group"}' }));
+      localStorage.setItem('toytools:json-formatter', env({ input: '{"from":"own-legacy"}' }));
+      sessionStorage.setItem('r4-seeded', '1');
+    }, MARK);
+    await page.goto('/tool/developer-utilities/json-formatter/');
+    const input = page.locator('#json-formatter-input');
+    await expect(input).toHaveValue('{"from":"group"}');
+    await Promise.all([page.waitForEvent('load'), page.getByRole('button', { name: 'Clear saved input' }).click()]);
+    await page.reload();
+    await expect(input).toHaveValue('');
+    const keys = await page.evaluate(() => [localStorage.getItem('toytools:group:json-tools'), localStorage.getItem('toytools:json-formatter')]);
+    expect(keys).toEqual([null, null]);
+  });
+
+  test('a lone legacy own key moves into the group key and still shows', async ({ page }) => {
+    await page.addInitScript(() => {
+      if (sessionStorage.getItem('r4-seeded')) return;
+      const env = (data: unknown) => JSON.stringify({ v: 1, data });
+      localStorage.setItem('toytools:json-formatter', env({ input: '{"only":"copy"}' }));
+      localStorage.setItem('toytools:csv-diff', env({ input: 'id,name\n1,a' }));
+      localStorage.setItem('toytools:csv-diff:b', env({ input: 'id,name\n1,b' }));
+      localStorage.setItem('toytools:yaml-to-json-converter', env({ input: 'legacy: yaml' }));
+      sessionStorage.setItem('r4-seeded', '1');
+    });
+    await page.goto('/tool/developer-utilities/json-formatter/');
+    await expect(page.locator('#json-formatter-input')).toHaveValue('{"only":"copy"}');
+    await expect.poll(() => page.evaluate((m) => localStorage.getItem(m), MARK)).toBe('1');
+    const left = await page.evaluate(() => ({
+      own: localStorage.getItem('toytools:json-formatter'),
+      group: localStorage.getItem('toytools:group:json-tools'),
+      csvOwn: localStorage.getItem('toytools:csv-diff'),
+      yamlOwn: localStorage.getItem('toytools:yaml-to-json-converter'),
+    }));
+    expect(left.own).toBeNull();
+    expect(left.csvOwn).toBeNull();
+    expect(left.yamlOwn).toBeNull();
+    expect(JSON.parse(left.group!).data).toEqual({ input: '{"only":"copy"}' });
+
+    await page.goto('/tool/developer-utilities/csv-diff/');
+    await expect(page.locator('#csv-diff-input')).toHaveValue('id,name\n1,a');
+    await expect(page.locator('#csv-diff-input-b')).toHaveValue('id,name\n1,b');
+    await page.goto('/tool/developer-utilities/yaml-to-json-converter/');
+    await expect(page.locator('#yaml-to-json-converter-input')).toHaveValue('legacy: yaml');
+  });
+
   test('a quick converter beside them still keeps nothing', async ({ page }) => {
     await page.goto('/tool/developer-utilities/json-escape/');
     await expect(page.locator('.tool-signature .trust-tooltip')).toContainText('Nothing stored unless you choose to save it.');
