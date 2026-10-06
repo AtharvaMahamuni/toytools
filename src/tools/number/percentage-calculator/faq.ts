@@ -29,7 +29,7 @@ export const items: FAQItem[] = [
     id: 'pct-faq-5',
     question: 'How do I calculate percentage increase or decrease?',
     answer:
-      'Subtract the original value from the new value, divide by the original value, then multiply by 100. Formula: ((New − Old) ÷ Old) × 100. If a price goes from £80 to £100: ((100 − 80) ÷ 80) × 100 = 25% increase. A negative result means a decrease.',
+      'Subtract the original value from the new value, divide by the size of the original value, then multiply by 100. Formula: ((New − Old) ÷ |Old|) × 100. If a price goes from £80 to £100: ((100 − 80) ÷ 80) × 100 = 25% increase. A negative result means a decrease. When the original value is negative, drop its minus sign before dividing, so the sign still tells you the direction: from −20 to 50 is (70 ÷ 20) × 100 = 350% increase.',
   },
   {
     id: 'pct-faq-6',

@@ -58,10 +58,11 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     </p>
     <p>
       <strong>3. What is the percentage change from X to Y?</strong>
-      Subtract the original value (X) from the new value (Y), divide the result by X,
-      then multiply by 100. Formula: ((Y − X) ÷ X) × 100. If revenue went from $800
+      Subtract the original value (X) from the new value (Y), divide the result by the size
+      of X, then multiply by 100. Formula: ((Y − X) ÷ |X|) × 100. If revenue went from $800
       to $1,000: ((1000 − 800) ÷ 800) × 100 = 25% increase. A negative result means
-      a decrease.
+      a decrease. When X is negative, such as a loss of 20 turning into a profit of 50, drop
+      its minus sign before dividing: (50 − (−20)) ÷ 20 × 100 = 350% increase.
     </p>
     <ReferenceBlock type="key-idea" heading="The base matters">
       <p>Every percentage is relative to a base value. Before calculating, identify which number is the "whole" (the base value). Confusing the numerator and denominator (for example, dividing the wrong way) is the most common source of incorrect percentage calculations.</p>
