@@ -5,6 +5,7 @@
 // code visitors run rather than a copy of it.
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
+import { Window } from 'happy-dom';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 const source = readFileSync(path.resolve(__dirname, '../../components/ToyToolsRuntime.astro'), 'utf8');
@@ -29,14 +30,37 @@ interface Runtime {
   };
 }
 
-/** A fresh runtime on a page with or without the private-page flag. */
+/**
+ * The tab: each boot() is a page load in it, a fresh happy-dom Window with its own document and
+ * listeners. The origin's storage is shared across loads, and window.name carries over, the way a
+ * same-tab navigation behaves.
+ */
+let page: Window | null = null;
+let tabName = '';
+
 function boot(ephemeral: boolean): Runtime {
-  const w = window as unknown as { ToyTools?: Runtime };
-  delete w.ToyTools;
-  if (ephemeral) document.documentElement.setAttribute('data-ephemeral', '');
-  else document.documentElement.removeAttribute('data-ephemeral');
-  new Function(inline)();
+  if (page) tabName = page.name;
+  const win = new Window({ url: 'https://toytoolsapp.com/' }) as unknown as globalThis.Window;
+  win.name = tabName;
+  if (ephemeral) win.document.documentElement.setAttribute('data-ephemeral', '');
+  const w = win as unknown as { ToyTools?: Runtime };
+  new Function('window', 'document', 'localStorage', 'sessionStorage', inline)(win, win.document, localStorage, sessionStorage);
+  page = win;
   return w.ToyTools!;
+}
+
+/** The current page's window.name. */
+const name = () => page!.name;
+
+function pill(init: MouseEventInit = {}) {
+  const doc = page!.document;
+  const a = doc.createElement('a');
+  a.className = 'group-pill';
+  a.href = '#';
+  doc.body.appendChild(a);
+  a.addEventListener('click', (e) => e.preventDefault());
+  a.dispatchEvent(new (page as unknown as typeof globalThis).MouseEvent('click', { bubbles: true, cancelable: true, ...init }));
+  a.remove();
 }
 
 const stored = (id: string) => JSON.parse(localStorage.getItem(`toytools:${id}`) ?? 'null');
@@ -44,6 +68,8 @@ const stored = (id: string) => JSON.parse(localStorage.getItem(`toytools:${id}`)
 beforeEach(() => {
   localStorage.clear();
   sessionStorage.clear();
+  page = null;
+  tabName = '';
 });
 
 describe('ToyTools.state on a private page', () => {
@@ -127,5 +153,62 @@ describe('ToyTools.history (Recent conversions)', () => {
     TT.history.push('k', { input: 'x' });
     TT.history.get('k').push({ input: 'z' });
     expect(TT.history.get('k')).toHaveLength(1);
+  });
+});
+
+describe('group hand-off (text follows a switcher pill, never storage)', () => {
+  it('carries group input to the next page on a plain pill click, then forgets it', () => {
+    let TT = boot(true);
+    TT.state.save('group:encoders', { input: 'Hello World' });
+    TT.state.save('base64-encoder-decoder', { mode: 'decode', input: 'x' }, ['mode']);
+    expect(localStorage.getItem('toytools:group:encoders')).toBeNull();
+    pill();
+    expect(name().startsWith('tt:')).toBe(true);
+    expect(name()).not.toContain('decode');
+
+    TT = boot(true); // the sibling page
+    expect(name()).toBe('');
+    expect(TT.state.load('group:encoders')).toEqual({ input: 'Hello World' });
+    expect(localStorage.getItem('toytools:group:encoders')).toBeNull();
+
+    TT = boot(true); // a reload of it
+    expect(TT.state.load('group:encoders')).toBeNull();
+  });
+
+  it('writes nothing on a modified click (new tab) or a click elsewhere', () => {
+    const TT = boot(true);
+    TT.state.save('group:hash-generators', { input: 'pw' });
+    pill({ ctrlKey: true });
+    pill({ metaKey: true });
+    pill({ button: 1 });
+    page!.document.body.click();
+    expect(name()).toBe('');
+  });
+
+  it('Clear drops the text from the hand-off', () => {
+    let TT = boot(true);
+    TT.state.save('group:encoders', { input: 'Hello' });
+    TT.state.clear('group:encoders');
+    pill();
+    TT = boot(true);
+    expect(TT.state.load('group:encoders')).toBeNull();
+  });
+
+  it('is inert on a data tool page, which saves group state the usual way', () => {
+    const TT = boot(false);
+    TT.state.save('group:encoders', { input: 'Hello' });
+    pill();
+    expect(name()).toBe('');
+    expect(stored('group:encoders')).toEqual({ v: 1, data: { input: 'Hello' } });
+  });
+
+  it('ignores a window.name it did not write', () => {
+    tabName = 'some-frame';
+    const TT = boot(true);
+    expect(name()).toBe('some-frame');
+    expect(TT.state.load('group:encoders')).toBeNull();
+    page!.name = 'tt:{broken';
+    expect(() => boot(true)).not.toThrow();
+    expect(name()).toBe('');
   });
 });

@@ -1,6 +1,8 @@
 // Tool Groups — unified workspace behaviour across grouped tools.
 // The switcher pills are real links (SEO: crawlable internal links); input text
-// survives navigation via the shared `group:{id}` state key.
+// follows a pill click through the runtime's in-tab group hand-off for the `group:{id}`
+// key. It is never written to storage, so a reload after the switch starts empty
+// (pinned in private-storage.spec.ts).
 import { test, expect } from '@playwright/test';
 
 const INPUT = 'Hello World Example';

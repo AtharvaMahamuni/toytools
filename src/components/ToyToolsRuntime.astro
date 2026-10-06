@@ -20,6 +20,14 @@
 //   deferred module. Widgets that compute on load schedule via onReady() so their
 //   first render waits for the engine functions instead of throwing.
 //
+// Group hand-off (carry, hand):
+//   Grouped tools (Case Converter, Encoders, Hash, JSON tools...) are separate pages behind one
+//   switcher, and the text you are working on follows you when you click a sibling pill. On a
+//   private page that text never reaches storage, so it travels in window.name instead: tab
+//   memory, written only on a plain left click of a .group-pill and read and wiped by the very
+//   next page load. A reload, a new tab or any other navigation starts empty. Only group:* input
+//   envelopes ride along, never a tool's own state.
+//
 // TT.state (eph, pick):
 //   Versioned per-tool state: one JSON envelope per tool under "toytools:{toolId}".
 //   Never throws; corruption yields null (caller uses defaults).
@@ -160,6 +168,13 @@
     if (d && keep) for (var i = 0; i < keep.length; i++) if (d[keep[i]] !== undefined) (o = o || {})[keep[i]] = d[keep[i]];
     return o;
   }
+  // Group hand-off: see the notes in the frontmatter.
+  var carry = {}, hand = {};
+  try { var wn = window.name; if (!wn.indexOf('tt:')) { window.name = ''; hand = JSON.parse(wn.slice(3)) || {}; } } catch (_) {}
+  if (eph) document.addEventListener('click', function (e) {
+    if (e.button || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || !e.target.closest || !e.target.closest('.group-pill')) return;
+    try { window.name = 'tt:' + JSON.stringify(carry); } catch (_) {}
+  });
   TT.state = {
     PREFIX: 'toytools:',
     VERSION: 1,
@@ -169,7 +184,8 @@
     MIGRATIONS: {},
     ephemeral: eph,
     save: function (toolId, data, keep) {
-      if (eph && !(data = pick(data, keep))) { TT.state.clear(toolId); return true; }
+      if (eph && !toolId.indexOf('group:')) carry[toolId] = data;
+      if (eph && !(data = pick(data, keep))) { TT.state.clear(toolId, 1); return true; }
       var payload;
       try { payload = JSON.stringify({ v: TT.state.VERSION, data: data }); } catch (_) { return false; }
       if (payload.length > TT.storage.MAX) {
@@ -186,6 +202,7 @@
       }
     },
     load: function (toolId, keep) {
+      if (eph && hand[toolId]) return hand[toolId];
       try {
         var raw = localStorage.getItem(TT.state.PREFIX + toolId);
         if (!raw) return null;
@@ -202,7 +219,8 @@
         return v !== TT.state.VERSION ? null : eph ? pick(data, keep) : data;
       } catch (_) { return null; }
     },
-    clear: function (toolId) {
+    clear: function (toolId, saving) {
+      if (!saving) delete carry[toolId];
       try { localStorage.removeItem(TT.state.PREFIX + toolId); } catch (_) {}
     }
   };

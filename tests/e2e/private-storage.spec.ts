@@ -134,6 +134,23 @@ test.describe('typed input is gone after a reload', () => {
   });
 });
 
+test.describe('grouped tools', () => {
+  test('text follows a switcher pill, but is gone on reload and never stored', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/base64-encoder-decoder/');
+    await page.locator('#base64-encoder-decoder-input').fill('carry-me-along');
+    const nav = page.getByRole('navigation', { name: 'Encoder / Decoder modes' });
+    await nav.getByRole('link', { name: 'URL' }).click();
+    await expect(page).toHaveURL(/\/url-encoder-decoder\/$/);
+    const input = page.locator('#url-encoder-decoder-input');
+    await expect(input).toHaveValue('carry-me-along');
+    expect(await storedText(page)).not.toContain('carry-me-along');
+    expect(await page.evaluate(() => window.name)).toBe('');
+
+    await page.reload();
+    await expect(input).toHaveValue('');
+  });
+});
+
 test.describe('options still persist', () => {
   test('password generator keeps its length', async ({ page }) => {
     await page.goto('/tool/generate/password-generator/');
