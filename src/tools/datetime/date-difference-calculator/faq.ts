@@ -14,7 +14,7 @@ export const items: FAQItem[] = [
   {
     id: 'date-difference-calculator-faq-3',
     question: 'How many weeks and months is that span?',
-    answer: 'Total weeks is the number of complete seven-day weeks in the range. The years-months-days breakdown is the same gap shown the way people usually say it, for example "6 months and 7 days". Both describe the identical span, just in different units.',
+    answer: 'Total weeks is the number of complete seven-day weeks in the range. The years-months-days breakdown is the same gap shown the way people usually say it, for example "6 months and 7 days". Both describe the identical span, just in different units. Months are counted from the start date, and when its day does not exist in a shorter month the month ends on that month\'s last day, so 31 January to 1 March is 1 month and 1 day.',
   },
   {
     id: 'date-difference-calculator-faq-4',

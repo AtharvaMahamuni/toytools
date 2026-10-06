@@ -3,7 +3,10 @@
 // sitemap (every /tool/generate/ page), so each new generator is covered automatically. Guards
 // on output visibility so a content-first generator (e.g. QR, which waits for input) is handled.
 import { test, expect } from '@playwright/test';
+import { createRequire } from 'node:module';
 import { toolPaths, slugFromPath } from './helpers/tools';
+
+const requireFromHere = createRequire(import.meta.url);
 
 const generatorPaths = toolPaths().filter((p) => p.startsWith('/tool/generate/'));
 
@@ -66,6 +69,45 @@ if (qrPath) {
     await expect(page.getByRole('button', { name: 'Download PNG' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Download SVG' })).toBeVisible();
   });
+}
+
+// Phase B PR 2: emoji and CJK must scan back exactly. Decode the rendered canvas in the page with a
+// real QR reader (jsQR, a dev dependency injected only into this test page), and check that the
+// typed text still leaves no trace in storage (#245).
+if (qrPath) {
+  const slug = 'qr-code-generator';
+  for (const text of ['Héllo 😀', '日本語 测试']) {
+    test(`qr-code-generator: the rendered code decodes to exactly "${text}"`, async ({ page }) => {
+      await page.goto(qrPath);
+      await page.locator(`#${slug}-f-text`).fill(text);
+      await page.getByRole('button', { name: 'Regenerate' }).click();
+      const canvas = page.locator(`#${slug}-canvas`);
+      await expect(canvas).toBeVisible();
+      await expect(page.locator('main')).toContainText('Modules');
+
+      await page.addScriptTag({ path: requireFromHere.resolve('jsqr/dist/jsQR.js') });
+      const decoded = await canvas.evaluate((c: HTMLCanvasElement) => {
+        // Pad with a white quiet zone so the reader never depends on the widget's own margin.
+        const pad = 32;
+        const out = document.createElement('canvas');
+        out.width = c.width + pad * 2;
+        out.height = c.height + pad * 2;
+        const ctx = out.getContext('2d')!;
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, out.width, out.height);
+        ctx.drawImage(c, pad, pad);
+        const img = ctx.getImageData(0, 0, out.width, out.height);
+        const read = (window as unknown as { jsQR: (d: Uint8ClampedArray, w: number, h: number) => { data: string } | null })
+          .jsQR(img.data, img.width, img.height);
+        return read ? read.data : null;
+      });
+      expect(decoded).toBe(text);
+
+      const stored = await page.evaluate(() => JSON.stringify({ ...localStorage }) + JSON.stringify({ ...sessionStorage }));
+      expect(stored).not.toContain(text);
+      expect(stored).not.toContain(JSON.stringify(text).slice(1, -1));
+    });
+  }
 }
 
 test('uuid-inspector: a pasted UUID shows its version, and the version check stays quiet', async ({ page }) => {

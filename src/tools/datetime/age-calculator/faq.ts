@@ -4,7 +4,7 @@ export const items: FAQItem[] = [
   {
     id: 'age-calculator-faq-1',
     question: 'How is my exact age calculated?',
-    answer: 'Your age is the whole number of years, months, and days from your date of birth to the reference date. The tool subtracts the day, then the month, then the year, borrowing the real length of the preceding month whenever the day comes out negative. That keeps the result accurate across months of different lengths and across leap years.',
+    answer: 'Your age is the whole number of years, months, and days from your date of birth to the reference date. The tool counts the most whole months it can add to your birth date without passing the reference date, then the days left over. When your birth day does not exist in a shorter month, it uses that month\'s last day, so one month after 31 January is 28 February (29 in a leap year). For example, born 31 January, on 1 March you are 1 month and 1 day older. The days are never negative, and leap years follow the real calendar.',
   },
   {
     id: 'age-calculator-faq-2',
@@ -14,7 +14,7 @@ export const items: FAQItem[] = [
   {
     id: 'age-calculator-faq-3',
     question: 'How does the calculator handle a February 29 birthday?',
-    answer: 'For the age itself, a leap-day birth is counted exactly using real calendar days. For the next-birthday countdown in a year that has no February 29, the birthday falls on February 28, which is the standard civil convention.',
+    answer: 'In a year with no February 29, a leap-day birthday falls on February 28, which is the standard civil convention. The age and the next-birthday countdown follow the same rule, so someone born on 29 February 2000 turns 27 on 28 February 2027: the result reads 27 years, 0 months, 0 days, and the page wishes them a happy birthday that day.',
   },
   {
     id: 'age-calculator-faq-4',

@@ -29,8 +29,9 @@ const STRUCTURED_INFO: Record<string, StructuredInfo> = {
       'Formatting (pretty-printing) adds consistent indentation and line breaks so JSON is easy to read and diff. It changes only whitespace, never the data itself.',
     technical: [
       { term: 'Standard', detail: 'RFC 8259 / ECMA-404' },
-      { term: 'Operation', detail: 'Re-serializes with 2-space indentation' },
-      { term: 'Data', detail: 'Unchanged: only whitespace is added' },
+      { term: 'Operation', detail: 'Re-indents the original tokens with 2 spaces; nothing is re-serialized' },
+      { term: 'Data', detail: 'Unchanged: big integers, 1.0, 1e5 and string escapes stay exactly as written' },
+      { term: 'Duplicate keys', detail: 'Kept as written, with a warning' },
       { term: 'Errors', detail: 'Reports the first syntax problem with its location' },
     ],
     sample: '{"name":"Ada","langs":["JS","TS"],"active":true}',

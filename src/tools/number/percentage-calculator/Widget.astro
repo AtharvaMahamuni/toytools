@@ -100,7 +100,9 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
         result = (a / 100) * b;
         formula = a + '% of ' + b;
       } else if (mode === 'change') {
-        result = ((b - a) / a) * 100;
+        // Divide by |A| so the sign always means up or down, even from a negative baseline:
+        // -20 to 50 is +350%. Same formula as percentChange() in src/lib/number/percent.ts.
+        result = ((b - a) / Math.abs(a)) * 100;
         formula = 'Change from ' + a + ' to ' + b + ' (%)';
       } else {
         result = (a / b) * 100;

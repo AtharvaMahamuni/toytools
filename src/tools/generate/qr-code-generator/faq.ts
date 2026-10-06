@@ -110,6 +110,12 @@ export const items: FAQItem[] = [
       'A lot in theory, up to a few thousand characters, but practically you want as little as possible. The more data you encode, the denser and harder to scan the code becomes. Keep URLs and text short so the pattern stays open and reliable, especially for print.',
   },
   {
+    id: 'qr-code-generator-faq-25',
+    question: 'Can a QR code hold emoji or text in other languages?',
+    answer:
+      'Yes. Text is encoded as UTF-8, so emoji, accented letters, and scripts such as Chinese, Japanese, Arabic, or Cyrillic scan back exactly as you typed them. Each of those characters takes 2 to 4 bytes instead of 1, so a code full of them gets dense sooner than plain English text. Keep it short for print.',
+  },
+  {
     id: 'qr-code-generator-faq-19',
     question: 'Can I copy the content instead of downloading?',
     answer:

@@ -130,11 +130,13 @@ const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
       </p>
     </ReferenceBlock>
 
-    <ReferenceBlock type="note" heading="JSON.stringify does the same thing">
+    <ReferenceBlock type="note" heading="JSON.stringify re-serializes, this formatter does not">
       <p>
-        In JavaScript, <code>JSON.stringify(obj, null, 2)</code> produces two-space-indented JSON.
-        The third argument controls indentation. This is what runs under the hood of every JSON
-        formatter, including this one.
+        In JavaScript, <code>JSON.stringify(JSON.parse(text), null, 2)</code> produces two-space-indented
+        JSON, but it rebuilds the text from parsed values: integers past 2<sup>53</sup> are rounded, 1.0 becomes 1,
+        1e5 becomes 100000 and a duplicate key keeps only its last value. This formatter uses
+        <code>JSON.parse</code> only to check the syntax, then re-indents your original tokens, so
+        only the whitespace changes.
       </p>
     </ReferenceBlock>
   </section>

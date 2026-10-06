@@ -114,6 +114,23 @@ test.describe('structured-data tools', () => {
     await expect.poll(async () => t.output.textContent()).toBe('{\n  "a": 1\n}');
   });
 
+  test('json-formatter: lossless, big integers and 1.0 stay as written', async ({ page }) => {
+    const t = new DevTool(page, 'json-formatter');
+    await t.goto();
+    await t.fill('{"n":12345678901234567890,"f":1.0,"e":1e5}');
+    await expect.poll(async () => t.output.textContent()).toBe('{\n  "n": 12345678901234567890,\n  "f": 1.0,\n  "e": 1e5\n}');
+    await expect(t.status).toHaveText('✓ Valid');
+  });
+
+  test('json-formatter: warns on a duplicate key and keeps both', async ({ page }) => {
+    const t = new DevTool(page, 'json-formatter');
+    await t.goto();
+    await t.fill('{"a":1,"a":2}');
+    await expect.poll(async () => t.output.textContent()).toBe('{\n  "a": 1,\n  "a": 2\n}');
+    await expect(t.status).toContainText('✓ Valid');
+    await expect(t.status).toContainText('Duplicate key "a"');
+  });
+
   test('json-formatter: load example fills and validates', async ({ page }) => {
     const t = new DevTool(page, 'json-formatter');
     await t.goto();

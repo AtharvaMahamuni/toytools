@@ -17,6 +17,22 @@ type ErrorLevel = 'L' | 'M' | 'Q' | 'H';
 const str = (v: unknown): string => (typeof v === 'string' ? v : v == null ? '' : String(v));
 const bool = (v: unknown, fallback: boolean): boolean => (typeof v === 'boolean' ? v : fallback);
 
+/**
+ * The UTF-8 bytes of `text`, as a string with one char per byte (each char code 0 to 255).
+ *
+ * `qrcode-generator` 1.5 writes Byte mode with `charCodeAt(i) & 0xff`, which cut every UTF-16 code
+ * unit above 255 to one byte: CJK and emoji came out as garbage. Handing it the UTF-8 bytes instead
+ * makes the Byte segment exact UTF-8, so emoji and CJK decode to the same text. ASCII is unchanged.
+ * The library has no ECI segment API, so no ECI header is written; QR readers (ZXing, iOS, Android,
+ * jsQR) detect UTF-8 byte data.
+ */
+export function utf8ByteString(text: string): string {
+  const bytes = new TextEncoder().encode(text);
+  let out = '';
+  for (let i = 0; i < bytes.length; i++) out += String.fromCharCode(bytes[i]);
+  return out;
+}
+
 /** Build the exact string to encode from the selected content type + its fields. */
 function payloadFor(opts: GeneratorOptions): string {
   const type = str(opts.contentType) || 'text';
@@ -113,7 +129,7 @@ export const qrCode: Generator = {
 
     // typeNumber 0 = auto-select the smallest version that fits the data at this EC level.
     const qr = qrcode(0, level);
-    qr.addData(content);
+    qr.addData(utf8ByteString(content));
     qr.make();
     const count = qr.getModuleCount();
     const modules: boolean[][] = [];

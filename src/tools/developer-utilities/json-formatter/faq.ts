@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'json-fmt-faq-4',
     question: 'What\'s the difference between formatting and minifying?',
     answer:
-      'Opposite operations, same data. Formatting adds whitespace for readability. Minifying removes it for size. Both produce valid JSON. You can format a minified response to inspect it, then minify again before sending it: the data survives both trips intact.',
+      'Opposite operations. Formatting adds whitespace for readability. Minifying removes it for size. Both produce valid JSON. You can format a minified response to inspect it: this formatter copies every key and value exactly as written, so formatting never changes the data.',
   },
   {
     id: 'json-fmt-faq-5',
@@ -72,5 +72,11 @@ export const items: FAQItem[] = [
     question: 'Can I format JSON that a chat model returned?',
     answer:
       'Yes. Paste the JSON here to inspect it. ToyTools does not send that text to a model. Copy the formatted result if you want to use it somewhere else.',
+  },
+  {
+    id: 'json-fmt-faq-13',
+    question: 'Does the formatter keep big numbers and duplicate keys?',
+    answer:
+      'Yes. It re-indents your text instead of parsing and re-serializing it, so 12345678901234567890 stays 12345678901234567890 (JavaScript would round it to 12345678901234567000), 1.0 stays 1.0 and 1e5 stays 1e5. A key that appears twice in one object is kept twice and flagged with a warning, because most JSON parsers keep only the last value.',
   },
 ];

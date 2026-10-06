@@ -20,10 +20,28 @@ describe('analyzeText', () => {
     expect(r.averageSentenceLength).toBe(0);
   });
 
-  it('returns all zeros for whitespace-only string', () => {
-    const r = analyzeText('     ');
+  it('counts whitespace-only text as characters, with no words or sentences', () => {
+    const r = analyzeText('   ');
+    expect(r.characters).toBe(3);
+    expect(r.spaces).toBe(3);
+    expect(r.charactersNoSpaces).toBe(0);
+    expect(r.lines).toBe(1);
     expect(r.words).toBe(0);
     expect(r.sentences).toBe(0);
+    expect(r.paragraphs).toBe(0);
+    expect(r.nonEmptyLines).toBe(0);
+    expect(r.readingTime).toBe(0);
+    expect(r.speakingTime).toBe(0);
+    expect(r.averageWordLength).toBe(0);
+    expect(r.averageSentenceLength).toBe(0);
+  });
+
+  it('counts mixed whitespace with a newline (bug-log repro "  \\n ")', () => {
+    const r = analyzeText('  \n ');
+    expect(r.characters).toBe(4);
+    expect(r.spaces).toBe(3);
+    expect(r.lines).toBe(2);
+    expect(r.words).toBe(0);
   });
 
   it('returns all zeros for newline-only string', () => {

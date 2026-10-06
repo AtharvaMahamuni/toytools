@@ -20,6 +20,8 @@
 //
 // See docs/analysis/2026-08-11-tool-craft.md.
 
+import { percentChange } from './percent';
+
 export type PitfallId =
   | 'tax-calculator'
   | 'percentage-calculator'
@@ -98,7 +100,7 @@ export function numberPitfall(id: PitfallId, input: PitfallInput): Pitfall | nul
       const { a, b } = input;
       if (!finite(a) || !finite(b) || a === 0 || a === b) return null;
       if (a < 0 || a > 100 || b < 0 || b > 100) return null;
-      const change = ((b - a) / Math.abs(a)) * 100;
+      const change = percentChange(a, b);
       const points = b - a;
       if (Math.abs(Math.abs(points) - Math.abs(change)) < 0.05) return null;
       return {

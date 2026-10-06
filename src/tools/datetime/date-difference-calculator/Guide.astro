@@ -42,9 +42,11 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <p>
       To count the days between two dates, the tool converts each date to a day number and subtracts,
       so the total-days figure is a plain, exact count. The years-months-days breakdown is built the
-      other way, one unit at a time: subtract the day, then the month, then the year, borrowing the
-      real length of the preceding month whenever the day comes out negative. That is how the duration
-      between two dates is measured without ever assuming a fixed month length. Total weeks is simply
+      other way: count the most whole calendar months that fit between the start date and the end date,
+      split them into years and months, and count the days left over. When the start day does not
+      exist in a shorter month, that month counts from its last day, so 31 January to 1 March is 1
+      month (to 28 February) and 1 day. Every month is measured from the start date itself, so the
+      days are never negative and no fixed month length is ever assumed. Total weeks is simply
       the number of complete seven-day weeks inside the total days.
     </p>
   </section>
@@ -95,8 +97,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <ReferenceBlock type="common-mistake" heading="Approximating a month as 30 days">
       <p>
         Months are not all 30 days, so estimating a duration with a flat 30-day month drifts over
-        long ranges. This tool borrows the real length of each preceding month, so the years, months,
-        and days are exact rather than approximate.
+        long ranges. This tool steps through real calendar months from the start date, so the years,
+        months, and days are exact rather than approximate.
       </p>
     </ReferenceBlock>
 

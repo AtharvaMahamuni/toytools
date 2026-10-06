@@ -34,7 +34,7 @@ export const knowledge: Knowledge = {
   ],
   commonMistakes: [
     'Subtracting the birth year from the current year, which is off by one until the birthday has passed this year.',
-    'Assuming every month has 30 days instead of borrowing the real length of the preceding month.',
+    'Assuming every month has 30 days instead of stepping through real calendar months from the birth date.',
     'Averaging 365.25 days per year rather than counting the exact calendar days, including leap days.',
   ],
   commonQuestions: [

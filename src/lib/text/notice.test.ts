@@ -71,6 +71,8 @@ describe('textNotice — silence', () => {
 
   it('says nothing about paragraph breaks once there really are paragraphs', () => {
     expect(n('paragraph-counter', 'one\n\ntwo')).toBeNull();
+    // Whitespace-only input has no paragraph at all, so "counts as one paragraph" would be false.
+    expect(n('paragraph-counter', '  \n ')).toBeNull();
   });
 
   it('says nothing about stop words below a tenth of the text', () => {

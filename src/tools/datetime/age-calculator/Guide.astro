@@ -42,12 +42,13 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
   <section id="how-it-works">
     <h2>How Age Is Measured <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Age calculation works one unit at a time, from the smallest to the largest. Subtract the day,
-      then the month, then the year. If the day of the reference date is earlier in the month than
-      your birth day, you borrow a month and add back the real length of the previous month, which
-      is 28, 29, 30, or 31 days depending on the month. If the month then comes out negative, you
-      borrow a year. Therefore the result is a calendar-correct age that respects each month's true
-      length. Leap years affect an exact age too: a span that crosses several 29 Februaries holds
+      Age calculation counts whole calendar months forward from your date of birth. Take the most
+      whole months you can add to your birth date without passing the reference date, split them into
+      years and months, and count the days left over. When your birth day does not exist in a shorter
+      month, that month counts from its last day instead: one month after 31 January is 28 February,
+      or 29 February in a leap year. Every month is measured from the birth date itself rather than
+      from the month before, so nothing drifts and the leftover days are never negative. For example,
+      31 March to 1 May is 1 month (to 30 April) and 1 day. Leap years affect an exact age too: a span that crosses several 29 Februaries holds
       more days than a flat 365 per year would suggest, which is why the count uses the real calendar.
     </p>
   </section>
@@ -111,13 +112,14 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 
     <ReferenceBlock type="common-mistake" heading="Assuming every month is 30 days">
       <p>
-        Months range from 28 to 31 days. Counting months and days correctly means borrowing the
-        real length of the preceding month, which is exactly what this calculator does.
+        Months range from 28 to 31 days. Counting months and days correctly means stepping through
+        real calendar months from your birth date, and using the last day of a shorter month when your
+        birth day does not exist in it, which is exactly what this calculator does.
       </p>
     </ReferenceBlock>
 
     <ReferenceBlock type="note" heading="Leap-day birthdays">
-      <p>A 29 February birthday is counted exactly for age. For the next-birthday countdown in a non-leap year, it is treated as 28 February, the common civil convention.</p>
+      <p>A 29 February birthday falls on 28 February in a non-leap year, the common civil convention. The age and the next-birthday countdown follow the same rule, so on 28 February 2027 someone born on 29 February 2000 is exactly 27 years, 0 months, and 0 days old.</p>
     </ReferenceBlock>
   </section>
 </GuideLayout>
