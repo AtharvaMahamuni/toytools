@@ -218,6 +218,13 @@ test.describe('options still persist', () => {
     await page.reload();
     await expect(page.locator('#rt-flags')).toHaveValue('gi');
     await expect(page.locator('#rt-pattern')).toHaveValue('');
+
+    // Only invalid letters: the default g is kept, not an empty setting.
+    await page.locator('#rt-pattern').fill('x');
+    await page.locator('#rt-flags').fill('zz9');
+    await expect.poll(() => storedText(page)).toContain('"flags":"g"');
+    await page.reload();
+    await expect(page.locator('#rt-flags')).toHaveValue('g');
   });
 
 

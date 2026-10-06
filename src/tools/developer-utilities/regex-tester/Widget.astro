@@ -515,7 +515,12 @@ const REGEX_WORKER_SOURCE = regexWorkerSource();
 
   // The flags box is free text, but only real flag letters are a setting worth remembering: each
   // of d g i m s u v y once, nothing else ever reaches storage.
-  function flagLetters(v) { return String(v || '').replace(/[^dgimsuvy]/g, '').replace(/(.)(?=.*\1)/g, ''); }
+  // A box holding only invalid letters falls back to the default g rather than saving nothing; an
+  // empty box stays empty (no flags is a real choice).
+  function flagLetters(v) {
+    var f = String(v || '').replace(/[^dgimsuvy]/g, '').replace(/(.)(?=.*\1)/g, '');
+    return f || (String(v || '').trim() ? 'g' : '');
+  }
 
   function saveState() {
     if (!TT || !TT.state) return;
