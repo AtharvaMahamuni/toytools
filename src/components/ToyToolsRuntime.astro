@@ -48,7 +48,7 @@
 //   else private stays: Recent conversions in memory, no URL auto-sync, the shared-link query strip.
 //   The trust notice renders a [data-tt-clear-input="<slug>"] button: it removes every key this page
 //   saved or loaded plus the tool's own <slug> and <slug>:b keys, ignores any save still pending,
-//   and reloads the bare path, so the fields come back empty and the keys are gone. It wipes input
+//   and reloads the bare path (replaceState, then reload: no view transition to skip), so the fields come back empty and the keys are gone. It wipes input
 //   only: where a caller passed a keep list (regex flags, find-and-replace toggles), the record is
 //   rewritten to those settings instead of removed.
 //
@@ -282,7 +282,10 @@
       TT.state.clear(k);
       if (d) try { localStorage.setItem(TT.state.PREFIX + k, JSON.stringify({ v: TT.state.VERSION, data: d })); } catch (_) {}
     }
-    try { location.replace(location.pathname + location.hash); } catch (_) {}
+    // A reload, not location.replace: a reload never starts a cross-document view transition, so
+    // there is none to be skipped (Chrome rejected one with an unhandled AbortError).
+    var bare = location.pathname + location.hash;
+    try { history.replaceState(null, '', bare); location.reload(); } catch (_) { try { location.replace(bare); } catch (_) {} }
   });
 
   // TT.data: see the notes in the frontmatter.

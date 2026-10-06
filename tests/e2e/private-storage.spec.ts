@@ -330,6 +330,23 @@ test.describe('work-in-progress tools keep typed input (keepInput)', () => {
     await expect(page.locator('#yaml-to-json-converter-input')).toHaveValue('legacy: yaml');
   });
 
+  for (const path of [
+    '/tool/developer-utilities/json-formatter/',
+    '/tool/developer-utilities/json-tree-viewer/',
+    '/tool/prep/json-schema-validator/',
+    '/tool/prep/json-to-schema/',
+  ]) {
+    test(`${path}: Clear saved input raises no console error or unhandled rejection`, async ({ page }) => {
+      const errors = guardConsole(page);
+      await page.goto(path);
+      await page.locator('textarea:visible').first().fill('{"a":1}');
+      await page.waitForTimeout(400);
+      await Promise.all([page.waitForEvent('load'), page.getByRole('button', { name: 'Clear saved input' }).click()]);
+      await page.waitForTimeout(800);
+      expect(errors, errors.join('\n')).toEqual([]);
+    });
+  }
+
   test('a quick converter beside them still keeps nothing', async ({ page }) => {
     await page.goto('/tool/developer-utilities/json-escape/');
     await expect(page.locator('.tool-signature .trust-tooltip')).toContainText('Nothing stored unless you choose to save it.');
