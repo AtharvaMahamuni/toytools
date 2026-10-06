@@ -14,7 +14,7 @@ import { PRIVACY_LINE } from '@lib/privacy';
 const description =
   `${PRIVACY_LINE} No account, no database, no server sees your input. Analytics is the one exception, named below.`;
 
-const updated = '29 September 2026';
+const updated = '6 October 2026';
 ---
 
 <BaseLayout title={generatePageTitle('privacy')} description={description} maxWidth="tool">
@@ -63,8 +63,10 @@ const updated = '29 September 2026';
     <p>
       A tool whose notice reads "Nothing stored unless you choose to save it" keeps what you type
       on the page only: text, dates, body measurements, a QR code's content or Wi-Fi password.
-      Reloading the page clears it. Its Recent conversions list lives in the open tab and is gone
-      on reload too. Older versions of the site saved some of that input, and a body profile for
+      Reloading the page clears it, and nothing you type is written into the address bar on its
+      own. A link holds your values only when you press Copy link, and opening such a link fills
+      the form from it. A tool's Recent conversions list lives in the open tab and is gone on
+      reload too. Older versions of the site saved some of that input, and a body profile for
       the health calculators, in this browser; it is removed the next time you open any page here.
     </p>
     <p>
