@@ -513,11 +513,15 @@ const REGEX_WORKER_SOURCE = regexWorkerSource();
     if (token === runToken) renderResult(result);
   }
 
+  // The flags box is free text, but only real flag letters are a setting worth remembering: each
+  // of d g i m s u v y once, nothing else ever reaches storage.
+  function flagLetters(v) { return String(v || '').replace(/[^dgimsuvy]/g, '').replace(/(.)(?=.*\1)/g, ''); }
+
   function saveState() {
     if (!TT || !TT.state) return;
     TT.state.save('regex-tester', {
       pattern: patternEl.value,
-      flags: flagsEl ? flagsEl.value : 'g',
+      flags: flagsEl ? flagLetters(flagsEl.value) : 'g',
       text: textEl.value,
       replace: replaceEl ? replaceEl.value : '',
     }, ['flags']);
@@ -577,7 +581,7 @@ const REGEX_WORKER_SOURCE = regexWorkerSource();
       var saved = TT.state.load('regex-tester', ['flags']);
       if (saved) {
         if (saved.pattern) patternEl.value = saved.pattern;
-        if (flagsEl && saved.flags != null) flagsEl.value = saved.flags;
+        if (flagsEl && saved.flags != null) flagsEl.value = flagLetters(saved.flags);
         if (saved.text) textEl.value = saved.text;
         if (replaceEl && saved.replace != null) replaceEl.value = saved.replace;
       }

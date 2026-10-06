@@ -180,7 +180,47 @@ test.describe('grouped tools', () => {
   });
 });
 
+test.describe('JSON tools group', () => {
+  test('Tree View receives and passes text through the pills, and forgets it on reload', async ({ page }) => {
+    const json = '{"carry":"tree-view-check","n":1}';
+    await page.goto('/tool/developer-utilities/json-formatter/');
+    await page.locator('#json-formatter-input').fill(json);
+    const nav = page.getByRole('navigation', { name: 'JSON Tools modes' });
+    await nav.getByRole('link', { name: 'Tree View' }).click();
+    await expect(page).toHaveURL(/\/json-tree-viewer\/$/);
+    const tree = page.locator('#json-tree-viewer-input');
+    await expect(tree).toHaveValue(json);
+
+    // And back the other way, with an edit made in Tree View. On a phone the handed-over JSON
+    // opens on the Tree tab, so switch to Input first.
+    const inputTab = page.locator('.jtv-mtab[data-view="input"]');
+    if (await inputTab.isVisible()) await inputTab.click();
+    const edited = '{"carry":"edited-in-tree","n":2}';
+    await tree.fill(edited);
+    await nav.getByRole('link', { name: 'Format' }).click();
+    await expect(page).toHaveURL(/\/json-formatter\/$/);
+    await expect(page.locator('#json-formatter-input')).toHaveValue(edited);
+    expect(await storedText(page)).not.toMatch(/tree-view-check|edited-in-tree/);
+
+    await nav.getByRole('link', { name: 'Tree View' }).click();
+    await page.reload();
+    await expect(page.locator('#json-tree-viewer-input')).toHaveValue('');
+  });
+});
+
 test.describe('options still persist', () => {
+  test('regex tester keeps only real flag letters, never the pattern or text', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/regex-tester/');
+    await page.locator('#rt-pattern').fill('secret-pattern');
+    await page.locator('#rt-flags').fill('gzqx1ii');
+    await expect.poll(() => storedText(page)).toContain('"flags":"gi"');
+    expect(await storedText(page)).not.toMatch(/secret-pattern|zqx/);
+    await page.reload();
+    await expect(page.locator('#rt-flags')).toHaveValue('gi');
+    await expect(page.locator('#rt-pattern')).toHaveValue('');
+  });
+
+
   test('password generator keeps its length', async ({ page }) => {
     await page.goto('/tool/generate/password-generator/');
     const length = page.locator('#password-generator-f-length');
