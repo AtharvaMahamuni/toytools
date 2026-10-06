@@ -85,7 +85,9 @@ const updated = '6 October 2026';
       type, and referrer. No tool passes what you type to it.
     </p>
     <p>
-      Some calculators keep their inputs in the page address (see Links you share below). The site
+      Some calculators keep their inputs in the page address: the bill-splitting and UPI
+      calculators as you type, and any calculator you open from a shared link (see Links you share
+      below). The site
       gives Google Analytics that address without the part after the question mark, for the page
       you are on and for the page you came from, so those inputs are left out. Google Analytics can
       also count a page view by itself when you return to a page with the Back button, and then it
@@ -117,12 +119,19 @@ const updated = '6 October 2026';
 
     <h3>Links you share</h3>
     <p>
-      Calculators such as the compound interest, date difference and health tools have a "Copy
-      link" button you press deliberately. It builds a link holding the values you entered into that
-      calculator, so you can bookmark a calculation or send it to someone, and opening that link
-      fills the calculator in. None of them writes your inputs into the page address on its own, so
-      nothing you type ends up in your browser history or in a link by accident. Tools whose input
-      may be a secret never put anything in the address at all, and offer no link action.
+      Calculators marked "Nothing stored unless you choose to save it", such as the compound
+      interest, date difference and health tools, have a "Copy link" button you press deliberately.
+      It builds a link holding the values you entered into that calculator, so you can bookmark a
+      calculation or send it to someone, and opening that link fills the calculator in. Those tools
+      never write your inputs into the page address on their own, so nothing you type into them
+      ends up in your browser history or in a link by accident. If you open such a link and then
+      change a value, the address goes back to the plain page, so a reload does not bring the
+      link's values back.
+    </p>
+    <p>
+      The bill-splitting and UPI calculators, which keep their data in this browser, keep their
+      inputs in the page address as you type, so a link to them carries those numbers. Tools whose
+      input may be a secret never put anything in the address at all, and offer no link action.
     </p>
 
     <h2>Cookies</h2>
