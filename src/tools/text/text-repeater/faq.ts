@@ -35,6 +35,6 @@ export const items: FAQItem[] = [
     id: 'rep-faq-6',
     question: 'Is my text uploaded anywhere?',
     answer:
-      'No. The repeat happens in your browser and nothing you type leaves the page. Your text, count and separator persist on this device so the tool opens the way you left it, with the stored text capped at 20,000 characters so a large paste does not fill your browser storage. Clearing your browser data removes it.',
+      'No. The repeat happens in your browser and nothing you type leaves the page. Your text is not saved, so a reload clears it. The count, separator and numbering choice are remembered in this browser so the tool opens the way you left it.',
   },
 ];

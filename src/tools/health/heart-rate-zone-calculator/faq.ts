@@ -29,6 +29,6 @@ export const items: FAQItem[] = [
   {
     id: 'heart-rate-zone-calculator-faq-6',
     question: 'Is my data private?',
-    answer: 'Yes. The whole calculation runs in your browser. Your age and resting heart rate are never sent anywhere, and the values are only stored on your own device so the tool remembers them next time. Clearing your browser storage removes them.',
+    answer: 'Yes. The whole calculation runs in your browser. Your age and resting heart rate are never sent anywhere and are not saved, so a reload starts with a blank form.',
   },
 ];

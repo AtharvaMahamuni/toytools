@@ -56,11 +56,17 @@ const updated = '29 September 2026';
     </p>
     <ul>
       <li><strong>Per-tool state</strong> (<code>toytools:&lt;tool&gt;</code>) such as notes, todo items and tracker entries.</li>
+      <li><strong>Tool settings</strong> on the other tools, such as a converter's direction, a calculator's units or a generator's options. Never what you typed into them.</li>
       <li><strong>Preferences</strong> (<code>toytools:prefs</code>) such as display currency, Feel sound/haptics/motion choices, and the theme (<code>toytools.theme</code>).</li>
-      <li><strong>Body profile</strong> (<code>toytools:profile:body</code>) if you have used the health calculators, so several of them do not each ask for the same details.</li>
       <li><strong>Favourites and recently used tools</strong>, to make the catalog navigable.</li>
-      <li><strong>Recent conversions</strong> for some tools, in session storage, which the browser discards when you close the tab.</li>
     </ul>
+    <p>
+      A tool whose notice reads "Nothing stored unless you choose to save it" keeps what you type
+      on the page only: text, dates, body measurements, a QR code's content or Wi-Fi password.
+      Reloading the page clears it. Its Recent conversions list lives in the open tab and is gone
+      on reload too. Older versions of the site saved some of that input, and a body profile for
+      the health calculators, in this browser; it is removed the next time you open any page here.
+    </p>
     <p>
       Clearing your browser's site data erases all of it permanently. Because some of it is not
       recoverable, such as months of tracker entries, there is an export on the

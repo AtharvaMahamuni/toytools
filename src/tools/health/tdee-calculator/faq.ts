@@ -29,6 +29,6 @@ export const items: FAQItem[] = [
   {
     id: 'tdee-calculator-faq-6',
     question: 'Is my information private?',
-    answer: 'Yes. The calculation runs entirely in your browser. Your age, weight, height, and activity level are never sent anywhere, and the values are only stored on your own device so the tool remembers them on your next visit. Clearing your browser storage removes them completely.',
+    answer: 'Yes. The calculation runs entirely in your browser. Your age, weight, height, and activity level are never sent anywhere and are not saved, so a reload starts with a blank form. Only your unit choice is remembered, in this browser.',
   },
 ];

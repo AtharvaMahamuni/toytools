@@ -146,7 +146,8 @@ Component: `src/tools/_shared/TextMetricWidget.astro`
 - Hero value briefly pulses (`.is-updated`, color-only, `prefers-reduced-motion` guarded) on change.
 - Panels are fixed-height with internal scroll (no auto-grow) and equalize on desktop — page
   geometry never changes while typing.
-- Desktop autofocus; text persisted via `ToyTools.state` (restores on reload).
+- Desktop autofocus. Text is not persisted (these are private pages, see Persistence), so a reload
+  starts empty.
 
 **Components used:**
 - `src/tools/_shared/IoPanel.astro` — the framed panel primitive (see Design Language)
@@ -327,6 +328,16 @@ recent chips, section titles, runtime badge expiry under a pinned clock, carouse
   - `load` walks `ToyTools.state.MIGRATIONS` (`{ [fromVersion]: fn(data) → nextData }`) so bumping
     `VERSION` migrates rather than discards. A version with no registered step still yields `null`
     (caller falls back to defaults). **Register a migration step whenever you bump `VERSION`.**
+- **Private pages** — a tool whose trust variant is `private` (the "Nothing stored unless you choose
+  to save it" notice) renders `<html data-ephemeral>` (`ToolLayout` → `BaseLayout`). There
+  `ToyTools.state.save(id, data, keep)` writes only the option fields named in `keep` (mode, units,
+  counts, generator options minus free text) and `load(id, keep)` returns only those, even from an
+  envelope an older build wrote. Typed input, results and history never reach storage; pass a `keep`
+  list for every setting you want remembered. `ToyTools.history` (Recent conversions) is in memory
+  for the page view. Group input (`group:{id}`) follows a plain click on a switcher pill through
+  `window.name`, which the next page reads and wipes. `src/lib/privacy/legacy-storage.ts` removes
+  what older builds saved, once per browser (gated on `toytools.private-inputs-cleared`). Data tools
+  (`local`/`offline`/`lookup` variants) are unaffected.
 - **Portability** — `ToyTools.data.serialize/download/restore()` exports every `toytools:*` key as
   one JSON backup and restores it. Restore **merges** (never wipes keys the file omits) and refuses
   to write outside the `toytools:` namespace. `ToyTools.data.persist()` requests durable storage
@@ -334,7 +345,9 @@ recent chips, section titles, runtime badge expiry under a pinned clock, carouse
   it on a user action that writes real data, not on page load. Any widget holding irreplaceable data
   should surface Export/Import (see `TrackerWidget.astro`).
 - **Body profile** — `ToyTools.profile` (`toytools:profile:body`) holds the facts several health
-  calculators each need (`unit/sex/age/height/weight`), so a user enters their body once. Its own
+  calculators each need (`unit/sex/age/height/weight`), so a user enters their body once. The health
+  calculators are private pages, so on them it neither reads nor writes (see Private pages); the
+  mechanism remains for any non-private tool that needs it. Its own
   key, not a field of any tool's state, so it survives a schema change and exports independently.
   `WellnessWidget` prefills any field whose id the profile knows; **a value saved by that tool wins
   over the profile**, and the prefill is always stated on screen with a Forget control.

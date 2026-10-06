@@ -47,7 +47,7 @@ export const items: FAQItem[] = [
     id: 'color-shades-generator-faq-8',
     question: 'Does this color scale generator upload my brand color?',
     answer:
-      'No. Parsing, the OKLCH math, and the CSS block all run in the browser after the page loads. There is no account. The last color you typed is remembered in local storage on this browser only, so a refresh does not wipe the ramp. Runs entirely on your device. Nothing is uploaded.',
+      'No. Parsing, the OKLCH math, and the CSS block all run in the browser after the page loads. There is no account. The color you type is not saved either, so a refresh starts from the default ramp. Runs entirely on your device. Nothing is uploaded.',
   },
   {
     id: 'color-shades-generator-faq-9',

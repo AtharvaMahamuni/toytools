@@ -29,6 +29,6 @@ export const items: FAQItem[] = [
   {
     id: 'body-fat-calculator-faq-6',
     question: 'Is my data kept private?',
-    answer: 'Yes. Every calculation runs in your browser. Your measurements and weight are never uploaded, and they are only stored on your own device so the tool remembers them next time. Clearing your browser storage removes them entirely.',
+    answer: 'Yes. Every calculation runs in your browser. Your measurements and weight are never uploaded and are not saved, so a reload starts with a blank form. Only your unit choice is remembered, in this browser.',
   },
 ];
