@@ -106,6 +106,7 @@ const FAMILY_GLYPH: Record<string, string> = {
   // design & CSS
   color: 'swatch',
   'color-scale': 'shadeStack',
+  'color-vision': 'cvdEye',
   'css-unit': 'ruler',
   aspect: 'aspectFrame',
   'type-scale': 'typeRamp',
@@ -233,6 +234,7 @@ const SLUG_GLYPH: Record<string, string> = {
 
   // network
   'cidr-calculator': 'cidr',
+  'ipv4-converter': 'ipv4Mark',
 
   // number — numerals (the notation IS the identity)
   'roman-numeral-converter': 'roman',

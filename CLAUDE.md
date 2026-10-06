@@ -15,6 +15,7 @@ the signal it belongs somewhere below instead.
 | writing a guide, FAQ or knowledge file | **`seo-content` skill** |
 | writing an X post, thread or social card | **`x-content` skill** |
 | giving a tool its thoughtful touch | **`tool-craft` skill** |
+| reviewing a change before push | **`code-review` skill** |
 | judging whether a tool is actually good to use | **`tool-ux-review` skill** |
 | facing a failing gate, or moving a threshold | **`gates` skill** |
 | deciding whether a tool deserves a page | `docs/tool-design.md` |

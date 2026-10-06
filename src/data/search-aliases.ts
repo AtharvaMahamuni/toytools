@@ -37,6 +37,7 @@ export const searchAliases: Record<string, string[]> = {
   'json-validator': ['validate json', 'json lint'],
   'jwt-decoder': ['json web token', 'decode token'],
   'cidr-calculator': ['subnet calculator'],
+  'ipv4-converter': ['ip to decimal', 'ip to hex', 'dotted decimal to binary', 'ipv4 to integer'],
   'what-is-my-ip': ['whats my ip'],
   'md5-hash-generator': ['md5 checksum'],
   'punycode-converter': ['idn', 'internationalized domain'],
@@ -114,6 +115,7 @@ export const searchAliases: Record<string, string[]> = {
 
   // Design
   'color-shades-generator': ['50 to 950 palette', 'tint generator', 'oklch scale'],
+  'colorblind-simulator': ['color blindness simulator', 'deuteranopia simulator', 'protanopia check', 'palette colorblind'],
   'type-scale-generator': ['modular scale', 'type ramp', 'font size scale'],
   'aspect-ratio-calculator': ['16 9', 'screen ratio'],
   'color-contrast-checker': ['wcag contrast', 'contrast ratio', 'accessible colors'],

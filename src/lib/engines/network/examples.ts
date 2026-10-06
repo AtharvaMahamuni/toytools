@@ -3,6 +3,24 @@ import type { NetworkInput } from './types';
 
 export const NETWORK_EXAMPLES: WorkedExample<NetworkInput>[] = [
   {
+    id: 'ipv4-dotted',
+    engine: 'network',
+    ref: 'ipv4',
+    title: 'A dotted private address',
+    inputs: { address: '192.168.0.1' },
+    expect: { dotted: 3232235521 },
+    narrative: '192.168.0.1 is decimal 3232235521 and hex 0xC0A80001, with the leading zeros kept.',
+  },
+  {
+    id: 'ipv4-glued',
+    engine: 'network',
+    ref: 'ipv4',
+    title: 'Four octets written without dots',
+    inputs: { address: '8888' },
+    expect: { dotted: 8888 },
+    narrative: '8888 as an integer is 0.0.34.184. The only four-octet reading is 8.8.8.8, and the page offers that.',
+  },
+  {
     id: 'cidr-home-24',
     engine: 'network',
     ref: 'cidr',

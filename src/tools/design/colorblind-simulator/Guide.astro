@@ -1,0 +1,189 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const contrastHref = toolPathBySlug('color-contrast-checker');
+const shadesHref = toolPathBySlug('color-shades-generator');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>How do you check a palette for colorblindness? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Paste the colors, with a space between each one. The page draws that row as you typed it,
+      then draws the same row seven more times: protanopia, deuteranopia, tritanopia, the three
+      anomaly types, and achromatopsia. Each row is labeled. You do not flip a menu to see the
+      next type, which is how a pass on one deficiency hides a fail on another.
+    </p>
+    <p>
+      A colorblind simulator here is a picture of your hex values, not an upload and not a vision
+      test. This colorblind palette checker is a CVD simulator built on the Machado color vision
+      simulation. For example, try #d32f2f #388e3c #1976d2. The red and the green land close together
+      under deuteranopia. The blue stays apart. The note under the rows names that pair and the
+      type. Copy keeps the hex list and that sentence.
+    </p>
+    <a href={toolHref} class="cta-link">Open the Colorblind Simulator →</a>
+  </section>
+
+  <section id="types">
+    <h2>What do protanopia, deuteranopia, and tritanopia mean? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Which cone type protanopia, deuteranopia, and tritanopia each remove is the whole label.
+      Cone cells come in three kinds. L cones respond to longer wavelengths, M cones to the middle,
+      S cones to shorter wavelengths. Protanopia is the simulation with no L cones. Deuteranopia
+      is the simulation with no M cones. Tritanopia is the simulation with no S cones. The first
+      two are the common red-green deficiencies. Tritanopia is rare. The label on the row is the
+      type you are looking at, so a yellow swatch is not left to guesswork.
+    </p>
+    <p>
+      Protanomaly, deuteranomaly, and tritanomaly are the shifted-cone versions, not the missing-cone
+      versions. This page uses severity 0.6 from the same published table, which is a milder move
+      than severity 1.0. Anomalous trichromacy in a real eye can sit anywhere on that scale. One
+      step is enough to see whether a palette is fragile. It is not a measurement of a person.
+    </p>
+    <p>
+      Achromatopsia is the row with no hue. Each color becomes a gray from its relative luminance,
+      using the sRGB coefficients 0.2126, 0.7152, and 0.0722 on linear light. Two colors of similar
+      lightness become similar grays even when a cone simulation still separates them. That row is
+      there so you can see it. The collapse note does not use it, because it would name grayscale
+      for almost every pair and hide the cone type that actually failed.
+    </p>
+    <ReferenceBlock type="key-idea" heading="The model is Machado 2009">
+      <p>
+        Gustavo M. Machado, Manuel M. Oliveira, and Leandro A. F. Fernandes published the matrices
+        in IEEE TVCG, 2009. How it works: the page multiplies linear sRGB by the severity 1.0 matrix for each
+        dichromacy and by the severity 0.6 matrix for each anomaly. A neutral gray stays near gray,
+        because each matrix row sums to about 1.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="lightness">
+    <h2>Why do pure red and pure green stay apart? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Why two mid reds and greens can collapse while pure red and pure green do not is a lightness
+      fact, not a proverb. People say red and green look the same under deuteranopia. Pure red #ff0000 and pure green
+      #00ff00 do not, in this model. Green is much lighter than red, and the simulation keeps that
+      lightness. The swatches move, and they remain easy to tell apart. A proverb is a bad test
+      color.
+    </p>
+    <p>
+      The pairs that collapse are the ones that already share a lightness. #d32f2f and #388e3c are
+      a mid red and a mid green. Under deuteranopia they land close. Under protanopia they move
+      less. Compare protanopia and deuteranopia on the same colors: both rows stay visible. A deuteranopia simulator and a protanopia color check are both on the page because
+      those two shifts are not the same shift. If you only viewed one, the other could still fail.
+    </p>
+    <p>
+      Blue against yellow is the tritanopia question. #1565c0 and #f9a825 stay far apart under the
+      red-green rows. Read the tritanopia row for that pair rather than assuming every bright pair
+      is a red-green problem. Both distances in the note are Euclidean distance in 8-bit sRGB.
+      One is the pair as typed. The other is the pair after the simulation. Neither is a uniform delta E.
+    </p>
+  </section>
+
+  <section id="note">
+    <h2>When does the collapse note appear? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Read the note that names a collapsed pair before you change a token. Protanopia versus
+      deuteranopia, and dichromacy versus anomalous trichromacy, are separate rows of the same
+      Machado color vision simulation. The note is the check after the picture. It looks at every pair that started at least 40
+      apart in sRGB. If a cone simulation brings that pair under 36, the note names the type, both
+      hex values, and the two distances. The closest landing wins when more than one type fails.
+      The sentence is specific: under deuteranopia, #d32f2f and #388e3c, with the numbers the model
+      just produced.
+    </p>
+    <p>
+      The note stays hidden when you typed one color, when two swatches were already the same, and
+      when every pair that started distinct stays distinct. A quiet page is a palette that survived
+      the six cone simulations. It is not a promise about achromatopsia, and it is not a WCAG grade.
+      Contrast of text on a background is a different question. Open the
+      <a href={contrastHref}>contrast checker</a> for the pair you will actually ship.
+    </p>
+    <ReferenceBlock type="note" heading="What the note will not do">
+      <p>
+        It will not invent a failure for a pair the matrices still separate. Pure red and pure
+        green are the example. If the note is hidden, look at the rows anyway. A shift can be
+        obvious and still above the collapse line.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="limits">
+    <h2>What does this page refuse to pretend? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      It does not diagnose color vision. A simulation shows a palette to someone with typical
+      cones, as a model of someone else. It does not sort people into types, and the anomaly rows
+      are one severity from a table, not a threshold from a clinic. About 8 percent of men and
+      about 0.5 percent of women have a red-green deficiency. Those rates are why the check is
+      worth doing. They are not a result this page computes.
+    </p>
+    <p>
+      Blue cone monochromacy is not simulated. It is not a matrix in the Machado table this page
+      uses, and a made-up matrix would be a confident wrong picture. Image upload is also out.
+      A palette of hex values is the input a token file already has, and it never leaves the
+      browser. If the colors live in a screenshot, read the hex out first.
+    </p>
+    <p>
+      Build the ramp in the <a href={shadesHref}>color shades generator</a>, then paste the stops
+      that carry meaning: the brand, the success color, the danger color. Eight colors is the
+      cap on this page, which is enough for a status set and too small for a whole theme. That
+      limit keeps every simulation on one screen.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Checking a single type and shipping">
+      <p>
+        Deuteranopia can pass a pair that protanopia fails, and the reverse happens too. Leave
+        the rows in view. A menu that shows one type at a time is how the failing pair gets missed.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Using the page as an eye test">
+      <p>
+        The swatches are a model of colors, not a test of a visitor. Someone who wants to know
+        their own vision needs a proper examination. This page will not tell them.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="next">
+    <h2>What should you open next? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Take the pair the note named into the contrast checker and read the ratio on the real
+      background. A pair can stay distinct under deuteranopia and still fail 4.5:1 as text on
+      white. The two checks answer different questions, and a palette needs both.
+    </p>
+    <p>
+      If a teammate sent hsl() or a CSS name, convert it first, then come back with hex. The
+      simulator accepts those forms, and the copy block writes hex so the next tool sees one
+      spelling. The arithmetic stays on the device either way.
+    </p>
+    <a href={toolHref} class="cta-link">Check #d32f2f against #388e3c →</a>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    margin-top: var(--space-3);
+    font-weight: var(--font-weight-medium);
+  }
+</style>

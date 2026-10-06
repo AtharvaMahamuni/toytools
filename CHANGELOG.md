@@ -2,6 +2,13 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.5] - 2026-10-07
+
+### Added
+
+- **Colorblind Simulator** (`/tool/design/colorblind-simulator/`). A palette under protanopia, deuteranopia, tritanopia, the three anomaly types, and achromatopsia, all on one screen. The simulation is Machado, Oliveira, and Fernandes (2009) in linear sRGB. When two colors that started apart land together, the note names the cone type and both hex values. Pure red and pure green stay apart, because they differ in lightness. Blue cone monochromacy is not simulated. Nothing is uploaded.
+- **IPv4 Converter** (`/tool/developer-utilities/ipv4-converter/`). One address as dotted decimal, a 32-bit integer, eight-digit hex, and binary. 192.168.0.1 is 3232235521 and 0xC0A80001. An octet above 255 is rejected. An IPv6 paste is not cut down. An IPv4-mapped address offers the embedded IPv4 host. The integer 8888 offers 8.8.8.8, and 19216811 is left ambiguous.
+
 ## [beta-v12.4.4] - 2026-10-06
 
 ### Fixed

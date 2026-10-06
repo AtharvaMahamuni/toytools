@@ -12,6 +12,8 @@
  * entry before the first commit. Never change an existing date.
  */
 export const guidePublishedAt: Record<string, string> = {
+  'ipv4-converter': '2026-10-07',
+  'colorblind-simulator': '2026-10-07',
   'age-calculator': '2026-07-08',
   'aspect-ratio-calculator': '2026-07-31',
   'base64-encoder-decoder': '2026-06-04',

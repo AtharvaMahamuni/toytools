@@ -1,0 +1,164 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const cidrHref = toolPathBySlug('cidr-calculator');
+const binaryHref = toolPathBySlug('binary-converter');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>How do you convert an IP address to an integer? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Type the dotted address. An ip to decimal conversion, an ipv4 to decimal reading, and an
+      ip to hex reading are the same 32 bits. The page returns four writings of that one host: dotted decimal,
+      the unsigned 32-bit integer, hex with eight digits, and binary with a dot between each
+      octet. 192.168.0.1 is 3232235521, 0xC0A80001, and
+      11000000.10101000.00000000.00000001. Any of those four inputs produces the other three.
+    </p>
+    <p>
+      An IPv4 converter here is that translation and the refusals around it. 256 in an octet is
+      not wrapped. An IPv6 address is not cut down. A string of digits that is also four octets
+      glued together is shown as an integer and, when only one split fits, offered as the dotted
+      address. The subnet math lives on the <a href={cidrHref}>CIDR calculator</a>.
+    </p>
+    <a href={toolHref} class="cta-link">Open the IPv4 Converter →</a>
+  </section>
+
+  <section id="integer">
+    <h2>How does a dotted address become 32 bits? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Each octet is eight bits. The first octet is shifted 24 bits, the second 16, the third 8,
+      and the last octet stays where it is. Those four pieces are added as an unsigned value.
+      192 is 0xC0, 168 is 0xA8, 0 is 0x00, 1 is 0x01, so the hex form is 0xC0A80001 and the
+      decimal form is 3232235521. The same steps run backwards from a decimal, from 0x hex, or
+      from 32 binary digits.
+    </p>
+    <p>
+      Why hex from a packet capture keeps leading zeros is a column-width problem. The hex form
+      always has eight digits. For example, input: 10.0.0.1. Output: 0x0A000001, not 0xA000001.
+      Packet captures print the wide form, and a shorter string fails a visual compare even when
+      the integer matches. Dotted decimal versus a 32-bit integer is only a change of spelling.
+      Binary is grouped in eights for the same reason: the octet boundaries are the thing a person checks.
+    </p>
+    <ReferenceBlock type="key-idea" heading="One host, four spellings">
+      <p>
+        Dotted decimal, the integer, hex, and binary are the same 32 bits. None of them is a
+        network. 192.168.0.1/24 is a prefix, and it belongs in the CIDR calculator, which will
+        tell you the network address is 192.168.0.0.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="reject">
+    <h2>Why is an octet above 255 rejected? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      An octet is defined as 0 to 255. 256.1.1.1 does not name a host. Some converters accept a
+      generic integer in each slot and let 256 spill into the next octet, which silently produces
+      a different address from the text on the screen. This page names the number that is outside
+      0 to 255 and shows no result. There is nothing useful to offer as a replacement, because
+      the typed text was not an address.
+    </p>
+    <p>
+      A decimal integer has its own range: 0 to 4294967295, which is 255.255.255.255. A longer
+      number is rejected. A leading zero on a decimal is rejected too, so 0127 is not quietly
+      read as octal or as 127. Use a dotted address, or prefix hex with 0x.
+    </p>
+  </section>
+
+  <section id="ipv6">
+    <h2>What happens when the paste is IPv6? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      2001:db8::1 is IPv6. Cutting characters off the front or the end can leave a string that
+      looks a bit like an IPv4 fragment, and that fragment is the wrong host. The page says the
+      paste is IPv6 and was not cut down. There is no dotted result and no button.
+    </p>
+    <p>
+      What an IPv4-mapped IPv6 address contains is the four octets after ::ffff:. ::ffff:192.0.2.1 and the
+      hex form ::ffff:c000:0201 both carry 192.0.2.1. The page still refuses to pretend the whole
+      paste was IPv4. It names the embedded address and offers it as a one-tap fill. After the
+      tap, the four spellings are the spellings of 192.0.2.1 only.
+    </p>
+    <ReferenceBlock type="note" heading="Mapped is not truncated">
+      <p>
+        The button is the whole correction. Until you tap it, the result area stays on the error,
+        so a mapped address cannot be copied as if the colon form had been a dotted quad.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="glued">
+    <h2>Why does 8888 offer 8.8.8.8? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Digits with no dots are read as one integer. 8888 is the host 0.0.34.184. The same digits
+      split only one way into four octets from 0 to 255: 8.8.8.8, which is a different host
+      (134744072). People glue octets when they are moving fast. Showing only the integer would
+      confirm the wrong host. The page shows 0.0.34.184 and offers 8.8.8.8.
+    </p>
+    <p>
+      19216811 is the case where a guess would be worse. More than one split fits, and 192.168.1.1
+      is only one of them. The page shows the integer reading, lists a few splits, and does not
+      pick. Add the dots yourself. A dotted address, including 8.8.8.8 after you accept the offer,
+      does not show the note. The decimal 3232235521, which is 192.168.0.1 written properly as an
+      integer, does not show it either.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Trusting a glued integer">
+      <p>
+        19216811 is not the integer form of 192.168.1.1. The integer form is 3232235777. If the
+        page lists several splits, the digits were ambiguous and the dotted result of the integer
+        is probably not the host you meant.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Dropping hex zeros">
+      <p>
+        Copy the eight digits. A capture that prints 0x0A000001 will not match 0xA000001 in a
+        diff. A parser that accepts the short form still fails that visual compare. The wide form is the one this page copies.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="next">
+    <h2>What should you open next? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Matching a firewall log integer to the dotted address an operator expects is the job this
+      page finishes. When the question is the network rather than the host, paste the dotted form into the
+      CIDR calculator. A /24 of 192.168.0.1 is the network 192.168.0.0, mask 255.255.255.0.
+      This page will not invent that mask for you.
+    </p>
+    <p>
+      Binary outside an address, or hex of a string that is not an address, belongs on the
+      <a href={binaryHref}>binary converter</a> and the hex encoder. Those tools do not know
+      about octets, and they should not. An address that is only a number is finished here.
+    </p>
+    <a href={toolHref} class="cta-link">Convert 192.168.0.1 →</a>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    margin-top: var(--space-3);
+    font-weight: var(--font-weight-medium);
+  }
+</style>
