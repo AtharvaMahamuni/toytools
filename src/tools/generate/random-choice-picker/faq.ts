@@ -35,6 +35,6 @@ export const items: FAQItem[] = [
     id: 'choicepick-faq-6',
     question: 'How many options can I paste in?',
     answer:
-      'Up to 2000 options, and up to 50 picks in one draw. Blank lines are dropped and surrounding spaces are trimmed, so a column pasted out of a spreadsheet works as it is. Everything runs in your browser, nothing is uploaded, and your list persists on this device so it survives a refresh.',
+      'Up to 2000 options, and up to 50 picks in one draw. Blank lines are dropped and surrounding spaces are trimmed, so a column pasted out of a spreadsheet works as it is. Everything runs in your browser, nothing is uploaded, and your list is not saved, so a refresh clears it.',
   },
 ];

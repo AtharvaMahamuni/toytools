@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'namepick-faq-4',
     question: 'Is my list of names uploaded?',
     answer:
-      'No. The draw runs entirely in your browser and no name leaves the page. That matters here because these lists are class registers, staff rotas and competition entrants. Your list persists on this device so it survives a refresh, and clearing your browser data removes it.',
+      'No. The draw runs entirely in your browser and no name leaves the page. That matters here because these lists are class registers, staff rotas and competition entrants. Your list is not saved either, so a refresh clears it. Only your draw options are remembered, in this browser.',
   },
   {
     id: 'namepick-faq-5',

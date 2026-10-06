@@ -74,7 +74,7 @@ export const qrCode: Generator = {
     },
     // Wi-Fi cluster
     { id: 'ssid', label: 'Network name (SSID)', type: 'text', default: '', placeholder: 'MyNetwork', showWhen: { field: 'contentType', equals: 'wifi' } },
-    { id: 'wifiPassword', label: 'Wi-Fi password', type: 'text', default: '', placeholder: 'Network password', showWhen: { field: 'contentType', equals: 'wifi' } },
+    { id: 'wifiPassword', label: 'Wi-Fi password', type: 'text', secret: true, default: '', placeholder: 'Network password', showWhen: { field: 'contentType', equals: 'wifi' } },
     {
       id: 'encryption', label: 'Security', type: 'select', default: 'WPA',
       options: [

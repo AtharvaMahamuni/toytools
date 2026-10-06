@@ -8,6 +8,7 @@ export const config: ToolConfig = {
   description: `Regexp and regular expression tester. Live regex matcher with replace preview. Regex101 alternative offline. ${PRIVACY_LINE}`,
   tagline: 'Live regex matcher with capture groups. A regexp tester that stays offline.',
   categorySlug: 'developer-utilities',
+  keepInput: true,
   tags: [
     'regex tester',
     'javascript regex',

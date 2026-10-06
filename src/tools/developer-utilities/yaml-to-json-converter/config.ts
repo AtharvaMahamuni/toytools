@@ -7,6 +7,7 @@ export const config: ToolConfig = {
   description: 'Convert YAML (.yml) to JSON for APIs, JSON Schema validation, and tools without a YAML parser. Handles anchors, multi-line strings and timestamps.',
   tagline: 'Turn YAML into JSON, anchors and multi-line strings handled.',
   categorySlug: 'developer-utilities',
+  keepInput: true,
   tags: ['yaml to json', 'yaml json converter', 'json converter', 'convert yaml to json', 'developer', 'data conversion', 'kubernetes', 'devops'],
   updatedAt: '2026-07-10',
   engine: 'structured-data',

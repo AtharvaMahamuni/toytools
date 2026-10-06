@@ -122,6 +122,18 @@ const INTERACTION_ASSETS: { label: string; match: RegExp | string; maxKb: number
     maxKb: 6,
     why: 'palette, shortcut help and ranking, imported on first use',
   },
+  {
+    // Not an interaction asset but the same accounting problem: src/lib/runtime/index.ts imports
+    // it at load only while the "toytools.private-inputs-cleared" mark is unset, so each browser
+    // fetches it exactly once (the beta-v12.4.2 cleanup of input older builds saved) and never
+    // again. Folding it into every page's total would charge every visit for a one-off; leaving
+    // it unmeasured would let it grow unseen. It gets its own ceiling instead. Measured 2.0K gz at
+    // introduction (2026-10-06).
+    label: 'legacy cleanup',
+    match: /^legacy-storage\.[A-Za-z0-9_-]+\.js$/,
+    maxKb: 3,
+    why: 'one-time removal of input older builds saved, fetched once per browser',
+  },
 ];
 
 const kb = (bytes: number) => bytes / 1024;
@@ -325,7 +337,7 @@ for (const kind of kinds) {
 }
 
 if (interaction.length > 0) {
-  console.log('\n  loaded on interaction (not on the critical path, capped separately):');
+  console.log('\n  loaded on interaction or once per browser (not on the critical path, capped separately):');
   for (const a of interaction) {
     const size = a.gzBytes === null ? 'MISSING' : `${kb(a.gzBytes).toFixed(1)}K of ${a.maxKb}K`;
     console.log(`    ${a.label.padEnd(16)} ${size.padEnd(16)} ${a.why}`);

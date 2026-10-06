@@ -29,7 +29,7 @@ export const items: FAQItem[] = [
     id: 'shell-quote-escalator-faq-safe',
     question: 'Is it safe to paste a command here?',
     answer:
-      'Everything runs in your browser. The command is quoted by JavaScript on the page, nothing is uploaded, and the page works with no network once it has loaded. The command is saved in your browser local storage so it survives a reload, and the Clear button removes it.',
+      'Everything runs in your browser. The command is quoted by JavaScript on the page, nothing is uploaded, and the page works with no network once it has loaded. The command is not saved, so a reload clears it. Only the shell chain you picked is remembered, in this browser.',
   },
   {
     id: 'shell-quote-escalator-faq-unbalanced',

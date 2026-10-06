@@ -17,7 +17,7 @@ export const items: FAQItem[] = [
     id: 'csv-diff-faq-3',
     question: 'Are my CSV files uploaded to a server?',
     answer:
-      'No. Both files are parsed and compared entirely in your browser. Nothing is uploaded, stored, or shared, which matters because CSV exports routinely contain customer lists, financials, and other data that should not be pasted into an unknown server-side tool. The page keeps working if you go offline after loading it.',
+      'No. Both files are parsed and compared entirely in your browser. Nothing is uploaded or shared, which matters because CSV exports routinely contain customer lists, financials, and other data that should not be pasted into an unknown server-side tool. The page keeps working if you go offline after loading it. Both files stay saved in this browser so they are there when you come back, and Clear saved input removes them.',
   },
   {
     id: 'csv-diff-faq-4',

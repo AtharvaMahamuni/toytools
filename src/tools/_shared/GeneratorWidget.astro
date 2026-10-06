@@ -193,9 +193,18 @@ const craftId = info?.notes ? config?.craft?.id : undefined;
       persist();
     }
 
+    // On a private page only settings persist. Free-text fields (QR text and Wi-Fi password, name
+    // lists, dice notation) are what the person typed, so they stay out of storage entirely.
+    var eph = !!(window.ToyTools && ToyTools.state && ToyTools.state.ephemeral);
+    function typed(fe) {
+      var t = fe.getAttribute('data-field-type');
+      return eph && (t === 'text' || t === 'textarea');
+    }
     function persist() {
       if (!(window.ToyTools && ToyTools.state)) return;
-      try { ToyTools.state.save(slug, { options: collect() }); } catch (_) {}
+      var opts = collect();
+      fieldEls.forEach(function (fe) { if (typed(fe)) delete opts[fe.getAttribute('data-field-id')]; });
+      try { ToyTools.state.save(slug, { options: opts }, ['options']); } catch (_) {}
     }
 
     // ── QR rasterizing ──────────────────────────────────────────────────────
@@ -235,11 +244,11 @@ const craftId = info?.notes ? config?.craft?.id : undefined;
 
     // ── Restore saved options ───────────────────────────────────────────────
     try {
-      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug, ['options']);
       if (saved && saved.options) {
         fieldEls.forEach(function (fe) {
           var id = fe.getAttribute('data-field-id');
-          if (!(id in saved.options)) return;
+          if (!(id in saved.options) || typed(fe)) return;
           var type = fe.getAttribute('data-field-type');
           var input = controlOf(fe);
           if (!input) return;
@@ -295,6 +304,18 @@ const craftId = info?.notes ? config?.craft?.id : undefined;
     });
 
     if (regenBtn) regenBtn.addEventListener('click', run);
+
+    // Show / Hide for masked secrets (the QR Wi-Fi password).
+    root.querySelectorAll('[data-secret-toggle]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var input = document.getElementById(btn.getAttribute('data-secret-toggle'));
+        if (!input) return;
+        var show = input.type === 'password';
+        input.type = show ? 'text' : 'password';
+        btn.setAttribute('aria-pressed', String(show));
+        btn.textContent = show ? 'Hide' : 'Show';
+      });
+    });
 
     if (clearBtn) clearBtn.addEventListener('click', function () {
       fieldEls.forEach(function (fe) {

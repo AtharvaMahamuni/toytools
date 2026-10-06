@@ -29,6 +29,6 @@ export const items: FAQItem[] = [
   {
     id: 'bmi-calculator-faq-6',
     question: 'Is my data private?',
-    answer: 'Yes. Everything runs in your browser. Your height and weight are never sent to a server, and the values you enter are only saved to your own device so the tool remembers them next time. Clearing the field or your browser storage removes them.',
+    answer: 'Yes. Everything runs in your browser. Your height and weight are never sent to a server and are not saved, so a reload starts with a blank form. Only your unit choice is remembered, in this browser.',
   },
 ];

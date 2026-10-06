@@ -13,7 +13,7 @@ import ExperienceRenderer from '@components/experience/ExperienceRenderer.astro'
 import { getDateTimeTool } from '@lib/engines/datetime/registry';
 import { dateTimeExamplesFor } from '@lib/engines/datetime/examples';
 import { DEFAULT_CAPABILITIES } from '@lib/results/types';
-import { urlStateMode } from '@lib/url-state';
+import { toolUrlStateMode } from '@lib/url-state';
 import type { ToolConfig } from '@data/types';
 
 interface Props {
@@ -32,7 +32,7 @@ const { slug, dateTimeId, config, emptyText, craftOn } = Astro.props;
 
 // Shareable-link mode, decided at build time from the registry (src/lib/url-state.ts).
 // "auto" syncs the address bar as you type; "manual" only builds a link when asked.
-const urlMode = urlStateMode(config.engine, config.pattern);
+const urlMode = toolUrlStateMode(config);
 const tool = getDateTimeTool(dateTimeId);
 const fields = tool?.fields ?? [];
 const splitRatio = fields.length <= 2 ? '1-1' : '3-2';
@@ -174,11 +174,14 @@ const resolvedEmpty = emptyText ?? 'Enter your dates to calculate.';
 
     function persist() {
       if (!(window.ToyTools && ToyTools.state)) return;
-      var data = { fields: {} };
+      // Selects and segmented choices are settings and may persist; typed values are input and,
+      // on a private page, never leave the page (TT.state keeps only `opts` there).
+      var data = { fields: {}, opts: {} };
       for (var i = 0; i < fieldEls.length; i++) {
-        data.fields[fieldEls[i].getAttribute('data-field-id')] = fieldEls[i].value;
+        var ft = fieldEls[i].getAttribute('data-field-type');
+        data[ft === 'select' || ft === 'segmented' ? 'opts' : 'fields'][fieldEls[i].getAttribute('data-field-id')] = fieldEls[i].value;
       }
-      ToyTools.state.save(slug, data);
+      ToyTools.state.save(slug, data, ['opts']);
       // Every mutation path ends in persist(), so one call here covers typing, presets and reset.
       if (urlMode === 'auto' && ToyTools.url) ToyTools.url.write(shareValues());
     }
@@ -189,9 +192,11 @@ const resolvedEmpty = emptyText ?? 'Enter your dates to calculate.';
 
     // Restore saved field values.
     try {
-      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug, ['opts']);
       var savedFields = (saved && saved.fields) || {};
       for (var id in savedFields) setField(id, savedFields[id]);
+      var savedOpts = (saved && saved.opts) || {};
+      for (var oid in savedOpts) setField(oid, savedOpts[oid]);
     } catch (_) {}
 
     // A shared link beats saved state: someone followed it to see THOSE values.

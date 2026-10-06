@@ -146,7 +146,8 @@ Component: `src/tools/_shared/TextMetricWidget.astro`
 - Hero value briefly pulses (`.is-updated`, color-only, `prefers-reduced-motion` guarded) on change.
 - Panels are fixed-height with internal scroll (no auto-grow) and equalize on desktop — page
   geometry never changes while typing.
-- Desktop autofocus; text persisted via `ToyTools.state` (restores on reload).
+- Desktop autofocus. Text is not persisted (these are private pages, see Persistence), so a reload
+  starts empty.
 
 **Components used:**
 - `src/tools/_shared/IoPanel.astro` — the framed panel primitive (see Design Language)
@@ -327,6 +328,37 @@ recent chips, section titles, runtime badge expiry under a pinned clock, carouse
   - `load` walks `ToyTools.state.MIGRATIONS` (`{ [fromVersion]: fn(data) → nextData }`) so bumping
     `VERSION` migrates rather than discards. A version with no registered step still yields `null`
     (caller falls back to defaults). **Register a migration step whenever you bump `VERSION`.**
+- **Private pages** — a tool whose trust variant is `private` (the "Nothing stored unless you choose
+  to save it" notice) renders `<html data-ephemeral>` (`ToolLayout` → `BaseLayout`). There
+  `ToyTools.state.save(id, data, keep)` writes only the option fields named in `keep` (mode, units,
+  counts, generator options minus free text) and `load(id, keep)` returns only those, even from an
+  envelope an older build wrote. Typed input, results and history never reach storage; pass a `keep`
+  list for every setting you want remembered. `ToyTools.history` (Recent conversions) is in memory
+  for the page view. Inputs are never auto-synced to the URL there: `toolUrlStateMode` (in
+  `src/lib/url-state.ts`) turns `auto` into `manual` for private tools and `ToyTools.url.write` is a
+  no-op on the page, while Copy link and incoming links still work. A private page opened from a
+  `?params` link drops the query on the first trusted edit inside `[data-url-state]`
+  (`replaceState` to the bare path, no values written), so a reload cannot restore the link's old
+  values. Local tools with `auto` URL state (split-bill, the UPI calculators) still sync as you
+  type. Group input (`group:{id}`)
+  follows a plain click on a switcher pill through
+  `window.name`, which the next page reads and wipes. `src/lib/privacy/legacy-storage.ts` removes
+  what older builds saved, once per browser (gated on `toytools.private-inputs-cleared`). Data tools
+  (`local`/`offline`/`lookup` variants) are unaffected.
+- **Keep-input tools**: a private tool whose config sets `keepInput: true` (work in progress: the
+  JSON, CSV, regex, find and replace and text compare tools) also renders `data-keep-input`. There
+  `ToyTools.state` saves and loads the whole record, typed input included, and removes a record whose
+  fields are all empty. History stays in memory, URL auto-sync stays off and the shared-link query
+  strip still applies. The trust notice reads "Your input stays on this device (never uploaded)" and
+  renders a `[data-tt-clear-input="<slug>"]` Clear saved input button: the runtime wipes the input
+  in every key the page saved or loaded plus `<slug>` and `<slug>:b` (a key whose caller passed a
+  `keep` list is rewritten to those settings), then `replaceState`s the bare path and reloads (a
+  reload starts no view transition). `KEEP_INPUT_KEYS` in `legacy-storage.ts` exempts their keys
+  from the cleanup; `KEEP_GROUP_OWN_KEYS` merges a grouped tool's older own key into its group key
+  (moved if the group key has no input, else removed), so each tool has one live key. Never set it on a tool that can hold a secret (JWT, encoders, hashes,
+  passwords, QR), personal or health data, or on a quick converter, calculator or counter. On a
+  plain private page a `group:*` save with nothing to keep leaves storage alone, so a keep-input
+  sibling's text survives (CSV Diff shares `group:csv-tools` with CSV Cleaner and CSV to TSV).
 - **Portability** — `ToyTools.data.serialize/download/restore()` exports every `toytools:*` key as
   one JSON backup and restores it. Restore **merges** (never wipes keys the file omits) and refuses
   to write outside the `toytools:` namespace. `ToyTools.data.persist()` requests durable storage
@@ -334,7 +366,9 @@ recent chips, section titles, runtime badge expiry under a pinned clock, carouse
   it on a user action that writes real data, not on page load. Any widget holding irreplaceable data
   should surface Export/Import (see `TrackerWidget.astro`).
 - **Body profile** — `ToyTools.profile` (`toytools:profile:body`) holds the facts several health
-  calculators each need (`unit/sex/age/height/weight`), so a user enters their body once. Its own
+  calculators each need (`unit/sex/age/height/weight`), so a user enters their body once. The health
+  calculators are private pages, so on them it neither reads nor writes (see Private pages); the
+  mechanism remains for any non-private tool that needs it. Its own
   key, not a field of any tool's state, so it survives a schema change and exports independently.
   `WellnessWidget` prefills any field whose id the profile knows; **a value saved by that tool wins
   over the profile**, and the prefill is always stated on screen with a Forget control.

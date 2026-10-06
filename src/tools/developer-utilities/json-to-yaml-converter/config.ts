@@ -7,6 +7,7 @@ export const config: ToolConfig = {
   description: 'Convert JSON to YAML (.yml) for Kubernetes, Docker Compose and CI/CD configs. Smart quoting, literal block scalars, and sort-key options.',
   tagline: 'Turn JSON into YAML for Kubernetes, Compose and CI configs.',
   categorySlug: 'developer-utilities',
+  keepInput: true,
   tags: ['json to yaml', 'json yaml converter', 'yaml converter', 'convert json to yaml', 'developer', 'data conversion', 'kubernetes', 'devops'],
   updatedAt: '2026-07-09',
   engine: 'structured-data',

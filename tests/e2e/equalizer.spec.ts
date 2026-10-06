@@ -73,10 +73,16 @@ test.describe('music equalizer', () => {
     await expect(note).not.toContainText('clipping');
   });
 
-  test('settings sync to the address bar and a shared link reproduces them', async ({ page }) => {
+  // A private page: the gains are settings and persist in this browser, but nothing is written to
+  // the address bar on its own (beta-v12.4.2). Copy link builds the link; a link still opens.
+  test('settings persist without touching the address bar, and a shared link reproduces them', async ({ page }) => {
     await page.goto(TOOL);
     await page.getByRole('button', { name: 'Clear Vocals', exact: true }).click();
-    await expect(page).toHaveURL(/[?&]eq=-1_-2_-2_1_3_2_1/);
+    await page.waitForTimeout(600); // longer than the 300ms URL-write debounce
+    expect(new URL(page.url()).search).toBe('');
+    await page.reload();
+    await expect(sliders(page).first()).toHaveValue('-1');
+    expect(new URL(page.url()).search).toBe('');
 
     // The recipient's view: a link with someone else's gains and their name for it.
     await page.goto(`${TOOL}?eq=5_0_-2_0_3_0_1&name=Podcast`);

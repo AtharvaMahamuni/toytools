@@ -7,6 +7,7 @@ export const config: ToolConfig = {
   description: 'Format and beautify JSON online with clear indentation. Pretty print or prettify for a readable layout. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Pretty-print JSON with proper indentation.',
   categorySlug: 'developer-utilities',
+  keepInput: true,
   tags: ['json formatter', 'json beautifier', 'format json', 'pretty print json', 'json pretty', 'json indent', 'beautify json', 'json online', 'developer'],
   updatedAt: '2026-09-24',
   engine: 'structured-data',

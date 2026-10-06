@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
   minor: 4,
-  patch: 1,
+  patch: 2,
   status: 'beta',
-  releaseDate: '2026-10-05',
-  description: 'Related cascade rotation and You May Also Need cross-block dedupe',
+  releaseDate: '2026-10-06',
+  description: 'Private tools stop saving typed input and Recent conversions; one-time cleanup of what older builds saved',
 };
 
 export function formatVersion(config: VersionConfig): string {

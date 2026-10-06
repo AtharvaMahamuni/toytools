@@ -1,8 +1,9 @@
 ---
 // GroupSwitcher — mode pills for tools that belong to a tool group (src/data/tool-groups.ts).
 // Each pill is a real link to the sibling tool's own page: crawlable internal links, works
-// without JS. Sibling pages are prefetched so switching feels instant; input text survives
-// via the shared group state key in TextProcessorWidget.
+// without JS. Sibling pages are prefetched so switching feels instant; the text you typed follows
+// a plain click on a pill through the runtime's group hand-off (tab memory only, see
+// ToyToolsRuntime.astro), never through storage.
 import type { ToolConfig } from '@data/types';
 import { getToolGroup } from '@data/tool-groups';
 import { tools } from '@data/registry';

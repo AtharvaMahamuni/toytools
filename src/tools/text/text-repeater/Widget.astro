@@ -322,12 +322,12 @@ const outputId = 'rep-output';
           count: countEl.value,
           separator: sepEl.value,
           numbered: numberEl.checked,
-        });
+        }, ['count', 'separator', 'numbered']);
       } catch (_) {}
     }
 
     try {
-      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load('text-repeater');
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load('text-repeater', ['count', 'separator', 'numbered']);
       if (saved) {
         if (typeof saved.text === 'string') input.value = saved.text;
         if (saved.count) countEl.value = saved.count;

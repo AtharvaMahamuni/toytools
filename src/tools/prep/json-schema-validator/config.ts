@@ -11,6 +11,7 @@ export const config: ToolConfig = {
   tags: ['json schema validator', 'validate json schema', 'schema check'],
   updatedAt: '2026-09-25',
   trustVariant: 'private',
+  keepInput: true,
   engine: 'structured-data',
   pattern: 'structured-schema',
   family: 'json',

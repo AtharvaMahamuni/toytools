@@ -8,12 +8,44 @@ import { test, expect } from '@playwright/test';
 
 const FINANCE = '/tool/finance/compound-interest-calculator/';
 
-test.describe('auto-sync calculators', () => {
-  test('typing puts the inputs in the address bar', async ({ page }) => {
+// Finance, date and math calculators are shareable, but they are private pages ("Nothing stored
+// unless you choose to save it"), so since beta-v12.4.2 they never write to the address bar on
+// their own: a reload would refill what was typed. A link is built only on Copy link, and an
+// incoming link still fills the form.
+test.describe('shareable calculators on private pages', () => {
+  test('typing leaves the address bar alone, and a reload starts from the defaults', async ({ page }) => {
     await page.goto(FINANCE);
-    await page.locator('[data-field-id="years"]').fill('12');
-    await expect(page).toHaveURL(/[?&]years=12/);
-    await expect(page).toHaveURL(/[?&]principal=/);
+    const years = page.locator('[data-field-id="years"]');
+    const before = await years.inputValue();
+    await years.fill('12');
+    await page.locator('[data-field-id="rate"]').fill('9');
+    await page.waitForTimeout(600); // longer than the 300ms write debounce
+    expect(new URL(page.url()).search).toBe('');
+
+    await page.reload();
+    await expect(years).toHaveValue(before);
+    expect(new URL(page.url()).search).toBe('');
+  });
+
+  test('Copy link builds a link with the values, and that link fills the form', async ({ page }) => {
+    // Force the clipboard path (no OS share sheet) and capture what would be copied.
+    await page.addInitScript(() => {
+      Object.defineProperty(Navigator.prototype, 'share', { value: undefined, configurable: true });
+    });
+    await page.goto(FINANCE);
+    await page.locator('[data-field-id="years"]').fill('17');
+    await page.evaluate(() => {
+      const TT = (window as any).ToyTools;
+      TT.copy = (text: string) => { (window as any).__copied = text; };
+    });
+    await page.locator('#compound-interest-calculator-share').click();
+    const link = await page.evaluate(() => (window as any).__copied as string);
+    expect(new URL(link).searchParams.get('years')).toBe('17');
+    // Building the link did not write it into this page's address bar.
+    expect(new URL(page.url()).search).toBe('');
+
+    await page.goto(new URL(link).pathname + new URL(link).search);
+    await expect(page.locator('[data-field-id="years"]')).toHaveValue('17');
   });
 
   test('a shared link reproduces the calculation', async ({ page }) => {
@@ -24,29 +56,30 @@ test.describe('auto-sync calculators', () => {
     await expect(page.locator('.experience-hero, [id$="-hero"]').first()).not.toBeEmpty();
   });
 
-  test('a link beats saved state', async ({ page }) => {
-    await page.goto(FINANCE);
-    await page.locator('[data-field-id="years"]').fill('30');
-    await expect(page).toHaveURL(/years=30/);
-
-    // Same tool, explicit link with different values: the link wins.
-    await page.goto(`${FINANCE}?years=8`);
-    await expect(page.locator('[data-field-id="years"]')).toHaveValue('8');
-  });
-
-  test('typing does not fill the back button with history entries', async ({ page }) => {
+  test('typing does not add history entries', async ({ page }) => {
     await page.goto('/category/money-finance/');
     await page.goto(FINANCE);
-
     const years = page.locator('[data-field-id="years"]');
-    for (const value of ['5', '10', '20', '25']) {
-      await years.fill(value);
-      await expect(page).toHaveURL(new RegExp(`years=${value}`));
-    }
-
-    // replaceState, not pushState: one Back must leave the tool entirely.
+    for (const value of ['5', '10', '20', '25']) await years.fill(value);
+    // One Back must leave the tool entirely.
     await page.goBack();
     await expect(page).toHaveURL(/\/category\/money-finance\/$/);
+  });
+});
+
+// The bill-splitting and UPI calculators are Local tools (they keep their data in this browser),
+// not private ones, so they still keep their inputs in the address as you type. The privacy page's
+// "Links you share" says so; this keeps that copy and the behaviour in step.
+test.describe('Local calculators that keep inputs in the address', () => {
+  test('split-bill writes its inputs into the address as you type', async ({ page }) => {
+    await page.goto('/tool/finance/split-bill/');
+    await page.locator('[data-field-id="bill"]').fill('1234');
+    await page.locator('[data-field-id="people"]').fill('3');
+    await expect.poll(() => new URL(page.url()).searchParams.get('bill')).toBe('1234');
+    expect(new URL(page.url()).searchParams.get('people')).toBe('3');
+
+    await page.reload();
+    await expect(page.locator('[data-field-id="bill"]')).toHaveValue('1234');
   });
 });
 

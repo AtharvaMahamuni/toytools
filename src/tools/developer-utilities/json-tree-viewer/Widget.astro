@@ -11,7 +11,8 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 import { config } from './config';
 
 const slug = config.slug;
-// Group members share one state envelope so input survives switching modes.
+// Group members share one input envelope so text follows a switcher pill. On this private page it
+// never reaches storage: the runtime hands it to the next page in tab memory only.
 const stateKey = config.toolGroup ? `group:${config.toolGroup}` : slug;
 const inputId = `${slug}-input`;
 ---
@@ -746,13 +747,13 @@ const inputId = `${slug}-input`;
     }
   });
 
-  // Restore prior input — group key first, then the tool's old per-slug key (migration).
+  // Text handed over by a group pill (tab memory, never storage), so a reload starts empty.
   try {
-    var saved = TT && TT.state && (TT.state.load(stateKey) || TT.state.load(slug));
+    var saved = TT && TT.state && TT.state.load(stateKey);
     if (saved && typeof saved.input === 'string') input.value = saved.input;
   } catch (_) {}
 
-  // ToyTools.json attaches via a deferred module; wait so restored input renders on load.
+  // ToyTools.json attaches via a deferred module; wait so handed-over input renders on load.
   function init() { update(); autoShowTree(); }
   if (TT && TT.onReady) TT.onReady(init); else init();
 })();

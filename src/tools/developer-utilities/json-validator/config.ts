@@ -7,6 +7,7 @@ export const config: ToolConfig = {
   description: 'Validate and lint JSON syntax and see errors instantly in your browser. Fast, private, and free.',
   tagline: 'Check JSON syntax and see exactly where it breaks.',
   categorySlug: 'developer-utilities',
+  keepInput: true,
   tags: ['json validator', 'validate json', 'json syntax check', 'json lint', 'check json', 'json error', 'is my json valid', 'developer'],
   updatedAt: '2026-06-09',
   engine: 'structured-data',

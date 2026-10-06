@@ -9,6 +9,128 @@
 //  - the BUNDLED module: the engine surfaces (analyze, runDateTime, runHash, ...), loaded lazily,
 //    one chunk per engine, driven by the <meta name="tt-engines"> BaseLayout emits for the page.
 //    See src/lib/runtime/index.ts for why, and for the readiness contract.
+//
+// ── Notes on the inline half ──────────────────────────────────────────────────────────────
+// These live here, not in the inline script, because comments there ship in every page's
+// HTML. Each heading is the code the note documents.
+//
+// TT.ready:
+//   Engine readiness: this inline script runs during parse (so state/toast/copy are
+//   available immediately), but analyze/formatMetric/runEncoding/etc. attach via a
+//   deferred module. Widgets that compute on load schedule via onReady() so their
+//   first render waits for the engine functions instead of throwing.
+//
+// Group hand-off (carry, hand):
+//   Grouped tools (Case Converter, Encoders, Hash, JSON tools...) are separate pages behind one
+//   switcher, and the text you are working on follows you when you click a sibling pill. On a
+//   private page that text never reaches storage, so it travels in window.name instead: tab
+//   memory, written only on a plain left click of a .group-pill and read and wiped by the very
+//   next page load. A reload, a new tab or any other navigation starts empty. Only group:* input
+//   envelopes ride along, never a tool's own state.
+//
+// TT.state (eph, pick):
+//   Versioned per-tool state: one JSON envelope per tool under "toytools:{toolId}".
+//   Never throws; corruption yields null (caller uses defaults).
+//
+//   Private pages (trust variant `private`, the "Nothing stored unless you choose to save it"
+//   promise) carry data-ephemeral on <html>. There only the option fields a caller names in
+//   `keep` (mode, units, counts) reach storage, and load returns only those, even from an
+//   envelope an older build wrote. An empty kept value ({} or []) counts as nothing, so a tool with
+//   no settings writes no record at all. Typed input and history stay in the page. Data tools are
+//   not private pages, so their saving is untouched. On such a page a group:* save with nothing
+//   to keep writes nothing and removes nothing, because the key may hold a keep-input sibling's text.
+//
+// Keep input (keepIn, used, wiped):
+//   A private tool flagged `keepInput` in its config (JSON, CSV, regex, find and replace, text
+//   compare: work in progress people come back to) also carries data-keep-input. There TT.state
+//   saves and loads the whole record, as before beta-v12.4.2, so typed input survives a reload on
+//   this device. A record whose every field is empty is removed instead of written. Everything
+//   else private stays: Recent conversions in memory, no URL auto-sync, the shared-link query strip.
+//   The trust notice renders a [data-tt-clear-input="<slug>"] button: it removes every key this page
+//   saved or loaded plus the tool's own <slug> and <slug>:b keys, ignores any save still pending,
+//   and reloads the bare path (replaceState, then reload: no view transition to skip), so the fields come back empty and the keys are gone. It wipes input
+//   only: where a caller passed a keep list (regex flags, find-and-replace toggles), the record is
+//   rewritten to those settings instead of removed.
+//
+//   Durability rules, because some of this data is irreplaceable (a year of weight
+//   logs cannot be recomputed the way a converter's last input can):
+//   - a write that exceeds the cap or the browser quota TELLS the user instead of
+//   failing silently, which is how a tracker could quietly stop saving,
+//   - an older envelope is MIGRATED rather than discarded, so bumping VERSION no
+//   longer means wiping everyone's history.
+//
+// TT.data:
+//   Portability — the escape hatch behind the "never leaves your device" promise. Every
+//   tracker's log and every saved profile lives only in this browser, so without an export
+//   clearing site data is permanent loss. Covers every toytools:* key, so one file is a full
+//   backup and restoring it on a new device carries the whole account across.
+//
+// TT.profile:
+//   Body profile — the facts about YOU that several health tools each need. Deliberately its own
+//   key rather than a field of any tool's state, so it survives one tool's schema change and exports
+//   on its own. Without it a user walking BMI -> TDEE -> body fat retypes height four times, units
+//   four times, sex three times and weight three times, on a phone.
+//
+//   Only ever holds what a health calculator already asks for on screen. Nothing is inferred, and
+//   the widget always shows what it filled in, so this is a convenience, never a hidden dossier.
+//   On a private page (see TT.state) it neither reads nor writes: body details are typed input.
+//
+// TT.prefs:
+//   Interaction memory — cross-tool UI preferences (how the user likes to interact), distinct from
+//   per-tool entered values (TT.state). One JSON blob under "toytools:prefs". Never throws. Engine-
+//   agnostic: preferred currency, number format, expanded sections, timeline granularity, etc., so
+//   every interactive engine inherits the same memory.
+//
+// TT.history (hist):
+//   Recent conversions: the last few per tool, held in memory for this page view only. Nothing
+//   is written to any storage, so a reload or a closed tab forgets them. Deduped on input,
+//   most-recent-first, capped at 5. Never throws.
+//
+// TT.focus:
+//   Focus controls — Full Screen, Remove Distractions, Keep Awake (Wake Lock).
+//   Shared by notepad, todo-list. Promotes the existing .tool-panel in place via
+//   the .tt-focus class so the live tool stays interactive.
+//
+// TT.favorites:
+//   ── Favourites ────────────────────────────────────────────────────────
+//   Recents answer "where was I", favourites answer "the three tools I actually use". With a
+//   catalog this size the second question is the one that turns a visitor into a returning one.
+//   Slugs only, capped, never throws.
+//
+// TT.url:
+//   ── Shareable URL state ───────────────────────────────────────────────
+//   Putting a calculator's inputs in the address bar is what makes a result bookmarkable,
+//   reloadable and sendable to someone else. Two rules keep it from being a liability:
+//
+//   - replaceState only. pushState would turn every keystroke into a back-button trap.
+//   - whether a tool may use this at all is decided at BUILD time (src/lib/url-state.ts) from
+//   its engine/pattern and arrives as data-url-state on the widget. Nothing here can opt a
+//   JWT decoder or a hash generator in, and the health tools are explicit-action only.
+//   - private pages never auto-sync: toolUrlStateMode turns auto into manual there at build time,
+//   and write() is a no-op on a data-ephemeral page as a second guard. build() and share() (Copy
+//   link) and read() (an incoming link fills the form) still work.
+//
+// Shared link, first edit:
+//   A private page opened from a ?params link keeps that query until the visitor first changes
+//   something in the tool (a trusted input or change inside [data-url-state], or a click on one of
+//   its buttons other than copy/share). Then the address goes back to the bare path with
+//   replaceState, once, writing no values, so a reload shows the plain page rather than restoring
+//   the link's old values over what was typed.
+//
+// isTyping:
+//   ── Global keyboard shortcuts ─────────────────────────────────────────
+//   Esc blurs an active field; Ctrl/Cmd+Shift+C/X drive the primary Copy/Clear
+//   actions. Never hijacks normal typing (except Esc-to-blur).
+//
+//   "/", Ctrl/Cmd+K and "?" are NOT here: they open the palette and the shortcut
+//   help, which live in the interaction-loaded chunk, so they are wired from the
+//   deferred half (src/lib/runtime/overlays.ts). "/" used to focus "#q", an
+//   element that only ever existed on the home page.
+//
+// copyStatRow:
+//   ── Clickable stat rows ───────────────────────────────────────────────
+//   Any .tm-stat-row copies "Label: Value" on click/Enter/Space. Wired once
+//   here (delegated) so every metric widget gets it without duplicating logic.
 ---
 
 {/* Deferred: platform glue (analytics, service worker) + the page's declared engines only. A JSX
@@ -22,10 +144,7 @@
   var _toastTimer;
   var _urlTimer;
 
-  // Engine readiness: this inline script runs during parse (so state/toast/copy are
-  // available immediately), but analyze/formatMetric/runEncoding/etc. attach via a
-  // deferred module. Widgets that compute on load schedule via onReady() so their
-  // first render waits for the engine functions instead of throwing.
+  // TT.ready: see the notes in the frontmatter.
   TT.ready = TT.ready || false;
   TT._readyCbs = TT._readyCbs || [];
 
@@ -66,15 +185,28 @@
     }
   };
 
-  // Versioned per-tool state: one JSON envelope per tool under "toytools:{toolId}".
-  // Never throws; corruption yields null (caller uses defaults).
-  //
-  // Durability rules, because some of this data is irreplaceable (a year of weight
-  // logs cannot be recomputed the way a converter's last input can):
-  //  - a write that exceeds the cap or the browser quota TELLS the user instead of
-  //    failing silently, which is how a tracker could quietly stop saving,
-  //  - an older envelope is MIGRATED rather than discarded, so bumping VERSION no
-  //    longer means wiping everyone's history.
+  // TT.state: see the notes in the frontmatter.
+  var eph = document.documentElement.hasAttribute('data-ephemeral');
+  var keepIn = eph && document.documentElement.hasAttribute('data-keep-input'), used = {}, keeps = {}, wiped = 0;
+  function blank(d) {
+    for (var k in d) if (d[k] != null && d[k] !== '' && d[k] !== false) return false;
+    return true;
+  }
+  function pick(d, keep) {
+    var o = null, v;
+    if (d && keep) for (var i = 0; i < keep.length; i++) {
+      v = d[keep[i]];
+      if (v !== undefined && !(v && typeof v == 'object' && !Object.keys(v).length)) (o = o || {})[keep[i]] = v;
+    }
+    return o;
+  }
+  // Group hand-off: see the notes in the frontmatter.
+  var carry = {}, hand = {};
+  try { var wn = window.name; if (!wn.indexOf('tt:')) { window.name = ''; hand = JSON.parse(wn.slice(3)) || {}; } } catch (_) {}
+  if (eph) document.addEventListener('click', function (e) {
+    if (e.button || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || !e.target.closest || !e.target.closest('.group-pill')) return;
+    try { window.name = 'tt:' + JSON.stringify(carry); } catch (_) {}
+  });
   TT.state = {
     PREFIX: 'toytools:',
     VERSION: 1,
@@ -82,7 +214,19 @@
     // walks them in order. A missing step means that version is unmigratable, so the
     // caller falls back to defaults (the pre-existing behaviour) rather than crashing.
     MIGRATIONS: {},
-    save: function (toolId, data) {
+    ephemeral: eph,
+    save: function (toolId, data, keep) {
+      if (wiped) return true;
+      if (eph && !toolId.indexOf('group:')) carry[toolId] = data;
+      if (keepIn) {
+        used[toolId] = 1;
+        if (keep) keeps[toolId] = keep;
+        if (!data || typeof data != 'object' || blank(data)) { TT.state.clear(toolId, 1); return true; }
+      } else if (eph && !(data = pick(data, keep))) {
+        // A group key may hold a work-in-progress sibling's kept text: leave it for that page.
+        if (toolId.indexOf('group:')) TT.state.clear(toolId, 1);
+        return true;
+      }
       var payload;
       try { payload = JSON.stringify({ v: TT.state.VERSION, data: data }); } catch (_) { return false; }
       if (payload.length > TT.storage.MAX) {
@@ -98,7 +242,9 @@
         return false;
       }
     },
-    load: function (toolId) {
+    load: function (toolId, keep) {
+      if (keepIn) { used[toolId] = 1; if (keep) keeps[toolId] = keep; }
+      if (eph && hand[toolId]) return hand[toolId];
       try {
         var raw = localStorage.getItem(TT.state.PREFIX + toolId);
         if (!raw) return null;
@@ -112,18 +258,37 @@
           data = step(data);
           v++;
         }
-        return v === TT.state.VERSION ? data : null;
+        return v !== TT.state.VERSION ? null : eph && !keepIn ? pick(data, keep) : data;
       } catch (_) { return null; }
     },
-    clear: function (toolId) {
+    clear: function (toolId, saving) {
+      if (!saving) delete carry[toolId];
       try { localStorage.removeItem(TT.state.PREFIX + toolId); } catch (_) {}
     }
   };
 
-  // Portability — the escape hatch behind the "never leaves your device" promise. Every
-  // tracker's log and every saved profile lives only in this browser, so without an export
-  // clearing site data is permanent loss. Covers every toytools:* key, so one file is a full
-  // backup and restoring it on a new device carries the whole account across.
+  // Clear saved input (keep-input pages): see the notes in the frontmatter.
+  if (keepIn) document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-tt-clear-input]'), slug = b && b.getAttribute('data-tt-clear-input');
+    if (!b) return;
+    wiped = 1;
+    // The tool's own key and second input too: a grouped tool's load(group) || load(slug) never
+    // reaches its own key once the group key answers.
+    if (slug) used[slug] = used[slug + ':b'] = 1;
+    // Input only: a key whose caller named settings (keep) is rewritten to just those.
+    for (var k in used) {
+      var d = null;
+      try { d = keeps[k] && pick(JSON.parse(localStorage.getItem(TT.state.PREFIX + k)).data, keeps[k]); } catch (_) {}
+      TT.state.clear(k);
+      if (d) try { localStorage.setItem(TT.state.PREFIX + k, JSON.stringify({ v: TT.state.VERSION, data: d })); } catch (_) {}
+    }
+    // A reload, not location.replace: a reload never starts a cross-document view transition, so
+    // there is none to be skipped (Chrome rejected one with an unhandled AbortError).
+    var bare = location.pathname + location.hash;
+    try { history.replaceState(null, '', bare); location.reload(); } catch (_) { try { location.replace(bare); } catch (_) {} }
+  });
+
+  // TT.data: see the notes in the frontmatter.
   TT.data = {
     KEY_PREFIX: 'toytools:',
     FORMAT: 'toytools.backup.v1',
@@ -204,17 +369,12 @@
     }
   };
 
-  // Body profile — the facts about YOU that several health tools each need. Deliberately its own
-  // key rather than a field of any tool's state, so it survives one tool's schema change and exports
-  // on its own. Without it a user walking BMI -> TDEE -> body fat retypes height four times, units
-  // four times, sex three times and weight three times, on a phone.
-  //
-  // Only ever holds what a health calculator already asks for on screen. Nothing is inferred, and
-  // the widget always shows what it filled in, so this is a convenience, never a hidden dossier.
+  // TT.profile: see the notes in the frontmatter.
   TT.profile = {
     KEY: 'toytools:profile:body',
     FIELDS: ['unit', 'sex', 'age', 'height', 'weight'],
     get: function () {
+      if (eph) return {};
       try { return JSON.parse(localStorage.getItem(TT.profile.KEY)) || {}; } catch (_) { return {}; }
     },
     /** Merge in the recognised fields of `values`; blank/absent values never overwrite a good one. */
@@ -229,7 +389,7 @@
         all[k] = v;
         changed = true;
       }
-      if (!changed) return all;
+      if (!changed || eph) return all;
       try { localStorage.setItem(TT.profile.KEY, JSON.stringify(all)); } catch (_) {}
       return all;
     },
@@ -244,7 +404,7 @@
     setDerived: function (name, value) {
       var all = TT.profile.get();
       if (!all.derived) all.derived = {};
-      if (String(all.derived[name]) === String(value)) return;
+      if (eph || String(all.derived[name]) === String(value)) return;
       all.derived[name] = value;
       try { localStorage.setItem(TT.profile.KEY, JSON.stringify(all)); } catch (_) {}
     },
@@ -266,10 +426,7 @@
     }
   };
 
-  // Interaction memory — cross-tool UI preferences (how the user likes to interact), distinct from
-  // per-tool entered values (TT.state). One JSON blob under "toytools:prefs". Never throws. Engine-
-  // agnostic: preferred currency, number format, expanded sections, timeline granularity, etc., so
-  // every interactive engine inherits the same memory.
+  // TT.prefs: see the notes in the frontmatter.
   TT.prefs = {
     KEY: 'toytools:prefs',
     all: function () {
@@ -288,31 +445,17 @@
     }
   };
 
-  // Session history — last few conversions per tool, sessionStorage only (cleared when
-  // the tab closes; never written to localStorage). Privacy-first: deduped on input,
-  // most-recent-first, capped at 5. Never throws.
+  // TT.history: see the notes in the frontmatter.
+  var hist = {};
   TT.history = {
-    PREFIX: 'toytools:hist:',
     MAX: 5,
-    get: function (key) {
-      try {
-        var raw = sessionStorage.getItem(TT.history.PREFIX + key);
-        var arr = raw ? JSON.parse(raw) : [];
-        return Array.isArray(arr) ? arr : [];
-      } catch (_) { return []; }
-    },
+    get: function (key) { return (hist[key] || []).slice(); },
     push: function (key, item) {
-      try {
-        var arr = TT.history.get(key).filter(function (e) { return e && e.input !== item.input; });
-        arr.unshift(item);
-        if (arr.length > TT.history.MAX) arr = arr.slice(0, TT.history.MAX);
-        sessionStorage.setItem(TT.history.PREFIX + key, JSON.stringify(arr));
-        return arr;
-      } catch (_) { return TT.history.get(key); }
+      var arr = TT.history.get(key).filter(function (e) { return e && e.input !== item.input; });
+      arr.unshift(item);
+      return (hist[key] = arr.slice(0, TT.history.MAX));
     },
-    clear: function (key) {
-      try { sessionStorage.removeItem(TT.history.PREFIX + key); } catch (_) {}
-    }
+    clear: function (key) { delete hist[key]; }
   };
 
   // Recent tools — deduped, most-recent-first, capped at 10.
@@ -335,9 +478,7 @@
     } catch (_) { return []; }
   };
 
-  // Focus controls — Full Screen, Remove Distractions, Keep Awake (Wake Lock).
-  // Shared by notepad, todo-list. Promotes the existing .tool-panel in place via
-  // the .tt-focus class so the live tool stays interactive.
+  // TT.focus: see the notes in the frontmatter.
   TT.focus = (function () {
     var wakeSupported = ('wakeLock' in navigator);
 
@@ -469,10 +610,7 @@
     TT.toast('Copied!');
   };
 
-  // ── Favourites ────────────────────────────────────────────────────────
-  // Recents answer "where was I", favourites answer "the three tools I actually use". With a
-  // catalog this size the second question is the one that turns a visitor into a returning one.
-  // Slugs only, capped, never throws.
+  // TT.favorites: see the notes in the frontmatter.
   TT.favorites = {
     KEY: 'toytools:favorites',
     MAX: 50,
@@ -496,14 +634,7 @@
     }
   };
 
-  // ── Shareable URL state ───────────────────────────────────────────────
-  // Putting a calculator's inputs in the address bar is what makes a result bookmarkable,
-  // reloadable and sendable to someone else. Two rules keep it from being a liability:
-  //
-  //  - replaceState only. pushState would turn every keystroke into a back-button trap.
-  //  - whether a tool may use this at all is decided at BUILD time (src/lib/url-state.ts) from
-  //    its engine/pattern and arrives as data-url-state on the widget. Nothing here can opt a
-  //    JWT decoder or a hash generator in, and the health tools are explicit-action only.
+  // TT.url: see the notes in the frontmatter.
   TT.url = {
     MAX: 1500,
     /** Current query as a plain object. */
@@ -530,6 +661,7 @@
     },
     /** Debounced replaceState. Auto-sync tools only; never call this from a manual-mode tool. */
     write: function (values) {
+      if (eph) return;
       clearTimeout(_urlTimer);
       _urlTimer = setTimeout(function () {
         var url = TT.url.build(values);
@@ -552,14 +684,21 @@
     }
   };
 
-  // ── Global keyboard shortcuts ─────────────────────────────────────────
-  // Esc blurs an active field; Ctrl/Cmd+Shift+C/X drive the primary Copy/Clear
-  // actions. Never hijacks normal typing (except Esc-to-blur).
-  //
-  // "/", Ctrl/Cmd+K and "?" are NOT here: they open the palette and the shortcut
-  // help, which live in the interaction-loaded chunk, so they are wired from the
-  // deferred half (src/lib/runtime/overlays.ts). "/" used to focus "#q", an
-  // element that only ever existed on the home page.
+  // Shared link, first edit: see the notes in the frontmatter.
+  if (eph && location.search) (function () {
+    var ev = ['input', 'change', 'click'];
+    function off() { for (var i = 0; i < 3; i++) document.removeEventListener(ev[i], edit, true); }
+    function edit(e) {
+      var t = e.target;
+      if (!e.isTrusted || !t || !t.closest || !t.closest('[data-url-state]')) return;
+      if (e.type == 'click' && (!t.closest('button') || t.closest('[id$="-share"],[data-eq-link],[data-action="copy"],[data-eq-copy],[data-eq-image]'))) return;
+      off();
+      try { history.replaceState(history.state, '', location.pathname + location.hash); } catch (_) {}
+    }
+    for (var i = 0; i < 3; i++) document.addEventListener(ev[i], edit, true);
+  })();
+
+  // isTyping: see the notes in the frontmatter.
   function isTyping(el) {
     if (!el) return false;
     var tag = el.tagName;
@@ -582,9 +721,7 @@
     }
   });
 
-  // ── Clickable stat rows ───────────────────────────────────────────────
-  // Any .tm-stat-row copies "Label: Value" on click/Enter/Space. Wired once
-  // here (delegated) so every metric widget gets it without duplicating logic.
+  // copyStatRow: see the notes in the frontmatter.
   function copyStatRow(row) {
     var label = row.querySelector('.tm-stat-label');
     var value = row.querySelector('.tm-stat-value');

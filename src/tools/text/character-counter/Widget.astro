@@ -115,10 +115,10 @@ import { config } from './config';
   function saveLimit() {
     if (!ToyTools.state) return;
     var prior = null;
-    try { prior = ToyTools.state.load('character-counter'); } catch (_) {}
+    try { prior = ToyTools.state.load('character-counter', ['limit']); } catch (_) {}
     var data = prior && typeof prior === 'object' ? prior : {};
     data.limit = activeLimit;
-    ToyTools.state.save('character-counter', data);
+    ToyTools.state.save('character-counter', data, ['limit']);
   }
 
   document.querySelectorAll('.cc-preset-btn').forEach(function (btn) {
@@ -174,7 +174,7 @@ import { config } from './config';
   }
 
   try {
-    var saved = ToyTools.state && ToyTools.state.load('character-counter');
+    var saved = ToyTools.state && ToyTools.state.load('character-counter', ['limit']);
     if (saved && saved.limit) {
       activeLimit = saved.limit;
       var btn = document.querySelector('[data-limit="' + saved.limit + '"]');

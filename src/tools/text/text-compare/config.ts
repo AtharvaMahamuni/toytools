@@ -7,6 +7,7 @@ export const config: ToolConfig = {
   description: 'Compare two texts side by side and see which lines were added or removed. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Compare two texts and see exactly which lines changed.',
   categorySlug: 'text-utilities',
+  keepInput: true,
   tags: ['text compare', 'text diff', 'compare text', 'diff two texts', 'text difference', 'find differences', 'online diff tool'],
   updatedAt: '2026-07-10',
   engine: 'text-interactive',

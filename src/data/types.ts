@@ -209,6 +209,14 @@ export interface ToolConfig {
   };
   guide?: GuideConfig;
   trustVariant?: 'private' | 'offline' | 'local' | 'lookup';
+  /**
+   * Work-in-progress tools on a `private` page (JSON, CSV, regex, find and replace, text compare)
+   * whose typed input people come back to. Their input is kept on this device (never uploaded), the
+   * trust notice says so and offers Clear saved input, and the one-time legacy cleanup leaves their
+   * keys alone. Recent conversions stay in memory and the URL is never auto-synced, as on any
+   * private page. Read by ToolLayout (data-keep-input) and ToyToolsRuntime (TT.state).
+   */
+  keepInput?: boolean;
   // Platform metadata — drives related tools, patterns, and future discovery
   engine?: EngineId;         // closed set — see EngineId in src/data/engines.ts
   pattern?: PatternId;       // closed set — see PatternId in src/data/engines.ts

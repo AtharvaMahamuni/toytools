@@ -513,14 +513,23 @@ const REGEX_WORKER_SOURCE = regexWorkerSource();
     if (token === runToken) renderResult(result);
   }
 
+  // The flags box is free text, but only real flag letters are a setting worth remembering: each
+  // of d g i m s u v y once, nothing else ever reaches storage.
+  // A box holding only invalid letters falls back to the default g rather than saving nothing; an
+  // empty box stays empty (no flags is a real choice).
+  function flagLetters(v) {
+    var f = String(v || '').replace(/[^dgimsuvy]/g, '').replace(/(.)(?=.*\1)/g, '');
+    return f || (String(v || '').trim() ? 'g' : '');
+  }
+
   function saveState() {
     if (!TT || !TT.state) return;
     TT.state.save('regex-tester', {
       pattern: patternEl.value,
-      flags: flagsEl ? flagsEl.value : 'g',
+      flags: flagsEl ? flagLetters(flagsEl.value) : 'g',
       text: textEl.value,
       replace: replaceEl ? replaceEl.value : '',
-    });
+    }, ['flags']);
   }
 
   function run() {
@@ -574,10 +583,10 @@ const REGEX_WORKER_SOURCE = regexWorkerSource();
 
   function boot() {
     if (TT && TT.state) {
-      var saved = TT.state.load('regex-tester');
+      var saved = TT.state.load('regex-tester', ['flags']);
       if (saved) {
         if (saved.pattern) patternEl.value = saved.pattern;
-        if (flagsEl && saved.flags != null) flagsEl.value = saved.flags;
+        if (flagsEl && saved.flags != null) flagsEl.value = flagLetters(saved.flags);
         if (saved.text) textEl.value = saved.text;
         if (replaceEl && saved.replace != null) replaceEl.value = saved.replace;
       }

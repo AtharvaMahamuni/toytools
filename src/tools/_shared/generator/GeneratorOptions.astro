@@ -91,7 +91,7 @@ const rows = fields.map((f) => {
           </select>
         )}
 
-        {field.type === 'text' && (
+        {field.type === 'text' && !field.secret && (
           <input
             type="text"
             id={fid(field.id)}
@@ -100,6 +100,26 @@ const rows = fields.map((f) => {
             autocomplete="off"
             spellcheck={false}
           />
+        )}
+
+        {field.type === 'text' && field.secret && (
+          <div class="gen-secret">
+            <input
+              type="password"
+              id={fid(field.id)}
+              value={String(field.default ?? '')}
+              placeholder={field.placeholder}
+              autocomplete="off"
+              spellcheck={false}
+            />
+            <button
+              type="button"
+              class="action-btn gen-secret-toggle"
+              data-secret-toggle={fid(field.id)}
+              aria-controls={fid(field.id)}
+              aria-pressed="false"
+            >Show</button>
+          </div>
         )}
 
         {field.type === 'textarea' && (
@@ -169,6 +189,7 @@ const rows = fields.map((f) => {
   }
   .gen-field input[type='number'],
   .gen-field input[type='text'],
+  .gen-field input[type='password'],
   .gen-field select {
     width: 100%;
     min-height: var(--touch-target);
@@ -180,7 +201,12 @@ const rows = fields.map((f) => {
     border: var(--border);
     border-radius: var(--radius-md);
   }
-  .gen-field input[type='text'] { font-family: var(--font-mono); }
+  .gen-field input[type='text'],
+  .gen-field input[type='password'] { font-family: var(--font-mono); }
+  /* Masked secret plus its Show toggle on one row; the input takes the slack. */
+  .gen-secret { display: flex; align-items: center; gap: var(--space-2); }
+  .gen-secret input { flex: 1 1 auto; min-width: 0; }
+  .gen-secret-toggle { flex: 0 0 auto; min-height: var(--touch-target); }
   /* Fixed height with internal scroll. An auto-growing textarea moves every control beneath it
      while somebody is pasting, which on a phone means the button they were reaching for has
      moved by the time their thumb lands. */

@@ -137,7 +137,7 @@ export const items: FAQItem[] = [
     id: 'qr-code-generator-faq-23',
     question: 'Does the tool remember what I entered?',
     answer:
-      'It remembers your option choices, such as the content type and error correction level, in local storage so the form looks familiar next time. It does not save the content you typed or the image. The preference stays on your device and holds no personal data.',
+      'It remembers your option choices, such as the content type and error correction level, in local storage so the form looks familiar next time. It does not save the content you typed, a Wi-Fi network name or password, or the image, so a reload starts with empty fields. The preference stays on your device and holds no personal data.',
   },
   {
     id: 'qr-code-generator-faq-24',

@@ -228,7 +228,7 @@ import { config } from './config';
       if (command.trim() === '') {
         errorEl.hidden = true;
         clearOutput('Type a command to quote it.');
-        TT.state.save('shell-quote-escalator', { command: '', chain: chain.value });
+        TT.state.save('shell-quote-escalator', { command: '', chain: chain.value }, ['chain']);
         return;
       }
 
@@ -276,7 +276,7 @@ import { config } from './config';
         note.hidden = true;
       }
 
-      TT.state.save('shell-quote-escalator', { command: command, chain: chain.value });
+      TT.state.save('shell-quote-escalator', { command: command, chain: chain.value }, ['chain']);
     }
 
     input.addEventListener('input', run);
@@ -293,7 +293,7 @@ import { config } from './config';
 
     // Engine surfaces load lazily, so the first computation waits for them.
     TT.onReady(function () {
-      var saved = TT.state.load('shell-quote-escalator');
+      var saved = TT.state.load('shell-quote-escalator', ['chain']);
       if (saved) {
         if (saved.command) input.value = saved.command;
         if (saved.chain) chain.value = saved.chain;

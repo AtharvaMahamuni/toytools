@@ -7,6 +7,7 @@ export const config: ToolConfig = {
   description: 'Find text in a document: search and replace every match, with optional regex. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Search and replace text, with regex and a live match count.',
   categorySlug: 'text-utilities',
+  keepInput: true,
   tags: ['find and replace', 'text replace', 'find replace', 'regex replace', 'search and replace', 'text substitution', 'string replace'],
   updatedAt: '2026-07-10',
   engine: 'text-interactive',

@@ -11,6 +11,7 @@ export const config: ToolConfig = {
   tags: ['json schema', 'json to schema', 'schema from json', 'infer schema'],
   updatedAt: '2026-09-25',
   trustVariant: 'private',
+  keepInput: true,
   engine: 'structured-data',
   pattern: 'structured-transform',
   family: 'json',

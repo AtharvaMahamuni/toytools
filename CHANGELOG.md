@@ -2,6 +2,79 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.4.2] - 2026-10-06
+
+### Fixed
+
+- **Private tools stop saving what you type.** Every tool page whose notice says "Nothing stored
+  unless you choose to save it" (134 tools, flagged with `data-ephemeral` on the page) now keeps
+  typed input on the page only. `ToyTools.state` writes and returns only the option fields a tool
+  names (a converter's direction, a calculator's units, generator options without their free-text
+  fields), so a reload starts with an empty form. Reported on Base64, URL, SHA-256, age, date
+  difference, title case, color format and QR; fixed in the shared runtime, so it covers the 111
+  private tools that saved typed input through it, plus JSON tree viewer and color shades, which
+  saved on their own (4 more, the password, UUID, lorem and coin generators, only ever saved
+  options and are unchanged). A tool with no setting to keep writes no record at all. Of the 134,
+  the 14 work-in-progress tools below keep typed input again and now say so in their notice; the
+  other 120 private tools keep the "Nothing stored unless you choose to save it" promise.
+- **Private tools stop writing typed values into the address bar.** 23 of them (age, date
+  difference, timezone, Unix timestamp, cron, systemd timer, sleep cycle, the finance growth
+  calculators, CIDR, fraction, matrix, prime factorization, statistics, triangle, combinations and
+  the equalizer preset name) synced inputs to the URL as you typed, so a reload refilled them. On a
+  private page that sync is now off. Copy link still builds a link with your values, and opening
+  such a link still fills the form. After you change a value on a page opened from such a link,
+  the address goes back to the plain page (no values written), so a reload no longer restores the
+  link's old values over your edits. The bill-splitting and UPI calculators, which keep their data
+  in this browser, still keep their inputs in the address as you type; the privacy page's Links
+  you share section now says so instead of claiming no calculator does.
+- **QR Wi-Fi password is never stored.** Neither are the SSID, the Text or URL value, or vCard
+  details. The password field is masked, with a Show toggle.
+- **Recent conversions live in the open tab only.** The list is kept in memory for the page view
+  and is gone on reload. Nothing is written to session or local storage.
+- **One-time cleanup for returning visitors.** The first page load after this release removes what
+  older builds saved from private tools: input envelopes, shared group input, the raw Base64, color
+  shades and expected-digest keys, the health body profile and session Recent conversions. Mixed
+  envelopes are reduced to their options, so settings survive. Option-only keys and data tools
+  (notepad, todo, trackers, pomodoro, ledgers) are never touched.
+
+- **Work-in-progress tools keep what you type, on this device.** People come back to JSON and
+  CSV they are working on, so 14 private tools keep typed input in this browser as they did before
+  this release: JSON Formatter, JSON Validator, JSON Minifier, JSON Tree Viewer, JSON to CSV, JSON
+  to YAML, YAML to JSON, CSV to JSON, CSV Diff, JSON Schema Validator (new: it never saved before),
+  JSON to JSON Schema, Find and Replace, Text Compare and Regex Tester (pattern, test text and
+  replacement). One
+  catalog flag, `keepInput`, drives it. Their notice says "Your input stays on this device (never
+  uploaded)", a Clear saved input button wipes the saved input and the fields, and the one-time
+  cleanup leaves their keys, so returning visitors keep their saved JSON. Clear wipes input only:
+  settings such as the regex flags and find and replace toggles stay. It also removes a grouped
+  tool's own key, and reloads the page without a view transition, so no error reaches the
+  console. A grouped tool's older own key (JSON Formatter, Minifier, Tree View, JSON to CSV, CSV to
+  JSON, JSON to YAML, YAML to JSON, CSV Diff) is merged into the group key the page reads: moved
+  there when the group key holds no input, removed otherwise, so each tool has one live key. Recent conversions stay
+  in the open tab and the address bar is never written. Tools that can hold a secret (JWT, the
+  encoders including JSON Escape, hashes, passwords, QR), personal or health data, and quick
+  converters, calculators and counters still keep nothing.
+
+### Changed
+
+- **Health calculators no longer keep a reading history or a shared body profile.** Both were
+  stored typed input. The "change since your last check" line and the prefill between BMI, TDEE,
+  body fat and macro calculators are gone; the unit choice is still remembered.
+- **Grouped tools carry text through the switcher in tab memory.** A plain click on a group pill
+  hands your text to the sibling page via `window.name`, which that page reads and wipes; a reload
+  or a new tab starts empty. JSON Tree View takes part again, with Format and Minify. The JSON
+  tools, JSON and CSV, and JSON and YAML groups are work-in-progress tools, so there the text is
+  also kept on this device.
+- **Regex tester remembers only real flag letters** from its flags box (d g i m s u v y, each
+  once), never other text typed there. A box of only invalid letters keeps the default g.
+- **Copy says what is saved.** FAQs and guides for the health calculators, color shades, shell
+  quote, text repeater, name and choice pickers, scientific calculator and QR, plus the privacy
+  page, now match the behaviour.
+- **Inline runtime notes moved to the component frontmatter** so they stop shipping in every
+  page's HTML. Net of this release's additions, the heaviest tool page (JSON tree viewer) is
+  about 0.6 KB gzipped lighter. The cleanup chunk is fetched once per browser and has its own
+  3 KB ceiling in the budget check.
+
 ## [beta-v12.4.1] - 2026-10-05
 
 ### Changed

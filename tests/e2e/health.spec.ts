@@ -277,131 +277,57 @@ test.describe('input controls', () => {
   });
 });
 
-test.describe('calculator history', () => {
-  test('shows the change since your last check and a trend once there is one', async ({ page }) => {
+// Health calculators are private pages: what you type about your body stays on the page. Until
+// beta-v12.4.2 they kept a per-day result history (the "change since your last check" line) and a
+// shared body profile that prefilled the next calculator; both were stored typed input, so both
+// are gone. Only the unit choice is remembered.
+test.describe('calculator privacy', () => {
+  test('keeps no reading history, even when an older build left one behind', async ({ page }) => {
     const errors = guardConsole(page);
+    // An older build's envelope, with the one-time cleanup marked done so only the runtime policy
+    // stands between this history and the page.
+    await page.addInitScript(() => {
+      if (sessionStorage.getItem('seeded')) return;
+      sessionStorage.setItem('seeded', '1');
+      localStorage.setItem('toytools.private-inputs-cleared', '1');
+      localStorage.setItem('toytools:bmi-calculator', JSON.stringify({ v: 1, data: {
+        fields: { weight: '90', height: '170' },
+        history: [
+          { day: '2026-07-01', raw: 24.5, value: '24.5' },
+          { day: '2026-07-10', raw: 23.8, value: '23.8' },
+        ],
+      } }));
+    });
     await page.goto('/tool/health/bmi-calculator/');
-
-    // First visit: nothing to compare against, so the panel stays as clean as before.
     await expect(page.locator('#bmi-calculator-hero')).toHaveText('22.9');
+    await expect(page.locator('[data-field-id="weight"]')).not.toHaveValue('90');
     await expect(page.locator('#bmi-calculator-delta')).toBeHidden();
 
-    // Seed prior readings on earlier days, which is what a returning user would have.
-    await page.evaluate(() => {
-      const TT = (window as any).ToyTools;
-      const saved = TT.state.load('bmi-calculator') || { fields: {} };
-      saved.history = [
-        { day: '2026-07-01', raw: 24.5, value: '24.5' },
-        { day: '2026-07-10', raw: 23.8, value: '23.8' },
-        { day: '2026-07-20', raw: 23.3, value: '23.3' },
-      ];
-      TT.state.save('bmi-calculator', saved);
-    });
-    await page.reload();
-
-    const delta = page.locator('#bmi-calculator-delta');
-    await expect(delta).toBeVisible();
-    await expect(delta).toContainText('Down 0.4');
-    await expect(delta).toContainText('23.3');
-
-    // Three prior points plus today is a trend worth drawing.
-    await expect(page.locator('#bmi-calculator-spark svg')).toBeVisible();
-
+    await page.locator('[data-field-id="weight"]').fill('74');
+    await expect(page.locator('#bmi-calculator-hero')).not.toHaveText('22.9');
+    const stored = await page.evaluate(() => localStorage.getItem('toytools:bmi-calculator'));
+    expect(stored ?? '').not.toMatch(/history|"74"|"90"/);
     expect(errors, errors.join('\n')).toEqual([]);
   });
 
-  test('records at most one snapshot per day, and only when the answer moves', async ({ page }) => {
-    await page.goto('/tool/health/bmi-calculator/');
-    const weight = page.locator('[data-field-id="weight"]');
-    for (const v of ['71', '72', '73', '74']) {
-      await weight.fill(v);
-      await expect(page.locator('#bmi-calculator-hero')).not.toHaveText('22.9');
-    }
-    const history = await page.evaluate(() => (window as any).ToyTools.state.load('bmi-calculator').history);
-    // Four edits in one sitting is one visit, not four data points.
-    expect(history.length).toBe(1);
-    expect(history[0].raw).toBeCloseTo(24.2, 1);
-  });
-
-  test('keeps the history within its cap', async ({ page }) => {
-    await page.goto('/tool/health/bmi-calculator/');
-    const len = await page.evaluate(() => {
-      const TT = (window as any).ToyTools;
-      const saved = TT.state.load('bmi-calculator') || { fields: {} };
-      saved.history = Array.from({ length: 60 }, (_, i) => ({ day: `2026-01-${i + 1}`, raw: 20 + i, value: String(20 + i) }));
-      TT.state.save('bmi-calculator', saved);
-      return saved.history.length;
-    });
-    expect(len).toBe(60);
-    await page.reload();
-    await page.locator('[data-field-id="weight"]').fill('88');
-    await expect(page.locator('#bmi-calculator-hero')).toHaveText('28.7');
-    const capped = await page.evaluate(() => (window as any).ToyTools.state.load('bmi-calculator').history.length);
-    expect(capped).toBeLessThanOrEqual(50);
-  });
-});
-
-test.describe('shared body profile', () => {
-  test('carries your details from one calculator to the next', async ({ page }) => {
+  test('does not carry body details from one calculator to the next', async ({ page }) => {
     const errors = guardConsole(page);
-
-    // Enter the body once, on BMI.
     await page.goto('/tool/health/bmi-calculator/');
     await page.locator('[data-field-id="weight"]').fill('82');
     await page.locator('[data-field-id="height"]').fill('183');
     await expect(page.locator('#bmi-calculator-hero')).toHaveText('24.5');
 
-    // TDEE asks for the same facts and should already know them.
     await page.goto('/tool/health/tdee-calculator/');
-    await expect(page.locator('[data-field-id="weight"]')).toHaveValue('82');
-    await expect(page.locator('[data-field-id="height"]')).toHaveValue('183');
-    // The prefill is stated, never silent.
-    const notice = page.locator('#tdee-calculator-profile');
-    await expect(notice).toBeVisible();
-    await expect(notice).toContainText('saved details');
-    await expect(notice).toContainText('183 cm');
-
-    // Body fat asks for height too.
-    await page.goto('/tool/health/body-fat-calculator/');
-    await expect(page.locator('[data-field-id="height"]')).toHaveValue('183');
-
-    expect(errors, errors.join('\n')).toEqual([]);
-  });
-
-  test('a value typed on this tool wins over the shared profile', async ({ page }) => {
-    await page.goto('/tool/health/bmi-calculator/');
-    await page.locator('[data-field-id="height"]').fill('183');
-
-    // Override height on TDEE only.
-    await page.goto('/tool/health/tdee-calculator/');
-    await page.locator('[data-field-id="height"]').fill('170');
-    await page.reload();
-    await expect(page.locator('[data-field-id="height"]')).toHaveValue('170');
-  });
-
-  test('carries the TDEE result into the macro calculator', async ({ page }) => {
-    await page.goto('/tool/health/tdee-calculator/');
-    const maintain = await page.locator('#tdee-calculator-hero').textContent();
-    expect(maintain).toBeTruthy();
+    await expect(page.locator('[data-field-id="weight"]')).not.toHaveValue('82');
+    await expect(page.locator('[data-field-id="height"]')).not.toHaveValue('183');
+    await expect(page.locator('#tdee-calculator-profile')).toBeHidden();
 
     await page.goto('/tool/health/macro-calculator/');
-    const notice = page.locator('#macro-calculator-profile');
-    await expect(notice).toBeVisible();
-    await expect(notice).toContainText('From your TDEE');
-    // The calorie field carries the number rather than the tool's generic default.
-    const calories = await page.locator('[data-field-id="calories"]').inputValue();
-    expect(Number(calories.replace(/[^0-9.]/g, ''))).toBeGreaterThan(1000);
-  });
+    await expect(page.locator('#macro-calculator-profile')).toBeHidden();
 
-  test('forget clears the saved details', async ({ page }) => {
-    await page.goto('/tool/health/bmi-calculator/');
-    await page.locator('[data-field-id="height"]').fill('183');
-    await page.goto('/tool/health/tdee-calculator/');
-    await expect(page.locator('#tdee-calculator-profile')).toBeVisible();
-    await page.locator('#tdee-calculator-forget').click();
-    await expect(page.locator('#tdee-calculator-profile')).toBeHidden();
     const stored = await page.evaluate(() => localStorage.getItem('toytools:profile:body'));
     expect(stored).toBeNull();
+    expect(errors, errors.join('\n')).toEqual([]);
   });
 });
 
