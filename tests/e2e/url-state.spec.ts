@@ -67,6 +67,22 @@ test.describe('shareable calculators on private pages', () => {
   });
 });
 
+// The bill-splitting and UPI calculators are Local tools (they keep their data in this browser),
+// not private ones, so they still keep their inputs in the address as you type. The privacy page's
+// "Links you share" says so; this keeps that copy and the behaviour in step.
+test.describe('Local calculators that keep inputs in the address', () => {
+  test('split-bill writes its inputs into the address as you type', async ({ page }) => {
+    await page.goto('/tool/finance/split-bill/');
+    await page.locator('[data-field-id="bill"]').fill('1234');
+    await page.locator('[data-field-id="people"]').fill('3');
+    await expect.poll(() => new URL(page.url()).searchParams.get('bill')).toBe('1234');
+    expect(new URL(page.url()).searchParams.get('people')).toBe('3');
+
+    await page.reload();
+    await expect(page.locator('[data-field-id="bill"]')).toHaveValue('1234');
+  });
+});
+
 test.describe('personal-data tools', () => {
   test('never write to the address bar on their own', async ({ page }) => {
     await page.goto('/tool/health/bmi-calculator/');
