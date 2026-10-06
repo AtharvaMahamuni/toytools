@@ -1,4 +1,4 @@
-// Lossless JSON pretty-printer.
+// Lossless JSON pretty-printer and minifier.
 //
 // JSON.stringify(JSON.parse(text)) is not a formatter: it re-serialises the data, so integers past
 // 2^53 are rounded (12345678901234567890 becomes 12345678901234567000), 1.0 becomes 1, 1e5 becomes
@@ -15,7 +15,11 @@ export interface LosslessFormat {
 const SPACE = ' \t\n\r';
 const STOP = ' \t\n\r,:[]{}"';
 
-/** Re-indent valid JSON (`indent` per level, as JSON.stringify(v, null, indent) lays it out). */
+/**
+ * Re-indent valid JSON (`indent` per level, as JSON.stringify(v, null, indent) lays it out). With
+ * `indent` = '' the output is minified exactly as JSON.stringify(v) lays it out: no newlines and no
+ * space after a colon. Either way every token is copied verbatim.
+ */
 export function formatJsonLossless(text: string, indent = '  '): LosslessFormat {
   const out: string[] = [];
   const duplicates: string[] = [];
@@ -25,7 +29,8 @@ export function formatJsonLossless(text: string, indent = '  '): LosslessFormat 
   let expectKey = false;
   let i = 0;
   const n = text.length;
-  const line = () => '\n' + indent.repeat(depth);
+  const compact = indent === '';
+  const line = () => (compact ? '' : '\n' + indent.repeat(depth));
 
   while (i < n) {
     const c = text[i];
@@ -70,7 +75,7 @@ export function formatJsonLossless(text: string, indent = '  '): LosslessFormat 
       i++;
       continue;
     }
-    if (c === ':') { out.push(': '); i++; continue; }
+    if (c === ':') { out.push(compact ? ':' : ': '); i++; continue; }
     // A number or true / false / null, verbatim.
     let j = i;
     while (j < n && !STOP.includes(text[j])) j++;
@@ -78,4 +83,11 @@ export function formatJsonLossless(text: string, indent = '  '): LosslessFormat 
     i = j;
   }
   return { output: out.join(''), duplicates };
+}
+
+/** The status-line warning for duplicate keys, shared by the formatter and the minifier. */
+export function duplicateKeyWarning(duplicates: string[]): string | undefined {
+  if (!duplicates.length) return undefined;
+  const names = duplicates.map((k) => JSON.stringify(k)).join(', ');
+  return `Duplicate key${duplicates.length > 1 ? 's' : ''} ${names}: kept as written here, but most JSON parsers keep only the last value.`;
 }

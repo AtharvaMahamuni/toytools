@@ -41,9 +41,10 @@ const STRUCTURED_INFO: Record<string, StructuredInfo> = {
     insight:
       'Minifying removes all insignificant whitespace to produce the smallest valid JSON, which reduces payload size for transfer and storage. The data is unchanged.',
     technical: [
-      { term: 'Operation', detail: 'Re-serializes with no whitespace' },
+      { term: 'Operation', detail: 'Copies the original tokens with no whitespace; nothing is re-serialized' },
       { term: 'Use', detail: 'Shrink request/response and stored payloads' },
-      { term: 'Data', detail: 'Unchanged: re-format any time to restore readability' },
+      { term: 'Data', detail: 'Unchanged: big integers, 1.0, 1e5, string escapes and key order stay exactly as written' },
+      { term: 'Duplicate keys', detail: 'Kept as written, with a warning' },
     ],
     sample: PRETTY_JSON,
   },

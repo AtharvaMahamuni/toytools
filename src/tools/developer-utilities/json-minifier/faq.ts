@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'json-min-faq-4',
     question: 'Can I format minified JSON back to readable form?',
     answer:
-      'Yes. Minification is reversible. Paste the minified JSON into a formatter and it will produce the same structure with indentation. The two operations are inverses: both go through a parse-then-serialize cycle, so the round-trip is lossless.',
+      'Yes. Minification is reversible. Paste the minified JSON into a formatter and it will produce the same structure with indentation. The two operations are inverses: neither re-serializes your data, both copy the original tokens and change only the whitespace, so the round-trip is lossless.',
   },
   {
     id: 'json-min-faq-5',
@@ -54,5 +54,11 @@ export const items: FAQItem[] = [
     question: 'Should I minify JSON in my API responses manually?',
     answer:
       'Usually not manually, most HTTP frameworks serialize JSON compactly by default. In Node.js, `JSON.stringify(data)` with no third argument produces minified output; `JSON.stringify(data, null, 2)` produces formatted output. Most API frameworks default to the compact form when serializing responses.',
+  },
+  {
+    id: 'json-min-faq-10',
+    question: 'Does the minifier keep big numbers and duplicate keys?',
+    answer:
+      'Yes. It removes whitespace from your text instead of parsing and re-serializing it, so 12345678901234567890 stays 12345678901234567890 (JavaScript would round it to 12345678901234567000), 1.0 stays 1.0, 1e5 stays 1e5, and string escapes and key order are untouched. A key that appears twice in one object is kept twice and flagged with a warning, because most JSON parsers keep only the last value.',
   },
 ];

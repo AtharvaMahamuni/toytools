@@ -10,8 +10,10 @@ describe('runStructuredData', () => {
       output: '',
       error: 'Unknown tool',
     }));
-  it('resolves and runs a known tool', () =>
-    expect(runStructuredData('json-minifier', '{ "a": 1 }')).toEqual({ ok: true, output: '{"a":1}' }));
+  it('resolves and runs a known tool', async () =>
+    expect(await Promise.resolve(runStructuredData('json-minifier', '{ "a": 1 }'))).toEqual({ ok: true, output: '{"a":1}' }));
+  it('runs a synchronous tool synchronously', () =>
+    expect(runStructuredData('json-validator', '{ "a": 1 }')).toEqual({ ok: true, output: 'Valid JSON' }));
   it('surfaces a tool error through the resolver', () =>
     expect(runStructuredData('json-validator', '{bad}').ok).toBe(false));
 });
@@ -61,15 +63,41 @@ describe('json-formatter', () => {
 });
 
 describe('json-minifier', () => {
-  const run = (s: string) => STRUCTURED_TOOLS['json-minifier'].execute(s);
-  it('strips whitespace', () =>
-    expect(run('{\n  "a": 1,\n  "b": 2\n}').output).toBe('{"a":1,"b":2}'));
+  const run = (s: string) => Promise.resolve(STRUCTURED_TOOLS['json-minifier'].execute(s));
+  it('strips whitespace', async () =>
+    expect((await run('{\n  "a": 1,\n  "b": 2\n}')).output).toBe('{"a":1,"b":2}'));
   it('round-trips with the formatter', async () => {
     const formatted = (await STRUCTURED_TOOLS['json-formatter'].execute(MESSY)).output;
-    expect(run(formatted).output).toBe(JSON.stringify(JSON.parse(MESSY)));
+    expect((await run(formatted)).output).toBe(JSON.stringify(JSON.parse(MESSY)));
   });
-  it('reports an error for invalid JSON', () => expect(run('[1,2,').ok).toBe(false));
-  it('returns empty output for empty input', () => expect(run('   ')).toEqual({ ok: true, output: '' }));
+  it('reports an error for invalid JSON', async () => expect((await run('[1,2,')).ok).toBe(false));
+  it('returns empty output for empty input', async () => expect(await run('   ')).toEqual({ ok: true, output: '' }));
+  it('lays out like JSON.stringify(v) for ordinary JSON', async () => {
+    const samples = [MESSY, '[]', '{}', ' { "a" : { } , "b" : [ ] , "c" : [ { } ] } ', '"x"', '  42 ', '[ [1, [2, [3]]], {"k": {"j": null}} ]', '{"s":"a,b:{c}[d] \\"q\\" \\\\ x y"}'];
+    for (const s of samples) expect((await run(s)).output, s).toBe(JSON.stringify(JSON.parse(s)));
+  });
+  it('is lossless: big integers, number literals, escapes and key order stay exactly as written', async () => {
+    const r = await run('{\n  "n": 12345678901234567890,\n  "f": 1.0,\n  "e": 1e5,\n  "E": -2.50E-3,\n  "z": -0,\n  "u": "\\u00e9\\/",\n  "2": 1,\n  "1": 2\n}');
+    expect(r.output).toBe('{"n":12345678901234567890,"f":1.0,"e":1e5,"E":-2.50E-3,"z":-0,"u":"\\u00e9\\/","2":1,"1":2}');
+    expect(r.warning).toBeUndefined();
+    expect((await run(' 9007199254740993 ')).output).toBe('9007199254740993');
+  });
+  it('keeps whitespace inside strings', async () =>
+    expect((await run('{ "k" : "a b\\tc" }')).output).toBe('{"k":"a b\\tc"}'));
+  it('warns on duplicate keys and keeps both', async () => {
+    const r = await run('{ "a": 1, "a": 2, "b": { "c": 1, "c": 2 } }');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('{"a":1,"a":2,"b":{"c":1,"c":2}}');
+    expect(r.warning).toBe('Duplicate keys "a", "c": kept as written here, but most JSON parsers keep only the last value.');
+    expect((await run('[{"a":1},{"a":1}]')).warning).toBeUndefined();
+  });
+  it('minify then format then minify is stable and lossless', async () => {
+    const src = '{"big":12345678901234567890,"f":1.0,"arr":[1e5,{"x":"\\u0041"}]}';
+    const min1 = (await run(src)).output;
+    const pretty = (await STRUCTURED_TOOLS['json-formatter'].execute(min1)).output;
+    expect((await run(pretty)).output).toBe(min1);
+    expect(min1).toBe(src);
+  });
 });
 
 describe('json-validator', () => {

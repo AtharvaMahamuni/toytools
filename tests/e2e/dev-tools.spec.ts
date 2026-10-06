@@ -146,6 +146,23 @@ test.describe('structured-data tools', () => {
     await expect.poll(async () => t.output.textContent()).toBe('{"a":1}');
   });
 
+  test('json-minifier: lossless, big integers, 1.0, 1e5 and escapes stay as written', async ({ page }) => {
+    const t = new DevTool(page, 'json-minifier');
+    await t.goto();
+    await t.fill('{\n  "n": 12345678901234567890,\n  "f": 1.0,\n  "e": 1e5,\n  "u": "\\u00e9"\n}');
+    await expect.poll(async () => t.output.textContent()).toBe('{"n":12345678901234567890,"f":1.0,"e":1e5,"u":"\\u00e9"}');
+    await expect(t.status).toHaveText('✓ Valid');
+  });
+
+  test('json-minifier: warns on a duplicate key and keeps both', async ({ page }) => {
+    const t = new DevTool(page, 'json-minifier');
+    await t.goto();
+    await t.fill('{ "a": 1, "a": 2 }');
+    await expect.poll(async () => t.output.textContent()).toBe('{"a":1,"a":2}');
+    await expect(t.status).toContainText('✓ Valid');
+    await expect(t.status).toContainText('Duplicate key "a"');
+  });
+
   test('json-validator: reports valid and invalid', async ({ page }) => {
     const t = new DevTool(page, 'json-validator');
     await t.goto();
