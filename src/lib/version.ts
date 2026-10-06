@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
   minor: 4,
-  patch: 3,
+  patch: 4,
   status: 'beta',
   releaseDate: '2026-10-06',
-  description: 'Wrong answers fixed: lossless JSON formatter, whitespace-only text counts, month-end and leap-day ages, percentage change from a negative value, emoji and CJK in QR codes',
+  description: 'UX fixes: tip split defaults to 1 and rejects invalid splits, unique words never exceed words, lossless JSON minifier',
 };
 
 export function formatVersion(config: VersionConfig): string {
