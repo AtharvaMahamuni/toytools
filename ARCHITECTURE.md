@@ -336,7 +336,11 @@ recent chips, section titles, runtime badge expiry under a pinned clock, carouse
   list for every setting you want remembered. `ToyTools.history` (Recent conversions) is in memory
   for the page view. Inputs are never auto-synced to the URL there: `toolUrlStateMode` (in
   `src/lib/url-state.ts`) turns `auto` into `manual` for private tools and `ToyTools.url.write` is a
-  no-op on the page, while Copy link and incoming links still work. Group input (`group:{id}`)
+  no-op on the page, while Copy link and incoming links still work. A private page opened from a
+  `?params` link drops the query on the first trusted edit inside `[data-url-state]`
+  (`replaceState` to the bare path, no values written), so a reload cannot restore the link's old
+  values. Local tools with `auto` URL state (split-bill, the UPI calculators) still sync as you
+  type. Group input (`group:{id}`)
   follows a plain click on a switcher pill through
   `window.name`, which the next page reads and wipes. `src/lib/privacy/legacy-storage.ts` removes
   what older builds saved, once per browser (gated on `toytools.private-inputs-cleared`). Data tools

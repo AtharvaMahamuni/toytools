@@ -20,7 +20,11 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   calculators, CIDR, fraction, matrix, prime factorization, statistics, triangle, combinations and
   the equalizer preset name) synced inputs to the URL as you typed, so a reload refilled them. On a
   private page that sync is now off. Copy link still builds a link with your values, and opening
-  such a link still fills the form.
+  such a link still fills the form. After you change a value on a page opened from such a link,
+  the address goes back to the plain page (no values written), so a reload no longer restores the
+  link's old values over your edits. The bill-splitting and UPI calculators, which keep their data
+  in this browser, still keep their inputs in the address as you type; the privacy page's Links
+  you share section now says so instead of claiming no calculator does.
 - **QR Wi-Fi password is never stored.** Neither are the SSID, the Text or URL value, or vCard
   details. The password field is masked, with a Show toggle.
 - **Recent conversions live in the open tab only.** The list is kept in memory for the page view
@@ -40,7 +44,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   hands your text to the sibling page via `window.name`, which that page reads and wipes; a reload
   or a new tab starts empty. JSON Tree View takes part again, with Format and Minify.
 - **Regex tester remembers only real flag letters** from its flags box (d g i m s u v y, each
-  once), never other text typed there.
+  once), never other text typed there. A box of only invalid letters keeps the default g.
 - **Copy says what is saved.** FAQs and guides for the health calculators, color shades, shell
   quote, text repeater, name and choice pickers, scientific calculator and QR, plus the privacy
   page, now match the behaviour.
