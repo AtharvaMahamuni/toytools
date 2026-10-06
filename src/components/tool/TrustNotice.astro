@@ -3,9 +3,14 @@ import { PRIVACY_BADGE, PRIVACY_LINE, privacyStatement } from '@lib/privacy';
 
 interface Props {
   variant?: 'private' | 'offline' | 'local' | 'lookup';
+  /** A private work-in-progress tool (config `keepInput`): its typed input is kept on this device. */
+  keepInput?: boolean;
 }
 
-const { variant = 'private' } = Astro.props;
+const { variant = 'private', keepInput = false } = Astro.props;
+// Honest copy for keep-input tools: what you type is saved on this device, never uploaded.
+const KEEP_LINE = 'Your input stays on this device (never uploaded).';
+const keep = keepInput && variant === 'private';
 
 const notices = {
   private: { badge: PRIVACY_BADGE },
@@ -15,7 +20,7 @@ const notices = {
 } as const;
 
 const notice = notices[variant];
-const statement = privacyStatement(variant);
+const statement = keep ? `${PRIVACY_LINE} ${KEEP_LINE}` : privacyStatement(variant);
 
 const tooltipLines: Record<string, string[]> = {
   private: [
@@ -28,7 +33,9 @@ const tooltipLines: Record<string, string[]> = {
   lookup:  ['Your browser asks an IP echo for the address the internet already sees.', 'ToyTools never sees the reply, and nothing is stored here.'],
 };
 
-const lines = tooltipLines[variant];
+const lines = keep
+  ? [PRIVACY_LINE, 'No account required.', KEEP_LINE, 'Clear saved input removes it.']
+  : tooltipLines[variant];
 ---
 
 <span class="trust-wrap" data-toast={statement} tabindex="0" role="note" aria-label={notice.badge}>

@@ -25,7 +25,12 @@ const { tool } = Astro.props;
 ---
 
 <div class="tool-signature">
-  <TrustNotice variant={tool.trustVariant ?? 'private'} />
+  <TrustNotice variant={tool.trustVariant ?? 'private'} keepInput={tool.keepInput === true} />
+  {/* Work-in-progress tools keep typed input on this device, so the wipe sits beside the notice
+      that says so. ToyToolsRuntime handles [data-tt-clear-input] (keys removed, page reloaded). */}
+  {tool.keepInput === true && (tool.trustVariant ?? 'private') === 'private' && (
+    <button type="button" class="tool-clear-input" data-tt-clear-input>Clear saved input</button>
+  )}
   {/* The published method the numbers come from, where the engine implements a named one. One row,
       not a section: it belongs beside the privacy badge because it answers the same question a
       person asks at the same moment, which is whether to believe the result. */}
@@ -67,6 +72,27 @@ const { tool } = Astro.props;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--color-text-subtle);
+  }
+
+  .tool-clear-input {
+    font: inherit;
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    background: none;
+    border: var(--border);
+    border-radius: var(--radius-md);
+    padding: 2px var(--space-2);
+    min-height: var(--touch-target);
+    cursor: pointer;
+  }
+
+  .tool-clear-input:hover {
+    color: var(--color-text);
+  }
+
+  .tool-clear-input:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
   }
 
   /* Pushed to the far end on desktop; on a phone the row wraps and it simply follows. */
