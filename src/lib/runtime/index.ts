@@ -25,6 +25,19 @@ attachPlatform(TT);
 // Listeners only. The palette chunk they import is fetched on first use, never at load.
 attachOverlays();
 
+// One-time cleanup of the typed input, Recent conversions and body profile that builds before
+// beta-v12.4.2 saved from private tools. The chunk is fetched only while its mark is unset, so a
+// browser downloads it once and never again; budgeted separately in scripts/check-budget.ts. The
+// literal must equal MARK in @lib/privacy/legacy-storage (pinned by its test): importing the
+// constant would pull the whole module onto every page.
+try {
+  if (!localStorage.getItem('toytools.private-inputs-cleared')) {
+    void import('@lib/privacy/legacy-storage').then((m) => m.runLegacyCleanup(), () => {});
+  }
+} catch (_) {
+  // Storage blocked (private mode, disabled cookies): nothing was saved, so nothing to clean.
+}
+
 /** Engine ids this page declared, e.g. "datetime". Empty on non-tool pages. */
 function declaredEngines(): string[] {
   const meta = document.querySelector('meta[name="tt-engines"]');
