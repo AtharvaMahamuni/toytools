@@ -16,7 +16,9 @@ export interface TextAnalysis {
 }
 
 export function analyzeText(text: string): TextAnalysis {
-  if (!text.trim()) {
+  // Only truly empty input is "nothing". Whitespace-only text still has characters, spaces and
+  // lines (three spaces are three characters), it just has no words, sentences or paragraphs.
+  if (text === '') {
     return {
       words: 0,
       characters: 0,
@@ -44,15 +46,15 @@ export function analyzeText(text: string): TextAnalysis {
   // Count sentence-ending punctuation groups (e.g. "..." counts as one).
   // Known limitation: abbreviations ("Dr. Smith.") over-count by one per period.
   const punctuationGroups = (text.match(/[.!?]+/g) ?? []).length;
-  const sentences = punctuationGroups > 0 ? punctuationGroups : 1;
+  const sentences = words === 0 ? 0 : punctuationGroups > 0 ? punctuationGroups : 1;
 
   const paragraphs = text.split(/\n\n+/).filter(p => p.trim()).length;
   const lineArray = text.split('\n');
   const lines = lineArray.length;
   const nonEmptyLines = lineArray.filter(l => l.trim().length > 0).length;
 
-  const readingTime = Math.max(1, Math.round(words / 200));
-  const speakingTime = Math.max(1, Math.round(words / 130));
+  const readingTime = words === 0 ? 0 : Math.max(1, Math.round(words / 200));
+  const speakingTime = words === 0 ? 0 : Math.max(1, Math.round(words / 130));
 
   // Unicode-aware tokens: letters, digits, apostrophes — "café" and "2024" are words.
   const tokens = text.toLowerCase().match(/[\p{L}\p{N}']+/gu) ?? [];

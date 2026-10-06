@@ -84,7 +84,7 @@ export function textNotice(id: NoticeId, text: string, a: TextAnalysis): string 
     case 'paragraph-counter': {
       // A wall of text with single newlines counts as one paragraph, and that surprises people.
       const singles = (text.match(/[^\n]\n(?!\n)[^\n]/g) ?? []).length;
-      if (singles === 0 || a.paragraphs > 1) return null;
+      if (singles === 0 || a.paragraphs !== 1) return null;
       return `${plural(singles, 'single line break is', 'single line breaks are')} not a paragraph break, so this counts as one paragraph`;
     }
 

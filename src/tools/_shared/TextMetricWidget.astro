@@ -102,7 +102,8 @@ const inputId = `${slug}-input`;
 
   function update() {
     var text = textarea.value;
-    if (!text.trim()) {
+    // Empty state only for truly empty input: three spaces are three characters.
+    if (text === '') {
       if (hero) setMetric(hero, 0);
       if (secondary) secondary.hidden = true;
       if (hint) hint.hidden = false;
