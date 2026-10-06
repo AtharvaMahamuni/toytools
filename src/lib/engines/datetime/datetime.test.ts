@@ -73,3 +73,55 @@ describe('age calculator', () => {
     expect(r.insights?.some((i) => i.tone === 'positive')).toBe(true);
   });
 });
+
+describe('age and date difference share one y/m/d breakdown (Phase B PR 2)', () => {
+  const MONTH_END: Array<[string, string]> = [
+    ['2000-01-31', '2000-03-01'],
+    ['1990-03-31', '1990-05-01'],
+    ['2026-01-31', '2026-03-01'],
+    ['2026-03-31', '2026-05-01'],
+  ];
+
+  it.each(MONTH_END)('age %s to %s reads 1 month, 1 day', (birthDate, asOf) => {
+    const r = runDateTime('age', { birthDate, asOf }, NO_OPTS);
+    expect(r.ok).toBe(true);
+    expect(r.hero?.raw).toBe(0);
+    expect(r.hero?.note).toBe('1 month, 1 day');
+    expect(r.meta).toMatchObject({ years: 0, months: 1, days: 1 });
+  });
+
+  it.each(MONTH_END)('date difference %s to %s reads 1 month, 1 day', (startDate, endDate) => {
+    const r = runDateTime('date-difference', { startDate, endDate }, NO_OPTS);
+    expect(r.ok).toBe(true);
+    expect(r.hero?.value).toBe('1 month, 1 day');
+    expect(r.meta).toMatchObject({ years: 0, months: 1, days: 1 });
+  });
+
+  it('leaves the totals as they were (days, weeks)', () => {
+    const totals = (s: string, e: string) => {
+      const r = runDateTime('date-difference', { startDate: s, endDate: e }, NO_OPTS);
+      const by = new Map(r.metrics.map((m) => [m.id, m.raw]));
+      return [by.get('total-days'), by.get('total-weeks'), by.get('business-days')];
+    };
+    expect(totals('2000-01-31', '2000-03-01')).toEqual([30, 4, 22]);
+    expect(totals('2026-03-31', '2026-05-01')).toEqual([31, 4, 23]);
+    expect(totals('2000-02-29', '2026-10-06')).toEqual([9716, 1388, 6940]);
+  });
+
+  it('age of a 29 Feb birthday on 28 Feb 2027 is 27 years 0 months 0 days, with the birthday banner', () => {
+    const r = runDateTime('age', { birthDate: '2000-02-29', asOf: '2027-02-28' }, NO_OPTS);
+    expect(r.ok).toBe(true);
+    expect(r.hero?.raw).toBe(27);
+    expect(r.hero?.note).toBe('0 months, 0 days');
+    expect(r.meta).toMatchObject({ years: 27, months: 0, days: 0, daysToBirthday: 0 });
+    expect(r.metrics.find((m) => m.id === 'next-birthday')?.value).toBe('Today');
+    expect(r.insights?.some((i) => i.text === 'Happy birthday!')).toBe(true);
+  });
+
+  it('the day before, a 29 Feb birthday is still 26, and not a birthday', () => {
+    const r = runDateTime('age', { birthDate: '2000-02-29', asOf: '2027-02-27' }, NO_OPTS);
+    expect(r.hero?.raw).toBe(26);
+    expect(r.meta).toMatchObject({ years: 26, months: 11, days: 29, daysToBirthday: 1 });
+    expect(r.insights?.some((i) => i.text === 'Happy birthday!')).toBe(false);
+  });
+});

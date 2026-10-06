@@ -56,4 +56,35 @@ test.describe('age calculator', () => {
     await expect(birth(page)).not.toHaveValue('');
     await expect(hero(page)).toContainText(/years/);
   });
+
+  // Phase B PR 2: month ends never show negative days (anchor-month clamping).
+  test('a month-end span reads 1 month, 1 day, never a negative day', async ({ page }) => {
+    await page.goto(URL);
+    await birth(page).fill('2000-01-31');
+    await asOf(page).fill('2000-03-01');
+    const section = page.locator('[data-section="hero"]');
+    await expect(hero(page)).toHaveText('0 years');
+    await expect(section).toContainText('1 month, 1 day');
+    await expect(section).not.toContainText('-1');
+  });
+
+  // Phase B PR 2: a 29 Feb birthday falls on 28 Feb, for the age and the banner alike.
+  test('a 29 Feb birthday on 28 Feb 2027 is 27 years, 0 months, 0 days, with the birthday banner', async ({ page }) => {
+    await page.goto(URL);
+    await birth(page).fill('2000-02-29');
+    await asOf(page).fill('2027-02-28');
+    await expect(hero(page)).toHaveText('27 years');
+    await expect(page.locator('[data-section="hero"]')).toContainText('0 months, 0 days');
+    await expect(page.locator('main')).toContainText('Happy birthday!');
+  });
+});
+
+test.describe('date difference calculator: month ends', () => {
+  test('2026-01-31 to 2026-03-01 is 1 month, 1 day', async ({ page }) => {
+    await page.goto('/tool/datetime/date-difference-calculator/');
+    await page.locator('#date-difference-calculator-f-startDate').fill('2026-01-31');
+    await page.locator('#date-difference-calculator-f-endDate').fill('2026-03-01');
+    await expect(page.locator('#date-difference-calculator-hero')).toHaveText('1 month, 1 day');
+    await expect(page.locator('[data-section="hero"]')).toContainText('29 days in total');
+  });
 });

@@ -34,7 +34,7 @@ export const knowledge: Knowledge = {
     'Working out how long ago a past date was in exact calendar terms.',
   ],
   commonMistakes: [
-    'Approximating a month as 30 days instead of borrowing the real length of the preceding month.',
+    'Approximating a month as 30 days instead of stepping through real calendar months from the start date.',
     'Counting calendar days when a task actually needs business days, which exclude weekends.',
     'Assuming the difference changes if you swap the start and end dates.',
   ],

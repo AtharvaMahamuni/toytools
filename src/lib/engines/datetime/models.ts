@@ -90,34 +90,49 @@ export interface AgeParts {
 }
 
 /**
- * Exact age (or elapsed calendar duration) from `birth` to `ref` as years + months + days, using the
- * standard borrow algorithm. Assumes `ref >= birth`; callers validate that.
+ * `start` moved forward by `n` whole calendar months, keeping its day of month. When that day does not
+ * exist in the target month, it clamps to the month's last day: 31 Jan + 1 month = 28 Feb (29 Feb in a
+ * leap year), and 29 Feb + 12 months = 28 Feb in a non-leap year.
  */
-export function ageBetween(birth: CivilDate, ref: CivilDate): AgeParts {
-  let years = ref.y - birth.y;
-  let months = ref.m - birth.m;
-  let days = ref.d - birth.d;
-
-  if (days < 0) {
-    months -= 1;
-    // Borrow the length of the month immediately before ref's month.
-    const bm = ref.m - 1 >= 1 ? ref.m - 1 : 12;
-    const by = ref.m - 1 >= 1 ? ref.y : ref.y - 1;
-    days += daysInMonth(by, bm);
-  }
-  if (months < 0) {
-    years -= 1;
-    months += 12;
-  }
-  return { years, months, days };
+export function addMonthsClamped(start: CivilDate, n: number): CivilDate {
+  const index = start.m - 1 + n;
+  const y = start.y + Math.floor(index / 12);
+  const m = (((index % 12) + 12) % 12) + 1;
+  return { y, m, d: Math.min(start.d, daysInMonth(y, m)) };
 }
 
 /**
- * The next anniversary of `birth` on or after `ref`. Feb 29 birthdays clamp to the last day of
- * February in non-leap years (the common civil convention).
+ * Exact age (or elapsed calendar duration) from `birth` to `ref` as years + months + days. This is the
+ * ONE y/m/d breakdown shared by the Age Calculator and the Date Difference Calculator.
+ *
+ * Convention (anchor-month clamping): count the most whole months that can be added to the START date
+ * without passing `ref`, always measuring from the start date itself (never month by month, so nothing
+ * drifts), and clamping the start's day to the last day of a shorter month. Days are what remains from
+ * that anchor to `ref`, so they are never negative. Examples:
+ *   31 Jan 2026 to 1 Mar 2026 = 1 month 1 day (the 1-month anchor is 28 Feb)
+ *   31 Mar 1990 to 1 May 1990 = 1 month 1 day (the anchor is 30 Apr)
+ *   29 Feb 2000 to 28 Feb 2027 = 27 years 0 months 0 days (the birthday clamps to 28 Feb)
+ * Assumes `ref >= birth`; callers validate that. Totals (days, weeks) are computed separately and are
+ * not affected by this convention.
+ */
+export function ageBetween(birth: CivilDate, ref: CivilDate): AgeParts {
+  let total = (ref.y - birth.y) * 12 + (ref.m - birth.m);
+  if (compareCivil(addMonthsClamped(birth, total), ref) > 0) total -= 1;
+  const anchor = addMonthsClamped(birth, total);
+  return {
+    years: Math.floor(total / 12),
+    months: total % 12,
+    days: daysBetween(anchor, ref),
+  };
+}
+
+/**
+ * The next anniversary of `birth` on or after `ref`, using the same clamping as `ageBetween`: Feb 29
+ * birthdays fall on Feb 28 in non-leap years (the common civil convention), so the "Happy birthday"
+ * day is exactly the day the age reaches a whole number of years.
  */
 export function nextBirthday(birth: CivilDate, ref: CivilDate): CivilDate {
-  const at = (year: number): CivilDate => ({ y: year, m: birth.m, d: Math.min(birth.d, daysInMonth(year, birth.m)) });
+  const at = (year: number): CivilDate => addMonthsClamped(birth, (year - birth.y) * 12);
   let candidate = at(ref.y);
   if (compareCivil(candidate, ref) < 0) candidate = at(ref.y + 1);
   return candidate;
