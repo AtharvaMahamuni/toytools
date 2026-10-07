@@ -223,7 +223,9 @@ test.describe('homepage index', () => {
     // Prep for a model (beta-v12.0) adds six ungrouped tools. They share a category, not a switcher.
     // Triangle Solver, Sleep Cycle Calculator, Color Shades Generator, File Hash Verifier,
     // Type Scale Generator, and Matrix Calculator (beta-v12.3) are ungrouped too.
-    await expect(directory.locator('.dir-link')).toHaveCount(111);
+    // Colorblind Simulator and IPv4 Converter (beta-v12.5) are ungrouped: one is a palette
+    // comparison, the other a single-address conversion, and neither is a mode of its neighbor.
+    await expect(directory.locator('.dir-link')).toHaveCount(113);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

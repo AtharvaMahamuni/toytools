@@ -1,11 +1,13 @@
 import type { NetworkCalculator, NetworkFieldDef, NetworkInput, NetworkOpts, NetworkResult } from './types';
 import { calculationError } from '@lib/results/index';
 import { cidrCalculator } from './calculators/cidr';
+import { ipv4Calculator } from './calculators/ipv4';
 import { lookupCraft, lookupPublic, LOOKUP_DISCLOSURE } from './lookup';
 import { classifyIPv4String } from './models';
 
 export const NETWORK_CALCULATORS: Record<string, NetworkCalculator> = {
   cidr: cidrCalculator,
+  ipv4: ipv4Calculator,
 };
 
 export function runNetwork(id: string, input: NetworkInput, opts: NetworkOpts = {}): NetworkResult {

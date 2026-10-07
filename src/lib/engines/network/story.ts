@@ -24,6 +24,7 @@ export function assumption(label: string, value: string): Assumption {
 // and is filtered out, then lights up once that tool's slug is added in its own PR.
 export const NETWORK_LINKED_TOOLS: Record<string, string> = {
   'cidr-calculator': 'developer-utilities',
+  'ipv4-converter': 'developer-utilities',
   'what-is-my-ip': 'developer-utilities',
   'binary-converter': 'number',
   'hex-encoder-decoder': 'developer-utilities',

@@ -24,6 +24,7 @@ import { config as coinFlipper } from '@tools/generate/coin-flipper/config';
 import { config as colorContrastChecker } from '@tools/design/color-contrast-checker/config';
 import { config as colorFormatConverter } from '@tools/design/color-format-converter/config';
 import { config as colorShadesGenerator } from '@tools/design/color-shades-generator/config';
+import { config as colorblindSimulator } from '@tools/design/colorblind-simulator/config';
 import { config as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/config';
 import { config as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/config';
 import { config as contextFitChecker } from '@tools/prep/context-fit-checker/config';
@@ -51,6 +52,7 @@ import { config as htmlEntityEncoderDecoder } from '@tools/developer-utilities/h
 import { config as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/config';
 import { config as inflationCalculator } from '@tools/finance/inflation-calculator/config';
 import { config as invisibleCharacterDetector } from '@tools/text/invisible-character-detector/config';
+import { config as ipv4Converter } from '@tools/developer-utilities/ipv4-converter/config';
 import { config as jsonDiff } from '@tools/developer-utilities/json-diff/config';
 import { config as jsonEscape } from '@tools/developer-utilities/json-escape/config';
 import { config as jsonFormatter } from '@tools/developer-utilities/json-formatter/config';
@@ -177,6 +179,7 @@ export const toolConfigs: ToolConfig[] = [
   colorContrastChecker,
   colorFormatConverter,
   colorShadesGenerator,
+  colorblindSimulator,
   combinationsPermutationsCalculator,
   compoundInterestCalculator,
   contextFitChecker,
@@ -204,6 +207,7 @@ export const toolConfigs: ToolConfig[] = [
   idealWeightCalculator,
   inflationCalculator,
   invisibleCharacterDetector,
+  ipv4Converter,
   jsonDiff,
   jsonEscape,
   jsonFormatter,

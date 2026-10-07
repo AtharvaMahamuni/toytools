@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
-  minor: 4,
-  patch: 4,
+  minor: 5,
+  patch: 0,
   status: 'beta',
-  releaseDate: '2026-10-06',
-  description: 'UX fixes: tip split defaults to 1 and rejects invalid splits, unique words never exceed words, lossless JSON minifier',
+  releaseDate: '2026-10-07',
+  description: 'Colorblind simulator and IPv4 converter',
 };
 
 export function formatVersion(config: VersionConfig): string {

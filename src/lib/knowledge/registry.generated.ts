@@ -24,6 +24,7 @@ import { knowledge as coinFlipper } from '@tools/generate/coin-flipper/knowledge
 import { knowledge as colorContrastChecker } from '@tools/design/color-contrast-checker/knowledge';
 import { knowledge as colorFormatConverter } from '@tools/design/color-format-converter/knowledge';
 import { knowledge as colorShadesGenerator } from '@tools/design/color-shades-generator/knowledge';
+import { knowledge as colorblindSimulator } from '@tools/design/colorblind-simulator/knowledge';
 import { knowledge as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/knowledge';
 import { knowledge as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/knowledge';
 import { knowledge as contextFitChecker } from '@tools/prep/context-fit-checker/knowledge';
@@ -51,6 +52,7 @@ import { knowledge as htmlEntityEncoderDecoder } from '@tools/developer-utilitie
 import { knowledge as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/knowledge';
 import { knowledge as inflationCalculator } from '@tools/finance/inflation-calculator/knowledge';
 import { knowledge as invisibleCharacterDetector } from '@tools/text/invisible-character-detector/knowledge';
+import { knowledge as ipv4Converter } from '@tools/developer-utilities/ipv4-converter/knowledge';
 import { knowledge as jsonDiff } from '@tools/developer-utilities/json-diff/knowledge';
 import { knowledge as jsonEscape } from '@tools/developer-utilities/json-escape/knowledge';
 import { knowledge as jsonFormatter } from '@tools/developer-utilities/json-formatter/knowledge';
@@ -177,6 +179,7 @@ export const authoredKnowledge: Knowledge[] = [
   colorContrastChecker,
   colorFormatConverter,
   colorShadesGenerator,
+  colorblindSimulator,
   combinationsPermutationsCalculator,
   compoundInterestCalculator,
   contextFitChecker,
@@ -204,6 +207,7 @@ export const authoredKnowledge: Knowledge[] = [
   idealWeightCalculator,
   inflationCalculator,
   invisibleCharacterDetector,
+  ipv4Converter,
   jsonDiff,
   jsonEscape,
   jsonFormatter,

@@ -330,9 +330,10 @@
       "sharedWidget": "",
       "supportedFamilies": [
         "color",
-        "color-scale"
+        "color-scale",
+        "color-vision"
       ],
-      "toolCount": 3
+      "toolCount": 4
     },
     "units": {
       "name": "CSS Unit Engine",
@@ -389,7 +390,7 @@
         "addressing",
         "identity"
       ],
-      "toolCount": 2
+      "toolCount": 3
     }
   },
   "toolGroups": {
@@ -1311,6 +1312,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "colorblind-simulator": {
+      "name": "Colorblind Simulator",
+      "dir": "src/tools/design/colorblind-simulator",
+      "categorySlug": "design-tools",
+      "url": "/tool/design/colorblind-simulator/",
+      "engine": "color",
+      "pattern": "color-convert",
+      "family": "color-vision",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "combinations-permutations-calculator": {
       "name": "Combinations & Permutations Calculator",
       "dir": "src/tools/math/combinations-permutations-calculator",
@@ -1866,6 +1888,27 @@
       "pattern": "text-inspect",
       "family": "detect",
       "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "ipv4-converter": {
+      "name": "IPv4 Converter",
+      "dir": "src/tools/developer-utilities/ipv4-converter",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/ipv4-converter/",
+      "engine": "network",
+      "pattern": "network-calculate",
+      "family": "addressing",
+      "processorId": "ipv4",
       "toolGroup": "",
       "files": [
         "Guide.astro",

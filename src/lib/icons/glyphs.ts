@@ -299,6 +299,10 @@ export const GLYPHS: Record<string, string> = {
   moon: S + '<path d="M16 3.2A7.2 7.2 0 1 0 20.8 14 8.4 8.4 0 1 1 16 3.2Z"/>' + E,
   // Tint and shade scale
   shadeStack: S + '<rect x="3" y="4" width="18" height="4" rx="1"/><rect x="5.5" y="10" width="13" height="4" rx="1"/><rect x="8" y="16" width="8" height="4" rx="1"/>' + E,
+  // Color-vision simulation: an eye, so it is not another swatch.
+  cvdEye: S + '<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.6"/>' + E,
+  // One address written four ways. Not the CIDR octet row.
+  ipv4Mark: t('IP', 10),
   // Local file hash
   fileHash: S + '<path d="M6 3.5h7.2L19 9.2V20.5H6Z"/><path d="M13 3.5V9h6"/><path d="M9 13h6M9 16.5h6M11 11.2 10 18M14.2 11.2 13.2 18"/>' + E,
   // Modular type scale

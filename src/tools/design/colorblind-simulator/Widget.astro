@@ -1,0 +1,180 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
+---
+
+<div class="calc-ledger" data-tool="colorblind-simulator">
+  <ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
+    <IoPanel slot="input" label="Palette" variant="prose" bare>
+      <div class="io-body">
+        <label class="widget-label" for="colorblind-simulator-input">Colors</label>
+        <input
+          id="colorblind-simulator-input"
+          class="widget-input"
+          type="text"
+          inputmode="text"
+          enterkeyhint="done"
+          autocapitalize="off"
+          autocorrect="off"
+          spellcheck="false"
+          autocomplete="off"
+          value="#d32f2f #388e3c #1976d2"
+          placeholder="#d32f2f #388e3c #1976d2"
+        />
+        <p class="cb-help">Up to eight colors, separated by spaces. HEX, RGB, HSL, or a CSS name. The list scrolls. You do not switch types.</p>
+        <p class="cb-error" id="colorblind-simulator-error" hidden></p>
+      </div>
+    </IoPanel>
+
+    <IoPanel slot="output" label="Simulation" variant="prose" result bare>
+      <div class="io-body">
+        <div class="cb-rows" id="colorblind-simulator-rows"></div>
+        <CraftNote id="colorblind-simulator-note" craftId="cvd-collapse" />
+      </div>
+    </IoPanel>
+  </ToolSplit>
+</div>
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id="colorblind-simulator-copy" data-label="Copy" type="button">Copy</button>
+</div>
+
+<script is:inline>
+  (function () {
+    var textEl = document.getElementById('colorblind-simulator-input');
+    var rowsEl = document.getElementById('colorblind-simulator-rows');
+    var errEl = document.getElementById('colorblind-simulator-error');
+    var noteEl = document.getElementById('colorblind-simulator-note');
+    var noteTxt = document.getElementById('colorblind-simulator-note-text');
+    var copyBtn = document.getElementById('colorblind-simulator-copy');
+    if (!textEl || !rowsEl) return;
+
+    var report = '';
+
+    function showNote(message) {
+      if (!noteEl || !noteTxt) return;
+      if (!message) { noteEl.hidden = true; noteTxt.textContent = ''; return; }
+      noteTxt.textContent = message;
+      noteEl.hidden = false;
+    }
+
+    function swatch(hex, ink) {
+      var el = document.createElement('span');
+      el.className = 'cb-swatch';
+      el.style.background = hex;
+      el.style.color = ink;
+      el.textContent = hex;
+      return el;
+    }
+
+    function row(label, note, stops) {
+      var wrap = document.createElement('div');
+      wrap.className = 'cb-row';
+      var head = document.createElement('div');
+      head.className = 'cb-head';
+      var name = document.createElement('span');
+      name.className = 'cb-name';
+      name.textContent = label;
+      var hint = document.createElement('span');
+      hint.className = 'cb-hint';
+      hint.textContent = note;
+      head.appendChild(name);
+      head.appendChild(hint);
+      var line = document.createElement('div');
+      line.className = 'cb-line';
+      for (var i = 0; i < stops.length; i++) line.appendChild(swatch(stops[i].hex, stops[i].ink));
+      wrap.appendChild(head);
+      wrap.appendChild(line);
+      return wrap;
+    }
+
+    function render() {
+      var TT = window.ToyTools;
+      if (!TT || !TT.color || !TT.color.simulatePalette || !TT.color.parse) return;
+      var parts = textEl.value.split(/[\s,]+/).filter(Boolean).slice(0, 8);
+      var colors = [];
+      var bad = [];
+      for (var i = 0; i < parts.length; i++) {
+        var parsed = TT.color.parse(parts[i]);
+        if (!parsed.ok || !parsed.rgb) bad.push(parts[i]);
+        else colors.push({ input: parts[i], rgb: parsed.rgb, hex: TT.color.hex(parsed.rgb) });
+      }
+      rowsEl.replaceChildren();
+      report = '';
+      if (!colors.length) {
+        errEl.hidden = false;
+        errEl.textContent = bad.length ? bad[0] + ' is not a color.' : 'Enter a color.';
+        showNote('');
+        return;
+      }
+      errEl.hidden = bad.length === 0;
+      errEl.textContent = bad.length ? bad[0] + ' is not a color.' : '';
+      var original = colors.map(function (c) {
+        return { hex: c.hex, ink: TT.color.ink(c.rgb) };
+      });
+      rowsEl.appendChild(row('As typed', 'Your colors', original));
+      var sim = TT.color.simulatePalette(colors);
+      var lines = ['As typed: ' + original.map(function (s) { return s.hex; }).join(' ')];
+      for (var r = 0; r < sim.rows.length; r++) {
+        var item = sim.rows[r];
+        rowsEl.appendChild(row(item.label, item.note, item.stops));
+        lines.push(item.label + ': ' + item.stops.map(function (s) { return s.hex; }).join(' '));
+      }
+      var note = TT.color.collapseNote(sim.collapse);
+      showNote(note);
+      if (note) lines.push(note);
+      report = lines.join('\n');
+    }
+
+    textEl.addEventListener('input', render);
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      var TT = window.ToyTools;
+      if (!report) { TT && TT.toast && TT.toast('Nothing to copy yet.'); return; }
+      if (TT && TT.copy) TT.copy(report);
+    });
+
+    function boot() { render(); }
+    var TT = window.ToyTools;
+    if (TT && TT.onReady) TT.onReady(boot); else boot();
+  })();
+</script>
+
+<style>
+  .cb-help { margin-top: var(--space-2); font-size: var(--text-sm); color: var(--color-text-muted); }
+  .cb-error { margin-top: var(--space-2); font-size: var(--text-sm); color: var(--color-danger); }
+  .cb-error[hidden] { display: none; }
+  .cb-rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    /* The rows are the answer, and they sit above the field on a phone. A cap
+       keeps that field on the first screen; the list scrolls inside itself. */
+    max-block-size: 22rem;
+    overflow-y: auto;
+  }
+  @media (min-width: 1024px) {
+    .cb-rows { max-block-size: none; }
+  }
+  .cb-head { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: baseline; }
+  .cb-name { font-size: var(--text-sm); font-weight: var(--font-weight-medium); color: var(--color-text); }
+  .cb-hint { font-size: var(--text-xs); color: var(--color-text-muted); }
+  .cb-line {
+    display: flex;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    overflow-x: auto;
+  }
+  .cb-rows :global(.cb-swatch) {
+    flex: 1 1 4.5rem;
+    min-inline-size: 4.5rem;
+    min-block-size: var(--touch-target);
+    display: flex;
+    align-items: flex-end;
+    padding: var(--space-2);
+    border-radius: var(--radius-md);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-variant-numeric: tabular-nums;
+  }
+</style>

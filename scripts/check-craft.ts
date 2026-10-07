@@ -205,7 +205,12 @@ const THRESHOLDS = {
   // 2026-10-02: 0.715 (108/151). Matrix Calculator ships orientation craft matrix-shapes.
   //   A product of mismatched shapes names both sizes. A legal product stays quiet
   //   and shows the first dot product as a step.
-  coverage: 0.715,
+  // 2026-10-07: 0.718 (110/153). Colorblind Simulator ships verification craft cvd-collapse.
+  //   The note names the cone type where two palette colors collapse, and stays hidden
+  //   when every distinct pair stays distinct. IPv4 Converter ships guardrail craft
+  //   ipv4-reject-truncation. Mapped IPv6 is not cut down, and a unique glued-octet
+  //   integer offers the dotted address. A plain dotted address stays quiet.
+  coverage: 0.718,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

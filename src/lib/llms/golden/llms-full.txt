@@ -184,6 +184,13 @@ Use for: A 50 to 950 OKLCH scale, copied as CSS variables.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Match a published Tailwind build byte for byte, score contrast on every background, or send the color to an AI model.
 
+## Colorblind Simulator
+
+URL: https://toytoolsapp.com/tool/design/colorblind-simulator/
+Use for: Seven simulations of one palette, side by side.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Diagnose color vision, simulate blue cone monochromacy, upload an image, or send the palette to an AI model.
+
 ## PX to DP Converter
 
 URL: https://toytoolsapp.com/tool/design/px-to-dp-converter/
@@ -295,6 +302,13 @@ URL: https://toytoolsapp.com/tool/developer-utilities/html-entity-encoder-decode
 Use for: Encode and decode HTML entities in your browser.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
+
+## IPv4 Converter
+
+URL: https://toytoolsapp.com/tool/developer-utilities/ipv4-converter/
+Use for: Dotted, decimal, hex, and binary for one address.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Calculate a subnet or a wildcard mask, scan a host, or send the address to an AI model.
 
 ## JSON Diff
 

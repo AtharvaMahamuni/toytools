@@ -24,6 +24,7 @@ import { items as coinFlipperFaqs } from '@tools/generate/coin-flipper/faq';
 import { items as colorContrastCheckerFaqs } from '@tools/design/color-contrast-checker/faq';
 import { items as colorFormatConverterFaqs } from '@tools/design/color-format-converter/faq';
 import { items as colorShadesGeneratorFaqs } from '@tools/design/color-shades-generator/faq';
+import { items as colorblindSimulatorFaqs } from '@tools/design/colorblind-simulator/faq';
 import { items as combinationsPermutationsCalculatorFaqs } from '@tools/math/combinations-permutations-calculator/faq';
 import { items as compoundInterestCalculatorFaqs } from '@tools/finance/compound-interest-calculator/faq';
 import { items as contextFitCheckerFaqs } from '@tools/prep/context-fit-checker/faq';
@@ -51,6 +52,7 @@ import { items as htmlEntityEncoderDecoderFaqs } from '@tools/developer-utilitie
 import { items as idealWeightCalculatorFaqs } from '@tools/health/ideal-weight-calculator/faq';
 import { items as inflationCalculatorFaqs } from '@tools/finance/inflation-calculator/faq';
 import { items as invisibleCharacterDetectorFaqs } from '@tools/text/invisible-character-detector/faq';
+import { items as ipv4ConverterFaqs } from '@tools/developer-utilities/ipv4-converter/faq';
 import { items as jsonDiffFaqs } from '@tools/developer-utilities/json-diff/faq';
 import { items as jsonEscapeFaqs } from '@tools/developer-utilities/json-escape/faq';
 import { items as jsonFormatterFaqs } from '@tools/developer-utilities/json-formatter/faq';
@@ -177,6 +179,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'color-contrast-checker': colorContrastCheckerFaqs,
   'color-format-converter': colorFormatConverterFaqs,
   'color-shades-generator': colorShadesGeneratorFaqs,
+  'colorblind-simulator': colorblindSimulatorFaqs,
   'combinations-permutations-calculator': combinationsPermutationsCalculatorFaqs,
   'compound-interest-calculator': compoundInterestCalculatorFaqs,
   'context-fit-checker': contextFitCheckerFaqs,
@@ -204,6 +207,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'ideal-weight-calculator': idealWeightCalculatorFaqs,
   'inflation-calculator': inflationCalculatorFaqs,
   'invisible-character-detector': invisibleCharacterDetectorFaqs,
+  'ipv4-converter': ipv4ConverterFaqs,
   'json-diff': jsonDiffFaqs,
   'json-escape': jsonEscapeFaqs,
   'json-formatter': jsonFormatterFaqs,

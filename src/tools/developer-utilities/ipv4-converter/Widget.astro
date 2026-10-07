@@ -1,0 +1,6 @@
+---
+import NetworkWidget from '@tools/_shared/NetworkWidget.astro';
+import { config } from './config';
+---
+
+<NetworkWidget slug={config.slug} networkId="ipv4" config={config} emptyText="Enter an IPv4 address to convert." />
