@@ -18,10 +18,12 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
         <button type="button" class="tip-preset" data-pct="20">20%</button>
         <button type="button" class="tip-preset" data-pct="25">25%</button>
       </div>
-      <input id="tip-pct" class="widget-input" type="number" inputmode="decimal" min="0" step="1" placeholder="Custom %" aria-label="Custom tip percentage" />
+      <input id="tip-pct" class="widget-input" type="number" inputmode="decimal" min="0" step="1" placeholder="Custom %" aria-label="Custom tip percentage" aria-describedby="tip-pct-error" />
+      <p class="tip-field-error" id="tip-pct-error" role="alert" hidden></p>
 
       <label class="widget-label" for="tip-split">Split Between (people)</label>
-      <input id="tip-split" class="widget-input" type="number" inputmode="numeric" min="1" step="1" placeholder="1" />
+      <input id="tip-split" class="widget-input" type="number" inputmode="numeric" min="1" step="1" placeholder="1" value="1" aria-describedby="tip-split-error" />
+      <p class="tip-field-error" id="tip-split-error" role="alert" hidden></p>
     </div>
   </IoPanel>
 
@@ -74,6 +76,8 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     var clearBtn = document.getElementById('tip-clear');
     var noteEl   = document.getElementById('tip-note');
     var noteTxt  = document.getElementById('tip-note-text');
+    var pctErr   = document.getElementById('tip-pct-error');
+    var splitErr = document.getElementById('tip-split-error');
     if (!billEl || !pctEl || !splitEl || !amountEl) return;
 
     var TT = window.ToyTools;
@@ -100,27 +104,61 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       }
     }
 
+    // Inline field message: set it to explain what is wrong, or null to clear it.
+    function fieldError(input, el, message) {
+      if (message) input.setAttribute('aria-invalid', 'true');
+      else input.removeAttribute('aria-invalid');
+      if (!el) return;
+      el.textContent = message || '';
+      el.hidden = !message;
+    }
+
+    // Split: blank means 1 (the default). Anything else must be a whole number of people, 1 or more.
+    // Returns the count, or null when it is invalid, so no per-person figure is ever computed from a
+    // guess (2.5 used to become 2, and 0 or -2 kept the old values on screen).
+    function readSplit() {
+      var raw = splitEl.value;
+      if (raw === '') {
+        // A typed but unparseable value (e.g. "-") reads as '' with badInput set.
+        if (splitEl.validity && splitEl.validity.badInput) return null;
+        return 1;
+      }
+      var n = Number(raw);
+      if (!Number.isFinite(n) || n < 1 || Math.floor(n) !== n) return null;
+      return n;
+    }
+
+    function hidePerPerson() {
+      if (ppTipRow) ppTipRow.hidden = true;
+      if (ppTotRow) ppTotRow.hidden = true;
+      if (ppTipEl) ppTipEl.textContent = '';
+      if (ppTotEl) ppTotEl.textContent = '';
+    }
+
     function showEmpty(message) {
       lastResult = '';
       note({});
       amountEl.textContent = '$0.00';
       if (hintEl) { hintEl.textContent = message || 'Enter a bill amount to calculate.'; hintEl.hidden = false; }
       if (secondary) secondary.hidden = true;
+      hidePerPerson();
     }
 
     function calc() {
       var billRaw = billEl.value, pctRaw = pctEl.value;
       syncPresets(pctRaw === '' ? null : Number(pctRaw));
 
+      // Field messages first, so they show even before a bill is entered.
+      var pct = pctRaw === '' ? 0 : Number(pctRaw);
+      var pctBad = (pctRaw === '' && pctEl.validity && pctEl.validity.badInput) || !Number.isFinite(pct) || pct < 0;
+      fieldError(pctEl, pctErr, pctBad ? 'Enter a tip of 0% or more.' : null);
+      var split = readSplit();
+      fieldError(splitEl, splitErr, split === null ? 'Split between a whole number of people, 1 or more.' : null);
+
       if (billRaw === '') { showEmpty('Enter a bill amount to calculate.'); return; }
       var bill = Number(billRaw);
       if (!Number.isFinite(bill) || bill < 0) { showEmpty('Enter a valid bill amount.'); return; }
-
-      var pct = pctRaw === '' ? 0 : Number(pctRaw);
-      if (!Number.isFinite(pct) || pct < 0) pct = 0;
-
-      var split = parseInt(splitEl.value, 10);
-      if (!Number.isFinite(split) || split < 1) split = 1;
+      if (pctBad) { showEmpty('Enter a tip of 0% or more.'); return; }
 
       note({ bill: bill, tipPct: pct });
 
@@ -133,13 +171,13 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       if (secondary) secondary.hidden = false;
       if (totalEl) totalEl.textContent = money(total);
 
-      var multi = split > 1;
-      if (ppTipRow) ppTipRow.hidden = !multi;
-      if (ppTotRow) ppTotRow.hidden = !multi;
-      if (multi) {
-        if (ppTipEl) ppTipEl.textContent = money(tip / split);
-        if (ppTotEl) ppTotEl.textContent = money(total / split);
-      }
+      // Per-person rows only for a valid split of 2 or more. An invalid split clears them (with the
+      // message beside the field) rather than leaving the last valid split's figures on screen.
+      if (split === null || split < 2) { hidePerPerson(); return; }
+      if (ppTipEl) ppTipEl.textContent = money(tip / split);
+      if (ppTotEl) ppTotEl.textContent = money(total / split);
+      if (ppTipRow) ppTipRow.hidden = false;
+      if (ppTotRow) ppTotRow.hidden = false;
     }
 
     function persist() {
@@ -195,7 +233,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
         return;
       }
       resetClear();
-      billEl.value = ''; pctEl.value = ''; splitEl.value = '';
+      billEl.value = ''; pctEl.value = ''; splitEl.value = '1';
       calc(); persist();
       billEl.focus();
     });
@@ -211,6 +249,19 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
 </script>
 
 <style>
+  /* .tm-stat-row sets display:flex, which beat the hidden attribute, so the per-person rows used to
+     stay visible (showing $0.00 or stale figures) when the script hid them. */
+  .tm-stat-row[hidden],
+  .tip-field-error[hidden] {
+    display: none;
+  }
+
+  .tip-field-error {
+    margin: var(--space-1) 0 0;
+    color: var(--color-danger);
+    font-size: var(--text-sm);
+  }
+
   .tip-presets {
     display: flex;
     flex-wrap: wrap;

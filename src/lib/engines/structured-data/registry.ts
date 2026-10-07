@@ -7,7 +7,6 @@
 import { repairJson } from './repair';
 import type { JsonRepair } from './repair';
 import type { StructuredDataTool, StructuredDataResult } from './types';
-import { jsonMinifier } from './jsonMinifier';
 import { jsonValidator } from './jsonValidator';
 import { jsonToCsv } from './jsonToCsv';
 import { jsonTreeViewer } from './jsonTreeViewer';
@@ -23,9 +22,15 @@ export const STRUCTURED_TOOLS: Record<string, StructuredDataTool> = {
     id: 'json-formatter',
     family: 'json',
     jsonInput: true,
-    execute: (input) => import('./jsonFormatter').then((mod) => mod.jsonFormatter.execute(input)),
+    execute: (input) => import('./jsonLossless').then((mod) => mod.jsonFormatter.execute(input)),
   },
-  'json-minifier': jsonMinifier,
+  // Same lazy chunk as the formatter (./jsonLossless): both use the lossless tokenizer.
+  'json-minifier': {
+    id: 'json-minifier',
+    family: 'json',
+    jsonInput: true,
+    execute: (input) => import('./jsonLossless').then((mod) => mod.jsonMinifier.execute(input)),
+  },
   'json-validator': jsonValidator,
   'json-to-csv': jsonToCsv,
   'json-tree-viewer': jsonTreeViewer,
@@ -53,8 +58,8 @@ export function runStructuredData(id: string, input: string): StructuredDataResu
     console.warn(`[structured-data] Unknown tool id "${id}".`);
     return { ok: false, output: '', error: 'Unknown tool' };
   }
-  // json-to-schema's execute is a dynamic import and returns a promise. Every other id
-  // is synchronous. The shared widget accepts both.
+  // json-formatter, json-minifier and json-to-schema execute through a dynamic import and return
+  // a promise. Every other id is synchronous. The shared widget accepts both.
   return tool.execute(input) as StructuredDataResult;
 }
 

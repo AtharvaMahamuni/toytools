@@ -11,7 +11,7 @@ export const items: FAQItem[] = [
     id: 'wf-faq-2',
     question: 'How are words counted? Is it case sensitive?',
     answer:
-      'Words are matched across languages using Unicode letters, and counting is case insensitive: The, THE, and the tally as one word. Apostrophes and internal hyphens stay part of the word, so don\'t and well-known each count as a single word rather than splitting apart.',
+      'A word is anything between spaces or line breaks, the same rule the Word Counter uses, so every language works. Punctuation at either end is trimmed, so dog. and dog are one word, and counting is case insensitive: The, THE, and the tally as one word. Apostrophes, internal hyphens and number separators stay part of the word, so don\'t, well-known, 1,000 and 3.14 each count as a single word rather than splitting apart.',
   },
   {
     id: 'wf-faq-3',
@@ -35,7 +35,7 @@ export const items: FAQItem[] = [
     id: 'wf-faq-6',
     question: 'Why does my unique word count differ from other tools?',
     answer:
-      'Tokenization rules differ. Tools disagree about hyphens, apostrophes, numbers, and case folding, and each choice changes what counts as one word. This tool lowercases everything and keeps internal apostrophes and hyphens. The relative ranking is stable across tools even when the exact totals differ.',
+      'Tokenization rules differ. Tools disagree about hyphens, apostrophes, numbers, and case folding, and each choice changes what counts as one word. This tool splits on spaces like the Word Counter, trims punctuation at the ends, lowercases everything, and keeps internal apostrophes and hyphens, so its unique count is never higher than the word count. The relative ranking is stable across tools even when the exact totals differ.',
   },
   {
     id: 'wf-faq-7',

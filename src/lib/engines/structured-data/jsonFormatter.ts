@@ -1,5 +1,5 @@
 import type { StructuredDataTool } from './types';
-import { formatJsonLossless } from './losslessJson';
+import { duplicateKeyWarning, formatJsonLossless } from './losslessJson';
 
 // Pretty-print JSON with 2-space indentation, losslessly: JSON.parse only validates (and supplies
 // the error message), then the original tokens are re-indented, so big integers, 1.0, 1e5 and
@@ -16,12 +16,7 @@ export const jsonFormatter: StructuredDataTool = {
       return { ok: false, output: '', error: (e as Error).message };
     }
     const { output, duplicates } = formatJsonLossless(input);
-    if (!duplicates.length) return { ok: true, output };
-    const names = duplicates.map((k) => JSON.stringify(k)).join(', ');
-    return {
-      ok: true,
-      output,
-      warning: `Duplicate key${duplicates.length > 1 ? 's' : ''} ${names}: kept as written here, but most JSON parsers keep only the last value.`,
-    };
+    const warning = duplicateKeyWarning(duplicates);
+    return warning ? { ok: true, output, warning } : { ok: true, output };
   },
 };

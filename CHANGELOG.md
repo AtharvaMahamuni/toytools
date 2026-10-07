@@ -2,6 +2,27 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.4.4] - 2026-10-06
+
+### Fixed
+
+- **Tip calculator split.** Split Between now starts at 1, so a fresh bill shows the tip and total
+  straight away. A split of 0, a negative number or a fraction (2.5) gets an inline message, and
+  the per-person rows are cleared instead of showing $0.00 or the last valid split's figures. The
+  rows show only for a valid split of 2 or more (a style rule had kept them visible whenever the
+  script hid them). Clear resets the split to 1. A negative custom tip percentage now gets an
+  inline message too, instead of being treated as 0% without a word. Nothing typed is stored or
+  written to the address bar, as before.
+- **Unique Words never exceeds Words.** The Word Counter's Unique Words and Top Words, and the Word
+  Frequency Counter's table, now split words the same way as the headline Words count: on spaces
+  and line breaks, with punctuation at either end trimmed and case folded. "well-known", "e-mail",
+  "don't", "1,000" and "3.14" are one word each, so `don't stop well-known e-mail` is 4 words and 4
+  unique words (it was 6 unique), and Top Words no longer lists "well", "known", "e" or "mail".
+- **JSON minifier keeps your data exactly.** Like the formatter in beta-v12.4.3, it no longer
+  parses and re-serializes: it removes the whitespace between the original tokens, so integers
+  above 2^53, 1.0, 1e5, string escapes and key order stay exactly as written. Duplicate keys are
+  kept and named in a warning. "The data is unchanged" on the page is now true.
+
 ## [beta-v12.4.3] - 2026-10-06
 
 ### Fixed

@@ -53,8 +53,8 @@ const minifyMinifiedEx  = JSON.stringify({ status: 'ok', count: 42 });
     <p>
       Minification removes all of that optional whitespace. You can also call this process
       JSON compression. When you compress JSON or shrink JSON, you get a smaller payload for
-      free because whitespace has zero semantic value. This json compressor approach preserves
-      the full parse result: no data changes.
+      free because whitespace has zero semantic value. This json compressor copies every token
+      exactly as written: no data changes, not even a big integer or a 1.0.
     </p>
     <p class="comparison-row">
       <span class="label">Formatted:</span>
@@ -69,19 +69,23 @@ const minifyMinifiedEx  = JSON.stringify({ status: 'ok', count: 42 });
       and that ratio grows with deeply nested structures.
     </p>
     <ReferenceBlock type="key-idea" heading="Minification is lossless">
-      <p>You can always format a minified JSON back to a readable form. Both operations go through a parse-then-serialize cycle. The data survives both trips without any change.</p>
+      <p>You can always format a minified JSON back to a readable form. Neither operation re-serializes the data: both copy the original tokens and change only whitespace, so the data survives both trips without any change.</p>
     </ReferenceBlock>
   </section>
 
   <section id="how-it-works">
     <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A JSON minifier parses the input into a token stream (keys, values, brackets, commas) then
-      re-serializes those tokens without any surrounding whitespace. Newlines, tabs, and spaces
-      between tokens are dropped entirely. The output is a single continuous line with no padding.
+      This JSON minifier reads the input as a token stream (keys, values, brackets, commas) and
+      writes those same tokens back, exactly as typed, without any surrounding whitespace.
+      Newlines, tabs, and spaces between tokens are dropped entirely; whitespace inside strings is
+      kept. The output is a single continuous line with no padding. Because nothing is
+      re-serialized, a number like 12345678901234567890 or 1.0 comes out as written, where
+      <code>JSON.stringify(JSON.parse(text))</code> would round or shorten it. A key repeated in the
+      same object is kept and flagged, since most parsers keep only its last value.
     </p>
     <p>
-      Because it parses first, the minifier rejects invalid JSON: a trailing comma or an
+      Because it validates first, the minifier rejects invalid JSON: a trailing comma or an
       unquoted key stops the process before any output is produced. The minifier also rejects
       JSON with comments (JSONC/JSON5) because standard JSON parsers treat <code>//</code> as an
       error. Valid JSON always survives the round-trip without data loss.
