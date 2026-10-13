@@ -57,8 +57,8 @@ export const items: FAQItem[] = [
   },
   {
     id: 'json-min-faq-10',
-    question: 'Does the minifier keep big numbers and duplicate keys?',
+    question: 'Can minifying change my data, such as a long ID or a price like 19.90?',
     answer:
-      'Yes. It removes whitespace from your text instead of parsing and re-serializing it, so 12345678901234567890 stays 12345678901234567890 (JavaScript would round it to 12345678901234567000), 1.0 stays 1.0, 1e5 stays 1e5, and string escapes and key order are untouched. A key that appears twice in one object is kept twice and flagged with a warning, because most JSON parsers keep only the last value.',
+      'No. Minifying here only deletes the spaces and line breaks between tokens. Every value is copied character for character, so an order ID of 9007199254740993 is not rounded to 9007199254740992 the way a JSON.parse and JSON.stringify round trip would round it, and a price written 19.90 keeps its trailing zero. That matters when the minified payload goes to an API or a signature check that compares bytes. If one object repeats a key, both copies stay in the output and the status line warns you, since the service receiving it will probably keep only the last one.',
   },
 ];

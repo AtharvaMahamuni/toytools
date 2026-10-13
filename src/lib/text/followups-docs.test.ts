@@ -3,6 +3,8 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { analyzeText } from './analysis';
 import { items as ageFaqs } from '../../tools/datetime/age-calculator/faq';
+import { items as minFaqs } from '../../tools/developer-utilities/json-minifier/faq';
+import { items as fmtFaqs } from '../../tools/developer-utilities/json-formatter/faq';
 import { items as lineFaqs } from '../../tools/text/line-counter/faq';
 
 const read = (p: string) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
@@ -42,5 +44,18 @@ describe('privacy page (item 10)', () => {
     expect(p).toContain('empties all three');
     expect(p).toContain('JSON to CSV and CSV to JSON pair');
     expect(p).toContain("const updated = '13 October 2026'");
+  });
+});
+
+describe('JSON Minifier FAQ is its own answer (item 13)', () => {
+  const words = (t: string) => new Set(t.toLowerCase().match(/[a-z0-9.]+/g) ?? []);
+  it('json-min-faq-10 shares under 40% of its words with json-fmt-faq-13', () => {
+    const min = minFaqs.find(f => f.id === 'json-min-faq-10')!;
+    const fmt = fmtFaqs.find(f => f.id === 'json-fmt-faq-13')!;
+    const a = words(min.question + ' ' + min.answer);
+    const b = words(fmt.question + ' ' + fmt.answer);
+    const shared = [...a].filter(w => b.has(w)).length;
+    expect(shared / new Set([...a, ...b]).size).toBeLessThan(0.4);
+    expect(JSON.parse('9007199254740993')).toBe(9007199254740992); // the example's claim holds
   });
 });
