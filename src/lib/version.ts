@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
-  minor: 9,
+  minor: 10,
   patch: 0,
   status: 'beta',
   releaseDate: '2026-10-14',
-  description: 'Phase C fixes: CSV quotes, exact degree trig, slugify, grapheme reverse, emoji joiners, big integers, HTML5 entities, JWT and JSON Diff',
+  description: 'Phase C fixes: finance currency and storage, negative rates, health unit conversion, and #252 follow-ups',
 };
 
 export function formatVersion(config: VersionConfig): string {
