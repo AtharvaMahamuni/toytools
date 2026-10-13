@@ -257,6 +257,9 @@ const craftId = info?.notes ? config?.craft?.id : undefined;
           if (type === 'range') { var o = fe.querySelector('[data-range-value]'); if (o) o.textContent = input.value; }
         });
       }
+      // A key saved before this page went private (UUID Inspector until beta-v12.10) may still hold
+      // pasted text: rewrite it now, settings only.
+      if (eph && saved) persist();
     } catch (_) {}
 
     // ── Listeners ───────────────────────────────────────────────────────────

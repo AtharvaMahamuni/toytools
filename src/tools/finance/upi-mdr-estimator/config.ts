@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'money-finance',
   tags: ['mdr'],
   updatedAt: '2026-09-18',
-  trustVariant: 'local',
   engine: 'finance',
   pattern: 'finance-planning',
   family: 'estimator',

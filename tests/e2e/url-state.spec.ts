@@ -67,20 +67,25 @@ test.describe('shareable calculators on private pages', () => {
   });
 });
 
-// The bill-splitting and UPI calculators are Local tools (they keep their data in this browser),
-// not private ones, so they still keep their inputs in the address as you type. The privacy page's
-// "Links you share" says so; this keeps that copy and the behaviour in step.
-test.describe('Local calculators that keep inputs in the address', () => {
-  test('split-bill writes its inputs into the address as you type', async ({ page }) => {
-    await page.goto('/tool/finance/split-bill/');
-    await page.locator('[data-field-id="bill"]').fill('1234');
-    await page.locator('[data-field-id="people"]').fill('3');
-    await expect.poll(() => new URL(page.url()).searchParams.get('bill')).toBe('1234');
-    expect(new URL(page.url()).searchParams.get('people')).toBe('3');
-
-    await page.reload();
-    await expect(page.locator('[data-field-id="bill"]')).toHaveValue('1234');
-  });
+// Split Bill and the UPI calculators were Local tools that kept inputs in the address and in
+// this browser until beta-v12.10. They are private now, like every other calculator (Phase C PR 2).
+test.describe('Split Bill and the UPI calculators keep nothing', () => {
+  for (const [path, field, value] of [
+    ['/tool/finance/split-bill/', 'bill', '1234'],
+    ['/tool/finance/upi-mdr-estimator/', 'amount', '5000'],
+    ['/tool/finance/upi-1999-split/', 'amount', '5000'],
+  ] as const) {
+    test(`${path} writes nothing to the address or storage`, async ({ page }) => {
+      await page.goto(path);
+      await page.locator(`[data-field-id="${field}"]`).fill(value);
+      await page.waitForTimeout(600); // longer than the 300ms write debounce
+      expect(new URL(page.url()).search).toBe('');
+      const stored = await page.evaluate(() => Object.entries(localStorage).map(([k, v]) => k + '=' + v).join('\n'));
+      expect(stored).not.toContain(value);
+      await page.reload();
+      await expect(page.locator(`[data-field-id="${field}"]`)).not.toHaveValue(value);
+    });
+  }
 });
 
 test.describe('personal-data tools', () => {

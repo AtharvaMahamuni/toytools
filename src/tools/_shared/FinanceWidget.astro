@@ -392,6 +392,12 @@ const currencyMeta = Object.fromEntries(
       } catch (_) {}
     }
 
+    // A private page keeps only settings. A key saved before the page was private (Split Bill and the
+    // UPI tools until beta-v12.10) may still hold typed amounts: rewrite it now, settings only.
+    try {
+      if (window.ToyTools && ToyTools.state && ToyTools.state.ephemeral && localStorage.getItem('toytools:' + slug) !== null) persist();
+    } catch (_) {}
+
     // Field input -> recompute + persist.
     for (var i = 0; i < fieldEls.length; i++) {
       fieldEls[i].addEventListener('change', function () { run(); persist(); });

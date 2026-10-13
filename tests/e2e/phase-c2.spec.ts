@@ -26,3 +26,18 @@ test('split bill has no currency menu that does nothing (item 1b)', async ({ pag
   await expect(page.locator('[data-field-id="bill"]')).toBeVisible();
   await expect(page.locator('#split-bill-currency')).toHaveCount(0);
 });
+
+test('old saved typed values are stripped on the next visit (item 2)', async ({ page }) => {
+  await page.addInitScript(() => {
+    if (sessionStorage.getItem('seeded')) return;
+    localStorage.setItem('toytools:split-bill', JSON.stringify({ v: 1, data: { currency: 'USD', fields: { bill: { value: '4321', raw: '4321' } }, opts: {} } }));
+    localStorage.setItem('toytools:uuid-inspector', JSON.stringify({ v: 1, data: { options: { input: '123e4567-e89b-12d3-a456-426614174000', expect: 'any' } } }));
+    sessionStorage.setItem('seeded', '1');
+  });
+  await page.goto('/tool/finance/split-bill/');
+  await expect(page.locator('[data-field-id="bill"]')).not.toHaveValue('4321');
+  await expect.poll(() => page.evaluate(() => localStorage.getItem('toytools:split-bill') ?? '')).not.toContain('4321');
+  await page.goto('/tool/generate/uuid-inspector/');
+  await expect.poll(() => page.evaluate(() => localStorage.getItem('toytools:uuid-inspector') ?? '')).not.toContain('123e4567');
+  await expect(page.getByText('Runs entirely on your device. Nothing is uploaded.').first()).toBeAttached();
+});
