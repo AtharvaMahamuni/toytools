@@ -17,6 +17,12 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 - `/architecture/` lists categories, engines, and the shared layers, and opens each one in the side panel. The Mermaid diagram is gone, so the page no longer downloads that library. An engine still lists the tools it powers and the other engines it connects to.
 - Removed the analysis notes for work that has already shipped. Five notes stay in `docs/analysis/`: engine scalability, Chrome extensions, tool craft, SEO ranking gaps, and gap remediation.
 
+### Fixed before release (review round)
+
+- **CSV Column Picker.** A file saved with a byte order mark (as Excel does) can be picked by its first column name. A header with a space after the comma, like "id, name", matches the typed name. A column whose name contains a comma can be picked by putting it in double quotes. A file over 10 MB gets a clear error instead of blocking the page. A tab file's notice now says it has more tabs than commas.
+- **Lean Body Mass Calculator.** A height under 50 cm, or under 20 in, is refused with a "Not metres?" or "Not feet?" hint instead of a nonsense result. In imperial the formula spread reads in pounds. The FAQ and guide explain why James drops at a very high weight.
+- **Linear Regression Playground.** When every point has the same x, the page says the line is vertical (x = c) instead of showing y = 0.00x plus the mean.
+
 ## [beta-v12.7] - 2026-10-13
 
 ### Fixed
