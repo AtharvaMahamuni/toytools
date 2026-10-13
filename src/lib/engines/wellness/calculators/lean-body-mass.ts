@@ -7,14 +7,17 @@
 // Coefficients are duplicated in caveat.ts so that file does not import this module.
 
 import type { WellnessCalculator } from '../types';
-import { successResult, card } from '@lib/results/index';
+import { successResult, card, validationError } from '@lib/results/index';
 import type { ResultCard } from '@lib/results/types';
-import { inToCm, lbToKg, type Sex } from '../models';
+import { inToCm, kgToLb, lbToKg, type Sex } from '../models';
 import { num1, weight as fmtWeight } from '../format';
 import { positiveField, selectField } from '../validation';
 import { assumption, decisions, insight, toolDecision } from '../story';
 
 const UNITS = ['metric', 'imperial'] as const;
+/** The shortest accepted height. Anything lower is almost always metres or feet typed by mistake. */
+export const MIN_HEIGHT_CM = 50;
+export const MIN_HEIGHT_IN = 20;
 const SEXES = ['male', 'female'] as const;
 
 /** Boer 1984. Linear in kilograms and centimetres. */
@@ -107,6 +110,17 @@ export const leanBodyMassCalculator: WellnessCalculator = {
     const h = positiveField(input, 'height', 'your height', { max: isMetric ? 260 : 102 });
     if (!h.ok) return h.result;
 
+    // Below these no adult stands, and the usual cause is metres or feet typed into the field, which
+    // the formulas would turn into nonsense (1.8 cm gave a 252,765 kg spread).
+    const minHeight = isMetric ? MIN_HEIGHT_CM : MIN_HEIGHT_IN;
+    if (h.value < minHeight) {
+      return validationError(
+        isMetric
+          ? `Your height must be at least ${MIN_HEIGHT_CM} cm. Not metres? Enter centimetres, so 1.8 m is 180.`
+          : `Your height must be at least ${MIN_HEIGHT_IN} in. Not feet? Enter total inches, so 5 ft 11 in is 71.`,
+      );
+    }
+
     const weightKg = isMetric ? w.value : lbToKg(w.value);
     const heightCm = isMetric ? h.value : inToCm(h.value);
 
@@ -121,6 +135,8 @@ export const leanBodyMassCalculator: WellnessCalculator = {
     const spreadKg = Math.max(boer, james, hume) - Math.min(boer, james, hume);
     const fat = ((weightKg - boerCard.shown) / weightKg) * 100;
     const fmt = (kg: number) => fmtWeight(kg, unit.value);
+    // The spread is a difference, so it converts by the factor alone and reads in the chosen unit.
+    const spreadShown = `${num1(isMetric ? spreadKg : kgToLb(spreadKg))} ${isMetric ? 'kg' : 'lb'}`;
 
     const clamped: string[] = [];
     if (boerCard.clamped) clamped.push('Boer');
@@ -136,8 +152,8 @@ export const leanBodyMassCalculator: WellnessCalculator = {
     const metrics: ResultCard[] = [
       card('james', 'James formula', fmt(jamesCard.shown), { raw: jamesCard.shown }),
       card('hume', 'Hume formula', fmt(humeCard.shown), { raw: humeCard.shown }),
-      card('spread', 'Formula spread', `${num1(spreadKg)} kg`, {
-        raw: spreadKg,
+      card('spread', 'Formula spread', spreadShown, {
+        raw: isMetric ? spreadKg : kgToLb(spreadKg),
         emphasis: 'primary',
         note: clamped.length > 0 ? 'raw gap, before the limit' : 'max minus min',
       }),
@@ -146,7 +162,7 @@ export const leanBodyMassCalculator: WellnessCalculator = {
 
     const insights = [
       insight(
-        `Boer is ${fmt(boerCard.shown)}, James is ${fmt(jamesCard.shown)}, and Hume is ${fmt(humeCard.shown)}. The spread is ${num1(spreadKg)} kg.`,
+        `Boer is ${fmt(boerCard.shown)}, James is ${fmt(jamesCard.shown)}, and Hume is ${fmt(humeCard.shown)}. The spread is ${spreadShown}.`,
       ),
       insight(
         `Implied fat from Boer is ${num1(fat)} percent of body weight. That line is not a measured body fat.`,
@@ -159,7 +175,7 @@ export const leanBodyMassCalculator: WellnessCalculator = {
     if (clamped.length > 0) {
       insights.push(
         insight(
-          `${listNames(clamped)} landed outside body weight, so the card holds that figure inside the range. The spread of ${num1(spreadKg)} kg is the raw gap before the limit.`,
+          `${listNames(clamped)} landed outside body weight, so the card holds that figure inside the range. The spread of ${spreadShown} is the raw gap before the limit.`,
           'caution',
         ),
       );

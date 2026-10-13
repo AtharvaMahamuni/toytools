@@ -107,13 +107,21 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       The field wants centimetres, so 180 cm typed as 1.8 is a height of 1.8 cm.
     </p>
     <p>
-      James divides weight by that tiny height and the lean mass falls below zero.
-      The card then holds the figure inside the body weight and says so.
+      The calculator refuses a height under 50 cm, or under 20 in when you work in inches, and asks
+      "Not metres?" (or "Not feet?") instead of computing. At 1.8 cm Boer would read about 13.8 kg
+      for an 80 kg man, against 61.4 kg at 180 cm, and James would fall below zero.
+      Retype the height in centimetres, so 1.8 m is 180, or in total inches, so 5 ft 11 in is 71.
     </p>
+  </section>
+
+  <section>
+    <h2>Why does James go down for a very heavy body? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Boer for an 80 kg man at 1.8 cm falls to about 13.8 kg, against 61.4 kg at 180 cm.
-      The spread warning should fire, because the formulas no longer describe one body.
-      Retype the height in centimetres before you trust any of the three numbers.
+      James subtracts a term that grows with the square of weight over height, so past a certain
+      weight each extra kilogram lowers the estimate. For a man of 175 cm the James figure peaks at
+      about 72.4 kg of lean mass near 132 kg of body weight, reads about 71.0 kg at 150 kg, and drops
+      to about 52.8 kg at 200 kg. That decline is a property of the 1976 fit, not of the body, so at
+      a high BMI read Boer and Hume instead of James, and treat the spread as the answer.
     </p>
   </section>
 

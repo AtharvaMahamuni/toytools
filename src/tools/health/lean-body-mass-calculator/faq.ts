@@ -48,4 +48,12 @@ For an 80 kg man at 180 cm the three read 61.4 kg, 62.7 kg and 57.8 kg, and none
 Using one formula as a drug dose ignores the other two estimates, which can sit about 7.5 kg apart on a heavier body.
 Checking the kilogram gap before a formula is copied into a chart is the check the calculator actually does.`,
   },
+  {
+    id: 'lean-body-mass-calculator-faq-7',
+    question: 'Why does the James formula drop at a very high weight?',
+    answer: `James subtracts a term that grows with the square of weight over height, so at a high BMI it declines.
+
+For a man of 175 cm it peaks at about 72.4 kg near 132 kg of body weight and falls to about 52.8 kg at 200 kg.
+Read Boer and Hume there instead, and note that a height under 50 cm is refused as a likely metres mistake.`,
+  },
 ];

@@ -166,6 +166,8 @@ export function wellnessCaveat(id: string, input: WellnessInput): string | null 
       if (!ok(w, h) || (sex !== 'male' && sex !== 'female')) return null;
       const kg = metric ? w : lbToKg(w);
       const cm = metric ? h : inToCm(h);
+      // The calculator refuses these heights (metres or feet typed by mistake), so stay silent.
+      if (h < (metric ? 50 : 20)) return null;
       const ratioSq = (kg / cm) * (kg / cm);
       const rows: [string, number][] = [
         ['Boer', sex === 'male' ? 0.407 * kg + 0.267 * cm - 19.2 : 0.252 * kg + 0.473 * cm - 48.3],
@@ -177,7 +179,7 @@ export function wellnessCaveat(id: string, input: WellnessInput): string | null 
       const low = sorted[sorted.length - 1]!;
       const spreadKg = high[1] - low[1];
       if (spreadKg < 5) return null;
-      return `${high[0]} and ${low[0]} disagree by ${r1(spreadKg)} kg. A single unlabeled number hides which formula was copied.`;
+      return `${high[0]} and ${low[0]} disagree by ${r1(metric ? spreadKg : kgToLb(spreadKg))} ${metric ? 'kg' : 'lb'}. A single unlabeled number hides which formula was copied.`;
     }
 
     case 'one-rep-max': {

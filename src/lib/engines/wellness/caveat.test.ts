@@ -46,7 +46,10 @@ describe('wellnessCaveat — where this input sits in the model', () => {
       unit: 'imperial', sex: 'male', weight: 120 * 2.2046226218, height: 170 / 2.54,
     });
     expect(imperial).toContain('Boer');
-    expect(imperial).toContain('7.5 kg');
+    expect(imperial).toContain('16.6 lb');
+    expect(imperial).not.toContain('kg');
+    // A height typed in metres is refused by the calculator, so the caveat stays silent too.
+    expect(wellnessCaveat('lean-body-mass', { unit: 'metric', sex: 'male', weight: 80, height: 1.8 })).toBeNull();
     const female = wellnessCaveat('lean-body-mass', { unit: 'metric', sex: 'female', weight: 120, height: 170 });
     expect(female).toContain('Hume');
     expect(female).toContain('James');
