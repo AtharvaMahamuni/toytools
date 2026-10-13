@@ -158,7 +158,8 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       if (billRaw === '') { showEmpty('Enter a bill amount to calculate.'); return; }
       var bill = Number(billRaw);
       if (!Number.isFinite(bill) || bill < 0) { showEmpty('Enter a valid bill amount.'); return; }
-      if (pctBad) { showEmpty('Enter a tip of 0% or more.'); return; }
+      // The inline field message already says why, so the result hint stays hidden (one message).
+      if (pctBad) { showEmpty(); if (hintEl) hintEl.hidden = true; return; }
 
       note({ bill: bill, tipPct: pct });
 
