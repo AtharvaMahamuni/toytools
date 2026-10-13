@@ -5,7 +5,7 @@
 // line instead of throwing. Unlike it, a tool may take a second input (csv-diff compares
 // two files), declared via `inputs` so the shared CsvWidget renders the right panes.
 
-export type CsvFamily = 'convert' | 'clean' | 'compare';
+export type CsvFamily = 'convert' | 'clean' | 'compare' | 'select';
 
 export interface CsvResult {
   ok: boolean;
@@ -13,6 +13,8 @@ export interface CsvResult {
   error?: string;
   /** One-line result summary for the status line, e.g. "5 rows · 3 columns". */
   summary?: string;
+  /** Optional one-line guardrail. Absent when the result needs no warning. */
+  notice?: string;
 }
 
 export interface CsvTool {

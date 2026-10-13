@@ -16,7 +16,7 @@ function guardConsole(page: Page): string[] {
 }
 
 test.describe('every math tool', () => {
-  for (const slug of ['unit-circle-calculator', 'quadratic-equation-solver', 'probability-calculator']) {
+  for (const slug of ['unit-circle-calculator', 'quadratic-equation-solver', 'probability-calculator', 'linear-regression-playground', 'normal-distribution-visualizer']) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);
       await page.goto(`/tool/math/${slug}/`);

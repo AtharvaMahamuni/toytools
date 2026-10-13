@@ -71,6 +71,23 @@ const CSV_INFO: Record<string, CsvInfo> = {
     secondPlaceholder: 'Paste the changed CSV here',
     downloadExt: '.txt',
   },
+  'csv-pick': {
+    displayName: 'CSV Column Picker',
+    insight:
+      'Name the columns to keep and the rest of each row is dropped. A semicolon file stays in separate columns when a comma would collapse it, and a numeric pick warns that inserting a column changes the field.',
+    technical: [
+      { term: 'By name', detail: 'Case-sensitive header match, in the order you type' },
+      { term: 'By position', detail: '1-based numbers only, with a notice that an insert moves the field' },
+      { term: 'Delimiter', detail: 'Semicolon or tab when a comma split would hide the columns' },
+      { term: 'Quoting', detail: 'Commas inside quotes stay inside the cell' },
+    ],
+    sample: 'name,age,city\nAda,30,Pune\nBob,41,Goa',
+    sampleSecond: 'city,name',
+    inputLabel: 'CSV table',
+    placeholder: 'Paste a CSV table here',
+    secondLabel: 'Columns to keep',
+    secondPlaceholder: 'city, name',
+  },
 };
 
 /** Educational info for a CSV tool. Never throws; unknown ids return a stub. */

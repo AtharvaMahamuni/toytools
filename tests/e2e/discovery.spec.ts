@@ -225,7 +225,10 @@ test.describe('homepage index', () => {
     // Type Scale Generator, and Matrix Calculator (beta-v12.3) are ungrouped too.
     // Colorblind Simulator and IPv4 Converter (beta-v12.5) are ungrouped: one is a palette
     // comparison, the other a single-address conversion, and neither is a mode of its neighbor.
-    await expect(directory.locator('.dir-link')).toHaveCount(113);
+    // Linear Regression Playground and Normal Distribution Visualizer are ungrouped: each is
+    // its own playground, not a mode of Statistics Visualizer. Lean Body Mass joins the Health
+    // Calculator group and CSV Column Picker joins CSV Tools, so neither adds a directory link.
+    await expect(directory.locator('.dir-link')).toHaveCount(115);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

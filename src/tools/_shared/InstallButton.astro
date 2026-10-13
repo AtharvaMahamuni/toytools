@@ -38,7 +38,7 @@ const { toolName } = Astro.props;
       {/* Not an <h2>. This sheet is in the DOM of all 119 tool pages, so its title was one of
           only two H2s most pages had, and "Add to Home Screen" tells a search engine nothing
           about the tool. The id stays, so the dialog keeps its accessible name via
-          aria-labelledby. See docs/analysis/2026-08-08-tool-identity-architecture.md (F2). */}
+          aria-labelledby. */}
       <p class="tt-install-title" id="tt-install-sheet-title">Install this tool</p>
       <p>Install <strong>{toolName}</strong> so it opens like an app and works offline.</p>
 

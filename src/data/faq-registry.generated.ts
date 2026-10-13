@@ -31,6 +31,7 @@ import { items as contextFitCheckerFaqs } from '@tools/prep/context-fit-checker/
 import { items as crc32HashGeneratorFaqs } from '@tools/developer-utilities/crc32-hash-generator/faq';
 import { items as cronExpressionParserFaqs } from '@tools/datetime/cron-expression-parser/faq';
 import { items as csvCleanerFaqs } from '@tools/developer-utilities/csv-cleaner/faq';
+import { items as csvColumnPickerFaqs } from '@tools/developer-utilities/csv-column-picker/faq';
 import { items as csvDiffFaqs } from '@tools/developer-utilities/csv-diff/faq';
 import { items as csvToJsonConverterFaqs } from '@tools/developer-utilities/csv-to-json-converter/faq';
 import { items as csvToTsvFaqs } from '@tools/developer-utilities/csv-to-tsv/faq';
@@ -67,6 +68,7 @@ import { items as jwtDecoderFaqs } from '@tools/developer-utilities/jwt-decoder/
 import { items as kebabCaseConverterFaqs } from '@tools/text/kebab-case-converter/faq';
 import { items as keepScreenAwakeFaqs } from '@tools/productivity/keep-screen-awake/faq';
 import { items as kineticSandFaqs } from '@tools/fidget/kinetic-sand/faq';
+import { items as leanBodyMassCalculatorFaqs } from '@tools/health/lean-body-mass-calculator/faq';
 import { items as letterCounterFaqs } from '@tools/text/letter-counter/faq';
 import { items as lineCounterFaqs } from '@tools/text/line-counter/faq';
 import { items as llmsTxtGeneratorFaqs } from '@tools/prep/llms-txt-generator/faq';
@@ -186,6 +188,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'crc32-hash-generator': crc32HashGeneratorFaqs,
   'cron-expression-parser': cronExpressionParserFaqs,
   'csv-cleaner': csvCleanerFaqs,
+  'csv-column-picker': csvColumnPickerFaqs,
   'csv-diff': csvDiffFaqs,
   'csv-to-json-converter': csvToJsonConverterFaqs,
   'csv-to-tsv': csvToTsvFaqs,
@@ -222,6 +225,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'kebab-case-converter': kebabCaseConverterFaqs,
   'keep-screen-awake': keepScreenAwakeFaqs,
   'kinetic-sand': kineticSandFaqs,
+  'lean-body-mass-calculator': leanBodyMassCalculatorFaqs,
   'letter-counter': letterCounterFaqs,
   'line-counter': lineCounterFaqs,
   'llms-txt-generator': llmsTxtGeneratorFaqs,

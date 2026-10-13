@@ -106,8 +106,7 @@ export const RESEARCH_TAXONOMY: ResearchTaxonomy = [
   {
     // Applied Mathematics: 'math-lab' is the simulation-platform math domain (interactive
     // explorables, one model + draw + manifest per tool); 'math' is the classic-tool engine for
-    // data-input calculators. Neither is built yet; see docs/analysis/2026-07-14-applied-math-
-    // category-plan.md for the launch plan.
+    // data-input calculators.
     domain: 'math',
     transformations: [
       {

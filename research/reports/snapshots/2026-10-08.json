@@ -1,0 +1,16 @@
+{
+  "version": 3,
+  "generatedAt": "2026-10-08T19:48:27.362Z",
+  "fingerprint": "38e004d2",
+  "discovered": 106,
+  "deduped": 106,
+  "alreadyExists": 77,
+  "recommended": 27,
+  "missingEngines": 1,
+  "topScore": 85.9,
+  "latentSignals": 7,
+  "latentCandidates": 1,
+  "craftReadyToPolish": 8,
+  "craftAtRisk": 19,
+  "nextBuild": "normal-distribution-visualizer"
+}

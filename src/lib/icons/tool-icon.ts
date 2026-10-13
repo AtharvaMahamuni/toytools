@@ -35,6 +35,7 @@ const FAMILY_GLYPH: Record<string, string> = {
   clean: 'broom',
   compare: 'compare',
   convert: 'swap',
+  select: 'csvColumns',
   detect: 'detect',
   identify: 'detect',
   // The backslash is the thing this family is about: one more of them per shell in the path.
@@ -276,6 +277,7 @@ const SLUG_GLYPH: Record<string, string> = {
   'bmi-calculator': 'gauge',
   'body-fat-calculator': 'bodyFat',
   'ideal-weight-calculator': 'idealWeight',
+  'lean-body-mass-calculator': 'leanMass',
 
   // json crowd (formatter keeps braces)
   'json-diff': 'bracesDiff',
@@ -340,6 +342,13 @@ const SLUG_GLYPH: Record<string, string> = {
 
   // identifier
   'uuid-inspector': 'uuidInspect',
+
+  // statistics crowd (statistics-visualizer keeps chartBar)
+  'linear-regression-playground': 'fitLine',
+  'normal-distribution-visualizer': 'bellCurve',
+
+  // csv select. The family default is csvColumns; the slug keeps the same mark.
+  'csv-column-picker': 'csvColumns',
 };
 
 

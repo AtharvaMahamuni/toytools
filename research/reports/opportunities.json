@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-20T12:30:10.974Z",
+  "generatedAt": "2026-10-09T05:25:21.130Z",
   "opportunities": [
     {
       "id": "running-pace-calculator",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "runnersworld.com",
         "calculator.net",
@@ -102,7 +102,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "strengthlevel.com",
         "bodybuilding.com",
@@ -183,7 +183,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "symbolab.com",
         "calculator.net",
@@ -205,12 +205,16 @@
       ],
       "relatedTools": [
         "unit-circle-calculator",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "quadratic-equation-solver"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "unit-circle-calculator",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "quadratic-equation-solver"
       ],
@@ -253,7 +257,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "mobile fidget apps",
         "ad-heavy web clones"
@@ -337,7 +341,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "calculator.net",
         "mathway.com",
@@ -362,12 +366,14 @@
         "quadratic-equation-solver",
         "fraction-calculator",
         "combinations-permutations-calculator",
+        "matrix-calculator",
         "statistics-visualizer"
       ],
       "relatedGuides": [
         "prime-factorization-calculator",
         "fraction-calculator",
         "combinations-permutations-calculator",
+        "matrix-calculator",
         "statistics-visualizer"
       ],
       "relatedFaqs": [
@@ -375,6 +381,7 @@
         "quadratic-equation-solver",
         "fraction-calculator",
         "combinations-permutations-calculator",
+        "matrix-calculator",
         "statistics-visualizer"
       ],
       "difficulty": "low",
@@ -417,7 +424,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "w3schools.com/colors",
         "rgbtohex.net"
@@ -436,15 +443,21 @@
       ],
       "relatedTools": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-shades-generator",
+        "color-format-converter",
+        "colorblind-simulator"
       ],
       "relatedGuides": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-shades-generator",
+        "color-format-converter",
+        "colorblind-simulator"
       ],
       "relatedFaqs": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-shades-generator",
+        "color-format-converter",
+        "colorblind-simulator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.94,
@@ -484,7 +497,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "mathsisfun.com",
         "khanacademy.org",
@@ -506,12 +519,16 @@
       ],
       "relatedTools": [
         "quadratic-equation-solver",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "unit-circle-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "quadratic-equation-solver",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "unit-circle-calculator"
       ],
@@ -553,7 +570,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -574,24 +591,24 @@
         "normalize-whitespace",
         "remove-extra-spaces",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter"
+        "chat-export-cleaner",
+        "context-fit-checker"
       ],
       "relatedGuides": [
         "remove-blank-lines",
         "normalize-whitespace",
         "remove-extra-spaces",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter"
+        "chat-export-cleaner",
+        "context-fit-checker"
       ],
       "relatedFaqs": [
         "remove-blank-lines",
         "normalize-whitespace",
         "remove-extra-spaces",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter"
+        "chat-export-cleaner",
+        "context-fit-checker"
       ],
       "difficulty": "low",
       "evergreenScore": 0.9,
@@ -631,7 +648,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "calculator.net",
         "calculatorsoup.com",
@@ -656,12 +673,14 @@
         "prime-factorization-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
+        "matrix-calculator",
         "statistics-visualizer"
       ],
       "relatedGuides": [
         "prime-factorization-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
+        "matrix-calculator",
         "statistics-visualizer"
       ],
       "relatedFaqs": [
@@ -669,6 +688,7 @@
         "prime-factorization-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
+        "matrix-calculator",
         "statistics-visualizer"
       ],
       "difficulty": "low",
@@ -710,7 +730,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "nekocalc.com/px-to-rem",
         "pxtorem.com"
@@ -729,16 +749,19 @@
       ],
       "relatedTools": [
         "px-to-dp-converter",
+        "type-scale-generator",
         "px-to-rem-converter",
         "aspect-ratio-calculator"
       ],
       "relatedGuides": [
         "px-to-dp-converter",
+        "type-scale-generator",
         "px-to-rem-converter",
         "aspect-ratio-calculator"
       ],
       "relatedFaqs": [
         "px-to-dp-converter",
+        "type-scale-generator",
         "px-to-rem-converter",
         "aspect-ratio-calculator"
       ],
@@ -781,7 +804,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "ASMR videos",
         "mobile switch simulators"
@@ -865,7 +888,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -885,25 +908,25 @@
         "uppercase-converter",
         "find-replace",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "lowercase-converter"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "relatedGuides": [
         "uppercase-converter",
         "find-replace",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "lowercase-converter"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "relatedFaqs": [
         "uppercase-converter",
         "find-replace",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "lowercase-converter"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "difficulty": "low",
       "evergreenScore": 0.88,
@@ -943,7 +966,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "calculatorsoup.com",
         "calculator.net",
@@ -967,19 +990,25 @@
         "fraction-calculator",
         "combinations-permutations-calculator",
         "prime-factorization-calculator",
-        "statistics-visualizer"
+        "matrix-calculator",
+        "statistics-visualizer",
+        "triangle-solver"
       ],
       "relatedGuides": [
         "fraction-calculator",
         "combinations-permutations-calculator",
         "prime-factorization-calculator",
-        "statistics-visualizer"
+        "matrix-calculator",
+        "statistics-visualizer",
+        "triangle-solver"
       ],
       "relatedFaqs": [
         "fraction-calculator",
         "combinations-permutations-calculator",
         "prime-factorization-calculator",
-        "statistics-visualizer"
+        "matrix-calculator",
+        "statistics-visualizer",
+        "triangle-solver"
       ],
       "difficulty": "low",
       "evergreenScore": 0.95,
@@ -1020,7 +1049,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "webaim.org/resources/contrastchecker",
         "coolors.co/contrast-checker"
@@ -1039,15 +1068,21 @@
       ],
       "relatedTools": [
         "color-format-converter",
-        "color-contrast-checker"
+        "colorblind-simulator",
+        "color-contrast-checker",
+        "color-shades-generator"
       ],
       "relatedGuides": [
         "color-format-converter",
-        "color-contrast-checker"
+        "colorblind-simulator",
+        "color-contrast-checker",
+        "color-shades-generator"
       ],
       "relatedFaqs": [
         "color-format-converter",
-        "color-contrast-checker"
+        "colorblind-simulator",
+        "color-contrast-checker",
+        "color-shades-generator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.95,
@@ -1088,7 +1123,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "pixplicity.com/dp-px-converter",
         "angrytools px to dp"
@@ -1107,17 +1142,20 @@
       "relatedTools": [
         "px-to-rem-converter",
         "aspect-ratio-calculator",
-        "px-to-dp-converter"
+        "px-to-dp-converter",
+        "type-scale-generator"
       ],
       "relatedGuides": [
         "px-to-rem-converter",
         "aspect-ratio-calculator",
-        "px-to-dp-converter"
+        "px-to-dp-converter",
+        "type-scale-generator"
       ],
       "relatedFaqs": [
         "px-to-rem-converter",
         "aspect-ratio-calculator",
-        "px-to-dp-converter"
+        "px-to-dp-converter",
+        "type-scale-generator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.9,
@@ -1157,7 +1195,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -1177,25 +1215,25 @@
         "kebab-case-converter",
         "lowercase-converter",
         "camel-case-converter",
-        "invisible-character-detector",
-        "normalize-whitespace",
-        "remove-accents"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "relatedGuides": [
         "kebab-case-converter",
         "lowercase-converter",
         "camel-case-converter",
-        "invisible-character-detector",
-        "normalize-whitespace",
-        "remove-accents"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "relatedFaqs": [
         "kebab-case-converter",
         "lowercase-converter",
         "camel-case-converter",
-        "invisible-character-detector",
-        "normalize-whitespace",
-        "remove-accents"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "difficulty": "low",
       "evergreenScore": 0.86,
@@ -1235,7 +1273,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "andrew.hedges.name/experiments/aspect_ratio",
         "calculateaspectratio.com"
@@ -1253,16 +1291,19 @@
       ],
       "relatedTools": [
         "px-to-dp-converter",
+        "type-scale-generator",
         "aspect-ratio-calculator",
         "px-to-rem-converter"
       ],
       "relatedGuides": [
         "px-to-dp-converter",
+        "type-scale-generator",
         "aspect-ratio-calculator",
         "px-to-rem-converter"
       ],
       "relatedFaqs": [
         "px-to-dp-converter",
+        "type-scale-generator",
         "aspect-ratio-calculator",
         "px-to-rem-converter"
       ],
@@ -1304,7 +1345,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -1326,23 +1367,25 @@
       ],
       "relatedTools": [
         "probability-calculator",
+        "linear-regression-playground",
         "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator"
+        "matrix-calculator"
       ],
       "relatedGuides": [
         "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator"
+        "matrix-calculator"
       ],
       "relatedFaqs": [
         "probability-calculator",
+        "linear-regression-playground",
         "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator"
+        "matrix-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.96,
@@ -1382,7 +1425,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -1460,7 +1503,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -1534,7 +1577,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -1555,24 +1598,24 @@
         "json-minifier",
         "csv-to-json-converter",
         "json-diff",
-        "json-to-csv-converter",
-        "json-to-yaml-converter"
+        "json-schema-validator",
+        "json-to-csv-converter"
       ],
       "relatedGuides": [
         "json-formatter",
         "json-minifier",
         "csv-to-json-converter",
         "json-diff",
-        "json-to-csv-converter",
-        "json-to-yaml-converter"
+        "json-schema-validator",
+        "json-to-csv-converter"
       ],
       "relatedFaqs": [
         "json-formatter",
         "json-minifier",
         "csv-to-json-converter",
         "json-diff",
-        "json-to-csv-converter",
-        "json-to-yaml-converter"
+        "json-schema-validator",
+        "json-to-csv-converter"
       ],
       "difficulty": "low",
       "evergreenScore": 0.88,
@@ -1613,7 +1656,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "physics applets",
         "engineering textbooks",
@@ -1698,7 +1741,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -1721,6 +1764,7 @@
         "text-compare",
         "csv-to-json-converter",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
@@ -1728,6 +1772,7 @@
         "text-compare",
         "csv-to-json-converter",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
@@ -1735,6 +1780,7 @@
         "text-compare",
         "csv-to-json-converter",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
@@ -1777,7 +1823,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "jsoneditoronline.org",
         "diffchecker",
@@ -1865,7 +1911,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "Google's featured snippet",
         "whatismyipaddress.com",
@@ -1893,18 +1939,21 @@
         "cidr-calculator",
         "binary-converter",
         "hex-encoder-decoder",
+        "ipv4-converter",
         "what-is-my-ip"
       ],
       "relatedGuides": [
         "cidr-calculator",
         "binary-converter",
         "hex-encoder-decoder",
+        "ipv4-converter",
         "what-is-my-ip"
       ],
       "relatedFaqs": [
         "cidr-calculator",
         "binary-converter",
         "hex-encoder-decoder",
+        "ipv4-converter",
         "what-is-my-ip"
       ],
       "difficulty": "low",
@@ -1948,7 +1997,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "subnet-calculator.com",
         "whatismyip.com cidr calculator",
@@ -1977,21 +2026,24 @@
         "binary-converter",
         "hex-encoder-decoder",
         "unix-timestamp-converter",
-        "cidr-calculator"
+        "cidr-calculator",
+        "ipv4-converter"
       ],
       "relatedGuides": [
         "what-is-my-ip",
         "binary-converter",
         "hex-encoder-decoder",
         "unix-timestamp-converter",
-        "cidr-calculator"
+        "cidr-calculator",
+        "ipv4-converter"
       ],
       "relatedFaqs": [
         "what-is-my-ip",
         "binary-converter",
         "hex-encoder-decoder",
         "unix-timestamp-converter",
-        "cidr-calculator"
+        "cidr-calculator",
+        "ipv4-converter"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.96,
@@ -2031,7 +2083,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -2108,7 +2160,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -2127,25 +2179,25 @@
         "slugify-text",
         "lowercase-converter",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "normalize-whitespace"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "relatedGuides": [
         "slugify-text",
         "lowercase-converter",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "normalize-whitespace"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "relatedFaqs": [
         "slugify-text",
         "lowercase-converter",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "normalize-whitespace"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "difficulty": "low",
       "evergreenScore": 0.85,
@@ -2185,7 +2237,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -2197,7 +2249,10 @@
         "unclear which side-angle combinations are valid",
         "no ambiguous case explanation"
       ],
-      "userFailures": [],
+      "userFailures": [
+        "SSA (two sides and a non-included angle) can fit two triangles, and a solver that prints only the acute one hides the obtuse triangle.",
+        "Three angles are accepted as if they fixed the size, so the page returns a triangle that is only a shape."
+      ],
       "signals": [],
       "relatedProblems": [
         "law of sines",
@@ -2207,23 +2262,26 @@
       ],
       "relatedTools": [
         "unit-circle-calculator",
+        "matrix-calculator",
+        "triangle-solver",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator",
-        "statistics-visualizer"
+        "prime-factorization-calculator"
       ],
       "relatedGuides": [
+        "matrix-calculator",
+        "triangle-solver",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator",
-        "statistics-visualizer"
+        "prime-factorization-calculator"
       ],
       "relatedFaqs": [
         "unit-circle-calculator",
+        "matrix-calculator",
+        "triangle-solver",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator",
-        "statistics-visualizer"
+        "prime-factorization-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.95,
@@ -2239,10 +2297,10 @@
       "authorityWinnability": 1,
       "confidence": 0.8,
       "finalScore": 79.8,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
-      "craftRisk": true
+      "craftRisk": false
     },
     {
       "id": "calorie-deficit-calculator",
@@ -2263,7 +2321,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -2345,7 +2403,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "periodictable.com",
         "omnicalculator.com",
@@ -2422,7 +2480,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -2433,7 +2491,10 @@
         "no wake-time and bed-time in one view",
         "ignores time to fall asleep"
       ],
-      "userFailures": [],
+      "userFailures": [
+        "A 90 minute cycle counted backward from the alarm ignores the 15 minutes it takes to fall asleep, so the alarm lands mid-cycle.",
+        "Latency left at zero is treated as a real plan, and the list never says it assumes instant sleep."
+      ],
       "signals": [],
       "relatedProblems": [
         "sleep latency allowance",
@@ -2445,24 +2506,24 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ],
       "relatedGuides": [
         "move-today-tracker",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ],
       "relatedFaqs": [
         "move-today-tracker",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ],
       "difficulty": "low",
       "evergreenScore": 0.92,
@@ -2478,10 +2539,10 @@
       "authorityWinnability": 0.4,
       "confidence": 0.8,
       "finalScore": 79.5,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
-      "craftRisk": true
+      "craftRisk": false
     },
     {
       "id": "color-shades-generator",
@@ -2503,7 +2564,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "uicolors.app",
         "smart-swatch"
@@ -2513,7 +2574,10 @@
         "no copyable CSS custom properties",
         "no perceptual (OKLCH) spacing"
       ],
-      "userFailures": [],
+      "userFailures": [
+        "The stop nearest the brand color is never checked as text on white, so a 500 that looks fine in the row fails WCAG 4.5.",
+        "Light and dark stops keep the source chroma, fall outside sRGB, and the copied hex is a clipped color."
+      ],
       "signals": [],
       "relatedProblems": [
         "color conversion",
@@ -2521,15 +2585,21 @@
       ],
       "relatedTools": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-contrast-checker",
+        "color-shades-generator",
+        "colorblind-simulator"
       ],
       "relatedGuides": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-contrast-checker",
+        "color-shades-generator",
+        "colorblind-simulator"
       ],
       "relatedFaqs": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-contrast-checker",
+        "color-shades-generator",
+        "colorblind-simulator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.86,
@@ -2545,10 +2615,10 @@
       "authorityWinnability": 1,
       "confidence": 0.8,
       "finalScore": 79.4,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
-      "craftRisk": true
+      "craftRisk": false
     },
     {
       "id": "file-hash-verifier",
@@ -2570,7 +2640,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "online md5 file hash sites",
         "shasum in a terminal",
@@ -2598,24 +2668,24 @@
         "md5-hash-generator",
         "hash-identifier",
         "crc32-hash-generator",
-        "sha1-hash-generator",
-        "sha512-hash-generator"
+        "file-hash-verifier",
+        "sha1-hash-generator"
       ],
       "relatedGuides": [
         "sha256-hash-generator",
         "md5-hash-generator",
         "hash-identifier",
         "crc32-hash-generator",
-        "sha1-hash-generator",
-        "sha512-hash-generator"
+        "file-hash-verifier",
+        "sha1-hash-generator"
       ],
       "relatedFaqs": [
         "sha256-hash-generator",
         "md5-hash-generator",
         "hash-identifier",
         "crc32-hash-generator",
-        "sha1-hash-generator",
-        "sha512-hash-generator"
+        "file-hash-verifier",
+        "sha1-hash-generator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.93,
@@ -2631,8 +2701,8 @@
       "authorityWinnability": 0.95,
       "confidence": 0.8,
       "finalScore": 79.3,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
       "craftRisk": false
     },
@@ -2656,7 +2726,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "typescale.com",
         "type-scale.com"
@@ -2666,7 +2736,10 @@
         "limited ratio presets",
         "not mobile-first"
       ],
-      "userFailures": [],
+      "userFailures": [
+        "A caption step under 12px is printed with no warning that text that small fails on a phone.",
+        "A golden-ratio display step grows past 64px and the page still offers it as a heading."
+      ],
       "signals": [],
       "relatedProblems": [
         "px to rem",
@@ -2675,16 +2748,19 @@
       "relatedTools": [
         "px-to-rem-converter",
         "aspect-ratio-calculator",
+        "type-scale-generator",
         "px-to-dp-converter"
       ],
       "relatedGuides": [
         "px-to-rem-converter",
         "aspect-ratio-calculator",
+        "type-scale-generator",
         "px-to-dp-converter"
       ],
       "relatedFaqs": [
         "px-to-rem-converter",
         "aspect-ratio-calculator",
+        "type-scale-generator",
         "px-to-dp-converter"
       ],
       "difficulty": "low",
@@ -2701,10 +2777,10 @@
       "authorityWinnability": 1,
       "confidence": 0.64,
       "finalScore": 79.2,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
-      "craftRisk": true
+      "craftRisk": false
     },
     {
       "id": "unix-timestamp-converter",
@@ -2724,7 +2800,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -2744,24 +2820,24 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ],
       "relatedGuides": [
         "unix-timestamp-converter",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ],
       "relatedFaqs": [
         "unix-timestamp-converter",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.92,
@@ -2801,7 +2877,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -2882,7 +2958,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "regex101.com",
         "regexr.com",
@@ -2909,25 +2985,25 @@
         "find-replace",
         "text-compare",
         "invisible-character-detector",
+        "regex-tester",
         "character-map",
-        "shell-quote-escalator",
-        "text-repeater"
+        "shell-quote-escalator"
       ],
       "relatedGuides": [
         "find-replace",
         "text-compare",
         "invisible-character-detector",
+        "regex-tester",
         "character-map",
-        "shell-quote-escalator",
-        "text-repeater"
+        "shell-quote-escalator"
       ],
       "relatedFaqs": [
         "find-replace",
         "text-compare",
         "invisible-character-detector",
+        "regex-tester",
         "character-map",
-        "shell-quote-escalator",
-        "text-repeater"
+        "shell-quote-escalator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.94,
@@ -2943,8 +3019,8 @@
       "authorityWinnability": 0.95,
       "confidence": 0.8,
       "finalScore": 79.1,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
       "craftRisk": false
     },
@@ -2965,7 +3041,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "groww.in",
         "moneycontrol.com"
@@ -3045,7 +3121,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "novelty web toys",
         "mobile apps"
@@ -3130,7 +3206,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "meditation apps",
         "YouTube timers"
@@ -3214,7 +3290,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com",
@@ -3289,7 +3365,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "random.org",
         "calculator.net",
@@ -3310,8 +3386,10 @@
         "sample size"
       ],
       "relatedTools": [
+        "normal-distribution-visualizer",
         "statistics-visualizer",
         "probability-calculator",
+        "linear-regression-playground",
         "quadratic-equation-solver",
         "unit-circle-calculator"
       ],
@@ -3319,8 +3397,10 @@
         "statistics-visualizer"
       ],
       "relatedFaqs": [
+        "normal-distribution-visualizer",
         "statistics-visualizer",
         "probability-calculator",
+        "linear-regression-playground",
         "quadratic-equation-solver",
         "unit-circle-calculator"
       ],
@@ -3361,7 +3441,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -3380,25 +3460,25 @@
         "remove-extra-spaces",
         "normalize-whitespace",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "lowercase-converter"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "relatedGuides": [
         "remove-extra-spaces",
         "normalize-whitespace",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "lowercase-converter"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "relatedFaqs": [
         "remove-extra-spaces",
         "normalize-whitespace",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "lowercase-converter"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "difficulty": "low",
       "evergreenScore": 0.78,
@@ -3437,7 +3517,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
@@ -3457,18 +3537,21 @@
       "relatedTools": [
         "csv-to-json-converter",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
       "relatedGuides": [
         "csv-to-json-converter",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
       "relatedFaqs": [
         "csv-to-json-converter",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
@@ -3492,82 +3575,6 @@
       "craftRisk": false
     },
     {
-      "id": "matrix-calculator",
-      "title": "Matrix Calculator",
-      "problem": "I want to fill in two matrices and see the product, determinant, or inverse computed with the intermediate steps laid out.",
-      "userIntent": "howTo",
-      "workflow": "a simulated model → Matrices → a simulated model",
-      "transformation": "Matrices",
-      "proposedTool": "matrix-calculator",
-      "proposedEngine": "math",
-      "searchQueries": [
-        "matrix multiplication calculator",
-        "determinant calculator",
-        "inverse matrix calculator",
-        "rref calculator",
-        "matrix calculator with steps"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
-      "existingSolutions": [
-        "matrixcalc.org",
-        "symbolab.com",
-        "wolframalpha.com"
-      ],
-      "solutionWeaknesses": [
-        "cluttered 2000s-era UI",
-        "steps paywalled",
-        "ad heavy",
-        "painful matrix entry on mobile"
-      ],
-      "userFailures": [],
-      "signals": [],
-      "relatedProblems": [
-        "determinant",
-        "matrix inverse",
-        "row reduction",
-        "systems of equations"
-      ],
-      "relatedTools": [
-        "statistics-visualizer",
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator"
-      ],
-      "relatedGuides": [
-        "statistics-visualizer",
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator"
-      ],
-      "relatedFaqs": [
-        "statistics-visualizer",
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.46,
-      "searchDemand": 0.88,
-      "implementationCost": 0.7,
-      "engineReuse": 1,
-      "seoPotential": 0.95,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.85,
-      "algorithmicFit": 1,
-      "authorityWinnability": 0.83,
-      "confidence": 0.8,
-      "finalScore": 78.3,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true,
-      "craftRisk": true
-    },
-    {
       "id": "roi-calculator",
       "title": "ROI Calculator",
       "problem": "I need the return on investment and annualized return for an investment.",
@@ -3584,7 +3591,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -3662,7 +3669,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "coblis (color-blindness.com)",
         "venngage colorblind simulator"
@@ -3683,15 +3690,21 @@
       ],
       "relatedTools": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ],
       "relatedGuides": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ],
       "relatedFaqs": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.9,
@@ -3707,8 +3720,8 @@
       "authorityWinnability": 1,
       "confidence": 0.8,
       "finalScore": 77.8,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
       "craftRisk": false
     },
@@ -3732,7 +3745,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "omnicalculator.com",
         "chemicalaid.com",
@@ -3809,7 +3822,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "healthline.com",
         "bodybuilding.com",
@@ -3889,7 +3902,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
@@ -3910,6 +3923,7 @@
         "csv-to-json-converter",
         "remove-blank-lines",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
@@ -3917,6 +3931,7 @@
         "csv-to-json-converter",
         "remove-blank-lines",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
@@ -3924,6 +3939,7 @@
         "csv-to-json-converter",
         "remove-blank-lines",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
@@ -3947,6 +3963,90 @@
       "craftRisk": false
     },
     {
+      "id": "matrix-calculator",
+      "title": "Matrix Calculator",
+      "problem": "I want to fill in two matrices and see the product, determinant, or inverse computed with the intermediate steps laid out.",
+      "userIntent": "howTo",
+      "workflow": "a simulated model → Matrices → a simulated model",
+      "transformation": "Matrices",
+      "proposedTool": "matrix-calculator",
+      "proposedEngine": "math",
+      "searchQueries": [
+        "matrix multiplication calculator",
+        "determinant calculator",
+        "inverse matrix calculator",
+        "matrix calculator with steps"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
+      "existingSolutions": [
+        "matrixcalc.org",
+        "symbolab.com",
+        "wolframalpha.com"
+      ],
+      "solutionWeaknesses": [
+        "cluttered 2000s-era UI",
+        "steps paywalled",
+        "ad heavy",
+        "painful matrix entry on mobile"
+      ],
+      "userFailures": [
+        "Multiplies two matrices whose inner sizes differ and only says the product is undefined, without naming the shapes.",
+        "Prints 0.30000000000000004 for a sum of tenths that should read 0.3."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "determinant",
+        "matrix inverse",
+        "row reduction",
+        "systems of equations"
+      ],
+      "relatedTools": [
+        "statistics-visualizer",
+        "triangle-solver",
+        "matrix-calculator",
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedGuides": [
+        "statistics-visualizer",
+        "triangle-solver",
+        "matrix-calculator",
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedFaqs": [
+        "statistics-visualizer",
+        "triangle-solver",
+        "matrix-calculator",
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.46,
+      "searchDemand": 0.88,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.83,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.85,
+      "algorithmicFit": 1,
+      "authorityWinnability": 0.83,
+      "confidence": 0.8,
+      "finalScore": 77.3,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
       "id": "cagr-calculator",
       "title": "CAGR Calculator",
       "problem": "I have a start value, end value, and years, and want the compound annual growth rate.",
@@ -3963,7 +4063,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -4040,7 +4140,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -4058,25 +4158,25 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedGuides": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedFaqs": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.88,
@@ -4117,7 +4217,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "browser bits-and-bytes converters",
         "rapidtables",
@@ -4140,18 +4240,21 @@
         "cidr-calculator",
         "binary-converter",
         "hex-encoder-decoder",
+        "ipv4-converter",
         "what-is-my-ip"
       ],
       "relatedGuides": [
         "cidr-calculator",
         "binary-converter",
         "hex-encoder-decoder",
+        "ipv4-converter",
         "what-is-my-ip"
       ],
       "relatedFaqs": [
         "cidr-calculator",
         "binary-converter",
         "hex-encoder-decoder",
+        "ipv4-converter",
         "what-is-my-ip"
       ],
       "difficulty": "low",
@@ -4168,8 +4271,8 @@
       "authorityWinnability": 0.95,
       "confidence": 0.64,
       "finalScore": 77.1,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
       "craftRisk": false
     },
@@ -4192,7 +4295,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "calculator.net",
         "onlinestatbook.com",
@@ -4204,7 +4307,10 @@
         "no draggable mean and sigma",
         "no shaded area interaction"
       ],
-      "userFailures": [],
+      "userFailures": [
+        "A shaded picture that shows only one tail gets copied as the other tail.",
+        "A standard deviation near zero turns the curve into a spike and the z-score stops meaning anything."
+      ],
       "signals": [],
       "relatedProblems": [
         "z score",
@@ -4215,6 +4321,8 @@
       "relatedTools": [
         "statistics-visualizer",
         "probability-calculator",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "quadratic-equation-solver",
         "unit-circle-calculator"
       ],
@@ -4224,6 +4332,8 @@
       "relatedFaqs": [
         "statistics-visualizer",
         "probability-calculator",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "quadratic-equation-solver",
         "unit-circle-calculator"
       ],
@@ -4241,10 +4351,10 @@
       "authorityWinnability": 0.83,
       "confidence": 0.8,
       "finalScore": 77.1,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "guide-missing",
       "engineExists": true,
-      "craftRisk": true
+      "craftRisk": false
     },
     {
       "id": "date-difference-calculator",
@@ -4263,7 +4373,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -4282,25 +4392,25 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedGuides": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedFaqs": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.9,
@@ -4341,7 +4451,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calctool.org",
@@ -4415,7 +4525,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -4438,25 +4548,25 @@
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedGuides": [
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedFaqs": [
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "difficulty": "low",
       "evergreenScore": 0.95,
@@ -4496,7 +4606,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calculator.net"
@@ -4506,7 +4616,10 @@
         "no formula comparison",
         "no link to body fat percentage"
       ],
-      "userFailures": [],
+      "userFailures": [
+        "Copying one lean-mass formula hides a several-kilogram gap when Boer and Hume disagree.",
+        "Using the estimate as a medication dose treats an equation as a measurement."
+      ],
       "signals": [],
       "relatedProblems": [
         "formula selection",
@@ -4517,25 +4630,25 @@
         "body-fat-calculator",
         "ideal-weight-calculator",
         "bmi-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ],
       "relatedGuides": [
         "body-fat-calculator",
         "ideal-weight-calculator",
         "bmi-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ],
       "relatedFaqs": [
         "body-fat-calculator",
         "ideal-weight-calculator",
         "bmi-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.92,
@@ -4551,10 +4664,10 @@
       "authorityWinnability": 0.5,
       "confidence": 0.64,
       "finalScore": 76.5,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
-      "craftRisk": true
+      "craftRisk": false
     },
     {
       "id": "linear-regression-playground",
@@ -4575,7 +4688,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "desmos.com",
         "socscistatistics.com",
@@ -4587,7 +4700,10 @@
         "dated applets",
         "no touch-first interaction"
       ],
-      "userFailures": [],
+      "userFailures": [
+        "Dragging one point tilts the whole line, and nothing names which point did it.",
+        "Two points always give an R squared of 1, which looks like a strong fit when it is only a line through two dots."
+      ],
       "signals": [],
       "relatedProblems": [
         "correlation",
@@ -4597,6 +4713,8 @@
       ],
       "relatedTools": [
         "statistics-visualizer",
+        "normal-distribution-visualizer",
+        "linear-regression-playground",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -4606,6 +4724,8 @@
       ],
       "relatedFaqs": [
         "statistics-visualizer",
+        "normal-distribution-visualizer",
+        "linear-regression-playground",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -4624,10 +4744,10 @@
       "authorityWinnability": 0.83,
       "confidence": 0.8,
       "finalScore": 76.3,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "guide-missing",
       "engineExists": true,
-      "craftRisk": true
+      "craftRisk": false
     },
     {
       "id": "crc32-hash-generator",
@@ -4647,7 +4767,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -4668,25 +4788,25 @@
         "md5-hash-generator",
         "sha256-hash-generator",
         "crc32-hash-generator",
+        "file-hash-verifier",
         "hash-identifier",
-        "sha1-hash-generator",
-        "sha512-hash-generator"
+        "sha1-hash-generator"
       ],
       "relatedGuides": [
         "md5-hash-generator",
         "sha256-hash-generator",
         "crc32-hash-generator",
+        "file-hash-verifier",
         "hash-identifier",
-        "sha1-hash-generator",
-        "sha512-hash-generator"
+        "sha1-hash-generator"
       ],
       "relatedFaqs": [
         "md5-hash-generator",
         "sha256-hash-generator",
         "crc32-hash-generator",
+        "file-hash-verifier",
         "hash-identifier",
-        "sha1-hash-generator",
-        "sha512-hash-generator"
+        "sha1-hash-generator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.8,
@@ -4726,7 +4846,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -4800,7 +4920,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "hashes.com",
         "command-line shasum",
@@ -4829,7 +4949,7 @@
         "sha1-hash-generator",
         "crc32-hash-generator",
         "sha512-hash-generator",
-        "hash-identifier"
+        "file-hash-verifier"
       ],
       "relatedGuides": [
         "sha256-hash-generator",
@@ -4837,7 +4957,7 @@
         "sha1-hash-generator",
         "crc32-hash-generator",
         "sha512-hash-generator",
-        "hash-identifier"
+        "file-hash-verifier"
       ],
       "relatedFaqs": [
         "sha256-hash-generator",
@@ -4845,7 +4965,7 @@
         "sha1-hash-generator",
         "crc32-hash-generator",
         "sha512-hash-generator",
-        "hash-identifier"
+        "file-hash-verifier"
       ],
       "difficulty": "low",
       "evergreenScore": 0.92,
@@ -4895,7 +5015,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "mobile sand games",
         "heavy WebGL demos"
@@ -4980,7 +5100,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "mobile slime apps",
         "flash-era toys"
@@ -5065,7 +5185,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "regex snippets on stack overflow",
         "language-specific UUID libraries"
@@ -5158,7 +5278,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "chemtube3d.com",
         "molview.org",
@@ -5233,7 +5353,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "a hex editor",
         "regex hunting in an IDE",
@@ -5326,7 +5446,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -5347,6 +5467,7 @@
       "relatedTools": [
         "csv-to-json-converter",
         "json-to-csv-converter",
+        "csv-column-picker",
         "csv-cleaner",
         "csv-diff",
         "csv-to-tsv"
@@ -5354,6 +5475,7 @@
       "relatedGuides": [
         "csv-to-json-converter",
         "json-to-csv-converter",
+        "csv-column-picker",
         "csv-cleaner",
         "csv-diff",
         "csv-to-tsv"
@@ -5361,6 +5483,7 @@
       "relatedFaqs": [
         "csv-to-json-converter",
         "json-to-csv-converter",
+        "csv-column-picker",
         "csv-cleaner",
         "csv-diff",
         "csv-to-tsv"
@@ -5379,8 +5502,8 @@
       "authorityWinnability": 1,
       "confidence": 0.8,
       "finalScore": 74.7,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
       "craftRisk": false
     },
@@ -5404,7 +5527,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "libretexts.org",
         "chemistrylearner.com",
@@ -5478,7 +5601,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "babycenter.com",
         "clearblue.com",
@@ -5501,25 +5624,25 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedGuides": [
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedFaqs": [
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "difficulty": "low",
       "evergreenScore": 0.92,
@@ -5559,7 +5682,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -5581,12 +5704,16 @@
       ],
       "relatedTools": [
         "quadratic-equation-solver",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "unit-circle-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "quadratic-equation-solver",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "unit-circle-calculator"
       ],
@@ -5628,7 +5755,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "libretexts.org",
         "chemicalaid.com",
@@ -5704,7 +5831,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -5777,7 +5904,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -5850,7 +5977,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "casual game sites with ads",
         "mobile apps",
@@ -5924,7 +6051,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "Goodreads",
         "StoryGraph",
@@ -6010,7 +6137,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "cssgradient.io",
         "coolors gradient maker"
@@ -6028,15 +6155,21 @@
       ],
       "relatedTools": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-shades-generator",
+        "color-contrast-checker",
+        "colorblind-simulator"
       ],
       "relatedGuides": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-shades-generator",
+        "color-contrast-checker",
+        "colorblind-simulator"
       ],
       "relatedFaqs": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-shades-generator",
+        "color-contrast-checker",
+        "colorblind-simulator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.88,
@@ -6076,7 +6209,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "calculator.net",
         "who.int",
@@ -6098,25 +6231,25 @@
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ],
       "relatedGuides": [
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ],
       "relatedFaqs": [
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.92,
@@ -6156,7 +6289,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "phone app stores",
         "wearable companion apps"
@@ -6227,7 +6360,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "spreadsheet locale settings",
         "language date parsing docs",
@@ -6255,7 +6388,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
-        "systemd-timer-converter"
+        "sleep-cycle-calculator"
       ],
       "relatedGuides": [
         "timezone-converter",
@@ -6263,7 +6396,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
-        "systemd-timer-converter"
+        "sleep-cycle-calculator"
       ],
       "relatedFaqs": [
         "timezone-converter",
@@ -6271,7 +6404,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
-        "systemd-timer-converter"
+        "sleep-cycle-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.93,
@@ -6319,7 +6452,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -6390,7 +6523,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -6469,7 +6602,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "mdcalc.com",
         "calculator.net"
@@ -6490,25 +6623,25 @@
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ],
       "relatedGuides": [
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ],
       "relatedFaqs": [
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.95,
@@ -6549,7 +6682,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "systemd-analyze calendar on a machine you already have",
         "the systemd.time man page",
@@ -6643,7 +6776,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "cyberchef",
         "stack overflow answers",
@@ -6736,7 +6869,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -6809,7 +6942,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "omnicalculator.com",
         "healthline.com"
@@ -6886,7 +7019,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -6909,24 +7042,24 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "unix-timestamp-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ],
       "relatedGuides": [
         "timezone-converter",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "unix-timestamp-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ],
       "relatedFaqs": [
         "timezone-converter",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "unix-timestamp-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ],
       "difficulty": "high",
       "evergreenScore": 0.86,
@@ -6967,7 +7100,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "imagecolorpicker.com",
         "coolors image picker"
@@ -6985,15 +7118,21 @@
       ],
       "relatedTools": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-shades-generator",
+        "color-contrast-checker",
+        "colorblind-simulator"
       ],
       "relatedGuides": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-shades-generator",
+        "color-contrast-checker",
+        "colorblind-simulator"
       ],
       "relatedFaqs": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-shades-generator",
+        "color-contrast-checker",
+        "colorblind-simulator"
       ],
       "difficulty": "high",
       "evergreenScore": 0.82,
@@ -7034,7 +7173,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -7106,7 +7245,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "crontab.guru"
       ],
@@ -7127,25 +7266,25 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedGuides": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedFaqs": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "difficulty": "high",
       "evergreenScore": 0.84,
@@ -7186,7 +7325,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "app stores",
         "ad-supported browser games"
@@ -7250,7 +7389,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "trial and error against the real server",
         "python shlex.quote in a REPL",
@@ -7345,7 +7484,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "rules blog posts",
         "one-off itch.io prototypes",
@@ -7410,7 +7549,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "academic demos",
         "PDF rule sheets",
@@ -7472,7 +7611,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -7536,7 +7675,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -7602,7 +7741,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "ilovepdf.com",
         "smallpdf.com",
@@ -7625,9 +7764,15 @@
         "pdf compress",
         "document privacy"
       ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
+      "relatedTools": [
+        "file-hash-verifier"
+      ],
+      "relatedGuides": [
+        "file-hash-verifier"
+      ],
+      "relatedFaqs": [
+        "file-hash-verifier"
+      ],
       "difficulty": "high",
       "evergreenScore": 0.92,
       "competitionScore": 0.4,
@@ -7667,7 +7812,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "cloudconvert",
         "iloveimg",
@@ -7690,9 +7835,15 @@
         "palette extraction",
         "file checksum"
       ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
+      "relatedTools": [
+        "file-hash-verifier"
+      ],
+      "relatedGuides": [
+        "file-hash-verifier"
+      ],
+      "relatedFaqs": [
+        "file-hash-verifier"
+      ],
       "difficulty": "high",
       "evergreenScore": 0.9,
       "competitionScore": 0.44,
@@ -7732,7 +7883,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "Google Calendar",
         "timeanddate.com",
@@ -7807,7 +7958,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -7870,7 +8021,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -7935,7 +8086,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "drikpanchang.com",
         "local print calendars",
@@ -8006,7 +8157,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -8076,7 +8227,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "discoveredAt": "2026-10-09T05:25:21.130Z",
       "existingSolutions": [
         "eatthismuch.com",
         "myfitnesspal.com",

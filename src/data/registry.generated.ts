@@ -31,6 +31,7 @@ import { config as contextFitChecker } from '@tools/prep/context-fit-checker/con
 import { config as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/config';
 import { config as cronExpressionParser } from '@tools/datetime/cron-expression-parser/config';
 import { config as csvCleaner } from '@tools/developer-utilities/csv-cleaner/config';
+import { config as csvColumnPicker } from '@tools/developer-utilities/csv-column-picker/config';
 import { config as csvDiff } from '@tools/developer-utilities/csv-diff/config';
 import { config as csvToJsonConverter } from '@tools/developer-utilities/csv-to-json-converter/config';
 import { config as csvToTsv } from '@tools/developer-utilities/csv-to-tsv/config';
@@ -67,6 +68,7 @@ import { config as jwtDecoder } from '@tools/developer-utilities/jwt-decoder/con
 import { config as kebabCaseConverter } from '@tools/text/kebab-case-converter/config';
 import { config as keepScreenAwake } from '@tools/productivity/keep-screen-awake/config';
 import { config as kineticSand } from '@tools/fidget/kinetic-sand/config';
+import { config as leanBodyMassCalculator } from '@tools/health/lean-body-mass-calculator/config';
 import { config as letterCounter } from '@tools/text/letter-counter/config';
 import { config as lineCounter } from '@tools/text/line-counter/config';
 import { config as llmsTxtGenerator } from '@tools/prep/llms-txt-generator/config';
@@ -186,6 +188,7 @@ export const toolConfigs: ToolConfig[] = [
   crc32HashGenerator,
   cronExpressionParser,
   csvCleaner,
+  csvColumnPicker,
   csvDiff,
   csvToJsonConverter,
   csvToTsv,
@@ -222,6 +225,7 @@ export const toolConfigs: ToolConfig[] = [
   kebabCaseConverter,
   keepScreenAwake,
   kineticSand,
+  leanBodyMassCalculator,
   letterCounter,
   lineCounter,
   llmsTxtGenerator,

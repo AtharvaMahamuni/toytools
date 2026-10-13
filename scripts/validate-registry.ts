@@ -405,7 +405,6 @@ for (const manifest of MANIFESTS) {
 // These were warnings while 94 of 119 tools still fell back to a long description. That backlog is
 // cleared, so they are errors: the whole catalog holds the one-line contract, and the cheapest way
 // to keep holding it is to stop the next tool shipping without one.
-// See docs/analysis/2026-08-08-tool-identity-implementation.md, phase 8.
 const TAGLINE_MAX = 80;
 
 for (const tool of tools) {

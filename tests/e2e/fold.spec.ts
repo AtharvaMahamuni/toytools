@@ -27,8 +27,6 @@
 //
 // Pixel 5 only. The geometry is not in question on desktop, and asserting it there would spend
 // CI proving something that has never been at risk.
-//
-// Plan and full measured baseline: docs/analysis/2026-08-08-tool-identity-architecture.md
 import { test, expect } from '@playwright/test';
 import { toolPaths, slugFromPath } from './helpers/tools';
 

@@ -11,6 +11,7 @@ import { tdeeCalculator } from './calculators/tdee';
 import { bodyFatCalculator } from './calculators/body-fat';
 import { macroCalculator } from './calculators/macro';
 import { idealWeightCalculator } from './calculators/ideal-weight';
+import { leanBodyMassCalculator } from './calculators/lean-body-mass';
 import { heartRateZonesCalculator } from './calculators/heart-rate-zones';
 import { bmrCalculator } from './calculators/bmr';
 import { calorieDeficitCalculator } from './calculators/calorie-deficit';
@@ -24,6 +25,7 @@ export const WELLNESS_CALCULATORS: Record<string, WellnessCalculator> = {
   'body-fat': bodyFatCalculator,
   macro: macroCalculator,
   'ideal-weight': idealWeightCalculator,
+  'lean-body-mass': leanBodyMassCalculator,
   'heart-rate-zones': heartRateZonesCalculator,
   bmr: bmrCalculator,
   'calorie-deficit': calorieDeficitCalculator,

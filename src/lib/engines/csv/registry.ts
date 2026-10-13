@@ -8,12 +8,14 @@ import type { CsvTool, CsvResult } from './types';
 import { csvToTsv } from './csvToTsv';
 import { csvClean } from './csvClean';
 import { csvDiff } from './csvDiff';
+import { csvPick } from './csvPick';
 
 // Keyed by tool id, referenced from a tool config's `processorId`.
 export const CSV_TOOLS: Record<string, CsvTool> = {
   'csv-to-tsv': csvToTsv,
   'csv-clean': csvClean,
   'csv-diff': csvDiff,
+  'csv-pick': csvPick,
 };
 
 /**

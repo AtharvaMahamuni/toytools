@@ -170,7 +170,6 @@ export interface ToolConfig {
    * targeting toward its floor: the visual win would be paid for in rankings.
    *
    * Optional, falling back to `description`, so it can be authored per tool at whatever pace suits.
-   * See docs/analysis/2026-08-08-tool-identity-architecture.md (F7, D6).
    */
   tagline?: string;
   categorySlug: string;

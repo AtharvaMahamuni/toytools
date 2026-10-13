@@ -48,9 +48,8 @@ is that a large share of the 258 URLs are in "Discovered, currently not indexed"
 currently not indexed" and therefore hold no position whatsoever. Position work on a page Google has
 not indexed is wasted effort, and we currently cannot tell those two situations apart.
 
-Both prior audits set a re-measure checkpoint of September 2026 using `npm run check:indexing`
-(`2026-08-03-text-cluster-ranking-factors.md`, `2026-08-04-query-to-tool-matching-audit.md`). That
-checkpoint cannot be met as configured.
+Both prior audits set a re-measure checkpoint of September 2026 using `npm run check:indexing`.
+That checkpoint cannot be met as configured.
 
 **This is the gap that blocks answering the question, and it costs two repository secrets.**
 

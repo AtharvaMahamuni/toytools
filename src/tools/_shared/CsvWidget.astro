@@ -1,17 +1,19 @@
 ---
 // Generic CSV widget — powers csv-diff / csv-to-tsv / csv-cleaner (and any future CSV
 // tool). It knows nothing about a specific tool: it reads a csvId and runs
-// `input(s) → ToyTools.runCsv(id, input, second) → { ok, output, error, summary }` live,
-// rendering the summary as the status line. Tools that declare `inputs: 2` in the engine
-// registry get a second input pane (csv-diff). Per-tool Widget.astro files are 3-line wrappers.
-//
-// If a new CSV tool ever requires editing this file, the architecture has failed.
+// `input(s) → ToyTools.runCsv(id, input, second) → { ok, output, error, summary, notice? }` live,
+// rendering the summary as the status line. An optional notice is the shared guardrail line:
+// it stays hidden until the processor sets one, and only a tool that declares craft renders it.
+// Tools that declare `inputs: 2` in the engine registry get a second input pane (csv-diff).
+// Per-tool Widget.astro files are 3-line wrappers.
+// A new CSV tool that needs its own widget has failed this seam. Use notice, or do not.
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import EducationalInsight from '@tools/_shared/converter/EducationalInsight.astro';
 import TechnicalDetails from '@tools/_shared/converter/TechnicalDetails.astro';
 import ExampleLoader from '@tools/_shared/converter/ExampleLoader.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
 import { csvInfo } from '@lib/engines/csv/info';
 import { getCsvTool } from '@lib/engines/csv/registry';
 import type { ToolConfig } from '@data/types';
@@ -29,6 +31,7 @@ const { slug, csvId, config } = Astro.props;
 const stateKey = config?.toolGroup ? `group:${config.toolGroup}` : slug;
 const info = csvInfo(csvId);
 const twoInputs = getCsvTool(csvId)?.inputs === 2;
+const craftId = config.craft?.id;
 
 const inputId = `${slug}-input`;
 const inputBId = `${slug}-input-b`;
@@ -74,6 +77,7 @@ const statusId = `${slug}-status`;
   <IoPanel slot="output" label="Output" copyTargetId={outputId}>
     <p id={statusId} class="io-status" data-ok="" aria-live="polite"></p>
     <output id={outputId} class="io-output--bordered" aria-live="polite" data-empty>Output will appear here</output>
+    {craftId && <CraftNote id={`${slug}-notice`} craftId={craftId} />}
   </IoPanel>
 </ToolSplit>
 
@@ -104,7 +108,16 @@ const statusId = `${slug}-status`;
     var inputB = document.getElementById(slug + '-input-b');
     var output = document.getElementById(slug + '-output');
     var status = document.getElementById(slug + '-status');
+    var noticeEl = document.getElementById(slug + '-notice');
+    var noticeTxt = document.getElementById(slug + '-notice-text');
     if (!input || !status || !output) return;
+
+    function setNotice(text) {
+      if (!noticeEl || !noticeTxt) return;
+      if (!text) { noticeEl.hidden = true; noticeTxt.textContent = ''; return; }
+      noticeTxt.textContent = text;
+      noticeEl.hidden = false;
+    }
 
     function setOutput(text, empty) {
       output.textContent = text;
@@ -120,12 +133,14 @@ const statusId = `${slug}-status`;
         status.textContent = '';
         status.setAttribute('data-ok', '');
         setOutput('Output will appear here', true);
+        setNotice('');
         return;
       }
       var res = ToyTools.runCsv(cid, a, b);
       status.setAttribute('data-ok', res.ok ? 'true' : 'false');
       status.textContent = res.ok ? '✓ ' + (res.summary || 'Done') : '✗ ' + (res.error || 'Invalid');
       setOutput(res.ok ? (res.output || '') : 'Output will appear here', !res.ok);
+      setNotice(res.ok ? (res.notice || '') : '');
     }
 
     function persist() {

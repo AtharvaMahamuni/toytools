@@ -35,6 +35,24 @@ describe('wellnessCaveat — where this input sits in the model', () => {
     expect(r).toContain('no single ideal weight');
   });
 
+  it('names the two lean-body-mass formulas once they differ by 5 kg or more', () => {
+    // Male, 120 kg, 170 cm: Boer and Hume are about 7.5 kg apart.
+    const r = wellnessCaveat('lean-body-mass', { unit: 'metric', sex: 'male', weight: 120, height: 170 });
+    expect(r).toContain('Boer');
+    expect(r).toContain('Hume');
+    expect(r).toContain('7.5 kg');
+    // Same body in pounds and inches. Female coefficients put Hume above James by about 8.6 kg.
+    const imperial = wellnessCaveat('lean-body-mass', {
+      unit: 'imperial', sex: 'male', weight: 120 * 2.2046226218, height: 170 / 2.54,
+    });
+    expect(imperial).toContain('Boer');
+    expect(imperial).toContain('7.5 kg');
+    const female = wellnessCaveat('lean-body-mass', { unit: 'metric', sex: 'female', weight: 120, height: 170 });
+    expect(female).toContain('Hume');
+    expect(female).toContain('James');
+    expect(female).toContain('8.6 kg');
+  });
+
   it('reports the one-rep-max spread once the rep count leaves the reliable range', () => {
     const r = wellnessCaveat('one-rep-max', { unit: 'kg', weight: 100, reps: 12 });
     expect(r).toContain('12 reps');
@@ -67,7 +85,7 @@ describe('wellnessCaveat — where this input sits in the model', () => {
 describe('wellnessCaveat — silence', () => {
   const IDS = [
     'bmi', 'bmr', 'body-fat', 'calorie-deficit', 'heart-rate-zones', 'ideal-weight',
-    'one-rep-max', 'protein-intake', 'running-pace', 'tdee', 'macro',
+    'lean-body-mass', 'one-rep-max', 'protein-intake', 'running-pace', 'tdee', 'macro',
   ];
 
   it('says nothing on an empty form, for every calculator', () => {
@@ -104,6 +122,15 @@ describe('wellnessCaveat — silence', () => {
   it('says nothing about ideal weight where the formulas agree closely', () => {
     // They converge near 165 cm and diverge at BOTH extremes, which is not what I assumed first.
     expect(wellnessCaveat('ideal-weight', { unit: 'metric', sex: 'male', height: 165 })).toBeNull();
+  });
+
+  it('says nothing about lean body mass when the spread stays under 5 kg', () => {
+    // Male, 80 kg, 180 cm: Boer, James, and Hume span about 4.9 kg.
+    expect(wellnessCaveat('lean-body-mass', { unit: 'metric', sex: 'male', weight: 80, height: 180 })).toBeNull();
+    expect(wellnessCaveat('lean-body-mass', { unit: 'metric', sex: 'female', weight: 80, height: 180 })).toBeNull();
+    expect(wellnessCaveat('lean-body-mass', {})).toBeNull();
+    expect(wellnessCaveat('lean-body-mass', { unit: 'metric', sex: 'male', weight: 80, height: 0 })).toBeNull();
+    expect(wellnessCaveat('lean-body-mass', { unit: 'metric', weight: 80, height: 180 })).toBeNull();
   });
 
   it('says nothing about a one-rep-max estimated from a low-rep set', () => {

@@ -1,0 +1,207 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Lean body mass is body weight with the fat mass removed.
+      The estimate uses height, weight and sex, and it shows three formulas at once.
+      For example, a man of 80 kg and 180 cm gets 61.4 kg from Boer and 62.7 kg from James.
+      Hume returns 57.8 kg for that man, so the three do not collapse into one number.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Lean Body Mass Calculator →</a>
+  </section>
+
+  <section id="what-lean-body-mass-is">
+    <h2>What is lean body mass? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Lean body mass is body weight with the fat removed: muscle, bone, organs and water.
+      A scale reports one number, so it cannot separate those parts.
+      The split matters because fat loss and muscle loss look the same on that scale.
+    </p>
+    <p>
+      Fat is not measured here.
+      The numbers come from height and weight, plus sex.
+      Treat the figure as an anchor, not as a scan.
+    </p>
+  </section>
+
+  <section id="why-muscle-is-invisible">
+    <h2>Why do the formulas ignore muscle? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The formulas ignore muscle because they never see anything beyond height, weight and sex.
+      Clinicians wanted a lean mass figure when a scan was not in the room.
+    </p>
+    <p>
+      Height, weight and sex were the inputs already on the chart, so the equations stop there.
+      Two people of the same size therefore share one estimate, however different their training is.
+    </p>
+  </section>
+
+  <section id="boer-james-hume">
+    <h2>What is the difference between Boer, James and Hume? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The difference between Boer, James and Hume is the equation each author published, not a second reading of you.
+      Boer from 1984 is linear, and it is the clinical default in the hero card.
+      James from 1976 squares a weight-to-height ratio and leaves height in centimetres.
+      Hume from 1966 is a second linear fit from a different sample.
+    </p>
+    <p>
+      Comparing Boer, James, and Hume before writing a lean mass figure down is why all three stay visible.
+      The James formula is the 1976 card. Fat free mass is another name for the same estimate, and an LBM calculator is the search that lands on this page.
+      None of them is a lab result, and none of them is a dose.
+    </p>
+  </section>
+
+  <section id="worked-numbers">
+    <h2>How does each formula turn height and weight into kilograms? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Each formula turns height and weight into kilograms, and James keeps that height in centimetres.
+      Boer multiplies a man's weight by 0.407 and his height by 0.267, then subtracts 19.2.
+    </p>
+    <p>
+      On 80 kg and 180 cm that is 32.56 plus 48.06, minus 19.2.
+      The result is 61.42 kg, and the page shows 61.4 kg.
+    </p>
+    <p>
+      James starts from 1.10 times the weight, then subtracts 128 times the square of weight over height.
+      For this man the subtraction leaves 62.7 kg, with height still in centimetres.
+      Hume multiplies weight by 0.32810 and height by 0.33929, then subtracts 29.5336.
+      The same man lands at 57.8 kg, about 4.9 kg under James.
+    </p>
+    <p>
+      Women use different coefficients in all three equations.
+      Boer for a woman is 0.252 times weight plus 0.473 times height, minus 48.3.
+      The same 80 kg and 180 cm then gives 57.0 kg from Boer, not 61.4 kg.
+    </p>
+  </section>
+
+  <section id="height-in-meters">
+    <h2>What goes wrong if height is entered in meters? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Entering height in meters instead of centimetres shrinks every height term and breaks the formulas.
+      The field wants centimetres, so 180 cm typed as 1.8 is a height of 1.8 cm.
+    </p>
+    <p>
+      James divides weight by that tiny height and the lean mass falls below zero.
+      The card then holds the figure inside the body weight and says so.
+    </p>
+    <p>
+      Boer for an 80 kg man at 1.8 cm falls to about 13.8 kg, against 61.4 kg at 180 cm.
+      The spread warning should fire, because the formulas no longer describe one body.
+      Retype the height in centimetres before you trust any of the three numbers.
+    </p>
+  </section>
+
+  <section id="not-a-dose">
+    <h2>What if one formula is copied into a dose? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Someone copying one formula into a drug dose treats an estimate as if it were a measured fact.
+      At 120 kg and 170 cm, Boer is about 75.0 kg and Hume is about 67.5 kg.
+      The gap is about 7.5 kg, which is wide enough to matter on a chart.
+      This calculator does not produce a dose.
+    </p>
+    <p>
+      Checking the kilogram gap before a formula is copied into a chart takes one look at the spread.
+      A clinician has to answer any dosing question, since the calculator will not.
+    </p>
+  </section>
+
+  <section id="which-formula">
+    <h2>Which formula should you use? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Use the Boer formula as the clinical default, and keep James and Hume on the page with it.
+      No equation here measures you, and the dates are 1984, 1976 and 1966.
+      Read the spread between the highest and the lowest before you copy a number.
+    </p>
+    <p>
+      Estimating how much of a scale weight the formulas treat as lean is what the fat line is for.
+      Implied fat uses Boer: weight minus that lean mass, divided by weight.
+      It is not a body fat test. A tape-measure tool is the one that starts from circumferences.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Height in meters">
+      <p>
+        Entering height in meters instead of centimetres is the mistake that breaks the arithmetic.
+        A height of 1.8 is read as 1.8 cm, not as 180 cm.
+        Boer then falls to about 13.8 kg for an 80 kg man, and James falls below zero.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="A formula copied into a dose">
+      <p>
+        Copying one formula into a drug dose treats three estimates as one measured fact.
+        On a 120 kg man at 170 cm, Boer and Hume differ by about 7.5 kg.
+        Do not treat either number as a dose. Nothing here turns the estimate into one.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="One unlabeled number">
+      <p>
+        Reading one unlabeled number as the lean mass hides which formula was copied.
+        Boer, James and Hume stay named so the source of each kilogram is obvious.
+        The spread sits beside them, and that gap is part of the answer.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="key-idea" heading="The spread is part of the answer">
+      <p>
+        Keep Boer, James and Hume labeled, because the spread is part of the answer.
+        A single number with no formula name is how a several-kilogram gap disappears.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="An estimate, on your device">
+      <p>
+        Runs entirely on your device. Nothing is uploaded.
+        These figures are an estimate, not a measurement and not a dose.
+      </p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

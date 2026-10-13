@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
-  minor: 7,
+  minor: 8,
   patch: 0,
   status: 'beta',
-  releaseDate: '2026-10-13',
-  description: 'Follow-up fixes: hidden boxes stay hidden, JSON tools refuse input that is too deep or too large, percentage change shows a plus sign, QR explains when text is too long, and the tip calculator flags unlikely values.',
+  releaseDate: '2026-10-14',
+  description: 'Normal distribution, linear regression, lean body mass, CSV column picker, and the architecture page',
 };
 
 export function formatVersion(config: VersionConfig): string {

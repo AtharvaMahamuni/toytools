@@ -16,12 +16,26 @@ Use for: Add, subtract, multiply or divide fractions with every step shown.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
 
+## Linear Regression Playground
+
+URL: https://toytoolsapp.com/tool/math/linear-regression-playground/
+Use for: Drag points and read the least squares line and R squared.
+Privacy: Works offline after the first page load.
+Does not: Run multiple regression or logistic regression.
+
 ## Matrix Calculator
 
 URL: https://toytoolsapp.com/tool/math/matrix-calculator/
 Use for: Add, multiply, transpose or invert matrices, with the first step shown.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Row-reduce to RREF, solve a linear system, or send the entries to an AI model.
+
+## Normal Distribution Visualizer
+
+URL: https://toytoolsapp.com/tool/math/normal-distribution-visualizer/
+Use for: Drag a bound on the bell curve and read the shaded probability.
+Privacy: Works offline after the first page load.
+Does not: Replace a statistics course or fit a distribution to a data set.
 
 ## Prime Factorization Calculator
 
@@ -246,6 +260,13 @@ URL: https://toytoolsapp.com/tool/developer-utilities/csv-cleaner/
 Use for: Fix empty rows, stray whitespace and ragged rows in one pass.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
+
+## CSV Column Picker
+
+URL: https://toytoolsapp.com/tool/developer-utilities/csv-column-picker/
+Use for: Keep named columns and drop the rest, even in a semicolon file.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Edit cell values or upload the file.
 
 ## CSV Diff
 
@@ -617,6 +638,13 @@ URL: https://toytoolsapp.com/tool/health/ideal-weight-calculator/
 Use for: Ideal body weight by four formulas, plus the BMI healthy range.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
+
+## Lean Body Mass Calculator
+
+URL: https://toytoolsapp.com/tool/health/lean-body-mass-calculator/
+Use for: Boer, James, and Hume side by side, with the kilogram spread.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Convert a lean mass estimate into a medication dose, measure body fat, or call an AI model.
 
 ## Macro Calculator
 

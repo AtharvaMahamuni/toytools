@@ -130,7 +130,7 @@ export function buildContentManifest(): ContentEntry[] {
 
   // The /{lang}/ landing stubs used to be omitted here on purpose. They have since been deleted
   // outright: noindex plus unlinked from anywhere on the site meant nobody could reach them and
-  // nothing could rank them. See docs/analysis/2026-08-03-platform-ux-gaps.md.
+  // nothing could rank them.
 
   return entries;
 }

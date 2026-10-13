@@ -137,3 +137,112 @@ describe('csv-diff (whole-row fallback)', () => {
     expect(r.summary).toBe('0 rows added · 1 removed');
   });
 });
+
+describe('csv-pick', () => {
+  it('is a two-input select tool', () => {
+    expect(getCsvTool('csv-pick')?.inputs).toBe(2);
+    expect(getCsvTool('csv-pick')?.family).toBe('select');
+    expect(CSV_TOOLS['csv-pick'].id).toBe('csv-pick');
+  });
+
+  it('keeps a named column from a semicolon file and explains the delimiter', () => {
+    const r = runCsv('csv-pick', 'name;age\nAda;30\nBob;41', 'name');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('name\nAda\nBob');
+    expect(r.notice).toMatch(/semicolon/i);
+    expect(r.notice).toMatch(/one column/i);
+    expect(r.notice).not.toMatch(/position/i);
+  });
+
+  it('keeps named columns in the typed order without a position warning', () => {
+    const r = runCsv('csv-pick', 'name,age,city\nAda,30,Pune', 'city,name');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('city,name\nPune,Ada');
+    expect(r.notice == null || !/position/i.test(r.notice)).toBe(true);
+  });
+
+  it('keeps a column by position and warns that an insert changes the field', () => {
+    const r = runCsv('csv-pick', 'name,age,city\nAda,30,Pune', '3');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('city\nPune');
+    expect(r.notice).toMatch(/position/i);
+    expect(r.notice).toMatch(/inserting a column/i);
+  });
+
+  it('rejects a header that is not in the file', () => {
+    const r = runCsv('csv-pick', 'name,age\nAda,30', 'email');
+    expect(r.ok).toBe(false);
+    expect(r.error).toMatch(/email/);
+  });
+
+  it('keeps a quoted comma inside the cell', () => {
+    const r = runCsv('csv-pick', 'name,note\nAda,"hello, world"', 'note');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('note\n"hello, world"');
+    expect(csvToMatrix(r.output)).toEqual([['note'], ['hello, world']]);
+  });
+
+  it('names the headers and stays quiet when a comma file lists no columns', () => {
+    const r = runCsv('csv-pick', 'name,age,city\nAda,30,Pune', '   ');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('name,age,city\nAda,30,Pune');
+    expect(r.summary).toContain('name');
+    expect(r.summary).toContain('age');
+    expect(r.summary).toContain('city');
+    expect(r.notice ?? null).toBeNull();
+  });
+
+  it('writes a semicolon file back with that delimiter when no columns are listed', () => {
+    const src = 'name;age\nAda;30\nBob;41';
+    const r = runCsv('csv-pick', src, '');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe(src);
+    expect(r.summary).toContain('name');
+    expect(r.summary).toContain('age');
+    expect(r.notice).toMatch(/semicolon/i);
+    expect(r.notice).not.toMatch(/position/i);
+  });
+
+  it('reads a tab file when tabs outnumber commas', () => {
+    const r = runCsv('csv-pick', 'name\tage\nAda\t30', 'age');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('age\n30');
+    expect(r.notice).toMatch(/\btab\b/i);
+    expect(r.notice).toMatch(/one column/i);
+  });
+
+  it('keeps the first duplicate header and says the later one was left behind', () => {
+    const r = runCsv('csv-pick', 'name,age,name\nAda,30,Lovelace', 'name');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('name\nAda');
+    expect(r.notice).toMatch(/same name/i);
+    expect(r.notice).toMatch(/left behind/i);
+    expect(r.notice).not.toMatch(/position/i);
+  });
+
+  it('warns about position even on a semicolon file', () => {
+    const r = runCsv('csv-pick', 'name;age;city\nAda;30;Pune', '3');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('city\nPune');
+    expect(r.notice).toMatch(/semicolon/i);
+    expect(r.notice).toMatch(/position/i);
+  });
+
+  it('rejects a position past the header and a case mismatch', () => {
+    expect(runCsv('csv-pick', 'name,age\nAda,30', '3').ok).toBe(false);
+    const mismatched = runCsv('csv-pick', 'name,age\nAda,30', 'Name');
+    expect(mismatched.ok).toBe(false);
+    expect(mismatched.error).toMatch(/Name/);
+  });
+
+  it('does not rewrite cell text such as a leading zero', () => {
+    const r = runCsv('csv-pick', 'id,name\n007,Ada', 'id');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('id\n007');
+  });
+
+  it('rejects an empty table', () => {
+    expect(runCsv('csv-pick', '   ', 'name').ok).toBe(false);
+    expect(runCsv('csv-pick', '', '').error).toBe('Nothing to pick');
+  });
+});

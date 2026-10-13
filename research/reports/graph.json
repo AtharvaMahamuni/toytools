@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-20T12:30:10.974Z",
+  "generatedAt": "2026-10-09T05:25:21.130Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -12,25 +12,25 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedGuides": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedFaqs": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ]
     },
     {
@@ -41,16 +41,19 @@
       "existing": false,
       "relatedTools": [
         "px-to-dp-converter",
+        "type-scale-generator",
         "aspect-ratio-calculator",
         "px-to-rem-converter"
       ],
       "relatedGuides": [
         "px-to-dp-converter",
+        "type-scale-generator",
         "aspect-ratio-calculator",
         "px-to-rem-converter"
       ],
       "relatedFaqs": [
         "px-to-dp-converter",
+        "type-scale-generator",
         "aspect-ratio-calculator",
         "px-to-rem-converter"
       ]
@@ -189,25 +192,25 @@
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ],
       "relatedGuides": [
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ],
       "relatedFaqs": [
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ]
     },
     {
@@ -375,6 +378,16 @@
       "relatedFaqs": []
     },
     {
+      "id": "chat-export-cleaner",
+      "title": "Chat Export Cleaner",
+      "transformation": "prep-assemble",
+      "engine": "text-processor",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "chemical-bond-calculator",
       "title": "Chemical Bond Calculator",
       "transformation": "Bond Character",
@@ -419,21 +432,24 @@
         "binary-converter",
         "hex-encoder-decoder",
         "unix-timestamp-converter",
-        "cidr-calculator"
+        "cidr-calculator",
+        "ipv4-converter"
       ],
       "relatedGuides": [
         "what-is-my-ip",
         "binary-converter",
         "hex-encoder-decoder",
         "unix-timestamp-converter",
-        "cidr-calculator"
+        "cidr-calculator",
+        "ipv4-converter"
       ],
       "relatedFaqs": [
         "what-is-my-ip",
         "binary-converter",
         "hex-encoder-decoder",
         "unix-timestamp-converter",
-        "cidr-calculator"
+        "cidr-calculator",
+        "ipv4-converter"
       ]
     },
     {
@@ -454,15 +470,21 @@
       "existing": false,
       "relatedTools": [
         "color-format-converter",
-        "color-contrast-checker"
+        "colorblind-simulator",
+        "color-contrast-checker",
+        "color-shades-generator"
       ],
       "relatedGuides": [
         "color-format-converter",
-        "color-contrast-checker"
+        "colorblind-simulator",
+        "color-contrast-checker",
+        "color-shades-generator"
       ],
       "relatedFaqs": [
         "color-format-converter",
-        "color-contrast-checker"
+        "colorblind-simulator",
+        "color-contrast-checker",
+        "color-shades-generator"
       ]
     },
     {
@@ -473,15 +495,21 @@
       "existing": false,
       "relatedTools": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-shades-generator",
+        "color-format-converter",
+        "colorblind-simulator"
       ],
       "relatedGuides": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-shades-generator",
+        "color-format-converter",
+        "colorblind-simulator"
       ],
       "relatedFaqs": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-shades-generator",
+        "color-format-converter",
+        "colorblind-simulator"
       ]
     },
     {
@@ -492,15 +520,21 @@
       "existing": false,
       "relatedTools": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-contrast-checker",
+        "color-shades-generator",
+        "colorblind-simulator"
       ],
       "relatedGuides": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-contrast-checker",
+        "color-shades-generator",
+        "colorblind-simulator"
       ],
       "relatedFaqs": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-contrast-checker",
+        "color-shades-generator",
+        "colorblind-simulator"
       ]
     },
     {
@@ -511,15 +545,21 @@
       "existing": false,
       "relatedTools": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ],
       "relatedGuides": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ],
       "relatedFaqs": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ]
     },
     {
@@ -533,12 +573,14 @@
         "prime-factorization-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
+        "matrix-calculator",
         "statistics-visualizer"
       ],
       "relatedGuides": [
         "prime-factorization-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
+        "matrix-calculator",
         "statistics-visualizer"
       ],
       "relatedFaqs": [
@@ -546,6 +588,7 @@
         "prime-factorization-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
+        "matrix-calculator",
         "statistics-visualizer"
       ]
     },
@@ -570,6 +613,16 @@
       "relatedFaqs": []
     },
     {
+      "id": "context-fit-checker",
+      "title": "Context Fit Checker",
+      "transformation": "prep-assemble",
+      "engine": "text-processor",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "crc32-hash-generator",
       "title": "CRC32 Hash Generator",
       "transformation": "Checksum (CRC32)",
@@ -579,25 +632,25 @@
         "md5-hash-generator",
         "sha256-hash-generator",
         "crc32-hash-generator",
+        "file-hash-verifier",
         "hash-identifier",
-        "sha1-hash-generator",
-        "sha512-hash-generator"
+        "sha1-hash-generator"
       ],
       "relatedGuides": [
         "md5-hash-generator",
         "sha256-hash-generator",
         "crc32-hash-generator",
+        "file-hash-verifier",
         "hash-identifier",
-        "sha1-hash-generator",
-        "sha512-hash-generator"
+        "sha1-hash-generator"
       ],
       "relatedFaqs": [
         "md5-hash-generator",
         "sha256-hash-generator",
         "crc32-hash-generator",
+        "file-hash-verifier",
         "hash-identifier",
-        "sha1-hash-generator",
-        "sha512-hash-generator"
+        "sha1-hash-generator"
       ]
     },
     {
@@ -610,25 +663,25 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedGuides": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedFaqs": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ]
     },
     {
@@ -663,15 +716,21 @@
       "existing": false,
       "relatedTools": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-shades-generator",
+        "color-contrast-checker",
+        "colorblind-simulator"
       ],
       "relatedGuides": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-shades-generator",
+        "color-contrast-checker",
+        "colorblind-simulator"
       ],
       "relatedFaqs": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-shades-generator",
+        "color-contrast-checker",
+        "colorblind-simulator"
       ]
     },
     {
@@ -684,6 +743,7 @@
         "csv-to-json-converter",
         "remove-blank-lines",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
@@ -691,6 +751,7 @@
         "csv-to-json-converter",
         "remove-blank-lines",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
@@ -698,6 +759,7 @@
         "csv-to-json-converter",
         "remove-blank-lines",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ]
@@ -711,6 +773,7 @@
       "relatedTools": [
         "csv-to-json-converter",
         "json-to-csv-converter",
+        "csv-column-picker",
         "csv-cleaner",
         "csv-diff",
         "csv-to-tsv"
@@ -718,6 +781,7 @@
       "relatedGuides": [
         "csv-to-json-converter",
         "json-to-csv-converter",
+        "csv-column-picker",
         "csv-cleaner",
         "csv-diff",
         "csv-to-tsv"
@@ -725,6 +789,7 @@
       "relatedFaqs": [
         "csv-to-json-converter",
         "json-to-csv-converter",
+        "csv-column-picker",
         "csv-cleaner",
         "csv-diff",
         "csv-to-tsv"
@@ -740,6 +805,7 @@
         "text-compare",
         "csv-to-json-converter",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
@@ -747,6 +813,7 @@
         "text-compare",
         "csv-to-json-converter",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
@@ -754,6 +821,7 @@
         "text-compare",
         "csv-to-json-converter",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ]
@@ -777,18 +845,21 @@
       "relatedTools": [
         "csv-to-json-converter",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
       "relatedGuides": [
         "csv-to-json-converter",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
       "relatedFaqs": [
         "csv-to-json-converter",
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ]
@@ -803,25 +874,25 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedGuides": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedFaqs": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ]
     },
     {
@@ -836,7 +907,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
-        "systemd-timer-converter"
+        "sleep-cycle-calculator"
       ],
       "relatedGuides": [
         "timezone-converter",
@@ -844,7 +915,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
-        "systemd-timer-converter"
+        "sleep-cycle-calculator"
       ],
       "relatedFaqs": [
         "timezone-converter",
@@ -852,7 +923,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
-        "systemd-timer-converter"
+        "sleep-cycle-calculator"
       ]
     },
     {
@@ -965,24 +1036,24 @@
         "md5-hash-generator",
         "hash-identifier",
         "crc32-hash-generator",
-        "sha1-hash-generator",
-        "sha512-hash-generator"
+        "file-hash-verifier",
+        "sha1-hash-generator"
       ],
       "relatedGuides": [
         "sha256-hash-generator",
         "md5-hash-generator",
         "hash-identifier",
         "crc32-hash-generator",
-        "sha1-hash-generator",
-        "sha512-hash-generator"
+        "file-hash-verifier",
+        "sha1-hash-generator"
       ],
       "relatedFaqs": [
         "sha256-hash-generator",
         "md5-hash-generator",
         "hash-identifier",
         "crc32-hash-generator",
-        "sha1-hash-generator",
-        "sha512-hash-generator"
+        "file-hash-verifier",
+        "sha1-hash-generator"
       ]
     },
     {
@@ -1006,12 +1077,14 @@
         "quadratic-equation-solver",
         "fraction-calculator",
         "combinations-permutations-calculator",
+        "matrix-calculator",
         "statistics-visualizer"
       ],
       "relatedGuides": [
         "prime-factorization-calculator",
         "fraction-calculator",
         "combinations-permutations-calculator",
+        "matrix-calculator",
         "statistics-visualizer"
       ],
       "relatedFaqs": [
@@ -1019,6 +1092,7 @@
         "quadratic-equation-solver",
         "fraction-calculator",
         "combinations-permutations-calculator",
+        "matrix-calculator",
         "statistics-visualizer"
       ]
     },
@@ -1040,12 +1114,16 @@
       "existing": false,
       "relatedTools": [
         "quadratic-equation-solver",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "unit-circle-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "quadratic-equation-solver",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "unit-circle-calculator"
       ]
@@ -1125,7 +1203,7 @@
         "sha1-hash-generator",
         "crc32-hash-generator",
         "sha512-hash-generator",
-        "hash-identifier"
+        "file-hash-verifier"
       ],
       "relatedGuides": [
         "sha256-hash-generator",
@@ -1133,7 +1211,7 @@
         "sha1-hash-generator",
         "crc32-hash-generator",
         "sha512-hash-generator",
-        "hash-identifier"
+        "file-hash-verifier"
       ],
       "relatedFaqs": [
         "sha256-hash-generator",
@@ -1141,7 +1219,7 @@
         "sha1-hash-generator",
         "crc32-hash-generator",
         "sha512-hash-generator",
-        "hash-identifier"
+        "file-hash-verifier"
       ]
     },
     {
@@ -1224,9 +1302,15 @@
       "transformation": "Image Conversion",
       "engine": "image",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "file-hash-verifier"
+      ],
+      "relatedGuides": [
+        "file-hash-verifier"
+      ],
+      "relatedFaqs": [
+        "file-hash-verifier"
+      ]
     },
     {
       "id": "image-palette-extractor",
@@ -1236,15 +1320,21 @@
       "existing": false,
       "relatedTools": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-shades-generator",
+        "color-contrast-checker",
+        "colorblind-simulator"
       ],
       "relatedGuides": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-shades-generator",
+        "color-contrast-checker",
+        "colorblind-simulator"
       ],
       "relatedFaqs": [
         "color-format-converter",
-        "color-contrast-checker"
+        "color-shades-generator",
+        "color-contrast-checker",
+        "colorblind-simulator"
       ]
     },
     {
@@ -1322,18 +1412,21 @@
         "cidr-calculator",
         "binary-converter",
         "hex-encoder-decoder",
+        "ipv4-converter",
         "what-is-my-ip"
       ],
       "relatedGuides": [
         "cidr-calculator",
         "binary-converter",
         "hex-encoder-decoder",
+        "ipv4-converter",
         "what-is-my-ip"
       ],
       "relatedFaqs": [
         "cidr-calculator",
         "binary-converter",
         "hex-encoder-decoder",
+        "ipv4-converter",
         "what-is-my-ip"
       ]
     },
@@ -1379,24 +1472,24 @@
         "json-minifier",
         "csv-to-json-converter",
         "json-diff",
-        "json-to-csv-converter",
-        "json-to-yaml-converter"
+        "json-schema-validator",
+        "json-to-csv-converter"
       ],
       "relatedGuides": [
         "json-formatter",
         "json-minifier",
         "csv-to-json-converter",
         "json-diff",
-        "json-to-csv-converter",
-        "json-to-yaml-converter"
+        "json-schema-validator",
+        "json-to-csv-converter"
       ],
       "relatedFaqs": [
         "json-formatter",
         "json-minifier",
         "csv-to-json-converter",
         "json-diff",
-        "json-to-csv-converter",
-        "json-to-yaml-converter"
+        "json-schema-validator",
+        "json-to-csv-converter"
       ]
     },
     {
@@ -1420,8 +1513,8 @@
       "relatedFaqs": []
     },
     {
-      "id": "json-to-csv-converter",
-      "title": "JSON to CSV Converter",
+      "id": "json-schema-validator",
+      "title": "JSON Schema Validator",
       "transformation": "json",
       "engine": "structured-data",
       "existing": true,
@@ -1430,8 +1523,8 @@
       "relatedFaqs": []
     },
     {
-      "id": "json-to-yaml-converter",
-      "title": "JSON to YAML Converter",
+      "id": "json-to-csv-converter",
+      "title": "JSON to CSV Converter",
       "transformation": "json",
       "engine": "structured-data",
       "existing": true,
@@ -1510,25 +1603,25 @@
         "body-fat-calculator",
         "ideal-weight-calculator",
         "bmi-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ],
       "relatedGuides": [
         "body-fat-calculator",
         "ideal-weight-calculator",
         "bmi-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ],
       "relatedFaqs": [
         "body-fat-calculator",
         "ideal-weight-calculator",
         "bmi-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ]
     },
     {
@@ -1559,6 +1652,8 @@
       "existing": false,
       "relatedTools": [
         "statistics-visualizer",
+        "normal-distribution-visualizer",
+        "linear-regression-playground",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -1568,6 +1663,8 @@
       ],
       "relatedFaqs": [
         "statistics-visualizer",
+        "normal-distribution-visualizer",
+        "linear-regression-playground",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -1636,18 +1733,24 @@
       "existing": false,
       "relatedTools": [
         "statistics-visualizer",
+        "triangle-solver",
+        "matrix-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
       ],
       "relatedGuides": [
         "statistics-visualizer",
+        "triangle-solver",
+        "matrix-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
       ],
       "relatedFaqs": [
         "statistics-visualizer",
+        "triangle-solver",
+        "matrix-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
@@ -1805,6 +1908,8 @@
       "relatedTools": [
         "statistics-visualizer",
         "probability-calculator",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "quadratic-equation-solver",
         "unit-circle-calculator"
       ],
@@ -1814,6 +1919,8 @@
       "relatedFaqs": [
         "statistics-visualizer",
         "probability-calculator",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "quadratic-equation-solver",
         "unit-circle-calculator"
       ]
@@ -1913,25 +2020,25 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedGuides": [
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedFaqs": [
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ]
     },
     {
@@ -1960,9 +2067,15 @@
       "transformation": "PDF Page Editing",
       "engine": "pdf",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "file-hash-verifier"
+      ],
+      "relatedGuides": [
+        "file-hash-verifier"
+      ],
+      "relatedFaqs": [
+        "file-hash-verifier"
+      ]
     },
     {
       "id": "pendulum-period-calculator",
@@ -2035,25 +2148,25 @@
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedGuides": [
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ],
       "relatedFaqs": [
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ]
     },
     {
@@ -2066,19 +2179,25 @@
         "fraction-calculator",
         "combinations-permutations-calculator",
         "prime-factorization-calculator",
-        "statistics-visualizer"
+        "matrix-calculator",
+        "statistics-visualizer",
+        "triangle-solver"
       ],
       "relatedGuides": [
         "fraction-calculator",
         "combinations-permutations-calculator",
         "prime-factorization-calculator",
-        "statistics-visualizer"
+        "matrix-calculator",
+        "statistics-visualizer",
+        "triangle-solver"
       ],
       "relatedFaqs": [
         "fraction-calculator",
         "combinations-permutations-calculator",
         "prime-factorization-calculator",
-        "statistics-visualizer"
+        "matrix-calculator",
+        "statistics-visualizer",
+        "triangle-solver"
       ]
     },
     {
@@ -2088,8 +2207,10 @@
       "engine": "math-lab",
       "existing": false,
       "relatedTools": [
+        "normal-distribution-visualizer",
         "statistics-visualizer",
         "probability-calculator",
+        "linear-regression-playground",
         "quadratic-equation-solver",
         "unit-circle-calculator"
       ],
@@ -2097,8 +2218,10 @@
         "statistics-visualizer"
       ],
       "relatedFaqs": [
+        "normal-distribution-visualizer",
         "statistics-visualizer",
         "probability-calculator",
+        "linear-regression-playground",
         "quadratic-equation-solver",
         "unit-circle-calculator"
       ]
@@ -2177,17 +2300,20 @@
       "relatedTools": [
         "px-to-rem-converter",
         "aspect-ratio-calculator",
-        "px-to-dp-converter"
+        "px-to-dp-converter",
+        "type-scale-generator"
       ],
       "relatedGuides": [
         "px-to-rem-converter",
         "aspect-ratio-calculator",
-        "px-to-dp-converter"
+        "px-to-dp-converter",
+        "type-scale-generator"
       ],
       "relatedFaqs": [
         "px-to-rem-converter",
         "aspect-ratio-calculator",
-        "px-to-dp-converter"
+        "px-to-dp-converter",
+        "type-scale-generator"
       ]
     },
     {
@@ -2198,16 +2324,19 @@
       "existing": false,
       "relatedTools": [
         "px-to-dp-converter",
+        "type-scale-generator",
         "px-to-rem-converter",
         "aspect-ratio-calculator"
       ],
       "relatedGuides": [
         "px-to-dp-converter",
+        "type-scale-generator",
         "px-to-rem-converter",
         "aspect-ratio-calculator"
       ],
       "relatedFaqs": [
         "px-to-dp-converter",
+        "type-scale-generator",
         "px-to-rem-converter",
         "aspect-ratio-calculator"
       ]
@@ -2220,12 +2349,16 @@
       "existing": false,
       "relatedTools": [
         "unit-circle-calculator",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "quadratic-equation-solver"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "unit-circle-calculator",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "quadratic-equation-solver"
       ]
@@ -2294,25 +2427,25 @@
         "find-replace",
         "text-compare",
         "invisible-character-detector",
+        "regex-tester",
         "character-map",
-        "shell-quote-escalator",
-        "text-repeater"
+        "shell-quote-escalator"
       ],
       "relatedGuides": [
         "find-replace",
         "text-compare",
         "invisible-character-detector",
+        "regex-tester",
         "character-map",
-        "shell-quote-escalator",
-        "text-repeater"
+        "shell-quote-escalator"
       ],
       "relatedFaqs": [
         "find-replace",
         "text-compare",
         "invisible-character-detector",
+        "regex-tester",
         "character-map",
-        "shell-quote-escalator",
-        "text-repeater"
+        "shell-quote-escalator"
       ]
     },
     {
@@ -2325,25 +2458,25 @@
         "slugify-text",
         "lowercase-converter",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "normalize-whitespace"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "relatedGuides": [
         "slugify-text",
         "lowercase-converter",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "normalize-whitespace"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "relatedFaqs": [
         "slugify-text",
         "lowercase-converter",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "normalize-whitespace"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ]
     },
     {
@@ -2366,25 +2499,25 @@
         "remove-extra-spaces",
         "normalize-whitespace",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "lowercase-converter"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "relatedGuides": [
         "remove-extra-spaces",
         "normalize-whitespace",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "lowercase-converter"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "relatedFaqs": [
         "remove-extra-spaces",
         "normalize-whitespace",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "lowercase-converter"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ]
     },
     {
@@ -2408,24 +2541,24 @@
         "normalize-whitespace",
         "remove-extra-spaces",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter"
+        "chat-export-cleaner",
+        "context-fit-checker"
       ],
       "relatedGuides": [
         "remove-blank-lines",
         "normalize-whitespace",
         "remove-extra-spaces",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter"
+        "chat-export-cleaner",
+        "context-fit-checker"
       ],
       "relatedFaqs": [
         "remove-blank-lines",
         "normalize-whitespace",
         "remove-extra-spaces",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter"
+        "chat-export-cleaner",
+        "context-fit-checker"
       ]
     },
     {
@@ -2460,25 +2593,25 @@
         "uppercase-converter",
         "find-replace",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "lowercase-converter"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "relatedGuides": [
         "uppercase-converter",
         "find-replace",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "lowercase-converter"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "relatedFaqs": [
         "uppercase-converter",
         "find-replace",
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
-        "lowercase-converter"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ]
     },
     {
@@ -2737,24 +2870,24 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ],
       "relatedGuides": [
         "move-today-tracker",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ],
       "relatedFaqs": [
         "move-today-tracker",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ]
     },
     {
@@ -2820,25 +2953,25 @@
         "kebab-case-converter",
         "lowercase-converter",
         "camel-case-converter",
-        "invisible-character-detector",
-        "normalize-whitespace",
-        "remove-accents"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "relatedGuides": [
         "kebab-case-converter",
         "lowercase-converter",
         "camel-case-converter",
-        "invisible-character-detector",
-        "normalize-whitespace",
-        "remove-accents"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ],
       "relatedFaqs": [
         "kebab-case-converter",
         "lowercase-converter",
         "camel-case-converter",
-        "invisible-character-detector",
-        "normalize-whitespace",
-        "remove-accents"
+        "chat-export-cleaner",
+        "context-fit-checker",
+        "invisible-character-detector"
       ]
     },
     {
@@ -2880,23 +3013,25 @@
       "existing": false,
       "relatedTools": [
         "probability-calculator",
+        "linear-regression-playground",
         "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator"
+        "matrix-calculator"
       ],
       "relatedGuides": [
         "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator"
+        "matrix-calculator"
       ],
       "relatedFaqs": [
         "probability-calculator",
+        "linear-regression-playground",
         "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator"
+        "matrix-calculator"
       ]
     },
     {
@@ -2982,16 +3117,6 @@
       "relatedFaqs": []
     },
     {
-      "id": "text-repeater",
-      "title": "Text Repeater",
-      "transformation": "repeat",
-      "engine": "text-interactive",
-      "existing": true,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
-    },
-    {
       "id": "tic-tac-toe",
       "title": "Tic Tac Toe",
       "transformation": "Hot-Seat Board Game",
@@ -3021,24 +3146,24 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "unix-timestamp-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ],
       "relatedGuides": [
         "timezone-converter",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "unix-timestamp-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ],
       "relatedFaqs": [
         "timezone-converter",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "unix-timestamp-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ]
     },
     {
@@ -3059,23 +3184,26 @@
       "existing": false,
       "relatedTools": [
         "unit-circle-calculator",
+        "matrix-calculator",
+        "triangle-solver",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator",
-        "statistics-visualizer"
+        "prime-factorization-calculator"
       ],
       "relatedGuides": [
+        "matrix-calculator",
+        "triangle-solver",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator",
-        "statistics-visualizer"
+        "prime-factorization-calculator"
       ],
       "relatedFaqs": [
         "unit-circle-calculator",
+        "matrix-calculator",
+        "triangle-solver",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator",
-        "statistics-visualizer"
+        "prime-factorization-calculator"
       ]
     },
     {
@@ -3087,16 +3215,19 @@
       "relatedTools": [
         "px-to-rem-converter",
         "aspect-ratio-calculator",
+        "type-scale-generator",
         "px-to-dp-converter"
       ],
       "relatedGuides": [
         "px-to-rem-converter",
         "aspect-ratio-calculator",
+        "type-scale-generator",
         "px-to-dp-converter"
       ],
       "relatedFaqs": [
         "px-to-rem-converter",
         "aspect-ratio-calculator",
+        "type-scale-generator",
         "px-to-dp-converter"
       ]
     },
@@ -3108,12 +3239,16 @@
       "existing": false,
       "relatedTools": [
         "quadratic-equation-solver",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "unit-circle-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "quadratic-equation-solver",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "unit-circle-calculator"
       ]
@@ -3129,24 +3264,24 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ],
       "relatedGuides": [
         "unix-timestamp-converter",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ],
       "relatedFaqs": [
         "unix-timestamp-converter",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "sleep-cycle-calculator",
+        "systemd-timer-converter"
       ]
     },
     {
@@ -3251,25 +3386,25 @@
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ],
       "relatedGuides": [
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ],
       "relatedFaqs": [
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
+        "lean-body-mass-calculator",
         "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
+        "calorie-deficit-calculator"
       ]
     },
     {
@@ -3302,18 +3437,21 @@
         "cidr-calculator",
         "binary-converter",
         "hex-encoder-decoder",
+        "ipv4-converter",
         "what-is-my-ip"
       ],
       "relatedGuides": [
         "cidr-calculator",
         "binary-converter",
         "hex-encoder-decoder",
+        "ipv4-converter",
         "what-is-my-ip"
       ],
       "relatedFaqs": [
         "cidr-calculator",
         "binary-converter",
         "hex-encoder-decoder",
+        "ipv4-converter",
         "what-is-my-ip"
       ]
     },
@@ -3513,11 +3651,6 @@
     {
       "from": "body-surface-area-calculator",
       "to": "body-fat-calculator",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "body-surface-area-calculator",
-      "to": "heart-rate-zone-calculator",
       "kind": "links-to-tool"
     },
     {
@@ -3816,11 +3949,6 @@
       "kind": "links-to-tool"
     },
     {
-      "from": "crc32-hash-generator",
-      "to": "sha512-hash-generator",
-      "kind": "links-to-tool"
-    },
-    {
       "from": "cron-expression-parser",
       "to": "unix-timestamp-converter",
       "kind": "related-problem"
@@ -4076,11 +4204,6 @@
       "kind": "links-to-tool"
     },
     {
-      "from": "file-hash-verifier",
-      "to": "sha512-hash-generator",
-      "kind": "links-to-tool"
-    },
-    {
       "from": "fraction-calculator",
       "to": "combinations-permutations-calculator",
       "kind": "shares-engine"
@@ -4292,12 +4415,12 @@
     },
     {
       "from": "json-escape",
-      "to": "json-to-csv-converter",
+      "to": "json-schema-validator",
       "kind": "links-to-tool"
     },
     {
       "from": "json-escape",
-      "to": "json-to-yaml-converter",
+      "to": "json-to-csv-converter",
       "kind": "links-to-tool"
     },
     {
@@ -4319,11 +4442,6 @@
       "from": "lean-body-mass-calculator",
       "to": "body-surface-area-calculator",
       "kind": "same-transformation"
-    },
-    {
-      "from": "lean-body-mass-calculator",
-      "to": "heart-rate-zone-calculator",
-      "kind": "links-to-tool"
     },
     {
       "from": "lean-body-mass-calculator",
@@ -4801,13 +4919,18 @@
       "kind": "links-to-tool"
     },
     {
-      "from": "regex-tester",
-      "to": "text-repeater",
+      "from": "remove-accents",
+      "to": "camel-case-converter",
       "kind": "links-to-tool"
     },
     {
       "from": "remove-accents",
-      "to": "camel-case-converter",
+      "to": "chat-export-cleaner",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-accents",
+      "to": "context-fit-checker",
       "kind": "links-to-tool"
     },
     {
@@ -4817,17 +4940,7 @@
     },
     {
       "from": "remove-accents",
-      "to": "kebab-case-converter",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "remove-accents",
       "to": "lowercase-converter",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "remove-accents",
-      "to": "normalize-whitespace",
       "kind": "links-to-tool"
     },
     {
@@ -4842,18 +4955,18 @@
     },
     {
       "from": "remove-emoji",
+      "to": "chat-export-cleaner",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-emoji",
+      "to": "context-fit-checker",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-emoji",
       "to": "invisible-character-detector",
       "kind": "shares-engine"
-    },
-    {
-      "from": "remove-emoji",
-      "to": "kebab-case-converter",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "remove-emoji",
-      "to": "lowercase-converter",
-      "kind": "links-to-tool"
     },
     {
       "from": "remove-emoji",
@@ -4872,13 +4985,18 @@
     },
     {
       "from": "remove-line-breaks",
-      "to": "invisible-character-detector",
-      "kind": "shares-engine"
+      "to": "chat-export-cleaner",
+      "kind": "links-to-tool"
     },
     {
       "from": "remove-line-breaks",
-      "to": "kebab-case-converter",
+      "to": "context-fit-checker",
       "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-line-breaks",
+      "to": "invisible-character-detector",
+      "kind": "shares-engine"
     },
     {
       "from": "remove-line-breaks",
@@ -4937,6 +5055,16 @@
     },
     {
       "from": "reverse-text",
+      "to": "chat-export-cleaner",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "reverse-text",
+      "to": "context-fit-checker",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "reverse-text",
       "to": "find-replace",
       "kind": "links-to-tool"
     },
@@ -4944,16 +5072,6 @@
       "from": "reverse-text",
       "to": "invisible-character-detector",
       "kind": "shares-engine"
-    },
-    {
-      "from": "reverse-text",
-      "to": "kebab-case-converter",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "reverse-text",
-      "to": "lowercase-converter",
-      "kind": "links-to-tool"
     },
     {
       "from": "reverse-text",
@@ -5262,6 +5380,16 @@
     },
     {
       "from": "slugify-text",
+      "to": "chat-export-cleaner",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "slugify-text",
+      "to": "context-fit-checker",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "slugify-text",
       "to": "invisible-character-detector",
       "kind": "shares-engine"
     },
@@ -5273,11 +5401,6 @@
     {
       "from": "slugify-text",
       "to": "lowercase-converter",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "slugify-text",
-      "to": "normalize-whitespace",
       "kind": "links-to-tool"
     },
     {
@@ -5519,11 +5642,6 @@
       "from": "waist-to-hip-ratio-calculator",
       "to": "body-surface-area-calculator",
       "kind": "same-transformation"
-    },
-    {
-      "from": "waist-to-hip-ratio-calculator",
-      "to": "heart-rate-zone-calculator",
-      "kind": "links-to-tool"
     },
     {
       "from": "waist-to-hip-ratio-calculator",

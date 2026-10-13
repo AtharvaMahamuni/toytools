@@ -146,9 +146,9 @@ content. When a new tool blows the budget the cause is structural far more often
   JSON-LD, a widget rendering per-item DOM it could render on demand).
 
 **Fix the cause; do not raise the budget.** Raising a number in `BUDGETS` spends every visitor's
-bandwidth and needs a reason in the PR. `EXCEPTIONS` is for pages whose weight is inherent to what
-they are (only `/architecture/`, which renders the Mermaid map) and still caps them.
-Background: `docs/analysis/2026-07-31-critical-path-performance.md`.
+bandwidth and needs a reason in the PR. `EXCEPTIONS` is for a page whose weight is inherent to what
+it is, and it still caps that page. It is empty. `/architecture/` used to be the one entry, because
+the page shipped Mermaid. The map is HTML now and uses the page budget.
 
 ## 3. Query coverage
 

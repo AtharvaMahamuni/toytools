@@ -1,7 +1,7 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-20T12:30:10.974Z",
-  "fingerprint": "b1f26a6b",
+  "generatedAt": "2026-10-09T05:25:21.130Z",
+  "fingerprint": "acd84a9d",
   "readyToPolish": [
     {
       "slug": "electron-configuration-calculator",
@@ -32,6 +32,16 @@
       ],
       "engine": "datetime",
       "demand": 80
+    },
+    {
+      "slug": "normal-distribution-visualizer",
+      "kind": "ready-to-polish",
+      "userFailures": [
+        "A shaded picture that shows only one tail gets copied as the other tail.",
+        "A standard deviation near zero turns the curve into a spike and the z-score stops meaning anything."
+      ],
+      "engine": "math-lab",
+      "demand": 76
     },
     {
       "slug": "molecular-geometry-calculator",
@@ -71,6 +81,16 @@
         "A trailing empty column from a spreadsheet export survives the clean because it looks like real data."
       ],
       "engine": "csv",
+      "demand": 70
+    },
+    {
+      "slug": "linear-regression-playground",
+      "kind": "ready-to-polish",
+      "userFailures": [
+        "Dragging one point tilts the whole line, and nothing names which point did it.",
+        "Two points always give an R squared of 1, which looks like a strong fit when it is only a line through two dots."
+      ],
+      "engine": "math-lab",
       "demand": 70
     },
     {
@@ -263,58 +283,10 @@
   ],
   "atRisk": [
     {
-      "id": "triangle-solver",
-      "proposedTool": "triangle-solver",
-      "finalScore": 79.8,
-      "engine": "math"
-    },
-    {
-      "id": "sleep-cycle-calculator",
-      "proposedTool": "sleep-cycle-calculator",
-      "finalScore": 79.5,
-      "engine": "datetime"
-    },
-    {
-      "id": "color-shades-generator",
-      "proposedTool": "color-shades-generator",
-      "finalScore": 79.4,
-      "engine": "color"
-    },
-    {
-      "id": "type-scale-generator",
-      "proposedTool": "type-scale-generator",
-      "finalScore": 79.2,
-      "engine": "units"
-    },
-    {
-      "id": "matrix-calculator",
-      "proposedTool": "matrix-calculator",
-      "finalScore": 78.3,
-      "engine": "math"
-    },
-    {
-      "id": "normal-distribution-visualizer",
-      "proposedTool": "normal-distribution-visualizer",
-      "finalScore": 77.1,
-      "engine": "math-lab"
-    },
-    {
       "id": "pregnancy-due-date-calculator",
       "proposedTool": "pregnancy-due-date-calculator",
       "finalScore": 76.6,
       "engine": "datetime"
-    },
-    {
-      "id": "lean-body-mass-calculator",
-      "proposedTool": "lean-body-mass-calculator",
-      "finalScore": 76.5,
-      "engine": "wellness"
-    },
-    {
-      "id": "linear-regression-playground",
-      "proposedTool": "linear-regression-playground",
-      "finalScore": 76.3,
-      "engine": "math-lab"
     },
     {
       "id": "ovulation-calculator",
@@ -408,9 +380,9 @@
     }
   ],
   "summary": {
-    "shippedCovered": 68,
-    "readyToPolish": 8,
+    "shippedCovered": 81,
+    "readyToPolish": 10,
     "needsEvidence": 25,
-    "atRisk": 24
+    "atRisk": 16
   }
 }

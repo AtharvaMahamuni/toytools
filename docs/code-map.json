@@ -174,10 +174,11 @@
       "sharedWidget": "src/tools/_shared/CsvWidget.astro",
       "supportedFamilies": [
         "clean",
+        "select",
         "compare",
         "convert"
       ],
-      "toolCount": 3
+      "toolCount": 4
     },
     "generation": {
       "name": "Generation Engine",
@@ -249,9 +250,10 @@
       "supportedFamilies": [
         "trigonometry",
         "algebra",
-        "probability"
+        "probability",
+        "statistics"
       ],
-      "toolCount": 3
+      "toolCount": 5
     },
     "math": {
       "name": "Math Calculator Engine",
@@ -303,7 +305,7 @@
         "nutrition",
         "fitness-performance"
       ],
-      "toolCount": 11
+      "toolCount": 12
     },
     "tracker": {
       "name": "Tracker Engine",
@@ -421,7 +423,8 @@
       "members": [
         "csv-diff",
         "csv-to-tsv",
-        "csv-cleaner"
+        "csv-cleaner",
+        "csv-column-picker"
       ]
     },
     "text-counters": {
@@ -480,6 +483,7 @@
       "members": [
         "bmi-calculator",
         "body-fat-calculator",
+        "lean-body-mass-calculator",
         "ideal-weight-calculator",
         "bmr-calculator",
         "tdee-calculator",
@@ -844,6 +848,36 @@
       "pattern": "simulate",
       "family": "chemical-bonding",
       "processorId": "molecular-geometry",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "linear-regression-playground": {
+      "name": "Linear Regression Playground",
+      "dir": "src/tools/math/linear-regression-playground",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/linear-regression-playground/",
+      "engine": "math-lab",
+      "pattern": "simulate",
+      "family": "statistics",
+      "processorId": "linear-regression",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "normal-distribution-visualizer": {
+      "name": "Normal Distribution Visualizer",
+      "dir": "src/tools/math/normal-distribution-visualizer",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/normal-distribution-visualizer/",
+      "engine": "math-lab",
+      "pattern": "simulate",
+      "family": "statistics",
+      "processorId": "normal-distribution",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,
@@ -1447,6 +1481,27 @@
       "pattern": "csv-transform",
       "family": "clean",
       "processorId": "csv-clean",
+      "toolGroup": "csv-tools",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "csv-column-picker": {
+      "name": "CSV Column Picker",
+      "dir": "src/tools/developer-utilities/csv-column-picker",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/csv-column-picker/",
+      "engine": "csv",
+      "pattern": "csv-transform",
+      "family": "select",
+      "processorId": "csv-pick",
       "toolGroup": "csv-tools",
       "files": [
         "Guide.astro",
@@ -2204,6 +2259,27 @@
       "family": "fidget",
       "processorId": "",
       "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "lean-body-mass-calculator": {
+      "name": "Lean Body Mass Calculator",
+      "dir": "src/tools/health/lean-body-mass-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/lean-body-mass-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "body-composition",
+      "processorId": "lean-body-mass",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",

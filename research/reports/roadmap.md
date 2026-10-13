@@ -1,27 +1,17 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-09-20T12:30:10.974Z
+Generated: 2026-10-09T05:25:21.130Z
 
-Discovered 106 signals -> 106 unique opportunities (36 recommended, 68 already shipped). Top score 85.9. Missing-engine candidates: 1.
+Discovered 106 signals -> 106 unique opportunities (23 recommended, 81 already shipped). Top score 85.9. Missing-engine candidates: 1.
 
 ## Immediate builds (top tier)
-- **Triangle Solver** (`triangle-solver`) - score 79.8, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 5 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
-- **Sleep Cycle Calculator** (`sleep-cycle-calculator`) - score 79.5, reuses datetime. High search demand; Weak / incomplete incumbents; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
-- **Color Shades & Tints Generator** (`color-shades-generator`) - score 79.4, reuses color. Weak / incomplete incumbents; Reuses the existing color engine; Low implementation cost; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
-- **File Hash Verifier** (`file-hash-verifier`) - score 79.3, reuses hashing. High search demand; Weak / incomplete incumbents; Reuses the existing hashing engine; Low implementation cost; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Modular Type Scale Generator** (`type-scale-generator`) - score 79.2, reuses units. Weak / incomplete incumbents; Reuses the existing units engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
-- **Regex Tester** (`regex-tester`) - score 79.1, reuses text-interactive. High search demand; Reuses the existing text-interactive engine; Low implementation cost; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Matrix Calculator** (`matrix-calculator`) - score 78.3, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
-- **Colorblind Simulator** (`colorblind-simulator`) - score 77.8, reuses color. Weak / incomplete incumbents; Reuses the existing color engine; Low implementation cost; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **IPv4 Converter** (`ipv4-converter`) - score 77.1, reuses network. Weak / incomplete incumbents; Reuses the existing network engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Normal Distribution Visualizer** (`normal-distribution-visualizer`) - score 77.1, reuses math-lab. High search demand; Weak / incomplete incumbents; Reuses the existing math-lab engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
+- **Pregnancy Due Date Calculator** (`pregnancy-due-date-calculator`) - score 76.6, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 
 ## Quick wins (low effort, recommended)
-- **CSV Column Picker** (`csv-column-picker`) - score 74.7, reuses csv. Weak / incomplete incumbents; Reuses the existing csv engine; Low implementation cost; Creates 5 internal links.
 - **Ovulation Calculator** (`ovulation-calculator`) - score 74.6, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Blood Pressure Tracker** (`blood-pressure-tracker`) - score 74.3, reuses tracker. Weak / incomplete incumbents; Reuses the existing tracker engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Tic Tac Toe** (`tic-tac-toe`) - score 74.3, new board-game engine. Implies a new board-game engine; Low implementation cost; Strong topic-cluster potential; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Perceptual Gradient Generator** (`css-gradient-generator`) - score 74.1, reuses color. Reuses the existing color engine; Low implementation cost; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
+- **Perceptual Gradient Generator** (`css-gradient-generator`) - score 74.1, reuses color. Reuses the existing color engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Waist to Hip Ratio Calculator** (`waist-to-hip-ratio-calculator`) - score 73.7, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Sleep Hours Tracker** (`sleep-hours-tracker`) - score 73.5, reuses tracker. Weak / incomplete incumbents; Reuses the existing tracker engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Date Format Detector** (`date-format-detector`) - score 73.2, reuses datetime. Weak / incomplete incumbents; Reuses the existing datetime engine; Low implementation cost; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
@@ -110,11 +100,11 @@ Discovered 106 signals -> 106 unique opportunities (36 recommended, 68 already s
 - **Probability** (math-lab) - 1 tool(s), mean score 78.6.
 - **Emoji Removal** (text-processor) - 1 tool(s), mean score 78.5.
 - **CSV/TSV Conversion** (csv) - 1 tool(s), mean score 78.4.
-- **Matrices** (math) - 1 tool(s), mean score 78.3.
 - **Return on Investment** (finance) - 1 tool(s), mean score 78.1.
 - **Color Vision Simulation** (color) - 1 tool(s), mean score 77.8.
 - **Bond Character** (chemistry-lab) - 1 tool(s), mean score 77.6.
 - **CSV Cleaning** (csv) - 1 tool(s), mean score 77.4.
+- **Matrices** (math) - 1 tool(s), mean score 77.3.
 - **Compound Annual Growth Rate** (finance) - 1 tool(s), mean score 77.2.
 - **Age Calculation** (datetime) - 1 tool(s), mean score 77.1.
 - **IPv4 Representation** (network) - 1 tool(s), mean score 77.1.
@@ -162,14 +152,16 @@ Discovered 106 signals -> 106 unique opportunities (36 recommended, 68 already s
 - **Nutrition Authoring** (meal-planning) - 1 tool(s), mean score 45.5.
 
 ## Craft debt (shipped tools with no thoughtful touch)
-### Ready to polish - 8 tool(s) whose craft the evidence already names
+### Ready to polish - 10 tool(s) whose craft the evidence already names
 - **electron-configuration-calculator** (chemistry-lab) - Writes the configuration correctly but cannot say which electrons are the valence ones that bond. / Follows the aufbau order blindly and misses the chromium and copper exceptions.
 - **csv-diff** (csv) - A semicolon-delimited European export parses as a single column and every row reads as changed. / Two files that differ only in row order are reported as wholly different.
 - **timezone-converter** (datetime) - The converted time is correct but nothing says whether it is a reasonable hour to call. / The date rolls over across the conversion and the day change goes unnoticed.
+- **normal-distribution-visualizer** (math-lab) - A shaded picture that shows only one tail gets copied as the other tail. / A standard deviation near zero turns the curve into a spike and the z-score stops meaning anything.
 - **molecular-geometry-calculator** (chemistry-lab) - Counts bonding pairs but forgets lone pairs, so electron geometry is reported where molecular shape was wanted. / Quotes the ideal bond angle without allowing for the compression lone pairs cause.
 - **cron-expression-parser** (datetime) - The expression parses, but the real question is whether it fires when the user thinks, which needs the next few run times. / Day-of-month and day-of-week together are OR, not AND, so the schedule fires far more often than intended.
 - **chemical-bond-calculator** (chemistry-lab) - Gets the electronegativity difference right, then applies a hard cutoff and calls a polar covalent bond ionic. / Reads a bond dipole without noticing that molecular geometry can cancel it to zero.
 - **csv-cleaner** (csv) - A semicolon-delimited European export parses as one column, silently, so the cleanup applies to nothing. / A trailing empty column from a spreadsheet export survives the clean because it looks like real data.
+- **linear-regression-playground** (math-lab) - Dragging one point tilts the whole line, and nothing names which point did it. / Two points always give an R squared of 1, which looks like a strong fit when it is only a line through two dots.
 - **csv-to-tsv** (csv) - The source uses semicolons rather than commas, so the whole file converts into one column per row. / A field containing a tab breaks the output silently, since TSV has no quoting convention to fall back on.
 
 ### Needs evidence - 25 shipped tool(s) with no craft and no recorded failure
@@ -200,22 +192,22 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 - newman-projection-calculator (chemistry-lab)
 - crystal-field-splitting-calculator (chemistry-lab)
 
-### At risk - 24 buildable opportunit(ies) that would ship craftless
-- triangle-solver (score 79.8, math)
-- sleep-cycle-calculator (score 79.5, datetime)
-- color-shades-generator (score 79.4, color)
-- type-scale-generator (score 79.2, units)
-- matrix-calculator (score 78.3, math)
-- normal-distribution-visualizer (score 77.1, math-lab)
+### At risk - 16 buildable opportunit(ies) that would ship craftless
 - pregnancy-due-date-calculator (score 76.6, datetime)
-- lean-body-mass-calculator (score 76.5, wellness)
-- linear-regression-playground (score 76.3, math-lab)
 - ovulation-calculator (score 74.6, datetime)
 - function-grapher (score 74.5, math-lab)
 - blood-pressure-tracker (score 74.3, tracker)
 - css-gradient-generator (score 74.1, color)
 - waist-to-hip-ratio-calculator (score 73.7, wellness)
 - sleep-hours-tracker (score 73.5, tracker)
+- body-surface-area-calculator (score 72.9, wellness)
+- vo2-max-calculator (score 72.2, wellness)
+- image-palette-extractor (score 71.6, color)
+- net-worth-calculator (score 66.6, budget)
+- loan-calculator (score 66.2, loan)
+- salary-calculator (score 64.7, budget)
+- mortgage-calculator (score 64.3, loan)
+- retirement-calculator (score 58.3, retirement)
 
 ## Emerging trends (by transformation)
 - Fidget Interaction: 6 signal(s), mean demand 0.63, mean score 79.9.
@@ -231,4 +223,4 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 
 ---
 
-_Inputs fingerprint: `b1f26a6b`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `acd84a9d`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
