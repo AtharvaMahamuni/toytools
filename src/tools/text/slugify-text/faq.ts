@@ -11,7 +11,7 @@ export const items: FAQItem[] = [
     id: 'slugify-text-faq-2',
     question: 'How does slugify handle accents and symbols?',
     answer:
-      'Accented letters are converted to their plain ASCII base first, so "Café" becomes "cafe". Every run of spaces, punctuation, or other symbols is replaced with a single hyphen, and leading or trailing hyphens are trimmed.',
+      'Accented letters are converted to their plain ASCII base first, so "Café" becomes "cafe", and letters with no accent to strip are spelled out: ß becomes ss, ø becomes o, ł becomes l, æ becomes ae and œ becomes oe, so "Straße Øresund" becomes "strasse-oresund". Text in other scripts, such as Cyrillic or Chinese, is not transliterated: a line of only those letters slugifies to nothing, and the page says so. Every run of spaces, punctuation, or other symbols is replaced with a single hyphen, and leading or trailing hyphens are trimmed.',
   },
   {
     id: 'slugify-text-faq-3',
