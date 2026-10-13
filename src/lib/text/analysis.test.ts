@@ -180,6 +180,7 @@ describe('wordTokens: one tokenizer for Words, Unique Words and Top Words (Phase
       'well-known', 'e-mail', "don't", 'don’t', '1,000', '3.14', '-', '--', '...', '😀', '👍🏽',
       'Café', 'café', 'नमस्ते', '日本語', '(dog)', 'dog.', 'DOG', '"quoted"', 'a', 'I', '#tag',
       'https://example.com/a-b', 'x/y', '2024', '$5', '50%', "rock'n'roll", '\u2014', 'e.g.', '¿qué?',
+      'dog\u2014tired', 'a\u2013b', '\u2015', 'red,green', '1,000,000', ',', 'x, y',
     ];
     const seps = [' ', '  ', '\n', '\t', '\u00a0', ' \n ', ''];
     let seed = 42;
@@ -198,5 +199,23 @@ describe('wordTokens: one tokenizer for Words, Unique Words and Top Words (Phase
         expect(/\s/.test(t)).toBe(false);
       }
     }
+  });
+
+  it('splits on en dashes, em dashes and the horizontal bar, not on hyphen-minus', () => {
+    expect(wordTokens('The dog\u2014tired\u2014slept')).toEqual(['the', 'dog', 'tired', 'slept']);
+    expect(analyzeText('The dog\u2014tired\u2014slept').words).toBe(4);
+    expect(wordTokens('pages 3\u20135 \u2015 end')).toEqual(['pages', '3', '5', 'end']);
+    expect(analyzeText('a \u2014 b').words).toBe(2);
+    expect(wordTokens('well-known')).toEqual(['well-known']);
+    expect(analyzeText('well-known').words).toBe(1);
+  });
+
+  it('splits on a comma that is not between digits', () => {
+    expect(wordTokens('red,green')).toEqual(['red', 'green']);
+    expect(analyzeText('red,green').words).toBe(2);
+    expect(wordTokens('1,000 and 1,000,000 and 3.14')).toEqual(['1,000', 'and', '1,000,000', 'and', '3.14']);
+    expect(analyzeText('1,000,000').words).toBe(1);
+    expect(wordTokens('one, two,three')).toEqual(['one', 'two', 'three']);
+    expect(wordTokens('5,apples')).toEqual(['5', 'apples']);
   });
 });
