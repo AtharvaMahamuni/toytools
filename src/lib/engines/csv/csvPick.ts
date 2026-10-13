@@ -117,7 +117,10 @@ export const csvPick: CsvTool = {
   family: 'select',
   inputs: 2,
 
-  execute(input, second) {
+  execute(raw, second) {
+    // A UTF-8 byte order mark (Excel adds one) would otherwise stick to the first header, so
+    // "id" could not be picked by name and a position pick would carry the mark along.
+    const input = raw.replace(/^\uFEFF/, '');
     const delimiter = detectDelimiter(input);
     const matrix = csvToMatrix(input, { delimiter });
     if (matrix.length === 0) {

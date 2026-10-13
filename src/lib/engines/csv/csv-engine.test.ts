@@ -139,6 +139,18 @@ describe('csv-diff (whole-row fallback)', () => {
 });
 
 describe('csv-pick', () => {
+  it('strips a leading byte order mark before matching and detection', () => {
+    const byName = runCsv('csv-pick', '\uFEFFid,name\n1,Ada', 'id');
+    expect(byName.ok).toBe(true);
+    expect(byName.output).toBe('id\n1');
+    const byPos = runCsv('csv-pick', '\uFEFFid,name\n1,Ada', '1');
+    expect(byPos.output).toBe('id\n1');
+    expect(byPos.output.charCodeAt(0)).not.toBe(0xfeff);
+    const semi = runCsv('csv-pick', '\uFEFFid;name\n1;Ada', 'name');
+    expect(semi.output).toBe('name\nAda');
+    expect(semi.notice).toMatch(/semicolon/i);
+  });
+
   it('is a two-input select tool', () => {
     expect(getCsvTool('csv-pick')?.inputs).toBe(2);
     expect(getCsvTool('csv-pick')?.family).toBe('select');
