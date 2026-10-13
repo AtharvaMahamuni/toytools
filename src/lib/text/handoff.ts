@@ -162,7 +162,7 @@ export function textHandoff(processorId: string, input: string, output: string):
       const lost = input.split('\n').filter((l, i) => l.trim() !== '' && (output.split('\n')[i] ?? '') === '').length;
       if (lost === 0) return null;
       return {
-        text: `${plural(lost, 'line has', 'lines have')} no ASCII characters and slugified to nothing.`,
+        text: `${plural(lost, 'line has', 'lines have')} no Latin letters or digits (Cyrillic, Greek, Chinese and other scripts are not transliterated) and slugified to nothing.`,
         tool: { slug: 'kebab-case-converter', name: 'Kebab Case' },
       };
     }

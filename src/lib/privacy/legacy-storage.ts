@@ -14,7 +14,8 @@
 // cross-tool preferences, favourites, recents or theme.
 //
 // The list is a frozen snapshot of the catalog at this release. A tool added later never wrote a
-// legacy key, because the storage policy was already in force when it shipped.
+// legacy key, because the storage policy was already in force when it shipped. The one exception
+// is JSON Diff, which saved both panes until beta-v12.9; its page now removes that key itself too.
 //
 // Loaded by src/lib/runtime/index.ts through a dynamic import, only while MARK is unset, so a
 // browser fetches it once and never again.
@@ -109,7 +110,7 @@ export const LEGACY_INPUT_IDS: readonly string[] = [
   'remove-line-breaks', 'remove-tabs', 'reverse-text', 'sentence-case-converter',
   'sentence-counter', 'slugify-text', 'snake-case-converter', 'space-counter',
   'systemd-timer-converter', 'tip-calculator', 'title-case-converter', 'triangle-solver',
-  'trim-text', 'uppercase-converter', 'word-frequency-counter', 'case-converter',
+  'trim-text', 'uppercase-converter', 'word-frequency-counter', 'case-converter', 'json-diff',
   'group:case-converters', 'group:encoders', 'group:hash-generators', 'group:text-cleanup',
   'group:text-counters',
 ];

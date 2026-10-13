@@ -141,3 +141,15 @@ test('Sample button loads a decodable token', async ({ page }) => {
 test('shows the local-only privacy assurance', async ({ page }) => {
   await expect(page.locator('.jwt-privacy')).toContainText('never sent to any server');
 });
+
+test('an expired token with a future nbf shows as expired, matching the claims table (Phase C item 10)', async ({ page }) => {
+  const now = Math.floor(Date.now() / 1000);
+  const token = await makeToken(page, { alg: 'HS256' }, { sub: '1', exp: now - 3600, nbf: now + 3600 });
+  await page.locator(`#${SLUG}-input`).fill(token);
+
+  const summary = page.locator(`#${SLUG}-summary`);
+  await expect(summary.locator('[data-sum="status"]')).toHaveText('Expired');
+  await expect(summary.locator('[data-sum="expires"]')).toHaveText('Expired');
+  await expect(page.locator(`#${SLUG}-validity .jwt-vstatus`)).toHaveText('Expired');
+  await expect(page.locator('.jwt-badge', { hasText: 'Expired' }).first()).toBeVisible();
+});

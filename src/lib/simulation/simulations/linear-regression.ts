@@ -156,6 +156,15 @@ export function outlierHit(s: SimState): OutlierHit | null {
   return null;
 }
 
+/**
+ * Slope, intercept and R² of the fit, or NaN when the points stand in one column: a vertical line
+ * has none of them, and NaN renders as the engine's non-finite placeholder.
+ */
+export function definedFit(s: SimState, key: 'slope' | 'intercept' | 'r2'): number {
+  const fit = fitOf(s);
+  return fit.vertical ? Number.NaN : fit[key];
+}
+
 /** The common x when every point shares it, else null. */
 export function verticalX(s: SimState): number | null {
   if (!showsLine(s) || !fitOf(s).vertical) return null;
@@ -237,9 +246,9 @@ const linearRegression: SimulationDef = {
   },
   measurements: [
     { id: 'n', label: 'Points', unit: '', decimals: 0, compute: (s) => pointCount(s) },
-    { id: 'slope', label: 'Slope', unit: '', decimals: 2, compute: (s) => fitOf(s).slope },
-    { id: 'intercept', label: 'Intercept', unit: '', decimals: 2, compute: (s) => fitOf(s).intercept },
-    { id: 'r2', label: 'R²', unit: '', decimals: 3, compute: (s) => fitOf(s).r2 },
+    { id: 'slope', label: 'Slope', unit: '', decimals: 2, compute: (s) => definedFit(s, 'slope') },
+    { id: 'intercept', label: 'Intercept', unit: '', decimals: 2, compute: (s) => definedFit(s, 'intercept') },
+    { id: 'r2', label: 'R²', unit: '', decimals: 3, compute: (s) => definedFit(s, 'r2') },
     { id: 'maxResidual', label: 'Max residual', unit: '', decimals: 2, compute: (s) => fitOf(s).maxResidual },
   ],
   formula: {
@@ -252,7 +261,7 @@ const linearRegression: SimulationDef = {
   observations: [
     (s) => (pointCount(s) < 2 ? 'Two points are required before a line can be fit.' : null),
     (s) =>
-      pointCount(s) === 2
+      pointCount(s) === 2 && !fitOf(s).vertical
         ? 'Two points always give R² = 1, so a third point is what tests the fit.'
         : null,
     (s) => verticalMessage(s),

@@ -17,7 +17,7 @@ export const items: FAQItem[] = [
     id: 'reverse-text-faq-3',
     question: 'Does reversing handle emoji and accented letters correctly?',
     answer:
-      'Yes. The tool reverses by whole characters rather than raw code units, so emoji and accented letters stay intact instead of being split into broken fragments.',
+      'Yes. The tool reverses by whole characters rather than raw code units, so emoji (including skin tones, flags and joined emoji like 👩‍💻) and accented letters stay intact, even an accent typed as a separate combining mark, instead of being split into broken fragments.',
   },
   {
     id: 'reverse-text-faq-5',

@@ -1,6 +1,7 @@
 // Bespoke CSV parser + serializer — pure TypeScript, no deps.
 // Mirrors src/lib/json/yaml.ts: a small, never-throwing core that the structured-data
 // engine and the converter widgets share. Follows RFC 4180 quoting rules.
+import { LosslessInt, isUnsafeIntLiteral } from '@lib/json/losslessInt';
 
 export interface CsvParseOptions {
   /** Field delimiter. Default ','. */
@@ -23,13 +24,26 @@ export interface CsvParseResult {
   error?: string;
 }
 
+/** A quoted field that never closes. Thrown by the tokenizer, turned into a result error by callers. */
+export class CsvQuoteError extends Error {
+  constructor(public line: number) {
+    super(`Line ${line} opens a quote that is never closed, so the rest of the file would be read as one cell. Close the quote, or remove it.`);
+    this.name = 'CsvQuoteError';
+  }
+}
+
 // Tokenize CSV text into a matrix of raw string cells. Handles quoted fields with
-// embedded delimiters, newlines (CRLF or LF), and escaped quotes ("").
+// embedded delimiters, newlines (CRLF or LF), and escaped quotes (""). A quote only opens a
+// quoted field at the start of a field; one in the middle (27" wide) is a literal character,
+// as spreadsheets read it. An unterminated quoted field throws CsvQuoteError instead of
+// silently swallowing the rest of the file.
 function tokenize(text: string, delimiter: string): string[][] {
   const rows: string[][] = [];
   let row: string[] = [];
   let field = '';
   let inQuotes = false;
+  let quoteLine = 0;
+  let line = 1;
   let started = false; // true once the current row has any content
   const n = text.length;
   let i = 0;
@@ -44,14 +58,16 @@ function tokenize(text: string, delimiter: string): string[][] {
         if (text[i + 1] === '"') { field += '"'; i += 2; continue; }
         inQuotes = false; i++; continue;
       }
+      if (ch === '\n') line++;
       field += ch; i++; continue;
     }
-    if (ch === '"') { inQuotes = true; started = true; i++; continue; }
+    if (ch === '"' && field === '') { inQuotes = true; quoteLine = line; started = true; i++; continue; }
     if (ch === delimiter) { endField(); i++; continue; }
-    if (ch === '\r') { if (text[i + 1] === '\n') i++; endRow(); i++; continue; }
-    if (ch === '\n') { endRow(); i++; continue; }
+    if (ch === '\r') { if (text[i + 1] === '\n') i++; endRow(); line++; i++; continue; }
+    if (ch === '\n') { endRow(); line++; i++; continue; }
     field += ch; started = true; i++;
   }
+  if (inQuotes) throw new CsvQuoteError(quoteLine);
   // Flush trailing field/row only if something was accumulated (avoids a phantom
   // empty row when the input ends with a newline).
   if (started || field !== '') endRow();
@@ -67,6 +83,8 @@ function coerce(s: string): unknown {
   if (s === 'null') return null;
   if (/^-?0\d/.test(s)) return s; // preserve leading zeros
   if (/^[-+]?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?$/.test(s)) {
+    // Past 2^53 a number would be rounded, so the exact digits are kept instead.
+    if (isUnsafeIntLiteral(s.replace(/^\+/, ''))) return new LosslessInt(s.replace(/^\+/, ''));
     const num = Number(s);
     if (Number.isFinite(num)) return num;
   }
@@ -76,7 +94,8 @@ function coerce(s: string): unknown {
 /**
  * Tokenize CSV text into its raw cell matrix, preserving ragged rows and extra cells
  * exactly as written (unlike parseCsv, which keys cells by header and drops overflow).
- * Fully-empty rows are dropped unless `keepEmptyRows` is set. Never throws.
+ * Fully-empty rows are dropped unless `keepEmptyRows` is set. Throws CsvQuoteError for an
+ * unterminated quoted field (runCsv turns it into a result error); nothing else throws.
  */
 export function csvToMatrix(
   text: string,
@@ -89,6 +108,23 @@ export function csvToMatrix(
 }
 
 /**
+ * Make repeated column names unique so no column is overwritten: the second "x" becomes "x_2", the
+ * third "x_3", skipping any name the file already uses.
+ */
+export function uniqueHeaders(names: string[]): string[] {
+  const taken = new Set(names);
+  const seen = new Set<string>();
+  return names.map((name) => {
+    if (!seen.has(name)) { seen.add(name); return name; }
+    let k = 2;
+    while (taken.has(`${name}_${k}`) || seen.has(`${name}_${k}`)) k++;
+    const next = `${name}_${k}`;
+    seen.add(next);
+    return next;
+  });
+}
+
+/**
  * Parse CSV text into rows of objects. Never throws — malformed input returns a
  * result with ok:false (or empty rows for blank input).
  */
@@ -97,10 +133,16 @@ export function parseCsv(text: string, opts: Partial<CsvParseOptions> = {}): Csv
   if (!text.trim()) return { ok: true, rows: [], headers: [] };
 
   // Drop fully-empty rows (blank lines / trailing newline artifacts).
-  const matrix = tokenize(text, o.delimiter || ',').filter(r => !r.every(c => c === ''));
+  let matrix: string[][];
+  try {
+    matrix = tokenize(text, o.delimiter || ',').filter(r => !r.every(c => c === ''));
+  } catch (e) {
+    if (e instanceof CsvQuoteError) return { ok: false, rows: [], headers: [], error: e.message };
+    throw e;
+  }
   if (matrix.length === 0) return { ok: true, rows: [], headers: [] };
 
-  const headers = matrix[0].map(h => h.trim());
+  const headers = uniqueHeaders(matrix[0].map(h => h.trim()));
   const rows: Record<string, unknown>[] = [];
   for (let r = 1; r < matrix.length; r++) {
     const cells = matrix[r];

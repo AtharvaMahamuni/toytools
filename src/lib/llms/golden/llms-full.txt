@@ -335,7 +335,7 @@ Does not: Calculate a subnet or a wildcard mask, scan a host, or send the addres
 
 URL: https://toytoolsapp.com/tool/developer-utilities/json-diff/
 Use for: See added, removed, and changed JSON paths.
-Privacy: No sync, no cloud. Your data stays on this device.
+Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Pretty-print JSON or treat 1 and 1.0 as a change, or send the documents to an AI model.
 
 ## JSON Escape / Unescape

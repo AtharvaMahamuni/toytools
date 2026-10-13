@@ -8,11 +8,7 @@ import { repairJson } from './repair';
 import type { JsonRepair } from './repair';
 import type { StructuredDataTool, StructuredDataResult } from './types';
 import { jsonValidator } from './jsonValidator';
-import { jsonToCsv } from './jsonToCsv';
 import { jsonTreeViewer } from './jsonTreeViewer';
-import { jsonToYaml } from './jsonToYaml';
-import { yamlToJson } from './yamlToJson';
-import { csvToJson } from './csvToJson';
 
 // Keyed by tool id, referenced from a tool config's `processorId`.
 export const STRUCTURED_TOOLS: Record<string, StructuredDataTool> = {
@@ -32,11 +28,31 @@ export const STRUCTURED_TOOLS: Record<string, StructuredDataTool> = {
     execute: (input) => import('./jsonLossless').then((mod) => mod.jsonMinifier.execute(input)),
   },
   'json-validator': jsonValidator,
-  'json-to-csv': jsonToCsv,
+  // The four converters are lazy too: with the big-integer handling, js-yaml and the CSV parser
+  // they would push the shared runtime (and json-tree-viewer, which loads it) past its ceiling.
+  'json-to-csv': {
+    id: 'json-to-csv',
+    family: 'json',
+    jsonInput: true,
+    execute: (input) => import('./jsonToCsv').then((mod) => mod.jsonToCsv.execute(input)),
+  },
   'json-tree-viewer': jsonTreeViewer,
-  'json-to-yaml': jsonToYaml,
-  'yaml-to-json': yamlToJson,
-  'csv-to-json': csvToJson,
+  'json-to-yaml': {
+    id: 'json-to-yaml',
+    family: 'json',
+    jsonInput: true,
+    execute: (input) => import('./jsonToYaml').then((mod) => mod.jsonToYaml.execute(input)),
+  },
+  'yaml-to-json': {
+    id: 'yaml-to-json',
+    family: 'json',
+    execute: (input) => import('./yamlToJson').then((mod) => mod.yamlToJson.execute(input)),
+  },
+  'csv-to-json': {
+    id: 'csv-to-json',
+    family: 'json',
+    execute: (input) => import('./csvToJson').then((mod) => mod.csvToJson.execute(input)),
+  },
   // Own chunk. The shared structured-data runtime is at the tool-page byte ceiling,
   // and only the JSON to Schema page calls this id.
   'json-to-schema': {
@@ -58,8 +74,9 @@ export function runStructuredData(id: string, input: string): StructuredDataResu
     console.warn(`[structured-data] Unknown tool id "${id}".`);
     return { ok: false, output: '', error: 'Unknown tool' };
   }
-  // json-formatter, json-minifier and json-to-schema execute through a dynamic import and return
-  // a promise. Every other id is synchronous. The shared widget accepts both.
+  // json-formatter, json-minifier, json-to-schema and the four converters (json-to-csv,
+  // json-to-yaml, yaml-to-json, csv-to-json) execute through a dynamic import and return a
+  // promise. Every other id is synchronous. The shared widget accepts both.
   return tool.execute(input) as StructuredDataResult;
 }
 

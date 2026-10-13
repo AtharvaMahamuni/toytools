@@ -9,6 +9,7 @@ import { csvToTsv } from './csvToTsv';
 import { csvClean } from './csvClean';
 import { csvDiff } from './csvDiff';
 import { csvPick } from './csvPick';
+import { CsvQuoteError } from '@lib/csv/csv';
 
 // Keyed by tool id, referenced from a tool config's `processorId`.
 export const CSV_TOOLS: Record<string, CsvTool> = {
@@ -32,6 +33,7 @@ export function runCsv(id: string, input: string, second?: string): CsvResult {
   try {
     return tool.execute(input, second);
   } catch (err) {
+    if (err instanceof CsvQuoteError) return { ok: false, output: '', error: err.message };
     // eslint-disable-next-line no-console
     console.warn(`[csv] Tool "${id}" threw:`, err);
     return { ok: false, output: '', error: 'Could not process this CSV' };

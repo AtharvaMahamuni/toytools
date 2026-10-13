@@ -29,7 +29,7 @@ export const items: FAQItem[] = [
     id: 'ic-faq-5',
     question: 'Does the cleaned text change anything else?',
     answer:
-      'No. Each finding is replaced by the thing it was pretending to be and nothing else is touched. Zero-width characters and bidi controls are deleted, odd spaces become an ordinary space, smart quotes become straight quotes, and a lookalike letter becomes the ASCII letter it was impersonating. Text with no findings comes back byte for byte identical, so running it on clean input is safe.',
+      'No. Each finding is replaced by the thing it was pretending to be and nothing else is touched. Zero-width characters and bidi controls are deleted, except a zero-width joiner inside an emoji sequence such as 👩‍💻 or a family emoji, which is kept and not reported because removing it would split the emoji apart; odd spaces become an ordinary space, smart quotes become straight quotes, and a lookalike letter becomes the ASCII letter it was impersonating. Text with no findings comes back byte for byte identical, so running it on clean input is safe.',
   },
   {
     id: 'ic-faq-6',

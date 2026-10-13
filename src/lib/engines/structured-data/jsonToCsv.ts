@@ -1,9 +1,12 @@
 import type { StructuredDataTool } from './types';
+import { LosslessInt, stringifyLossless } from '@lib/json/losslessInt';
+import { parseJsonLossless } from './losslessJson';
 
 function escapeCell(value: unknown): string {
   const str =
     value === null || value === undefined ? ''
-    : typeof value === 'object' ? JSON.stringify(value)
+    : value instanceof LosslessInt ? value.raw
+    : typeof value === 'object' ? stringifyLossless(value)
     : String(value);
   if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r'))
     return '"' + str.replace(/"/g, '""') + '"';
@@ -17,7 +20,7 @@ export const jsonToCsv: StructuredDataTool = {
   execute: (input) => {
     if (!input.trim()) return { ok: true, output: '' };
     let parsed: unknown;
-    try { parsed = JSON.parse(input); }
+    try { parsed = parseJsonLossless(input); }
     catch (e) { return { ok: false, output: '', error: (e as Error).message }; }
     if (!Array.isArray(parsed))
       return { ok: false, output: '', error: 'Input must be a JSON array.' };

@@ -147,6 +147,14 @@ function codePointOf(ch: string): string {
   return 'U+' + (ch.codePointAt(0) ?? 0).toString(16).toUpperCase().padStart(4, '0');
 }
 
+const EMOJI_BEFORE = /\p{Extended_Pictographic}[\uFE0F\u{1F3FB}-\u{1F3FF}]?$/u;
+const EMOJI_AFTER = /^\p{Extended_Pictographic}/u;
+
+/** True when the ZWJ at `i` sits between two emoji, i.e. it is part of an emoji ZWJ sequence. */
+function isEmojiJoin(input: string, i: number): boolean {
+  return EMOJI_BEFORE.test(input.slice(Math.max(0, i - 4), i)) && EMOJI_AFTER.test(input.slice(i + 1, i + 3));
+}
+
 /** Inspect `input` for characters that are invisible, impersonating, or reordering. */
 export function detectInvisible(input: string): InvisibleReport {
   const findings: CharFinding[] = [];
@@ -160,6 +168,13 @@ export function detectInvisible(input: string): InvisibleReport {
     const ch = input[i]!;
 
     if (/[A-Za-z]/.test(ch)) hasLatin = true;
+
+    // A zero-width joiner between two emoji is what builds 👩‍💻 or a family emoji. It is meant to
+    // be there, so it is neither reported nor removed (removing it splits the emoji apart).
+    if (ch === '\u200D' && isEmojiJoin(input, i)) {
+      cleaned += ch;
+      continue;
+    }
 
     const def = CHARS[ch];
     if (def) {

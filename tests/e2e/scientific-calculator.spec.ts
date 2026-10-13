@@ -51,6 +51,16 @@ test.describe('scientific calculator', () => {
     await expect(page.getByRole('button', { name: 'RAD', exact: true })).toHaveAttribute('aria-pressed', 'true');
   });
 
+  test('degree mode gives exact answers at multiples of 90', async ({ page }) => {
+    await page.goto(URL);
+    await press(page, 'cosine', '9', '0', 'close parenthesis', 'equals');
+    await expect(result(page)).toHaveText('= 0');
+    await press(page, 'clear all', 'sine', '1', '8', '0', 'close parenthesis', 'equals');
+    await expect(result(page)).toHaveText('= 0');
+    await press(page, 'clear all', 'tangent', '9', '0', 'close parenthesis', 'equals');
+    await expect(result(page)).toContainText(/undefined/i);
+  });
+
   test('computes a square root and a factorial', async ({ page }) => {
     await page.goto(URL);
     await press(page, 'square root', '2', 'close parenthesis', 'equals');

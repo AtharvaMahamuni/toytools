@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
-  minor: 8,
+  minor: 9,
   patch: 0,
   status: 'beta',
   releaseDate: '2026-10-14',
-  description: 'Normal distribution, linear regression, lean body mass, CSV column picker, and the architecture page',
+  description: 'Phase C fixes: CSV quotes, exact degree trig, slugify, grapheme reverse, emoji joiners, big integers, HTML5 entities, JWT and JSON Diff',
 };
 
 export function formatVersion(config: VersionConfig): string {
