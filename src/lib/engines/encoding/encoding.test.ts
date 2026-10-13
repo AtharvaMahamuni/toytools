@@ -178,7 +178,7 @@ describe('html-entity', () => {
     expect(decode('&lt;b&gt;&amp;&apos;&quot;')).toBe(`<b>&'"`));
   it('decodes common typographic named entities', () =>
     expect(decode('&copy; 2026 &mdash; caf&eacute;? &hellip; &laquo;ok&raquo;'))
-      .toBe('© 2026 — caf&eacute;? … «ok»'));
+      .toBe('© 2026 — café? … «ok»'));
   it('decodes &nbsp; to a non-breaking space', () =>
     expect(decode('a&nbsp;b')).toBe('a b'));
   it('decodes decimal numeric references', () => expect(decode('&#65;&#66;')).toBe('AB'));
