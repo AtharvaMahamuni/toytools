@@ -1,5 +1,5 @@
 import type { StructuredDataTool } from './types';
-import { duplicateKeyWarning, formatJsonLossless } from './losslessJson';
+import { duplicateKeyWarning, formatJsonLossless, jsonLimitError } from './losslessJson';
 
 // Strip all insignificant whitespace from JSON, losslessly: JSON.parse only validates (and supplies
 // the error message), then the original tokens are copied with no whitespace between them, so big
@@ -11,6 +11,8 @@ export const jsonMinifier: StructuredDataTool = {
   jsonInput: true,
   execute: (input) => {
     if (!input.trim()) return { ok: true, output: '' };
+    const limit = jsonLimitError(input);
+    if (limit) return { ok: false, output: '', error: limit };
     try {
       JSON.parse(input);
     } catch (e) {

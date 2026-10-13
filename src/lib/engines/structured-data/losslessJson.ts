@@ -20,9 +20,36 @@ const STOP = ' \t\n\r,:[]{}"';
  * `indent` = '' the output is minified exactly as JSON.stringify(v) lays it out: no newlines and no
  * space after a colon. Either way every token is copied verbatim.
  */
+/** Inputs past these limits are refused with a clear error instead of freezing the page. */
+export const MAX_JSON_DEPTH = 2000;
+export const MAX_JSON_CHARS = 20 * 1024 * 1024;
+
+/**
+ * A clear error when `text` is too large or nests too deeply to format safely, else null. A single
+ * linear scan that skips string contents, so it is cheap even on large input.
+ */
+export function jsonLimitError(text: string): string | null {
+  if (text.length > MAX_JSON_CHARS) {
+    return 'This JSON is larger than 20 MB, which is too big to format in the browser. Try a smaller piece.';
+  }
+  let depth = 0;
+  for (let i = 0; i < text.length; i++) {
+    const c = text.charCodeAt(i);
+    if (c === 34) { // "
+      i++;
+      while (i < text.length && text.charCodeAt(i) !== 34) i += text.charCodeAt(i) === 92 ? 2 : 1;
+    } else if (c === 123 || c === 91) { // { [
+      if (++depth > MAX_JSON_DEPTH) {
+        return `This JSON nests more than ${MAX_JSON_DEPTH} levels deep, which is too deep to format in the browser.`;
+      }
+    } else if (c === 125 || c === 93) depth--;
+  }
+  return null;
+}
+
 export function formatJsonLossless(text: string, indent = '  '): LosslessFormat {
   const out: string[] = [];
-  const duplicates: string[] = [];
+  const duplicates = new Set<string>();
   // One entry per open container: the keys seen so far for an object, null for an array.
   const keys: (Set<string> | null)[] = [];
   let depth = 0;
@@ -44,7 +71,7 @@ export function formatJsonLossless(text: string, indent = '  '): LosslessFormat 
       if (expectKey && seen) {
         const key = JSON.parse(token) as string;
         if (!seen.has(key)) seen.add(key);
-        else if (!duplicates.includes(key)) duplicates.push(key);
+        else duplicates.add(key);
         expectKey = false;
       }
       out.push(token);
@@ -82,12 +109,16 @@ export function formatJsonLossless(text: string, indent = '  '): LosslessFormat 
     out.push(text.slice(i, j));
     i = j;
   }
-  return { output: out.join(''), duplicates };
+  return { output: out.join(''), duplicates: [...duplicates] };
 }
+
+/** How many duplicate key names the warning lists before "and N more". */
+export const DUPLICATES_SHOWN = 5;
 
 /** The status-line warning for duplicate keys, shared by the formatter and the minifier. */
 export function duplicateKeyWarning(duplicates: string[]): string | undefined {
   if (!duplicates.length) return undefined;
-  const names = duplicates.map((k) => JSON.stringify(k)).join(', ');
-  return `Duplicate key${duplicates.length > 1 ? 's' : ''} ${names}: kept as written here, but most JSON parsers keep only the last value.`;
+  const shown = duplicates.slice(0, DUPLICATES_SHOWN).map((k) => JSON.stringify(k)).join(', ');
+  const more = duplicates.length > DUPLICATES_SHOWN ? ` and ${duplicates.length - DUPLICATES_SHOWN} more` : '';
+  return `Duplicate key${duplicates.length > 1 ? 's' : ''} ${shown}${more}: kept as written here, but most JSON parsers keep only the last value.`;
 }
