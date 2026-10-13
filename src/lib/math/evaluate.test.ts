@@ -139,3 +139,35 @@ describe('error handling (never throws)', () => {
     expect(errOf('@')).toMatch(/unexpected/i);
   });
 });
+
+describe('degree mode at exact angles (Phase C C1)', () => {
+  const deg = { angleMode: 'deg' as const };
+  it('gives clean 0, 1 and -1 at every multiple of 90', () => {
+    expect(ev('cos(90)', deg)).toBe(0);
+    expect(ev('sin(180)', deg)).toBe(0);
+    expect(ev('sin(90)', deg)).toBe(1);
+    expect(ev('cos(180)', deg)).toBe(-1);
+    expect(ev('sin(270)', deg)).toBe(-1);
+    expect(ev('cos(270)', deg)).toBe(0);
+    expect(ev('sin(360)', deg)).toBe(0);
+    expect(ev('cos(-90)', deg)).toBe(0);
+    expect(ev('sin(-90)', deg)).toBe(-1);
+    expect(ev('sin(720)', deg)).toBe(0);
+    expect(ev('tan(180)', deg)).toBe(0);
+    expect(ev('tan(-180)', deg)).toBe(0);
+  });
+  it('reports tan at odd multiples of 90 as undefined, like 1/0 errors', () => {
+    expect(errOf('tan(90)')).toMatch(/undefined/i);
+    expect(errOf('tan(270)')).toMatch(/undefined/i);
+    expect(errOf('tan(-90)')).toMatch(/undefined/i);
+  });
+  it('leaves other angles and radian mode as they were', () => {
+    expect(ev('sin(30)', deg)).toBeCloseTo(0.5, 12);
+    expect(ev('tan(45)', deg)).toBeCloseTo(1, 12);
+    expect(ev('sin(90.5)', deg)).toBeCloseTo(Math.sin(90.5 * Math.PI / 180), 15);
+    expect(ev('sin(90)', { angleMode: 'rad' })).toBe(Math.sin(90));
+    expect(ev('cos(0)', { angleMode: 'rad' })).toBe(1);
+    expect(ev('tan(1)', { angleMode: 'rad' })).toBe(Math.tan(1));
+  });
+});
+
