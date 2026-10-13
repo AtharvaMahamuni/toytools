@@ -249,7 +249,7 @@ const linearRegression: SimulationDef = {
     { id: 'slope', label: 'Slope', unit: '', decimals: 2, compute: (s) => definedFit(s, 'slope') },
     { id: 'intercept', label: 'Intercept', unit: '', decimals: 2, compute: (s) => definedFit(s, 'intercept') },
     { id: 'r2', label: 'R²', unit: '', decimals: 3, compute: (s) => definedFit(s, 'r2') },
-    { id: 'maxResidual', label: 'Max residual', unit: '', decimals: 2, compute: (s) => fitOf(s).maxResidual },
+    { id: 'maxResidual', label: 'Max residual', unit: '', decimals: 2, compute: (s) => (fitOf(s).vertical ? Number.NaN : fitOf(s).maxResidual) },
   ],
   formula: {
     expression: 'y = mx + b',

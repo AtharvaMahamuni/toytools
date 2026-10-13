@@ -78,6 +78,7 @@ function readTip(raw: unknown): { ok: true; value: number } | { ok: false; resul
 export const splitBillCalc: FinanceCalculator = {
   id: 'split-bill',
   family: 'bill',
+  fixedCurrency: 'INR',
   fields: [
     {
       id: 'bill',

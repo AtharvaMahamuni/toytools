@@ -2,6 +2,28 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.10] - 2026-10-14
+
+### Fixed
+
+- **Finance calculators (SIP, compound interest, CAGR, ROI, inflation, savings goal, emergency fund).** Switching currency rescales only the starting defaults and preset or scenario amounts, so they keep reading natively. An amount you typed keeps its value and is only regrouped for the new currency, because there is no live exchange rate.
+- **Split Bill, UPI MDR Estimator and UPI 1999 Split** work in rupees only, so the currency menu that changed nothing is gone.
+- **Split Bill, UPI MDR Estimator, UPI 1999 Split and UUID Inspector** no longer save what you type in this browser or write it into the page address. Values saved by older builds are removed the next time a page opens, and settings such as the UPI kind are kept. Each page shows the standard privacy line, and the privacy page no longer says these calculators keep inputs in the address.
+- **Negative rates.** A rate or any amount below 0 now gets a clear error, such as "An interest rate cannot be negative. Enter 0 or more.", instead of quietly becoming 0 when you leave the box. The plus and minus steps still stop at the field's limits.
+- **Health calculators (BMI, BMR, TDEE, calorie deficit, body fat, ideal weight, protein).** The metric and imperial switch converts what is in the boxes: 70 kg becomes 154.3 lb and 175 cm becomes 68.9 in. A remembered imperial setting no longer opens BMI with 175 inches and an error. The BMI FAQ says so.
+- **Linear Regression Playground.** Max residual also shows the placeholder on a vertical line.
+- **JSON tools.** If part of a tool fails to load, the page says so instead of keeping its last output.
+- **JWT Decoder.** A token whose expiry comes no later than its not-before time, with both still ahead, reads Never valid.
+- **Big integers in the converters.** The internal marker is a fresh random token, so data cannot imitate it.
+- **CSV to TSV.** Files with hundreds of thousands of rows no longer fail while counting columns.
+
+### Fixed before release (review round)
+
+- **One-Rep Max and Running Pace.** The unit switch converts the right way: 100 kg becomes 220.5 lb and back to 100 kg, and 5 km becomes 3.1 mi. A One-Rep Max kg or lb choice no longer leaks into the body calculators' metric or imperial setting.
+- **Health calculators.** Load Example and Reset keep the unit switch in step, so switching to imperial after an example converts again. Toggling units and straight back restores the exact value you had (181 cm stays 181) unless you changed it in between.
+- **Field limits.** Now that a typed value is no longer silently clamped, every limit is checked by the calculator itself: SIP, CAGR and Savings Goal years stop at 100, Emergency Fund months at 24, and a negative bodyweight or hip on Body Fat gets an error. A test walks every field of every calculator so a limit cannot be missed again.
+- **Finance currency.** A value changed with the arrow keys or the minus and plus buttons counts as typed, so a currency switch keeps it. Split Bill and the UPI tools no longer store a currency at all.
+
 ## [beta-v12.9] - 2026-10-14
 
 ### Fixed

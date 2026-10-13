@@ -34,7 +34,7 @@ export const savingsGoal: FinanceCalculator = {
     if (!current.ok) return current.result;
     const r = number(input, 'rate', 'an expected return', { min: 0, max: 100 });
     if (!r.ok) return r.result;
-    const y = positive(input, 'years', 'a number of years');
+    const y = positive(input, 'years', 'a number of years', { max: 100 });
     if (!y.ok) return y.result;
 
     const months = Math.round(y.value * 12);

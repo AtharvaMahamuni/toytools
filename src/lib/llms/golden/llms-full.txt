@@ -587,7 +587,7 @@ Does not: Call an AI model.
 
 URL: https://toytoolsapp.com/tool/generate/uuid-inspector/
 Use for: Read the version, variant, and time inside a UUID.
-Privacy: No sync, no cloud. Your data stays on this device.
+Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Mint a new UUID or treat version 4 as version 7, or send the value to an AI model.
 
 ## BMI Calculator
@@ -762,21 +762,21 @@ Does not: Call an AI model.
 
 URL: https://toytoolsapp.com/tool/finance/split-bill/
 Use for: Split a dinner bill so every share adds up.
-Privacy: No sync, no cloud. Your data stays on this device.
+Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Collect a payment or split the bill by item, or send the total to an AI model.
 
 ## UPI 1999 Split
 
 URL: https://toytoolsapp.com/tool/finance/upi-1999-split/
 Use for: A meme split into 1999 rupee chunks.
-Privacy: No sync, no cloud. Your data stays on this device.
+Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Send a payment or call an AI model. It is not tax or payments advice.
 
 ## UPI MDR Estimator
 
 URL: https://toytoolsapp.com/tool/finance/upi-mdr-estimator/
 Use for: Estimate merchant MDR in rupees.
-Privacy: No sync, no cloud. Your data stays on this device.
+Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call that charge a tax the customer owes or decide real small-merchant status, or send the amount to an AI model.
 
 ## Music Equalizer Settings

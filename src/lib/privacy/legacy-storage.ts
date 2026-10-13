@@ -15,7 +15,9 @@
 //
 // The list is a frozen snapshot of the catalog at this release. A tool added later never wrote a
 // legacy key, because the storage policy was already in force when it shipped. The one exception
-// is JSON Diff, which saved both panes until beta-v12.9; its page now removes that key itself too.
+// is JSON Diff, which saved both panes until beta-v12.9, and Split Bill, UPI MDR Estimator, UPI 1999
+// Split and UUID Inspector, which saved typed values until beta-v12.10. Their pages also strip the
+// old key themselves on the next visit.
 //
 // Loaded by src/lib/runtime/index.ts through a dynamic import, only while MARK is unset, so a
 // browser fetches it once and never again.
@@ -85,13 +87,17 @@ export const LEGACY_RULES: Readonly<Record<string, LegacyRule>> = {
   'shell-quote-escalator': { keep: ['chain'] },
   'sip-calculator': { keep: ['currency'] },
   'sleep-cycle-calculator': { fieldOpts: ['direction'] },
+  'split-bill': { keep: ['opts'] },
   'statistics-visualizer': { fieldOpts: ['stdevMode'] },
   'tax-calculator': { keep: ['mode'] },
   'tdee-calculator': { fieldOpts: ['unit'] },
   'text-repeater': { keep: ['count', 'separator', 'numbered'] },
   'timezone-converter': { fieldOpts: ['fromZone', 'toZone'] },
   'unix-timestamp-converter': { fieldOpts: ['mode', 'unit'] },
+  'upi-1999-split': { keep: ['opts'] },
+  'upi-mdr-estimator': { keep: ['opts'] },
   'url-encoder-decoder': { keep: ['mode', 'override'] },
+  'uuid-inspector': { keep: ['options'], dropOptions: ['input'] },
   'word-counter': { keep: ['goal'] },
 };
 
@@ -182,7 +188,8 @@ export function reduceEnvelope(data: unknown, rule: LegacyRule): Bag | null {
   if (!isBag(data)) return null;
   const out: Bag = {};
   for (const k of rule.keep ?? []) {
-    if (data[k] !== undefined) out[k] = data[k];
+    // An empty settings bag ({ opts: {} }) holds no option, so it is not worth keeping.
+    if (data[k] !== undefined && !(isBag(data[k]) && !Object.keys(data[k] as Bag).length)) out[k] = data[k];
   }
   if (rule.fieldOpts) {
     const opts: Bag = isBag(data.opts) ? { ...data.opts } : {};

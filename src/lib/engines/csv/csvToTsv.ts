@@ -18,7 +18,9 @@ export const csvToTsv: CsvTool = {
     const output = matrix
       .map(row => row.map(cell => escapeCell(cell, '\t')).join('\t'))
       .join('\n');
-    const cols = Math.max(...matrix.map(r => r.length));
+    // A reduce, not Math.max(...spread): a 10 MB file can have more rows than the engine allows
+    // as call arguments, and the spread then throws a RangeError.
+    const cols = matrix.reduce((m, r) => (r.length > m ? r.length : m), 0);
     const dataRows = Math.max(0, matrix.length - 1);
     return {
       ok: true,

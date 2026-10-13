@@ -38,6 +38,11 @@ export interface FinanceCalculator {
   layout?: SectionId[];
   /** Declared capabilities (the experience renderer + widget read these). */
   capabilities?: Partial<Capabilities>;
+  /**
+   * The tool works in one currency only (rupees and paise for the UPI and bill-split tools), so the
+   * widget hides the currency menu instead of offering a choice that changes nothing.
+   */
+  fixedCurrency?: 'INR';
   /** Pure, synchronous, never-throws: builds an InteractiveResult (including the error path). */
   calculate(input: FinanceInput, opts: FinanceOpts): FinanceResult;
 }

@@ -104,9 +104,8 @@ const keepList = `${keepNames.slice(0, -1).join(', ')} and ${keepNames[keepNames
       type, and referrer. No tool passes what you type to it.
     </p>
     <p>
-      Some calculators keep their inputs in the page address: the bill-splitting and UPI
-      calculators as you type, and any calculator you open from a shared link (see Links you share
-      below). The site
+      A calculator you open from a shared link keeps that link's inputs in the page address (see
+      Links you share below). No calculator writes what you type into the address by itself. The site
       gives Google Analytics that address without the part after the question mark, for the page
       you are on and for the page you came from, so those inputs are left out. Google Analytics can
       also count a page view by itself when you return to a page with the Back button, and then it
@@ -148,8 +147,7 @@ const keepList = `${keepNames.slice(0, -1).join(', ')} and ${keepNames[keepNames
       link's values back.
     </p>
     <p>
-      The bill-splitting and UPI calculators, which keep their data in this browser, keep their
-      inputs in the page address as you type, so a link to them carries those numbers. Tools whose
+      No calculator writes your inputs into the page address as you type. Tools whose
       input may be a secret never put anything in the address at all, and offer no link action.
     </p>
 

@@ -159,7 +159,7 @@ describe('linear regression model', () => {
       s.vars.y1 = 4;
       s.vars.x2 = 2;
       s.vars.y2 = 7;
-      for (const id of ['slope', 'intercept', 'r2']) {
+      for (const id of ['slope', 'intercept', 'r2', 'maxResidual']) {
         const m = linearRegression.measurements.find((q) => q.id === id)!;
         expect(Number.isNaN(m.compute(s)), id).toBe(true);
         expect(formatQuantity(m.compute(s), m.decimals)).toBe('—');

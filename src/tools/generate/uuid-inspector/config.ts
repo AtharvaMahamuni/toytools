@@ -17,7 +17,6 @@ export const config: ToolConfig = {
     'what version is this uuid',
   ],
   updatedAt: '2026-09-18',
-  trustVariant: 'local',
   engine: 'generation',
   pattern: 'generate-identifier',
   family: 'identifier',

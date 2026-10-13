@@ -32,14 +32,16 @@ export function number(
   }
   const n = typeof raw === 'number' ? raw : Number(raw);
   if (!Number.isFinite(n)) return fail(`${label} must be a number.`);
-  if (opts.min !== undefined && n < opts.min) return fail(`${label} cannot be less than ${opts.min}.`);
-  if (opts.max !== undefined && n > opts.max) return fail(`${label} cannot be more than ${opts.max}.`);
+  const Label = label.charAt(0).toUpperCase() + label.slice(1);
+  if (opts.min === 0 && n < 0) return fail(`${Label} cannot be negative. Enter 0 or more.`);
+  if (opts.min !== undefined && n < opts.min) return fail(`${Label} cannot be less than ${opts.min}.`);
+  if (opts.max !== undefined && n > opts.max) return fail(`${Label} cannot be more than ${opts.max}.`);
   return ok(n);
 }
 
 /** A strictly positive number. */
-export function positive(input: FinanceInput, key: string, label: string): Coerced {
-  const c = number(input, key, label, { min: 0 });
+export function positive(input: FinanceInput, key: string, label: string, opts: { max?: number } = {}): Coerced {
+  const c = number(input, key, label, { min: 0, max: opts.max });
   if (!c.ok) return c;
   if (c.value <= 0) return fail(`${label} must be greater than zero.`);
   return c;

@@ -55,8 +55,11 @@ function displayFor(field: HTMLInputElement, n: number): string {
   return String(Number(n.toFixed(4)));
 }
 
-function commit(field: HTMLInputElement, n: number, reformat: boolean): void {
-  const bounded = clampToBounds(field, n);
+// Stepping clamps to the field's bounds. A typed value is kept as typed (clamp = false), so an
+// out-of-range entry such as a -2% rate reaches the engine and gets its clear error instead of
+// silently becoming 0.
+function commit(field: HTMLInputElement, n: number, reformat: boolean, clamp = true): void {
+  const bounded = clamp ? clampToBounds(field, n) : n;
   field.dataset.raw = String(bounded);
   if (reformat) field.value = displayFor(field, bounded);
   field.dispatchEvent(new Event('change', { bubbles: true }));
@@ -94,7 +97,7 @@ function enhance(field: HTMLInputElement): void {
   // On blur: normalise the display (grouping / magnitude expansion).
   field.addEventListener('blur', () => {
     if (field.value.trim() === '') return;
-    commit(field, rawOf(field), true);
+    commit(field, rawOf(field), true, false);
   });
 
   // Keyboard stepping.

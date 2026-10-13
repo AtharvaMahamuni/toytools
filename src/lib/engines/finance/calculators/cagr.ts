@@ -33,7 +33,7 @@ export const cagr: FinanceCalculator = {
     if (!s.ok) return s.result;
     const e = positive(input, 'end', 'an ending value');
     if (!e.ok) return e.result;
-    const y = positive(input, 'years', 'a period');
+    const y = positive(input, 'years', 'a period', { max: 100 });
     if (!y.ok) return y.result;
 
     const start = s.value;
