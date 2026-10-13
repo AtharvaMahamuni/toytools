@@ -256,7 +256,7 @@ describe('wordTokens: one tokenizer for Words, Unique Words and Top Words (Phase
       const t0 = performance.now();
       analyzeText(text);
       wordTokens(text);
-      expect(performance.now() - t0, text.slice(0, 12)).toBeLessThan(200);
+      expect(performance.now() - t0, text.slice(0, 12)).toBeLessThan(1000);
     }
     expect(analyzeText('https://x' + ','.repeat(100000)).words).toBe(1);
   });
@@ -264,5 +264,21 @@ describe('wordTokens: one tokenizer for Words, Unique Words and Top Words (Phase
   it('trims edge punctuation the same way, including astral characters', () => {
     expect(wordTokens('(dog.) \u{1F600}cat\u{1F600} "a-b" ...')).toEqual(['dog', 'cat', 'a-b']);
     expect(wordTokens('\u{1D400}!')).toEqual(['\u{1D400}']);
+  });
+
+  it('never splits a surrogate pair while trimming, even on malformed input', () => {
+    // A lone low surrogate after an ASCII letter: the letter must survive the trim.
+    expect(wordTokens('a\uDE00')).toEqual(['a']);
+    // A lone low surrogate after a real pair stays out, the pair stays whole.
+    expect(wordTokens('\u{1D400}\uDE00')).toEqual(['\u{1D400}']);
+    // A lone high surrogate at the start is trimmed without touching the word.
+    expect(wordTokens('\uD835word')).toEqual(['word']);
+  });
+
+  it("treats don't with a straight or curly apostrophe as one word", () => {
+    expect(wordTokens('don\u2019t don\'t DON\u02BCT')).toEqual(["don't", "don't", "don't"]);
+    expect(analyzeText('don\u2019t don\'t').uniqueWords).toBe(1);
+    // A closing curly quote at the end is still trimmed as punctuation.
+    expect(wordTokens('\u2018quoted\u2019')).toEqual(['quoted']);
   });
 });

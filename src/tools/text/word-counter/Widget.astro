@@ -195,7 +195,7 @@ import { config } from './config';
   var downloadBtn = document.getElementById('wc-download-btn');
   if (downloadBtn) {
     downloadBtn.addEventListener('click', function () {
-      if (!textarea.value.trim()) { ToyTools.toast('Nothing to download!'); return; }
+      if (textarea.value === '') { ToyTools.toast('Nothing to download!'); return; }
       var lines = ['Word Count Report', '=================', ''];
       document.querySelectorAll('[data-metric]').forEach(function (el) {
         var label = el.closest('.tm-hero, .tm-stat-row');

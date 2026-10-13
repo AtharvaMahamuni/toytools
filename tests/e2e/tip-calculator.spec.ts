@@ -103,3 +103,23 @@ test.describe('tip calculator: split between', () => {
     await expect(e.split).toHaveValue('1');
   });
 });
+
+test.describe('tip calculator: check-your-input warnings', () => {
+  test('a tip over 100% and a split over 1,000 still calculate, with a note', async ({ page }) => {
+    await page.goto(URL);
+    const e = els(page);
+    await e.bill.fill('100');
+    await e.pct.fill('150');
+    await expect(e.amount).toHaveText('$150.00');
+    await expect(page.locator('#tip-pct-warn')).toHaveText('That tip is more than the bill itself. Check the percentage.');
+    await expect(e.pctErr).toBeHidden();
+    await e.pct.fill('100');
+    await expect(page.locator('#tip-pct-warn')).toBeHidden();
+
+    await e.split.fill('1001');
+    await expect(page.locator('#tip-split-warn')).toHaveText('That is more than 1,000 people. Check the number.');
+    await expect(e.ppTipRow).toBeVisible();
+    await e.split.fill('1000');
+    await expect(page.locator('#tip-split-warn')).toBeHidden();
+  });
+});

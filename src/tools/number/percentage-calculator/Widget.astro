@@ -22,7 +22,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
   </IoPanel>
 
   <IoPanel slot="output" label="Result" variant="prose" result bare>
-    <div class="tm-hero">
+    <div class="tm-hero" role="status" aria-live="polite" aria-atomic="true">
       <span class="hero-value" id="pct-value">0</span>
       <span class="hero-label">Result</span>
       <p class="empty-hint" id="pct-hint">Enter values to calculate.</p>
@@ -103,12 +103,14 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
         // Divide by |A| so the sign always means up or down, even from a negative baseline:
         // -20 to 50 is +350%. Same formula as percentChange() in src/lib/number/percent.ts.
         result = ((b - a) / Math.abs(a)) * 100;
-        formula = 'Change from ' + a + ' to ' + b + ' (%)';
+        formula = (result > 0 ? 'Increase' : result < 0 ? 'Decrease' : 'No change') + ' from ' + a + ' to ' + b;
       } else {
         result = (a / b) * 100;
         formula = a + ' is this % of ' + b;
       }
-      show(Number(result.toFixed(6)).toString() + (mode === 'of' ? '' : '%'), formula);
+      var shown = Number(result.toFixed(6));
+      // An increase carries an explicit "+", so the sign reads the same as a decrease's "-".
+      show((mode === 'change' && shown > 0 ? '+' : '') + shown.toString() + (mode === 'of' ? '' : '%'), formula);
     }
 
     function persist() {

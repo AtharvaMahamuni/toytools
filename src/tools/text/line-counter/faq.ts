@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'linec-faq-1',
     question: 'What counts as a line?',
     answer:
-      'A line is any sequence of text followed by a line break (newline character). A file with "Hello\\nWorld" has 2 lines. A file with "Hello\\n\\nWorld" has 3 lines: "Hello", an empty line, and "World". Even the last line counts as one line, whether or not it ends with a newline.',
+      'A line is any sequence of text followed by a line break (newline character). A file with "Hello\\nWorld" has 2 lines. A file with "Hello\\n\\nWorld" has 3 lines: "Hello", an empty line, and "World". The last line counts even without a newline after it, and a trailing newline starts one more, empty line.',
   },
   {
     id: 'linec-faq-2',
@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'linec-faq-4',
     question: 'Does an empty document have 0 or 1 lines?',
     answer:
-      'An empty document has 0 lines in this tool. The line count only activates once you have text. A document with a single word like "Hello" has 1 line. A document with "Hello\\n" (including a trailing newline) also has 1 line.',
+      'An empty document has 0 lines in this tool. The line count only activates once you have text. A document with a single word like "Hello" has 1 line. A document with "Hello\\n" (with a trailing newline) has 2 lines, because the empty line after the break counts too; Non-empty Lines still shows 1.',
   },
   {
     id: 'linec-faq-5',

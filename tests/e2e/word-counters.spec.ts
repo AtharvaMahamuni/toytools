@@ -91,4 +91,13 @@ test.describe('word frequency counter: same tokenizer', () => {
     const words = await page.locator('#wf-list .wf-word').allTextContents();
     expect([...words].sort()).toEqual(['1,000', 'dog', 'green', 'red', 'slept', 'the', 'tired'].sort());
   });
+
+  test('straight and curly apostrophes count as one word', async ({ page }) => {
+    await page.goto('/tool/text/word-frequency-counter/');
+    const filter = page.locator('#wf-stop-filter');
+    if (await filter.isChecked()) await filter.uncheck();
+    await page.locator('#word-frequency-counter-input').fill("don't don\u2019t");
+    await expect(page.locator('[data-metric="words"]')).toHaveText('2');
+    expect(await page.locator('#wf-list .wf-word').allTextContents()).toEqual(["don't"]);
+  });
 });

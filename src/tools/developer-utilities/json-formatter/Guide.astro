@@ -54,8 +54,8 @@ const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
       That's fine for machines. For humans, a single-line response like
       <code>{compactJsonExample}</code>
       requires careful scanning to understand. A JSON formatter (also called a JSON beautifier,
-      JSON pretty printer, or json pretty-printer) parses the JSON and re-serializes it with
-      consistent indentation. When you format JSON or beautify JSON, you add line breaks and
+      JSON pretty printer, or json pretty-printer) checks that the JSON parses, then re-indents
+      your original text with consistent indentation, without re-serializing it. When you format JSON or beautify JSON, you add line breaks and
       spaces that make the structure visible:
     </p>
     <pre class="json-example"><code>{formattedJsonExample}</code></pre>
@@ -116,7 +116,7 @@ const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
 
     <ReferenceBlock type="common-mistake" heading="Trying to format invalid JSON">
       <p>
-        A formatter parses the JSON before re-serializing it. If the input has a syntax error (a trailing comma, an unquoted key, a single-quoted string) the parse fails and the
+        A formatter checks that the JSON parses before re-indenting it. If the input has a syntax error (a trailing comma, an unquoted key, a single-quoted string) the parse fails and the
         formatter can't proceed. Fix the syntax error first. Use the <a href={toolPathBySlug('json-validator')}>JSON Validator</a> to pinpoint exactly
         where the problem is.
       </p>

@@ -12,18 +12,33 @@ test.describe('percentage calculator: change from a negative A', () => {
 
     await a.fill('-20');
     await b.fill('50');
-    await expect(value).toHaveText('350%');
+    await expect(value).toHaveText('+350%');
+    await expect(page.locator('#pct-formula')).toHaveText('Increase from -20 to 50');
 
     await a.fill('-50');
     await b.fill('-20');
-    await expect(value).toHaveText('60%');
+    await expect(value).toHaveText('+60%');
 
     await a.fill('-20');
     await b.fill('-40');
     await expect(value).toHaveText('-100%');
+    await expect(page.locator('#pct-formula')).toHaveText('Decrease from -20 to -40');
 
     await a.fill('80');
     await b.fill('100');
-    await expect(value).toHaveText('25%');
+    await expect(value).toHaveText('+25%');
+
+    await b.fill('80');
+    await expect(value).toHaveText('0%');
+    await expect(page.locator('#pct-formula')).toHaveText('No change from 80 to 80');
+    await expect(page.locator('.tm-hero')).toHaveAttribute('aria-live', 'polite');
   });
+});
+
+test('other modes do not get a plus sign', async ({ page }) => {
+  await page.goto('/tool/number/percentage-calculator/');
+  await page.locator('#percentage-mode').selectOption('of');
+  await page.locator('#percentage-a').fill('20');
+  await page.locator('#percentage-b').fill('150');
+  await expect(page.locator('#pct-value')).toHaveText('30');
 });

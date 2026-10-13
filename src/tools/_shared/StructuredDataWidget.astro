@@ -132,6 +132,8 @@ const statusId = `${slug}-status`;
     function run() {
       if (!(window.ToyTools && ToyTools.runStructuredData)) return;
       if (!input.value.trim()) {
+        // Invalidate any slow result still in flight, so it cannot repaint over the cleared state.
+        ++runSeq;
         status.textContent = '';
         status.setAttribute('data-ok', '');
         setOutput('Output will appear here', true);

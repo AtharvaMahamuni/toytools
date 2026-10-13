@@ -26,6 +26,14 @@ const bool = (v: unknown, fallback: boolean): boolean => (typeof v === 'boolean'
  * The library has no ECI segment API, so no ECI header is written; QR readers (ZXing, iOS, Android,
  * jsQR) detect UTF-8 byte data.
  */
+// The largest byte-mode payload a QR code holds (version 40) at each error-correction level.
+export const QR_MAX_BYTES: Record<'L' | 'M' | 'Q' | 'H', number> = { L: 2953, M: 2331, Q: 1663, H: 1273 };
+
+function tooMuchText(bytes: number, level: 'L' | 'M' | 'Q' | 'H'): string {
+  const lower = level === 'L' ? '' : ' Lower error correction fits more.';
+  return `Too much text for one QR code: ${bytes} bytes, and the limit at ${level} error correction is ${QR_MAX_BYTES[level]} bytes. Shorten the text.${lower}`;
+}
+
 export function utf8ByteString(text: string): string {
   const bytes = new TextEncoder().encode(text);
   let out = '';
@@ -128,9 +136,15 @@ export const qrCode: Generator = {
     })();
 
     // typeNumber 0 = auto-select the smallest version that fits the data at this EC level.
+    const bytes = utf8ByteString(content);
+    if (bytes.length > QR_MAX_BYTES[level]) return { ok: false, kind: 'qr', error: tooMuchText(bytes.length, level) };
     const qr = qrcode(0, level);
-    qr.addData(utf8ByteString(content));
-    qr.make();
+    qr.addData(bytes);
+    try {
+      qr.make();
+    } catch {
+      return { ok: false, kind: 'qr', error: tooMuchText(bytes.length, level) };
+    }
     const count = qr.getModuleCount();
     const modules: boolean[][] = [];
     for (let row = 0; row < count; row++) {

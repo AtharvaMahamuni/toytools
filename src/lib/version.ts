@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
-  minor: 6,
+  minor: 7,
   patch: 0,
   status: 'beta',
   releaseDate: '2026-10-13',
-  description: 'Word Counter, Word Frequency and the other text counters split words at dashes and at commas outside numbers, web addresses stay one word, and the tip calculator shows its message once.',
+  description: 'Follow-up fixes: hidden boxes stay hidden, JSON tools refuse input that is too deep or too large, percentage change shows a plus sign, QR explains when text is too long, and the tip calculator flags unlikely values.',
 };
 
 export function formatVersion(config: VersionConfig): string {

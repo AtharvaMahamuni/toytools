@@ -34,7 +34,12 @@ function trimEdges(piece: string): string {
   while (end > start) {
     let i = end - 1;
     const lo = piece.charCodeAt(i);
-    if (lo >= 0xdc00 && lo <= 0xdfff && i > start) i--;
+    // Step back over a low surrogate only when a high surrogate really precedes it, so a lone
+    // (malformed) low surrogate is never paired with the wrong unit.
+    if (lo >= 0xdc00 && lo <= 0xdfff && i > start) {
+      const hi = piece.charCodeAt(i - 1);
+      if (hi >= 0xd800 && hi <= 0xdbff) i--;
+    }
     if (WORD_CHAR.test(String.fromCodePoint(piece.codePointAt(i) as number))) break;
     end = i;
   }
@@ -99,7 +104,9 @@ export function wordPieces(text: string): string[] {
 export function wordTokens(text: string): string[] {
   const out: string[] = [];
   for (const piece of wordPieces(text)) {
-    const token = trimEdges(piece).toLowerCase();
+    // A curly apostrophe (U+2019, also the typographic right single quote) or a modifier letter
+    // apostrophe (U+02BC) counts as a straight one, so don't and don’t are one word.
+    const token = trimEdges(piece).replace(/[\u2019\u02bc]/g, "'").toLowerCase();
     if (token) out.push(token);
   }
   return out;
