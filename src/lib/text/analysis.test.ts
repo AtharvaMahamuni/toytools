@@ -181,6 +181,7 @@ describe('wordTokens: one tokenizer for Words, Unique Words and Top Words (Phase
       'Café', 'café', 'नमस्ते', '日本語', '(dog)', 'dog.', 'DOG', '"quoted"', 'a', 'I', '#tag',
       'https://example.com/a-b', 'x/y', '2024', '$5', '50%', "rock'n'roll", '\u2014', 'e.g.', '¿qué?',
       'dog\u2014tired', 'a\u2013b', '\u2015', 'red,green', '1,000,000', ',', 'x, y',
+      'https://ex.com/?a=1,b=2', 'www.a-b.com/x,y', 'HTTP://X.IO/\u2014z', 'http:/bad,url',
     ];
     const seps = [' ', '  ', '\n', '\t', '\u00a0', ' \n ', ''];
     let seed = 42;
@@ -217,5 +218,13 @@ describe('wordTokens: one tokenizer for Words, Unique Words and Top Words (Phase
     expect(analyzeText('1,000,000').words).toBe(1);
     expect(wordTokens('one, two,three')).toEqual(['one', 'two', 'three']);
     expect(wordTokens('5,apples')).toEqual(['5', 'apples']);
+  });
+
+  it('keeps a URL as one word, commas and all', () => {
+    expect(analyzeText('https://ex.com/?a=1,b=2').words).toBe(1);
+    expect(wordTokens('see https://ex.com/?a=1,b=2 and www.ex.com/a,b')).toEqual(['see', 'https://ex.com/?a=1,b=2', 'and', 'www.ex.com/a,b']);
+    expect(analyzeText('see https://ex.com/?a=1,b=2 now').words).toBe(3);
+    // Not a URL start, so the comma rule still applies.
+    expect(wordTokens('ex.com/a,b')).toEqual(['ex.com/a', 'b']);
   });
 });

@@ -20,25 +20,40 @@ export interface TextAnalysis {
 // "3.14" keep their inner punctuation.
 const EDGE_PUNCTUATION = /^[^\p{L}\p{M}\p{N}]+|[^\p{L}\p{M}\p{N}]+$/gu;
 
-/**
- * The words of `text`, lowercased, using the SAME rule as the headline Words count: split on
- * WORD_SEPARATOR (whitespace, en/em dashes, commas not between digits), so a hyphenated word, a contraction, or a number like 1,000 or 3.14 is one token. Each
- * piece is then normalized for counting distinct words: punctuation at either end is trimmed and the
- * case is folded. A piece with no letter or digit at all (a lone dash, "...", an emoji) is not a
- * word to list, so it is dropped. Every token comes from exactly one counted word, which is why
- * Unique Words can never exceed Words. Shared by Unique Words, the Word Counter's Top Words and the
- * Word Frequency Counter's table.
- */
-// Word separators shared by the Words count and wordTokens: whitespace, en dash, em dash and
-// horizontal bar ("dog—tired" is two words), and a comma that is not between two digits
-// ("red,green" is two words, "1,000" stays one). A hyphen-minus is not a separator, so
-// "well-known" stays one word.
-export const WORD_SEPARATOR = /(?:[\s\u2013\u2014\u2015]|(?<!\d),|,(?!\d))+/u;
+// Word separators inside a whitespace-separated chunk: en dash, em dash and horizontal bar
+// ("dog—tired" is two words), and a comma that is not between two digits ("red,green" is two
+// words, "1,000" stays one). A hyphen-minus is not a separator, so "well-known" stays one word.
+export const WORD_SEPARATOR = /(?:[\u2013\u2014\u2015]|(?<!\d),|,(?!\d))+/u;
 
+// A chunk that starts like a web address is kept whole, so a URL with commas in its query
+// ("https://ex.com/?a=1,b=2") is one word.
+const URL_START = /^(?:https?:\/\/|www\.)/i;
+
+/**
+ * The raw word pieces of `text`, the single rule behind the Words count and wordTokens: split on
+ * whitespace, then split each chunk on WORD_SEPARATOR unless it starts like a URL. Empty pieces
+ * are dropped.
+ */
+export function wordPieces(text: string): string[] {
+  const out: string[] = [];
+  for (const chunk of text.split(/\s+/)) {
+    if (!chunk) continue;
+    if (URL_START.test(chunk)) { out.push(chunk); continue; }
+    for (const piece of chunk.split(WORD_SEPARATOR)) if (piece) out.push(piece);
+  }
+  return out;
+}
+
+/**
+ * The words of `text`, lowercased, from the same wordPieces as the headline Words count. Each
+ * piece has punctuation at either end trimmed and its case folded. A piece with no letter or digit
+ * (a lone "-", "...", an emoji) is dropped. Every token comes from exactly one counted word, so
+ * Unique Words can never exceed Words. Shared by Unique Words, the Word Counter's Top Words and
+ * the Word Frequency Counter's table.
+ */
 export function wordTokens(text: string): string[] {
   const out: string[] = [];
-  for (const piece of text.split(WORD_SEPARATOR)) {
-    if (!piece) continue;
+  for (const piece of wordPieces(text)) {
     const token = piece.replace(EDGE_PUNCTUATION, '').toLowerCase();
     if (token) out.push(token);
   }
@@ -69,7 +84,7 @@ export function analyzeText(text: string): TextAnalysis {
 
   // Whitespace-delimited word count — known limitation: scripts written without
   // spaces (CJK) count a whole run as one word.
-  const words = text.trim().split(WORD_SEPARATOR).filter(Boolean).length;
+  const words = wordPieces(text).length;
   const characters = text.length;
   const charactersNoSpaces = text.replace(/\s/g, '').length;
 

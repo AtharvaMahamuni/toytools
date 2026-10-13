@@ -44,6 +44,15 @@ test.describe('word counter: one tokenizer', () => {
     expect(dialogs).toEqual([]);
   });
 
+  test('a URL with commas in its query is one word', async ({ page }) => {
+    await page.goto('/tool/text/word-counter/');
+    await page.locator('#word-counter-input').fill('see https://ex.com/?a=1,b=2 now');
+    await expect(page.locator('.hero-value')).toHaveText('3');
+    await expect(page.locator('[data-metric="uniqueWords"]')).toHaveText('3');
+    const words = await page.locator('#wc-top-list .wc-word-text').allTextContents();
+    expect(words).toContain('https://ex.com/?a=1,b=2');
+  });
+
   test('the empty goal row is hidden until a goal is set', async ({ page }) => {
     await page.goto('/tool/text/word-counter/');
     await expect(page.locator('#wc-goal-bar-wrap')).toBeHidden();
