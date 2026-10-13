@@ -2,6 +2,26 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.7] - 2026-10-13
+
+### Fixed
+
+- **Hidden boxes stay hidden.** An element marked hidden never shows, site-wide. This removes the empty QR box on 10 generator pages, the strength bar on 8 generators that are not the password generator, an empty details row on two generators, and an empty result panel on 6 date and time tools.
+- **JSON Formatter and JSON Minifier.** Clearing the input while a large result is still on its way no longer brings back the old output or a stale "Valid". JSON nested more than 2,000 levels deep, or larger than 20 MB, gets a clear error instead of freezing the page. The duplicate-key warning names each key once and lists at most 5, then says how many more.
+- **QR Code Generator.** Text too long for one QR code now gets a clear message with its size in bytes and the limit for the chosen error correction, instead of "Generation failed". Since beta-v12.4.3, accented Latin text such as café is sent as UTF-8, so a very old scanner that expects Latin-1 may show it wrongly.
+- **Word Counter and Character Counter.** Download Report works for text that is only spaces. Only an empty box has nothing to download.
+- **Word counts.** don't and don’t, with a straight or curly apostrophe, count as one word in Unique Words, Top Words and the Word Frequency table. Trimming punctuation never splits an emoji or other character outside the basic range, even in malformed text.
+
+### Changed
+
+- **Percentage Calculator.** Percentage change shows a plus sign on increases (+350%), and the line under the result says Increase, Decrease or No change. Screen readers announce the new result.
+- **Tip Calculator.** A tip over 100% or a split over 1,000 people still calculates, with a short note to check the number.
+
+### Docs
+
+- The JSON Formatter guide no longer says it re-serializes your JSON. The Reading Time guide says empty text shows 0 min. The Age Calculator FAQ says "old", not "older". The Line Counter FAQ says "Hello" followed by a line break is 2 lines, as the tool counts it. The JSON Minifier FAQ about big numbers now answers the minifier's own question.
+- The privacy page says Clear saved input on one JSON tool also clears the tools that share its text.
+
 ## [beta-v12.6] - 2026-10-13
 
 ### Fixed
