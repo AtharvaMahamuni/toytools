@@ -45,3 +45,9 @@ ul, ol {
   white-space: nowrap;
   border: 0;
 }
+
+/* The hidden attribute always wins. Component rules that set display (flex, grid, block) would
+   otherwise override the user-agent [hidden] rule and leave hidden boxes on screen. */
+[hidden] {
+  display: none !important;
+}
