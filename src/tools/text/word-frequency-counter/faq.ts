@@ -35,7 +35,7 @@ export const items: FAQItem[] = [
     id: 'wf-faq-6',
     question: 'Why does my unique word count differ from other tools?',
     answer:
-      'Tokenization rules differ. Tools disagree about hyphens, apostrophes, numbers, and case folding, and each choice changes what counts as one word. This tool splits on spaces like the Word Counter, trims punctuation at the ends, lowercases everything, and keeps internal apostrophes and hyphens, so its unique count is never higher than the word count. The relative ranking is stable across tools even when the exact totals differ.',
+      'Tokenization rules differ. Tools disagree about hyphens, apostrophes, numbers, and case folding, and each choice changes what counts as one word. This tool splits on spaces, line breaks, en/em dashes and commas outside numbers, like the Word Counter, trims punctuation at the ends, lowercases everything, and keeps internal apostrophes and hyphens, so its unique count is never higher than the word count. The relative ranking is stable across tools even when the exact totals differ.',
   },
   {
     id: 'wf-faq-7',
