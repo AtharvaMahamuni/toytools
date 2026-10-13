@@ -15,6 +15,14 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 - **Tip calculator.** A negative custom tip percentage shows its message once, next to the field,
   instead of twice.
 - **Word Counter goal row.** The empty progress row stays hidden until you set a goal.
+- **Same Words count on the other text counters.** The Character, Letter, Line, Paragraph,
+  Reading Time, Sentence and Space counters show a Words figure from the same code, so it changes
+  the same way. Figures built on it (average word length, average sentence length, reading and
+  speaking time) follow it.
+- **Web addresses stay one word.** A word starting with http://, https:// or www. is no longer
+  split at commas or dashes, so https://ex.com/?a=1,b=2 counts as one word.
+- **Clearer word rules in help.** The Word Counter and Word Frequency FAQs say words split on
+  spaces, line breaks, en/em dashes and commas outside numbers.
 - **Word Frequency help.** The FAQ and guide no longer say every language works. Chinese,
   Japanese, Korean and Thai do not put spaces between words, so a run of that text counts as one
   word.
