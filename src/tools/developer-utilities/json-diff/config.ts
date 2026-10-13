@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['compare json'],
   updatedAt: '2026-09-18',
-  trustVariant: 'local',
   engine: 'structured-data',
   pattern: 'structured-compare',
   family: 'json',

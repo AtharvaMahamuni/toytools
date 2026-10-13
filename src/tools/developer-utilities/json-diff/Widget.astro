@@ -153,25 +153,17 @@ import { PRIVACY_LINE } from '@lib/privacy';
       paint(ToyTools.diffJson(left.value, right.value));
     }
 
-    function persist() {
-      if (!(window.ToyTools && ToyTools.state)) return;
-      ToyTools.state.save('json-diff', { left: left.value, right: right.value });
-    }
+    // JSON Diff keeps nothing: both panes live only in this tab. Builds before beta-v12.9 saved them
+    // under "toytools:json-diff", so remove that key (the one-time legacy cleanup also lists it).
+    try { if (window.ToyTools && ToyTools.state) ToyTools.state.clear('json-diff'); } catch (_) {}
 
-    try {
-      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load('json-diff');
-      if (saved && typeof saved.left === 'string') left.value = saved.left;
-      if (saved && typeof saved.right === 'string') right.value = saved.right;
-    } catch (_) {}
-
-    left.addEventListener('input', function () { run(); persist(); });
-    right.addEventListener('input', function () { run(); persist(); });
+    left.addEventListener('input', run);
+    right.addEventListener('input', run);
 
     sample.addEventListener('click', function () {
       left.value = SAMPLE_LEFT;
       right.value = SAMPLE_RIGHT;
       run();
-      persist();
       left.focus();
     });
 
@@ -179,7 +171,6 @@ import { PRIVACY_LINE } from '@lib/privacy';
       left.value = '';
       right.value = '';
       run();
-      persist();
       left.focus();
     });
 
