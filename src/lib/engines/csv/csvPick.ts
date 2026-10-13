@@ -87,15 +87,39 @@ function delimiterNotice(delimiter: string): string | undefined {
     return 'The file was read as semicolon because a comma split it into one column.';
   }
   if (delimiter === '\t') {
-    return 'The file was read as tab because a comma split it into one column.';
+    return 'The file was read as tab-separated because its first line has more tabs than commas.';
   }
   return undefined;
 }
 
+// The pick list is comma-separated. A name in double quotes may contain a comma ("a,b"), and a
+// doubled quote inside it is one quote, as in CSV. Local to the picker: the shared csv.ts is not
+// involved.
 function pickTokens(second: string | undefined): string[] {
   if (!second || !second.trim()) return [];
-  return second.split(',').map(part => part.trim()).filter(part => part.length > 0);
+  const out: string[] = [];
+  let cur = '';
+  let quoted = false;
+  let inQuotes = false;
+  for (let i = 0; i < second.length; i++) {
+    const ch = second[i];
+    if (inQuotes) {
+      if (ch === '"' && second[i + 1] === '"') { cur += '"'; i++; }
+      else if (ch === '"') inQuotes = false;
+      else cur += ch;
+      continue;
+    }
+    if (ch === '"' && cur.trim() === '' && !quoted) { cur = ''; inQuotes = true; quoted = true; continue; }
+    if (ch === ',') { out.push(quoted ? cur : cur.trim()); cur = ''; quoted = false; continue; }
+    if (quoted && ch.trim() === '') continue; // spaces after a closing quote
+    cur += ch;
+  }
+  out.push(quoted ? cur : cur.trim());
+  return out.filter(part => part.length > 0);
 }
+
+/** Larger input is refused before parsing, so a huge paste cannot block the page. */
+export const MAX_PICK_CHARS = 10 * 1024 * 1024;
 
 function serialize(matrix: string[][], delimiter: string): string {
   return matrix
@@ -121,6 +145,13 @@ export const csvPick: CsvTool = {
     // A UTF-8 byte order mark (Excel adds one) would otherwise stick to the first header, so
     // "id" could not be picked by name and a position pick would carry the mark along.
     const input = raw.replace(/^\uFEFF/, '');
+    if (input.length > MAX_PICK_CHARS) {
+      return {
+        ok: false,
+        output: '',
+        error: 'This file is larger than 10 MB, which is too big to pick columns from in the browser. Try a smaller part of it.',
+      };
+    }
     const delimiter = detectDelimiter(input);
     const matrix = csvToMatrix(input, { delimiter });
     if (matrix.length === 0) {
@@ -165,12 +196,14 @@ export const csvPick: CsvTool = {
 
     const indexes: number[] = [];
     let duplicate = false;
+    // Headers are matched trimmed, as the typed names are, so "id, name" offers "name".
+    const trimmed = headers.map(h => h.trim());
     for (const name of tokens) {
-      const at = headers.indexOf(name);
+      const at = trimmed.indexOf(name);
       if (at < 0) {
         return { ok: false, output: '', error: `No column named "${name}".` };
       }
-      if (headers.indexOf(name, at + 1) !== -1) duplicate = true;
+      if (trimmed.indexOf(name, at + 1) !== -1) duplicate = true;
       indexes.push(at);
     }
     const labels = indexes.map(index => headers[index]);

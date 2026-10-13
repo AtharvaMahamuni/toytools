@@ -139,6 +139,43 @@ describe('csv-diff (whole-row fallback)', () => {
 });
 
 describe('csv-pick', () => {
+  it('matches headers trimmed, so "id, name" offers name', () => {
+    const r = runCsv('csv-pick', 'id, name\n1, Ada', 'name');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe(' name\n Ada');
+  });
+
+  it('picks a quoted header that contains a comma, beside an unquoted one', () => {
+    const r = runCsv('csv-pick', '"a,b",c,"say ""hi"""\n1,2,3', '"a,b", c ,"say ""hi"""');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('"a,b",c,"say ""hi"""\n1,2,3');
+    expect(runCsv('csv-pick', '"a,b",c\n1,2', 'a').ok).toBe(false);
+  });
+
+  it('refuses input over 10 MB with a clear error', () => {
+    const r = runCsv('csv-pick', 'a\n' + 'x'.repeat(10 * 1024 * 1024), 'a');
+    expect(r.ok).toBe(false);
+    expect(r.error).toMatch(/larger than 10 MB/);
+  });
+
+  it('names tabs, not a comma split, when it reads a tab file', () => {
+    const r = runCsv('csv-pick', 'a,b\tc\td\n1\t2\t3', '2');
+    expect(r.output).toBe('c\n2');
+    expect(r.notice).toMatch(/more tabs than commas/);
+    expect(r.notice).not.toMatch(/one column/);
+  });
+
+  it('detects semicolons from the first line only, and only when commas give one column', () => {
+    // A semicolon inside a later comma row does not flip the file.
+    const later = runCsv('csv-pick', 'a,b\nx;y;z,2', 'b');
+    expect(later.output).toBe('b\n2');
+    expect(later.notice ?? '').not.toMatch(/semicolon/i);
+    // A first line with both, where commas already split it, stays comma.
+    const both = runCsv('csv-pick', 'a;x,b;y\n1,2', '2');
+    expect(both.output).toBe('b;y\n2');
+    expect(both.notice ?? '').not.toMatch(/semicolon/i);
+  });
+
   it('strips a leading byte order mark before matching and detection', () => {
     const byName = runCsv('csv-pick', '\uFEFFid,name\n1,Ada', 'id');
     expect(byName.ok).toBe(true);
@@ -220,7 +257,7 @@ describe('csv-pick', () => {
     expect(r.ok).toBe(true);
     expect(r.output).toBe('age\n30');
     expect(r.notice).toMatch(/\btab\b/i);
-    expect(r.notice).toMatch(/one column/i);
+    expect(r.notice).toMatch(/more tabs than commas/);
   });
 
   it('keeps the first duplicate header and says the later one was left behind', () => {
