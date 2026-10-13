@@ -72,7 +72,7 @@ const currencyMeta = Object.fromEntries(
     >
       <div class="io-body finance-form" id={`${slug}-form`} data-finance-form>
         <div class="finance-ledger-toolbar">
-          <CurrencyInput id={`${slug}-currency`} />
+          {!calc?.fixedCurrency && <CurrencyInput id={`${slug}-currency`} />}
           {scenarios.length > 0 && (
             <div class="finance-scenarios" role="group" aria-label="Scenarios">
               {scenarios.map((s) => (
@@ -187,9 +187,12 @@ const currencyMeta = Object.fromEntries(
     }
 
     // Set a currency field to a money value, grouped in the active currency.
-    function setMoney(el, value, code) {
+    // A programmatic set (default, preset chip, scenario, reset) clears data-typed, so a later
+    // currency switch rescales it; `typed` keeps the mark for values the person entered.
+    function setMoney(el, value, code, typed) {
       el.value = groupDisplay(value, code);
       el.setAttribute('data-raw', String(value));
+      if (typed) el.setAttribute('data-typed', ''); else el.removeAttribute('data-typed');
     }
 
     // Apply a map of USD-baseline field values, scaling money fields to the active currency.
@@ -357,6 +360,8 @@ const currencyMeta = Object.fromEntries(
         } else if (savedFields[fid2]) {
           fel.value = savedFields[fid2].value;
           if (fel.getAttribute('data-field-type') !== 'select') fel.setAttribute('data-raw', savedFields[fid2].raw == null ? '' : savedFields[fid2].raw);
+          // A saved amount is one the person typed: a currency switch regroups it, never rescales it.
+          if (isCurrencyField(fel)) fel.setAttribute('data-typed', '');
         } else if (isCurrencyField(fel) && defaults[fid2] && Number(defaults[fid2]) !== 0) {
           setMoney(fel, roundNice(Number(defaults[fid2]) * scaleOf(prevCurrency)), prevCurrency);
         }
@@ -381,7 +386,7 @@ const currencyMeta = Object.fromEntries(
           var uel = fieldById(uid);
           if (!uel) continue;
           var unum = parseFloat(incoming[uid]);
-          if (isCurrencyField(uel) && !isNaN(unum)) setMoney(uel, unum, linkCode);
+          if (isCurrencyField(uel) && !isNaN(unum)) setMoney(uel, unum, linkCode, true);
           else setField(uid, incoming[uid]);
         }
       } catch (_) {}
@@ -390,33 +395,28 @@ const currencyMeta = Object.fromEntries(
     // Field input -> recompute + persist.
     for (var i = 0; i < fieldEls.length; i++) {
       fieldEls[i].addEventListener('change', function () { run(); persist(); });
-      fieldEls[i].addEventListener('input', function () { run(); persist(); });
+      fieldEls[i].addEventListener('input', function (e) {
+        // Typed (or pasted) by the person: from now on a currency switch must not rescale it.
+        if (e.isTrusted && isCurrencyField(this)) this.setAttribute('data-typed', '');
+        run(); persist();
+      });
     }
 
     if (currencyEl) currencyEl.addEventListener('change', function () {
       var next = currencyEl.value;
       var ratio = scaleOf(next) / scaleOf(prevCurrency);
-      // Rescale every money field by the magnitude ratio so amounts read natively (e.g. 3,000 -> 30,000).
-      if (ratio !== 1) {
-        for (var i = 0; i < fieldEls.length; i++) {
-          var el = fieldEls[i];
-          if (!isCurrencyField(el)) continue;
-          var raw = el.getAttribute('data-raw');
-          if (raw === '' || raw == null) continue;
-          var n = parseFloat(raw);
-          if (isNaN(n)) continue;
-          setMoney(el, roundNice(n * ratio), next);
-        }
-      } else {
-        // Same magnitude (e.g. USD<->EUR): keep values, just regroup the display for the new locale.
-        for (var j = 0; j < fieldEls.length; j++) {
-          var el2 = fieldEls[j];
-          if (!isCurrencyField(el2)) continue;
-          var raw2 = el2.getAttribute('data-raw');
-          if (raw2 === '' || raw2 == null) continue;
-          var n2 = parseFloat(raw2);
-          if (!isNaN(n2)) setMoney(el2, n2, next);
-        }
+      // Only defaults and preset or scenario values rescale by the magnitude ratio (3,000 -> 30,000),
+      // so they keep reading natively. A typed amount is the person's number: there is no live FX,
+      // so it keeps its value and is only regrouped for the new locale.
+      for (var i = 0; i < fieldEls.length; i++) {
+        var el = fieldEls[i];
+        if (!isCurrencyField(el)) continue;
+        var raw = el.getAttribute('data-raw');
+        if (raw === '' || raw == null) continue;
+        var n = parseFloat(raw);
+        if (isNaN(n)) continue;
+        var typed = el.hasAttribute('data-typed');
+        setMoney(el, typed || ratio === 1 ? n : roundNice(n * ratio), next, typed);
       }
       relabelPresets(next);
       prevCurrency = next;

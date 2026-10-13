@@ -156,6 +156,7 @@ export const upiNextPay = {
 export const upi1999Split: FinanceCalculator = {
   id: 'upi-1999-split',
   family: 'savings',
+  fixedCurrency: 'INR',
   fields: [
     {
       id: 'amount',

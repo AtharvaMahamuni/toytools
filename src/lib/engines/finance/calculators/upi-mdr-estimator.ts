@@ -85,6 +85,7 @@ function readKind(raw: unknown): { ok: true; value: MdrKind } | { ok: false; res
 export const upiMdrEstimator: FinanceCalculator = {
   id: 'upi-mdr-estimator',
   family: 'estimator',
+  fixedCurrency: 'INR',
   fields: [
     {
       id: 'amount',
