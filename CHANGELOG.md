@@ -2,7 +2,7 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [beta-v12.5.1] - 2026-10-13
+## [beta-v12.6] - 2026-10-13
 
 ### Fixed
 
@@ -21,6 +21,10 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   speaking time) follow it.
 - **Web addresses stay one word.** A word starting with http://, https:// or www. is no longer
   split at commas or dashes, so https://ex.com/?a=1,b=2 counts as one word.
+- **Web addresses next to other words.** A web address still ends at an en/em dash, at a comma
+  right after the site name ("https://ex.com,next" is two words) and at a comma that starts another
+  address. A web address in quotes or brackets is recognised, and HTTPS:// or WWW. in capitals works
+  too.
 - **Clearer word rules in help.** The Word Counter and Word Frequency FAQs say words split on
   spaces, line breaks, en/em dashes and commas outside numbers.
 - **Word Frequency help.** The FAQ and guide no longer say every language works. Chinese,
