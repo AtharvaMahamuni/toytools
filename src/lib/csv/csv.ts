@@ -1,6 +1,7 @@
 // Bespoke CSV parser + serializer — pure TypeScript, no deps.
 // Mirrors src/lib/json/yaml.ts: a small, never-throwing core that the structured-data
 // engine and the converter widgets share. Follows RFC 4180 quoting rules.
+import { LosslessInt, isUnsafeIntLiteral } from '@lib/json/losslessInt';
 
 export interface CsvParseOptions {
   /** Field delimiter. Default ','. */
@@ -82,6 +83,8 @@ function coerce(s: string): unknown {
   if (s === 'null') return null;
   if (/^-?0\d/.test(s)) return s; // preserve leading zeros
   if (/^[-+]?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?$/.test(s)) {
+    // Past 2^53 a number would be rounded, so the exact digits are kept instead.
+    if (isUnsafeIntLiteral(s.replace(/^\+/, ''))) return new LosslessInt(s.replace(/^\+/, ''));
     const num = Number(s);
     if (Number.isFinite(num)) return num;
   }
@@ -105,6 +108,23 @@ export function csvToMatrix(
 }
 
 /**
+ * Make repeated column names unique so no column is overwritten: the second "x" becomes "x_2", the
+ * third "x_3", skipping any name the file already uses.
+ */
+export function uniqueHeaders(names: string[]): string[] {
+  const taken = new Set(names);
+  const seen = new Set<string>();
+  return names.map((name) => {
+    if (!seen.has(name)) { seen.add(name); return name; }
+    let k = 2;
+    while (taken.has(`${name}_${k}`) || seen.has(`${name}_${k}`)) k++;
+    const next = `${name}_${k}`;
+    seen.add(next);
+    return next;
+  });
+}
+
+/**
  * Parse CSV text into rows of objects. Never throws — malformed input returns a
  * result with ok:false (or empty rows for blank input).
  */
@@ -122,7 +142,7 @@ export function parseCsv(text: string, opts: Partial<CsvParseOptions> = {}): Csv
   }
   if (matrix.length === 0) return { ok: true, rows: [], headers: [] };
 
-  const headers = matrix[0].map(h => h.trim());
+  const headers = uniqueHeaders(matrix[0].map(h => h.trim()));
   const rows: Record<string, unknown>[] = [];
   for (let r = 1; r < matrix.length; r++) {
     const cells = matrix[r];

@@ -6,6 +6,8 @@
 // the tokens of text that JSON.parse has already accepted and re-indents them: every string,
 // number and literal is copied exactly as written, so only whitespace changes.
 
+import { isUnsafeIntLiteral, markInt, reviveInt } from '@lib/json/losslessInt';
+
 export interface LosslessFormat {
   output: string;
   /** Keys that appear more than once in the same object, in first-repeat order (decoded). */
@@ -121,4 +123,41 @@ export function duplicateKeyWarning(duplicates: string[]): string | undefined {
   const shown = duplicates.slice(0, DUPLICATES_SHOWN).map((k) => JSON.stringify(k)).join(', ');
   const more = duplicates.length > DUPLICATES_SHOWN ? ` and ${duplicates.length - DUPLICATES_SHOWN} more` : '';
   return `Duplicate key${duplicates.length > 1 ? 's' : ''} ${shown}${more}: kept as written here, but most JSON parsers keep only the last value.`;
+}
+
+/**
+ * JSON.parse that keeps integers past 2^53 exact: they come back as LosslessInt (write them out
+ * with stringifyLossless). Throws the same SyntaxError as JSON.parse for invalid input. Text with
+ * no such integer is parsed by JSON.parse alone.
+ */
+export function parseJsonLossless(text: string): unknown {
+  const plain = JSON.parse(text);
+  if (text.includes('\uE000')) return plain; // the marker could collide with the data; stay plain
+  const parts: string[] = [];
+  let last = 0;
+  const n = text.length;
+  for (let i = 0; i < n; ) {
+    const c = text[i];
+    if (c === '"') {
+      let j = i + 1;
+      while (text[j] !== '"') j += text[j] === '\\' ? 2 : 1;
+      i = j + 1;
+      continue;
+    }
+    if (c === '-' || (c >= '0' && c <= '9')) {
+      let j = i;
+      while (j < n && !STOP.includes(text[j])) j++;
+      const token = text.slice(i, j);
+      if (isUnsafeIntLiteral(token)) {
+        parts.push(text.slice(last, i), markInt(token));
+        last = j;
+      }
+      i = j;
+      continue;
+    }
+    i++;
+  }
+  if (!parts.length) return plain;
+  parts.push(text.slice(last));
+  return JSON.parse(parts.join(''), reviveInt);
 }

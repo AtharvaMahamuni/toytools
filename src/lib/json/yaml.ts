@@ -2,6 +2,8 @@
 // Handles all JSON value types with smart quoting, literal block scalars for multi-line
 // strings, and four user-controllable options.
 
+import { LosslessInt } from './losslessInt';
+
 // Key ordering for object maps: keep insertion order, or sort A→Z / Z→A.
 export type SortKeys = 'none' | 'asc' | 'desc';
 
@@ -86,7 +88,7 @@ function yamlString(s: string, contentDepth: number, indent: number): string {
 
 // Returns true when every element of the array is a non-null scalar.
 function isScalarArray(arr: unknown[]): boolean {
-  return arr.every(v => v === null || typeof v !== 'object');
+  return arr.every(v => v === null || typeof v !== 'object' || v instanceof LosslessInt);
 }
 
 // Serialize a flow-style array of scalars: [val, val, ...]
@@ -95,6 +97,7 @@ function flowArray(arr: unknown[]): string {
     if (v === null || v === undefined) return 'null';
     if (typeof v === 'boolean') return String(v);
     if (typeof v === 'number') return Number.isFinite(v) ? String(v) : 'null';
+    if (v instanceof LosslessInt) return v.raw;
     if (typeof v === 'string') return needsQuote(v) ? doubleQuote(v) : v;
     return String(v);
   });
@@ -113,6 +116,7 @@ function serializeNode(value: unknown, depth: number, opts: YamlOptions): string
   if (value === null || value === undefined) return 'null';
   if (typeof value === 'boolean') return value ? 'true' : 'false';
   if (typeof value === 'number') return Number.isFinite(value) ? String(value) : 'null';
+  if (value instanceof LosslessInt) return value.raw;
   if (typeof value === 'string') return yamlString(value, depth + 1, opts.indent);
 
   // Arrays
@@ -122,7 +126,7 @@ function serializeNode(value: unknown, depth: number, opts: YamlOptions): string
 
     const items: string[] = [];
     for (const item of value) {
-      if (item !== null && typeof item === 'object' && !Array.isArray(item)) {
+      if (item !== null && typeof item === 'object' && !(item instanceof LosslessInt) && !Array.isArray(item)) {
         // Object item: inline first key with '- ', rest aligned underneath
         const obj = item as Record<string, unknown>;
         const keys = orderKeys(Object.keys(obj), opts.sortKeys);
@@ -138,7 +142,7 @@ function serializeNode(value: unknown, depth: number, opts: YamlOptions): string
           // First key: `- key:` or `- key: val`; rest: `  key:` or `  key: val`
           const linePrefix = first ? `${pad}- ` : `${pad}  `;
           first = false;
-          if (v !== null && typeof v === 'object') {
+          if (v !== null && typeof v === 'object' && !(v instanceof LosslessInt)) {
             const isEmptyArr = Array.isArray(v) && (v as unknown[]).length === 0;
             const isEmptyObj = !Array.isArray(v) && Object.keys(v as object).length === 0;
             if (isEmptyArr) {
@@ -189,7 +193,7 @@ function serializeNode(value: unknown, depth: number, opts: YamlOptions): string
     const kStr = yamlKey(k);
     const v = obj[k];
 
-    if (v !== null && typeof v === 'object') {
+    if (v !== null && typeof v === 'object' && !(v instanceof LosslessInt)) {
       const isEmptyArr = Array.isArray(v) && (v as unknown[]).length === 0;
       const isEmptyObj = !Array.isArray(v) && Object.keys(v as object).length === 0;
       if (isEmptyArr) {

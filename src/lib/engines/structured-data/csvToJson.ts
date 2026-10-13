@@ -1,5 +1,6 @@
 import type { StructuredDataTool } from './types';
 import { parseCsv } from '@lib/csv/csv';
+import { stringifyLossless } from '@lib/json/losslessInt';
 
 // Convert CSV (header row + data rows) to a pretty-printed JSON array of objects.
 // Smart typing is on by default here (the widget exposes a toggle for finer control).
@@ -17,7 +18,7 @@ export const csvToJson: StructuredDataTool = {
       return { ok: false, output: '', error: 'No data rows found — add at least one row beneath the header.' };
     }
     try {
-      return { ok: true, output: JSON.stringify(res.rows, null, 2) };
+      return { ok: true, output: stringifyLossless(res.rows, 2) };
     } catch (e) {
       return { ok: false, output: '', error: (e as Error).message };
     }
