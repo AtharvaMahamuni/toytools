@@ -17,6 +17,13 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 - **Big integers in the converters.** The internal marker is a fresh random token, so data cannot imitate it.
 - **CSV to TSV.** Files with hundreds of thousands of rows no longer fail while counting columns.
 
+### Fixed before release (review round)
+
+- **One-Rep Max and Running Pace.** The unit switch converts the right way: 100 kg becomes 220.5 lb and back to 100 kg, and 5 km becomes 3.1 mi. A One-Rep Max kg or lb choice no longer leaks into the body calculators' metric or imperial setting.
+- **Health calculators.** Load Example and Reset keep the unit switch in step, so switching to imperial after an example converts again. Toggling units and straight back restores the exact value you had (181 cm stays 181) unless you changed it in between.
+- **Field limits.** Now that a typed value is no longer silently clamped, every limit is checked by the calculator itself: SIP, CAGR and Savings Goal years stop at 100, Emergency Fund months at 24, and a negative bodyweight or hip on Body Fat gets an error. A test walks every field of every calculator so a limit cannot be missed again.
+- **Finance currency.** A value changed with the arrow keys or the minus and plus buttons counts as typed, so a currency switch keeps it. Split Bill and the UPI tools no longer store a currency at all.
+
 ## [beta-v12.9] - 2026-10-14
 
 ### Fixed
