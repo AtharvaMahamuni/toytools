@@ -3,6 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { analyzeText } from './analysis';
 import { items as ageFaqs } from '../../tools/datetime/age-calculator/faq';
+import { items as lineFaqs } from '../../tools/text/line-counter/faq';
 
 const read = (p: string) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
 
@@ -22,5 +23,15 @@ describe('stale docs (item 5)', () => {
   it('the Age FAQ says "old", not "older"', () => {
     expect(ageFaqs[0].answer).toContain('1 month and 1 day old.');
     expect(ageFaqs[0].answer).not.toContain('day older');
+  });
+});
+
+describe('line-counter FAQ (item 9)', () => {
+  it('says "Hello\\n" is 2 lines, as the tool counts it', () => {
+    expect(analyzeText('Hello\n').lines).toBe(2);
+    expect(analyzeText('Hello\n').nonEmptyLines).toBe(1);
+    const all = lineFaqs.map(f => f.answer).join(' ');
+    expect(all).toContain('"Hello\\n" (with a trailing newline) has 2 lines');
+    expect(all).not.toContain('also has 1 line');
   });
 });
