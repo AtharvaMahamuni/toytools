@@ -406,6 +406,17 @@ const currencyMeta = Object.fromEntries(
         if (e.isTrusted && isCurrencyField(this)) this.setAttribute('data-typed', '');
         run(); persist();
       });
+      // Arrow-key steps and the minus / plus buttons are the person's edits too.
+      fieldEls[i].addEventListener('keydown', function (e) {
+        if ((e.key === 'ArrowUp' || e.key === 'ArrowDown') && isCurrencyField(this)) this.setAttribute('data-typed', '');
+      });
+      (function (el) {
+        var wrap = el.closest && el.closest('[data-smart-input]');
+        if (!wrap) return;
+        wrap.querySelectorAll('.smart-step').forEach(function (b) {
+          b.addEventListener('click', function () { if (isCurrencyField(el)) el.setAttribute('data-typed', ''); });
+        });
+      })(fieldEls[i]);
     }
 
     if (currencyEl) currencyEl.addEventListener('change', function () {

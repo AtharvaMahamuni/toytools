@@ -132,3 +132,15 @@ test('typed values past a field bound get an engine error (r1 M3)', async ({ pag
   await w.blur();
   await expect(page.getByText(/bodyweight/i).first()).toBeVisible();
 });
+
+test('an arrow-key step counts as typed, so a currency switch keeps it (r1 S2)', async ({ page }) => {
+  await page.goto('/tool/finance/sip-calculator/');
+  const cur = page.locator('#sip-calculator-currency');
+  await cur.selectOption('USD');
+  const m = page.locator('[data-field-id="monthly"]');
+  await m.focus();
+  await page.keyboard.press('ArrowUp');
+  const stepped = await m.getAttribute('data-raw');
+  await cur.selectOption('INR');
+  expect(await m.getAttribute('data-raw')).toBe(stepped);
+});
