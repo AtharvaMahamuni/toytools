@@ -114,3 +114,21 @@ test('a unit round trip does not drift (r1 S1)', async ({ page }) => {
   await page.locator('[data-segment-for="unit"][data-segment-value="metric"]').click();
   await expect(h).toHaveValue('177.8');
 });
+
+test('typed values past a field bound get an engine error (r1 M3)', async ({ page }) => {
+  await page.goto('/tool/finance/sip-calculator/');
+  const years = page.locator('[data-field-id="years"]');
+  await years.fill('1005');
+  await years.blur();
+  await expect(page.getByText('An investment period cannot be more than 100.').first()).toBeVisible();
+  await page.goto('/tool/finance/emergency-fund-calculator/');
+  const months = page.locator('[data-field-id="months"]');
+  await months.fill('245');
+  await months.blur();
+  await expect(page.getByText('A number of months cannot be more than 24.').first()).toBeVisible();
+  await page.goto('/tool/health/body-fat-calculator/');
+  const w = page.locator('[data-field-id="weight"]');
+  await w.fill('-5');
+  await w.blur();
+  await expect(page.getByText(/bodyweight/i).first()).toBeVisible();
+});

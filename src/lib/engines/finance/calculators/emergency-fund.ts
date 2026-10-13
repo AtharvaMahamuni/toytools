@@ -31,7 +31,7 @@ export const emergencyFund: FinanceCalculator = {
   calculate(input, { currency }) {
     const expenses = positive(input, 'expenses', 'your monthly expenses');
     if (!expenses.ok) return expenses.result;
-    const months = positive(input, 'months', 'a number of months');
+    const months = positive(input, 'months', 'a number of months', { max: 24 });
     if (!months.ok) return months.result;
     const saved = number(input, 'saved', 'current savings', { optional: true, min: 0 });
     if (!saved.ok) return saved.result;

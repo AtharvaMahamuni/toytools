@@ -35,7 +35,7 @@ export const sip: FinanceCalculator = {
     if (!m.ok) return m.result;
     const r = number(input, 'rate', 'an expected return', { min: 0, max: 100 });
     if (!r.ok) return r.result;
-    const y = positive(input, 'years', 'an investment period');
+    const y = positive(input, 'years', 'an investment period', { max: 100 });
     if (!y.ok) return y.result;
     const init = number(input, 'initial', 'the starting lump sum', { optional: true, min: 0 });
     if (!init.ok) return init.result;

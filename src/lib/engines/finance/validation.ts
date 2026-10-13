@@ -40,8 +40,8 @@ export function number(
 }
 
 /** A strictly positive number. */
-export function positive(input: FinanceInput, key: string, label: string): Coerced {
-  const c = number(input, key, label, { min: 0 });
+export function positive(input: FinanceInput, key: string, label: string, opts: { max?: number } = {}): Coerced {
+  const c = number(input, key, label, { min: 0, max: opts.max });
   if (!c.ok) return c;
   if (c.value <= 0) return fail(`${label} must be greater than zero.`);
   return c;

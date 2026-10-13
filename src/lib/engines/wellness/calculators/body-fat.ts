@@ -76,6 +76,9 @@ export const bodyFatCalculator: WellnessCalculator = {
     const waistCm = toCm(waist.value);
 
     let hipCm = 0;
+    // Ignored for men, but a negative entry is still a typo worth naming.
+    const hipAny = optionalNumberField(input, 'hip', 'your hip measurement', { min: 0 });
+    if (!hipAny.ok) return hipAny.result;
     if (sex.value === 'female') {
       const hip = positiveField(input, 'hip', 'your hip measurement', { max: isMetric ? 200 : 79 });
       if (!hip.ok) return hip.result;
@@ -120,7 +123,8 @@ export const bodyFatCalculator: WellnessCalculator = {
 
     // Optional fat/lean split when a bodyweight is given.
     const w = optionalNumberField(input, 'weight', 'your bodyweight', { min: 0 });
-    if (w.ok && w.value > 0) {
+    if (!w.ok) return w.result;
+    if (w.value > 0) {
       const weightKg = isMetric ? w.value : lbToKg(w.value);
       const fatKg = weightKg * (bf / 100);
       const leanKg = weightKg - fatKg;
