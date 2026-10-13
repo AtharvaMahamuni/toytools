@@ -562,6 +562,11 @@ const sigId = `${slug}-sig`;
         state = 'Expired'; tone = 'expired';
         count = 'Expired ' + formatDuration(now - exp) + ' ago'; sumExpires = 'Expired';
         insight = { tone: 'warn', text: 'Token expired ' + formatDuration(now - exp) + ' ago.' + (nbf !== null && nbf >= exp ? ' Its not-before time is not earlier than its expiry, so it was never valid.' : '') };
+      } else if (nbf !== null && exp !== null && nbf >= exp) {
+        // Both still ahead, but the token expires no later than it starts: no moment is valid.
+        state = 'Never valid'; tone = 'expired';
+        count = 'Expires before it becomes valid'; sumExpires = 'Never valid';
+        insight = { tone: 'warn', text: 'Its not-before time is not earlier than its expiry, so it is never valid.' };
       } else if (nbf !== null && now < nbf) {
         state = 'Not yet valid'; tone = 'pending';
         count = 'Valid in ' + formatDuration(nbf - now); sumExpires = 'Not yet';

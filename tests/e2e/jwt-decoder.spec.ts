@@ -153,3 +153,12 @@ test('an expired token with a future nbf shows as expired, matching the claims t
   await expect(page.locator(`#${SLUG}-validity .jwt-vstatus`)).toHaveText('Expired');
   await expect(page.locator('.jwt-badge', { hasText: 'Expired' }).first()).toBeVisible();
 });
+
+test('a token whose exp comes before its nbf, both in the future, is never valid (PR 2 item 5c)', async ({ page }) => {
+  const now = Math.floor(Date.now() / 1000);
+  const token = await makeToken(page, { alg: 'HS256' }, { sub: '1', nbf: now + 7200, exp: now + 3600 });
+  await page.locator(`#${SLUG}-input`).fill(token);
+  await expect(page.locator(`#${SLUG}-summary [data-sum="status"]`)).toHaveText('Never valid');
+  await expect(page.locator(`#${SLUG}-validity .jwt-vstatus`)).toHaveText('Never valid');
+  await expect(page.getByText('so it is never valid.').first()).toBeVisible();
+});
