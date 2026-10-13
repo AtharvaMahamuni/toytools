@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'wc-faq-1',
     question: 'How does a word counter work?',
     answer:
-      'A word counter splits your text on whitespace (spaces, tabs, and line breaks) and counts the resulting tokens as words. Most counters also strip leading and trailing whitespace before counting, so extra spaces between words do not inflate the total. This tool counts in real time as you type or paste.',
+      'A word counter splits your text into words. Most use whitespace only; this one splits on spaces, line breaks, en/em dashes and commas outside numbers, and keeps a web address as one word. Most counters also strip leading and trailing whitespace before counting, so extra spaces between words do not inflate the total. This tool counts in real time as you type or paste.',
   },
   {
     id: 'wc-faq-2',
