@@ -60,16 +60,27 @@ describe('CSV to JSON keeps repeated columns (item 9)', () => {
 
 import { vi } from 'vitest';
 
-describe('a lazy chunk that fails to load (PR 2 item 5b)', () => {
-  it('becomes a clear result error', async () => {
-    vi.resetModules();
-    vi.doMock('./jsonToCsv', () => { throw new Error('chunk 404'); });
-    const { runStructuredData: run2 } = await import('./registry');
-    const r = await run2('json-to-csv', '[{"a":1}]');
-    expect(r.ok).toBe(false);
-    expect(r.error).toMatch(/could not finish loading/);
-    vi.doUnmock('./jsonToCsv');
-  });
+describe('a lazy chunk that fails to load (PR 2 item 5b, r1 S3)', () => {
+  const CASES: [string, string, string][] = [
+    ['json-to-csv', './jsonToCsv', '[{"a":1}]'],
+    ['json-to-yaml', './jsonToYaml', '{"a":1}'],
+    ['yaml-to-json', './yamlToJson', 'a: 1'],
+    ['csv-to-json', './csvToJson', 'a\n1'],
+    ['json-formatter', './jsonLossless', '{"a":1}'],
+    ['json-minifier', './jsonLossless', '{"a":1}'],
+    ['json-to-schema', './jsonToSchema', '{"a":1}'],
+  ];
+  for (const [id, mod, input] of CASES) {
+    it(`${id} becomes a clear result error`, async () => {
+      vi.resetModules();
+      vi.doMock(mod, () => { throw new Error('chunk 404'); });
+      const { runStructuredData: run2 } = await import('./registry');
+      const r = await run2(id, input);
+      expect(r.ok).toBe(false);
+      expect(r.error).toMatch(/could not finish loading/);
+      vi.doUnmock(mod);
+    });
+  }
 });
 
 describe('the big-integer marker cannot be forged (PR 2 item 5d)', () => {
