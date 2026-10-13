@@ -20,10 +20,12 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       </div>
       <input id="tip-pct" class="widget-input" type="number" inputmode="decimal" min="0" step="1" placeholder="Custom %" aria-label="Custom tip percentage" aria-describedby="tip-pct-error" />
       <p class="tip-field-error" id="tip-pct-error" role="alert" hidden></p>
+      <p class="tip-field-warn" id="tip-pct-warn" role="status" hidden></p>
 
       <label class="widget-label" for="tip-split">Split Between (people)</label>
       <input id="tip-split" class="widget-input" type="number" inputmode="numeric" min="1" step="1" placeholder="1" value="1" aria-describedby="tip-split-error" />
       <p class="tip-field-error" id="tip-split-error" role="alert" hidden></p>
+      <p class="tip-field-warn" id="tip-split-warn" role="status" hidden></p>
     </div>
   </IoPanel>
 
@@ -78,6 +80,12 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     var noteTxt  = document.getElementById('tip-note-text');
     var pctErr   = document.getElementById('tip-pct-error');
     var splitErr = document.getElementById('tip-split-error');
+    var pctWarn  = document.getElementById('tip-pct-warn');
+    var splitWarn = document.getElementById('tip-split-warn');
+    // Above these the result is still shown, with a check-your-input note: a tip larger than the
+    // bill, or more people than a single bill plausibly covers, is usually a typo.
+    var PCT_WARN_ABOVE = 100, SPLIT_WARN_ABOVE = 1000;
+    function warn(el, message) { if (!el) return; el.textContent = message || ''; el.hidden = !message; }
     if (!billEl || !pctEl || !splitEl || !amountEl) return;
 
     var TT = window.ToyTools;
@@ -154,6 +162,8 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       fieldError(pctEl, pctErr, pctBad ? 'Enter a tip of 0% or more.' : null);
       var split = readSplit();
       fieldError(splitEl, splitErr, split === null ? 'Split between a whole number of people, 1 or more.' : null);
+      warn(pctWarn, !pctBad && pct > PCT_WARN_ABOVE ? 'That tip is more than the bill itself. Check the percentage.' : null);
+      warn(splitWarn, split !== null && split > SPLIT_WARN_ABOVE ? 'That is more than 1,000 people. Check the number.' : null);
 
       if (billRaw === '') { showEmpty('Enter a bill amount to calculate.'); return; }
       var bill = Number(billRaw);
@@ -255,6 +265,12 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
   .tm-stat-row[hidden],
   .tip-field-error[hidden] {
     display: none;
+  }
+
+  .tip-field-warn {
+    margin: var(--space-1) 0 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
   }
 
   .tip-field-error {
