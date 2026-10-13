@@ -4,7 +4,7 @@ export const items: FAQItem[] = [
   {
     id: 'age-calculator-faq-1',
     question: 'How is my exact age calculated?',
-    answer: 'Your age is the whole number of years, months, and days from your date of birth to the reference date. The tool counts the most whole months it can add to your birth date without passing the reference date, then the days left over. When your birth day does not exist in a shorter month, it uses that month\'s last day, so one month after 31 January is 28 February (29 in a leap year). For example, born 31 January, on 1 March you are 1 month and 1 day older. The days are never negative, and leap years follow the real calendar.',
+    answer: 'Your age is the whole number of years, months, and days from your date of birth to the reference date. The tool counts the most whole months it can add to your birth date without passing the reference date, then the days left over. When your birth day does not exist in a shorter month, it uses that month\'s last day, so one month after 31 January is 28 February (29 in a leap year). For example, born 31 January, on 1 March you are 1 month and 1 day old. The days are never negative, and leap years follow the real calendar.',
   },
   {
     id: 'age-calculator-faq-2',

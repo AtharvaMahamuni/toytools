@@ -98,7 +98,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       talk, you need a script of about 1,300 words.
     </p>
     <p>
-      This tool rounds both estimates to the nearest whole minute and never shows less than 1 minute.
+      This tool rounds both estimates to the nearest whole minute and shows at least 1 minute once there
+      is a word to read. Empty or space-only text shows 0 min.
       For example, 500 words reads as 3 min and speaks as 4 min. That is the same convention as the "5 min read"
       labels on blogs.
     </p>
