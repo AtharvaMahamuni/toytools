@@ -15,7 +15,7 @@ export const VERSION_CONFIG: VersionConfig = {
   patch: 1,
   status: 'beta',
   releaseDate: '2026-10-13',
-  description: '',
+  description: 'Word Counter and Word Frequency split words at dashes and at commas between letters again, web addresses stay one word, and the tip calculator shows its message once.',
 };
 
 export function formatVersion(config: VersionConfig): string {
