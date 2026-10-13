@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-20T12:30:10.974Z",
+  "generatedAt": "2026-10-09T05:25:21.130Z",
   "clusters": [
     {
       "id": "quadratic-equations",
@@ -10,6 +10,8 @@
         "quadratic-equation-solver"
       ],
       "existingMembers": [
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -17,6 +19,8 @@
       "size": 1,
       "meanScore": 85.4,
       "internalLinks": [
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -32,14 +36,17 @@
       "existingMembers": [
         "combinations-permutations-calculator",
         "fraction-calculator",
+        "matrix-calculator",
         "prime-factorization-calculator",
-        "statistics-visualizer"
+        "statistics-visualizer",
+        "triangle-solver"
       ],
       "size": 1,
       "meanScore": 83.9,
       "internalLinks": [
         "combinations-permutations-calculator",
         "fraction-calculator",
+        "matrix-calculator",
         "prime-factorization-calculator",
         "quadratic-equation-solver",
         "statistics-visualizer"
@@ -54,13 +61,17 @@
       ],
       "existingMembers": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ],
       "size": 1,
       "meanScore": 83.8,
       "internalLinks": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ]
     },
     {
@@ -71,6 +82,8 @@
         "unit-circle-calculator"
       ],
       "existingMembers": [
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -78,6 +91,8 @@
       "size": 1,
       "meanScore": 83.8,
       "internalLinks": [
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -92,10 +107,14 @@
       ],
       "existingMembers": [
         "camel-case-converter",
+        "chat-export-cleaner",
+        "context-fit-checker",
         "invisible-character-detector",
         "kebab-case-converter",
+        "llms-txt-generator",
         "lowercase-converter",
         "normalize-whitespace",
+        "prompt-packer",
         "remove-accents",
         "remove-blank-lines",
         "remove-duplicate-lines",
@@ -115,8 +134,8 @@
       "meanScore": 83.6,
       "internalLinks": [
         "camel-case-converter",
-        "invisible-character-detector",
-        "kebab-case-converter",
+        "chat-export-cleaner",
+        "context-fit-checker",
         "normalize-whitespace",
         "remove-blank-lines",
         "remove-extra-spaces"
@@ -132,14 +151,17 @@
       "existingMembers": [
         "combinations-permutations-calculator",
         "fraction-calculator",
+        "matrix-calculator",
         "prime-factorization-calculator",
-        "statistics-visualizer"
+        "statistics-visualizer",
+        "triangle-solver"
       ],
       "size": 1,
       "meanScore": 83.5,
       "internalLinks": [
         "combinations-permutations-calculator",
         "fraction-calculator",
+        "matrix-calculator",
         "prime-factorization-calculator",
         "probability-calculator",
         "statistics-visualizer"
@@ -155,14 +177,16 @@
       "existingMembers": [
         "aspect-ratio-calculator",
         "px-to-dp-converter",
-        "px-to-rem-converter"
+        "px-to-rem-converter",
+        "type-scale-generator"
       ],
       "size": 1,
       "meanScore": 83.5,
       "internalLinks": [
         "aspect-ratio-calculator",
         "px-to-dp-converter",
-        "px-to-rem-converter"
+        "px-to-rem-converter",
+        "type-scale-generator"
       ]
     },
     {
@@ -174,10 +198,14 @@
       ],
       "existingMembers": [
         "camel-case-converter",
+        "chat-export-cleaner",
+        "context-fit-checker",
         "invisible-character-detector",
         "kebab-case-converter",
+        "llms-txt-generator",
         "lowercase-converter",
         "normalize-whitespace",
+        "prompt-packer",
         "remove-accents",
         "remove-blank-lines",
         "remove-duplicate-lines",
@@ -197,10 +225,10 @@
       "meanScore": 83,
       "internalLinks": [
         "camel-case-converter",
+        "chat-export-cleaner",
+        "context-fit-checker",
         "find-replace",
         "invisible-character-detector",
-        "kebab-case-converter",
-        "lowercase-converter",
         "uppercase-converter"
       ]
     },
@@ -214,16 +242,20 @@
       "existingMembers": [
         "combinations-permutations-calculator",
         "fraction-calculator",
+        "matrix-calculator",
         "prime-factorization-calculator",
-        "statistics-visualizer"
+        "statistics-visualizer",
+        "triangle-solver"
       ],
       "size": 1,
       "meanScore": 82.8,
       "internalLinks": [
         "combinations-permutations-calculator",
         "fraction-calculator",
+        "matrix-calculator",
         "prime-factorization-calculator",
-        "statistics-visualizer"
+        "statistics-visualizer",
+        "triangle-solver"
       ]
     },
     {
@@ -235,13 +267,17 @@
       ],
       "existingMembers": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ],
       "size": 1,
       "meanScore": 82.5,
       "internalLinks": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ]
     },
     {
@@ -254,14 +290,16 @@
       "existingMembers": [
         "aspect-ratio-calculator",
         "px-to-dp-converter",
-        "px-to-rem-converter"
+        "px-to-rem-converter",
+        "type-scale-generator"
       ],
       "size": 1,
       "meanScore": 82.2,
       "internalLinks": [
         "aspect-ratio-calculator",
         "px-to-dp-converter",
-        "px-to-rem-converter"
+        "px-to-rem-converter",
+        "type-scale-generator"
       ]
     },
     {
@@ -273,10 +311,14 @@
       ],
       "existingMembers": [
         "camel-case-converter",
+        "chat-export-cleaner",
+        "context-fit-checker",
         "invisible-character-detector",
         "kebab-case-converter",
+        "llms-txt-generator",
         "lowercase-converter",
         "normalize-whitespace",
+        "prompt-packer",
         "remove-accents",
         "remove-blank-lines",
         "remove-duplicate-lines",
@@ -296,11 +338,11 @@
       "meanScore": 82,
       "internalLinks": [
         "camel-case-converter",
+        "chat-export-cleaner",
+        "context-fit-checker",
         "invisible-character-detector",
         "kebab-case-converter",
-        "lowercase-converter",
-        "normalize-whitespace",
-        "remove-accents"
+        "lowercase-converter"
       ]
     },
     {
@@ -313,14 +355,16 @@
       "existingMembers": [
         "aspect-ratio-calculator",
         "px-to-dp-converter",
-        "px-to-rem-converter"
+        "px-to-rem-converter",
+        "type-scale-generator"
       ],
       "size": 1,
       "meanScore": 81.8,
       "internalLinks": [
         "aspect-ratio-calculator",
         "px-to-dp-converter",
-        "px-to-rem-converter"
+        "px-to-rem-converter",
+        "type-scale-generator"
       ]
     },
     {
@@ -333,15 +377,18 @@
       "existingMembers": [
         "combinations-permutations-calculator",
         "fraction-calculator",
+        "matrix-calculator",
         "prime-factorization-calculator",
-        "statistics-visualizer"
+        "statistics-visualizer",
+        "triangle-solver"
       ],
       "size": 1,
       "meanScore": 81.7,
       "internalLinks": [
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator",
+        "linear-regression-playground",
+        "matrix-calculator",
         "probability-calculator",
         "statistics-visualizer"
       ]
@@ -422,7 +469,9 @@
         "json-diff",
         "json-formatter",
         "json-minifier",
+        "json-schema-validator",
         "json-to-csv-converter",
+        "json-to-schema",
         "json-to-yaml-converter",
         "json-tree-viewer",
         "json-validator",
@@ -435,8 +484,8 @@
         "json-diff",
         "json-formatter",
         "json-minifier",
-        "json-to-csv-converter",
-        "json-to-yaml-converter"
+        "json-schema-validator",
+        "json-to-csv-converter"
       ]
     },
     {
@@ -455,6 +504,7 @@
         "calorie-deficit-calculator",
         "heart-rate-zone-calculator",
         "ideal-weight-calculator",
+        "lean-body-mass-calculator",
         "macro-calculator",
         "one-rep-max-calculator",
         "protein-intake-calculator",
@@ -482,6 +532,7 @@
       ],
       "existingMembers": [
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
@@ -489,6 +540,7 @@
       "meanScore": 80.9,
       "internalLinks": [
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-json-converter",
         "csv-to-tsv",
@@ -507,7 +559,9 @@
         "json-diff",
         "json-formatter",
         "json-minifier",
+        "json-schema-validator",
         "json-to-csv-converter",
+        "json-to-schema",
         "json-to-yaml-converter",
         "json-tree-viewer",
         "json-validator",
@@ -533,6 +587,7 @@
       ],
       "existingMembers": [
         "cidr-calculator",
+        "ipv4-converter",
         "what-is-my-ip"
       ],
       "size": 1,
@@ -541,6 +596,7 @@
         "binary-converter",
         "cidr-calculator",
         "hex-encoder-decoder",
+        "ipv4-converter",
         "what-is-my-ip"
       ]
     },
@@ -553,6 +609,7 @@
       ],
       "existingMembers": [
         "cidr-calculator",
+        "ipv4-converter",
         "what-is-my-ip"
       ],
       "size": 1,
@@ -561,6 +618,7 @@
         "binary-converter",
         "cidr-calculator",
         "hex-encoder-decoder",
+        "ipv4-converter",
         "unix-timestamp-converter",
         "what-is-my-ip"
       ]
@@ -639,10 +697,14 @@
       ],
       "existingMembers": [
         "camel-case-converter",
+        "chat-export-cleaner",
+        "context-fit-checker",
         "invisible-character-detector",
         "kebab-case-converter",
+        "llms-txt-generator",
         "lowercase-converter",
         "normalize-whitespace",
+        "prompt-packer",
         "remove-accents",
         "remove-blank-lines",
         "remove-duplicate-lines",
@@ -662,10 +724,10 @@
       "meanScore": 79.8,
       "internalLinks": [
         "camel-case-converter",
+        "chat-export-cleaner",
+        "context-fit-checker",
         "invisible-character-detector",
-        "kebab-case-converter",
         "lowercase-converter",
-        "normalize-whitespace",
         "slugify-text"
       ]
     },
@@ -679,16 +741,19 @@
       "existingMembers": [
         "combinations-permutations-calculator",
         "fraction-calculator",
+        "matrix-calculator",
         "prime-factorization-calculator",
-        "statistics-visualizer"
+        "statistics-visualizer",
+        "triangle-solver"
       ],
       "size": 1,
       "meanScore": 79.8,
       "internalLinks": [
         "combinations-permutations-calculator",
         "fraction-calculator",
+        "matrix-calculator",
         "prime-factorization-calculator",
-        "statistics-visualizer",
+        "triangle-solver",
         "unit-circle-calculator"
       ]
     },
@@ -727,13 +792,17 @@
       ],
       "existingMembers": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ],
       "size": 1,
       "meanScore": 79.4,
       "internalLinks": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ]
     },
     {
@@ -745,6 +814,7 @@
       ],
       "existingMembers": [
         "crc32-hash-generator",
+        "file-hash-verifier",
         "hash-identifier",
         "md5-hash-generator",
         "sha1-hash-generator",
@@ -755,11 +825,11 @@
       "meanScore": 79.3,
       "internalLinks": [
         "crc32-hash-generator",
+        "file-hash-verifier",
         "hash-identifier",
         "md5-hash-generator",
         "sha1-hash-generator",
-        "sha256-hash-generator",
-        "sha512-hash-generator"
+        "sha256-hash-generator"
       ]
     },
     {
@@ -773,6 +843,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
@@ -783,8 +854,8 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
         "unix-timestamp-converter"
       ]
     },
@@ -798,14 +869,16 @@
       "existingMembers": [
         "aspect-ratio-calculator",
         "px-to-dp-converter",
-        "px-to-rem-converter"
+        "px-to-rem-converter",
+        "type-scale-generator"
       ],
       "size": 1,
       "meanScore": 79.2,
       "internalLinks": [
         "aspect-ratio-calculator",
         "px-to-dp-converter",
-        "px-to-rem-converter"
+        "px-to-rem-converter",
+        "type-scale-generator"
       ]
     },
     {
@@ -818,6 +891,7 @@
       "existingMembers": [
         "character-map",
         "find-replace",
+        "regex-tester",
         "shell-quote-escalator",
         "text-compare",
         "text-repeater"
@@ -828,9 +902,9 @@
         "character-map",
         "find-replace",
         "invisible-character-detector",
+        "regex-tester",
         "shell-quote-escalator",
-        "text-compare",
-        "text-repeater"
+        "text-compare"
       ]
     },
     {
@@ -908,6 +982,7 @@
         "calorie-deficit-calculator",
         "heart-rate-zone-calculator",
         "ideal-weight-calculator",
+        "lean-body-mass-calculator",
         "macro-calculator",
         "one-rep-max-calculator",
         "protein-intake-calculator",
@@ -966,6 +1041,8 @@
         "probability-calculator"
       ],
       "existingMembers": [
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -973,6 +1050,8 @@
       "size": 1,
       "meanScore": 78.6,
       "internalLinks": [
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "statistics-visualizer",
@@ -988,10 +1067,14 @@
       ],
       "existingMembers": [
         "camel-case-converter",
+        "chat-export-cleaner",
+        "context-fit-checker",
         "invisible-character-detector",
         "kebab-case-converter",
+        "llms-txt-generator",
         "lowercase-converter",
         "normalize-whitespace",
+        "prompt-packer",
         "remove-accents",
         "remove-blank-lines",
         "remove-duplicate-lines",
@@ -1011,9 +1094,9 @@
       "meanScore": 78.5,
       "internalLinks": [
         "camel-case-converter",
+        "chat-export-cleaner",
+        "context-fit-checker",
         "invisible-character-detector",
-        "kebab-case-converter",
-        "lowercase-converter",
         "normalize-whitespace",
         "remove-extra-spaces"
       ]
@@ -1027,6 +1110,7 @@
       ],
       "existingMembers": [
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
@@ -1034,31 +1118,10 @@
       "meanScore": 78.4,
       "internalLinks": [
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-json-converter",
         "csv-to-tsv"
-      ]
-    },
-    {
-      "id": "matrices",
-      "transformation": "Matrices",
-      "engine": "math",
-      "members": [
-        "matrix-calculator"
-      ],
-      "existingMembers": [
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator",
-        "statistics-visualizer"
-      ],
-      "size": 1,
-      "meanScore": 78.3,
-      "internalLinks": [
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator",
-        "statistics-visualizer"
       ]
     },
     {
@@ -1102,13 +1165,17 @@
       ],
       "existingMembers": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ],
       "size": 1,
       "meanScore": 77.8,
       "internalLinks": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ]
     },
     {
@@ -1146,6 +1213,7 @@
       ],
       "existingMembers": [
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
@@ -1153,10 +1221,37 @@
       "meanScore": 77.4,
       "internalLinks": [
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-json-converter",
         "csv-to-tsv",
         "remove-blank-lines"
+      ]
+    },
+    {
+      "id": "matrices",
+      "transformation": "Matrices",
+      "engine": "math",
+      "members": [
+        "matrix-calculator"
+      ],
+      "existingMembers": [
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "matrix-calculator",
+        "prime-factorization-calculator",
+        "statistics-visualizer",
+        "triangle-solver"
+      ],
+      "size": 1,
+      "meanScore": 77.3,
+      "internalLinks": [
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "matrix-calculator",
+        "prime-factorization-calculator",
+        "statistics-visualizer",
+        "triangle-solver"
       ]
     },
     {
@@ -1202,6 +1297,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
@@ -1212,9 +1308,9 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ]
     },
     {
@@ -1226,6 +1322,7 @@
       ],
       "existingMembers": [
         "cidr-calculator",
+        "ipv4-converter",
         "what-is-my-ip"
       ],
       "size": 1,
@@ -1234,6 +1331,7 @@
         "binary-converter",
         "cidr-calculator",
         "hex-encoder-decoder",
+        "ipv4-converter",
         "what-is-my-ip"
       ]
     },
@@ -1245,6 +1343,8 @@
         "normal-distribution-visualizer"
       ],
       "existingMembers": [
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -1252,6 +1352,8 @@
       "size": 1,
       "meanScore": 77.1,
       "internalLinks": [
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "statistics-visualizer",
@@ -1269,6 +1371,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
@@ -1279,9 +1382,9 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ]
     },
     {
@@ -1297,6 +1400,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
@@ -1308,9 +1412,9 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "move-today-tracker",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ]
     },
     {
@@ -1347,6 +1451,8 @@
         "linear-regression-playground"
       ],
       "existingMembers": [
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -1354,6 +1460,8 @@
       "size": 1,
       "meanScore": 76.3,
       "internalLinks": [
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "statistics-visualizer",
@@ -1369,6 +1477,7 @@
       ],
       "existingMembers": [
         "crc32-hash-generator",
+        "file-hash-verifier",
         "hash-identifier",
         "md5-hash-generator",
         "sha1-hash-generator",
@@ -1379,11 +1488,11 @@
       "meanScore": 76.1,
       "internalLinks": [
         "crc32-hash-generator",
+        "file-hash-verifier",
         "hash-identifier",
         "md5-hash-generator",
         "sha1-hash-generator",
-        "sha256-hash-generator",
-        "sha512-hash-generator"
+        "sha256-hash-generator"
       ]
     },
     {
@@ -1427,6 +1536,7 @@
       ],
       "existingMembers": [
         "crc32-hash-generator",
+        "file-hash-verifier",
         "hash-identifier",
         "md5-hash-generator",
         "sha1-hash-generator",
@@ -1437,7 +1547,7 @@
       "meanScore": 75.9,
       "internalLinks": [
         "crc32-hash-generator",
-        "hash-identifier",
+        "file-hash-verifier",
         "md5-hash-generator",
         "sha1-hash-generator",
         "sha256-hash-generator",
@@ -1509,10 +1619,14 @@
       ],
       "existingMembers": [
         "camel-case-converter",
+        "chat-export-cleaner",
+        "context-fit-checker",
         "invisible-character-detector",
         "kebab-case-converter",
+        "llms-txt-generator",
         "lowercase-converter",
         "normalize-whitespace",
+        "prompt-packer",
         "remove-accents",
         "remove-blank-lines",
         "remove-duplicate-lines",
@@ -1548,6 +1662,7 @@
       ],
       "existingMembers": [
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-tsv"
       ],
@@ -1555,6 +1670,7 @@
       "meanScore": 74.7,
       "internalLinks": [
         "csv-cleaner",
+        "csv-column-picker",
         "csv-diff",
         "csv-to-json-converter",
         "csv-to-tsv",
@@ -1595,6 +1711,8 @@
         "function-grapher"
       ],
       "existingMembers": [
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -1602,6 +1720,8 @@
       "size": 1,
       "meanScore": 74.5,
       "internalLinks": [
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -1649,6 +1769,7 @@
         "calorie-deficit-calculator",
         "heart-rate-zone-calculator",
         "ideal-weight-calculator",
+        "lean-body-mass-calculator",
         "macro-calculator",
         "one-rep-max-calculator",
         "protein-intake-calculator",
@@ -1662,8 +1783,8 @@
         "bmr-calculator",
         "body-fat-calculator",
         "calorie-deficit-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator"
+        "ideal-weight-calculator",
+        "lean-body-mass-calculator"
       ]
     },
     {
@@ -1733,13 +1854,17 @@
       ],
       "existingMembers": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ],
       "size": 1,
       "meanScore": 74.1,
       "internalLinks": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ]
     },
     {
@@ -1774,6 +1899,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
@@ -1784,7 +1910,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "systemd-timer-converter",
+        "sleep-cycle-calculator",
         "timezone-converter",
         "unix-timestamp-converter"
       ]
@@ -1861,6 +1987,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
@@ -1951,6 +2078,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
@@ -1961,9 +2089,9 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ]
     },
     {
@@ -1975,13 +2103,17 @@
       ],
       "existingMembers": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ],
       "size": 1,
       "meanScore": 71.6,
       "internalLinks": [
         "color-contrast-checker",
-        "color-format-converter"
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator"
       ]
     },
     {
@@ -2027,6 +2159,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
@@ -2037,9 +2170,9 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "sleep-cycle-calculator",
         "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "timezone-converter"
       ]
     },
     {
@@ -2131,7 +2264,9 @@
       "existingMembers": [],
       "size": 1,
       "meanScore": 66,
-      "internalLinks": []
+      "internalLinks": [
+        "file-hash-verifier"
+      ]
     },
     {
       "id": "image-conversion",
@@ -2143,7 +2278,9 @@
       "existingMembers": [],
       "size": 1,
       "meanScore": 65.7,
-      "internalLinks": []
+      "internalLinks": [
+        "file-hash-verifier"
+      ]
     },
     {
       "id": "calendar-view",

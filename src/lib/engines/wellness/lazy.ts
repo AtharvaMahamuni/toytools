@@ -25,6 +25,7 @@ const LOADERS: Record<string, () => Promise<Record<string, unknown>>> = {
   'protein-intake': () => import('./calculators/protein-intake'),
   'one-rep-max': () => import('./calculators/one-rep-max'),
   'running-pace': () => import('./calculators/running-pace'),
+  'lean-body-mass': () => import('./calculators/lean-body-mass'),
 };
 
 /** Every id this map can load, so validate-registry can check it against the static registry. */

@@ -450,7 +450,6 @@ Pixel 5 across every tool, and **`THRESHOLDS.conceptHeadings`** keeps every tool
 that names a concept. The layering rule behind both: *the widget renders the tool, the platform
 renders everything that is not the tool*, enforced by `validate-architecture` refusing any
 `CategoryDiscovery` import under `src/tools/`.
-Background: `docs/analysis/2026-08-08-tool-identity-architecture.md`.
 
 **Section-boundary recipe.** A boundary between two page sections is **one hairline with symmetric
 breathing room**: the *lower* section draws it — `margin-top: var(--space-8); border-top: var(--border);
@@ -1042,23 +1041,21 @@ ship-checklist item: CLAUDE.md, "Breaking-changes playbook", "LLM files". Prep f
 someone pastes it into an external model. ToyTools does not run that model. See
 `docs/prep-for-a-model.md`.
 
-## Architecture Diagram (`/architecture/`)
+## Architecture page (`/architecture/`)
 
-`src/pages/architecture.astro` is a deployed, **registry-derived** interactive map of the whole
-platform — built entirely at build time from `categories`, `engineRegistry`, `tools`, and the
-knowledge `graph`, so adding a tool or engine updates it with **zero hand-maintenance** (same ethos
-as the sitemap). The canvas is a clean overview (Platform → Categories → Engines, plus the
-cross-cutting layers Registry / Runtime / Knowledge Graph / Content Intelligence / Sitemap); the
-dotted **engine↔engine links are aggregated from the knowledge-graph edges** (a tool in one engine
-referencing a tool in another). Per-tool detail is intentionally kept off the canvas and surfaced in
-a click-to-reveal side panel (description, source path, patterns/families, tools, related engines).
+`src/pages/architecture.astro` is a deployed, **registry-derived** list of the whole platform,
+built at build time from `categories`, `engineRegistry`, `tools`, and the knowledge `graph`, so
+adding a tool or engine updates it with **zero hand-maintenance** (same ethos as the sitemap).
+The list is the map: the platform, the layers under it (Registry, Runtime, Knowledge Graph,
+Content Intelligence, Sitemap), then each category and the engines inside it. **Engine-to-engine
+relationships are aggregated from the knowledge-graph edges** (a tool in one engine referencing a
+tool in another) and shown when you open an engine. Per-tool detail stays in the side panel
+(description, source path, patterns/families, tools, related engines).
 
-- Rendered client-side with **Mermaid** (a dependency, bundled only on this page — no runtime CDN),
-  `securityLevel: 'loose'` so `click <node> call archClick(...)` drives the panel. The diagram source
-  and a `nodeInfo` JSON payload are embedded in the page; the script re-renders on dark-mode toggle.
-- `noindex,follow`, `maxWidth="full"`, mobile-first (panel stacks below the canvas under 1024px),
-  token-driven. Not in the nav or sitemap (internal overview, reached by URL) — same posture as
-  `/search`. Mermaid class names must stay hyphen-free (category slugs are mapped via `catClass()`).
+The page is HTML and a small script that fills the panel from an embedded `nodeInfo` payload.
+There is no diagram library. `noindex,follow`, `maxWidth="full"`, phone-first (the panel sits
+above the list under 1024px, and sticks beside it from 1024px). Not in the nav or sitemap
+(internal overview, reached by URL), same posture as `/search`.
 
 ---
 
@@ -1127,12 +1124,12 @@ chunks a page really pulls: the engine ids in `<meta name="tt-engines">` for the
 under a key the page never asks for are correctly excluded. Verified against a real Playwright
 network trace: identical to the byte on every page type.
 
-Budgets (gzipped) live in `BUDGETS`; `EXCEPTIONS` holds pages whose weight is inherent to what they
-are (only `/architecture/`, the Mermaid map) and still caps them. **Raising a budget is a decision
-to spend every visitor's bandwidth — fix the cause instead**, and say why in the PR if you truly
-must. The three structural causes and what they mean are listed in `CLAUDE.md` →
-"Performance budget"; the full before/after is in
-`docs/analysis/2026-07-31-critical-path-performance.md`.
+Budgets (gzipped) live in `BUDGETS`. `EXCEPTIONS` is for a page whose weight is inherent to what
+it is, and it still caps that page. It is empty: `/architecture/` used to be the one entry,
+because the page shipped Mermaid, and the map is HTML now. **Raising a budget is a decision to
+spend every visitor's bandwidth. Fix the cause instead**, and say why in the PR if you truly
+must. The two regressions this gate exists to catch are a route pulling in stylesheets it
+does not use, and a static engine import turning the runtime back into an every-page bundle.
 
 ## E2E Testing (`tests/e2e/`)
 

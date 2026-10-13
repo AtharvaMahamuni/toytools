@@ -1,0 +1,253 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="what-is-a-csv-column-picker">
+    <h2>What is a csv column picker? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A csv column picker is a tool that keeps the columns you name and drops every other field.
+    </p>
+    <p>
+      You paste a table, list the headers to keep, and read a smaller CSV back in that same order.
+      The cut runs on your device, so a customer export never gets uploaded.
+      People reach for it when a download is wider than the sheet they can share.
+    </p>
+    <p>
+      Pull name and email out of a wide CRM export before a mail merge.
+      Drop a salary column before sharing a spreadsheet with someone who should not see pay.
+    </p>
+    <p>The page is free to open, and there is no account to create.</p>
+    <a href={toolHref} class="cta-link">Try the CSV Column Picker →</a>
+  </section>
+
+  <section id="how-to-extract-columns">
+    <h2>How do you extract columns from csv? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Paste the table in the first box and the columns to keep in the second.</p>
+    <p>
+      Separate names with commas, and keep the capitalization of each header exactly.
+      The output follows the order you type rather than the order in the file.
+    </p>
+    <p>
+      Detection works by counting commas against semicolons on the first non-empty line, then checking tabs.
+      That choice is the delimiter for the whole file, including every later row.
+    </p>
+    <p>Input: the Ada row with name, age, city in that order.</p>
+    <div class="pick-scroll">
+      <table class="pick-sample">
+        <caption>Sample: Ada lives in Pune and is 30.</caption>
+        <thead>
+          <tr>
+            <th scope="col">name</th>
+            <th scope="col">age</th>
+            <th scope="col">city</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ada</td>
+            <td>30</td>
+            <td>Pune</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      For example, the list city,name on that table returns city before name.
+      Typing 3 returns only the city column, and the notice calls the cut a position pick.
+      Output: Pune stays under city, while the age column is gone.
+    </p>
+    <p>
+      Add Bob, 41, Goa under Ada and the same list returns a second row.
+      Goa lines up under city, and 41 leaves with the age column.
+    </p>
+    <p>
+      Leave the second box empty and the whole table comes back with the detected delimiter.
+      The summary names the headers, so you can confirm the read before you drop a field.
+    </p>
+    <p>A second try is instant, because the cut updates as you type.</p>
+  </section>
+
+  <section id="name-or-position">
+    <h2>Should you pick by header name or by position? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Use a header name when the first row has labels, and use a column number only for positive integers.
+    </p>
+    <p>
+      The difference between them shows up when someone inserts a column.
+      A position number is not a stable field name.
+      Select csv columns by header so you keep csv columns after a new field appears.
+      A name such as city still finds Pune after a phone field lands at the front.
+      A number such as 3 then points at a different field, so the notice warns you.
+    </p>
+    <p>
+      Picking by position after a column is inserted keeps the wrong field in a tidy looking grid.
+      Unlike a name, a slot number does not know what the field means.
+      Use names on every file that already has a header row.
+    </p>
+    <p>
+      A mixed list such as city,3 is treated as names, so a column literally called 3 would have to exist.
+      Numbers count as positions only when every entry is a positive integer.
+    </p>
+  </section>
+
+  <section id="semicolon-files">
+    <h2>Why does a semicolon file collapse to one column? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>It collapses because a comma split of name;age sees one column and the picker switches.</p>
+    <p>
+      The notice says the file was read as semicolon because a comma split it into one column.
+      A semicolon csv is that European export, reread so the headers become columns you can name.
+      Treating a semicolon file as comma-separated is how a European export becomes one smashed field.
+      You do not pick the delimiter yourself, and the same check applies to every row.
+    </p>
+    <p>
+      Tabs win when a tab split produces more columns than a comma split.
+      Keep city and name from a European semicolon export by typing those headers once the notice is up.
+    </p>
+    <p>
+      Quoted commas do not count as splits, because the parser honors quotes before it cuts.
+      In a note cell that holds hello, world, keeping note preserves the comma inside the cell.
+    </p>
+  </section>
+
+  <section id="missing-header">
+    <h2>What happens when a header is missing? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>It stops and names the missing header instead of writing a partial file.</p>
+    <p>
+      For example, email against name and age stops the run and names email.
+      Check the spelling and the capitalization, because Name does not match name.
+    </p>
+    <p>
+      A repeated header is a different problem, not a missing name.
+      The first match is the column that stays in the output.
+      A notice says a later column with the same name was left behind.
+    </p>
+    <p>
+      Ignoring a missing header and guessing the column would hide a typo until a later join fails.
+      Correct the list and run the cut again instead of filling the gap by hand.
+    </p>
+  </section>
+
+  <section id="read-the-notice">
+    <h2>How do you read the notice? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Read the notice when it appears, because a quiet result can still be the wrong cut.</p>
+    <p>
+      An ordinary comma file with a name list has no notice at all.
+      A semicolon or tab file always explains why the delimiter changed.
+      A position list always warns that inserting a column changes which field is kept.
+    </p>
+    <p>
+      Names do not set that position warning, even if you reorder the columns.
+      If two headers share a name, the notice names the duplicate that was left behind.
+    </p>
+  </section>
+
+  <section id="cell-values">
+    <h2>Does the picker change cell values? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>The picker does not edit cell values, so a date and a leading zero stay as written.</p>
+    <p>
+      Quotes come back only when the cell contains the delimiter or a line break.
+      A short row gains blank cells rather than borrowing a value from the next column.
+    </p>
+  </section>
+
+  <section id="before-and-after">
+    <h2>What should you run before and after the cut? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Clean ragged rows first, then cut columns, then change format only if you need to.</p>
+    <p>
+      Run the <a href={toolPathBySlug('csv-cleaner')}>CSV Cleaner</a> when rows disagree about how many fields they hold.
+      After the cut, the <a href={toolPathBySlug('csv-to-json-converter')}>CSV to JSON converter</a> turns the smaller file into objects for an API.
+    </p>
+    <p>
+      When the smaller file should be tab separated, send it through the
+      <a href={toolPathBySlug('csv-to-tsv')}>CSV to TSV converter</a>.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>What are the common mistakes? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Each common mistake below is a cut that looks finished and keeps the wrong field.</p>
+
+    <ReferenceBlock type="common-mistake" heading="Why is a column number risky?">
+      <p>Picking by position after a column is inserted keeps a different field.</p>
+      <p>Read the notice, and switch to header names before you share the file.</p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="What if you split a semicolon export on commas?">
+      <p>Treating a semicolon file as comma-separated collapses every row into one cell.</p>
+      <p>This picker switches the delimiter and says so in the notice when that happens.</p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="What if you guess past a missing header?">
+      <p>Ignoring a missing header and guessing the column hides the typo.</p>
+      <p>This picker names the missing header and stops, so you can correct the list.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+  .pick-scroll {
+    overflow-x: auto;
+    max-width: 100%;
+    margin: var(--space-4) 0;
+  }
+  .pick-sample {
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+  }
+  .pick-sample caption {
+    caption-side: bottom;
+    text-align: start;
+    padding-top: var(--space-2);
+    color: var(--color-text-muted);
+  }
+  .pick-sample th,
+  .pick-sample td {
+    text-align: start;
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-surface);
+  }
+  .pick-sample th {
+    background: var(--color-bg-tertiary);
+    font-weight: var(--font-weight-semibold);
+  }
+</style>

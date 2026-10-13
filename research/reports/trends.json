@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-20T12:30:10.974Z",
+  "generatedAt": "2026-10-09T05:25:21.130Z",
   "trends": [
     {
       "transformation": "Fidget Interaction",
@@ -261,12 +261,6 @@
       "meanScore": 78.4
     },
     {
-      "transformation": "Matrices",
-      "count": 1,
-      "meanDemand": 0.88,
-      "meanScore": 78.3
-    },
-    {
       "transformation": "Return on Investment",
       "count": 1,
       "meanDemand": 0.88,
@@ -289,6 +283,12 @@
       "count": 1,
       "meanDemand": 0.7,
       "meanScore": 77.4
+    },
+    {
+      "transformation": "Matrices",
+      "count": 1,
+      "meanDemand": 0.88,
+      "meanScore": 77.3
     },
     {
       "transformation": "Compound Annual Growth Rate",

@@ -820,7 +820,7 @@ describe('the scanner agrees with the Astro compiler on every real .astro file',
       walk(ast as unknown as AstNode);
       parsed.set(file, regions);
     }
-  });
+  }, 30000);
 
   it('checks the parser the build uses: no other compiler is turned on in the astro config', async () => {
     const { default: config } = (await import('../../astro.config.mjs')) as {

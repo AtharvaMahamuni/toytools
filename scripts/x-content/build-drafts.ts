@@ -2,7 +2,7 @@
 // field somebody authored and a validator already checks, which is the only reason this can run
 // unattended without the account making a claim the site does not make.
 //
-// Four kinds, in the order the strategy ranks them (docs/analysis/2026-08-25-x-content-strategy.md):
+// Four kinds, in the order the x-content skill ranks them:
 //
 //   thread  a topic explained, landing on the GUIDE. The cluster's front door, and the only kind
 //           that reliably earns a link from someone else, which is the one thing that moves search.

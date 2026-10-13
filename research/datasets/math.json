@@ -288,6 +288,10 @@
         "dated applets",
         "no touch-first interaction"
       ],
+      "userFailures": [
+        "Dragging one point tilts the whole line, and nothing names which point did it.",
+        "Two points always give an R squared of 1, which looks like a strong fit when it is only a line through two dots."
+      ],
       "relatedProblems": [
         "correlation",
         "residuals",
@@ -506,6 +510,10 @@
         "dated applets",
         "no draggable mean and sigma",
         "no shaded area interaction"
+      ],
+      "userFailures": [
+        "A shaded picture that shows only one tail gets copied as the other tail.",
+        "A standard deviation near zero turns the curve into a spike and the z-score stops meaning anything."
       ],
       "relatedProblems": [
         "z score",

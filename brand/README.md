@@ -47,7 +47,7 @@ palette and font loader in `scripts/brand/render.ts` so a token change reaches e
 `queue/` and `cards/` are gitignored. Both regenerate in seconds and both are working files for a
 posting session rather than things anybody reads out of the repo; committed, the queue would
 re-diff 250KB every time a tool's craft sentence changed. What to put in them, and why, is
-`.claude/skills/x-content/` and `docs/analysis/2026-08-25-x-content-strategy.md`.
+`.claude/skills/x-content/`.
 
 Re-run it after changing `src/lib/icons/site-icon.ts` (the mark), the hero copy in
 `src/pages/index.astro` (the banner quotes it), or any token the banner reads from

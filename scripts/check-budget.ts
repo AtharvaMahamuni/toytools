@@ -2,8 +2,7 @@
 //
 // Runs on dist/ after `astro build` (it is the last step of `npm run build`). It reports what each
 // page actually costs a visitor and fails the build when any page exceeds its budget, so a new tool
-// cannot quietly reintroduce the two regressions documented in
-// docs/analysis/2026-07-31-critical-path-performance.md:
+// cannot quietly reintroduce the two regressions this gate was added to catch:
 //
 //   1. render-blocking CSS creeping back up (a route-level glob hoisting other tools' stylesheets),
 //   2. the JS bundle growing back into an every-page monolith (a static engine import in the runtime).
@@ -56,18 +55,9 @@ const BUDGETS: Record<string, Budget> = {
   page: { sheets: 4, cssKb: 12, jsKb: 12, htmlKb: 30, totalKb: 48 },
 };
 
-// Named exceptions. A page lands here only when its weight is inherent to what it is, never to
-// silence a regression — and it still gets a ceiling so it cannot grow unbounded.
-const EXCEPTIONS: Record<string, { budget: Budget; why: string }> = {
-  architecture: {
-    // KNOWN DEBT, tracked in docs/analysis/2026-07-31-critical-path-performance.md: the interactive
-    // Mermaid map pulls mermaid + cytoscape (~145 KB gz). It is one internal diagnostic page, so it
-    // was left alone rather than widening the site-wide budget. The fix, if it ever matters, is to
-    // lazy-load the renderer on viewport/interaction instead of at load.
-    budget: { sheets: 4, cssKb: 12, jsKb: 160, htmlKb: 30, totalKb: 190 },
-    why: 'renders the interactive Mermaid architecture map (mermaid + cytoscape)',
-  },
-};
+// A page lands here only when its weight is inherent, and it still gets a ceiling.
+// Empty on purpose. Do not add a page here to silence a regression.
+const EXCEPTIONS: Record<string, { budget: Budget; why: string }> = {};
 
 // Assets fetched on a USER INTERACTION, never at load. These are invisible to the per-page
 // measurement above (they are not <script src> tags and not engine chunks named in tt-engines),
@@ -348,7 +338,7 @@ if (failures.length > 0) {
   console.error('\n[check-budget] Over budget:\n');
   failures.forEach((f) => console.error(`  ✗ ${f}`));
   console.error(
-    `\n${failures.length} budget violation(s). See docs/analysis/2026-07-31-critical-path-performance.md.\n` +
+    `\n${failures.length} budget violation(s).\n` +
     'Usually this means a route pulled in stylesheets or an engine it does not use — fix the cause,\n' +
     'do not raise the budget without saying why in the PR.\n',
   );

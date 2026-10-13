@@ -210,7 +210,12 @@ const THRESHOLDS = {
   //   when every distinct pair stays distinct. IPv4 Converter ships guardrail craft
   //   ipv4-reject-truncation. Mapped IPv6 is not cut down, and a unique glued-octet
   //   integer offers the dotted address. A plain dotted address stays quiet.
-  coverage: 0.718,
+  // 2026-10-09: 0.722 (112/155). CSV Column Picker ships guardrail craft csv-header-guard.
+  //   A semicolon file is reread when a comma split yields one column, and a position
+  //   pick says an inserted column will move the field. A named comma file stays quiet.
+  //   Lean Body Mass Calculator ships verification craft lbm-formula-spread. The note
+  //   names Boer and Hume once they differ by 5 kg. 80 kg at 180 cm stays quiet.
+  coverage: 0.722,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

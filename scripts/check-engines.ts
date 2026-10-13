@@ -3,8 +3,8 @@
 // The other validators check that declared references resolve (validate-registry) and that nothing
 // on disk is unwired (validate-architecture). Neither has an opinion about the shape of the engine
 // layer itself: how many engines a category carries, how much widget reuse there is, or which
-// engines are connected to which. That last one is derived and rendered on /architecture/ as dotted
-// Mermaid links, and has been since the page was built, but a picture is not a check. An engine
+// engines are connected to which. That last one is derived and listed on /architecture/ when you
+// open an engine, and has been since the page was built, but a list is not a check. An engine
 // could drift into total isolation, or two could fuse into a mesh, and every gate stayed green.
 //
 // So this prints the shape as a table you can diff, and holds two numbers as ratchets.
@@ -70,7 +70,7 @@ for (const e of engineRegistry) {
 }
 
 // ── Relationships ────────────────────────────────────────────────────────────────────────────
-// The same derivation /architecture/ renders: a knowledge-graph edge between two tools in different
+// The same derivation /architecture/ lists under an engine: a knowledge-graph edge between two tools in different
 // engines is one engine-to-engine relationship. Kept in step with src/pages/architecture.astro.
 const CROSS_TYPES = new Set<string>([
   RELATION_TYPES.RELATED_TOOL,

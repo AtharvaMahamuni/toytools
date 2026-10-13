@@ -55,9 +55,10 @@ export const toolGroups: ToolGroup[] = [
     id: 'csv-tools',
     name: 'CSV Tools',
     members: [
-      { slug: 'csv-diff',    label: 'Diff'      },
-      { slug: 'csv-to-tsv',  label: 'CSV → TSV' },
-      { slug: 'csv-cleaner', label: 'Clean'     },
+      { slug: 'csv-diff',           label: 'Diff'      },
+      { slug: 'csv-to-tsv',         label: 'CSV → TSV' },
+      { slug: 'csv-cleaner',        label: 'Clean'     },
+      { slug: 'csv-column-picker',  label: 'Columns'   },
     ],
   },
   {
@@ -121,6 +122,7 @@ export const toolGroups: ToolGroup[] = [
     members: [
       { slug: 'bmi-calculator',                label: 'BMI'             },
       { slug: 'body-fat-calculator',           label: 'Body Fat'        },
+      { slug: 'lean-body-mass-calculator',     label: 'Lean Mass'       },
       { slug: 'ideal-weight-calculator',       label: 'Ideal Weight'    },
       { slug: 'bmr-calculator',                label: 'BMR'             },
       { slug: 'tdee-calculator',               label: 'TDEE'            },

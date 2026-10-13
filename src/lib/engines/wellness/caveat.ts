@@ -17,6 +17,7 @@
 //   calorie-deficit  "Never recalculating, so the deficit becomes maintenance as weight falls."
 //   heart-rate-zones "Treating a formula maximum as exact instead of a rough estimate."
 //   ideal-weight     "Treating one formula number as an exact target to hit."
+//   lean-body-mass   "Copying one lean-mass formula once Boer and Hume diverge by 5 kg or more."
 //   one-rep-max      "Using a high-rep set, where the formulas diverge the most."
 //   protein-intake   "Eating most of the day's protein at dinner rather than spreading it."
 //   running-pace     "Extrapolating a marathon from a 5K, far outside the reliable range."
@@ -154,6 +155,31 @@ export function wellnessCaveat(id: string, input: WellnessInput): string | null 
       if (spreadKg < 4) return null;
       const spread = metric ? spreadKg : kgToLb(spreadKg);
       return `The four formulas disagree by ${r1(spread)} ${metric ? 'kg' : 'lb'} at your height. That spread is the answer: there is no single ideal weight to hit.`;
+    }
+
+    case 'lean-body-mass': {
+      // Three published estimates. Copying one of them is the failure once they diverge.
+      // Coefficients match calculators/lean-body-mass.ts. James keeps height in centimetres.
+      const sex = s(input, 'sex') as Sex;
+      const w = n(input, 'weight');
+      const h = n(input, 'height');
+      if (!ok(w, h) || (sex !== 'male' && sex !== 'female')) return null;
+      const kg = metric ? w : lbToKg(w);
+      const cm = metric ? h : inToCm(h);
+      // The calculator refuses these heights (metres or feet typed by mistake), so stay silent.
+      if (h < (metric ? 50 : 20)) return null;
+      const ratioSq = (kg / cm) * (kg / cm);
+      const rows: [string, number][] = [
+        ['Boer', sex === 'male' ? 0.407 * kg + 0.267 * cm - 19.2 : 0.252 * kg + 0.473 * cm - 48.3],
+        ['James', sex === 'male' ? 1.10 * kg - 128 * ratioSq : 1.07 * kg - 148 * ratioSq],
+        ['Hume', sex === 'male' ? 0.32810 * kg + 0.33929 * cm - 29.5336 : 0.29569 * kg + 0.41813 * cm - 43.2933],
+      ];
+      const sorted = [...rows].sort((a, b) => b[1] - a[1]);
+      const high = sorted[0]!;
+      const low = sorted[sorted.length - 1]!;
+      const spreadKg = high[1] - low[1];
+      if (spreadKg < 5) return null;
+      return `${high[0]} and ${low[0]} disagree by ${r1(metric ? spreadKg : kgToLb(spreadKg))} ${metric ? 'kg' : 'lb'}. A single unlabeled number hides which formula was copied.`;
     }
 
     case 'one-rep-max': {

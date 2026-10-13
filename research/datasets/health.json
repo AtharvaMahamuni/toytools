@@ -138,6 +138,10 @@
       "searchQueries": ["lean body mass calculator", "lbm calculator", "boer formula calculator", "fat free mass calculator", "muscle mass estimate"],
       "existingSolutions": ["omnicalculator.com", "calculator.net"],
       "solutionWeaknesses": ["ad heavy", "no formula comparison", "no link to body fat percentage"],
+      "userFailures": [
+        "Copying one lean-mass formula hides a several-kilogram gap when Boer and Hume disagree.",
+        "Using the estimate as a medication dose treats an equation as a measurement."
+      ],
       "relatedProblems": ["formula selection", "fat free mass index", "drug dosing by lean mass"],
       "relatedTools": ["body-fat-calculator", "ideal-weight-calculator"],
       "demand": 55,

@@ -41,8 +41,6 @@ export function simulatorLabel(title: string): string {
  * survived only in body prose, and tag coverage for it had drifted to 10 of 14 sims with three
  * carrying nothing at all. Deriving these means a new simulation is searchable by the word people
  * use for simulations without anyone remembering to type it into a tag list.
- *
- * See docs/analysis/2026-08-04-query-to-tool-matching-audit.md, findings 1 and 6.
  */
 export function simulatorTags(manifest: SimulationManifest): string[] {
   const subject = simulationSubject(manifest);

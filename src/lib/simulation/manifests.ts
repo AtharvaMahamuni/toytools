@@ -25,8 +25,10 @@ import { manifest as reactionKinetics } from './simulations/reaction-kinetics.ma
 import { manifest as electronConfiguration } from './simulations/electron-configuration.manifest';
 import { manifest as chemicalBond } from './simulations/chemical-bond.manifest';
 import { manifest as molecularGeometry } from './simulations/molecular-geometry.manifest';
+import { manifest as linearRegression } from './simulations/linear-regression.manifest';
+import { manifest as normalDistribution } from './simulations/normal-distribution.manifest';
 
-export const MANIFESTS: SimulationManifest[] = [projectileMotion, waveSpeed, frequencyPeriod, pendulum, heatTransfer, ohmsLaw, shmSpring, idealGasLaw, momentumCollision, inclinedPlane, dopplerEffect, unitCircle, quadratic, probability, nuclearReactor, newmanProjection, crystalField, reactionKinetics, electronConfiguration, chemicalBond, molecularGeometry];
+export const MANIFESTS: SimulationManifest[] = [projectileMotion, waveSpeed, frequencyPeriod, pendulum, heatTransfer, ohmsLaw, shmSpring, idealGasLaw, momentumCollision, inclinedPlane, dopplerEffect, unitCircle, quadratic, probability, nuclearReactor, newmanProjection, crystalField, reactionKinetics, electronConfiguration, chemicalBond, molecularGeometry, linearRegression, normalDistribution];
 
 export const manifestBySlug = new Map(MANIFESTS.map((m) => [m.metadata.slug, m]));
 export const manifestByProcessorId = new Map(MANIFESTS.map((m) => [m.metadata.processorId, m]));

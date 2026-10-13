@@ -2,6 +2,27 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.8] - 2026-10-14
+
+### Added
+
+- **Normal Distribution Visualizer** (`/tool/math/normal-distribution-visualizer/`). Drag the mean, the standard deviation, and a bound on the bell curve. The page shows z, the left-tail area, and the right-tail area, and those two areas add to 1. Sigma stops at 0.2 so the curve cannot collapse into a spike. The 68, 95, and 99.7 bands update as you move the bound.
+- **Linear Regression Playground** (`/tool/math/linear-regression-playground/`). Place and drag points and read the least-squares line, its equation, and R squared. The five default points give y = 0.91x + 1.11 and R² of 0.880. Two points always report R² of 1. One far point is named when it dominates the slope.
+- **Lean Body Mass Calculator** (`/tool/health/lean-body-mass-calculator/`). Boer, James, and Hume from height, weight, and sex, shown together. Boer is the labeled default. A man of 80 kg and 180 cm stays quiet, because the formulas sit within 5 kg. A heavier body that splits Boer and Hume by 5 kg or more gets the gap named. The figure is not a medication dose.
+- **CSV Column Picker** (`/tool/developer-utilities/csv-column-picker/`). Keep named columns and drop the rest. A semicolon file that a comma split would smash into one column is reread, and the page says so. A pick by column number says an inserted column will move the field. A named comma file stays quiet. Nothing is uploaded.
+
+### Changed
+
+- Pomodoro Timer and Pop It guides now cover the stuck points people actually describe: a five-minute break that opens a feed, and a missing physical pop-it board. Hex Encoder and JSON to CSV gained the same Reddit intent research. Their guides were already answering those jobs.
+- `/architecture/` lists categories, engines, and the shared layers, and opens each one in the side panel. The Mermaid diagram is gone, so the page no longer downloads that library. An engine still lists the tools it powers and the other engines it connects to.
+- Removed the analysis notes for work that has already shipped. Five notes stay in `docs/analysis/`: engine scalability, Chrome extensions, tool craft, SEO ranking gaps, and gap remediation.
+
+### Fixed before release (review round)
+
+- **CSV Column Picker.** A file saved with a byte order mark (as Excel does) can be picked by its first column name. A header with a space after the comma, like "id, name", matches the typed name. A column whose name contains a comma can be picked by putting it in double quotes. A file over 10 MB gets a clear error instead of blocking the page. A tab file's notice now says it has more tabs than commas.
+- **Lean Body Mass Calculator.** A height under 50 cm, or under 20 in, is refused with a "Not metres?" or "Not feet?" hint instead of a nonsense result. In imperial the formula spread reads in pounds. The FAQ and guide explain why James drops at a very high weight.
+- **Linear Regression Playground.** When every point has the same x, the page says the line is vertical (x = c) instead of showing y = 0.00x plus the mean.
+
 ## [beta-v12.7] - 2026-10-13
 
 ### Fixed

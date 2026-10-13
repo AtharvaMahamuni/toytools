@@ -225,6 +225,90 @@ describe('ideal-weight calculator', () => {
   });
 });
 
+describe('lean body mass calculator', () => {
+  it('pins Boer, James, and Hume for a man of 80 kg at 180 cm', () => {
+    const res = runWellness('lean-body-mass', { unit: 'metric', sex: 'male', weight: 80, height: 180 }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.id).toBe('boer');
+    expect(res.hero?.note).toBe('Boer formula');
+    expect(res.hero?.raw).toBeCloseTo(61.42, 2);
+    expect(res.hero?.value).toBe('61.4 kg');
+    expect(cardRaw(res, 'james')).toBeCloseTo(62.716, 2);
+    expect(cardValue(res, 'james')).toBe('62.7 kg');
+    expect(cardRaw(res, 'hume')).toBeCloseTo(57.787, 2);
+    expect(cardValue(res, 'hume')).toBe('57.8 kg');
+    expect(cardRaw(res, 'spread')).toBeCloseTo(4.929, 2);
+    expect(cardValue(res, 'spread')).toBe('4.9 kg');
+    expect(cardRaw(res, 'implied-fat')).toBeCloseTo(23.225, 2);
+    expect(cardValue(res, 'implied-fat')).toBe('23.2%');
+    // Same height and weight, female coefficients: Boer is exactly 57 kg.
+    const female = runWellness('lean-body-mass', { unit: 'metric', sex: 'female', weight: 80, height: 180 }, {});
+    expect(female.hero?.raw).toBeCloseTo(57, 2);
+    expect(cardRaw(female, 'james')).toBeCloseTo(56.365, 2);
+    expect(cardRaw(female, 'hume')).toBeCloseTo(55.625, 2);
+  });
+
+  it('matches the metric body in pounds and inches', () => {
+    const res = runWellness('lean-body-mass', {
+      unit: 'imperial', sex: 'male', weight: 80 * 2.2046226218, height: 180 / 2.54,
+    }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.raw).toBeCloseTo(61.42, 2);
+    expect(res.hero?.value.endsWith('lb')).toBe(true);
+    // The spread reads in the chosen unit: 4.929 kg is 10.9 lb.
+    expect(cardValue(res, 'spread')).toBe('10.9 lb');
+    expect(cardRaw(res, 'spread')).toBeCloseTo(4.929 * 2.2046226218, 1);
+    expect(res.insights?.some((i) => i.text.includes('The spread is 10.9 lb.'))).toBe(true);
+  });
+
+  it('rejects a missing sex, a zero weight, and a height past the limit', () => {
+    expect(runWellness('lean-body-mass', { sex: 'male', weight: 80, height: 180 }, {}).uiState).toBe('validation-error');
+    expect(runWellness('lean-body-mass', { unit: 'metric', weight: 80, height: 180 }, {}).uiState).toBe('validation-error');
+    expect(runWellness('lean-body-mass', { unit: 'metric', sex: 'male', weight: 0, height: 180 }, {}).uiState).toBe('validation-error');
+    expect(runWellness('lean-body-mass', { unit: 'metric', sex: 'male', weight: 80 }, {}).uiState).toBe('validation-error');
+    expect(runWellness('lean-body-mass', { unit: 'metric', sex: 'male', weight: 80, height: 300 }, {}).uiState).toBe('validation-error');
+  });
+
+  it('rejects a height under 50 cm or 20 in with a not-metres hint', () => {
+    const m = runWellness('lean-body-mass', { unit: 'metric', sex: 'male', weight: 80, height: 1.8 }, {});
+    expect(m.uiState).toBe('validation-error');
+    expect(JSON.stringify(m)).toContain('Not metres?');
+    expect(runWellness('lean-body-mass', { unit: 'metric', sex: 'male', weight: 70, height: 10 }, {}).uiState).toBe('validation-error');
+    expect(runWellness('lean-body-mass', { unit: 'metric', sex: 'male', weight: 70, height: 49.9 }, {}).uiState).toBe('validation-error');
+    expect(runWellness('lean-body-mass', { unit: 'metric', sex: 'male', weight: 20, height: 50 }, {}).uiState).toBe('success');
+    const i = runWellness('lean-body-mass', { unit: 'imperial', sex: 'male', weight: 170, height: 5.9 }, {});
+    expect(i.uiState).toBe('validation-error');
+    expect(JSON.stringify(i)).toContain('Not feet?');
+    expect(runWellness('lean-body-mass', { unit: 'imperial', sex: 'male', weight: 40, height: 20 }, {}).uiState).toBe('success');
+  });
+
+  it('documents the James decline at high BMI with the right numbers', () => {
+    const j = (w: number) => cardRaw(runWellness('lean-body-mass', { unit: 'metric', sex: 'male', weight: w, height: 175 }, {}), 'james');
+    expect(j(132)).toBeCloseTo(72.4, 1);
+    expect(j(150)).toBeCloseTo(71.0, 1);
+    expect(j(200)).toBeCloseTo(52.8, 1);
+    expect(j(200)).toBeLessThan(j(150));
+  });
+
+  it('holds a formula that leaves body weight on the card and names it', () => {
+    const one = runWellness('lean-body-mass', { unit: 'metric', sex: 'male', weight: 30, height: 140 }, {});
+    expect(one.uiState).toBe('success');
+    expect(one.hero?.raw).toBeLessThan(30);
+    expect(one.insights?.some((i) => i.text.startsWith('Boer landed outside'))).toBe(true);
+    expect(cardValue(one, 'spread')).toContain('kg');
+    expect(one.metrics.find((c) => c.id === 'spread')?.note).toBe('raw gap, before the limit');
+
+    const two = runWellness('lean-body-mass', { unit: 'metric', sex: 'male', weight: 30, height: 50 }, {});
+    expect(two.insights?.some((i) => i.text.startsWith('James and Hume landed outside'))).toBe(true);
+
+    const three = runWellness('lean-body-mass', { unit: 'metric', sex: 'male', weight: 10, height: 180 }, {});
+    expect(three.insights?.some((i) => i.text.startsWith('Boer, James and Hume landed outside'))).toBe(true);
+    expect(three.hero?.raw).toBeLessThan(10);
+    expect(cardRaw(three, 'james')).toBeLessThan(10);
+    expect(cardRaw(three, 'hume')).toBeLessThan(10);
+  });
+});
+
 describe('heart-rate-zones calculator', () => {
   it('reports max HR and five ascending zones (percent of max)', () => {
     const res = runWellness('heart-rate-zones', { age: 30, method: 'simple', resting: 0 }, {});

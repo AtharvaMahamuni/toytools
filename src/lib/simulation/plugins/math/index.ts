@@ -8,6 +8,8 @@ import type { SimulationDomain } from '../../domain';
 import unitCircle from '../../simulations/unit-circle';
 import quadratic from '../../simulations/quadratic';
 import probability from '../../simulations/probability';
+import linearRegression from '../../simulations/linear-regression';
+import normalDistribution from '../../simulations/normal-distribution';
 
 export const mathDomain: SimulationDomain = {
   id: 'math-lab',
@@ -16,5 +18,7 @@ export const mathDomain: SimulationDomain = {
     'unit-circle': unitCircle,
     quadratic,
     probability,
+    'linear-regression': linearRegression,
+    'normal-distribution': normalDistribution,
   },
 };

@@ -35,12 +35,13 @@ describe('engine loader maps', () => {
     }
   });
 
+  // Cold transforms of every engine module take longer than the 5s default once the catalog grows.
   it('actually loads a module exporting attach() for every engine', async () => {
     for (const id of RUNTIME_ENGINE_IDS) {
       const mod = await ENGINE_LOADERS[id]!();
       expect(typeof mod.attach, `"${id}" has no attach() export`).toBe('function');
     }
-  });
+  }, 20000);
 
   // Surfaces several engines share (experience, viz, transform) must be claimed by each engine that
   // attaches them, or a page loading only one of them would fail the validate-registry widget check.

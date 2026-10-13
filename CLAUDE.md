@@ -333,8 +333,9 @@ single source of truth), `registry.ts`, `tool-groups.ts`, `category-sections.ts`
 `*.generated.ts` barrels, and the two redirect tables (`faq-redirects.ts`, `tool-redirects.ts` —
 legacy stubs; **never add new entries to either**). Engine logic lives under `src/lib/engines/`.
 
-The deployed **`/architecture/`** page renders an interactive Mermaid map derived from the registries
-at build time, and self-updates as tools and engines are added.
+The deployed **`/architecture/`** page lists categories, engines, and the shared layers from the
+registries, and opens each one to the tools and files behind it. It updates as tools and engines
+are added.
 
 ## Widget JavaScript rules
 

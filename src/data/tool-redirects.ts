@@ -19,7 +19,7 @@
 // 2. Simulation slug intent rename (2026-08-04): the physics and applied-math simulators were
 //    named after what they are (`*-simulator`, `*-explorer`) rather than what people search for,
 //    so they were renamed to calculator/solver intent. The segment is unchanged; only the slug
-//    moved. See docs/analysis/2026-08-03-text-cluster-ranking-factors.md, factor 1.
+//    moved.
 //
 // 3. Case Converter deletion (commit 4f74abc, 2026-06-07): the tool was split into seven case
 //    tools. `/tool/text/case-converter/` existed only from the `/tool/` rename that afternoon

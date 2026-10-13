@@ -1,0 +1,6 @@
+---
+import WellnessWidget from '@tools/_shared/WellnessWidget.astro';
+import { config } from './config';
+---
+
+<WellnessWidget slug={config.slug} wellnessId={config.processorId!} config={config} emptyText="Enter height, weight, and sex to compare the Boer, James, and Hume lean body mass estimates." />
