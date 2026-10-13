@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
   minor: 5,
-  patch: 0,
+  patch: 1,
   status: 'beta',
-  releaseDate: '2026-10-07',
-  description: 'Colorblind simulator and IPv4 converter',
+  releaseDate: '2026-10-13',
+  description: '',
 };
 
 export function formatVersion(config: VersionConfig): string {

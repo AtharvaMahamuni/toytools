@@ -2,6 +2,23 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.5.1] - 2026-10-13
+
+### Fixed
+
+- **Word Frequency and Word Counter split on dashes again.** En dashes, em dashes and the
+  horizontal bar now separate words, so "dog", "tired" and "slept" joined by em dashes count as three words in Words, Unique Words,
+  Top Words and the Word Frequency table. A hyphen in "well-known" still keeps it one word, and a
+  spaced dash on its own no longer counts as a word.
+- **Commas between letters split words.** "red,green" is two words, while 1,000, 1,000,000 and
+  3.14 stay one word each. Unique Words still never exceeds Words.
+- **Tip calculator.** A negative custom tip percentage shows its message once, next to the field,
+  instead of twice.
+- **Word Counter goal row.** The empty progress row stays hidden until you set a goal.
+- **Word Frequency help.** The FAQ and guide no longer say every language works. Chinese,
+  Japanese, Korean and Thai do not put spaces between words, so a run of that text counts as one
+  word.
+
 ## [beta-v12.5] - 2026-10-07
 
 ### Added
