@@ -274,4 +274,11 @@ describe('wordTokens: one tokenizer for Words, Unique Words and Top Words (Phase
     // A lone high surrogate at the start is trimmed without touching the word.
     expect(wordTokens('\uD835word')).toEqual(['word']);
   });
+
+  it("treats don't with a straight or curly apostrophe as one word", () => {
+    expect(wordTokens('don\u2019t don\'t DON\u02BCT')).toEqual(["don't", "don't", "don't"]);
+    expect(analyzeText('don\u2019t don\'t').uniqueWords).toBe(1);
+    // A closing curly quote at the end is still trimmed as punctuation.
+    expect(wordTokens('\u2018quoted\u2019')).toEqual(['quoted']);
+  });
 });

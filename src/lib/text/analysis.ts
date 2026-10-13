@@ -104,7 +104,9 @@ export function wordPieces(text: string): string[] {
 export function wordTokens(text: string): string[] {
   const out: string[] = [];
   for (const piece of wordPieces(text)) {
-    const token = trimEdges(piece).toLowerCase();
+    // A curly apostrophe (U+2019, also the typographic right single quote) or a modifier letter
+    // apostrophe (U+02BC) counts as a straight one, so don't and don’t are one word.
+    const token = trimEdges(piece).replace(/[\u2019\u02bc]/g, "'").toLowerCase();
     if (token) out.push(token);
   }
   return out;
