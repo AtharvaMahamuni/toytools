@@ -11,7 +11,7 @@ export const items: FAQItem[] = [
     id: 'wc-faq-2',
     question: 'What counts as a word?',
     answer:
-      'A word is any sequence of non-whitespace characters separated by spaces or line breaks. Numbers ("42"), hyphenated words ("well-known"), contractions ("don\'t"), and URLs each count as one word. The exact definition varies between tools, which is why two counters give different results for the same text.',
+      'A word is any sequence of characters separated by spaces, line breaks, en or em dashes, or commas that are not inside a number, so "red,green" is two words. Numbers ("42"), hyphenated words ("well-known"), contractions ("don\'t"), and URLs each count as one word. The exact definition varies between tools, which is why two counters give different results for the same text.',
   },
   {
     id: 'wc-faq-3',

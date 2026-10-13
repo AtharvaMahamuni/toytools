@@ -40,8 +40,9 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       The counter first splits the text into words, a step called tokenization. A word is
-      anything between spaces or line breaks, the same rule the Word Counter uses, so every
-      language works. Punctuation at either end is trimmed, while internal apostrophes, hyphens
+      anything between spaces, line breaks, en or em dashes, or commas that are not inside a
+      number, the same rule the Word Counter uses. That suits languages that separate words with
+      spaces; Chinese, Japanese, Korean and Thai do not, so a run of that text counts as one word. Punctuation at either end is trimmed, while internal apostrophes, hyphens
       and number separators stay attached, therefore don't, well-known and 1,000 each count once
       instead of splitting into fragments. Counting is case insensitive: The and the tally together. Each distinct word
       then gets a count and a share, its count divided by the total number of words, and the

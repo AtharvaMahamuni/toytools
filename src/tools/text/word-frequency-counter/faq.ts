@@ -11,7 +11,7 @@ export const items: FAQItem[] = [
     id: 'wf-faq-2',
     question: 'How are words counted? Is it case sensitive?',
     answer:
-      'A word is anything between spaces or line breaks, the same rule the Word Counter uses, so every language works. Punctuation at either end is trimmed, so dog. and dog are one word, and counting is case insensitive: The, THE, and the tally as one word. Apostrophes, internal hyphens and number separators stay part of the word, so don\'t, well-known, 1,000 and 3.14 each count as a single word rather than splitting apart.',
+      'A word is anything between spaces, line breaks, dashes or commas, the same rule the Word Counter uses. That works for languages that separate words with spaces. Chinese, Japanese, Korean and Thai do not, so a run of that text counts as one word. Punctuation at either end is trimmed, so dog. and dog are one word, and counting is case insensitive: The, THE, and the tally as one word. Apostrophes, hyphens and number separators stay part of the word, so don\'t, well-known, 1,000 and 3.14 each count as a single word rather than splitting apart.',
   },
   {
     id: 'wf-faq-3',
