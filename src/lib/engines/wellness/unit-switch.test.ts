@@ -1,0 +1,37 @@
+// Phase C PR 2 item 4: the metric / imperial switch converts body measurements.
+import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { convertMeasurement, unitDimensions, LB_PER_KG, CM_PER_IN } from './unit-switch';
+import { getWellnessCalculator } from './registry';
+
+describe('unit switch (item 4)', () => {
+  it('converts kg <-> lb and cm <-> in to 1 decimal', () => {
+    expect(convertMeasurement(70, 'mass', 'metric', 'imperial')).toBe(154.3);
+    expect(convertMeasurement(154.3, 'mass', 'imperial', 'metric')).toBe(70);
+    expect(convertMeasurement(175, 'length', 'metric', 'imperial')).toBe(68.9);
+    expect(convertMeasurement(68.9, 'length', 'imperial', 'metric')).toBe(175);
+    expect(convertMeasurement(5, 'mass', 'metric', 'metric')).toBe(5);
+  });
+
+  it('covers every unit-bearing field on the seven health tools', () => {
+    const expected: Record<string, string[]> = {
+      bmi: ['weight', 'height'],
+      bmr: ['weight', 'height'],
+      tdee: ['weight', 'height'],
+      'calorie-deficit': ['weight', 'height', 'goal'],
+      'body-fat': ['height', 'neck', 'waist', 'hip', 'weight'],
+      'ideal-weight': ['height'],
+      'protein-intake': ['weight'],
+    };
+    for (const [id, ids] of Object.entries(expected)) {
+      const dims = unitDimensions(getWellnessCalculator(id)!.fields);
+      expect(Object.keys(dims).sort(), id).toEqual([...ids].sort());
+    }
+  });
+
+  it('the widget inlines the same factors', () => {
+    const src = readFileSync('src/tools/_shared/WellnessWidget.astro', 'utf8');
+    expect(src).toContain(String(LB_PER_KG));
+    expect(src).toContain(`1 / ${CM_PER_IN}`);
+  });
+});

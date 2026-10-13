@@ -7,6 +7,7 @@
 //
 // If a new wellness tool ever requires editing this file, the architecture has failed — add a
 // calculator under src/lib/engines/wellness/calculators/ instead.
+import { unitDimensions } from '@lib/engines/wellness/unit-switch';
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import SmartInput from '@components/inputs/SmartInput.astro';
@@ -36,6 +37,7 @@ const splitRatio = fields.length <= 2 ? '1-1' : '3-2';
 const caps = { ...DEFAULT_CAPABILITIES, ...(tool?.capabilities ?? {}) };
 const examples = wellnessExamplesFor(wellnessId).map((e) => e.inputs);
 const defaults = Object.fromEntries(fields.map((f) => [f.id, f.default]));
+const unitDims = unitDimensions(fields);
 const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
 const craftId = config.craft?.id;
 ---
@@ -51,6 +53,7 @@ const craftId = config.craft?.id;
       data-slug={slug}
       data-url-state={urlMode}
       data-defaults={JSON.stringify(defaults)}
+      data-unit-dims={JSON.stringify(unitDims)}
       data-produces={JSON.stringify(tool?.produces ?? [])}
       data-consumes={JSON.stringify(tool?.consumes ?? [])}
     >
@@ -138,6 +141,30 @@ const craftId = config.craft?.id;
       if (!el) return;
       el.value = value == null ? '' : String(value);
       if (!isStringField(el)) el.setAttribute('data-raw', el.value);
+    }
+
+    // ── Unit switch ──────────────────────────────────────────────────────────
+    // Switching metric / imperial converts the body measurements (kg <-> lb, cm <-> in) instead of
+    // just relabelling them; see src/lib/engines/wellness/unit-switch.ts for the map and factors.
+    var unitDims = {};
+    try { unitDims = JSON.parse(root.getAttribute('data-unit-dims') || '{}'); } catch (_) {}
+    var unitNow = (fieldById('unit') && fieldById('unit').value) || 'metric';
+    function syncUnit(skip) {
+      var unitEl = fieldById('unit');
+      if (!unitEl) return;
+      var next = unitEl.value || 'metric';
+      if (next === unitNow) return;
+      for (var id in unitDims) {
+        if (skip && skip.indexOf(id) !== -1) continue;
+        var el = fieldById(id);
+        if (!el) continue;
+        var n = parseFloat(el.getAttribute('data-raw') || el.value);
+        if (isNaN(n) || n === 0) continue;
+        var f = unitDims[id] === 'mass' ? 2.2046226218 : 1 / 2.54;
+        var v = Math.round((next === 'imperial' ? n * f : n / f) * 10) / 10;
+        setField(id, v);
+      }
+      unitNow = next;
     }
 
     function collect() {
@@ -361,6 +388,9 @@ const craftId = config.craft?.id;
       if (saved && Array.isArray(saved.history)) history = saved.history;
       for (var id in savedFields) setField(id, savedFields[id]);
       if (saved && saved.opts && saved.opts.unit) setField('unit', saved.opts.unit);
+      // A remembered imperial setting meets the metric defaults: convert them, so BMI does not open
+      // on 175 "inches" and an out-of-range error.
+      syncUnit(Object.keys(savedFields));
     } catch (_) {}
 
     // A shared link beats saved state: someone followed it to see THOSE values.
@@ -368,6 +398,7 @@ const craftId = config.craft?.id;
       try {
         var incoming = (window.ToyTools && ToyTools.url) ? ToyTools.url.read() : {};
         for (var uid in incoming) if (fieldById(uid)) setField(uid, incoming[uid]);
+        syncUnit(Object.keys(incoming));
       } catch (_) {}
     }
 
@@ -397,6 +428,7 @@ const craftId = config.craft?.id;
           derivedNotes.push(spec.note + ': ' + val + '. Change it above to override.');
         }
 
+        syncUnit(filledFromProfile);
         showProfileNotice(filledFromProfile, derivedNotes);
       }
     } catch (_) {}
@@ -409,7 +441,10 @@ const craftId = config.craft?.id;
 
     // Field input -> recompute + persist (locally and to the shared profile).
     for (var i = 0; i < fieldEls.length; i++) {
-      fieldEls[i].addEventListener('change', function () { run(); persist(); saveProfile(); });
+      fieldEls[i].addEventListener('change', function () {
+        if (this.getAttribute('data-field-id') === 'unit') syncUnit(null);
+        run(); persist(); saveProfile();
+      });
       fieldEls[i].addEventListener('input', function () { run(); persist(); saveProfile(); });
     }
 

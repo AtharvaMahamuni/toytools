@@ -50,3 +50,28 @@ test('a negative rate shows a clear error instead of becoming 0% (item 3)', asyn
   await expect(rate).toHaveValue('-2');
   await expect(page.getByText('An interest rate cannot be negative. Enter 0 or more.').first()).toBeVisible();
 });
+
+test('the health unit switch converts the typed values (item 4)', async ({ page }) => {
+  await page.goto('/tool/health/bmi-calculator/');
+  await page.locator('[data-field-id="weight"]').fill('70');
+  await page.locator('[data-field-id="height"]').fill('175');
+  await page.locator('[data-segment-for="unit"][data-segment-value="imperial"]').click();
+  await expect(page.locator('[data-field-id="weight"]')).toHaveValue('154.3');
+  await expect(page.locator('[data-field-id="height"]')).toHaveValue('68.9');
+  await page.locator('[data-segment-for="unit"][data-segment-value="metric"]').click();
+  await expect(page.locator('[data-field-id="weight"]')).toHaveValue('70');
+  await expect(page.locator('[data-field-id="height"]')).toHaveValue('175');
+});
+
+test('a remembered imperial setting does not open BMI in an error (item 4)', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('toytools.private-inputs-cleared', '1');
+    localStorage.setItem('toytools:bmi-calculator', JSON.stringify({ v: 1, data: { opts: { unit: 'imperial' } } }));
+  });
+  await page.goto('/tool/health/bmi-calculator/');
+  await expect(page.locator('[data-field-id="unit"]')).toHaveValue('imperial');
+  await expect(page.locator('[data-field-id="height"]')).toHaveValue('68.9');
+  await expect(page.locator('[data-field-id="weight"]')).toHaveValue('154.3');
+  await expect(page.getByText(/cannot be more than/i)).toHaveCount(0);
+  await expect(page.locator('#bmi-calculator-hero')).toContainText(/22\.\d/);
+});

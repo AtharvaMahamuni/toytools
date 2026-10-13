@@ -19,7 +19,7 @@ export const items: FAQItem[] = [
   {
     id: 'bmi-calculator-faq-4',
     question: 'How do I calculate BMI in pounds and inches?',
-    answer: 'Switch the units toggle to imperial and enter weight in pounds and height in total inches. A 5 foot 9 person is 69 inches. The calculator converts internally and applies the same WHO categories, so 154 lb at 69 inches gives a BMI of about 22.7, the same as 69.9 kg at 175 cm.',
+    answer: 'Switch the units toggle to imperial and enter weight in pounds and height in total inches. Values you already typed convert with the switch, so 70 kg becomes 154.3 lb and 175 cm becomes 68.9 in. A 5 foot 9 person is 69 inches. The calculator converts internally and applies the same WHO categories, so 154 lb at 69 inches gives a BMI of about 22.7, the same as 69.9 kg at 175 cm.',
   },
   {
     id: 'bmi-calculator-faq-5',
