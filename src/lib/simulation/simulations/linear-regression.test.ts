@@ -137,6 +137,41 @@ describe('linear regression model', () => {
     expect(fit.slope).toBe(0);
     expect(fit.intercept).toBeCloseTo(4, 10);
     expect(fit.r2).toBe(0);
+    expect(fit.vertical).toBe(true);
+    // Says vertical instead of a misleading y = 0.00x + 4.00.
+    const text = linearRegression.explanation(s);
+    expect(text).toContain('x = 2.00');
+    expect(text).toMatch(/vertical/);
+    expect(text).not.toContain('y = 0.00x');
+    const obs = linearRegression.observations.map((rule) => rule(s)).filter(Boolean).join(' ');
+    expect(obs).toMatch(/vertical/);
+    expect(outlierObservation(s)).toBeNull();
+  });
+
+  it('fits a line through exactly two points (no third point needed)', () => {
+    const s = stateFor(0);
+    s.vars.n = 2;
+    s.vars.x0 = 1;
+    s.vars.y0 = 3;
+    s.vars.x1 = 3;
+    s.vars.y1 = 7;
+    const fit = fitOf(s);
+    expect(fit.slope).toBeCloseTo(2, 10);
+    expect(fit.intercept).toBeCloseTo(1, 10);
+    expect(fit.r2).toBeCloseTo(1, 10);
+    expect(fit.vertical).toBe(false);
+    expect(fit.residuals).toHaveLength(2);
+    expect(linearRegression.explanation(s)).toContain('y = 2.00x + 1.00');
+  });
+
+  it('two points at the same x are a vertical line too', () => {
+    const s = stateFor(0);
+    s.vars.n = 2;
+    s.vars.x0 = 5;
+    s.vars.y0 = 1;
+    s.vars.x1 = 5;
+    s.vars.y1 = 9;
+    expect(linearRegression.explanation(s)).toContain('x = 5.00');
   });
 
   it('reports R² = 1 when every y is equal and the x values differ', () => {

@@ -63,9 +63,11 @@ export interface LineFit {
   r2: number;
   maxResidual: number;
   residuals: number[];
+  /** Every x is equal, so the best line is vertical (x = c) and y = mx + b cannot describe it. */
+  vertical: boolean;
 }
 
-const EMPTY_FIT: LineFit = { slope: 0, intercept: 0, r2: 0, maxResidual: 0, residuals: [] };
+const EMPTY_FIT: LineFit = { slope: 0, intercept: 0, r2: 0, maxResidual: 0, residuals: [], vertical: false };
 
 /** Ordinary least squares. A zero x-denominator (every x equal) yields slope 0, mean y, and R² 0. */
 export function leastSquares(pts: readonly (readonly [number, number])[]): LineFit {
@@ -93,13 +95,14 @@ export function leastSquares(pts: readonly (readonly [number, number])[]): LineF
       r2: 0,
       maxResidual: residuals.reduce((max, r) => Math.max(max, Math.abs(r)), 0),
       residuals,
+      vertical: true,
     };
   }
 
   const slope = (n * sumXY - sumX * sumY) / den;
   const intercept = (sumY - slope * sumX) / n;
   if (!Number.isFinite(slope) || !Number.isFinite(intercept)) {
-    return { slope: 0, intercept: meanY, r2: 0, maxResidual: 0, residuals: pts.map(() => 0) };
+    return { slope: 0, intercept: meanY, r2: 0, maxResidual: 0, residuals: pts.map(() => 0), vertical: false };
   }
 
   let ssRes = 0;
@@ -114,7 +117,7 @@ export function leastSquares(pts: readonly (readonly [number, number])[]): LineF
     return residual;
   });
   const r2 = Math.abs(ssTot) < 1e-12 ? 1 : 1 - ssRes / ssTot;
-  return { slope, intercept, r2, maxResidual, residuals };
+  return { slope, intercept, r2, maxResidual, residuals, vertical: false };
 }
 
 export function fitOf(s: SimState): LineFit {
@@ -136,7 +139,8 @@ export interface OutlierHit {
 export function outlierHit(s: SimState): OutlierHit | null {
   const pts = pointsOf(s);
   if (pts.length < 3) return null;
-  const { residuals } = fitOf(s);
+  const { residuals, vertical } = fitOf(s);
+  if (vertical) return null; // residuals from a vertical line are not defined
   let maxI = 0;
   for (let i = 1; i < residuals.length; i++) {
     if (Math.abs(residuals[i]) > Math.abs(residuals[maxI])) maxI = i;
@@ -150,6 +154,19 @@ export function outlierHit(s: SimState): OutlierHit | null {
   }
   if (maxAbs >= 1.5 && maxAbs >= 2 * next) return { index: maxI, residual: residuals[maxI] };
   return null;
+}
+
+/** The common x when every point shares it, else null. */
+export function verticalX(s: SimState): number | null {
+  if (!showsLine(s) || !fitOf(s).vertical) return null;
+  return pointsOf(s)[0]![0];
+}
+
+/** Said instead of an equation when the points stand in one column. */
+export function verticalMessage(s: SimState): string | null {
+  const x = verticalX(s);
+  if (x === null) return null;
+  return `Every point has x = ${x.toFixed(2)}, so the line through them is vertical (x = ${x.toFixed(2)}) and y = mx + b cannot describe it. Move a point sideways to fit a slope.`;
 }
 
 export function outlierObservation(s: SimState): string | null {
@@ -238,6 +255,7 @@ const linearRegression: SimulationDef = {
       pointCount(s) === 2
         ? 'Two points always give R² = 1, so a third point is what tests the fit.'
         : null,
+    (s) => verticalMessage(s),
     outlierObservation,
   ],
   pointer: {
@@ -276,6 +294,8 @@ const linearRegression: SimulationDef = {
   explanation(s) {
     const n = pointCount(s);
     const fit = fitOf(s);
+    const vertical = verticalMessage(s);
+    if (vertical) return `The fit uses n = ${n}. ${vertical}`;
     return `The fit uses n = ${n}. Its equation is ${formatEquation(fit.slope, fit.intercept)}, and R² is ${fit.r2.toFixed(3)}.`;
   },
   draw: drawLinearRegression,

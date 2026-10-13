@@ -12,6 +12,7 @@ import {
   pointCount,
   pointsOf,
   showsLine,
+  verticalX,
 } from './linear-regression';
 
 function toPx(wx: number, width: number): number {
@@ -71,7 +72,17 @@ export function drawLinearRegression(ctx: CanvasRenderingContext2D, s: SimState,
   drawLabel(ctx, '10', xOf(0) + 14, yOf(WORLD) + 12, vp.palette.muted);
 
   const fit = fitOf(s);
-  if (showsLine(s)) {
+  const vx = verticalX(s);
+  if (vx !== null) {
+    ctx.save();
+    ctx.strokeStyle = vp.palette.ink;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(xOf(vx), yOf(0));
+    ctx.lineTo(xOf(vx), yOf(WORLD));
+    ctx.stroke();
+    ctx.restore();
+  } else if (showsLine(s)) {
     const seg = clipLine(fit.slope, fit.intercept);
     if (seg) {
       ctx.save();
@@ -110,7 +121,9 @@ export function drawLinearRegression(ctx: CanvasRenderingContext2D, s: SimState,
     if (danger) drawLabel(ctx, String(i + 1), xOf(px), yOf(py) - 16, vp.palette.danger);
   }
 
-  const caption = showsLine(s) ? formatEquation(fit.slope, fit.intercept) : 'Two points are required';
+  const caption = vx !== null
+    ? `x = ${vx.toFixed(2)} (vertical line)`
+    : showsLine(s) ? formatEquation(fit.slope, fit.intercept) : 'Two points are required';
   drawLabel(ctx, caption, 12, 16, vp.palette.ink, 'left');
   if (pointCount(s) === 0) {
     drawLabel(ctx, 'Tap to add a point', vp.width / 2, vp.height / 2, vp.palette.muted);
