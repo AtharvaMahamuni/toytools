@@ -15,7 +15,7 @@ import { tools } from '@data/registry';
 const description =
   `${PRIVACY_LINE} No account, no database, no server sees your input. Analytics is the one exception, named below.`;
 
-const updated = '6 October 2026';
+const updated = '13 October 2026';
 
 // The work-in-progress tools that keep typed input on this device (config keepInput), named from
 // the catalog so this list cannot drift from the code.
@@ -82,7 +82,9 @@ const keepList = `${keepNames.slice(0, -1).join(', ')} and ${keepNames[keepNames
       A few tools are for work you come back to, so they keep what you type on this device instead,
       and their notice reads "Your input stays on this device (never uploaded)": {keepList}. Their
       Clear saved input button removes what you typed from this browser, while settings such as
-      the regex flags stay. Like the tools above, they never write
+      the regex flags stay. Tools that share their text also clear it together: Clear saved input
+      on JSON Formatter, JSON Minifier or JSON Tree View empties all three, and the same goes for
+      the JSON to CSV and CSV to JSON pair and the JSON to YAML and YAML to JSON pair. Like the tools above, they never write
       your input into the page address on their own, they keep Recent conversions in the open tab
       only, and the removal of older saved input leaves what they saved in place.
     </p>

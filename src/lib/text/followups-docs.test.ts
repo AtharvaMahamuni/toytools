@@ -35,3 +35,12 @@ describe('line-counter FAQ (item 9)', () => {
     expect(all).not.toContain('also has 1 line');
   });
 });
+
+describe('privacy page (item 10)', () => {
+  it('says Clear on one grouped JSON tool empties the shared text', () => {
+    const p = read('pages/privacy.astro');
+    expect(p).toContain('empties all three');
+    expect(p).toContain('JSON to CSV and CSV to JSON pair');
+    expect(p).toContain("const updated = '13 October 2026'");
+  });
+});
