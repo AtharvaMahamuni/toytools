@@ -34,7 +34,12 @@ function trimEdges(piece: string): string {
   while (end > start) {
     let i = end - 1;
     const lo = piece.charCodeAt(i);
-    if (lo >= 0xdc00 && lo <= 0xdfff && i > start) i--;
+    // Step back over a low surrogate only when a high surrogate really precedes it, so a lone
+    // (malformed) low surrogate is never paired with the wrong unit.
+    if (lo >= 0xdc00 && lo <= 0xdfff && i > start) {
+      const hi = piece.charCodeAt(i - 1);
+      if (hi >= 0xd800 && hi <= 0xdbff) i--;
+    }
     if (WORD_CHAR.test(String.fromCodePoint(piece.codePointAt(i) as number))) break;
     end = i;
   }
