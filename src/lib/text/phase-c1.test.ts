@@ -39,3 +39,21 @@ describe('reverse text by grapheme (item 4)', () => {
     }
   });
 });
+
+import { detectInvisible } from './invisible';
+
+describe('invisible character cleaning keeps emoji ZWJ sequences (item 5)', () => {
+  it('keeps and does not report a ZWJ that joins emoji', () => {
+    for (const e of ['👩‍💻', '👨‍👩‍👧‍👦', '🏳️‍🌈', '👩🏽‍🚀']) {
+      const r = detectInvisible(`hi ${e} there`);
+      expect(r.cleaned).toBe(`hi ${e} there`);
+      expect(r.counts.invisible).toBe(0);
+    }
+  });
+
+  it('still removes a stray ZWJ between letters or at an emoji edge', () => {
+    const r = detectInvisible('ab\u200Dc 👩\u200D x\u200D💻');
+    expect(r.cleaned).toBe('abc 👩 x💻');
+    expect(r.counts.invisible).toBe(3);
+  });
+});
