@@ -75,3 +75,42 @@ test('a remembered imperial setting does not open BMI in an error (item 4)', asy
   await expect(page.getByText(/cannot be more than/i)).toHaveCount(0);
   await expect(page.locator('#bmi-calculator-hero')).toContainText(/22\.\d/);
 });
+
+// ── PR #253 round 1 ────────────────────────────────────────────────────────
+
+test('One-Rep Max converts kg to lb and back (r1 M1)', async ({ page }) => {
+  await page.goto('/tool/health/one-rep-max-calculator/');
+  const w = page.locator('[data-field-id="weight"]');
+  await w.fill('100');
+  await page.locator('[data-segment-for="unit"][data-segment-value="lb"]').click();
+  await expect(w).toHaveValue('220.5');
+  await page.locator('[data-segment-for="unit"][data-segment-value="kg"]').click();
+  await expect(w).toHaveValue('100');
+});
+
+test('Load Example while imperial on Body Fat keeps the unit switch honest (r1 M2)', async ({ page }) => {
+  await page.goto('/tool/health/body-fat-calculator/');
+  await page.locator('[data-segment-for="unit"][data-segment-value="imperial"]').click();
+  await page.locator('#body-fat-calculator-example').click();
+  await expect(page.locator('[data-field-id="unit"]')).toHaveValue('metric');
+  await expect(page.locator('[data-field-id="height"]')).toHaveValue('175');
+  await page.locator('[data-segment-for="unit"][data-segment-value="imperial"]').click();
+  await expect(page.locator('[data-field-id="height"]')).toHaveValue('68.9');
+  await expect(page.locator('#body-fat-calculator-hero')).toContainText(/\d/);
+});
+
+test('a unit round trip does not drift (r1 S1)', async ({ page }) => {
+  await page.goto('/tool/health/bmi-calculator/');
+  const h = page.locator('[data-field-id="height"]');
+  await h.fill('181');
+  for (let i = 0; i < 3; i++) {
+    await page.locator('[data-segment-for="unit"][data-segment-value="imperial"]').click();
+    await page.locator('[data-segment-for="unit"][data-segment-value="metric"]').click();
+  }
+  await expect(h).toHaveValue('181');
+  // An edit in between is converted, not replaced by the old value.
+  await page.locator('[data-segment-for="unit"][data-segment-value="imperial"]').click();
+  await h.fill('70');
+  await page.locator('[data-segment-for="unit"][data-segment-value="metric"]').click();
+  await expect(h).toHaveValue('177.8');
+});

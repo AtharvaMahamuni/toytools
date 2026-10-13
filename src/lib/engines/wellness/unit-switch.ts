@@ -7,9 +7,9 @@
 
 import type { SmartFieldDef } from '@lib/inputs/field';
 
-export type Dimension = 'mass' | 'length';
+export type Dimension = 'mass' | 'length' | 'distance';
 
-/** Field ids that hold a mass or a length, by convention across the wellness calculators. */
+/** Field ids that hold a mass, a body length or a running distance, by convention. */
 const BY_ID: Record<string, Dimension> = {
   weight: 'mass',
   goal: 'mass',
@@ -17,14 +17,33 @@ const BY_ID: Record<string, Dimension> = {
   neck: 'length',
   waist: 'length',
   hip: 'length',
+  distance: 'distance',
 };
 
 export const LB_PER_KG = 2.2046226218;
 export const CM_PER_IN = 2.54;
+export const KM_PER_MI = 1.609344;
 
-/** The unit-bearing numeric fields of a calculator with a unit switch, else {}. */
-export function unitDimensions(fields: readonly Pick<SmartFieldDef, 'id' | 'type'>[]): Record<string, Dimension> {
-  if (!fields.some((f) => f.id === 'unit')) return {};
+/** Imperial units per metric unit, for each dimension. */
+export const IMPERIAL_PER_METRIC: Record<Dimension, number> = {
+  mass: LB_PER_KG,
+  length: 1 / CM_PER_IN,
+  distance: 1 / KM_PER_MI,
+};
+
+/**
+ * Unit option values that mean the imperial side. The body calculators say metric / imperial;
+ * One-Rep Max says kg / lb and Running Pace km / mi. Anything else is the metric side.
+ */
+export const IMPERIAL_UNITS: readonly string[] = ['imperial', 'lb', 'mi'];
+const KNOWN_UNITS = new Set(['metric', 'imperial', 'kg', 'lb', 'km', 'mi']);
+
+type FieldLike = Pick<SmartFieldDef, 'id' | 'type'> & { options?: readonly { value: string }[] };
+
+/** The unit-bearing numeric fields of a calculator with a known unit switch, else {}. */
+export function unitDimensions(fields: readonly FieldLike[]): Record<string, Dimension> {
+  const unit = fields.find((f) => f.id === 'unit');
+  if (!unit || !(unit.options ?? []).every((o) => KNOWN_UNITS.has(o.value))) return {};
   const out: Record<string, Dimension> = {};
   for (const f of fields) {
     const dim = BY_ID[f.id];
@@ -33,10 +52,11 @@ export function unitDimensions(fields: readonly Pick<SmartFieldDef, 'id' | 'type
   return out;
 }
 
-/** Convert one value between the unit systems, rounded to 1 decimal. */
+/** Convert one value between unit systems (`from` / `to` are unit option values), to 1 decimal. */
 export function convertMeasurement(value: number, dim: Dimension, from: string, to: string): number {
-  if (from === to || !Number.isFinite(value)) return value;
-  const toImperial = to === 'imperial';
-  const factor = dim === 'mass' ? LB_PER_KG : 1 / CM_PER_IN;
-  return Math.round((toImperial ? value * factor : value / factor) * 10) / 10;
+  const fromImp = IMPERIAL_UNITS.includes(from);
+  const toImp = IMPERIAL_UNITS.includes(to);
+  if (fromImp === toImp || !Number.isFinite(value)) return value;
+  const f = IMPERIAL_PER_METRIC[dim];
+  return Math.round((toImp ? value * f : value / f) * 10) / 10;
 }

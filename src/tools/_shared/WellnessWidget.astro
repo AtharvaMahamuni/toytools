@@ -148,22 +148,44 @@ const craftId = config.craft?.id;
     // just relabelling them; see src/lib/engines/wellness/unit-switch.ts for the map and factors.
     var unitDims = {};
     try { unitDims = JSON.parse(root.getAttribute('data-unit-dims') || '{}'); } catch (_) {}
+    // Mirrors IMPERIAL_PER_METRIC and IMPERIAL_UNITS in unit-switch.ts (pinned by its test).
+    var IMP_PER_MET = { mass: 2.2046226218, length: 1 / 2.54, distance: 1 / 1.609344 };
+    var IMP_UNITS = ['imperial', 'lb', 'mi'];
     var unitNow = (fieldById('unit') && fieldById('unit').value) || 'metric';
+    // The value each field had before the last toggle, so toggling straight back restores it
+    // exactly (181 cm -> 71.3 in -> 181 cm, not 181.1) unless it was edited in between.
+    var unitMemo = {};
+    function unitOptionOk(v) {
+      var unitEl = fieldById('unit');
+      if (!unitEl || unitEl.tagName !== 'INPUT') return true;
+      return !!root.querySelector('[data-segment-for="unit"][data-segment-value="' + String(v).replace(/"/g, '') + '"]');
+    }
     function syncUnit(skip) {
       var unitEl = fieldById('unit');
       if (!unitEl) return;
-      var next = unitEl.value || 'metric';
+      var next = unitEl.value || unitNow;
       if (next === unitNow) return;
+      var toImp = IMP_UNITS.indexOf(next) !== -1;
+      if (toImp === (IMP_UNITS.indexOf(unitNow) !== -1)) { unitNow = next; return; }
+      var memo = {};
       for (var id in unitDims) {
         if (skip && skip.indexOf(id) !== -1) continue;
         var el = fieldById(id);
         if (!el) continue;
-        var n = parseFloat(el.getAttribute('data-raw') || el.value);
+        var raw = el.getAttribute('data-raw') || el.value;
+        var n = parseFloat(raw);
         if (isNaN(n) || n === 0) continue;
-        var f = unitDims[id] === 'mass' ? 2.2046226218 : 1 / 2.54;
-        var v = Math.round((next === 'imperial' ? n * f : n / f) * 10) / 10;
+        var back = unitMemo[id];
+        var v;
+        if (back && back.unit === next && String(back.converted) === String(n)) v = back.value;
+        else {
+          var f = IMP_PER_MET[unitDims[id]] || 1;
+          v = Math.round((toImp ? n * f : n / f) * 10) / 10;
+        }
+        memo[id] = { unit: unitNow, value: raw, converted: v };
         setField(id, v);
       }
+      unitMemo = memo;
       unitNow = next;
     }
 
@@ -333,6 +355,8 @@ const craftId = config.craft?.id;
 
     function applyValues(values) {
       for (var id in values) setField(id, values[id]);
+      // An example or preset that names its unit already holds values in that unit.
+      if (values.unit) { unitNow = values.unit; unitMemo = {}; }
     }
 
     // ── Body profile ─────────────────────────────────────────────────────────
@@ -375,7 +399,9 @@ const craftId = config.craft?.id;
       var values = {};
       for (var i = 0; i < ids.length; i++) {
         var el = fieldById(ids[i]);
-        if (el) values[ids[i]] = el.value;
+        if (!el) continue;
+        if (ids[i] === 'unit' && el.value !== 'metric' && el.value !== 'imperial') continue;
+        values[ids[i]] = el.value;
       }
       ToyTools.profile.merge(values);
     }
@@ -413,6 +439,9 @@ const craftId = config.craft?.id;
           var already = savedFields[pid];
           if (already !== undefined && already !== '') continue;
           if (prof[pid] === undefined || prof[pid] === '') continue;
+          // The shared profile's unit is one of this page's options or nothing (One-Rep Max says
+          // kg / lb, the body calculators metric / imperial).
+          if (pid === 'unit' && !unitOptionOk(prof[pid])) continue;
           setField(pid, prof[pid]);
           filledFromProfile.push(pid);
         }
@@ -489,6 +518,7 @@ const craftId = config.craft?.id;
       resetBtn.classList.remove('is-confirming');
       resetBtn.textContent = 'Reset to Defaults';
       for (var id in defaults) setField(id, defaults[id]);
+      if (defaults.unit) { unitNow = defaults.unit; unitMemo = {}; }
       run(); persist();
     });
 
