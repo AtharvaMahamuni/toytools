@@ -223,16 +223,20 @@ test.describe('input controls', () => {
     await expect(metric).toHaveAttribute('aria-checked', 'true');
     await expect(imperial).toHaveAttribute('aria-checked', 'false');
 
-    // Values that are in range under BOTH systems, so the switch changes the answer rather than
-    // tripping the engine's unit-specific bounds.
-    await page.locator('[data-field-id="weight"]').fill('154');
-    await page.locator('[data-field-id="height"]').fill('69');
-    await expect(page.locator('#bmi-calculator-hero')).toHaveText('323.5');
+    await page.locator('[data-field-id="weight"]').fill('70');
+    await page.locator('[data-field-id="height"]').fill('175');
+    await expect(page.locator('#bmi-calculator-hero')).toHaveText('22.9');
 
     await imperial.click();
     await expect(imperial).toHaveAttribute('aria-checked', 'true');
     await expect(metric).toHaveAttribute('aria-checked', 'false');
-    // 154 lb at 69 in is a normal BMI; the one tap re-read every number.
+    // The tap converts the body, not just the labels (Phase C PR 2): same person, same BMI.
+    await expect(page.locator('[data-field-id="weight"]')).toHaveValue('154.3');
+    await expect(page.locator('[data-field-id="height"]')).toHaveValue('68.9');
+    await expect(page.locator('#bmi-calculator-hero')).toHaveText(/^22\.[89]$/);
+    // Imperial input is read as pounds and inches.
+    await page.locator('[data-field-id="weight"]').fill('154');
+    await page.locator('[data-field-id="height"]').fill('69');
     await expect(page.locator('#bmi-calculator-hero')).toHaveText('22.7');
 
     expect(errors, errors.join('\n')).toEqual([]);

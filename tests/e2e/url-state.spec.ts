@@ -72,8 +72,8 @@ test.describe('shareable calculators on private pages', () => {
 test.describe('Split Bill and the UPI calculators keep nothing', () => {
   for (const [path, field, value] of [
     ['/tool/finance/split-bill/', 'bill', '1234'],
-    ['/tool/finance/upi-mdr-estimator/', 'amount', '5000'],
-    ['/tool/finance/upi-1999-split/', 'amount', '5000'],
+    ['/tool/finance/upi-mdr-estimator/', 'amount', '7777'],
+    ['/tool/finance/upi-1999-split/', 'amount', '7777'],
   ] as const) {
     test(`${path} writes nothing to the address or storage`, async ({ page }) => {
       await page.goto(path);
