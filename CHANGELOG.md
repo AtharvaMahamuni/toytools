@@ -2,6 +2,22 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.9] - 2026-10-14
+
+### Fixed
+
+- **CSV tools.** A quote in the middle of a field, such as 5" or =HYPERLINK("x"), stays part of the text. A quote that opens a field and is never closed now gets a clear error naming the line, instead of swallowing the rest of the file into one cell. CSV Column Picker reads quotes the same way.
+- **Scientific Calculator.** In degree mode cos(90), sin(180) and similar angles give exactly 0, and tan(90) is undefined, instead of tiny rounding leftovers or a huge number. Radian mode is unchanged.
+- **Slugify Text.** ß, Ø, Ł, æ and Œ are spelled out as ss, o, l, ae and oe instead of being deleted, so "Straße" becomes "strasse". A line in Cyrillic, Chinese or another non-Latin script that slugifies to nothing gets a note saying why. The FAQ matches.
+- **Reverse Text.** Reverses by whole character as people see it, so an accent typed as a separate mark stays on its letter, and flags, skin tones and joined emoji stay whole.
+- **Invisible Character Detector.** The zero-width joiner inside an emoji like 👩‍💻 or a family emoji is kept in the cleaned text and not reported. The FAQ says so.
+- **Linear Regression Playground.** When every point has the same x, Slope, Intercept and R² show the placeholder the other simulations use for an undefined value, and the "Two points always give R² = 1" note no longer appears.
+- **JSON to CSV, JSON to YAML, CSV to JSON and YAML to JSON.** Integers too large for a JavaScript number, such as 9007199254740993 and 12345678901234567890, come out exactly as written instead of rounded.
+- **HTML Entity Encoder and Decoder.** Decodes every HTML5 named reference, such as &eacute;, &euro; and &frac34;, using the browser's own list, so the page carries no extra table.
+- **CSV to JSON.** Repeated column names keep every column: the second "x" becomes "x_2".
+- **JWT Decoder.** A token whose expiry has passed shows as Expired in the summary even when its not-before time is in the future, matching the claims table.
+- **JSON Diff.** No longer saves what you paste. Panes saved by older builds are removed the next time the page opens, and its privacy line now matches: "Runs entirely on your device. Nothing is uploaded."
+
 ## [beta-v12.8] - 2026-10-14
 
 ### Added
