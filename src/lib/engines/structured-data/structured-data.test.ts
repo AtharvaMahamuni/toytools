@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { runStructuredData, STRUCTURED_TOOLS } from './registry';
+import { jsonToCsv } from './jsonToCsv';
+import { jsonToYaml } from './jsonToYaml';
+import { yamlToJson } from './yamlToJson';
+import type { StructuredDataResult } from './types';
 
 const MESSY = '{"b":2,"a":[1,2,{"x":true}],"c":null}';
 
@@ -117,7 +121,8 @@ describe('json-validator', () => {
 });
 
 describe('json-to-csv', () => {
-  const run = (s: string) => STRUCTURED_TOOLS['json-to-csv'].execute(s);
+  // The registry entry is lazy (a promise); the tool module itself runs synchronously.
+  const run = (s: string) => jsonToCsv.execute(s) as StructuredDataResult;
 
   it('converts a flat array of objects to CSV', () => {
     const r = run('[{"name":"Alice","age":30},{"name":"Bob","age":25}]');
@@ -180,15 +185,16 @@ describe('json-to-csv', () => {
     expect(r.output).toContain('Alice');
   });
 
-  it('resolves json-to-csv through runStructuredData', () => {
-    const r = runStructuredData('json-to-csv', '[{"x":1}]');
+  it('resolves json-to-csv through runStructuredData', async () => {
+    const r = await runStructuredData('json-to-csv', '[{"x":1}]');
     expect(r.ok).toBe(true);
     expect(r.output).toBe('x\n1');
   });
 });
 
 describe('json-to-yaml', () => {
-  const run = (s: string) => STRUCTURED_TOOLS['json-to-yaml'].execute(s);
+  // The registry entry is lazy (a promise); the tool module itself runs synchronously.
+  const run = (s: string) => jsonToYaml.execute(s) as StructuredDataResult;
 
   it('returns empty output for empty input', () =>
     expect(run('   ')).toEqual({ ok: true, output: '' }));
@@ -248,15 +254,16 @@ describe('json-to-yaml', () => {
     expect(r.output).toBe('x: null\ny: true\nz: false');
   });
 
-  it('resolves through runStructuredData', () => {
-    const r = runStructuredData('json-to-yaml', '{"a":1}');
+  it('resolves through runStructuredData', async () => {
+    const r = await runStructuredData('json-to-yaml', '{"a":1}');
     expect(r.ok).toBe(true);
     expect(r.output).toBe('a: 1');
   });
 });
 
 describe('yaml-to-json', () => {
-  const run = (s: string) => STRUCTURED_TOOLS['yaml-to-json'].execute(s);
+  // The registry entry is lazy (a promise); the tool module itself runs synchronously.
+  const run = (s: string) => yamlToJson.execute(s) as StructuredDataResult;
 
   it('returns empty output for empty input', () =>
     expect(run('   ')).toEqual({ ok: true, output: '' }));
@@ -292,17 +299,17 @@ describe('yaml-to-json', () => {
     expect(JSON.parse(r.output)).toEqual({ flag: true, empty: null });
   });
 
-  it('round-trips JSON through YAML', () => {
+  it('round-trips JSON through YAML', async () => {
     const original = { name: 'Alice', tags: ['a', 'b'], meta: { active: true } };
-    const yaml = runStructuredData('json-to-yaml', JSON.stringify(original));
+    const yaml = await runStructuredData('json-to-yaml', JSON.stringify(original));
     expect(yaml.ok).toBe(true);
     const back = run(yaml.output);
     expect(back.ok).toBe(true);
     expect(JSON.parse(back.output)).toEqual(original);
   });
 
-  it('resolves through runStructuredData', () => {
-    const r = runStructuredData('yaml-to-json', 'a: 1');
+  it('resolves through runStructuredData', async () => {
+    const r = await runStructuredData('yaml-to-json', 'a: 1');
     expect(r.ok).toBe(true);
     expect(JSON.parse(r.output)).toEqual({ a: 1 });
   });

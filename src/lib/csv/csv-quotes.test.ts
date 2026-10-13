@@ -57,11 +57,11 @@ describe('every CSV tool', () => {
     expect(r.output).toBe('b\n2');
   });
 
-  it('csv-to-json: literal mid-field quote, clear error when open', () => {
-    const ok = runStructuredData('csv-to-json', 'size\n27" wide') as { ok: boolean; output: string };
+  it('csv-to-json: literal mid-field quote, clear error when open', async () => {
+    const ok = await runStructuredData('csv-to-json', 'size\n27" wide') as { ok: boolean; output: string };
     expect(ok.ok).toBe(true);
     expect(JSON.parse(ok.output)).toEqual([{ size: '27" wide' }]);
-    const bad = runStructuredData('csv-to-json', OPEN) as { ok: boolean; error?: string };
+    const bad = await runStructuredData('csv-to-json', OPEN) as { ok: boolean; error?: string };
     expect(bad.ok).toBe(false);
     expect(bad.error).toMatch(/never closed/);
   });
