@@ -25,22 +25,44 @@ const EDGE_PUNCTUATION = /^[^\p{L}\p{M}\p{N}]+|[^\p{L}\p{M}\p{N}]+$/gu;
 // words, "1,000" stays one). A hyphen-minus is not a separator, so "well-known" stays one word.
 export const WORD_SEPARATOR = /(?:[\u2013\u2014\u2015]|(?<!\d),|,(?!\d))+/u;
 
-// A chunk that starts like a web address is kept whole, so a URL with commas in its query
-// ("https://ex.com/?a=1,b=2") is one word.
-const URL_START = /^(?:https?:\/\/|www\.)/i;
+// A chunk that starts like a web address, optionally after quotes or brackets ("(https://..."),
+// is treated as a URL: commas inside its path or query stay ("https://ex.com/?a=1,b=2" is one word).
+const URL_START = /^[^\p{L}\p{N}]*(?:https?:\/\/|www\.)/iu;
+
+// Inside a URL chunk, a word still ends at an en/em dash or horizontal bar, and at a comma that
+// starts another URL ("https://a.com,https://b.com").
+const URL_SEPARATOR = /[\u2013\u2014\u2015]+|,(?=[^\p{L}\p{N}]*(?:https?:\/\/|www\.))/iu;
+
+// The host part of a URL piece: everything up to the first "/", "?" or "#" after the scheme. A
+// comma in the host cannot be part of the address, so the word ends there ("https://ex.com,next").
+const URL_HOST = /^[^\p{L}\p{N}]*(?:https?:\/\/)?[^/?#,]*/iu;
+
+function pushPieces(chunk: string, out: string[]): void {
+  if (!URL_START.test(chunk)) {
+    for (const piece of chunk.split(WORD_SEPARATOR)) if (piece) out.push(piece);
+    return;
+  }
+  for (const part of chunk.split(URL_SEPARATOR)) {
+    if (!part) continue;
+    if (!URL_START.test(part)) { pushPieces(part, out); continue; }
+    const host = (URL_HOST.exec(part) as RegExpExecArray)[0];
+    if (part.charAt(host.length) === ',') {
+      out.push(host);
+      pushPieces(part.slice(host.length + 1), out); // the rest follows the normal rules
+    } else {
+      out.push(part);
+    }
+  }
+}
 
 /**
  * The raw word pieces of `text`, the single rule behind the Words count and wordTokens: split on
- * whitespace, then split each chunk on WORD_SEPARATOR unless it starts like a URL. Empty pieces
- * are dropped.
+ * whitespace, then split each chunk on WORD_SEPARATOR, or, for a chunk that starts like a URL, only
+ * on dashes, a comma in the host, or a comma that starts another URL. Empty pieces are dropped.
  */
 export function wordPieces(text: string): string[] {
   const out: string[] = [];
-  for (const chunk of text.split(/\s+/)) {
-    if (!chunk) continue;
-    if (URL_START.test(chunk)) { out.push(chunk); continue; }
-    for (const piece of chunk.split(WORD_SEPARATOR)) if (piece) out.push(piece);
-  }
+  for (const chunk of text.split(/\s+/)) if (chunk) pushPieces(chunk, out);
   return out;
 }
 

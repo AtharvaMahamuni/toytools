@@ -182,6 +182,7 @@ describe('wordTokens: one tokenizer for Words, Unique Words and Top Words (Phase
       'https://example.com/a-b', 'x/y', '2024', '$5', '50%', "rock'n'roll", '\u2014', 'e.g.', '¿qué?',
       'dog\u2014tired', 'a\u2013b', '\u2015', 'red,green', '1,000,000', ',', 'x, y',
       'https://ex.com/?a=1,b=2', 'www.a-b.com/x,y', 'HTTP://X.IO/\u2014z', 'http:/bad,url',
+      'https://ex.com\u2014and', 'https://ex.com,next', 'https://a.com,https://b.com', '"https://q.com/a,b"', 'foo,www.x.com/a,b', 'HTTPS://EX.COM/A,B',
     ];
     const seps = [' ', '  ', '\n', '\t', '\u00a0', ' \n ', ''];
     let seed = 42;
@@ -226,5 +227,21 @@ describe('wordTokens: one tokenizer for Words, Unique Words and Top Words (Phase
     expect(analyzeText('see https://ex.com/?a=1,b=2 now').words).toBe(3);
     // Not a URL start, so the comma rule still applies.
     expect(wordTokens('ex.com/a,b')).toEqual(['ex.com/a', 'b']);
+  });
+
+  it('URL chunks: case-insensitive, anchored, quoted, and still split at dashes, host commas and a second URL', () => {
+    const w = (t: string) => analyzeText(t).words;
+    expect(w('HTTPS://EX.COM/A,B')).toBe(1);
+    expect(w('WWW.EX.COM/A,B')).toBe(1);
+    expect(wordTokens('foo,www.x.com/a,b')).toEqual(['foo', 'www.x.com/a', 'b']);
+    expect(w('foo,www.x.com/a,b')).toBe(3);
+    expect(wordTokens('https://ex.com\u2014and')).toEqual(['https://ex.com', 'and']);
+    expect(wordTokens('https://ex.com,next')).toEqual(['https://ex.com', 'next']);
+    expect(wordTokens('https://a.com,https://b.com')).toEqual(['https://a.com', 'https://b.com']);
+    expect(wordTokens('https://ex.com/a,www.b.com')).toEqual(['https://ex.com/a', 'www.b.com']);
+    expect(w('https://ex.com/?a=1,b=2')).toBe(1);
+    expect(wordTokens('"https://ex.com/a,b"')).toEqual(['https://ex.com/a,b']);
+    expect(wordTokens('(www.x.com/a,b),')).toEqual(['www.x.com/a,b']);
+    expect(w('"https://ex.com/a,b" said')).toBe(2);
   });
 });
