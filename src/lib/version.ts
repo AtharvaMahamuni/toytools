@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
-  minor: 5,
+  minor: 6,
   patch: 0,
   status: 'beta',
-  releaseDate: '2026-10-07',
-  description: 'Colorblind simulator and IPv4 converter',
+  releaseDate: '2026-10-13',
+  description: 'Word Counter, Word Frequency and the other text counters split words at dashes and at commas outside numbers, web addresses stay one word, and the tip calculator shows its message once.',
 };
 
 export function formatVersion(config: VersionConfig): string {

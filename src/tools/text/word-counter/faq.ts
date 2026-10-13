@@ -5,19 +5,19 @@ export const items: FAQItem[] = [
     id: 'wc-faq-1',
     question: 'How does a word counter work?',
     answer:
-      'A word counter splits your text on whitespace (spaces, tabs, and line breaks) and counts the resulting tokens as words. Most counters also strip leading and trailing whitespace before counting, so extra spaces between words do not inflate the total. This tool counts in real time as you type or paste.',
+      'A word counter splits your text into words. Most use whitespace only; this one splits on spaces, line breaks, en/em dashes and commas outside numbers, and keeps a web address as one word. Most counters also strip leading and trailing whitespace before counting, so extra spaces between words do not inflate the total. This tool counts in real time as you type or paste.',
   },
   {
     id: 'wc-faq-2',
     question: 'What counts as a word?',
     answer:
-      'A word is any sequence of non-whitespace characters separated by spaces or line breaks. Numbers ("42"), hyphenated words ("well-known"), contractions ("don\'t"), and URLs each count as one word. The exact definition varies between tools, which is why two counters give different results for the same text.',
+      'A word is any sequence of characters separated by spaces, line breaks, en/em dashes and commas outside numbers, so "red,green" is two words. Numbers ("42"), hyphenated words ("well-known"), contractions ("don\'t"), and URLs (starting with http://, https:// or www.), commas included, each count as one word. The exact definition varies between tools, which is why two counters give different results for the same text.',
   },
   {
     id: 'wc-faq-3',
     question: 'What is the difference between word count and character count?',
     answer:
-      'Word count counts discrete words separated by whitespace. Character count counts every individual character, including spaces, punctuation, and symbols. "Hello, world!" is 2 words but 13 characters (with space). Use word count for essays and articles; use character count for SMS messages, social media, and fields with character limits.',
+      'Word count counts discrete words, splitting on spaces, line breaks, en/em dashes and commas outside numbers. Character count counts every individual character, including spaces, punctuation, and symbols. "Hello, world!" is 2 words but 13 characters (with space). Use word count for essays and articles; use character count for SMS messages, social media, and fields with character limits.',
   },
   {
     id: 'wc-faq-4',

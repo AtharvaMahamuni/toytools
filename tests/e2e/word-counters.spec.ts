@@ -23,6 +23,45 @@ test.describe('word counter: one tokenizer', () => {
     await expect(page.locator('[data-metric="uniqueWords"]')).toHaveText('3');
   });
 
+  test('em dashes split words in Words, Unique Words and Top Words', async ({ page }) => {
+    await page.goto('/tool/text/word-counter/');
+    await page.locator('#word-counter-input').fill('The dog\u2014tired\u2014slept');
+    await expect(page.locator('.hero-value')).toHaveText('4');
+    await expect(page.locator('[data-metric="uniqueWords"]')).toHaveText('4');
+    const words = await page.locator('#wc-top-list .wc-word-text').allTextContents();
+    expect([...words].sort()).toEqual(['dog', 'slept', 'the', 'tired'].sort());
+  });
+
+  test('pasted markup in Top Words renders as literal text and injects no element', async ({ page }) => {
+    await page.goto('/tool/text/word-counter/');
+    const dialogs: string[] = [];
+    page.on('dialog', d => { dialogs.push(d.message()); void d.dismiss(); });
+    await page.locator('#word-counter-input').fill('<b>bold</b> <img src=x onerror=alert(1)>');
+    const words = await page.locator('#wc-top-list .wc-word-text').allTextContents();
+    expect(words).toContain('b>bold</b');
+    expect(words).toContain('img');
+    await expect(page.locator('#wc-top-list b, #wc-top-list img, #wc-top-list [onerror]')).toHaveCount(0);
+    expect(dialogs).toEqual([]);
+  });
+
+  test('a URL with commas in its query is one word', async ({ page }) => {
+    await page.goto('/tool/text/word-counter/');
+    await page.locator('#word-counter-input').fill('see https://ex.com/?a=1,b=2 now');
+    await expect(page.locator('.hero-value')).toHaveText('3');
+    await expect(page.locator('[data-metric="uniqueWords"]')).toHaveText('3');
+    const words = await page.locator('#wc-top-list .wc-word-text').allTextContents();
+    expect(words).toContain('https://ex.com/?a=1,b=2');
+  });
+
+  test('the empty goal row is hidden until a goal is set', async ({ page }) => {
+    await page.goto('/tool/text/word-counter/');
+    await expect(page.locator('#wc-goal-bar-wrap')).toBeHidden();
+    await page.locator('#wc-goal-input').fill('10');
+    await expect(page.locator('#wc-goal-bar-wrap')).toBeVisible();
+    await page.locator('#wc-goal-clear').click();
+    await expect(page.locator('#wc-goal-bar-wrap')).toBeHidden();
+  });
+
   test('a pasted tag is shown as text in Top Words, never as markup', async ({ page }) => {
     await page.goto('/tool/text/word-counter/');
     await page.locator('#word-counter-input').fill('<b>bold</b> <img>');
@@ -41,5 +80,15 @@ test.describe('word frequency counter: same tokenizer', () => {
     await expect(page.locator('[data-metric="words"]')).toHaveText('6');
     const words = await page.locator('#wf-list .wf-word').allTextContents();
     expect([...words].sort()).toEqual(["don't", '1,000', 'e-mail', 'well-known'].sort());
+  });
+
+  test('em dashes and letter commas split words in the table', async ({ page }) => {
+    await page.goto('/tool/text/word-frequency-counter/');
+    const filter = page.locator('#wf-stop-filter');
+    if (await filter.isChecked()) await filter.uncheck();
+    await page.locator('#word-frequency-counter-input').fill('The dog\u2014tired\u2014slept red,green 1,000');
+    await expect(page.locator('[data-metric="words"]')).toHaveText('7');
+    const words = await page.locator('#wf-list .wf-word').allTextContents();
+    expect([...words].sort()).toEqual(['1,000', 'dog', 'green', 'red', 'slept', 'the', 'tired'].sort());
   });
 });

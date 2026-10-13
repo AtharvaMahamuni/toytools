@@ -80,7 +80,9 @@ test.describe('tip calculator: split between', () => {
     await expect(e.pctErr).toHaveText('Enter a tip of 0% or more.');
     await expect(e.pct).toHaveAttribute('aria-invalid', 'true');
     await expect(e.amount).toHaveText('$0.00');
-    await expect(page.locator('#tip-hint')).toHaveText('Enter a tip of 0% or more.');
+    // Exactly one visible message: the inline field error, not a second copy in the result hint.
+    await expect(page.locator('#tip-hint')).toBeHidden();
+    await expect(page.getByText('Enter a tip of 0% or more.', { exact: true }).filter({ visible: true })).toHaveCount(1);
     await e.pct.fill('10');
     await expect(e.pctErr).toBeHidden();
     await expect(e.amount).toHaveText('$8.00');

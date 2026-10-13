@@ -78,7 +78,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       Most word counters use whitespace as the delimiter. The text is split on spaces,
       tabs, and newlines, and the resulting non-empty tokens are counted as words.
       "Hello, world!" splits into two tokens: "Hello," and "world!", giving a word
-      count of 2, even though punctuation is attached.
+      count of 2, even though punctuation is attached. This counter also splits on en/em
+      dashes and on commas outside numbers, and keeps a web address as one word.
     </p>
     <p>
       Edge cases cause the small differences between tools:

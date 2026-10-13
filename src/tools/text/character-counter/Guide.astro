@@ -90,7 +90,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       guide</a> and the <a href={guidePathBySlug('sentence-counter')}>sentence counter guide</a>.
     </p>
     <p>
-      <strong>Word count</strong> counts discrete words separated by whitespace. It is the
+      <strong>Word count</strong> counts discrete words, splitting on spaces, line breaks, en/em dashes and commas outside numbers
+      (a web address stays one word). It is the
       right metric for academic essays, articles, and writing assignments.
     </p>
     <p>

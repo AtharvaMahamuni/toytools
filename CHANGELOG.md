@@ -2,6 +2,35 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.6] - 2026-10-13
+
+### Fixed
+
+- **Word Frequency and Word Counter split on dashes again.** En dashes, em dashes and the
+  horizontal bar now separate words, so "dog", "tired" and "slept" joined by em dashes count as three words in Words, Unique Words,
+  Top Words and the Word Frequency table. A hyphen in "well-known" still keeps it one word, and a
+  spaced dash on its own no longer counts as a word.
+- **Commas between letters split words.** "red,green" is two words, while 1,000, 1,000,000 and
+  3.14 stay one word each. Unique Words still never exceeds Words.
+- **Tip calculator.** A negative custom tip percentage shows its message once, next to the field,
+  instead of twice.
+- **Word Counter goal row.** The empty progress row stays hidden until you set a goal.
+- **Same Words count on the other text counters.** The Character, Letter, Line, Paragraph,
+  Reading Time, Sentence and Space counters show a Words figure from the same code, so it changes
+  the same way. Figures built on it (average word length, average sentence length, reading and
+  speaking time) follow it.
+- **Web addresses stay one word.** A word starting with http://, https:// or www. is no longer
+  split at commas or dashes, so https://ex.com/?a=1,b=2 counts as one word.
+- **Web addresses next to other words.** A web address still ends at an en/em dash, at a comma
+  right after the site name ("https://ex.com,next" is two words) and at a comma that starts another
+  address. A web address in quotes or brackets is recognised, and HTTPS:// or WWW. in capitals works
+  too.
+- **Clearer word rules in help.** The Word Counter and Word Frequency FAQs say words split on
+  spaces, line breaks, en/em dashes and commas outside numbers.
+- **Word Frequency help.** The FAQ and guide no longer say every language works. Chinese,
+  Japanese, Korean and Thai do not put spaces between words, so a run of that text counts as one
+  word.
+
 ## [beta-v12.5] - 2026-10-07
 
 ### Added
