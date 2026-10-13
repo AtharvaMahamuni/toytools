@@ -556,14 +556,16 @@ const sigId = `${slug}-sig`;
       var start = iat !== null ? iat : nbf;
 
       var state, count, sumExpires, insight = null, tone;
-      if (nbf !== null && now < nbf) {
+      // Expiry is checked first: a token past its exp is expired whatever its nbf says, which is
+      // what the claims table shows too (an exp in the past carries the Expired badge).
+      if (exp !== null && now >= exp) {
+        state = 'Expired'; tone = 'expired';
+        count = 'Expired ' + formatDuration(now - exp) + ' ago'; sumExpires = 'Expired';
+        insight = { tone: 'warn', text: 'Token expired ' + formatDuration(now - exp) + ' ago.' + (nbf !== null && nbf >= exp ? ' Its not-before time is not earlier than its expiry, so it was never valid.' : '') };
+      } else if (nbf !== null && now < nbf) {
         state = 'Not yet valid'; tone = 'pending';
         count = 'Valid in ' + formatDuration(nbf - now); sumExpires = 'Not yet';
         insight = { tone: 'warn', text: 'Token is not yet valid.' };
-      } else if (exp !== null && now >= exp) {
-        state = 'Expired'; tone = 'expired';
-        count = 'Expired ' + formatDuration(now - exp) + ' ago'; sumExpires = 'Expired';
-        insight = { tone: 'warn', text: 'Token expired ' + formatDuration(now - exp) + ' ago.' };
       } else if (exp !== null) {
         state = 'Valid'; tone = 'valid';
         count = 'Expires in ' + formatDuration(exp - now); sumExpires = formatDuration(exp - now);
