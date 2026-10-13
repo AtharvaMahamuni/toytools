@@ -146,7 +146,7 @@ import { config } from './config';
   var downloadBtn = document.getElementById('cc-download-btn');
   if (downloadBtn) {
     downloadBtn.addEventListener('click', function () {
-      if (!textarea.value.trim()) { ToyTools.toast('Nothing to download!'); return; }
+      if (textarea.value === '') { ToyTools.toast('Nothing to download!'); return; }
       var lines = ['Character Count Report', '======================', ''];
       document.querySelectorAll('[data-metric]').forEach(function (el) {
         var row = el.closest('.tm-hero, .tm-stat-row');
