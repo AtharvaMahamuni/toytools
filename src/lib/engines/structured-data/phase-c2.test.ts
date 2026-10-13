@@ -71,3 +71,18 @@ describe('a lazy chunk that fails to load (PR 2 item 5b)', () => {
     vi.doUnmock('./jsonToCsv');
   });
 });
+
+describe('the big-integer marker cannot be forged (PR 2 item 5d)', () => {
+  it('keeps big integers exact even when the data contains the old fixed marker', () => {
+    const text = '{"s":"\uE000int:5","n":12345678901234567890}';
+    const v = parseJsonLossless(text) as Record<string, unknown>;
+    expect(v.s).toBe('\uE000int:5');
+    expect(String(v.n)).toBe('12345678901234567890');
+    expect(stringifyLossless(v)).toBe(text);
+  });
+
+  it('a string that looks like a marked integer stays a string', () => {
+    const v = { a: new LosslessInt('9007199254740993'), b: '"\uE000x:1"' };
+    expect(stringifyLossless(v)).toBe('{"a":9007199254740993,"b":"\\"\uE000x:1\\""}');
+  });
+});

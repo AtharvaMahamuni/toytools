@@ -6,7 +6,7 @@
 // the tokens of text that JSON.parse has already accepted and re-indents them: every string,
 // number and literal is copied exactly as written, so only whitespace changes.
 
-import { isUnsafeIntLiteral, markInt, reviveInt } from '@lib/json/losslessInt';
+import { freshMarker, intReviver, isUnsafeIntLiteral, markInt } from '@lib/json/losslessInt';
 
 export interface LosslessFormat {
   output: string;
@@ -132,7 +132,7 @@ export function duplicateKeyWarning(duplicates: string[]): string | undefined {
  */
 export function parseJsonLossless(text: string): unknown {
   const plain = JSON.parse(text);
-  if (text.includes('\uE000')) return plain; // the marker could collide with the data; stay plain
+  const marker = freshMarker(text);
   const parts: string[] = [];
   let last = 0;
   const n = text.length;
@@ -149,7 +149,7 @@ export function parseJsonLossless(text: string): unknown {
       while (j < n && !STOP.includes(text[j])) j++;
       const token = text.slice(i, j);
       if (isUnsafeIntLiteral(token)) {
-        parts.push(text.slice(last, i), markInt(token));
+        parts.push(text.slice(last, i), markInt(token, marker));
         last = j;
       }
       i = j;
@@ -159,5 +159,5 @@ export function parseJsonLossless(text: string): unknown {
   }
   if (!parts.length) return plain;
   parts.push(text.slice(last));
-  return JSON.parse(parts.join(''), reviveInt);
+  return JSON.parse(parts.join(''), intReviver(marker));
 }
