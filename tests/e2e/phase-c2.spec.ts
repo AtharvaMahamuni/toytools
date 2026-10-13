@@ -144,3 +144,11 @@ test('an arrow-key step counts as typed, so a currency switch keeps it (r1 S2)',
   await cur.selectOption('INR');
   expect(await m.getAttribute('data-raw')).toBe(stepped);
 });
+
+test('rupee-only tools do not store a currency (r1 S4)', async ({ page }) => {
+  await page.goto('/tool/finance/upi-mdr-estimator/');
+  await page.locator('[data-field-id="kind"]').selectOption({ index: 1 });
+  await page.waitForTimeout(400);
+  const saved = await page.evaluate(() => localStorage.getItem('toytools:upi-mdr-estimator') ?? '');
+  expect(saved).not.toContain('currency');
+});

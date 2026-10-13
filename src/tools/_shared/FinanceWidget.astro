@@ -325,7 +325,8 @@ const currencyMeta = Object.fromEntries(
     var KEEP = ['currency', 'opts'];
     function persist() {
       if (!(window.ToyTools && ToyTools.state)) return;
-      var data = { currency: currencyEl ? currencyEl.value : 'USD', fields: {}, opts: {} };
+      // A rupee-only tool has no currency menu, so there is no currency to remember.
+      var data = currencyEl ? { currency: currencyEl.value, fields: {}, opts: {} } : { fields: {}, opts: {} };
       for (var i = 0; i < fieldEls.length; i++) {
         var key = fieldEls[i].getAttribute('data-field-id');
         if (fieldEls[i].getAttribute('data-field-type') === 'select') data.opts[key] = fieldEls[i].value;
