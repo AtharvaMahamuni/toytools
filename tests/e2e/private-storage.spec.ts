@@ -339,11 +339,22 @@ test.describe('work-in-progress tools keep typed input (keepInput)', () => {
     test(`${path}: Clear saved input raises no console error or unhandled rejection`, async ({ page }) => {
       const errors = guardConsole(page);
       await page.goto(path);
-      await page.locator('textarea:visible').first().fill('{"a":1}');
+      const box = page.locator('textarea:visible').first();
+      await box.fill('{"a":1}');
       await page.waitForTimeout(400);
+      // Reload first, so Clear runs on a page restored from saved input: the path that raised the
+      // "Transition was skipped" AbortError on the old Clear.
+      await page.reload();
+      await expect(page.locator('textarea:visible').first()).toHaveValue('{"a":1}');
+      const pageErrors: string[] = [];
+      page.on('pageerror', e => pageErrors.push(e.message));
       await Promise.all([page.waitForEvent('load'), page.getByRole('button', { name: 'Clear saved input' }).click()]);
       await page.waitForTimeout(800);
       expect(errors, errors.join('\n')).toEqual([]);
+      expect(pageErrors, pageErrors.join('\n')).toEqual([]);
+      await expect(page.locator('textarea:visible').first()).toHaveValue('');
+      await page.reload();
+      await expect(page.locator('textarea:visible').first()).toHaveValue('');
     });
   }
 
