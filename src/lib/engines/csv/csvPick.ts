@@ -30,7 +30,8 @@ function firstNonEmptyLine(text: string): string {
       }
       continue;
     }
-    if (ch === '"') {
+    // A quote opens a quoted field only at the start of a field, as in csv.ts.
+    if (ch === '"' && (line === '' || line.endsWith(',') || line.endsWith(';') || line.endsWith('\t'))) {
       inQuotes = true;
       line += ch;
       continue;
@@ -50,6 +51,7 @@ function firstNonEmptyLine(text: string): string {
 function columnCount(line: string, delimiter: string): number {
   let count = 1;
   let inQuotes = false;
+  let fieldStart = true;
   for (let i = 0; i < line.length; i++) {
     const ch = line[i];
     if (inQuotes) {
@@ -62,11 +64,13 @@ function columnCount(line: string, delimiter: string): number {
       }
       continue;
     }
-    if (ch === '"') {
+    if (ch === '"' && fieldStart) {
       inQuotes = true;
+      fieldStart = false;
       continue;
     }
     if (ch === delimiter) count++;
+    fieldStart = ch === ',' || ch === ';' || ch === '\t';
   }
   return count;
 }
