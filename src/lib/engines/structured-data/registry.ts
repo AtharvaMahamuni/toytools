@@ -10,6 +10,14 @@ import type { StructuredDataTool, StructuredDataResult } from './types';
 import { jsonValidator } from './jsonValidator';
 import { jsonTreeViewer } from './jsonTreeViewer';
 
+/**
+ * A lazy tool's chunk can fail to load (offline, or a deploy replaced it mid-visit). Say so as a
+ * normal result error instead of leaving the widget on its last output.
+ */
+export function chunkFailed(): StructuredDataResult {
+  return { ok: false, output: '', error: 'This tool could not finish loading. Check your connection and reload the page.' };
+}
+
 // Keyed by tool id, referenced from a tool config's `processorId`.
 export const STRUCTURED_TOOLS: Record<string, StructuredDataTool> = {
   // Own chunk, like json-to-schema below: the lossless tokenizer would otherwise land in the shared
@@ -18,14 +26,14 @@ export const STRUCTURED_TOOLS: Record<string, StructuredDataTool> = {
     id: 'json-formatter',
     family: 'json',
     jsonInput: true,
-    execute: (input) => import('./jsonLossless').then((mod) => mod.jsonFormatter.execute(input)),
+    execute: (input) => import('./jsonLossless').then((mod) => mod.jsonFormatter.execute(input)).catch(chunkFailed),
   },
   // Same lazy chunk as the formatter (./jsonLossless): both use the lossless tokenizer.
   'json-minifier': {
     id: 'json-minifier',
     family: 'json',
     jsonInput: true,
-    execute: (input) => import('./jsonLossless').then((mod) => mod.jsonMinifier.execute(input)),
+    execute: (input) => import('./jsonLossless').then((mod) => mod.jsonMinifier.execute(input)).catch(chunkFailed),
   },
   'json-validator': jsonValidator,
   // The four converters are lazy too: with the big-integer handling, js-yaml and the CSV parser
@@ -34,24 +42,24 @@ export const STRUCTURED_TOOLS: Record<string, StructuredDataTool> = {
     id: 'json-to-csv',
     family: 'json',
     jsonInput: true,
-    execute: (input) => import('./jsonToCsv').then((mod) => mod.jsonToCsv.execute(input)),
+    execute: (input) => import('./jsonToCsv').then((mod) => mod.jsonToCsv.execute(input)).catch(chunkFailed),
   },
   'json-tree-viewer': jsonTreeViewer,
   'json-to-yaml': {
     id: 'json-to-yaml',
     family: 'json',
     jsonInput: true,
-    execute: (input) => import('./jsonToYaml').then((mod) => mod.jsonToYaml.execute(input)),
+    execute: (input) => import('./jsonToYaml').then((mod) => mod.jsonToYaml.execute(input)).catch(chunkFailed),
   },
   'yaml-to-json': {
     id: 'yaml-to-json',
     family: 'json',
-    execute: (input) => import('./yamlToJson').then((mod) => mod.yamlToJson.execute(input)),
+    execute: (input) => import('./yamlToJson').then((mod) => mod.yamlToJson.execute(input)).catch(chunkFailed),
   },
   'csv-to-json': {
     id: 'csv-to-json',
     family: 'json',
-    execute: (input) => import('./csvToJson').then((mod) => mod.csvToJson.execute(input)),
+    execute: (input) => import('./csvToJson').then((mod) => mod.csvToJson.execute(input)).catch(chunkFailed),
   },
   // Own chunk. The shared structured-data runtime is at the tool-page byte ceiling,
   // and only the JSON to Schema page calls this id.
@@ -59,7 +67,7 @@ export const STRUCTURED_TOOLS: Record<string, StructuredDataTool> = {
     id: 'json-to-schema',
     family: 'json',
     jsonInput: true,
-    execute: (input) => import('./jsonToSchema').then((mod) => mod.jsonToSchema.execute(input)),
+    execute: (input) => import('./jsonToSchema').then((mod) => mod.jsonToSchema.execute(input)).catch(chunkFailed),
   },
 };
 

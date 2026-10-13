@@ -57,3 +57,17 @@ describe('CSV to JSON keeps repeated columns (item 9)', () => {
     expect(uniqueHeaders(['a', 'b'])).toEqual(['a', 'b']);
   });
 });
+
+import { vi } from 'vitest';
+
+describe('a lazy chunk that fails to load (PR 2 item 5b)', () => {
+  it('becomes a clear result error', async () => {
+    vi.resetModules();
+    vi.doMock('./jsonToCsv', () => { throw new Error('chunk 404'); });
+    const { runStructuredData: run2 } = await import('./registry');
+    const r = await run2('json-to-csv', '[{"a":1}]');
+    expect(r.ok).toBe(false);
+    expect(r.error).toMatch(/could not finish loading/);
+    vi.doUnmock('./jsonToCsv');
+  });
+});

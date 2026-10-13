@@ -143,7 +143,10 @@ const statusId = `${slug}-status`;
       var ticket = ++runSeq;
       var res = ToyTools.runStructuredData(sid, input.value);
       if (res && typeof res.then === 'function') {
-        res.then(function (settled) { if (ticket === runSeq) apply(settled); });
+        res.then(function (settled) { if (ticket === runSeq) apply(settled); }, function () {
+          // The registry already turns a failed chunk into a result; this covers anything else.
+          if (ticket === runSeq) apply({ ok: false, output: '', error: 'This tool could not finish loading. Check your connection and reload the page.' });
+        });
         return;
       }
       apply(res);
