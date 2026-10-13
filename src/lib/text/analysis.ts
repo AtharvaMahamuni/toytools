@@ -18,7 +18,28 @@ export interface TextAnalysis {
 // Punctuation (or symbols) at either end of a whitespace-separated word. Letters, combining marks
 // and digits are kept, so "dog." and "dog" are one word while "well-known", "don't", "1,000" and
 // "3.14" keep their inner punctuation.
-const EDGE_PUNCTUATION = /^[^\p{L}\p{M}\p{N}]+|[^\p{L}\p{M}\p{N}]+$/gu;
+const WORD_CHAR = /[\p{L}\p{M}\p{N}]/u;
+
+// Trims EDGE punctuation in linear time. A /[^...]+$/ regex retries from every position of a long
+// inner punctuation run ("a" + "-" x 100k + "a"), which is quadratic, so this walks code units
+// from both ends instead. Surrogate pairs are tested as one code point.
+function trimEdges(piece: string): string {
+  let start = 0;
+  let end = piece.length;
+  while (start < end) {
+    const cp = piece.codePointAt(start) as number;
+    if (WORD_CHAR.test(String.fromCodePoint(cp))) break;
+    start += cp > 0xffff ? 2 : 1;
+  }
+  while (end > start) {
+    let i = end - 1;
+    const lo = piece.charCodeAt(i);
+    if (lo >= 0xdc00 && lo <= 0xdfff && i > start) i--;
+    if (WORD_CHAR.test(String.fromCodePoint(piece.codePointAt(i) as number))) break;
+    end = i;
+  }
+  return piece.slice(start, end);
+}
 
 // Word separators inside a whitespace-separated chunk: en dash, em dash and horizontal bar
 // ("dog—tired" is two words), and a comma that is not between two digits ("red,green" is two
@@ -31,7 +52,9 @@ const URL_START = /^[^\p{L}\p{N}]*(?:https?:\/\/|www\.)/iu;
 
 // Inside a URL chunk, a word still ends at an en/em dash or horizontal bar, and at a comma that
 // starts another URL ("https://a.com,https://b.com").
-const URL_SEPARATOR = /[\u2013\u2014\u2015]+|,(?=[^\p{L}\p{N}]*(?:https?:\/\/|www\.))/iu;
+// The lookahead may not cross another comma, so each comma's lookahead stops at the next one and
+// a long run of commas stays linear.
+const URL_SEPARATOR = /[\u2013\u2014\u2015]+|,(?=[^\p{L}\p{N},]*(?:https?:\/\/|www\.))/iu;
 
 // The host part of a URL piece: everything up to the first "/", "?" or "#" after the scheme. A
 // comma in the host cannot be part of the address, so the word ends there ("https://ex.com,next").
@@ -76,7 +99,7 @@ export function wordPieces(text: string): string[] {
 export function wordTokens(text: string): string[] {
   const out: string[] = [];
   for (const piece of wordPieces(text)) {
-    const token = piece.replace(EDGE_PUNCTUATION, '').toLowerCase();
+    const token = trimEdges(piece).toLowerCase();
     if (token) out.push(token);
   }
   return out;

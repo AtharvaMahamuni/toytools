@@ -244,4 +244,25 @@ describe('wordTokens: one tokenizer for Words, Unique Words and Top Words (Phase
     expect(wordTokens('(www.x.com/a,b),')).toEqual(['www.x.com/a,b']);
     expect(w('"https://ex.com/a,b" said')).toBe(2);
   });
+
+  it('stays linear on long comma and punctuation runs', () => {
+    const inputs = [
+      'https://x' + ','.repeat(100000),
+      '"https://x/' + ','.repeat(100000) + '"',
+      'www.' + ',('.repeat(50000),
+      'a' + '-'.repeat(100000) + 'a',
+    ];
+    for (const text of inputs) {
+      const t0 = performance.now();
+      analyzeText(text);
+      wordTokens(text);
+      expect(performance.now() - t0, text.slice(0, 12)).toBeLessThan(200);
+    }
+    expect(analyzeText('https://x' + ','.repeat(100000)).words).toBe(1);
+  });
+
+  it('trims edge punctuation the same way, including astral characters', () => {
+    expect(wordTokens('(dog.) \u{1F600}cat\u{1F600} "a-b" ...')).toEqual(['dog', 'cat', 'a-b']);
+    expect(wordTokens('\u{1D400}!')).toEqual(['\u{1D400}']);
+  });
 });
