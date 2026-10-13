@@ -3,6 +3,7 @@
 
 import { describe, expect, it } from 'vitest';
 import type { SimState } from '../types';
+import { formatQuantity } from '../format';
 import linearRegression, {
   fitOf,
   outlierHit,
@@ -146,6 +147,27 @@ describe('linear regression model', () => {
     const obs = linearRegression.observations.map((rule) => rule(s)).filter(Boolean).join(' ');
     expect(obs).toMatch(/vertical/);
     expect(outlierObservation(s)).toBeNull();
+  });
+
+  it('shows the placeholder for slope, intercept and R² on a vertical line, and drops the R² = 1 note (Phase C item 6)', () => {
+    for (const n of [2, 3]) {
+      const s = stateFor(0);
+      s.vars.n = n;
+      s.vars.x0 = 2;
+      s.vars.y0 = 1;
+      s.vars.x1 = 2;
+      s.vars.y1 = 4;
+      s.vars.x2 = 2;
+      s.vars.y2 = 7;
+      for (const id of ['slope', 'intercept', 'r2']) {
+        const m = linearRegression.measurements.find((q) => q.id === id)!;
+        expect(Number.isNaN(m.compute(s)), id).toBe(true);
+        expect(formatQuantity(m.compute(s), m.decimals)).toBe('—');
+      }
+      const obs = linearRegression.observations.map((rule) => rule(s)).filter(Boolean).join(' ');
+      expect(obs).not.toContain('R² = 1');
+      expect(obs).toMatch(/vertical/);
+    }
   });
 
   it('fits a line through exactly two points (no third point needed)', () => {
