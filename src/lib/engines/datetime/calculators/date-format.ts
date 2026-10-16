@@ -35,7 +35,11 @@ const MONTHS: Record<string, number> = {
 const ISO = /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2})(?::(\d{2}))?(?:\.\d+)?)?(Z|[+-]\d{2}(?::?\d{2})?)?$/i;
 const NAMED_DAY_FIRST = /^(\d{1,2})[ .]+([A-Za-z]+),?[ ]+(\d{2}|\d{4})$/;
 const NAMED_MONTH_FIRST = /^([A-Za-z]+)[ .]+(\d{1,2}),?[ ]+(\d{2}|\d{4})$/;
-const NUMERIC = /^(\d{1,4})[/. -](\d{1,2})[/. -](\d{2}|\d{4})(?:[ T](\d{2}):(\d{2})(?::(\d{2}))?)?(Z|[+-]\d{2}(?::?\d{2})?)?$/i;
+// Both separators are captured so a mix (03/04-2025) can be refused; the zone only follows a time.
+const NUMERIC = /^(\d{1,4})([/. -])(\d{1,2})([/. -])(\d{1,4})(?:[ T](\d{2}):(\d{2})(?::(\d{2}))?(Z|[+-]\d{2}(?::?\d{2})?)?)?$/i;
+const ZONE_NO_TIME = /^\d{1,4}[/. -]\d{1,2}[/. -]\d{1,4}(Z|[+-]\d{2}(?::?\d{2})?)$/i;
+const ORDINAL = /\b\d{1,2}(st|nd|rd|th)\b/i;
+const COMPACT = /^\d{8}$/;
 
 type Order = 'day-first' | 'month-first' | 'year-first' | 'named';
 
@@ -50,6 +54,8 @@ interface Row {
   readings: Reading[];
   zoneless: boolean;
   twoDigitYear: boolean;
+  /** Why the row could not be read, set only when `readings` is empty. */
+  reason?: string;
 }
 
 function civil(y: number, m: number, d: number): CivilDate | null {
@@ -102,7 +108,7 @@ function swapsDay(row: Row): boolean {
 }
 
 function rowSentence(row: Row): string {
-  if (row.readings.length === 0) return `Line ${row.line}, ${row.raw}: could not be read.`;
+  if (row.readings.length === 0) return `Line ${row.line}, ${row.raw}: could not be read. ${row.reason ?? NO_PATTERN}`;
   const sameDay = row.readings.length === 2 && !swapsDay(row);
   const dates = sameDay
     ? `${formatCivil(row.readings[0].date)} (day first and month first)`
@@ -135,15 +141,30 @@ function numericReadings(dayOrMonth: number, monthOrDay: number, year: number): 
   return out;
 }
 
+const NO_PATTERN = 'It does not look like a date this tool reads.';
+const NO_SUCH_DAY = 'That date does not exist. Check the day and the month.';
+const ZONE_NO_TIME_REASON = 'A time zone with no time is not read. Add the time, or drop the zone.';
+const BAD_TIME = 'The time is out of range (hours 00 to 23, minutes and seconds 00 to 59).';
+
+/** The reason a line that matched no date pattern was refused, for the warning on its row. */
+function unmatchedReason(raw: string): string {
+  if (COMPACT.test(raw)) return 'Compact dates such as 20250403 are not read. Add separators, as in 2025-04-03.';
+  if (ORDINAL.test(raw)) return 'Ordinals such as 3rd are not read. Write 3 April 2025 instead.';
+  if (ZONE_NO_TIME.test(raw)) return ZONE_NO_TIME_REASON;
+  return NO_PATTERN;
+}
+
 function parseBody(raw: string): Omit<Row, 'line'> {
   const empty = { readings: [] as Reading[], zoneless: false, twoDigitYear: false };
+  const refuse = (reason: string) => ({ ...empty, raw, reason });
 
   const iso = ISO.exec(raw);
   if (iso) {
+    if (iso[7] !== undefined && iso[4] === undefined) return refuse(ZONE_NO_TIME_REASON);
     const when = clock(iso[4], iso[5], iso[6], iso[7]);
-    if (!when.ok) return { ...empty, raw };
+    if (!when.ok) return refuse(BAD_TIME);
     const date = civil(Number(iso[1]), Number(iso[2]), Number(iso[3]));
-    if (!date) return { ...empty, raw };
+    if (!date) return refuse(NO_SUCH_DAY);
     return {
       raw,
       readings: [{ date, order: 'year-first' }],
@@ -155,33 +176,39 @@ function parseBody(raw: string): Omit<Row, 'line'> {
   const namedDay = NAMED_DAY_FIRST.exec(raw);
   if (namedDay) {
     const month = MONTHS[namedDay[2].toLowerCase()];
+    if (!month) return refuse(`"${namedDay[2]}" is not a month name this tool knows.`);
     const year = resolveYear(namedDay[3]);
-    if (!month || !year) return { ...empty, raw };
+    if (!year) return refuse(NO_PATTERN);
     const date = civil(year.year, month, Number(namedDay[1]));
-    if (!date) return { ...empty, raw };
+    if (!date) return refuse(NO_SUCH_DAY);
     return { raw, readings: [{ date, order: 'named' }], zoneless: false, twoDigitYear: year.twoDigit };
   }
 
   const namedMonth = NAMED_MONTH_FIRST.exec(raw);
   if (namedMonth) {
     const month = MONTHS[namedMonth[1].toLowerCase()];
+    if (!month) return refuse(`"${namedMonth[1]}" is not a month name this tool knows.`);
     const year = resolveYear(namedMonth[3]);
-    if (!month || !year) return { ...empty, raw };
+    if (!year) return refuse(NO_PATTERN);
     const date = civil(year.year, month, Number(namedMonth[2]));
-    if (!date) return { ...empty, raw };
+    if (!date) return refuse(NO_SUCH_DAY);
     return { raw, readings: [{ date, order: 'named' }], zoneless: false, twoDigitYear: year.twoDigit };
   }
 
   const num = NUMERIC.exec(raw);
-  if (!num) return { ...empty, raw };
-  const when = clock(num[4], num[5], num[6], num[7]);
-  if (!when.ok) return { ...empty, raw };
+  if (!num) return refuse(unmatchedReason(raw));
+  if (num[2] !== num[4]) return refuse(`Mixed separators (${num[2] === ' ' ? 'a space' : num[2]} and ${num[4] === ' ' ? 'a space' : num[4]}) are not read. Use one separator throughout.`);
+  const when = clock(num[6], num[7], num[8], num[9]);
+  if (!when.ok) return refuse(BAD_TIME);
 
   const head = num[1];
+  const middle = num[3];
+  const last = num[5];
   if (head.length === 4) {
-    if (num[3].length !== 2) return { ...empty, raw };
-    const date = civil(Number(head), Number(num[2]), Number(num[3]));
-    if (!date) return { ...empty, raw };
+    // Year first: the month and day may be written without zero padding (2025/4/3).
+    if (last.length > 2) return refuse('After a four-digit year, the day must be one or two digits.');
+    const date = civil(Number(head), Number(middle), Number(last));
+    if (!date) return refuse(NO_SUCH_DAY);
     return {
       raw,
       readings: [{ date, order: 'year-first' }],
@@ -189,17 +216,27 @@ function parseBody(raw: string): Omit<Row, 'line'> {
       twoDigitYear: false,
     };
   }
+  if (head.length === 3) return refuse(NO_PATTERN);
 
-  const year = resolveYear(num[3]);
-  if (!year) return { ...empty, raw };
-  const readings = numericReadings(Number(head), Number(num[2]), year.year);
-  if (readings.length === 0) return { ...empty, raw };
+  const year = resolveYear(last);
+  if (!year) return refuse('The year must have two or four digits.');
+  const readings = numericReadings(Number(head), Number(middle), year.year);
+  if (readings.length === 0) return refuse(NO_SUCH_DAY);
   return {
     raw,
     readings,
     zoneless: when.zoneless,
     twoDigitYear: year.twoDigit,
   };
+}
+
+/** "Line 4", "Lines 2 and 5", "Lines 1, 3 and 9", listing at most `cap` then "and N more". */
+function lineList(rows: Row[], cap = 8): string {
+  const nums = rows.slice(0, cap).map((r) => String(r.line));
+  const more = rows.length - nums.length;
+  if (more > 0) return `Lines ${nums.join(', ')} and ${more} more`;
+  if (nums.length === 1) return `Line ${nums[0]}`;
+  return `Lines ${nums.slice(0, -1).join(', ')} and ${nums[nums.length - 1]}`;
 }
 
 export const dateFormatDetector: DateTimeTool = {
@@ -243,19 +280,24 @@ export const dateFormatDetector: DateTimeTool = {
     const zoneless = rows.filter((row) => row.zoneless);
     const twoDigit = rows.filter((row) => row.twoDigitYear);
 
-    const note = ambiguous.length === 0
-      ? undefined
+    const TRUNCATED = 'Stopped at line 200. Line 201 onward was not read.';
+    const unreadNote = unreadable.length === 0
+      ? ''
+      : `${lineList(unreadable)} could not be read.`;
+    const twoWayNote = ambiguous.length === 0
+      ? ''
       : ambiguous.length === 1
         ? '1 row can be read as two different days.'
         : `${ambiguous.length} rows can be read as two different days.`;
+    const note = [twoWayNote, unreadNote, truncated ? TRUNCATED : ''].filter(Boolean).join(' ') || undefined;
 
-    const quiet = ambiguous.length === 0 && unreadable.length === 0;
-    const hero = card(
-      'summary',
-      quiet ? 'Dates' : 'can be read two ways',
-      quiet ? 'Each date has one reading' : `${ambiguous.length} of ${rows.length}`,
-      { raw: ambiguous.length, emphasis: 'hero', ...(note ? { note } : {}) },
-    );
+    // Two readings is the headline whenever any row has them. Otherwise unreadable rows are, and a
+    // column where every row reads one way is quiet.
+    const hero = ambiguous.length > 0
+      ? card('summary', 'can be read two ways', `${ambiguous.length} of ${rows.length}`, { raw: ambiguous.length, emphasis: 'hero', ...(note ? { note } : {}) })
+      : unreadable.length > 0
+        ? card('summary', 'could not be read', `${unreadable.length} of ${rows.length}`, { raw: 0, emphasis: 'hero', ...(note ? { note } : {}) })
+        : card('summary', 'Dates', 'Each date has one reading', { raw: 0, emphasis: 'hero', ...(note ? { note } : {}) });
 
     const metrics = [
       card('ambiguous', 'Two readings', String(ambiguous.length), { raw: ambiguous.length, emphasis: 'primary' }),
@@ -265,13 +307,16 @@ export const dateFormatDetector: DateTimeTool = {
       card('unreadable', 'Unreadable', String(unreadable.length), { raw: unreadable.length }),
     ];
 
-    const insights: Insight[] = ambiguous.slice(0, INSIGHT_CAP).map((row) => insight(rowSentence(row), 'caution'));
+    const insights: Insight[] = [...ambiguous, ...unreadable]
+      .sort((a, b) => a.line - b.line)
+      .slice(0, INSIGHT_CAP)
+      .map((row) => insight(rowSentence(row), 'caution'));
 
     const listed = rows.slice(0, EXPLAIN_CAP).map(rowSentence);
     if (rows.length > EXPLAIN_CAP) {
       listed.push(`${rows.length - EXPLAIN_CAP} more rows are not listed.`);
     }
-    if (truncated) listed.push('Stopped at line 200. Line 201 onward was not read.');
+    if (truncated) listed.push(TRUNCATED);
 
     return successResult({
       hero,

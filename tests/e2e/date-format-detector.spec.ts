@@ -25,6 +25,23 @@ test.describe('date format detector', () => {
     await expect(page.locator('[data-hero-note]')).toBeHidden();
   });
 
+  test('an all-unreadable paste names the lines and gives each row a reason', async ({ page }) => {
+    await page.goto(URL);
+    await dates(page).fill('31/04/2025\ngarbage');
+    await expect(experience(page)).toContainText('2 of 2');
+    await expect(experience(page)).toContainText('could not be read');
+    await expect(experience(page)).not.toContainText('can be read two ways');
+    await expect(page.locator('[data-hero-note]')).toHaveText('Lines 1 and 2 could not be read.');
+    await expect(experience(page)).toContainText('That date does not exist.');
+  });
+
+  test('the 200-line cap shows in the visible note', async ({ page }) => {
+    await page.goto(URL);
+    await dates(page).fill(Array.from({ length: 205 }, () => '2025-04-03').join('\n'));
+    await expect(page.locator('[data-hero-note]')).toBeVisible();
+    await expect(page.locator('[data-hero-note]')).toContainText('Stopped at line 200.');
+  });
+
   test('the textarea is the first control on a phone', async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== 'pixel5', 'phone geometry only');
     await page.goto(URL, { waitUntil: 'load' });
