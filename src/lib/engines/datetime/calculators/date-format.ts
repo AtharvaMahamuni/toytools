@@ -144,6 +144,7 @@ function numericReadings(dayOrMonth: number, monthOrDay: number, year: number): 
 const NO_PATTERN = 'It does not look like a date this tool reads.';
 const NO_SUCH_DAY = 'That date does not exist. Check the day and the month.';
 const ZONE_NO_TIME_REASON = 'A time zone with no time is not read. Add the time, or drop the zone.';
+const YEAR_ZERO = 'Year 0 is not a valid year. Years start at 1.';
 const BAD_TIME = 'The time is out of range (hours 00 to 23, minutes and seconds 00 to 59).';
 
 /** The reason a line that matched no date pattern was refused, for the warning on its row. */
@@ -163,6 +164,7 @@ function parseBody(raw: string): Omit<Row, 'line'> {
     if (iso[7] !== undefined && iso[4] === undefined) return refuse(ZONE_NO_TIME_REASON);
     const when = clock(iso[4], iso[5], iso[6], iso[7]);
     if (!when.ok) return refuse(BAD_TIME);
+    if (Number(iso[1]) === 0) return refuse(YEAR_ZERO);
     const date = civil(Number(iso[1]), Number(iso[2]), Number(iso[3]));
     if (!date) return refuse(NO_SUCH_DAY);
     return {
@@ -177,6 +179,7 @@ function parseBody(raw: string): Omit<Row, 'line'> {
   if (namedDay) {
     const month = MONTHS[namedDay[2].toLowerCase()];
     if (!month) return refuse(`"${namedDay[2]}" is not a month name this tool knows.`);
+    if (/^0+$/.test(namedDay[3])) return refuse(YEAR_ZERO);
     const year = resolveYear(namedDay[3]);
     if (!year) return refuse(NO_PATTERN);
     const date = civil(year.year, month, Number(namedDay[1]));
@@ -188,6 +191,7 @@ function parseBody(raw: string): Omit<Row, 'line'> {
   if (namedMonth) {
     const month = MONTHS[namedMonth[1].toLowerCase()];
     if (!month) return refuse(`"${namedMonth[1]}" is not a month name this tool knows.`);
+    if (/^0+$/.test(namedMonth[3])) return refuse(YEAR_ZERO);
     const year = resolveYear(namedMonth[3]);
     if (!year) return refuse(NO_PATTERN);
     const date = civil(year.year, month, Number(namedMonth[2]));
@@ -206,7 +210,12 @@ function parseBody(raw: string): Omit<Row, 'line'> {
   const last = num[5];
   if (head.length === 4) {
     // Year first: the month and day may be written without zero padding (2025/4/3).
+    if (last.length === 4) {
+      // 0003/04/2025: the year is at the end, so the first part is a padded day or month.
+      return refuse('The year is at the end, so the first part is a day or month and has one or two digits, as in 03/04/2025.');
+    }
     if (last.length > 2) return refuse('After a four-digit year, the day must be one or two digits.');
+    if (Number(head) === 0) return refuse(YEAR_ZERO);
     const date = civil(Number(head), Number(middle), Number(last));
     if (!date) return refuse(NO_SUCH_DAY);
     return {
@@ -218,6 +227,7 @@ function parseBody(raw: string): Omit<Row, 'line'> {
   }
   if (head.length === 3) return refuse(NO_PATTERN);
 
+  if (last.length === 4 && Number(last) === 0) return refuse(YEAR_ZERO);
   const year = resolveYear(last);
   if (!year) return refuse('The year must have two or four digits.');
   const readings = numericReadings(Number(head), Number(middle), year.year);

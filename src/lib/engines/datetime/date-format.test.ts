@@ -163,8 +163,8 @@ describe('year first without zero padding (S1)', () => {
       expect(res.explanation).toContain('3 April 2025 (year first)');
     });
   }
-  it('a four-digit last part after a four-digit year is refused with a reason', () => {
-    expect(texts(run('2025/04/2025'))).toContain('After a four-digit year, the day must be one or two digits.');
+  it('a three-digit last part after a four-digit year is refused with a reason', () => {
+    expect(texts(run('2025/04/123'))).toContain('After a four-digit year, the day must be one or two digits.');
   });
 });
 
@@ -208,8 +208,14 @@ describe('edge cases (S3)', () => {
     expect(run('2025/04/13').explanation).toContain('13 April 2025 (year first)');
   });
   it('refuses year 0', () => {
-    expect(texts(run('0000-04-03'))).toContain('That date does not exist');
-    expect(texts(run('13/04/0000'))).toContain('could not be read');
+    for (const t of ['0000-04-03', '13/04/0000', '0000/4/3', '3 April 0000', 'April 3, 0000']) {
+      expect(texts(run(t)), t).toContain('Year 0 is not a valid year.');
+    }
+  });
+  it('explains a padded first part when the year is at the end', () => {
+    expect(texts(run('0003/04/2025'))).toContain('The year is at the end, so the first part is a day or month');
+    expect(texts(run('2025/04/2025'))).toContain('The year is at the end');
+    expect(texts(run('2025/04/123'))).toContain('After a four-digit year, the day must be one or two digits.');
   });
 });
 
@@ -230,5 +236,18 @@ describe('nits (N)', () => {
   });
   it('names an unknown month word', () => {
     expect(texts(run('3 Foo 2025'))).toContain('"Foo" is not a month name this tool knows.');
+  });
+});
+
+describe('warning order (r2)', () => {
+  it('lists two-reading and unreadable rows by line number, whatever their kind', () => {
+    const res = run('garbage\n03/04/2026\n13/04/2026\n31/02/2026\n05/06/2026');
+    const lines = (res.insights ?? []).map((i) => Number(/^Line (\d+)/.exec(i.text)?.[1]));
+    expect(lines).toEqual([1, 2, 4, 5]);
+  });
+  it('keeps the first 8 by line number', () => {
+    const res = run(Array.from({ length: 10 }, (_, i) => (i % 2 ? '03/04/2026' : 'x')).join('\n'));
+    const lines = (res.insights ?? []).map((i) => Number(/^Line (\d+)/.exec(i.text)?.[1]));
+    expect(lines).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
   });
 });
