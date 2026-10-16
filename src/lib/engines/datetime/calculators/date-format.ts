@@ -179,7 +179,7 @@ function parseBody(raw: string): Omit<Row, 'line'> {
   if (namedDay) {
     const month = MONTHS[namedDay[2].toLowerCase()];
     if (!month) return refuse(`"${namedDay[2]}" is not a month name this tool knows.`);
-    if (/^0+$/.test(namedDay[3])) return refuse(YEAR_ZERO);
+    if (/^0000$/.test(namedDay[3])) return refuse(YEAR_ZERO);
     const year = resolveYear(namedDay[3]);
     if (!year) return refuse(NO_PATTERN);
     const date = civil(year.year, month, Number(namedDay[1]));
@@ -191,7 +191,7 @@ function parseBody(raw: string): Omit<Row, 'line'> {
   if (namedMonth) {
     const month = MONTHS[namedMonth[1].toLowerCase()];
     if (!month) return refuse(`"${namedMonth[1]}" is not a month name this tool knows.`);
-    if (/^0+$/.test(namedMonth[3])) return refuse(YEAR_ZERO);
+    if (/^0000$/.test(namedMonth[3])) return refuse(YEAR_ZERO);
     const year = resolveYear(namedMonth[3]);
     if (!year) return refuse(NO_PATTERN);
     const date = civil(year.year, month, Number(namedMonth[2]));
@@ -212,7 +212,11 @@ function parseBody(raw: string): Omit<Row, 'line'> {
     // Year first: the month and day may be written without zero padding (2025/4/3).
     if (last.length === 4) {
       // 0003/04/2025: the year is at the end, so the first part is a padded day or month.
-      return refuse('The year is at the end, so the first part is a day or month and has one or two digits, as in 03/04/2025.');
+      if (Number(head) <= 31) {
+        return refuse('The year is at the end, so the first part is a day or month and has one or two digits, as in 03/04/2025.');
+      }
+      // 2025/04/2025: both ends look like a year.
+      return refuse('Both the first and last parts have four digits. Only one of them can be the year.');
     }
     if (last.length > 2) return refuse('After a four-digit year, the day must be one or two digits.');
     if (Number(head) === 0) return refuse(YEAR_ZERO);

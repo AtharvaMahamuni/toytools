@@ -214,7 +214,7 @@ describe('edge cases (S3)', () => {
   });
   it('explains a padded first part when the year is at the end', () => {
     expect(texts(run('0003/04/2025'))).toContain('The year is at the end, so the first part is a day or month');
-    expect(texts(run('2025/04/2025'))).toContain('The year is at the end');
+    expect(texts(run('2025/04/2025'))).toContain('Both the first and last parts have four digits. Only one of them can be the year.');
     expect(texts(run('2025/04/123'))).toContain('After a four-digit year, the day must be one or two digits.');
   });
 });
@@ -250,4 +250,19 @@ describe('warning order (r2)', () => {
     const lines = (res.insights ?? []).map((i) => Number(/^Line (\d+)/.exec(i.text)?.[1]));
     expect(lines).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
   });
+});
+
+describe('two-digit year 00 is not year 0 (r3)', () => {
+  for (const [t, want] of [
+    ['3 April 00', '3 April 2000'],
+    ['April 3, 00', '3 April 2000'],
+    ['13/04/00', '13 April 2000'],
+    ['00/4/3', ''],
+  ] as const) {
+    it(t, () => {
+      const res = run(t);
+      expect(texts(res)).not.toContain('Year 0');
+      if (want) expect(res.explanation).toContain(want);
+    });
+  }
 });
