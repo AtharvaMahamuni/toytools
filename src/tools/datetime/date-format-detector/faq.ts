@@ -11,7 +11,7 @@ export const items: FAQItem[] = [
     id: 'date-format-detector-faq-2',
     question: 'How will this date be parsed?',
     answer:
-      'One date per line, with no locale chosen and no zone invented. A row where both numbers are 12 or under shows both civil dates when those days differ. A row with a number above 12 shows the only order that is a real calendar day, and is unreadable when that day does not exist. Named months and an ISO 8601 date have one reading when the day exists. The paste itself is left as you typed it.',
+      'One date per line, with no locale chosen and no zone invented. A row where both numbers are 12 or under shows both civil dates when those days differ. A row with a number above 12 shows the only order that is a real calendar day, and is unreadable when that day does not exist. Named months and an ISO 8601 date have one reading when the day exists. An unreadable row says why, such as mixed separators, a compact date like 20250403, or an ordinal like 3rd. The first 200 lines are read, and the note says where it stopped. The paste itself is left as you typed it.',
   },
   {
     id: 'date-format-detector-faq-3',
