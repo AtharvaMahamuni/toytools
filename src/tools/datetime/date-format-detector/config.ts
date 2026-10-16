@@ -8,7 +8,7 @@ export const config: ToolConfig = {
     'Is this date day first or month first, DD/MM vs MM/DD? See how it will be parsed when an Excel locale guess is wrong. Nothing is uploaded.',
   tagline: 'Both readings when a date could be day first or month first.',
   categorySlug: 'date-time',
-  tags: ['ambiguous date', 'dd/mm', 'mm/dd', 'date format', 'excel dates', 'iso 8601'],
+  tags: ['dd/mm', 'mm/dd'],
   keywords: [
     'is this date dd/mm or mm/dd',
     'is this date day first or month first',
