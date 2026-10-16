@@ -2,6 +2,13 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.12] - 2026-10-17
+
+### Changed
+
+- **Date Format Detector reads the whole column.** When a line only works day first, such as 25/03/2025, and no line only works month first, the hero says Day first and cites that line: "Day first: line 4 (25/03/2025) only works that way." The ambiguous rows are then read day first, each naming the line that decided it, and a Resolved by the column count appears. Month first works the same. When one line only works day first and another only works month first, the hero says Mixed, cites one line for each, and the rows stay ambiguous. ISO and named-month dates never decide the order, and with no deciding line the output is unchanged. Nothing is saved.
+- **Date Format Detector.** 1999/04/2025 and 0031/04/2025 are told apart by the leading zero: a padded first part is a day or month, and a first part with no leading zero is a second year.
+
 ## [beta-v12.11] - 2026-10-16
 
 ### Added
