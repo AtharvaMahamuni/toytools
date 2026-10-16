@@ -28,9 +28,9 @@ test.describe('date format detector', () => {
   test('an all-unreadable paste names the lines and gives each row a reason', async ({ page }) => {
     await page.goto(URL);
     await dates(page).fill('31/04/2025\ngarbage');
-    await expect(experience(page)).toContainText('2 of 2');
-    await expect(experience(page)).toContainText('could not be read');
-    await expect(experience(page)).not.toContainText('can be read two ways');
+    // The hidden empty-state text also says "can be read two ways", so check the hero reads as one phrase.
+    await expect(experience(page)).toContainText('2 of 2 could not be read');
+    await expect(experience(page)).not.toContainText('can be read two ways2 of 2');
     await expect(page.locator('[data-hero-note]')).toHaveText('Lines 1 and 2 could not be read.');
     await expect(experience(page)).toContainText('That date does not exist.');
   });
