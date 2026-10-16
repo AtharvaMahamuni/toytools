@@ -57,9 +57,17 @@ const diffHref = toolPathBySlug('date-difference-calculator');
       numbers at 12 or under. The row with a 13 in it was never at risk.
     </p>
     <p>
-      For example, paste 03/04/2026, then 2026-04-13, then 13/04/2026. The count is 1 of 3.
+      For example, paste 03/04/2026, then 2026-04-13, then April 13, 2026. The count is 1 of 3.
       The note says that one row can be read as two different days. When every row has one
       reading, that note stays hidden, so a clean column does not look like a warning.
+    </p>
+    <p>
+      A column is usually written one way. When a line such as 13/04/2026 only works day first,
+      and no line only works month first, the hero says Day first and cites that line. The
+      ambiguous rows are then read day first, and each one names the line that decided it. Month
+      first works the same way. When one line only works day first and another only works month
+      first, the hero says Mixed, cites one line for each, and leaves the rows ambiguous. ISO and
+      named-month dates never decide the order.
     </p>
     <ul>
       <li>Two readings, when both numbers are 12 or under and the two orders are different days.</li>
@@ -73,10 +81,11 @@ const diffHref = toolPathBySlug('date-difference-calculator');
       two-reading row there shows the raw text and both civil dates. A later two-reading row stays
       in the count and is not written out. The paste stops at 200 lines, so line 201 onward is not read.
     </p>
-    <ReferenceBlock type="common-mistake" heading="Trusting the rows that contain a 13">
+    <ReferenceBlock type="common-mistake" heading="Assuming one deciding line settles every row">
       <p>
-        A 13 is proof for that one row. For example, 13/04/2026 is 13 April, and the next line
-        03/04/2026 is still two days. Do not stop at the first unambiguous line. Check the count.
+        A 13 proves its own row. It settles 03/04/2026 only if the whole column came from one
+        source. A merged export can hold both orders, which is why the tool says Mixed as soon as
+        a line only works the other way. Check for Mixed before you trust a verdict.
       </p>
     </ReferenceBlock>
   </section>

@@ -290,7 +290,7 @@ export const dateFormatDetector: DateTimeTool = {
       type: 'text',
       multiline: true,
       default: '',
-      help: 'One date per line. A row where both numbers are 12 or under is shown both ways.',
+      help: 'One date per line. A row where both numbers are 12 or under is shown both ways, unless another line decides the order.',
     },
   ],
 
