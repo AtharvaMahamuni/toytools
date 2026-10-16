@@ -317,6 +317,8 @@ export const GLYPHS: Record<string, string> = {
   leanMass: S + '<circle cx="12" cy="5.2" r="2.1"/><path d="M9 20.5v-6l-1.4-3.2h8.8L15 14.5v6"/><path d="M8.2 12.2h7.6"/><path d="M7 12.2c.4 1.6 2.2 2.6 5 2.6s4.6-1 5-2.6"/>' + E,
   // One CSV column picked out of the grid.
   csvColumns: S + '<rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M3.5 9h17M3.5 14h17M9.2 4v16M14.8 4v16"/>' + E + '<rect x="9.4" y="4.3" width="5.2" height="15.4" fill="#fff" fill-opacity=".45"/>',
+  // Day and month can trade places in one numeric date.
+  dateSwap: t('D/M', 8),
 
   // ── generic fallback (never blank) ────────────────────────────────────
   spark: S + '<path d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6Z"/>' + E,

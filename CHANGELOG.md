@@ -2,6 +2,16 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.11] - 2026-10-16
+
+### Added
+
+- **Date Format Detector** (`/tool/datetime/date-format-detector/`). Paste a column, one date per line. A row where both numbers are 12 or under shows both civil dates, such as 03/04/2026 as 3 April 2026 or 4 March 2026. When both orders fall on the same day, such as 08/08/2026, the row is not counted as two different days. A number above 12, a named month, and a year-first ISO date have one reading when that day exists. A day that is not on the calendar is unreadable, and it is not also counted as a missing zone or a two-digit year. A timestamp with no zone is flagged, because the civil day can move once a zone is applied. Two-digit years use a stated pivot: 00 to 69 are 2000 to 2069, and 70 to 99 are 1970 to 1999. The note names how many rows can be read as two different days, and stays hidden when every row has one reading. The paste is capped at 200 lines, and a trailing blank line does not count as an extra line. The check runs on the device. The page does not pick a locale or rewrite the paste.
+
+### Changed
+
+- The Date & Time category now says the catalog can show when a date can be read two ways.
+
 ## [beta-v12.10] - 2026-10-14
 
 ### Fixed

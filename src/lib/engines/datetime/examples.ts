@@ -109,6 +109,15 @@ export const DATETIME_EXAMPLES: WorkedExample<DateTimeInput>[] = [
     narrative:
       '0 0 13 * 5 runs on the 13th OR any Friday under cron, and only on a Friday the 13th as a systemd timer.',
   },
+  {
+    id: 'date-format-mixed',
+    engine: 'datetime',
+    ref: 'date-format',
+    title: 'One ambiguous row in a short column',
+    inputs: { dates: '03/04/2026\n2026-04-13\n13/04/2026' },
+    expect: { summary: 1, ambiguous: 1, 'one-reading': 2, 'missing-zone': 0, 'two-digit-year': 0, unreadable: 0 },
+    narrative: '03/04/2026 is 3 April or 4 March. 2026-04-13 and 13/04/2026 are both 13 April, one reading each.',
+  },
 ];
 
 export const DATETIME_EXAMPLE_MAP = buildExampleRegistry(DATETIME_EXAMPLES);

@@ -36,6 +36,7 @@ export const authoredGuideSlugs = [
   'csv-to-json-converter',
   'csv-to-tsv',
   'date-difference-calculator',
+  'date-format-detector',
   'dice-roller',
   'discount-calculator',
   'emergency-fund-calculator',

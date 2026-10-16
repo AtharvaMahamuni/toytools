@@ -70,6 +70,7 @@ const FAMILY_GLYPH: Record<string, string> = {
   timestamp: 'clock',
   timezone: 'globe',
   sleep: 'moon',
+  parse: 'dateSwap',
   // generate
   code: 'qr',
   credential: 'key',
