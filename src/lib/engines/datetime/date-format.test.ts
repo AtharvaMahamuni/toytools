@@ -266,3 +266,12 @@ describe('two-digit year 00 is not year 0 (r3)', () => {
     });
   }
 });
+
+describe('padded first part is told by its leading zero', () => {
+  it('0031/04/2025 is a padded day, 1999/04/2025 has two years', () => {
+    expect(texts(run('0031/04/2025'))).toContain('the first part is a day or month');
+    expect(texts(run('0012/04/2025'))).toContain('the first part is a day or month');
+    expect(texts(run('1999/04/2025'))).toContain('Only one of them can be the year.');
+    expect(texts(run('1000/04/2025'))).toContain('Only one of them can be the year.');
+  });
+});

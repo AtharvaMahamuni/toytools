@@ -211,8 +211,8 @@ function parseBody(raw: string): Omit<Row, 'line'> {
   if (head.length === 4) {
     // Year first: the month and day may be written without zero padding (2025/4/3).
     if (last.length === 4) {
-      // 0003/04/2025: the year is at the end, so the first part is a padded day or month.
-      if (Number(head) <= 31) {
+      // 0003/04/2025: a leading zero means the first part is a padded day or month, not a year.
+      if (head.startsWith('0')) {
         return refuse('The year is at the end, so the first part is a day or month and has one or two digits, as in 03/04/2025.');
       }
       // 2025/04/2025: both ends look like a year.
