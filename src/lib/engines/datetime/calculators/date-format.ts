@@ -49,6 +49,8 @@ interface Reading {
 }
 
 interface Row {
+  /** Set when the column verdict picked one of two readings: the line that decided it. */
+  resolvedBy?: number;
   line: number;
   raw: string;
   readings: Reading[];
@@ -113,7 +115,9 @@ function rowSentence(row: Row): string {
   const dates = sameDay
     ? `${formatCivil(row.readings[0].date)} (day first and month first)`
     : row.readings.map((r) => `${formatCivil(r.date)} (${orderLabel(r.order)})`).join(' or ');
-  let text = `Line ${row.line}, ${row.raw}: ${dates}.`;
+  let text = row.resolvedBy !== undefined
+    ? `Line ${row.line}, ${row.raw}: ${formatCivil(row.readings[0].date)} (${orderLabel(row.readings[0].order)}, as line ${row.resolvedBy} shows).`
+    : `Line ${row.line}, ${row.raw}: ${dates}.`;
   if (row.twoDigitYear) text += ' Two-digit year.';
   if (row.zoneless) text += ' No time zone, so the civil day can move.';
   return text;
@@ -244,6 +248,28 @@ function parseBody(raw: string): Omit<Row, 'line'> {
   };
 }
 
+type Verdict =
+  | { kind: 'undecided' }
+  | { kind: 'day-first' | 'month-first'; by: Row }
+  | { kind: 'mixed'; dayBy: Row; monthBy: Row };
+
+/**
+ * A slash or dot date with only one numeric reading (25/03/2025 or 03/25/2025) shows how the
+ * column was written. One order with no counter-example decides it. Both orders seen is Mixed.
+ */
+function columnVerdict(rows: Row[]): Verdict {
+  const only = (order: Order) =>
+    rows.find((row) => row.readings.length === 1 && row.readings[0].order === order);
+  const dayBy = only('day-first');
+  const monthBy = only('month-first');
+  if (dayBy && monthBy) return { kind: 'mixed', dayBy, monthBy };
+  if (dayBy) return { kind: 'day-first', by: dayBy };
+  if (monthBy) return { kind: 'month-first', by: monthBy };
+  return { kind: 'undecided' };
+}
+
+const cite = (row: Row) => `line ${row.line} (${row.raw})`;
+
 /** "Line 4", "Lines 2 and 5", "Lines 1, 3 and 9", listing at most `cap` then "and N more". */
 function lineList(rows: Row[], cap = 8): string {
   const nums = rows.slice(0, cap).map((r) => String(r.line));
@@ -288,8 +314,20 @@ export const dateFormatDetector: DateTimeTool = {
       return validationError(`Paste at least one date, one per line.${tail}`);
     }
 
+    const verdict = columnVerdict(rows);
+    const order = verdict.kind === 'day-first' || verdict.kind === 'month-first' ? verdict.kind : undefined;
+    const resolved: Row[] = [];
+    if (order && verdict.kind !== 'undecided' && verdict.kind !== 'mixed') {
+      for (const row of rows) {
+        if (!swapsDay(row)) continue;
+        row.readings = row.readings.filter((r) => r.order === order);
+        row.resolvedBy = verdict.by.line;
+        resolved.push(row);
+      }
+    }
+
     const ambiguous = rows.filter(swapsDay);
-    const one = rows.filter((row) => row.readings.length > 0 && !swapsDay(row));
+    const one = rows.filter((row) => row.readings.length > 0 && !swapsDay(row) && row.resolvedBy === undefined);
     const unreadable = rows.filter((row) => row.readings.length === 0);
     const zoneless = rows.filter((row) => row.zoneless);
     const twoDigit = rows.filter((row) => row.twoDigitYear);
@@ -303,11 +341,21 @@ export const dateFormatDetector: DateTimeTool = {
       : ambiguous.length === 1
         ? '1 row can be read as two different days.'
         : `${ambiguous.length} rows can be read as two different days.`;
-    const note = [twoWayNote, unreadNote, truncated ? TRUNCATED : ''].filter(Boolean).join(' ') || undefined;
+    const verdictNote = verdict.kind === 'mixed'
+      ? `Mixed: ${cite(verdict.dayBy)} only works day first, and ${cite(verdict.monthBy)} only works month first.`
+      : resolved.length > 0 && verdict.kind !== 'undecided'
+        ? `${verdict.kind === 'day-first' ? 'Day first' : 'Month first'}: ${cite(verdict.by)} only works that way. ${resolved.length === 1 ? '1 row was' : `${resolved.length} rows were`} read that way too.`
+        : '';
+    const note = [verdictNote, twoWayNote, unreadNote, truncated ? TRUNCATED : ''].filter(Boolean).join(' ') || undefined;
 
     // Two readings is the headline whenever any row has them. Otherwise unreadable rows are, and a
     // column where every row reads one way is quiet.
-    const hero = ambiguous.length > 0
+    // A column verdict leads when it changed something (resolved rows) or found both orders.
+    const hero = verdict.kind === 'mixed'
+      ? card('summary', 'whole column', 'Mixed', { raw: ambiguous.length, emphasis: 'hero', ...(note ? { note } : {}) })
+      : resolved.length > 0
+        ? card('summary', 'whole column', verdict.kind === 'day-first' ? 'Day first' : 'Month first', { raw: 0, emphasis: 'hero', ...(note ? { note } : {}) })
+        : ambiguous.length > 0
       ? card('summary', 'can be read two ways', `${ambiguous.length} of ${rows.length}`, { raw: ambiguous.length, emphasis: 'hero', ...(note ? { note } : {}) })
       : unreadable.length > 0
         ? card('summary', 'could not be read', `${unreadable.length} of ${rows.length}`, { raw: 0, emphasis: 'hero', ...(note ? { note } : {}) })
@@ -320,6 +368,9 @@ export const dateFormatDetector: DateTimeTool = {
       card('two-digit-year', 'Two-digit year', String(twoDigit.length), { raw: twoDigit.length }),
       card('unreadable', 'Unreadable', String(unreadable.length), { raw: unreadable.length }),
     ];
+    if (resolved.length > 0) {
+      metrics.splice(1, 0, card('resolved', 'Resolved by the column', String(resolved.length), { raw: resolved.length }));
+    }
 
     const insights: Insight[] = [...ambiguous, ...unreadable]
       .sort((a, b) => a.line - b.line)

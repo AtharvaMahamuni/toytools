@@ -113,10 +113,10 @@ export const DATETIME_EXAMPLES: WorkedExample<DateTimeInput>[] = [
     id: 'date-format-mixed',
     engine: 'datetime',
     ref: 'date-format',
-    title: 'One ambiguous row in a short column',
+    title: 'A short column that decides its own order',
     inputs: { dates: '03/04/2026\n2026-04-13\n13/04/2026' },
-    expect: { summary: 1, ambiguous: 1, 'one-reading': 2, 'missing-zone': 0, 'two-digit-year': 0, unreadable: 0 },
-    narrative: '03/04/2026 is 3 April or 4 March. 2026-04-13 and 13/04/2026 are both 13 April, one reading each.',
+    expect: { summary: 0, resolved: 1, ambiguous: 0, 'one-reading': 2, 'missing-zone': 0, 'two-digit-year': 0, unreadable: 0 },
+    narrative: '13/04/2026 only works day first, so the column is day first and 03/04/2026 is read as 3 April 2026.',
   },
 ];
 
