@@ -28,7 +28,7 @@ describe('date format detector', () => {
   });
 
   it('counts only the two-reading rows in a mixed column', () => {
-    const res = run('03/04/2026\n2026-04-13\n13/04/2026');
+    const res = run('03/04/2026\n2026-04-13\nApril 13, 2026');
     expect(res.metrics.find((card) => card.id === 'ambiguous')?.raw).toBe(1);
     expect(res.metrics.find((card) => card.id === 'one-reading')?.raw).toBe(2);
     expect(res.hero?.value).toBe('1 of 3');
@@ -193,9 +193,9 @@ describe('edge cases (S3)', () => {
     expect(texts(run('03/04/2025 24:00'))).toContain('The time is out of range');
   });
   it('keeps the real line numbers after a blank line', () => {
-    const res = run('\n03/04/2025\n\n13/04/2026');
+    const res = run('\n03/04/2025\n\n2026-04-13');
     expect(texts(res)).toContain('Line 2, 03/04/2025');
-    expect(res.explanation).toContain('Line 4, 13/04/2026');
+    expect(res.explanation).toContain('Line 4, 2026-04-13');
   });
   it('reads Sept and a space separator', () => {
     expect(run('Sept 3, 2025').explanation).toContain('3 September 2025');
@@ -241,7 +241,7 @@ describe('nits (N)', () => {
 
 describe('warning order (r2)', () => {
   it('lists two-reading and unreadable rows by line number, whatever their kind', () => {
-    const res = run('garbage\n03/04/2026\n13/04/2026\n31/02/2026\n05/06/2026');
+    const res = run('garbage\n03/04/2026\n2026-04-13\n31/02/2026\n05/06/2026');
     const lines = (res.insights ?? []).map((i) => Number(/^Line (\d+)/.exec(i.text)?.[1]));
     expect(lines).toEqual([1, 2, 4, 5]);
   });
@@ -265,4 +265,79 @@ describe('two-digit year 00 is not year 0 (r3)', () => {
       if (want) expect(res.explanation).toContain(want);
     });
   }
+});
+
+describe('padded first part is told by its leading zero', () => {
+  it('0031/04/2025 is a padded day, 1999/04/2025 has two years', () => {
+    expect(texts(run('0031/04/2025'))).toContain('the first part is a day or month');
+    expect(texts(run('0012/04/2025'))).toContain('the first part is a day or month');
+    expect(texts(run('1999/04/2025'))).toContain('Only one of them can be the year.');
+    expect(texts(run('1000/04/2025'))).toContain('Only one of them can be the year.');
+  });
+});
+
+describe('column verdict', () => {
+  const metric = (res: ReturnType<typeof run>, id: string) => res.metrics.find((c) => c.id === id)?.raw;
+
+  it('day first: a line that only works day first resolves the ambiguous rows and is cited', () => {
+    const res = run('03/04/2025\n05/06/2025\n2025-01-01\n25/03/2025');
+    expect(res.hero?.value).toBe('Day first');
+    expect(res.hero?.label).toBe('whole column');
+    expect(res.hero?.note).toBe('Day first: line 4 (25/03/2025) only works that way. 2 rows were read that way too.');
+    expect(metric(res, 'ambiguous')).toBe(0);
+    expect(metric(res, 'resolved')).toBe(2);
+    expect(metric(res, 'one-reading')).toBe(2);
+    expect(res.explanation).toContain('Line 1, 03/04/2025: 3 April 2025 (day first, as line 4 shows).');
+    expect(res.explanation).toContain('Line 2, 05/06/2025: 5 June 2025 (day first, as line 4 shows).');
+    expect(res.explanation).not.toContain('4 March 2025');
+    expect(res.insights ?? []).toEqual([]);
+  });
+
+  it('month first: cites the first deciding line and resolves one row', () => {
+    const res = run('03/25/2025\n03/04/2025\n12/31/2025');
+    expect(res.hero?.value).toBe('Month first');
+    expect(res.hero?.note).toBe('Month first: line 1 (03/25/2025) only works that way. 1 row was read that way too.');
+    expect(metric(res, 'resolved')).toBe(1);
+    expect(res.explanation).toContain('Line 2, 03/04/2025: 4 March 2025 (month first, as line 1 shows).');
+  });
+
+  it('mixed: both orders are confirmed, rows stay ambiguous, one line cited for each', () => {
+    const res = run('03/04/2025\n25/03/2025\n03/25/2025');
+    expect(res.hero?.value).toBe('Mixed');
+    expect(res.hero?.note).toBe('Mixed: line 2 (25/03/2025) only works day first, and line 3 (03/25/2025) only works month first. 1 row can be read as two different days.');
+    expect(metric(res, 'ambiguous')).toBe(1);
+    expect(metric(res, 'resolved')).toBeUndefined();
+    expect(res.explanation).toContain('3 April 2025 (day first) or 4 March 2025 (month first)');
+  });
+
+  it('mixed is shown even when no row is ambiguous', () => {
+    const res = run('25/03/2025\n03/25/2025');
+    expect(res.hero?.value).toBe('Mixed');
+    expect(metric(res, 'ambiguous')).toBe(0);
+  });
+
+  it('undecided: ISO, named months and unreadable rows do not decide, output unchanged', () => {
+    const res = run('03/04/2025\n2025-03-25\nMarch 25, 2025\n31/02/2025');
+    expect(res.hero?.label).toBe('can be read two ways');
+    expect(res.hero?.value).toBe('1 of 4');
+    expect(res.hero?.note).toBe('1 row can be read as two different days. Line 4 could not be read.');
+    expect(metric(res, 'resolved')).toBeUndefined();
+  });
+
+  it('a decided column with nothing to resolve keeps the quiet hero', () => {
+    const res = run('25/03/2025\n2025-01-01');
+    expect(res.hero?.value).toBe('Each date has one reading');
+    expect(res.hero?.note).toBeUndefined();
+  });
+
+  it('a same-day row such as 08/08/2025 is not counted as resolved', () => {
+    const res = run('08/08/2025\n03/04/2025\n25/03/2025');
+    expect(metric(res, 'resolved')).toBe(1);
+  });
+
+  it('unreadable lines still show in the note under a verdict', () => {
+    const res = run('03/04/2025\n25/03/2025\nnope');
+    expect(res.hero?.value).toBe('Day first');
+    expect(res.hero?.note).toBe('Day first: line 2 (25/03/2025) only works that way. 1 row was read that way too. Line 3 could not be read.');
+  });
 });

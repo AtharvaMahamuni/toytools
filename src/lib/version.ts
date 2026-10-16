@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
-  minor: 11,
+  minor: 12,
   patch: 0,
   status: 'beta',
-  releaseDate: '2026-10-16',
-  description: 'Date Format Detector lists both readings when a date can be day first or month first',
+  releaseDate: '2026-10-17',
+  description: 'Date Format Detector reads a whole column as day first, month first or mixed, and cites the line that decides it',
 };
 
 export function formatVersion(config: VersionConfig): string {

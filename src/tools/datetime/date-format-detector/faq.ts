@@ -17,7 +17,7 @@ export const items: FAQItem[] = [
     id: 'date-format-detector-faq-3',
     question: 'Which rows in this column are an ambiguous date format?',
     answer:
-      'The rows where both numbers are 12 or under and the two orders are different days. 03/04/2026 is one. 08/08/2026 is not, because both orders are 8 August. 13/04/2026 is not, because month 13 does not exist. 2026-04-03 is not, because the year comes first. The hero count is only those rows. Open How this was worked out for the line numbers. The first 20 rows are written out.',
+      'The rows where both numbers are 12 or under and the two orders are different days. 03/04/2026 is one. 08/08/2026 is not, because both orders are 8 August. 13/04/2026 is not, because month 13 does not exist. 2026-04-03 is not, because the year comes first. When a line such as 13/04/2026 only works day first and no line only works month first, the hero says Day first, cites that line, and reads the ambiguous rows that way. Month first works the same. When one line only works day first and another only month first, the hero says Mixed and the rows stay ambiguous. With no deciding line, the hero counts the ambiguous rows. Open How this was worked out for the line numbers. The first 20 rows are written out.',
   },
   {
     id: 'date-format-detector-faq-4',
