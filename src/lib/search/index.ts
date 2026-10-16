@@ -58,17 +58,6 @@ export function buildSearchIndex(): SearchDocument[] {
 export type { SearchEntry, ClientIndex } from './types';
 export { entryUrl, entryCategory } from './types';
 
-/**
- * Drop a term that already sits, as whole words, inside a longer term of the same tool. "iso 8601"
- * inside "iso 8601 vs us date" still matches every query word through the longer term, so it was
- * payload. Curated search aliases are kept as they are: an exact alias match is how an alias
- * ranks its tool first. Measured 9,926 to 9,639 bytes gz on search-terms.json, query coverage unchanged.
- */
-export function dropContainedTerms(terms: string[], keep: ReadonlySet<string> = new Set()): string[] {
-  const contains = (outer: string, inner: string) => ` ${outer} `.includes(` ${inner} `);
-  return terms.filter((t) => keep.has(t) || !terms.some((o) => o !== t && contains(o, t)));
-}
-
 export function buildClientIndex(): ClientIndex {
   const segmentOf = new Map(categories.map(c => [c.slug, c.segment]));
   const categoryNameOf = new Map(categories.map(c => [c.slug, c.name]));
@@ -107,10 +96,7 @@ export function buildClientIndex(): ClientIndex {
         n: tool.name,
         g: intern(segments, segment),
         c: intern(categoryNames, categoryName),
-        k: dropContainedTerms(
-          [...terms],
-          new Set((searchAliases[tool.slug] ?? []).map((a) => a.trim().toLowerCase())),
-        ).sort(),
+        k: [...terms].sort(),
       };
     })
     .sort((a, b) => a.n.localeCompare(b.n));
