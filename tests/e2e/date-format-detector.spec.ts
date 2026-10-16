@@ -10,12 +10,29 @@ const dates = (page: Page) => page.locator('#date-format-detector-f-dates');
 test.describe('date format detector', () => {
   test('a mixed column counts the two-reading row and shows both days', async ({ page }) => {
     await page.goto(URL);
-    await dates(page).fill('03/04/2026\n2026-04-03\n13/04/2026');
+    await dates(page).fill('03/04/2026\n2026-04-03\nApril 13, 2026');
     await expect(experience(page)).toContainText('1 of 3');
     await expect(experience(page)).toContainText('3 April 2026');
     await expect(experience(page)).toContainText('4 March 2026');
     await expect(page.locator('[data-hero-note]')).toBeVisible();
     await expect(page.locator('[data-hero-note]')).toContainText('1 row can be read as two different days.');
+  });
+
+  test('a line that only works day first decides the column', async ({ page }) => {
+    await page.goto(URL);
+    await dates(page).fill('03/04/2025\n05/06/2025\n25/03/2025');
+    await expect(experience(page).locator('[data-hero-value]')).toHaveText('Day first');
+    await expect(experience(page).locator('[data-hero-label]')).toHaveText('whole column');
+    await expect(page.locator('[data-hero-note]')).toHaveText('Day first: line 3 (25/03/2025) only works that way. 2 rows were read that way too.');
+    await expect(experience(page)).not.toContainText('4 March 2025');
+  });
+
+  test('both orders confirmed shows Mixed and keeps both readings', async ({ page }) => {
+    await page.goto(URL);
+    await dates(page).fill('03/04/2025\n25/03/2025\n03/25/2025');
+    await expect(experience(page).locator('[data-hero-value]')).toHaveText('Mixed');
+    await expect(page.locator('[data-hero-note]')).toContainText('line 2 (25/03/2025) only works day first, and line 3 (03/25/2025) only works month first');
+    await expect(experience(page)).toContainText('4 March 2025');
   });
 
   test('an ISO column leaves the ambiguous-row note hidden', async ({ page }) => {
