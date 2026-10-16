@@ -36,6 +36,7 @@ import { config as csvDiff } from '@tools/developer-utilities/csv-diff/config';
 import { config as csvToJsonConverter } from '@tools/developer-utilities/csv-to-json-converter/config';
 import { config as csvToTsv } from '@tools/developer-utilities/csv-to-tsv/config';
 import { config as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/config';
+import { config as dateFormatDetector } from '@tools/datetime/date-format-detector/config';
 import { config as diceRoller } from '@tools/generate/dice-roller/config';
 import { config as discountCalculator } from '@tools/number/discount-calculator/config';
 import { config as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/config';
@@ -193,6 +194,7 @@ export const toolConfigs: ToolConfig[] = [
   csvToJsonConverter,
   csvToTsv,
   dateDifferenceCalculator,
+  dateFormatDetector,
   diceRoller,
   discountCalculator,
   emergencyFundCalculator,

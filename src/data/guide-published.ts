@@ -49,6 +49,7 @@ export const guidePublishedAt: Record<string, string> = {
   'csv-to-json-converter': '2026-06-18',
   'csv-to-tsv': '2026-07-09',
   'date-difference-calculator': '2026-07-10',
+  'date-format-detector': '2026-10-16',
   'dice-roller': '2026-08-22',
   'discount-calculator': '2026-06-15',
   'doppler-effect-calculator': '2026-07-12',

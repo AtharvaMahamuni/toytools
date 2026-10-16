@@ -1,0 +1,14 @@
+---
+// Date Format Detector. The column check lives in
+// src/lib/engines/datetime/calculators/date-format.ts.
+import DateTimeWidget from '@tools/_shared/DateTimeWidget.astro';
+import { config } from './config';
+---
+
+<DateTimeWidget
+  slug={config.slug}
+  dateTimeId="date-format"
+  config={config}
+  craftOn="hero-note"
+  emptyText="Paste dates, one per line, to see which ones can be read two ways."
+/>

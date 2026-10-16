@@ -142,6 +142,13 @@ Use for: Exact time between two dates, including weekdays only.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
 
+## Date Format Detector
+
+URL: https://toytoolsapp.com/tool/datetime/date-format-detector/
+Use for: Both readings when a date could be day first or month first.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Pick a locale, rewrite the column, or decide which reading a spreadsheet will store.
+
 ## Sleep Cycle Calculator
 
 URL: https://toytoolsapp.com/tool/datetime/sleep-cycle-calculator/

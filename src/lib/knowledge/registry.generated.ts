@@ -36,6 +36,7 @@ import { knowledge as csvDiff } from '@tools/developer-utilities/csv-diff/knowle
 import { knowledge as csvToJsonConverter } from '@tools/developer-utilities/csv-to-json-converter/knowledge';
 import { knowledge as csvToTsv } from '@tools/developer-utilities/csv-to-tsv/knowledge';
 import { knowledge as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/knowledge';
+import { knowledge as dateFormatDetector } from '@tools/datetime/date-format-detector/knowledge';
 import { knowledge as diceRoller } from '@tools/generate/dice-roller/knowledge';
 import { knowledge as discountCalculator } from '@tools/number/discount-calculator/knowledge';
 import { knowledge as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/knowledge';
@@ -193,6 +194,7 @@ export const authoredKnowledge: Knowledge[] = [
   csvToJsonConverter,
   csvToTsv,
   dateDifferenceCalculator,
+  dateFormatDetector,
   diceRoller,
   discountCalculator,
   emergencyFundCalculator,

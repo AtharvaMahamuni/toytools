@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
-  minor: 10,
+  minor: 11,
   patch: 0,
   status: 'beta',
-  releaseDate: '2026-10-14',
-  description: 'Phase C fixes: finance currency and storage, negative rates, health unit conversion, and #252 follow-ups',
+  releaseDate: '2026-10-16',
+  description: 'Date Format Detector lists both readings when a date can be day first or month first',
 };
 
 export function formatVersion(config: VersionConfig): string {

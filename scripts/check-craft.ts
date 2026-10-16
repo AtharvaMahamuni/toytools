@@ -215,7 +215,10 @@ const THRESHOLDS = {
   //   pick says an inserted column will move the field. A named comma file stays quiet.
   //   Lean Body Mass Calculator ships verification craft lbm-formula-spread. The note
   //   names Boer and Hume once they differ by 5 kg. 80 kg at 180 cm stays quiet.
-  coverage: 0.722,
+  // 2026-10-16: 0.724 (113/156). Date Format Detector ships orientation craft
+  //   date-ambiguous-rows. The note names how many rows can be read as two different
+  //   days, and stays hidden when every row has one reading.
+  coverage: 0.724,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

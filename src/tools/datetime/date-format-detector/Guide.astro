@@ -1,0 +1,153 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const zoneHref = toolPathBySlug('timezone-converter');
+const unixHref = toolPathBySlug('unix-timestamp-converter');
+const diffHref = toolPathBySlug('date-difference-calculator');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Is 03/04/2026 April or March? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Both, until a locale names the order. Day first, 03/04/2026 is 3 April 2026, and month
+      first it is 4 March 2026. An ambiguous date format is a row that is day first or month first.
+      For example, 11/12/2026 is 11 December or 12 November.
+    </p>
+    <p>
+      13/04/2026 has one reading, 13 April, because month 13 does not exist. 04/13/2026 is the
+      same day, read month first. A 13 settles that one line. The rows that can be read as two
+      different days are the ones where both numbers are 12 or under.
+    </p>
+    <p>
+      Check a pasted column for dates that can be read two ways when someone asks is this date dd/mm or mm/dd. This page is a date format checker, not an
+      ambiguous date parser, and it leaves DD/MM or MM/DD unchosen. The check works by reading
+      one date per line. Nothing is uploaded, and the paste is not rewritten.
+    </p>
+    <a href={toolHref} class="cta-link">Check a column of dates →</a>
+  </section>
+
+  <section id="column">
+    <h2>Which rows in a column actually swap? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A scan for a day above 12 finds 13/04/2026 and then stops. It misses 03/04/2026. In a
+      European export opened under a US locale, the rows that move are the ones with both
+      numbers at 12 or under. The row with a 13 in it was never at risk.
+    </p>
+    <p>
+      For example, paste 03/04/2026, then 2026-04-13, then 13/04/2026. The count is 1 of 3.
+      The note says that one row can be read as two different days. When every row has one
+      reading, that note stays hidden, so a clean column does not look like a warning.
+    </p>
+    <ul>
+      <li>Two readings, when both numbers are 12 or under and the two orders are different days.</li>
+      <li>One reading, when one number is above 12 and that day exists, or a named month or a year-first ISO date is a real day. 08/08/2026 is one day too: both orders are 8 August, so it is not counted.</li>
+      <li>Missing zone, when a time has no offset.</li>
+      <li>Two-digit year, when the year is only two digits and the day exists.</li>
+      <li>Unreadable, when the line is not a date or the day is not on the calendar, such as 31/04/2026 or 2026-04-31. The line is quoted, and it is not also counted as a missing zone or a two-digit year.</li>
+    </ul>
+    <p>
+      Open How this was worked out for the line list. The first 20 rows are written out, and a
+      two-reading row there shows the raw text and both civil dates. A later two-reading row stays
+      in the count and is not written out. The paste stops at 200 lines, so line 201 onward is not read.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Trusting the rows that contain a 13">
+      <p>
+        A 13 is proof for that one row. For example, 13/04/2026 is 13 April, and the next line
+        03/04/2026 is still two days. Do not stop at the first unambiguous line. Check the count.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="year">
+    <h2>How is a two-digit year pivoted? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      00 to 69 are read as 2000 to 2069, and 70 to 99 are read as 1970 to 1999. For example,
+      03/04/26 is still two readings in 2026: 3 April 2026 or 4 March 2026. 03/04/70 is 1970.
+      The row is marked Two-digit year because this pivot is a choice, not a fact in the file.
+    </p>
+    <p>
+      Assuming a two-digit year always means 20xx is the mistake. A source system splits the
+      century somewhere else. The assumption sits with the result so you can see the years this
+      page used. It will not ask you to pick a window.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Assuming a two-digit year always means 20xx">
+      <p>
+        69 maps to 2069. 70 maps to 1970. For example, 03/04/70 is 3 April 1970 or 4 March 1970.
+        A four-digit year stays as written, so 2026 stays 2026.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="zone">
+    <h2>When can a timestamp land a day early? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      2026-04-03T18:00:00 has a time and no offset. The civil date stays 3 April 2026, and the
+      row is counted under Missing zone. Apply a zone later and 18:00 with no offset can fall
+      on 2 April or on 4 April. 2026-04-03T18:00:00Z already names UTC, so it is not flagged.
+    </p>
+    <p>
+      2026-04-03 has no time, so a date alone is not a zoneless timestamp. The page does not
+      invent a zone to clear the flag. Once you know the instant, the
+      <a href={zoneHref}>timezone converter</a> applies one. A pinned date can go to the
+      <a href={unixHref}>Unix timestamp converter</a> when the next step is an epoch number.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Treating a bare timestamp as a stored day">
+      <p>
+        A bare timestamp is not a finished day. For example, 2026-04-03T18:00:00 can move to
+        2 April once a zone is applied. Avoid guessing the offset. The warning is the flag.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="next">
+    <h2>How does an ISO 8601 date differ from a US date? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      An ISO 8601 date such as 2026-04-03 has one reading, because the year comes first.
+      Unlike 03/04/2026, it does not swap month and day. The comparison iso 8601 vs us date
+      is that split: the US reading of 03/04/2026 is 4 March, and 2026-04-03 is 3 April.
+    </p>
+    <p>
+      After an export, excel date locale wrong is what you see when an Excel locale assumed
+      month first. Ask how will this date be parsed before a spreadsheet stores the column.
+      This page lists both readings. It does not decide which one Excel keeps.
+    </p>
+    <p>
+      It does not count the span between two chosen dates, so that job is the
+      <a href={diffHref}>date difference calculator</a>. It does not convert a clock from one
+      city to another, so that job is the <a href={zoneHref}>timezone converter</a>. Therefore
+      the next export either shows a count of rows that swap, or stays quiet.
+    </p>
+    <a href={toolHref} class="cta-link">Paste a date column →</a>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    margin-top: var(--space-3);
+    font-weight: var(--font-weight-medium);
+  }
+</style>

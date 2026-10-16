@@ -137,7 +137,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
   {
     slug: 'date-time',
     name: 'Date & Time',
-    description: 'Calculate ages, durations and sleep cycle bedtimes, convert time zones and timestamps, and work with dates, all in your browser.',
+    description: 'Calculate ages, durations and sleep cycle bedtimes, convert time zones and timestamps, and see when a date can be read two ways, all in your browser.',
     tagline: 'Ages, durations, bedtimes, time zones and timestamps.',
     highlights: ['age-calculator', 'timezone-converter', 'unix-timestamp-converter'],
     accent: '#6B5090',
@@ -145,6 +145,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     intro: [
       'Dates are harder than they look, and every tool here exists because of a specific way they go wrong. Ages and durations have to account for leap years and for months of different lengths. Timezone conversion has to account for two places changing their clocks on different weekends, or one of them not changing at all.',
       'Unix timestamps are the developer\'s version of the same problem: a number that means nothing at a glance, in seconds or milliseconds depending on where it came from, and the difference is a factor of a thousand in whichever direction hurts. Cron and systemd schedules are here for a related reason, which is that reading one back and knowing exactly when it next fires is genuinely difficult.',
+      'A date like 03/04/2026 is two different days until the column says which number is the month. The date format detector lists both readings and stays quiet when a row has only one, including a year-first ISO date. It does not pick a locale, and it does not rewrite the paste.',
     ],
   },
   {

@@ -228,7 +228,9 @@ test.describe('homepage index', () => {
     // Linear Regression Playground and Normal Distribution Visualizer are ungrouped: each is
     // its own playground, not a mode of Statistics Visualizer. Lean Body Mass joins the Health
     // Calculator group and CSV Column Picker joins CSV Tools, so neither adds a directory link.
-    await expect(directory.locator('.dir-link')).toHaveCount(115);
+    // Date Format Detector (beta-v12.11) is ungrouped: seeing which rows can be read two ways
+    // is not a mode of the timezone converter, the timestamp converter, or the age calculator.
+    await expect(directory.locator('.dir-link')).toHaveCount(116);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

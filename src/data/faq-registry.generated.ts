@@ -36,6 +36,7 @@ import { items as csvDiffFaqs } from '@tools/developer-utilities/csv-diff/faq';
 import { items as csvToJsonConverterFaqs } from '@tools/developer-utilities/csv-to-json-converter/faq';
 import { items as csvToTsvFaqs } from '@tools/developer-utilities/csv-to-tsv/faq';
 import { items as dateDifferenceCalculatorFaqs } from '@tools/datetime/date-difference-calculator/faq';
+import { items as dateFormatDetectorFaqs } from '@tools/datetime/date-format-detector/faq';
 import { items as diceRollerFaqs } from '@tools/generate/dice-roller/faq';
 import { items as discountCalculatorFaqs } from '@tools/number/discount-calculator/faq';
 import { items as emergencyFundCalculatorFaqs } from '@tools/finance/emergency-fund-calculator/faq';
@@ -193,6 +194,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'csv-to-json-converter': csvToJsonConverterFaqs,
   'csv-to-tsv': csvToTsvFaqs,
   'date-difference-calculator': dateDifferenceCalculatorFaqs,
+  'date-format-detector': dateFormatDetectorFaqs,
   'dice-roller': diceRollerFaqs,
   'discount-calculator': discountCalculatorFaqs,
   'emergency-fund-calculator': emergencyFundCalculatorFaqs,
