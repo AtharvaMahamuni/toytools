@@ -469,13 +469,21 @@ describe('waist-to-hip calculator', () => {
     expect(res.hero?.note).toBe('Below 0.85');
   });
 
-  it('classifies the two decimals the hero prints, not the raw ratio underneath', () => {
+  it('classifies the raw ratio, as WHO does, and shows three decimals when two would cross the cut', () => {
     const male = runWellness('waist-to-hip-ratio', { unit: 'metric', sex: 'male', waist: 89.5, hip: 100 }, {});
-    expect(male.hero?.value).toBe('0.90');
-    expect(male.hero?.note).toBe('At or above 0.90');
+    expect(male.hero?.value).toBe('0.895');
+    expect(male.hero?.note).toBe('Below 0.90');
+    const male899 = runWellness('waist-to-hip-ratio', { unit: 'metric', sex: 'male', waist: 89.9, hip: 100 }, {});
+    expect(male899.hero?.value).toBe('0.899');
+    expect(male899.hero?.note).toBe('Below 0.90');
+    const male90 = runWellness('waist-to-hip-ratio', { unit: 'metric', sex: 'male', waist: 90, hip: 100 }, {});
+    expect(male90.hero?.value).toBe('0.90');
+    expect(male90.hero?.note).toBe('At or above 0.90');
     const female = runWellness('waist-to-hip-ratio', { unit: 'metric', sex: 'female', waist: 84.6, hip: 100 }, {});
-    expect(female.hero?.value).toBe('0.85');
-    expect(female.hero?.note).toBe('At or above 0.85');
+    expect(female.hero?.value).toBe('0.846');
+    expect(female.hero?.note).toBe('Below 0.85');
+    const female80 = runWellness('waist-to-hip-ratio', { unit: 'metric', sex: 'female', waist: 80, hip: 100 }, {});
+    expect(female80.hero?.value).toBe('0.80');
   });
 
   it('still shows a mixed-unit ratio so the craft note has a number to correct', () => {

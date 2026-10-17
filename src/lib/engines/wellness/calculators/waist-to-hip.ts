@@ -80,11 +80,13 @@ export const waistToHipCalculator: WellnessCalculator = {
     const s = sex.value as WhrSex;
     const ratio = whrRatio(waist.value, hip.value);
     const cut = WHR_CUTOFF[s].toFixed(2);
-    // The band has to agree with the two decimals on the hero. 0.895 prints as 0.90.
-    const high = whrAtOrAbove(s, Number(ratio.toFixed(2)));
+    // WHO compares the ratio itself, so 0.897 is below 0.90. Two decimals would print it as 0.90
+    // next to "Below 0.90", so a ratio that rounds across the cutoff shows three decimals.
+    const high = whrAtOrAbove(s, ratio);
     const band = high ? `At or above ${cut}` : `Below ${cut}`;
+    const shown = whrAtOrAbove(s, Number(ratio.toFixed(2))) === high ? ratio.toFixed(2) : ratio.toFixed(3);
 
-    const hero = card('whr', 'Waist to hip ratio', ratio.toFixed(2), {
+    const hero = card('whr', 'Waist to hip ratio', shown, {
       raw: ratio,
       emphasis: 'hero',
       note: band,
@@ -97,7 +99,7 @@ export const waistToHipCalculator: WellnessCalculator = {
       ],
       insights: [
         insight(
-          `Waist ${waist.value} ${unitWord} divided by hip ${hip.value} ${unitWord} is ${ratio.toFixed(2)}. The substantially increased cut for ${s === 'male' ? 'men' : 'women'} is ${cut}.`,
+          `Waist ${waist.value} ${unitWord} divided by hip ${hip.value} ${unitWord} is ${shown}. The substantially increased cut for ${s === 'male' ? 'men' : 'women'} is ${cut}.`,
         ),
         insight(
           'This is a screening cut from the WHO 2008 consultation. It is not a diagnosis of central obesity, and it is not a body-fat measurement.',
