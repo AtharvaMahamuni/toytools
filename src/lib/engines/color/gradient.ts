@@ -9,6 +9,15 @@ export interface GradientSample {
   t: number;
   hex: string;
   inGamut: boolean;
+  /** Label colour for a chip on this sample: white on a dark sample (OKLCH L < 0.6), else black. */
+  ink: '#000000' | '#ffffff';
+}
+
+/** OKLCH lightness below which a chip label is white. */
+export const INK_FLIP_L = 0.6;
+
+export function chipInk(rgb: RGB): '#000000' | '#ffffff' {
+  return rgbToOklch(rgb).l < INK_FLIP_L ? '#ffffff' : '#000000';
 }
 
 export interface PerceptualGradient {
@@ -52,10 +61,17 @@ function opaqueHex(rgb: RGB): string {
   return rgbToHex({ r: rgb.r, g: rgb.g, b: rgb.b, a: 1 });
 }
 
-/** Shortest-path hue, in degrees. */
+/**
+ * Hue at t along CSS Color 4 "shorter hue": a difference above 180 or below -180 wraps, and a
+ * difference of exactly 180 or -180 is left alone, so the preview turns the same way as the CSS.
+ */
 export function lerpHue(a: number, b: number, t: number): number {
-  const delta = ((b - a + 540) % 360) - 180;
-  return (a + delta * t + 360) % 360;
+  const from = ((a % 360) + 360) % 360;
+  const to = ((b % 360) + 360) % 360;
+  let delta = to - from;
+  if (delta > 180) delta -= 360;
+  else if (delta < -180) delta += 360;
+  return (((from + delta * t) % 360) + 360) % 360;
 }
 
 /**
@@ -68,9 +84,16 @@ export function gradientNote(okChroma: number, srgbChroma: number, anyClamped: b
     return `The sRGB midpoint is grayer. OKLCH chroma at the middle is ${okChroma.toFixed(3)}, and an sRGB blend drops it by ${drop.toFixed(3)}.`;
   }
   if (anyClamped) {
-    return 'A stop leaves the sRGB gamut, so the hex sample is clamped. The copied CSS keeps the OKLCH stop.';
+    return 'Some colors between the two stops fall outside sRGB, so those hex samples are clamped. The copied CSS still blends in OKLCH.';
   }
   return null;
+}
+
+export const ALPHA_DROPPED = 'Transparency is dropped. The gradient uses the opaque colors.';
+
+function withAlphaNote(note: string | null, alphaDropped: boolean): string | null {
+  if (!alphaDropped) return note;
+  return note ? `${note} ${ALPHA_DROPPED}` : ALPHA_DROPPED;
 }
 
 export function perceptualGradient(from: string, to: string): PerceptualGradient | { ok: false; error: string } {
@@ -90,7 +113,7 @@ export function perceptualGradient(from: string, to: string): PerceptualGradient
     const c = fromOk.c + (toOk.c - fromOk.c) * t;
     const h = lerpHue(fromOk.h, toOk.h, t);
     const converted = oklchToRgb(l, c, h);
-    samples.push({ t, hex: opaqueHex(converted.rgb), inGamut: converted.inGamut });
+    samples.push({ t, hex: opaqueHex(converted.rgb), inGamut: converted.inGamut, ink: chipInk(converted.rgb) });
   }
 
   const midpoint = {
@@ -119,6 +142,6 @@ export function perceptualGradient(from: string, to: string): PerceptualGradient
     midpoint,
     srgbMidpointChroma,
     chromaDrop,
-    note: gradientNote(midpoint.c, srgbMidpointChroma, anyClamped),
+    note: withAlphaNote(gradientNote(midpoint.c, srgbMidpointChroma, anyClamped), a.rgb.a < 1 || b.rgb.a < 1),
   };
 }

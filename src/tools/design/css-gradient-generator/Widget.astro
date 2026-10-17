@@ -127,6 +127,8 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
         btn.type = 'button';
         btn.className = 'grad-stop';
         btn.style.backgroundColor = sample.hex;
+        // Black or white from the sample's OKLCH lightness, so #0000ff gets a white label.
+        btn.style.color = sample.ink;
         btn.textContent = sample.hex;
         btn.addEventListener('click', function () {
           if (TT.copy) TT.copy(sample.hex);
