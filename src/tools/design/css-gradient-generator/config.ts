@@ -9,12 +9,10 @@ export const config: ToolConfig = {
   tagline: 'An OKLCH linear gradient, copied as CSS code.',
   categorySlug: 'design-tools',
   tags: [
-    'css gradient generator oklch',
     'css gradient generator',
     'oklch gradient',
     'linear gradient generator',
     'perceptual gradient',
-    'gradient css code',
   ],
   updatedAt: '2026-10-17',
   addedOn: '2026-10-17',

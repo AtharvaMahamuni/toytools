@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'bsa calculator',
     'mosteller formula',
     'du bois bsa',
-    'bsa for chemotherapy dosing',
   ],
   updatedAt: '2026-10-17',
   addedOn: '2026-10-17',

@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'whr calculator',
     'waist hip ratio risk',
     'central obesity calculator',
-    'waist to height ratio',
   ],
   updatedAt: '2026-10-17',
   addedOn: '2026-10-17',

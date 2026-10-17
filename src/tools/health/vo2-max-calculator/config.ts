@@ -12,7 +12,6 @@ export const config: ToolConfig = {
     'vo2 max calculator',
     'cooper test calculator',
     'aerobic capacity calculator',
-    'vo2max from resting heart rate',
     'fitness age calculator',
   ],
   updatedAt: '2026-10-17',

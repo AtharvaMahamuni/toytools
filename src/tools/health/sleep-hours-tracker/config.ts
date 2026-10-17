@@ -11,8 +11,6 @@ export const config: ToolConfig = {
   tags: [
     'sleep tracker',
     'sleep log',
-    'hours of sleep tracker',
-    'sleep diary template',
     'sleep diary',
     'weekly sleep average',
   ],
