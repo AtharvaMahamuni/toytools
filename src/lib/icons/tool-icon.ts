@@ -70,6 +70,7 @@ const FAMILY_GLYPH: Record<string, string> = {
   timestamp: 'clock',
   timezone: 'globe',
   sleep: 'moon',
+  'sleep-log': 'sleepLog',
   parse: 'dateSwap',
   // generate
   code: 'qr',
@@ -108,6 +109,7 @@ const FAMILY_GLYPH: Record<string, string> = {
   // design & CSS
   color: 'swatch',
   'color-scale': 'shadeStack',
+  'perceptual-gradient': 'okGradient',
   'color-vision': 'cvdEye',
   'css-unit': 'ruler',
   aspect: 'aspectFrame',
@@ -203,6 +205,7 @@ const SLUG_GLYPH: Record<string, string> = {
   'macro-calculator': 'pie',
   'heart-rate-zone-calculator': 'heartPulse',
   'running-pace-calculator': 'footsteps',
+  'vo2-max-calculator': 'vo2',
   'bmr-calculator': 'metabolic',
   'protein-intake-calculator': 'protein',
 
@@ -279,6 +282,8 @@ const SLUG_GLYPH: Record<string, string> = {
   'body-fat-calculator': 'bodyFat',
   'ideal-weight-calculator': 'idealWeight',
   'lean-body-mass-calculator': 'leanMass',
+  'waist-to-hip-ratio-calculator': 'whr',
+  'body-surface-area-calculator': 'bsa',
 
   // json crowd (formatter keeps braces)
   'json-diff': 'bracesDiff',
@@ -319,12 +324,14 @@ const SLUG_GLYPH: Record<string, string> = {
 
   // shelf vs note
   'book-tracker': 'book',
+  'sleep-hours-tracker': 'sleepLog',
 
   // energy
   'calorie-deficit-calculator': 'deficit',
 
   // design
   'color-contrast-checker': 'contrast',
+  'css-gradient-generator': 'okGradient',
 
   // schedule
   'systemd-timer-converter': 'systemd',

@@ -213,6 +213,33 @@ export const WELLNESS_EXAMPLES: WorkedExample<WellnessInput>[] = [
     expect: { pace: 270 },
     narrative: 'A 45 minute 10K is 4:30 per kilometre, and Riegel predicts a marathon near 3:27:40 off that fitness.',
   },
+  {
+    id: 'whr-80-100-male',
+    engine: 'wellness',
+    ref: 'waist-to-hip-ratio',
+    title: 'Waist 80 cm, hip 100 cm, male',
+    inputs: { unit: 'metric', sex: 'male', waist: 80, hip: 100 },
+    expect: { whr: 0.8, band: 0.9 },
+    narrative: 'A waist of 80 cm and a hip of 100 cm is a ratio of 0.80, below the male cut of 0.90.',
+  },
+  {
+    id: 'bsa-175-70',
+    engine: 'wellness',
+    ref: 'body-surface-area',
+    title: '175 cm, 70 kg',
+    inputs: { unit: 'metric', height: 175, weight: 70 },
+    expect: { mosteller: 1.8447, dubois: 1.8481 },
+    narrative: '175 cm and 70 kg is a Mosteller area of about 1.84 m², and Du Bois lands within a few thousandths.',
+  },
+  {
+    id: 'vo2-cooper-2-4',
+    engine: 'wellness',
+    ref: 'vo2-max',
+    title: '2.4 km in twelve minutes',
+    inputs: { unit: 'km', distance: 2.4, age: '', resting: '' },
+    expect: { vo2: 42.37 },
+    narrative: 'A twelve-minute distance of 2.4 km is a Cooper estimate of about 42.4 ml/kg/min.',
+  },
 ];
 
 export const WELLNESS_EXAMPLE_MAP = buildExampleRegistry(WELLNESS_EXAMPLES);

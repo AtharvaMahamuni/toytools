@@ -1,0 +1,145 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const shadesHref = toolPathBySlug('color-shades-generator');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>How do you copy an OKLCH CSS gradient? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Type two colors. The page blends them in OKLCH and puts the CSS on one line.
+      Copy CSS is the declaration to paste. Blue #0000ff to yellow #ffff00 is the pair that opens the page.
+    </p>
+    <p>
+      The strip is painted from sampled hex stops, so you can see the blend before you paste.
+      Copying an OKLCH linear gradient into a stylesheet is the job the button is for.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Perceptual Gradient Generator →</a>
+  </section>
+
+  <section id="what-oklch-is">
+    <h2>What is an OKLCH CSS gradient? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      An OKLCH CSS gradient is a linear gradient whose stops are blended in OKLCH.
+      Lightness, chroma, and hue move from the start color to the end color.
+      The copied line names that space, so a supporting browser does the same blend.
+    </p>
+    <p>
+      The declaration reads linear-gradient, to the right, in oklch, then the two hex stops.
+      Nine samples sit under the strip. Each sample is a hex you can copy on its own.
+    </p>
+    <p>
+      It works by stepping lightness, chroma, and hue, then writing the declaration.
+      For example, this css gradient generator oklch interpolates #0000ff to #ffff00.
+      Input: blue #0000ff and yellow #ffff00 as the two stops.
+    </p>
+    <p>
+      Output: one linear gradient generator line, plus sampled hex stops.
+      Browsers that lack OKLCH interpolation still paint the strip from those samples.
+      The sRGB midpoint is the gray the note compares with the OKLCH middle.
+    </p>
+  </section>
+
+  <section id="gray-middle">
+    <h2>Why does blue to yellow go gray? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Checking whether blue to yellow goes muddy in sRGB is why that pair is the default.
+      Channel blending walks red, green, and blue in a straight line.
+      Those channels do not track how bright a color looks, so the middle loses chroma.
+    </p>
+    <p>
+      The note fires when the OKLCH middle keeps at least 0.04 more chroma than the sRGB middle.
+      Two grays, such as #777777 to #bbbbbb, stay quiet because there was little chroma to lose.
+      A clamped sample is named only when the middle is not muddy.
+    </p>
+  </section>
+
+  <section id="oklch-vs-srgb">
+    <h2>What is the difference between an OKLCH gradient and an sRGB gradient? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The difference between an OKLCH gradient and an sRGB gradient is which numbers get blended.
+      OKLCH blends lightness, chroma, and hue along the short way around the hue circle.
+      sRGB blends the three channels, and that is the mix that goes gray between saturated stops.
+    </p>
+    <p>
+      Sampling hex stops when a browser does not interpolate in OKLCH is what the row under the strip is for.
+      Paste the OKLCH line when the browser understands it. Keep the samples when it does not.
+      A shade scale from one stop is a different page: the <a href={shadesHref}>color shades generator</a>.
+    </p>
+  </section>
+
+  <section id="mistakes">
+    <h2>Which gradient mistakes show up late? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="The gray middle, copied">
+      <p>
+        Copying an sRGB blend when the middle has gone gray ships a muddy bar that looked even in a preview.
+        The note names the chroma drop so that blend is not the one you paste.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Samples treated as the declaration">
+      <p>
+        Assuming the hex samples are the declaration to paste swaps the fallback for the OKLCH line.
+        Copy CSS is the line with "in oklch". The samples are the strip.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Stops sent to a server">
+      <p>
+        Uploading stops to a generator that stores them is a different product.
+        These two colors stay in the page. Nothing is uploaded.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="key-idea" heading="The copied line names the space">
+      <p>
+        Keep the words "in oklch" in the declaration you paste.
+        Without them, the browser blends channels and the gray middle comes back.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="On your device">
+      <p>
+        Runs entirely on your device. Nothing is uploaded.
+        The page does not apply a vendor easing curve.
+      </p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

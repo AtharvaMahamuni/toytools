@@ -1,10 +1,10 @@
 # Latent Demand: what nobody is searching for
 
-Generated: 2026-10-09T05:25:21.130Z
+Generated: 2026-10-17T08:18:54.596Z
 
 The roadmap ranks needs by how loudly they are already being asked for. This report ranks needs that produce no query at all, because the person does not yet have a word for the thing or does not yet know the failure is possible. The two scores are not comparable and are never merged.
 
-7 structural silence(s) derived from the catalog; 7 proposal(s) considered, 1 anchored, 0 unanchored. Top latent score 69.4.
+7 structural silence(s) derived from the catalog; 7 proposal(s) considered, 0 anchored, 0 unanchored. Top latent score 0.
 
 ## Derived silences (from the catalog alone, nobody proposed these)
 
@@ -12,6 +12,11 @@ The roadmap ranks needs by how loudly they are already being asked for. This rep
 - **Observed:** The "generation" engine has 6 tool(s) that produce a credential and none that check it.
 - **Therefore:** Someone holding a credential this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.
 - **Evidence:** lorem-ipsum-generator, password-generator, qr-code-generator, random-string-generator, uuid-generator, uuid-inspector
+
+### `asymmetry:datetime` (weight 0.27)
+- **Observed:** The "datetime" engine has 3 tool(s) that produce a date/time and none that check it.
+- **Therefore:** Someone holding a date/time this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.
+- **Evidence:** date-format-detector, timezone-converter, unix-timestamp-converter
 
 ### `asymmetry:units` (weight 0.27)
 - **Observed:** The "units" engine has 3 tool(s) that produce a measured quantity and none that check it.
@@ -23,12 +28,7 @@ The roadmap ranks needs by how loudly they are already being asked for. This rep
 - **Therefore:** Whatever a visitor does with encoded text next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.
 - **Evidence:** base64-encoder-decoder, binary-converter, binary-text-converter, encoding-detector, hex-encoder-decoder, html-entity-encoder-decoder, json-escape, number-to-words, punycode-converter, roman-numeral-converter, rot13-encoder-decoder, url-encoder-decoder
 
-### `asymmetry:datetime` (weight 0.26)
-- **Observed:** The "datetime" engine has 2 tool(s) that produce a date/time and none that check it.
-- **Therefore:** Someone holding a date/time this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.
-- **Evidence:** timezone-converter, unix-timestamp-converter
-
-### `dead-end:credential` (weight 0.26)
+### `dead-end:credential` (weight 0.25)
 - **Observed:** A credential is produced by generation and consumed by no engine in the catalog.
 - **Therefore:** Whatever a visitor does with a credential next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.
 - **Evidence:** coin-flipper, dice-roller, lorem-ipsum-generator, password-generator, qr-code-generator, random-choice-picker, random-name-picker, random-string-generator, uuid-generator, uuid-inspector
@@ -45,20 +45,7 @@ The roadmap ranks needs by how loudly they are already being asked for. This rep
 
 ## Anchored candidates
 
-### Date Format Detector  (`date-format-detector`)
-
-**Latent score:** 69.4 / 100 (build-worthy)
-
-- **The need, as behaviour:** Eyeballing a column for values above 12 to work out which field is the month.
-- **Why there is no query for it:** Every date is unambiguous to the person who wrote it. The ambiguity exists only in the handoff, and the reader cannot know it is there, so the failure is discovered downstream by someone who never saw the original string.
-- **What it costs when unmet:** Opens a European CSV export in a US locale and twelve rows silently shift month and day.; Pastes a timestamp with no zone and the stored date lands one day earlier than intended.; Reads a date that is unambiguous in one row and ambiguous in the next without noticing the difference.; Assumes a two-digit year maps to 20xx when the source system pivots at a different century.
-- **Engine:** `datetime` (existing)
-- **Reachable from:** timezone-converter, unix-timestamp-converter, date-difference-calculator, age-calculator, cron-expression-parser, sleep-cycle-calculator
-
-**Anchored to:**
-- `asymmetry:datetime` - Sits on "datetime", which can produce but cannot check.
-
-**Signals:** anchorStrength 0.36, consequence 0.78, reachability 1, namelessness 0.64, algorithmicFit 0.95.
+_No proposal matched a derived silence._
 
 ## Unanchored proposals (reported, not recommended)
 

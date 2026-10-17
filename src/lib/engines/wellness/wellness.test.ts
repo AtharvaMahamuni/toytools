@@ -454,3 +454,115 @@ describe('optional numeric fields', () => {
     expect(res.metrics.find((c) => c.id === 'fat-mass')).toBeUndefined();
   });
 });
+
+describe('waist-to-hip calculator', () => {
+  it('puts a male ratio of 0.95 at or above the 0.90 cut', () => {
+    const res = runWellness('waist-to-hip-ratio', { unit: 'metric', sex: 'male', waist: 95, hip: 100 }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.raw).toBeCloseTo(0.95, 2);
+    expect(res.hero?.note).toBe('At or above 0.90');
+  });
+
+  it('keeps the same ratio when both circumferences are inches', () => {
+    const res = runWellness('waist-to-hip-ratio', { unit: 'imperial', sex: 'female', waist: 32, hip: 40 }, {});
+    expect(res.hero?.raw).toBeCloseTo(0.8, 2);
+    expect(res.hero?.note).toBe('Below 0.85');
+  });
+
+  it('classifies the raw ratio, as WHO does, and shows three decimals when two would cross the cut', () => {
+    const male = runWellness('waist-to-hip-ratio', { unit: 'metric', sex: 'male', waist: 89.5, hip: 100 }, {});
+    expect(male.hero?.value).toBe('0.895');
+    expect(male.hero?.note).toBe('Below 0.90');
+    const male899 = runWellness('waist-to-hip-ratio', { unit: 'metric', sex: 'male', waist: 89.9, hip: 100 }, {});
+    expect(male899.hero?.value).toBe('0.899');
+    expect(male899.hero?.note).toBe('Below 0.90');
+    const male90 = runWellness('waist-to-hip-ratio', { unit: 'metric', sex: 'male', waist: 90, hip: 100 }, {});
+    expect(male90.hero?.value).toBe('0.90');
+    expect(male90.hero?.note).toBe('At or above 0.90');
+    const female = runWellness('waist-to-hip-ratio', { unit: 'metric', sex: 'female', waist: 84.6, hip: 100 }, {});
+    expect(female.hero?.value).toBe('0.846');
+    expect(female.hero?.note).toBe('Below 0.85');
+    const female80 = runWellness('waist-to-hip-ratio', { unit: 'metric', sex: 'female', waist: 80, hip: 100 }, {});
+    expect(female80.hero?.value).toBe('0.80');
+  });
+
+  it('still shows a mixed-unit ratio so the craft note has a number to correct', () => {
+    const res = runWellness('waist-to-hip-ratio', { unit: 'metric', sex: 'male', waist: 32, hip: 102 }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.value).toBe('0.31');
+  });
+
+  it('refuses a circumference that is not a body measurement', () => {
+    expect(runWellness('waist-to-hip-ratio', { unit: 'metric', sex: 'male', waist: 5, hip: 100 }, {}).uiState).toBe('validation-error');
+    expect(runWellness('waist-to-hip-ratio', { unit: 'metric', waist: 80, hip: 100 }, {}).uiState).toBe('validation-error');
+  });
+});
+
+describe('body surface area calculator', () => {
+  it('pins Mosteller and Du Bois at 180 cm and 80 kg', () => {
+    const res = runWellness('body-surface-area', { unit: 'metric', height: 180, weight: 80 }, {});
+    expect(cardRaw(res, 'mosteller')).toBeCloseTo(2, 2);
+    expect(cardRaw(res, 'dubois')).toBeCloseTo(1.9964, 2);
+    expect(cardRaw(res, 'spread')).toBeCloseTo(0.0036, 2);
+  });
+
+  it('pins the spread that the craft note is allowed to mention', () => {
+    const res = runWellness('body-surface-area', { unit: 'metric', height: 160, weight: 90 }, {});
+    expect(cardRaw(res, 'mosteller')).toBeCloseTo(2, 2);
+    expect(cardRaw(res, 'dubois')).toBeCloseTo(1.9271, 2);
+    expect(cardRaw(res, 'spread')).toBeCloseTo(0.0729, 2);
+  });
+
+  it('stays quiet just under a 0.05 m² spread at 190 cm and 120 kg', () => {
+    const res = runWellness('body-surface-area', { unit: 'metric', height: 190, weight: 120 }, {});
+    expect(cardRaw(res, 'spread')).toBeCloseTo(0.0499, 2);
+  });
+
+  it('refuses a height that was typed in metres', () => {
+    expect(runWellness('body-surface-area', { unit: 'metric', height: 1.75, weight: 70 }, {}).uiState).toBe('validation-error');
+    expect(runWellness('body-surface-area', { unit: 'imperial', height: 19, weight: 150 }, {}).uiState).toBe('validation-error');
+  });
+});
+
+describe('vo2 max calculator', () => {
+  it('uses Cooper as the hero and keeps Uth on a separate card', () => {
+    const res = runWellness('vo2-max', { unit: 'km', distance: 2.4, age: 30, resting: 60 }, {});
+    expect(res.hero?.id).toBe('vo2');
+    expect(res.hero?.raw).toBeCloseTo(42.3675, 2);
+    expect(res.hero?.note).toContain('Cooper');
+    expect(cardRaw(res, 'other')).toBeCloseTo(47.685, 2);
+  });
+
+  it('uses the resting pulse as the hero when the distance is blank', () => {
+    const res = runWellness('vo2-max', { unit: 'km', distance: '', age: 30, resting: 50 }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.note).toContain('Uth');
+    expect(res.hero?.raw).toBeCloseTo(57.222, 2);
+    expect(res.metrics.find((c) => c.id === 'other')).toBeUndefined();
+  });
+
+  it('converts miles to metres before the Cooper formula', () => {
+    const res = runWellness('vo2-max', { unit: 'mi', distance: 1.6 / 1.609344, age: '', resting: '' }, {});
+    expect(res.hero?.raw).toBeCloseTo(24.482, 1);
+  });
+
+  it('refuses a distance that is a metre count typed into kilometres', () => {
+    const res = runWellness('vo2-max', { unit: 'km', distance: 2400, age: '', resting: '' }, {});
+    expect(res.uiState).toBe('validation-error');
+    expect(res.error).toContain('kilometres');
+  });
+
+  it('quotes the distance and the Tanaka rate the formula actually used', () => {
+    const cooper = runWellness('vo2-max', { unit: 'km', distance: 2.45, age: '', resting: '' }, {});
+    expect(cooper.hero?.value).toBe('43.5 ml/kg/min');
+    expect(cooper.insights?.map((i) => i.text).join(' ')).toContain('2.45 km');
+    const pulse = runWellness('vo2-max', { unit: 'km', distance: '', age: 31, resting: 60 }, {});
+    expect(pulse.hero?.value).toBe('47.5 ml/kg/min');
+    expect(pulse.metrics.find((c) => c.id === 'hrmax')?.value).toBe('186.3 bpm');
+    expect(pulse.insights?.map((i) => i.text).join(' ')).toContain('186.3 bpm');
+  });
+
+  it('asks for one complete method when every field is blank', () => {
+    expect(runWellness('vo2-max', { unit: 'km', distance: '', age: '', resting: '' }, {}).uiState).toBe('validation-error');
+  });
+});

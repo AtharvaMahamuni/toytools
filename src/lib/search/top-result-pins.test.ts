@@ -28,6 +28,22 @@ const PINS: [query: string, slug: string][] = [
   ['diff tool', 'text-compare'],
   ['identifier', 'uuid-generator'],
   ['words', 'word-counter'],
+  // PR #256: the five new tools' own terms were trimmed for the search-terms budget. What they
+  // kept still lands on them.
+  ['css gradient generator', 'css-gradient-generator'],
+  ['oklch gradient', 'css-gradient-generator'],
+  ['linear gradient generator', 'css-gradient-generator'],
+  ['bsa calculator', 'body-surface-area-calculator'],
+  ['mosteller formula', 'body-surface-area-calculator'],
+  ['du bois bsa', 'body-surface-area-calculator'],
+  ['sleep tracker', 'sleep-hours-tracker'],
+  ['sleep log', 'sleep-hours-tracker'],
+  ['sleep diary', 'sleep-hours-tracker'],
+  ['weekly sleep average', 'sleep-hours-tracker'],
+  ['cooper test calculator', 'vo2-max-calculator'],
+  ['aerobic capacity calculator', 'vo2-max-calculator'],
+  ['whr calculator', 'waist-to-hip-ratio-calculator'],
+  ['central obesity calculator', 'waist-to-hip-ratio-calculator'],
 ];
 
 describe('top result pins', () => {

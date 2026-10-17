@@ -218,7 +218,10 @@ const THRESHOLDS = {
   // 2026-10-16: 0.724 (113/156). Date Format Detector ships orientation craft
   //   date-ambiguous-rows. The note names how many rows can be read as two different
   //   days, and stays hidden when every row has one reading.
-  coverage: 0.724,
+  // 2026-10-17: 0.732 (118/161), truncated from 0.732919. Five tools: OKLCH gradient
+  //   (muddy sRGB middle), waist-to-hip (mixed units), body surface area (formula
+  //   spread), VO2 max (Cooper versus resting pulse), sleep hours (time awake in bed).
+  coverage: 0.732,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

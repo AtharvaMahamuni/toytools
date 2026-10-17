@@ -26,6 +26,9 @@ const LOADERS: Record<string, () => Promise<Record<string, unknown>>> = {
   'one-rep-max': () => import('./calculators/one-rep-max'),
   'running-pace': () => import('./calculators/running-pace'),
   'lean-body-mass': () => import('./calculators/lean-body-mass'),
+  'waist-to-hip-ratio': () => import('./calculators/waist-to-hip'),
+  'body-surface-area': () => import('./calculators/body-surface-area'),
+  'vo2-max': () => import('./calculators/vo2-max'),
 };
 
 /** Every id this map can load, so validate-registry can check it against the static registry. */

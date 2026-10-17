@@ -10,6 +10,7 @@ import { knowledge as binaryTextConverter } from '@tools/developer-utilities/bin
 import { knowledge as bmiCalculator } from '@tools/health/bmi-calculator/knowledge';
 import { knowledge as bmrCalculator } from '@tools/health/bmr-calculator/knowledge';
 import { knowledge as bodyFatCalculator } from '@tools/health/body-fat-calculator/knowledge';
+import { knowledge as bodySurfaceAreaCalculator } from '@tools/health/body-surface-area-calculator/knowledge';
 import { knowledge as bodyWeightTracker } from '@tools/health/body-weight-tracker/knowledge';
 import { knowledge as bookTracker } from '@tools/productivity/book-tracker/knowledge';
 import { knowledge as breathingCircle } from '@tools/fidget/breathing-circle/knowledge';
@@ -30,6 +31,7 @@ import { knowledge as compoundInterestCalculator } from '@tools/finance/compound
 import { knowledge as contextFitChecker } from '@tools/prep/context-fit-checker/knowledge';
 import { knowledge as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/knowledge';
 import { knowledge as cronExpressionParser } from '@tools/datetime/cron-expression-parser/knowledge';
+import { knowledge as cssGradientGenerator } from '@tools/design/css-gradient-generator/knowledge';
 import { knowledge as csvCleaner } from '@tools/developer-utilities/csv-cleaner/knowledge';
 import { knowledge as csvColumnPicker } from '@tools/developer-utilities/csv-column-picker/knowledge';
 import { knowledge as csvDiff } from '@tools/developer-utilities/csv-diff/knowledge';
@@ -126,6 +128,7 @@ import { knowledge as shellQuoteEscalator } from '@tools/developer-utilities/she
 import { knowledge as shopUpiTally } from '@tools/finance/shop-upi-tally/knowledge';
 import { knowledge as sipCalculator } from '@tools/finance/sip-calculator/knowledge';
 import { knowledge as sleepCycleCalculator } from '@tools/datetime/sleep-cycle-calculator/knowledge';
+import { knowledge as sleepHoursTracker } from '@tools/health/sleep-hours-tracker/knowledge';
 import { knowledge as slime } from '@tools/fidget/slime/knowledge';
 import { knowledge as slugifyText } from '@tools/text/slugify-text/knowledge';
 import { knowledge as snakeCaseConverter } from '@tools/text/snake-case-converter/knowledge';
@@ -153,6 +156,8 @@ import { knowledge as uppercaseConverter } from '@tools/text/uppercase-converter
 import { knowledge as urlEncoderDecoder } from '@tools/developer-utilities/url-encoder-decoder/knowledge';
 import { knowledge as uuidGenerator } from '@tools/generate/uuid-generator/knowledge';
 import { knowledge as uuidInspector } from '@tools/generate/uuid-inspector/knowledge';
+import { knowledge as vo2MaxCalculator } from '@tools/health/vo2-max-calculator/knowledge';
+import { knowledge as waistToHipRatioCalculator } from '@tools/health/waist-to-hip-ratio-calculator/knowledge';
 import { knowledge as waterIntakeTracker } from '@tools/health/water-intake-tracker/knowledge';
 import { knowledge as whatIsMyIp } from '@tools/developer-utilities/what-is-my-ip/knowledge';
 import { knowledge as wordCounter } from '@tools/text/word-counter/knowledge';
@@ -168,6 +173,7 @@ export const authoredKnowledge: Knowledge[] = [
   bmiCalculator,
   bmrCalculator,
   bodyFatCalculator,
+  bodySurfaceAreaCalculator,
   bodyWeightTracker,
   bookTracker,
   breathingCircle,
@@ -188,6 +194,7 @@ export const authoredKnowledge: Knowledge[] = [
   contextFitChecker,
   crc32HashGenerator,
   cronExpressionParser,
+  cssGradientGenerator,
   csvCleaner,
   csvColumnPicker,
   csvDiff,
@@ -284,6 +291,7 @@ export const authoredKnowledge: Knowledge[] = [
   shopUpiTally,
   sipCalculator,
   sleepCycleCalculator,
+  sleepHoursTracker,
   slime,
   slugifyText,
   snakeCaseConverter,
@@ -311,6 +319,8 @@ export const authoredKnowledge: Knowledge[] = [
   urlEncoderDecoder,
   uuidGenerator,
   uuidInspector,
+  vo2MaxCalculator,
+  waistToHipRatioCalculator,
   waterIntakeTracker,
   whatIsMyIp,
   wordCounter,

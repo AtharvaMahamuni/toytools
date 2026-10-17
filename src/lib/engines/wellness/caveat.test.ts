@@ -81,6 +81,29 @@ describe('wellnessCaveat — where this input sits in the model', () => {
     expect(r).toContain('kcal a day');
     expect(r).toContain('very active');
   });
+
+  it('names the other unit when only one waist-to-hip circumference was converted', () => {
+    const r = wellnessCaveat('waist-to-hip-ratio', { unit: 'metric', sex: 'male', waist: 32, hip: 102 });
+    expect(r).toContain('0.31');
+    expect(r).toContain('0.80');
+    expect(r).toContain('inches');
+    const imperial = wellnessCaveat('waist-to-hip-ratio', { unit: 'imperial', sex: 'male', waist: 90, hip: 38 });
+    expect(imperial).toContain('centimetres');
+  });
+
+  it('names Mosteller and Du Bois once the surface-area spread reaches 0.05 m²', () => {
+    const r = wellnessCaveat('body-surface-area', { unit: 'metric', height: 160, weight: 90 });
+    expect(r).toContain('Mosteller');
+    expect(r).toContain('Du Bois');
+    expect(r).toContain('0.07');
+  });
+
+  it('names both VO2 estimates once they differ by 5 ml/kg/min', () => {
+    const r = wellnessCaveat('vo2-max', { unit: 'km', distance: 2.4, age: 30, resting: 60 });
+    expect(r).toContain('42.4');
+    expect(r).toContain('47.7');
+    expect(r).toContain('different measurements');
+  });
 });
 
 // Silence is the whole difference between this and the standing caution every result already
@@ -89,6 +112,7 @@ describe('wellnessCaveat — silence', () => {
   const IDS = [
     'bmi', 'bmr', 'body-fat', 'calorie-deficit', 'heart-rate-zones', 'ideal-weight',
     'lean-body-mass', 'one-rep-max', 'protein-intake', 'running-pace', 'tdee', 'macro',
+    'waist-to-hip-ratio', 'body-surface-area', 'vo2-max',
   ];
 
   it('says nothing on an empty form, for every calculator', () => {
@@ -148,6 +172,25 @@ describe('wellnessCaveat — silence', () => {
 
   it('says nothing when the run is close enough to a marathon to extrapolate from', () => {
     expect(wellnessCaveat('running-pace', { unit: 'km', distance: 21.1 })).toBeNull();
+  });
+
+  it('says nothing for an ordinary waist-to-hip ratio, even when both sides are the wrong unit together', () => {
+    expect(wellnessCaveat('waist-to-hip-ratio', { unit: 'metric', sex: 'male', waist: 80, hip: 100 })).toBeNull();
+    expect(wellnessCaveat('waist-to-hip-ratio', { unit: 'metric', sex: 'male', waist: 32, hip: 40 })).toBeNull();
+    expect(wellnessCaveat('waist-to-hip-ratio', { unit: 'imperial', sex: 'female', waist: 80, hip: 100 })).toBeNull();
+  });
+
+  it('says nothing when Mosteller and Du Bois agree within 0.05 m²', () => {
+    expect(wellnessCaveat('body-surface-area', { unit: 'metric', height: 175, weight: 70 })).toBeNull();
+    expect(wellnessCaveat('body-surface-area', { unit: 'metric', height: 190, weight: 120 })).toBeNull();
+    expect(wellnessCaveat('body-surface-area', { unit: 'metric', height: 1.75, weight: 70 })).toBeNull();
+  });
+
+  it('says nothing about VO2 when only one method is present, or the two agree', () => {
+    expect(wellnessCaveat('vo2-max', { unit: 'km', distance: 2.4 })).toBeNull();
+    expect(wellnessCaveat('vo2-max', { unit: 'km', age: 30, resting: 60 })).toBeNull();
+    expect(wellnessCaveat('vo2-max', { unit: 'km', distance: 2.4, age: 30, resting: 68 })).toBeNull();
+    expect(wellnessCaveat('vo2-max', { unit: 'km', distance: 2400, age: 30, resting: 60 })).toBeNull();
   });
 
   it('says nothing at the activity levels people do not overstate', () => {

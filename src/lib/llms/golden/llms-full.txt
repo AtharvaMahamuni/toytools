@@ -212,6 +212,13 @@ Use for: Seven simulations of one palette, side by side.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Diagnose color vision, simulate blue cone monochromacy, upload an image, or send the palette to an AI model.
 
+## Perceptual Gradient Generator
+
+URL: https://toytoolsapp.com/tool/design/css-gradient-generator/
+Use for: An OKLCH linear gradient, copied as CSS code.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Apply a vendor easing curve or upload the color stops.
+
 ## PX to DP Converter
 
 URL: https://toytoolsapp.com/tool/design/px-to-dp-converter/
@@ -618,6 +625,13 @@ Use for: Body fat percentage by the Navy tape method, plus fat and lean mass.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
 
+## Body Surface Area Calculator
+
+URL: https://toytoolsapp.com/tool/health/body-surface-area-calculator/
+Use for: Mosteller and Du Bois, with the square-metre spread.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Compute a chemotherapy dose, a cardiac index, or a paediatric dose.
+
 ## Body Weight Tracker
 
 URL: https://toytoolsapp.com/tool/health/body-weight-tracker/
@@ -688,12 +702,33 @@ Use for: Pace per km and per mile, plus predicted race times.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
 
+## Sleep Hours Tracker
+
+URL: https://toytoolsapp.com/tool/health/sleep-hours-tracker/
+Use for: Log hours slept and read the streak and the week-over-week change.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Log a nap as a second entry, record sleep stages, or separate time in bed from time asleep.
+
 ## TDEE Calculator
 
 URL: https://toytoolsapp.com/tool/health/tdee-calculator/
 Use for: Your daily energy expenditure, and calories to lose or gain.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
+
+## VO2 Max Calculator
+
+URL: https://toytoolsapp.com/tool/health/vo2-max-calculator/
+Use for: Cooper distance or a resting pulse, kept as two numbers.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Diagnose fitness, replace a laboratory cart, or compute fitness age.
+
+## Waist to Hip Ratio Calculator
+
+URL: https://toytoolsapp.com/tool/health/waist-to-hip-ratio-calculator/
+Use for: Waist and hip in, with the sex-specific WHO band.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Diagnose central obesity or estimate body fat.
 
 ## Water Intake Tracker
 

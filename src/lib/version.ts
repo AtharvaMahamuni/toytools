@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
-  minor: 12,
+  minor: 13,
   patch: 0,
   status: 'beta',
   releaseDate: '2026-10-17',
-  description: 'Date Format Detector reads a whole column as day first, month first or mixed, and cites the line that decides it',
+  description: 'Perceptual gradient, waist to hip ratio, body surface area, VO2 max, and a sleep hours log',
 };
 
 export function formatVersion(config: VersionConfig): string {

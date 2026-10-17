@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-09T05:25:21.130Z",
+  "generatedAt": "2026-10-17T08:18:54.596Z",
   "signals": [
     {
       "kind": "asymmetry",
@@ -19,6 +19,21 @@
         "generation"
       ],
       "weight": 0.28
+    },
+    {
+      "kind": "asymmetry",
+      "id": "asymmetry:datetime",
+      "observation": "The \"datetime\" engine has 3 tool(s) that produce a date/time and none that check it.",
+      "implication": "Someone holding a date/time this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
+      "evidence": [
+        "date-format-detector",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "engines": [
+        "datetime"
+      ],
+      "weight": 0.27
     },
     {
       "kind": "asymmetry",
@@ -60,20 +75,6 @@
       "weight": 0.27
     },
     {
-      "kind": "asymmetry",
-      "id": "asymmetry:datetime",
-      "observation": "The \"datetime\" engine has 2 tool(s) that produce a date/time and none that check it.",
-      "implication": "Someone holding a date/time this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
-      "evidence": [
-        "timezone-converter",
-        "unix-timestamp-converter"
-      ],
-      "engines": [
-        "datetime"
-      ],
-      "weight": 0.26
-    },
-    {
       "kind": "dead-end",
       "id": "dead-end:credential",
       "observation": "A credential is produced by generation and consumed by no engine in the catalog.",
@@ -93,7 +94,7 @@
       "engines": [
         "generation"
       ],
-      "weight": 0.26
+      "weight": 0.25
     },
     {
       "kind": "dead-end",
@@ -132,51 +133,13 @@
       "weight": 0.22
     }
   ],
-  "candidates": [
-    {
-      "id": "date-format-detector",
-      "title": "Date Format Detector",
-      "proposedTool": "date-format-detector",
-      "proposedEngine": "datetime",
-      "engineExists": true,
-      "need": "Eyeballing a column for values above 12 to work out which field is the month.",
-      "whyUnnamed": "Every date is unambiguous to the person who wrote it. The ambiguity exists only in the handoff, and the reader cannot know it is there, so the failure is discovered downstream by someone who never saw the original string.",
-      "consequenceOf": [
-        "Opens a European CSV export in a US locale and twelve rows silently shift month and day.",
-        "Pastes a timestamp with no zone and the stored date lands one day earlier than intended.",
-        "Reads a date that is unambiguous in one row and ambiguous in the next without noticing the difference.",
-        "Assumes a two-digit year maps to 20xx when the source system pivots at a different century."
-      ],
-      "anchors": [
-        {
-          "signalId": "asymmetry:datetime",
-          "kind": "asymmetry",
-          "because": "Sits on \"datetime\", which can produce but cannot check."
-        }
-      ],
-      "bridges": [
-        "timezone-converter",
-        "unix-timestamp-converter",
-        "date-difference-calculator",
-        "age-calculator",
-        "cron-expression-parser",
-        "sleep-cycle-calculator"
-      ],
-      "anchorStrength": 0.36,
-      "consequence": 0.78,
-      "reachability": 1,
-      "namelessness": 0.64,
-      "algorithmicFit": 0.95,
-      "latentScore": 69.4,
-      "status": "candidate"
-    }
-  ],
+  "candidates": [],
   "unanchored": [],
   "summary": {
     "signals": 7,
     "considered": 7,
-    "anchored": 1,
+    "anchored": 0,
     "unanchored": 0,
-    "topScore": 69.4
+    "topScore": 0
   }
 }

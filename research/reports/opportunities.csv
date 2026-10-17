@@ -76,17 +76,17 @@ ideal-gas-law-calculator,ideal-gas-law-calculator,Ideal Gas Law Simulator,Ideal 
 blood-pressure-tracker,blood-pressure-tracker,Blood Pressure Tracker,Personal Health Logging,tracker,true,cluster-missing,recommended,low,0.62,0.79,0.95,1,1,0.85,0.25,0.92,0.8,74.3
 tic-tac-toe,tic-tac-toe,Tic Tac Toe,Hot-Seat Board Game,board-game,false,engine-missing,recommended,low,0.72,0.48,0.88,0.9,0.3,0.89,0.75,0.95,0.8,74.3
 book-tracker,book-tracker,Book Tracker,Local Reading Tracker,productivity,true,needs-improvement,already-exists,medium,0.72,0.48,0.88,0.7,1,0.89,0,0.85,0.8,74.2
-css-gradient-generator,css-gradient-generator,Perceptual Gradient Generator,Perceptual Gradient,color,true,cluster-missing,recommended,medium,0.7,0.38,0.88,0.7,1,0.88,0,0.9,0.8,74.1
-waist-to-hip-ratio-calculator,waist-to-hip-ratio-calculator,Waist to Hip Ratio Calculator,Body Composition Calculation,wellness,true,cluster-missing,recommended,low,0.52,0.73,0.92,1,1,0.81,0.5,0.95,0.64,73.7
-sleep-hours-tracker,sleep-hours-tracker,Sleep Hours Tracker,Personal Health Logging,tracker,true,cluster-missing,recommended,low,0.5,0.6,0.88,1,1,0.8,0.25,0.9,0.64,73.5
-date-format-detector,date-format-detector,Date Format Detector,Date Format Disambiguation,datetime,true,cluster-missing,recommended,medium,0.36,0.9,0.93,0.7,1,0.74,0,0.8,0.64,73.2
+css-gradient-generator,css-gradient-generator,Perceptual Gradient Generator,Perceptual Gradient,color,true,needs-improvement,already-exists,medium,0.7,0.38,0.88,0.7,1,0.88,0,0.9,0.8,74.1
+waist-to-hip-ratio-calculator,waist-to-hip-ratio-calculator,Waist to Hip Ratio Calculator,Body Composition Calculation,wellness,true,needs-improvement,already-exists,low,0.52,0.73,0.92,1,1,0.81,0.5,0.95,0.64,73.7
+sleep-hours-tracker,sleep-hours-tracker,Sleep Hours Tracker,Personal Health Logging,tracker,true,needs-improvement,already-exists,low,0.5,0.6,0.88,1,1,0.8,0.25,0.9,0.64,73.5
+date-format-detector,date-format-detector,Date Format Detector,Date Format Disambiguation,datetime,true,needs-improvement,already-exists,medium,0.36,0.9,0.93,0.7,1,0.74,0,0.8,0.64,73.2
 doppler-effect-calculator,doppler-effect-calculator,Doppler Effect Simulator,Doppler Effect,physics,true,guide-missing,already-exists,medium,0.78,0.68,0.94,0.7,1,0.79,0,0.8,0.8,73.1
 word-frequency-counter,word-frequency-counter,Word Frequency Counter,Word Frequency Analysis,text-analysis,true,needs-improvement,already-exists,medium,0.72,0.52,0.82,0.7,1,0.77,0,0.65,0.8,73
-body-surface-area-calculator,body-surface-area-calculator,Body Surface Area Calculator,Body Composition Calculation,wellness,true,cluster-missing,recommended,low,0.48,0.76,0.95,1,1,0.79,0.5,0.96,0.64,72.9
+body-surface-area-calculator,body-surface-area-calculator,Body Surface Area Calculator,Body Composition Calculation,wellness,true,needs-improvement,already-exists,low,0.48,0.76,0.95,1,1,0.79,0.5,0.96,0.64,72.9
 systemd-timer-converter,systemd-timer-converter,Cron to systemd Timer Converter,Schedule Expression Translation,datetime,true,needs-improvement,already-exists,medium,0.29,0.94,0.92,0.7,1,0.72,0,0.95,0.64,72.9
 encoding-detector,encoding-detector,Encoding Detector,Encoding Detection,encoding,true,needs-improvement,already-exists,medium,0.34,0.88,0.9,0.7,1,0.74,0,0.95,0.64,72.8
 momentum-collision-calculator,momentum-collision-calculator,Momentum & Collision Simulator,Momentum and Collisions,physics,true,guide-missing,already-exists,medium,0.72,0.7,0.95,0.7,1,0.77,0,0.8,0.8,72.2
-vo2-max-calculator,vo2-max-calculator,VO2 Max Calculator,Fitness Performance Calculation,wellness,true,cluster-missing,recommended,medium,0.58,0.68,0.9,0.7,1,0.83,0.5,0.85,0.64,72.2
+vo2-max-calculator,vo2-max-calculator,VO2 Max Calculator,Fitness Performance Calculation,wellness,true,needs-improvement,already-exists,medium,0.58,0.68,0.9,0.7,1,0.83,0.5,0.85,0.64,72.2
 timezone-converter,timezone-converter,Timezone Converter,Timezone Conversion,datetime,true,needs-improvement,already-exists,high,0.8,0.54,0.86,0.4,1,0.68,0,0.84,0.8,71.9
 image-palette-extractor,image-palette-extractor,Image Palette Extractor,Palette Extraction,color,true,cluster-missing,recommended,high,0.68,0.58,0.82,0.4,1,0.87,0,0.9,0.8,71.6
 inclined-plane-calculator,inclined-plane-calculator,Inclined Plane Simulator,Inclined Plane and Friction,physics,true,guide-missing,already-exists,medium,0.62,0.76,0.93,0.7,1,0.85,0,0.78,0.8,71.5

@@ -14,6 +14,8 @@ import {
   currentStreak,
   longestStreak,
   prune,
+  cleanEntries,
+  cleanGoal,
   type Entry,
 } from './model';
 import { barsSvg, lineSvg, progressRingSvg, type VizPoint } from './viz';
@@ -53,6 +55,10 @@ export interface TrackerDef {
   goalLabel?: string;
   /** Optional display-unit choices (cosmetic label only; values are stored as entered). */
   units?: TrackerUnitOption[];
+  /** Refuse a typed value above this with a toast. Omit to keep the previous unbounded log. */
+  max?: number;
+  /** Placeholder for the value input. Omit to keep the historical "e.g. 70". */
+  placeholder?: string;
 }
 
 export const TRACKER_DEFS: Record<string, TrackerDef> = {
@@ -97,6 +103,19 @@ export const TRACKER_DEFS: Record<string, TrackerDef> = {
       { value: 'lb', label: 'lb' },
     ],
   },
+  'sleep-hours': {
+    id: 'sleep-hours',
+    unit: 'h',
+    inputMode: 'value',
+    chart: 'line',
+    streakMode: 'logged',
+    step: 0.5,
+    decimals: 1,
+    windowDays: 7,
+    goalLabel: 'Goal (hours)',
+    max: 16,
+    placeholder: 'e.g. 7.5',
+  },
 };
 
 export function getTrackerDef(id: string): TrackerDef | undefined {
@@ -124,6 +143,8 @@ export const tracker = {
   lastNDays,
   movingAverage,
   prune,
+  cleanEntries,
+  cleanGoal,
 
   currentStreak(entries: Entry[], today: string, goal: number, mode: TrackerStreakMode): number {
     return currentStreak(entries, today, qualifierFor(mode, goal));

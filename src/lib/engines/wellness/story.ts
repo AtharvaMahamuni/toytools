@@ -26,6 +26,7 @@ export const WELLNESS_LINKED_TOOLS: Record<string, string> = {
   'bmi-calculator': 'health',
   'tdee-calculator': 'health',
   'body-fat-calculator': 'health',
+  'lean-body-mass-calculator': 'health',
   'macro-calculator': 'health',
   'ideal-weight-calculator': 'health',
   'heart-rate-zone-calculator': 'health',

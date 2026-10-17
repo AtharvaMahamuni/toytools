@@ -306,7 +306,7 @@
         "nutrition",
         "fitness-performance"
       ],
-      "toolCount": 12
+      "toolCount": 15
     },
     "tracker": {
       "name": "Tracker Engine",
@@ -318,9 +318,10 @@
       "sharedWidget": "src/tools/_shared/TrackerWidget.astro",
       "supportedFamilies": [
         "measurement",
-        "habit"
+        "habit",
+        "sleep-log"
       ],
-      "toolCount": 3
+      "toolCount": 4
     },
     "color": {
       "name": "Color Engine",
@@ -334,9 +335,10 @@
       "supportedFamilies": [
         "color",
         "color-scale",
-        "color-vision"
+        "color-vision",
+        "perceptual-gradient"
       ],
-      "toolCount": 4
+      "toolCount": 5
     },
     "units": {
       "name": "CSS Unit Engine",
@@ -485,6 +487,9 @@
         "bmi-calculator",
         "body-fat-calculator",
         "lean-body-mass-calculator",
+        "waist-to-hip-ratio-calculator",
+        "body-surface-area-calculator",
+        "vo2-max-calculator",
         "ideal-weight-calculator",
         "bmr-calculator",
         "tdee-calculator",
@@ -501,6 +506,7 @@
       "members": [
         "water-intake-tracker",
         "body-weight-tracker",
+        "sleep-hours-tracker",
         "move-today-tracker"
       ]
     },
@@ -1053,6 +1059,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "body-surface-area-calculator": {
+      "name": "Body Surface Area Calculator",
+      "dir": "src/tools/health/body-surface-area-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/body-surface-area-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "body-composition",
+      "processorId": "body-surface-area",
+      "toolGroup": "body-metrics",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "body-weight-tracker": {
       "name": "Body Weight Tracker",
       "dir": "src/tools/health/body-weight-tracker",
@@ -1461,6 +1488,27 @@
       "pattern": "datetime-schedule",
       "family": "schedule",
       "processorId": "cron",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "css-gradient-generator": {
+      "name": "Perceptual Gradient Generator",
+      "dir": "src/tools/design/css-gradient-generator",
+      "categorySlug": "design-tools",
+      "url": "/tool/design/css-gradient-generator/",
+      "engine": "color",
+      "pattern": "color-convert",
+      "family": "perceptual-gradient",
+      "processorId": "",
       "toolGroup": "",
       "files": [
         "Guide.astro",
@@ -3489,6 +3537,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "sleep-hours-tracker": {
+      "name": "Sleep Hours Tracker",
+      "dir": "src/tools/health/sleep-hours-tracker",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/sleep-hours-tracker/",
+      "engine": "tracker",
+      "pattern": "health-track",
+      "family": "sleep-log",
+      "processorId": "sleep-hours",
+      "toolGroup": "health-trackers",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "slime": {
       "name": "Slime",
       "dir": "src/tools/fidget/slime",
@@ -4045,6 +4114,48 @@
       "family": "identifier",
       "processorId": "uuid-inspector",
       "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "vo2-max-calculator": {
+      "name": "VO2 Max Calculator",
+      "dir": "src/tools/health/vo2-max-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/vo2-max-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "fitness-performance",
+      "processorId": "vo2-max",
+      "toolGroup": "body-metrics",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "waist-to-hip-ratio-calculator": {
+      "name": "Waist to Hip Ratio Calculator",
+      "dir": "src/tools/health/waist-to-hip-ratio-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/waist-to-hip-ratio-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "body-composition",
+      "processorId": "waist-to-hip-ratio",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",

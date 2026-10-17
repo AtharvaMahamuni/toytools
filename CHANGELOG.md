@@ -2,6 +2,23 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.13] - 2026-10-17
+
+### Added
+
+- **Perceptual Gradient Generator** (`/tool/design/css-gradient-generator/`). Two stops blend in OKLCH. Copy CSS writes `linear-gradient(to right in oklch, ...)`. The strip is painted from sampled hex. The note names a gray sRGB middle, as with blue to yellow, and stays hidden when the chroma drop is small, as with two grays.
+- **Waist to Hip Ratio Calculator** (`/tool/health/waist-to-hip-ratio-calculator/`). Waist divided by hip, with the WHO 2008 cuts: 0.90 for men and 0.85 for women. An 80 cm waist over 100 cm is 0.80. The note appears when one side looks like the other unit, such as 32 beside 102 reading 0.31 until the waist is taken as inches. The page does not compute waist to height ratio.
+- **Body Surface Area Calculator** (`/tool/health/body-surface-area-calculator/`). Mosteller is the hero and Du Bois stays beside it, with the signed spread. At 175 cm and 70 kg the two nearly agree. At 160 cm and 90 kg the note names a gap of about 0.07 square metres. A height in metres is refused. The page does not compute a chemotherapy dose.
+- **VO2 Max Calculator** (`/tool/health/vo2-max-calculator/`). A 2.4 km twelve-minute run reads 42.4 ml/kg/min by the Cooper test. Age and a resting pulse use Uth with a Tanaka max heart rate, shown as a second number when both methods exist. Age 30 and a resting pulse of 60 read 47.7 beside that run, and the note names the gap. A distance typed in metres into the kilometre field is rejected. The page does not compute fitness age.
+- **Sleep Hours Tracker** (`/tool/health/sleep-hours-tracker/`). Log hours slept. The streak counts a logged day, and the summary is the change from the first night in the window to the latest, not a labeled weekly average. Above 9 hours the note says the log still counts time awake in bed. A value above 16 hours is refused. The log stays on this device.
+
+### Fixed
+
+- **VO2 Max and Running Pace.** Switching km and mi keeps a distance to 2 decimals, so 2.45 km becomes 1.52 mi instead of 1.5 mi and the VO2 max no longer moves by 0.8 on a unit switch. Body weights and lengths still keep 1 decimal.
+- **Perceptual Gradient Generator.** Each stop chip picks a black or white label from its OKLCH lightness, so the #0000ff chip is readable. The note now says the colors between the stops fall outside sRGB, not the stops. At exactly 180 degrees apart the strip turns the same way as the copied CSS. A color with transparency, such as #0000ff80, is blended as opaque and the note says so.
+- **Waist to Hip Ratio Calculator.** The band compares the ratio itself, as WHO does, so 0.897 is Below 0.90. A ratio that would round across the cut shows three decimals.
+- **Trackers (water, move, body weight, sleep).** Importing a backup checks every entry. A value that is not a number, is negative, or is above the tracker's limit, such as 99 hours of sleep, is skipped, and the toast says how many were skipped. No chart shows NaN.
+
 ## [beta-v12.12] - 2026-10-17
 
 ### Changed

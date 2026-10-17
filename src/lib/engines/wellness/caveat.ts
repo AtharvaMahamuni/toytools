@@ -22,6 +22,9 @@
 //   protein-intake   "Eating most of the day's protein at dinner rather than spreading it."
 //   running-pace     "Extrapolating a marathon from a 5K, far outside the reliable range."
 //   tdee             "Overstating activity level, which inflates the calorie target."
+//   waist-to-hip-ratio "One circumference is in inches and the other is still in centimetres."
+//   body-surface-area  "Copying one surface-area formula once Mosteller and Du Bois diverge."
+//   vo2-max            "Reading a Cooper test and a resting-pulse estimate as the same number."
 //
 // Two get nothing. macro's documented mistakes are that a ratio matters less than the calorie total
 // and that fat carries 9 kcal per gram, neither of which is visible from a calorie figure and a
@@ -38,6 +41,7 @@ import {
   type ActivityLevel, type MaxHrMethod, type OneRepMaxFormula, type ProteinGoal, type Sex,
 } from './models';
 import type { WellnessInput } from './types';
+import { bsaSpreadNote, vo2DisagreementNote, whrMixedUnitNote } from './body';
 
 const n = (input: WellnessInput, key: string): number => {
   const v = input[key];
@@ -245,6 +249,29 @@ export function wellnessCaveat(id: string, input: WellnessInput): string | null 
       const gap = here - below;
       if (!Number.isFinite(gap) || gap < 50) return null;
       return `One step down to ${ACTIVITY_LABEL[ACTIVITY_ORDER[idx - 1]!].toLowerCase()} is ${r0(gap)} kcal a day. Activity level is the largest guess in this estimate, and the one most often set too high.`;
+    }
+
+    case 'waist-to-hip-ratio': {
+      const waist = n(input, 'waist');
+      const hip = n(input, 'hip');
+      if (!ok(waist, hip)) return null;
+      return whrMixedUnitNote(s(input, 'unit'), waist, hip);
+    }
+
+    case 'body-surface-area': {
+      const w = n(input, 'weight');
+      const h = n(input, 'height');
+      if (!ok(w, h)) return null;
+      if (h < (metric ? 50 : 20)) return null;
+      return bsaSpreadNote(metric ? h : inToCm(h), metric ? w : lbToKg(w));
+    }
+
+    case 'vo2-max': {
+      const distance = n(input, 'distance');
+      const age = n(input, 'age');
+      const resting = n(input, 'resting');
+      if (!ok(distance, age, resting)) return null;
+      return vo2DisagreementNote(s(input, 'unit'), distance, age, resting);
     }
 
     default:

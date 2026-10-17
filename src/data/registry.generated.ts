@@ -10,6 +10,7 @@ import { config as binaryTextConverter } from '@tools/developer-utilities/binary
 import { config as bmiCalculator } from '@tools/health/bmi-calculator/config';
 import { config as bmrCalculator } from '@tools/health/bmr-calculator/config';
 import { config as bodyFatCalculator } from '@tools/health/body-fat-calculator/config';
+import { config as bodySurfaceAreaCalculator } from '@tools/health/body-surface-area-calculator/config';
 import { config as bodyWeightTracker } from '@tools/health/body-weight-tracker/config';
 import { config as bookTracker } from '@tools/productivity/book-tracker/config';
 import { config as breathingCircle } from '@tools/fidget/breathing-circle/config';
@@ -30,6 +31,7 @@ import { config as compoundInterestCalculator } from '@tools/finance/compound-in
 import { config as contextFitChecker } from '@tools/prep/context-fit-checker/config';
 import { config as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/config';
 import { config as cronExpressionParser } from '@tools/datetime/cron-expression-parser/config';
+import { config as cssGradientGenerator } from '@tools/design/css-gradient-generator/config';
 import { config as csvCleaner } from '@tools/developer-utilities/csv-cleaner/config';
 import { config as csvColumnPicker } from '@tools/developer-utilities/csv-column-picker/config';
 import { config as csvDiff } from '@tools/developer-utilities/csv-diff/config';
@@ -126,6 +128,7 @@ import { config as shellQuoteEscalator } from '@tools/developer-utilities/shell-
 import { config as shopUpiTally } from '@tools/finance/shop-upi-tally/config';
 import { config as sipCalculator } from '@tools/finance/sip-calculator/config';
 import { config as sleepCycleCalculator } from '@tools/datetime/sleep-cycle-calculator/config';
+import { config as sleepHoursTracker } from '@tools/health/sleep-hours-tracker/config';
 import { config as slime } from '@tools/fidget/slime/config';
 import { config as slugifyText } from '@tools/text/slugify-text/config';
 import { config as snakeCaseConverter } from '@tools/text/snake-case-converter/config';
@@ -153,6 +156,8 @@ import { config as uppercaseConverter } from '@tools/text/uppercase-converter/co
 import { config as urlEncoderDecoder } from '@tools/developer-utilities/url-encoder-decoder/config';
 import { config as uuidGenerator } from '@tools/generate/uuid-generator/config';
 import { config as uuidInspector } from '@tools/generate/uuid-inspector/config';
+import { config as vo2MaxCalculator } from '@tools/health/vo2-max-calculator/config';
+import { config as waistToHipRatioCalculator } from '@tools/health/waist-to-hip-ratio-calculator/config';
 import { config as waterIntakeTracker } from '@tools/health/water-intake-tracker/config';
 import { config as whatIsMyIp } from '@tools/developer-utilities/what-is-my-ip/config';
 import { config as wordCounter } from '@tools/text/word-counter/config';
@@ -168,6 +173,7 @@ export const toolConfigs: ToolConfig[] = [
   bmiCalculator,
   bmrCalculator,
   bodyFatCalculator,
+  bodySurfaceAreaCalculator,
   bodyWeightTracker,
   bookTracker,
   breathingCircle,
@@ -188,6 +194,7 @@ export const toolConfigs: ToolConfig[] = [
   contextFitChecker,
   crc32HashGenerator,
   cronExpressionParser,
+  cssGradientGenerator,
   csvCleaner,
   csvColumnPicker,
   csvDiff,
@@ -284,6 +291,7 @@ export const toolConfigs: ToolConfig[] = [
   shopUpiTally,
   sipCalculator,
   sleepCycleCalculator,
+  sleepHoursTracker,
   slime,
   slugifyText,
   snakeCaseConverter,
@@ -311,6 +319,8 @@ export const toolConfigs: ToolConfig[] = [
   urlEncoderDecoder,
   uuidGenerator,
   uuidInspector,
+  vo2MaxCalculator,
+  waistToHipRatioCalculator,
   waterIntakeTracker,
   whatIsMyIp,
   wordCounter,

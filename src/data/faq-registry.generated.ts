@@ -10,6 +10,7 @@ import { items as binaryTextConverterFaqs } from '@tools/developer-utilities/bin
 import { items as bmiCalculatorFaqs } from '@tools/health/bmi-calculator/faq';
 import { items as bmrCalculatorFaqs } from '@tools/health/bmr-calculator/faq';
 import { items as bodyFatCalculatorFaqs } from '@tools/health/body-fat-calculator/faq';
+import { items as bodySurfaceAreaCalculatorFaqs } from '@tools/health/body-surface-area-calculator/faq';
 import { items as bodyWeightTrackerFaqs } from '@tools/health/body-weight-tracker/faq';
 import { items as bookTrackerFaqs } from '@tools/productivity/book-tracker/faq';
 import { items as breathingCircleFaqs } from '@tools/fidget/breathing-circle/faq';
@@ -30,6 +31,7 @@ import { items as compoundInterestCalculatorFaqs } from '@tools/finance/compound
 import { items as contextFitCheckerFaqs } from '@tools/prep/context-fit-checker/faq';
 import { items as crc32HashGeneratorFaqs } from '@tools/developer-utilities/crc32-hash-generator/faq';
 import { items as cronExpressionParserFaqs } from '@tools/datetime/cron-expression-parser/faq';
+import { items as cssGradientGeneratorFaqs } from '@tools/design/css-gradient-generator/faq';
 import { items as csvCleanerFaqs } from '@tools/developer-utilities/csv-cleaner/faq';
 import { items as csvColumnPickerFaqs } from '@tools/developer-utilities/csv-column-picker/faq';
 import { items as csvDiffFaqs } from '@tools/developer-utilities/csv-diff/faq';
@@ -126,6 +128,7 @@ import { items as shellQuoteEscalatorFaqs } from '@tools/developer-utilities/she
 import { items as shopUpiTallyFaqs } from '@tools/finance/shop-upi-tally/faq';
 import { items as sipCalculatorFaqs } from '@tools/finance/sip-calculator/faq';
 import { items as sleepCycleCalculatorFaqs } from '@tools/datetime/sleep-cycle-calculator/faq';
+import { items as sleepHoursTrackerFaqs } from '@tools/health/sleep-hours-tracker/faq';
 import { items as slimeFaqs } from '@tools/fidget/slime/faq';
 import { items as slugifyTextFaqs } from '@tools/text/slugify-text/faq';
 import { items as snakeCaseConverterFaqs } from '@tools/text/snake-case-converter/faq';
@@ -153,6 +156,8 @@ import { items as uppercaseConverterFaqs } from '@tools/text/uppercase-converter
 import { items as urlEncoderDecoderFaqs } from '@tools/developer-utilities/url-encoder-decoder/faq';
 import { items as uuidGeneratorFaqs } from '@tools/generate/uuid-generator/faq';
 import { items as uuidInspectorFaqs } from '@tools/generate/uuid-inspector/faq';
+import { items as vo2MaxCalculatorFaqs } from '@tools/health/vo2-max-calculator/faq';
+import { items as waistToHipRatioCalculatorFaqs } from '@tools/health/waist-to-hip-ratio-calculator/faq';
 import { items as waterIntakeTrackerFaqs } from '@tools/health/water-intake-tracker/faq';
 import { items as whatIsMyIpFaqs } from '@tools/developer-utilities/what-is-my-ip/faq';
 import { items as wordCounterFaqs } from '@tools/text/word-counter/faq';
@@ -168,6 +173,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'bmi-calculator': bmiCalculatorFaqs,
   'bmr-calculator': bmrCalculatorFaqs,
   'body-fat-calculator': bodyFatCalculatorFaqs,
+  'body-surface-area-calculator': bodySurfaceAreaCalculatorFaqs,
   'body-weight-tracker': bodyWeightTrackerFaqs,
   'book-tracker': bookTrackerFaqs,
   'breathing-circle': breathingCircleFaqs,
@@ -188,6 +194,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'context-fit-checker': contextFitCheckerFaqs,
   'crc32-hash-generator': crc32HashGeneratorFaqs,
   'cron-expression-parser': cronExpressionParserFaqs,
+  'css-gradient-generator': cssGradientGeneratorFaqs,
   'csv-cleaner': csvCleanerFaqs,
   'csv-column-picker': csvColumnPickerFaqs,
   'csv-diff': csvDiffFaqs,
@@ -284,6 +291,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'shop-upi-tally': shopUpiTallyFaqs,
   'sip-calculator': sipCalculatorFaqs,
   'sleep-cycle-calculator': sleepCycleCalculatorFaqs,
+  'sleep-hours-tracker': sleepHoursTrackerFaqs,
   'slime': slimeFaqs,
   'slugify-text': slugifyTextFaqs,
   'snake-case-converter': snakeCaseConverterFaqs,
@@ -311,6 +319,8 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'url-encoder-decoder': urlEncoderDecoderFaqs,
   'uuid-generator': uuidGeneratorFaqs,
   'uuid-inspector': uuidInspectorFaqs,
+  'vo2-max-calculator': vo2MaxCalculatorFaqs,
+  'waist-to-hip-ratio-calculator': waistToHipRatioCalculatorFaqs,
   'water-intake-tracker': waterIntakeTrackerFaqs,
   'what-is-my-ip': whatIsMyIpFaqs,
   'word-counter': wordCounterFaqs,

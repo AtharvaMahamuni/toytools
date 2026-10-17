@@ -1,0 +1,143 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const cycleHref = toolPathBySlug('sleep-cycle-calculator');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>How do you log hours of sleep? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Type the hours for today and press Log. One number is stored for that calendar day.
+      Logging 7.5 hours and keeping the streak on this device is the ordinary case, and the note stays hidden.
+    </p>
+    <p>
+      The chart covers seven days. The summary is the change from the first logged night to the latest one.
+      There is no labeled weekly average on the page.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Sleep Hours Tracker →</a>
+  </section>
+
+  <section id="what-the-log-stores">
+    <h2>What does the sleep log store? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The log stores hours, to one decimal, with a step of a half hour. The placeholder reads 7.5.
+      A value above 16 hours is refused, and the previous day is left as it was.
+    </p>
+    <p>
+      The streak counts a day you logged, not a day that beat a target.
+      Clear all history asks twice, then removes the log from this device.
+      Export writes a backup file you keep. Import merges it back.
+    </p>
+    <p>
+      It works by keeping one hours value on the day you log it.
+      For example, a sleep tracker stores 7.5 and leaves the note hidden.
+      Input: 7.5 hours slept, entered once for today.
+    </p>
+    <p>
+      Output: today reads 7.5 on this hours of sleep tracker.
+      What happens when a value above 16 hours is entered is a toast, and the old day stays.
+    </p>
+  </section>
+
+  <section id="change-not-average">
+    <h2>What is the week-over-week change? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Reading the change from the first logged night to the latest one is the summary line.
+      Log 7.0, then later log 7.5, and the change is up by 0.5 hours.
+      That figure is not an average of the week.
+    </p>
+    <p>
+      The solid line on the chart is the hours you logged. A dashed line is a three-point moving average of three nights.
+      It is not a weekly sleep average, and the page does not label one.
+      Expecting a labeled weekly sleep average will not match what the summary says.
+    </p>
+  </section>
+
+  <section id="not-a-cycle">
+    <h2>What is the difference between this log and a sleep cycle calculator? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The difference between this sleep log and a sleep cycle calculator is the job.
+      This page records hours you already slept. The <a href={cycleHref}>sleep cycle calculator</a> suggests bed times and wake times in ninety minute blocks.
+    </p>
+    <p>
+      A diary of hours is not a plan for when to lie down.
+      Stages, time in bed as its own field, and a second nap entry are not here.
+    </p>
+  </section>
+
+  <section id="mistakes">
+    <h2>Which sleep log mistakes inflate the trend? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Time in bed">
+      <p>
+        Logging time in bed as if every hour were sleep pulls the line up.
+        Noticing when a 9.5 hour entry may include time awake in bed is what the note is for.
+        At 8 hours, and at exactly 9, it stays hidden.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="A weekly average">
+      <p>
+        Expecting a labeled weekly sleep average looks for a caption the chart does not have.
+        Use the change from first to latest, and the moving-average line, instead.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="A second entry">
+      <p>
+        Trying to store a nap as a second entry on the same day replaces today's number.
+        Add the nap into the one hours figure, or leave it out. There is no second row.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="key-idea" heading="One number, named as sleep">
+      <p>
+        The trend counts every logged hour as sleep. Above 9 hours, the note says that plainly.
+        A 7.5 hour night needs no warning.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="On this device">
+      <p>
+        The log stays on this device. Nothing is uploaded.
+        This is a sleep diary for hours slept, not a form for how the night felt.
+      </p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

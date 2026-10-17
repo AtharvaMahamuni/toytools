@@ -155,3 +155,33 @@ export function prune(
     .sort((a, b) => dayNumber(a.date) - dayNumber(b.date));
   return kept.length > maxEntries ? kept.slice(kept.length - maxEntries) : kept;
 }
+
+/**
+ * Entries read back from storage or a restored backup, kept only when they make sense: a real
+ * 'YYYY-MM-DD' day, a finite number value, not negative, and not above `max` when the tracker has
+ * one. A backup is a file anyone can edit, so 99 h, -5 or "abc" must not reach the chart as NaN.
+ * One entry per day survives (the last one wins). `dropped` counts what was refused.
+ */
+export function cleanEntries(raw: unknown, max?: number): { entries: Entry[]; dropped: number } {
+  if (!Array.isArray(raw)) return { entries: [], dropped: 0 };
+  const byDate = new Map<string, number>();
+  let dropped = 0;
+  for (const item of raw) {
+    const date = item && typeof item === 'object' ? (item as { date?: unknown }).date : undefined;
+    const value = item && typeof item === 'object' ? (item as { value?: unknown }).value : undefined;
+    const okDate = typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date) && isoFromDayNumber(dayNumber(date)) === date;
+    const okValue = typeof value === 'number' && Number.isFinite(value) && value >= 0 && (typeof max !== 'number' || value <= max);
+    if (!okDate || !okValue) { dropped++; continue; }
+    if (byDate.has(date)) dropped++;
+    byDate.set(date, value);
+  }
+  const entries = [...byDate].map(([date, value]) => ({ date, value })).sort((a, b) => dayNumber(a.date) - dayNumber(b.date));
+  return { entries, dropped };
+}
+
+/** A saved goal, kept only when it is a finite number from 0 up to `max`. */
+export function cleanGoal(raw: unknown, fallback: number, max?: number): number {
+  if (typeof raw !== 'number' || !Number.isFinite(raw) || raw < 0) return fallback;
+  if (typeof max === 'number' && raw > max) return fallback;
+  return raw;
+}

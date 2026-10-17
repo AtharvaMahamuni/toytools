@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-09T05:25:21.130Z",
+  "generatedAt": "2026-10-17T08:18:54.596Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -12,25 +12,25 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "date-format-detector",
         "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "systemd-timer-converter"
       ],
       "relatedGuides": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "date-format-detector",
         "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "systemd-timer-converter"
       ],
       "relatedFaqs": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "date-format-detector",
         "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "systemd-timer-converter"
       ]
     },
     {
@@ -118,17 +118,20 @@
       "relatedTools": [
         "body-weight-tracker",
         "water-intake-tracker",
-        "move-today-tracker"
+        "move-today-tracker",
+        "sleep-hours-tracker"
       ],
       "relatedGuides": [
         "body-weight-tracker",
         "water-intake-tracker",
-        "move-today-tracker"
+        "move-today-tracker",
+        "sleep-hours-tracker"
       ],
       "relatedFaqs": [
         "body-weight-tracker",
         "water-intake-tracker",
-        "move-today-tracker"
+        "move-today-tracker",
+        "sleep-hours-tracker"
       ]
     },
     {
@@ -191,26 +194,26 @@
       "relatedTools": [
         "bmi-calculator",
         "body-fat-calculator",
+        "body-surface-area-calculator",
         "ideal-weight-calculator",
         "lean-body-mass-calculator",
-        "bmr-calculator",
-        "calorie-deficit-calculator"
+        "waist-to-hip-ratio-calculator"
       ],
       "relatedGuides": [
         "bmi-calculator",
         "body-fat-calculator",
+        "body-surface-area-calculator",
         "ideal-weight-calculator",
         "lean-body-mass-calculator",
-        "bmr-calculator",
-        "calorie-deficit-calculator"
+        "waist-to-hip-ratio-calculator"
       ],
       "relatedFaqs": [
         "bmi-calculator",
         "body-fat-calculator",
+        "body-surface-area-calculator",
         "ideal-weight-calculator",
         "lean-body-mass-calculator",
-        "bmr-calculator",
-        "calorie-deficit-calculator"
+        "waist-to-hip-ratio-calculator"
       ]
     },
     {
@@ -472,19 +475,22 @@
         "color-format-converter",
         "colorblind-simulator",
         "color-contrast-checker",
-        "color-shades-generator"
+        "color-shades-generator",
+        "css-gradient-generator"
       ],
       "relatedGuides": [
         "color-format-converter",
         "colorblind-simulator",
         "color-contrast-checker",
-        "color-shades-generator"
+        "color-shades-generator",
+        "css-gradient-generator"
       ],
       "relatedFaqs": [
         "color-format-converter",
         "colorblind-simulator",
         "color-contrast-checker",
-        "color-shades-generator"
+        "color-shades-generator",
+        "css-gradient-generator"
       ]
     },
     {
@@ -497,19 +503,22 @@
         "color-contrast-checker",
         "color-shades-generator",
         "color-format-converter",
-        "colorblind-simulator"
+        "colorblind-simulator",
+        "css-gradient-generator"
       ],
       "relatedGuides": [
         "color-contrast-checker",
         "color-shades-generator",
         "color-format-converter",
-        "colorblind-simulator"
+        "colorblind-simulator",
+        "css-gradient-generator"
       ],
       "relatedFaqs": [
         "color-contrast-checker",
         "color-shades-generator",
         "color-format-converter",
-        "colorblind-simulator"
+        "colorblind-simulator",
+        "css-gradient-generator"
       ]
     },
     {
@@ -520,18 +529,21 @@
       "existing": false,
       "relatedTools": [
         "color-format-converter",
+        "css-gradient-generator",
         "color-contrast-checker",
         "color-shades-generator",
         "colorblind-simulator"
       ],
       "relatedGuides": [
         "color-format-converter",
+        "css-gradient-generator",
         "color-contrast-checker",
         "color-shades-generator",
         "colorblind-simulator"
       ],
       "relatedFaqs": [
         "color-format-converter",
+        "css-gradient-generator",
         "color-contrast-checker",
         "color-shades-generator",
         "colorblind-simulator"
@@ -547,19 +559,22 @@
         "color-contrast-checker",
         "color-format-converter",
         "color-shades-generator",
-        "colorblind-simulator"
+        "colorblind-simulator",
+        "css-gradient-generator"
       ],
       "relatedGuides": [
         "color-contrast-checker",
         "color-format-converter",
         "color-shades-generator",
-        "colorblind-simulator"
+        "colorblind-simulator",
+        "css-gradient-generator"
       ],
       "relatedFaqs": [
         "color-contrast-checker",
         "color-format-converter",
         "color-shades-generator",
-        "colorblind-simulator"
+        "colorblind-simulator",
+        "css-gradient-generator"
       ]
     },
     {
@@ -663,25 +678,25 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "date-format-detector",
         "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "systemd-timer-converter"
       ],
       "relatedGuides": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "date-format-detector",
         "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "systemd-timer-converter"
       ],
       "relatedFaqs": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "date-format-detector",
         "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "systemd-timer-converter"
       ]
     },
     {
@@ -718,19 +733,22 @@
         "color-format-converter",
         "color-shades-generator",
         "color-contrast-checker",
-        "colorblind-simulator"
+        "colorblind-simulator",
+        "css-gradient-generator"
       ],
       "relatedGuides": [
         "color-format-converter",
         "color-shades-generator",
         "color-contrast-checker",
-        "colorblind-simulator"
+        "colorblind-simulator",
+        "css-gradient-generator"
       ],
       "relatedFaqs": [
         "color-format-converter",
         "color-shades-generator",
         "color-contrast-checker",
-        "colorblind-simulator"
+        "colorblind-simulator",
+        "css-gradient-generator"
       ]
     },
     {
@@ -874,25 +892,25 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "date-format-detector",
         "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "systemd-timer-converter"
       ],
       "relatedGuides": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "date-format-detector",
         "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "systemd-timer-converter"
       ],
       "relatedFaqs": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "date-format-detector",
         "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "systemd-timer-converter"
       ]
     },
     {
@@ -907,7 +925,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
-        "sleep-cycle-calculator"
+        "date-format-detector"
       ],
       "relatedGuides": [
         "timezone-converter",
@@ -915,7 +933,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
-        "sleep-cycle-calculator"
+        "date-format-detector"
       ],
       "relatedFaqs": [
         "timezone-converter",
@@ -923,7 +941,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
-        "sleep-cycle-calculator"
+        "date-format-detector"
       ]
     },
     {
@@ -1322,19 +1340,22 @@
         "color-format-converter",
         "color-shades-generator",
         "color-contrast-checker",
-        "colorblind-simulator"
+        "colorblind-simulator",
+        "css-gradient-generator"
       ],
       "relatedGuides": [
         "color-format-converter",
         "color-shades-generator",
         "color-contrast-checker",
-        "colorblind-simulator"
+        "colorblind-simulator",
+        "css-gradient-generator"
       ],
       "relatedFaqs": [
         "color-format-converter",
         "color-shades-generator",
         "color-contrast-checker",
-        "colorblind-simulator"
+        "colorblind-simulator",
+        "css-gradient-generator"
       ]
     },
     {
@@ -1603,25 +1624,25 @@
         "body-fat-calculator",
         "ideal-weight-calculator",
         "bmi-calculator",
+        "body-surface-area-calculator",
         "lean-body-mass-calculator",
-        "bmr-calculator",
-        "calorie-deficit-calculator"
+        "waist-to-hip-ratio-calculator"
       ],
       "relatedGuides": [
         "body-fat-calculator",
         "ideal-weight-calculator",
         "bmi-calculator",
+        "body-surface-area-calculator",
         "lean-body-mass-calculator",
-        "bmr-calculator",
-        "calorie-deficit-calculator"
+        "waist-to-hip-ratio-calculator"
       ],
       "relatedFaqs": [
         "body-fat-calculator",
         "ideal-weight-calculator",
         "bmi-calculator",
+        "body-surface-area-calculator",
         "lean-body-mass-calculator",
-        "bmr-calculator",
-        "calorie-deficit-calculator"
+        "waist-to-hip-ratio-calculator"
       ]
     },
     {
@@ -1989,25 +2010,25 @@
         "body-weight-tracker",
         "one-rep-max-calculator",
         "running-pace-calculator",
+        "vo2-max-calculator",
         "bmi-calculator",
-        "bmr-calculator",
-        "body-fat-calculator"
+        "bmr-calculator"
       ],
       "relatedGuides": [
         "body-weight-tracker",
         "one-rep-max-calculator",
         "running-pace-calculator",
+        "vo2-max-calculator",
         "bmi-calculator",
-        "bmr-calculator",
-        "body-fat-calculator"
+        "bmr-calculator"
       ],
       "relatedFaqs": [
         "body-weight-tracker",
         "one-rep-max-calculator",
         "running-pace-calculator",
+        "vo2-max-calculator",
         "bmi-calculator",
-        "bmr-calculator",
-        "body-fat-calculator"
+        "bmr-calculator"
       ]
     },
     {
@@ -2020,25 +2041,25 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "date-format-detector",
         "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "systemd-timer-converter"
       ],
       "relatedGuides": [
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "date-format-detector",
         "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "systemd-timer-converter"
       ],
       "relatedFaqs": [
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "date-format-detector",
         "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "systemd-timer-converter"
       ]
     },
     {
@@ -2148,25 +2169,25 @@
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "date-format-detector",
         "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "systemd-timer-converter"
       ],
       "relatedGuides": [
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "date-format-detector",
         "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "systemd-timer-converter"
       ],
       "relatedFaqs": [
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "date-format-detector",
         "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter"
+        "systemd-timer-converter"
       ]
     },
     {
@@ -2696,25 +2717,25 @@
         "heart-rate-zone-calculator",
         "one-rep-max-calculator",
         "running-pace-calculator",
+        "vo2-max-calculator",
         "bmi-calculator",
-        "bmr-calculator",
-        "body-fat-calculator"
+        "bmr-calculator"
       ],
       "relatedGuides": [
         "heart-rate-zone-calculator",
         "one-rep-max-calculator",
         "running-pace-calculator",
+        "vo2-max-calculator",
         "bmi-calculator",
-        "bmr-calculator",
-        "body-fat-calculator"
+        "bmr-calculator"
       ],
       "relatedFaqs": [
         "heart-rate-zone-calculator",
         "one-rep-max-calculator",
         "running-pace-calculator",
+        "vo2-max-calculator",
         "bmi-calculator",
-        "bmr-calculator",
-        "body-fat-calculator"
+        "bmr-calculator"
       ]
     },
     {
@@ -2870,24 +2891,24 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "date-format-detector",
+        "sleep-cycle-calculator"
       ],
       "relatedGuides": [
         "move-today-tracker",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "date-format-detector",
+        "sleep-cycle-calculator"
       ],
       "relatedFaqs": [
         "move-today-tracker",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "date-format-detector",
+        "sleep-cycle-calculator"
       ]
     },
     {
@@ -2899,17 +2920,20 @@
       "relatedTools": [
         "move-today-tracker",
         "water-intake-tracker",
-        "body-weight-tracker"
+        "body-weight-tracker",
+        "sleep-hours-tracker"
       ],
       "relatedGuides": [
         "move-today-tracker",
         "water-intake-tracker",
-        "body-weight-tracker"
+        "body-weight-tracker",
+        "sleep-hours-tracker"
       ],
       "relatedFaqs": [
         "move-today-tracker",
         "water-intake-tracker",
-        "body-weight-tracker"
+        "body-weight-tracker",
+        "sleep-hours-tracker"
       ]
     },
     {
@@ -3146,24 +3170,24 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "date-format-detector",
+        "sleep-cycle-calculator"
       ],
       "relatedGuides": [
         "timezone-converter",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "date-format-detector",
+        "sleep-cycle-calculator"
       ],
       "relatedFaqs": [
         "timezone-converter",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "date-format-detector",
+        "sleep-cycle-calculator"
       ]
     },
     {
@@ -3264,24 +3288,24 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "date-format-detector",
+        "sleep-cycle-calculator"
       ],
       "relatedGuides": [
         "unix-timestamp-converter",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "date-format-detector",
+        "sleep-cycle-calculator"
       ],
       "relatedFaqs": [
         "unix-timestamp-converter",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "date-format-detector",
+        "sleep-cycle-calculator"
       ]
     },
     {
@@ -3355,25 +3379,25 @@
         "heart-rate-zone-calculator",
         "one-rep-max-calculator",
         "running-pace-calculator",
+        "vo2-max-calculator",
         "bmi-calculator",
-        "bmr-calculator",
-        "body-fat-calculator"
+        "bmr-calculator"
       ],
       "relatedGuides": [
         "heart-rate-zone-calculator",
         "one-rep-max-calculator",
         "running-pace-calculator",
+        "vo2-max-calculator",
         "bmi-calculator",
-        "bmr-calculator",
-        "body-fat-calculator"
+        "bmr-calculator"
       ],
       "relatedFaqs": [
         "heart-rate-zone-calculator",
         "one-rep-max-calculator",
         "running-pace-calculator",
+        "vo2-max-calculator",
         "bmi-calculator",
-        "bmr-calculator",
-        "body-fat-calculator"
+        "bmr-calculator"
       ]
     },
     {
@@ -3385,26 +3409,26 @@
       "relatedTools": [
         "bmi-calculator",
         "body-fat-calculator",
+        "body-surface-area-calculator",
         "ideal-weight-calculator",
         "lean-body-mass-calculator",
-        "bmr-calculator",
-        "calorie-deficit-calculator"
+        "waist-to-hip-ratio-calculator"
       ],
       "relatedGuides": [
         "bmi-calculator",
         "body-fat-calculator",
+        "body-surface-area-calculator",
         "ideal-weight-calculator",
         "lean-body-mass-calculator",
-        "bmr-calculator",
-        "calorie-deficit-calculator"
+        "waist-to-hip-ratio-calculator"
       ],
       "relatedFaqs": [
         "bmi-calculator",
         "body-fat-calculator",
+        "body-surface-area-calculator",
         "ideal-weight-calculator",
         "lean-body-mass-calculator",
-        "bmr-calculator",
-        "calorie-deficit-calculator"
+        "waist-to-hip-ratio-calculator"
       ]
     },
     {
@@ -4605,11 +4629,6 @@
     },
     {
       "from": "one-rep-max-calculator",
-      "to": "body-fat-calculator",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "one-rep-max-calculator",
       "to": "body-surface-area-calculator",
       "kind": "shares-engine"
     },
@@ -5160,11 +5179,6 @@
     },
     {
       "from": "running-pace-calculator",
-      "to": "body-fat-calculator",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "running-pace-calculator",
       "to": "body-surface-area-calculator",
       "kind": "shares-engine"
     },
@@ -5616,11 +5630,6 @@
     {
       "from": "vo2-max-calculator",
       "to": "bmi-calculator",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "vo2-max-calculator",
-      "to": "body-fat-calculator",
       "kind": "links-to-tool"
     },
     {

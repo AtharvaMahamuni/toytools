@@ -572,4 +572,62 @@ test.describe('wellness caveats (the wellness craft seam)', () => {
     await page.goto('/tool/health/macro-calculator/');
     await expect(page.locator('#macro-calculator-caveat')).toHaveCount(0);
   });
+
+  test('waist to hip stays quiet at 0.80 and speaks when one side is inches', async ({ page }) => {
+    await page.goto('/tool/health/waist-to-hip-ratio-calculator/');
+    const note = page.locator('[data-craft="whr-mixed-unit"]');
+
+    await expect(note).toBeHidden();
+    await page.locator('#waist-to-hip-ratio-calculator-f-waist').fill('32');
+    await page.locator('#waist-to-hip-ratio-calculator-f-hip').fill('102');
+    await expect(note).toContainText('0.80');
+  });
+
+  test('body surface area stays quiet at 175 cm and names a 0.07 gap', async ({ page }) => {
+    await page.goto('/tool/health/body-surface-area-calculator/');
+    const note = page.locator('[data-craft="bsa-formula-spread"]');
+
+    await expect(note).toBeHidden();
+    await page.locator('#body-surface-area-calculator-f-height').fill('160');
+    await page.locator('#body-surface-area-calculator-f-weight').fill('90');
+    await expect(note).toContainText('0.07');
+  });
+
+  test('VO2 max stays quiet on distance alone and names a 5 point gap', async ({ page }) => {
+    await page.goto('/tool/health/vo2-max-calculator/');
+    const note = page.locator('[data-craft="vo2-method-gap"]');
+
+    await expect(note).toBeHidden();
+    await page.locator('#vo2-max-calculator-f-age').fill('30');
+    await page.locator('#vo2-max-calculator-f-resting').fill('60');
+    await expect(note).toContainText('42.4');
+    await expect(note).toContainText('47.7');
+  });
+});
+
+test.describe('gradient and sleep craft', () => {
+  test('the gradient note fires for blue to yellow and stays quiet for two grays', async ({ page }) => {
+    await page.goto('/tool/design/css-gradient-generator/');
+    const note = page.locator('[data-craft="oklch-srgb-mid"]');
+
+    await expect(note).toContainText('grayer');
+    await page.locator('#css-gradient-generator-from').fill('#777777');
+    await page.locator('#css-gradient-generator-to').fill('#bbbbbb');
+    await expect(note).toBeHidden();
+  });
+
+  test('the sleep note stays quiet at 8 hours and speaks above 9', async ({ page }) => {
+    await page.goto('/tool/health/sleep-hours-tracker/');
+    const note = page.locator('[data-craft="sleep-awake-in-bed"]');
+    const input = page.locator('#sleep-hours-tracker-input');
+    const log = page.locator('#sleep-hours-tracker-log');
+
+    await input.fill('8');
+    await log.click();
+    await expect(note).toBeHidden();
+
+    await input.fill('9.5');
+    await log.click();
+    await expect(note).toContainText('9.5');
+  });
 });

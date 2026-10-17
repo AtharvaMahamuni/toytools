@@ -6,6 +6,7 @@ import { parseColor, toAllFormats, rgbToHex } from './convert';
 import { hexByteOrder } from './hints';
 import { contrastRatio, wcagLevels, luminance, suggestAccessible } from './contrast';
 import { inkFor, oklchToRgb, shadeScale } from './shades';
+import { perceptualGradient } from './gradient';
 import { CVD_TYPES, collapseNote, simulateCvd, simulatePalette } from './vision';
 import type { RGB } from './types';
 
@@ -23,6 +24,7 @@ export const color = {
   byteOrder: hexByteOrder,
   oklchToRgb,
   shadeScale,
+  perceptualGradient,
   ink: inkFor,
   cvdTypes: CVD_TYPES,
   simulateCvd,

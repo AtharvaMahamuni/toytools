@@ -230,7 +230,11 @@ test.describe('homepage index', () => {
     // Calculator group and CSV Column Picker joins CSV Tools, so neither adds a directory link.
     // Date Format Detector (beta-v12.11) is ungrouped: seeing which rows can be read two ways
     // is not a mode of the timezone converter, the timestamp converter, or the age calculator.
-    await expect(directory.locator('.dir-link')).toHaveCount(116);
+    // Perceptual Gradient Generator (beta-v12.13) is ungrouped: an OKLCH interpolation is not a
+    // mode of the color format converter, the shade generator, or the contrast checker. Waist to
+    // hip, body surface area, and VO2 max join Health Calculator, and Sleep Hours joins Daily
+    // Tracker, so those four add no directory link.
+    await expect(directory.locator('.dir-link')).toHaveCount(117);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {
