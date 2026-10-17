@@ -1,6 +1,6 @@
 # Recommended Next Build
 
-Generated: 2026-10-09T05:25:21.130Z
+Generated: 2026-10-17T08:18:54.596Z
 
 ## Pregnancy Due Date Calculator  (`pregnancy-due-date-calculator`)
 
@@ -43,9 +43,9 @@ No task-level failure recorded for this tool, so there is no craft candidate fro
 ### Suggested supporting content
 - Guides: What is Health Date Calculation?; How to health date calculation online; Pregnancy Due Date Calculator vs the alternatives
 - FAQs: How do I health date calculation?; Is Pregnancy Due Date Calculator free and private?; Does Pregnancy Due Date Calculator avoid "requires signup for the full timeline"?
-- Internal links / related tools: age-calculator, date-difference-calculator, cron-expression-parser, sleep-cycle-calculator, systemd-timer-converter, timezone-converter
+- Internal links / related tools: age-calculator, date-difference-calculator, cron-expression-parser, date-format-detector, sleep-cycle-calculator, systemd-timer-converter
 - Schema: SoftwareApplication, FAQPage
 
 ---
 
-_Inputs fingerprint: `acd84a9d`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `bbde1a44`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._

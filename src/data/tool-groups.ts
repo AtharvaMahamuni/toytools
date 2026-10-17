@@ -123,6 +123,9 @@ export const toolGroups: ToolGroup[] = [
       { slug: 'bmi-calculator',                label: 'BMI'             },
       { slug: 'body-fat-calculator',           label: 'Body Fat'        },
       { slug: 'lean-body-mass-calculator',     label: 'Lean Mass'       },
+      { slug: 'waist-to-hip-ratio-calculator', label: 'WHR'            },
+      { slug: 'body-surface-area-calculator',  label: 'BSA'            },
+      { slug: 'vo2-max-calculator',            label: 'VO2'            },
       { slug: 'ideal-weight-calculator',       label: 'Ideal Weight'    },
       { slug: 'bmr-calculator',                label: 'BMR'             },
       { slug: 'tdee-calculator',               label: 'TDEE'            },
@@ -140,6 +143,7 @@ export const toolGroups: ToolGroup[] = [
     members: [
       { slug: 'water-intake-tracker', label: 'Water'    },
       { slug: 'body-weight-tracker',  label: 'Weight'   },
+      { slug: 'sleep-hours-tracker',  label: 'Sleep'    },
       { slug: 'move-today-tracker',   label: 'Movement' },
     ],
   },

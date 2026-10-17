@@ -1,22 +1,16 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-10-09T05:25:21.130Z
+Generated: 2026-10-17T08:18:54.596Z
 
-Discovered 106 signals -> 106 unique opportunities (23 recommended, 81 already shipped). Top score 85.9. Missing-engine candidates: 1.
+Discovered 106 signals -> 106 unique opportunities (17 recommended, 87 already shipped). Top score 85.9. Missing-engine candidates: 1.
 
 ## Immediate builds (top tier)
 - **Pregnancy Due Date Calculator** (`pregnancy-due-date-calculator`) - score 76.6, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 
 ## Quick wins (low effort, recommended)
 - **Ovulation Calculator** (`ovulation-calculator`) - score 74.6, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
-- **Blood Pressure Tracker** (`blood-pressure-tracker`) - score 74.3, reuses tracker. Weak / incomplete incumbents; Reuses the existing tracker engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
+- **Blood Pressure Tracker** (`blood-pressure-tracker`) - score 74.3, reuses tracker. Weak / incomplete incumbents; Reuses the existing tracker engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Tic Tac Toe** (`tic-tac-toe`) - score 74.3, new board-game engine. Implies a new board-game engine; Low implementation cost; Strong topic-cluster potential; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Perceptual Gradient Generator** (`css-gradient-generator`) - score 74.1, reuses color. Reuses the existing color engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
-- **Waist to Hip Ratio Calculator** (`waist-to-hip-ratio-calculator`) - score 73.7, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
-- **Sleep Hours Tracker** (`sleep-hours-tracker`) - score 73.5, reuses tracker. Weak / incomplete incumbents; Reuses the existing tracker engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
-- **Date Format Detector** (`date-format-detector`) - score 73.2, reuses datetime. Weak / incomplete incumbents; Reuses the existing datetime engine; Low implementation cost; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Body Surface Area Calculator** (`body-surface-area-calculator`) - score 72.9, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
-- **VO2 Max Calculator** (`vo2-max-calculator`) - score 72.2, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Net Worth Calculator** (`net-worth-calculator`) - score 66.6, new budget engine. High search demand; Weak / incomplete incumbents; Implies a new budget engine; Low implementation cost; Creates 2 internal links; CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 
 ## Missing engines (new reusable engines this evidence justifies)
@@ -192,22 +186,18 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 - newman-projection-calculator (chemistry-lab)
 - crystal-field-splitting-calculator (chemistry-lab)
 
-### At risk - 16 buildable opportunit(ies) that would ship craftless
+### At risk - 11 buildable opportunit(ies) that would ship craftless
 - pregnancy-due-date-calculator (score 76.6, datetime)
 - ovulation-calculator (score 74.6, datetime)
 - function-grapher (score 74.5, math-lab)
 - blood-pressure-tracker (score 74.3, tracker)
-- css-gradient-generator (score 74.1, color)
-- waist-to-hip-ratio-calculator (score 73.7, wellness)
-- sleep-hours-tracker (score 73.5, tracker)
-- body-surface-area-calculator (score 72.9, wellness)
-- vo2-max-calculator (score 72.2, wellness)
 - image-palette-extractor (score 71.6, color)
 - net-worth-calculator (score 66.6, budget)
 - loan-calculator (score 66.2, loan)
 - salary-calculator (score 64.7, budget)
 - mortgage-calculator (score 64.3, loan)
 - retirement-calculator (score 58.3, retirement)
+- meal-plan-generator (score 45.5, meal-planning)
 
 ## Emerging trends (by transformation)
 - Fidget Interaction: 6 signal(s), mean demand 0.63, mean score 79.9.
@@ -223,4 +213,4 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 
 ---
 
-_Inputs fingerprint: `acd84a9d`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `bbde1a44`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._

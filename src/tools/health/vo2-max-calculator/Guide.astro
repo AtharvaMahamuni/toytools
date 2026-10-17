@@ -1,0 +1,143 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const zonesHref = toolPathBySlug('heart-rate-zone-calculator');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>How do you estimate VO2 max here? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Enter a twelve-minute distance, or an age and a resting pulse. The hero is one of those methods.
+      Reading a Cooper estimate from a 2.4 km twelve-minute run gives 42.4 ml/kg/min.
+    </p>
+    <p>
+      Leave age and pulse blank and the Cooper number stands alone.
+      Fill them in and the other method appears as its own card, not as a replacement.
+    </p>
+    <a href={toolHref} class="cta-link">Try The VO2 Max Calculator →</a>
+  </section>
+
+  <section id="what-vo2-is">
+    <h2>What is VO2 max? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      VO2 max is oxygen use at hard work, in millilitres per kilogram per minute.
+      A lab cart measures it with a mask. This page does not. It runs two published field estimates.
+    </p>
+    <p>
+      Cooper, JAMA 1968, uses the metres you cover in twelve minutes.
+      Subtract 504.9, then divide by 44.73. That is the whole Cooper line.
+      Uth, 2004, uses 15.3 times a max heart rate divided by the resting pulse.
+    </p>
+    <p>
+      A cooper test calculator turns a twelve-minute distance into a number because the run is the measurement.
+      For example, estimate aerobic capacity from 2.4 km in twelve minutes.
+      Input: 2.4 kilometres covered in those twelve minutes.
+    </p>
+    <p>
+      Output: 42.4 ml/kg/min on an aerobic capacity calculator.
+      What happens when a distance in metres is typed into the kilometre field is a rejection, not a pulse result.
+      vo2max from resting heart rate stays a separate card, and a fitness age calculator is a different page.
+    </p>
+  </section>
+
+  <section id="two-methods">
+    <h2>What is the difference between the Cooper test and the resting pulse? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The difference between the Cooper test and the resting-pulse estimate is what you measured.
+      One number comes from a run. The other comes from age and a pulse at rest.
+      Treating the Cooper number and the pulse number as one measurement hides that split.
+    </p>
+    <p>
+      Comparing that run with a resting pulse of 60 at age 30 puts Cooper at 42.4 and Uth at 47.7.
+      The gap is above 5 ml/kg/min, so the note names both. A resting pulse of 68 at the same age sits closer, and the note stays quiet.
+      Leaving one method blank so the other stands alone is the way to read a single test.
+    </p>
+  </section>
+
+  <section id="not-fitness-age">
+    <h2>Does this page compute fitness age? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      No. The page does not compute fitness age. It also does not diagnose, and it does not replace a lab cart.
+      Max heart rate, when the pulse method runs, is Tanaka 2001: 208 minus 0.7 times age.
+    </p>
+    <p>
+      Training zones from age are a different job, on the <a href={zonesHref}>heart rate zone calculator</a>.
+      A blank distance with age 30 and a resting pulse of 50 makes Uth the hero, about 57.2.
+    </p>
+  </section>
+
+  <section id="mistakes">
+    <h2>Which VO2 max mistakes reject the run? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Metres in the kilometre field">
+      <p>
+        Typing the distance in metres while the field is in kilometres, such as 2400, is rejected.
+        The message names kilometres and 2.4 km. In miles it names 1.5 miles. The pulse method does not fill in after that error.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Two methods, one label">
+      <p>
+        Treating the Cooper number and the pulse number as one measurement drops the method name.
+        The hero says Cooper or Uth. The other card, when it exists, keeps the second name.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Fitness age">
+      <p>
+        Expecting a fitness age from this page will not work. There is no age-equivalent output.
+        The word vo2max on the result stays tied to the method that produced it.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="key-idea" heading="One method, or both named">
+      <p>
+        Use the distance, or the pulse, or both with both labels.
+        A gap of 5 ml/kg/min is a disagreement, not a rounding error.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="Field estimates, on your device">
+      <p>
+        Runs entirely on your device. Nothing is uploaded.
+        A Cooper window runs from 0.8 km to 6 km. Outside that, the distance is not a twelve-minute result.
+      </p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

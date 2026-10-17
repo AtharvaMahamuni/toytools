@@ -54,6 +54,10 @@
       "searchQueries": ["vo2 max calculator", "cooper test calculator", "aerobic capacity calculator", "vo2max from resting heart rate", "fitness age calculator"],
       "existingSolutions": ["omnicalculator.com", "healthline.com"],
       "solutionWeaknesses": ["one estimation method only", "no fitness-percentile context", "ad heavy"],
+      "userFailures": [
+        "A resting-pulse estimate and a twelve-minute Cooper test are read as the same number.",
+        "A distance typed in kilometres is treated as metres, so the Cooper result is nonsense."
+      ],
       "relatedProblems": ["cardio fitness percentile", "cooper test scoring", "training zone anchoring"],
       "relatedTools": ["heart-rate-zone-calculator"],
       "demand": 58,
@@ -163,6 +167,10 @@
       "searchQueries": ["waist to hip ratio calculator", "whr calculator", "waist hip ratio risk", "central obesity calculator", "waist to height ratio"],
       "existingSolutions": ["calculator.net", "who.int", "healthline.com"],
       "solutionWeaknesses": ["no risk band shown", "measurement technique not explained", "ad heavy"],
+      "userFailures": [
+        "One circumference is typed in inches while the other stays in centimetres, and the ratio leaves the human range.",
+        "The tape sits at the navel instead of the landmark the band assumes, and the ratio crosses a risk cut."
+      ],
       "relatedProblems": ["where to place the tape", "risk thresholds by sex", "ratio versus BMI"],
       "relatedTools": ["bmi-calculator", "body-fat-calculator"],
       "demand": 52,
@@ -184,6 +192,10 @@
       "searchQueries": ["body surface area calculator", "bsa calculator", "mosteller formula", "du bois bsa", "bsa for chemotherapy dosing"],
       "existingSolutions": ["mdcalc.com", "calculator.net"],
       "solutionWeaknesses": ["signup wall on clinical sites", "one formula only", "no plain-language explanation"],
+      "userFailures": [
+        "Mosteller is copied while Du Bois differs by enough square metres to matter, and a single unlabeled number hides which formula it was.",
+        "The square-metre figure is copied into a chemotherapy dose."
+      ],
       "relatedProblems": ["formula variance", "paediatric dosing", "cardiac index"],
       "relatedTools": ["bmi-calculator"],
       "demand": 48,
@@ -293,6 +305,10 @@
       "searchQueries": ["sleep tracker", "sleep log", "hours of sleep tracker", "sleep diary template", "weekly sleep average"],
       "existingSolutions": ["phone app stores", "wearable companion apps"],
       "solutionWeaknesses": ["needs a wearable", "account required", "data uploaded to a vendor"],
+      "userFailures": [
+        "Time in bed is logged as time asleep, so a night over nine hours pulls the trend up.",
+        "A nap and the night's sleep have to share one number, because the log keeps a single value per day."
+      ],
       "relatedProblems": ["weekly average", "consistency streaks", "sleep debt"],
       "relatedTools": ["move-today-tracker", "water-intake-tracker"],
       "demand": 50,

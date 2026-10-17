@@ -5,9 +5,11 @@
 // SVG) lives in the tested pure model behind ToyTools.tracker. Persistence is ToyTools.state, so a
 // tracker's history stays on the user's device.
 //
-// If a new tracker ever requires editing this file, add a TrackerDef in the tracker registry instead.
+// A new tracker's layout belongs in a TrackerDef. max, placeholder, and trackerCaveat are generic
+// seams on that def, rendered once here, so a tracker does not grow its own widget.
 import { getTrackerDef } from '@lib/engines/tracker/registry';
 import type { ToolConfig } from '@data/types';
+import CraftNote from '@tools/_shared/CraftNote.astro';
 
 interface Props {
   slug: string;
@@ -20,6 +22,7 @@ const def = getTrackerDef(trackerId)!;
 const isIncrement = def.inputMode === 'increment';
 const showGoal = !!def.goalLabel;
 const showUnits = !!def.units?.length;
+const craftId = config.craft?.id;
 ---
 
 <section class="tracker" data-tracker={trackerId} data-slug={slug} data-def={JSON.stringify(def)}>
@@ -59,7 +62,8 @@ const showUnits = !!def.units?.length;
               inputmode="decimal"
               step={def.step}
               min="0"
-              placeholder={`e.g. 70`}
+              max={def.max}
+              placeholder={def.placeholder ?? 'e.g. 70'}
             />
             <button type="button" class="tracker-log" id={`${slug}-log`}>Log</button>
           </div>
@@ -83,6 +87,8 @@ const showUnits = !!def.units?.length;
       </div>
     </div>
   </div>
+
+  {craftId && <CraftNote id={`${slug}-caveat`} craftId={craftId} />}
 
   <!-- Chart -->
   <div class="tracker-chart-wrap">
@@ -192,6 +198,16 @@ const showUnits = !!def.units?.length;
       if (emptyEl) emptyEl.hidden = hasData;
       if (chartEl) chartEl.hidden = !hasData;
 
+      var noteEl = $('caveat');
+      var noteTxt = $('caveat-text');
+      if (noteEl && noteTxt) {
+        var note = (window.ToyTools && ToyTools.trackerCaveat)
+          ? ToyTools.trackerCaveat(def.id, todayVal)
+          : null;
+        if (note) { noteTxt.textContent = note; noteEl.hidden = false; }
+        else { noteEl.hidden = true; noteTxt.textContent = ''; }
+      }
+
       if (def.chart === 'bars') {
         var series = tr.lastNDays(state.entries, today, def.windowDays).map(function (e) {
           return { label: weekdayLabel(e.date), value: e.value };
@@ -276,7 +292,13 @@ const showUnits = !!def.units?.length;
     if (logBtn && inputEl) {
       var submit = function () {
         var v = parseFloat(inputEl.value);
-        if (isFinite(v) && v > 0) { logValue(v); inputEl.value = ''; }
+        if (!isFinite(v) || !(v > 0)) return;
+        if (typeof def.max === 'number' && v > def.max) {
+          if (window.ToyTools) ToyTools.toast(def.max + ' ' + def.unit + ' is the most this log accepts.');
+          return;
+        }
+        logValue(v);
+        inputEl.value = '';
       };
       logBtn.addEventListener('click', submit);
       inputEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); submit(); } });

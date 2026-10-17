@@ -1,0 +1,142 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const lbmHref = toolPathBySlug('lean-body-mass-calculator');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>How do you estimate body surface area? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Enter height in centimetres and weight in kilograms. Mosteller is the hero.
+      Du Bois stays beside it, and the third row is Mosteller minus Du Bois.
+    </p>
+    <p>
+      Checking 175 cm and 70 kg, where the two formulas nearly agree, gives Mosteller 1.84 square metres.
+      Du Bois is 1.85 at two decimals. The spread is about 0.003, so the note stays quiet.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Body Surface Area Calculator →</a>
+  </section>
+
+  <section id="what-bsa-is">
+    <h2>What is body surface area? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Body surface area is an estimate of skin area from height and weight, in square metres.
+      No tape measures the skin. Both formulas on this page are that estimate, written two ways.
+    </p>
+    <p>
+      Mosteller, New England Journal of Medicine 1987, is the square root of centimetres times kilograms, divided by 3600.
+      Du Bois and Du Bois, Archives of Internal Medicine 1916, uses powers of height and weight.
+      Comparing Mosteller and Du Bois before copying a square-metre figure is why both stay visible.
+    </p>
+  </section>
+
+  <section id="spread">
+    <h2>What is the difference between Mosteller and Du Bois? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The difference between the Mosteller and Du Bois formulas is the arithmetic.
+      At 180 cm and 80 kg, Mosteller is 2.00 square metres and Du Bois is 2.00 as well, at two decimals.
+      The signed spread is a few thousandths, under the 0.05 line, so no note appears.
+    </p>
+    <p>
+      Seeing the spread open up at 160 cm and 90 kg is the other worked case.
+      Mosteller reads 2.00 and Du Bois reads 1.93. The gap is about 0.07 square metres, and the note names 0.07.
+      At 190 cm and 120 kg the gap is just under 0.05, so the note stays hidden.
+    </p>
+    <p>
+      For example, keep Mosteller and Du Bois together on the same screen.
+      Input: 175 cm and 70 kg on a bsa calculator.
+      Output: Mosteller 1.84, with du bois bsa at about 1.85.
+    </p>
+    <p>
+      What happens when height is entered in metres is a refusal, not a quiet rescale.
+      Type 175 centimetres, not 1.75 metres, or the form stops.
+    </p>
+  </section>
+
+  <section id="not-a-dose">
+    <h2>Does the square-metre figure dose a drug? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      No. The page does not compute a chemotherapy dose, a cardiac index, or a paediatric dose.
+      BSA for chemotherapy dosing needs a protocol, a drug, and a prescriber. None of those are here.
+    </p>
+    <p>
+      Lean mass from the same height and weight is a different estimate, on the <a href={lbmHref}>lean body mass calculator</a>.
+      That page also refuses a height typed in metres.
+    </p>
+  </section>
+
+  <section id="mistakes">
+    <h2>Which body surface area mistakes break the figure? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Height in metres">
+      <p>
+        Entering height in metres instead of centimetres is refused.
+        1.75 is not accepted as 175 cm. The message tells you to enter centimetres, so 1.8 m is 180.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="A formula copied into a dose">
+      <p>
+        Copying one formula into a chemotherapy dose treats an estimate as an order.
+        The hero is Mosteller because that is the formula people copy, not because it is a dose.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="One unlabeled number">
+      <p>
+        Reading one unlabeled number as the body surface area hides which formula was copied.
+        The spread row exists so the gap stays attached to both names.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="key-idea" heading="Both formulas stay on screen">
+      <p>
+        Keep Mosteller and Du Bois labeled. The spread is part of the answer.
+        A single square-metre figure with no name is how a 0.07 gap disappears.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="An estimate, on your device">
+      <p>
+        Runs entirely on your device. Nothing is uploaded.
+        Imperial height under 20 inches is refused, because 5 ft 11 in is 71 inches, not 19.
+      </p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

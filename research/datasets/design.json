@@ -117,6 +117,10 @@
         "no OKLCH interpolation option",
         "heavy UI, poor mobile experience"
       ],
+      "userFailures": [
+        "An sRGB linear-gradient is copied, and the gray band shows up only after it is in the mock.",
+        "A stop outside sRGB gamut is clamped, so the copied hex no longer matches the OKLCH stop."
+      ],
       "relatedProblems": ["color conversion", "color shades"],
       "relatedTools": ["color-format-converter", "color-shades-generator"],
       "demand": 70,

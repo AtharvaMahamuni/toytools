@@ -1,0 +1,6 @@
+---
+import TrackerWidget from '@tools/_shared/TrackerWidget.astro';
+import { config } from './config';
+---
+
+<TrackerWidget slug={config.slug} trackerId={config.processorId!} config={config} />

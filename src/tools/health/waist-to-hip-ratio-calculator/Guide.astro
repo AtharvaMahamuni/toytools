@@ -1,0 +1,143 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const bmiHref = toolPathBySlug('bmi-calculator');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>How do you read a waist to hip ratio? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Divide the waist by the hip. An 80 cm waist and a 100 cm hip give 0.80.
+      Reading the sex-specific WHO band from a waist and a hip is what the second card does.
+    </p>
+    <p>
+      For men the substantially increased cut is 0.90. For women it is 0.85.
+      Checking a 0.80 ratio against the male cut of 0.90 reads Below 0.90 on the band.
+      The mixed-unit note stays hidden on that pair, because both tapes are centimetres.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Waist to Hip Ratio Calculator →</a>
+  </section>
+
+  <section id="what-whr-is">
+    <h2>What is waist to hip ratio? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Waist to hip ratio is one circumference divided by the other. The result has no unit when both tapes match.
+      The WHO expert consultation of 8 to 11 December 2008 published the cuts used here.
+    </p>
+    <p>
+      A man at 95 cm over 100 cm reads 0.95, which is at or above 0.90.
+      A woman at 32 inches over 40 inches reads 0.80, which is below 0.85.
+      The band names the cut. It does not add a second measurement.
+    </p>
+    <p>
+      The formula is waist divided by hip. A whr calculator applies the WHO 2008 cut to that ratio.
+      For example, men and women do not share one number.
+      Input: an 80 cm waist and a 100 cm hip, both in centimetres.
+    </p>
+    <p>
+      Output: 0.80, which sits below the male cut of 0.90.
+      What happens with one circumference in inches is a unit mismatch, not a second formula.
+      Waist hip ratio risk is that band. A central obesity calculator would claim more, and this page does not score central obesity risk.
+    </p>
+  </section>
+
+  <section id="not-height">
+    <h2>What is the difference between waist to hip and waist to height? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The difference between waist to hip ratio and waist to height ratio is the second tape.
+      This page divides waist by hip. Height is not an input, so waist to height is not computed.
+    </p>
+    <p>
+      Expecting a waist to height ratio from this page sends you looking for a number the form cannot make.
+      BMI from the same body is a different question, on the <a href={bmiHref}>BMI calculator</a>.
+    </p>
+  </section>
+
+  <section id="mixed-units">
+    <h2>What if the two tapes use different units? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Catching a waist in inches beside a hip in centimetres is the note on this page.
+      A 32 cm waist over a 102 cm hip is 0.31, which is outside the range a real pair usually has.
+      If that waist was inches, the ratio is about 0.80, and the note says inches.
+    </p>
+    <p>
+      Both sides wrong in the same way stay quiet. 32 and 40, both read as centimetres, are still 0.80.
+      The ratio cannot see a unit that both numbers share. Only a mismatch shows up.
+    </p>
+  </section>
+
+  <section id="mistakes">
+    <h2>Which waist to hip mistakes are easy? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Mixed units">
+      <p>
+        Typing one circumference in inches and the other in centimetres still produces a ratio.
+        The note appears when fixing one implausible side lands back in a plausible band.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="A cut read as a diagnosis">
+      <p>
+        Treating the ratio as a diagnosis of central obesity overreads a screening cut from 2008.
+        The page does not diagnose, and it does not estimate body fat.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="The other ratio">
+      <p>
+        Expecting a waist to height ratio from this page will not work. Height is absent.
+        Waist divided by hip is the only figure in the hero.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="key-idea" heading="Same unit on both tapes">
+      <p>
+        Keep both circumferences in centimetres, or both in inches.
+        The number is dimensionless only when that is true.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="A screen, on your device">
+      <p>
+        Runs entirely on your device. Nothing is uploaded.
+        Tape at the narrowest waist, not the navel, unless your own protocol says otherwise.
+      </p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

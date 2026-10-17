@@ -144,7 +144,7 @@ const engineDefs: EngineDef[] = [
   // engines this is a repeat-entry log persisted in ToyTools.state, with streaks and a mini trend
   // chart. Every tracker shares one TrackerWidget shell; a tracker is a declarative TrackerDef, and
   // the pure model/viz + streak logic live in src/lib/engines/tracker/ (attached as ToyTools.tracker).
-  { id: 'tracker', name: 'Tracker Engine', category: 'health-fitness', patterns: ['health-track'], runtimeGlobal: 'tracker', sharedWidget: 'TrackerWidget.astro', globals: ['tracker', 'viz'] },
+  { id: 'tracker', name: 'Tracker Engine', category: 'health-fitness', patterns: ['health-track'], runtimeGlobal: 'tracker', sharedWidget: 'TrackerWidget.astro', globals: ['tracker', 'trackerCaveat', 'viz'] },
   // Design & CSS: two deterministic client-side math engines with bespoke widgets (like the
   // calculator engine — runtimeGlobal exposes a namespace object on ToyTools.*, no shared widget).
   // 'color' does parse/convert/contrast across HEX/RGB/HSL/HSV/OKLCH/CMYK; 'units' does CSS +

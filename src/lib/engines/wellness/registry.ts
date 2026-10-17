@@ -18,6 +18,9 @@ import { calorieDeficitCalculator } from './calculators/calorie-deficit';
 import { proteinIntakeCalculator } from './calculators/protein-intake';
 import { oneRepMaxCalculator } from './calculators/one-rep-max';
 import { runningPaceCalculator } from './calculators/running-pace';
+import { waistToHipCalculator } from './calculators/waist-to-hip';
+import { bodySurfaceAreaCalculator } from './calculators/body-surface-area';
+import { vo2MaxCalculator } from './calculators/vo2-max';
 
 export const WELLNESS_CALCULATORS: Record<string, WellnessCalculator> = {
   bmi: bmiCalculator,
@@ -32,6 +35,9 @@ export const WELLNESS_CALCULATORS: Record<string, WellnessCalculator> = {
   'protein-intake': proteinIntakeCalculator,
   'one-rep-max': oneRepMaxCalculator,
   'running-pace': runningPaceCalculator,
+  'waist-to-hip-ratio': waistToHipCalculator,
+  'body-surface-area': bodySurfaceAreaCalculator,
+  'vo2-max': vo2MaxCalculator,
 };
 
 /**

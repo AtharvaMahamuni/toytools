@@ -319,6 +319,16 @@ export const GLYPHS: Record<string, string> = {
   csvColumns: S + '<rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M3.5 9h17M3.5 14h17M9.2 4v16M14.8 4v16"/>' + E + '<rect x="9.4" y="4.3" width="5.2" height="15.4" fill="#fff" fill-opacity=".45"/>',
   // Day and month can trade places in one numeric date.
   dateSwap: t('D/M', 8),
+  // Waist shorter than hip: the ratio, not another gauge.
+  whr: S + '<circle cx="12" cy="4.2" r="1.7"/><path d="M9.2 8.2h5.6"/><path d="M7 14.5h10"/><path d="M12 6v12"/><path d="M9.5 20.5h5"/>' + E,
+  // A body outline with a surface grid.
+  bsa: S + '<circle cx="12" cy="4.6" r="2"/><path d="M8.2 20.2v-5.6a3.8 3.8 0 0 1 7.6 0v5.6"/><path d="M9.2 12.2h5.6M12 9.4v5.6"/>' + E,
+  // Oxygen mark for a field estimate, not a heart-rate pulse.
+  vo2: t('O&#8322;', 12),
+  // A bed plus a short trend, not the sleep-cycle moon.
+  sleepLog: S + '<path d="M3 15.5h18"/><path d="M5.5 15.5V19M18.5 15.5V19"/><path d="M6 15.5c.4-2.6 2-4.2 4-4.2h4.2c2.2 0 3.6 1.6 3.8 4.2"/><path d="M4 8.5 7 6.2l3 2.2 3-3 4 3.1"/>' + E,
+  // Two stops and the blend between them.
+  okGradient: S + '<rect x="3" y="8" width="18" height="8" rx="2"/><path d="M9 8v8M15 8v8"/>' + E,
 
   // ── generic fallback (never blank) ────────────────────────────────────
   spark: S + '<path d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6Z"/>' + E,

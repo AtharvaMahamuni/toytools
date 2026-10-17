@@ -1,7 +1,7 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-09T05:25:21.130Z",
-  "fingerprint": "acd84a9d",
+  "generatedAt": "2026-10-17T08:18:54.596Z",
+  "fingerprint": "bbde1a44",
   "readyToPolish": [
     {
       "slug": "electron-configuration-calculator",
@@ -307,36 +307,6 @@
       "engine": "tracker"
     },
     {
-      "id": "css-gradient-generator",
-      "proposedTool": "css-gradient-generator",
-      "finalScore": 74.1,
-      "engine": "color"
-    },
-    {
-      "id": "waist-to-hip-ratio-calculator",
-      "proposedTool": "waist-to-hip-ratio-calculator",
-      "finalScore": 73.7,
-      "engine": "wellness"
-    },
-    {
-      "id": "sleep-hours-tracker",
-      "proposedTool": "sleep-hours-tracker",
-      "finalScore": 73.5,
-      "engine": "tracker"
-    },
-    {
-      "id": "body-surface-area-calculator",
-      "proposedTool": "body-surface-area-calculator",
-      "finalScore": 72.9,
-      "engine": "wellness"
-    },
-    {
-      "id": "vo2-max-calculator",
-      "proposedTool": "vo2-max-calculator",
-      "finalScore": 72.2,
-      "engine": "wellness"
-    },
-    {
       "id": "image-palette-extractor",
       "proposedTool": "image-palette-extractor",
       "finalScore": 71.6,
@@ -380,9 +350,9 @@
     }
   ],
   "summary": {
-    "shippedCovered": 81,
+    "shippedCovered": 87,
     "readyToPolish": 10,
     "needsEvidence": 25,
-    "atRisk": 16
+    "atRisk": 11
   }
 }

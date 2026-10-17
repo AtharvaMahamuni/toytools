@@ -25,6 +25,9 @@ describe('unit switch (item 4)', () => {
       'lean-body-mass': ['weight', 'height'],
       'one-rep-max': ['weight'],
       'running-pace': ['distance'],
+      'waist-to-hip-ratio': ['waist', 'hip'],
+      'body-surface-area': ['weight', 'height'],
+      'vo2-max': ['distance'],
     };
     for (const [id, ids] of Object.entries(expected)) {
       const dims = unitDimensions(getWellnessCalculator(id)!.fields);
