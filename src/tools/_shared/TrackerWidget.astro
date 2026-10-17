@@ -146,13 +146,26 @@ const craftId = config.craft?.id;
     // ── State ────────────────────────────────────────────────────────────────
     var state = { entries: [], goal: def.defaultGoal || 0, unit: (def.units && def.units[0] && def.units[0].value) || def.unit };
 
+    // Entries from storage or a restored backup pass ToyTools.tracker.cleanEntries, so a hand-edited
+    // file with 99 h, -5 or "abc" cannot reach the chart. Returns how many entries were refused.
     function load() {
+      var dropped = 0;
       try {
         var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
-        if (saved && Array.isArray(saved.entries)) state.entries = saved.entries;
-        if (saved && typeof saved.goal === 'number') state.goal = saved.goal;
+        var tr = T();
+        if (saved && Array.isArray(saved.entries)) {
+          if (tr && tr.cleanEntries) {
+            var clean = tr.cleanEntries(saved.entries, def.max);
+            state.entries = clean.entries;
+            dropped = clean.dropped;
+          } else state.entries = saved.entries;
+        }
+        if (saved && typeof saved.goal === 'number') {
+          state.goal = tr && tr.cleanGoal ? tr.cleanGoal(saved.goal, def.defaultGoal || 0, def.max) : saved.goal;
+        }
         if (saved && typeof saved.unit === 'string') state.unit = saved.unit;
       } catch (_) {}
+      return dropped;
     }
     function persist() {
       if (!(window.ToyTools && ToyTools.state)) return;
@@ -358,10 +371,14 @@ const craftId = config.craft?.id;
         reader.onload = function () {
           var res = ToyTools.data.restore(String(reader.result || ''));
           if (!res.ok) { ToyTools.toast(res.error || 'Could not read that backup.'); return; }
-          load(); render();
+          var skipped = load();
+          if (skipped > 0) persist();
+          render();
           if (goalEl && state.goal > 0) goalEl.value = String(state.goal);
           if (unitEl) unitEl.value = state.unit;
-          ToyTools.toast('Restored ' + res.restored + (res.restored === 1 ? ' record' : ' records'));
+          var msg = 'Restored ' + res.restored + (res.restored === 1 ? ' record' : ' records');
+          if (skipped > 0) msg += '. Skipped ' + skipped + (skipped === 1 ? ' entry that was' : ' entries that were') + ' not a valid number or out of range';
+          ToyTools.toast(msg);
         };
         reader.onerror = function () { ToyTools.toast('Could not read that file.'); };
         reader.readAsText(file);

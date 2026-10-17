@@ -14,6 +14,8 @@ import {
   currentStreak,
   longestStreak,
   prune,
+  cleanEntries,
+  cleanGoal,
   type Entry,
 } from './model';
 import { barsSvg, lineSvg, progressRingSvg, type VizPoint } from './viz';
@@ -141,6 +143,8 @@ export const tracker = {
   lastNDays,
   movingAverage,
   prune,
+  cleanEntries,
+  cleanGoal,
 
   currentStreak(entries: Entry[], today: string, goal: number, mode: TrackerStreakMode): number {
     return currentStreak(entries, today, qualifierFor(mode, goal));
