@@ -151,6 +151,8 @@ const craftId = config.craft?.id;
     // Mirrors IMPERIAL_PER_METRIC and IMPERIAL_UNITS in unit-switch.ts (pinned by its test).
     var IMP_PER_MET = { mass: 2.2046226218, length: 1 / 2.54, distance: 1 / 1.609344 };
     var IMP_UNITS = ['imperial', 'lb', 'mi'];
+    // Mirrors SWITCH_DECIMALS: a running distance keeps 2 decimals, mass and length keep 1.
+    var SWITCH_SCALE = { mass: 10, length: 10, distance: 100 };
     var unitNow = (fieldById('unit') && fieldById('unit').value) || 'metric';
     // The value each field had before the last toggle, so toggling straight back restores it
     // exactly (181 cm -> 71.3 in -> 181 cm, not 181.1) unless it was edited in between.
@@ -180,7 +182,8 @@ const craftId = config.craft?.id;
         if (back && back.unit === next && String(back.converted) === String(n)) v = back.value;
         else {
           var f = IMP_PER_MET[unitDims[id]] || 1;
-          v = Math.round((toImp ? n * f : n / f) * 10) / 10;
+          var sc = SWITCH_SCALE[unitDims[id]] || 10;
+          v = Math.round((toImp ? n * f : n / f) * sc) / sc;
         }
         memo[id] = { unit: unitNow, value: raw, converted: v };
         setField(id, v);

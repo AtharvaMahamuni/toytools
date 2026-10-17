@@ -1,8 +1,8 @@
 // Phase C PR 2 item 4: the metric / imperial switch converts body measurements.
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { convertMeasurement, unitDimensions, LB_PER_KG, CM_PER_IN, KM_PER_MI, IMPERIAL_UNITS } from './unit-switch';
-import { getWellnessCalculator } from './registry';
+import { convertMeasurement, unitDimensions, LB_PER_KG, CM_PER_IN, KM_PER_MI, IMPERIAL_UNITS, SWITCH_DECIMALS } from './unit-switch';
+import { getWellnessCalculator, runWellness } from './registry';
 
 describe('unit switch (item 4)', () => {
   it('converts kg <-> lb and cm <-> in to 1 decimal', () => {
@@ -40,6 +40,8 @@ describe('unit switch (item 4)', () => {
     expect(src).toContain(String(LB_PER_KG));
     expect(src).toContain(`1 / ${CM_PER_IN}`);
     expect(src).toContain(`1 / ${KM_PER_MI}`);
+    const scale = Object.fromEntries(Object.entries(SWITCH_DECIMALS).map(([k, d]) => [k, 10 ** d]));
+    expect(src).toContain(`var SWITCH_SCALE = { mass: ${scale.mass}, length: ${scale.length}, distance: ${scale.distance} };`);
     expect(src).toContain(JSON.stringify(IMPERIAL_UNITS).replace(/"/g, "'").replace(/,/g, ', '));
   });
 });
@@ -50,10 +52,29 @@ describe('kg / lb and km / mi switches (round 1, M1)', () => {
     expect(convertMeasurement(220.5, 'mass', 'lb', 'kg')).toBe(100);
   });
   it('Running Pace converts km to mi', () => {
-    expect(convertMeasurement(5, 'distance', 'km', 'mi')).toBe(3.1);
-    expect(convertMeasurement(10, 'distance', 'mi', 'km')).toBe(16.1);
+    expect(convertMeasurement(5, 'distance', 'km', 'mi')).toBe(3.11);
+    expect(convertMeasurement(10, 'distance', 'mi', 'km')).toBe(16.09);
   });
   it('a same-side switch changes nothing', () => {
     expect(convertMeasurement(70, 'mass', 'metric', 'kg')).toBe(70);
+  });
+});
+
+describe('running distance keeps 2 decimals (PR #256 must-fix 1)', () => {
+  it('2.45 km is 1.52 mi, not 1.5', () => {
+    expect(convertMeasurement(2.45, 'distance', 'km', 'mi')).toBe(1.52);
+    expect(convertMeasurement(1.52, 'distance', 'mi', 'km')).toBe(2.45);
+  });
+  it('a Cooper VO2 max moves by at most 0.1 across the switch', () => {
+    const hero = (distance: number, unit: string) =>
+      Number(runWellness('vo2-max', { distance, unit } as never, {} as never).hero?.raw);
+    const km = hero(2.45, 'km');
+    const mi = hero(convertMeasurement(2.45, 'distance', 'km', 'mi'), 'mi');
+    expect(Number.isFinite(km)).toBe(true);
+    expect(Math.abs(km - mi)).toBeLessThanOrEqual(0.1);
+  });
+  it('mass and length still keep 1 decimal', () => {
+    expect(convertMeasurement(70, 'mass', 'metric', 'imperial')).toBe(154.3);
+    expect(convertMeasurement(175, 'length', 'metric', 'imperial')).toBe(68.9);
   });
 });

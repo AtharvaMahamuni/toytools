@@ -52,11 +52,18 @@ export function unitDimensions(fields: readonly FieldLike[]): Record<string, Dim
   return out;
 }
 
-/** Convert one value between unit systems (`from` / `to` are unit option values), to 1 decimal. */
+/**
+ * Decimals kept after a switch. A running distance keeps 2: at 1 decimal 2.45 km became 1.5 mi
+ * (2.41 km) and a Cooper VO2 max moved by 0.8. Body mass and length keep 1.
+ */
+export const SWITCH_DECIMALS: Record<Dimension, number> = { mass: 1, length: 1, distance: 2 };
+
+/** Convert one value between unit systems (`from` / `to` are unit option values), to SWITCH_DECIMALS. */
 export function convertMeasurement(value: number, dim: Dimension, from: string, to: string): number {
   const fromImp = IMPERIAL_UNITS.includes(from);
   const toImp = IMPERIAL_UNITS.includes(to);
   if (fromImp === toImp || !Number.isFinite(value)) return value;
   const f = IMPERIAL_PER_METRIC[dim];
-  return Math.round((toImp ? value * f : value / f) * 10) / 10;
+  const scale = 10 ** SWITCH_DECIMALS[dim];
+  return Math.round((toImp ? value * f : value / f) * scale) / scale;
 }
