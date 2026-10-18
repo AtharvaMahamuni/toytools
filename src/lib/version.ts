@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
-  minor: 13,
+  minor: 14,
   patch: 0,
   status: 'beta',
-  releaseDate: '2026-10-17',
-  description: 'Perceptual gradient, waist to hip ratio, body surface area, VO2 max, and a sleep hours log',
+  releaseDate: '2026-10-19',
+  description: 'Tool pages link home from the tool icon, which wears a small ToyTools badge',
 };
 
 export function formatVersion(config: VersionConfig): string {
