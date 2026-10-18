@@ -14,6 +14,13 @@
 // It is also simply correct for an installed PWA: in standalone mode there is no browser chrome at
 // all, and an app's title bar shows the app's name, not its vendor's.
 //
+// One exception, and it is small on purpose (home-nav option D): the tool icon links to / and wears
+// a ToyTools badge, the favicon mark, at its bottom-right. The tool still owns the bar: its icon and
+// its name lead, and the badge only says where home is. Without it a tool page reached from search
+// had no visible way to the rest of the catalogue except search. The link adds no width (it wraps
+// the existing icon), so the title keeps every pixel it had. The bar is only rendered by
+// ToolLayout, so a widget rendered on its own (shell-less) never gets the link or the badge.
+//
 // What deliberately survives:
 //   - The <h1>. It moves INTO the bar rather than being replaced by it, so the page keeps the
 //     heading that scripts/check-query-coverage.ts scores query targeting against.
@@ -44,8 +51,12 @@ const { tool } = Astro.props;
 
 <header class="tool-bar" role="banner">
   <div class="tb-inner">
-    {/* alt="" because the name is right beside it. */}
-    <img class="tb-mark" src={withBase(`/icons/tool/${tool.slug}.svg`)} width="28" height="28" alt="" />
+    {/* The icon is the way home. alt="" on both images because the link's label says where it goes
+        and the tool name is right beside it. */}
+    <a class="tb-home" href={withBase('/')} aria-label="ToyTools home" data-tb-home>
+      <img class="tb-mark" src={withBase(`/icons/tool/${tool.slug}.svg`)} width="28" height="28" alt="" />
+      <img class="tb-badge" src={withBase('/favicon.svg')} width="14" height="14" alt="" data-tb-badge />
+    </a>
     <h1 class="tb-title">{tool.name}</h1>
     <FavoriteButton slug={tool.slug} name={tool.name} />
     {/* Beside the star on every width. Hides itself when the tool is already installed, and on
@@ -86,7 +97,6 @@ const { tool } = Astro.props;
     width: 22px;
     height: 22px;
     border-radius: var(--radius-sm);
-    flex-shrink: 0;
   }
 
   /* The title takes the row; the controls keep their size. The clamp is a backstop against a
@@ -148,6 +158,26 @@ const { tool } = Astro.props;
 </style>
 
 <style is:global>
+  /* Home link (option D). Unscoped on purpose: the class names exist only here, and dropping the
+     scope attribute is what fits it in the 18 KB tool-page CSS budget (it leaves about 1 byte, so
+     any more CSS here needs a cut elsewhere). The link is exactly the icon's box, with no padding,
+     so the bar is no wider than before. Hover is a slight fade, pressed a deeper one, and the focus
+     ring is the global :focus-visible one. */
+  .tb-home { position: relative; }
+  .tb-home:hover { opacity: 0.8; }
+  .tb-home:active { opacity: 0.6; }
+
+  /* The ToyTools mark at the icon's bottom-right, as in the option D render: 14px (from its
+     attributes) and ringed in the bar's background so it reads as a badge, not as part of the
+     tool's icon. It overhangs 4px right and 5px down into the bar's gap. The render overhangs 7px
+     but pads the link 4px, which would widen the bar. */
+  .tb-badge {
+    position: absolute;
+    right: -4px;
+    bottom: -5px;
+    box-shadow: 0 0 0 2px var(--color-bg);
+  }
+
   /* The star loses its border and label in the bar: it is one of three icon controls in a row of
      icon controls, and a bordered pill next to two bare glyphs reads as an error. */
   .tool-bar .favorite-btn {
@@ -159,7 +189,9 @@ const { tool } = Astro.props;
     flex-shrink: 0;
   }
 
-  .tool-bar .favorite-btn .favorite-label {
+  /* Visually hidden labels: the star's and the install button's. One rule for both. */
+  .tool-bar .favorite-btn .favorite-label,
+  .tool-bar .tt-install-btn span {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -187,15 +219,6 @@ const { tool } = Astro.props;
     background: var(--color-surface-hover);
     color: var(--color-text);
     border-color: transparent;
-  }
-
-  .tool-bar .tt-install-btn span {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
   }
 
   .tool-bar .favorite-btn.is-on {
