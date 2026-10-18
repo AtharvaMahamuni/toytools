@@ -19,7 +19,8 @@
 // its name lead, and the badge only says where home is. Without it a tool page reached from search
 // had no visible way to the rest of the catalogue except search. The link adds no width (it wraps
 // the existing icon), so the title keeps every pixel it had. The bar is only rendered by
-// ToolLayout, so a widget rendered on its own (shell-less) never gets the link or the badge.
+// ToolLayout, so a widget rendered on its own (shell-less) never gets the link or the badge, and
+// a small inline script below removes both when the page is framed or runs as an installed app.
 //
 // What deliberately survives:
 //   - The <h1>. It moves INTO the bar rather than being replaced by it, so the page keeps the
@@ -72,6 +73,22 @@ const { tool } = Astro.props;
     <ThemeToggle compact />
   </div>
 </header>
+{/* Framed by another page, or running as an installed tool app: no way home from here. In a frame
+    the link would navigate the frame, and an installed tool's scope is its own URL, so "/" would
+    leave the app. Swap the link for the plain icon (which drops the badge with it) before paint. */}
+<script is:inline>
+  (function () {
+    var framed = true;
+    try { framed = top !== self; } catch (_) {}
+    if (!framed && !matchMedia('(display-mode: standalone)').matches) return;
+    var a = document.querySelector('[data-tb-home]');
+    var mark = a && a.querySelector('.tb-mark');
+    if (!mark) return;
+    // The link carried flex-shrink: 0 for the icon; the icon keeps it once it is the flex item.
+    mark.style.flexShrink = '0';
+    a.replaceWith(mark);
+  })();
+</script>
 
 <style>
   .tool-bar {
@@ -146,10 +163,11 @@ const { tool } = Astro.props;
     transition: var(--transition-color);
   }
 
+  /* No text-decoration here: .tb-search already sets none, and its scoped selector outranks the
+     global a:hover underline. */
   .tb-search:hover {
     background: var(--color-surface-hover);
     color: var(--color-text);
-    text-decoration: none;
   }
 
   .tb-search:active {
@@ -159,13 +177,15 @@ const { tool } = Astro.props;
 
 <style is:global>
   /* Home link (option D). Unscoped on purpose: the class names exist only here, and dropping the
-     scope attribute is what fits it in the 18 KB tool-page CSS budget (it leaves about 1 byte, so
-     any more CSS here needs a cut elsewhere). The link is exactly the icon's box, with no padding,
-     so the bar is no wider than before. Hover is a slight fade, pressed a deeper one, and the focus
-     ring is the global :focus-visible one. */
-  .tb-home { position: relative; }
+     scope attribute keeps it inside the 18 KB tool-page CSS budget, which is nearly full. The link
+     is exactly the icon's box, with no padding, so the bar is no wider than before. flex-shrink: 0
+     because the link is now the flex item, and without it a long title squeezes the icon into a
+     sliver on a phone. Hover is a slight fade, pressed a deeper one. The focus ring is the global
+     one, pushed out 6px so it encloses the badge's 4px and 5px overhang. */
+  .tb-home { position: relative; flex-shrink: 0; }
   .tb-home:hover { opacity: 0.8; }
   .tb-home:active { opacity: 0.6; }
+  .tb-home:focus-visible { outline-offset: 6px; }
 
   /* The ToyTools mark at the icon's bottom-right, as in the option D render: 14px (from its
      attributes) and ringed in the bar's background so it reads as a badge, not as part of the
@@ -215,15 +235,15 @@ const { tool } = Astro.props;
     flex-shrink: 0;
   }
 
+  /* No border-color on these two: both buttons have border: none in the bar, so a colour on a
+     border that is not drawn changes nothing. */
   .tool-bar .tt-install-btn.is-visible:hover {
     background: var(--color-surface-hover);
     color: var(--color-text);
-    border-color: transparent;
   }
 
   .tool-bar .favorite-btn.is-on {
     background: transparent;
-    border-color: transparent;
     color: var(--color-gold);
   }
 </style>
