@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.14] - 2026-10-19
+
+### Changed
+
+- **Tool pages link home.** The tool's icon in the title bar is now a link to the ToyTools home page, labelled "ToyTools home" for screen readers, with a small ToyTools mark at its bottom-right corner. It fades slightly on hover and more when pressed, and shows the usual focus ring from the keyboard. The bar is no wider, so tool names keep the room they had and are still never cut short. Widgets shown on their own, outside a tool page, do not get the link or the badge.
+
 ## [beta-v12.13] - 2026-10-17
 
 ### Added
