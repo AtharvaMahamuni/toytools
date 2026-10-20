@@ -117,7 +117,8 @@ export function pawnDirection(index: number, dir: number): number {
   return row === far ? -dir : dir;
 }
 
-function pawnTargets(index: number, dir: number, cells: readonly (Seat | null)[], owner: Seat): { to: number; capture: boolean }[] {
+/** Squares a pawn may slide to: forward if empty, diagonally forward onto the other player. Exported for tests. */
+export function pawnTargets(index: number, dir: number, cells: readonly (Seat | null)[], owner: Seat): { to: number; capture: boolean }[] {
   const step = pawnDirection(index, dir);
   const row = Math.floor(index / COLUMNS);
   const col = index % COLUMNS;

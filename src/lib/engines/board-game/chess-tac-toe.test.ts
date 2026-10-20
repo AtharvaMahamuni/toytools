@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createBoardGameApi } from './registry';
-import { pawnDirection } from './rules/chess-tac-toe';
+import { pawnDirection, pawnTargets } from './rules/chess-tac-toe';
 import type { BoardMove, MatchState } from './types';
 
 const api = createBoardGameApi();
@@ -109,5 +109,49 @@ describe('chess tac toe', () => {
     expect(stepped.ok).toBe(true);
     expect(stepped.state.cells[4]).toBe('X');
     expect(stepped.state.cells[0]).toBeNull();
+  });
+});
+
+describe('chess tac toe mutant guards', () => {
+  type Cell = 'X' | 'O' | null;
+  /** Hands empty (sliding phase), X to move, with the given pieces on the board. */
+  function slidePhase(marks: Record<number, ['X' | 'O', 'pawn' | 'rook' | 'knight' | 'bishop']>, dir: Record<number, number> = {}): MatchState {
+    const start = api.create('chess-tac-toe');
+    const cells: Cell[] = Array(16).fill(null);
+    const pieces: (string | null)[] = Array(16).fill(null);
+    const dirs: number[] = Array(16).fill(0);
+    for (const [i, [seat, piece]] of Object.entries(marks)) {
+      cells[Number(i)] = seat;
+      pieces[Number(i)] = piece;
+    }
+    for (const [i, d] of Object.entries(dir)) dirs[Number(i)] = d;
+    return { ...start, cells, turn: 'X', extra: { hands: { X: [], O: [] }, pieces, dir: dirs } };
+  }
+
+  it('a pawn cannot step forward onto an occupied square', () => {
+    // X pawn on 9 moving up (dir -1); O rook sits straight ahead on 5.
+    const state = slidePhase({ 9: ['X', 'pawn'], 5: ['O', 'rook'], 0: ['X', 'rook'], 15: ['O', 'knight'] }, { 9: -1 });
+    const blocked = api.apply(state, slide(9, 5));
+    expect(blocked.ok).toBe(false);
+    expect(blocked.state).toBe(state);
+    expect(pawnTargets(9, -1, state.cells, 'X').map(t => t.to)).not.toContain(5);
+    // With the square empty the same step is legal.
+    const open = slidePhase({ 9: ['X', 'pawn'], 0: ['X', 'rook'], 15: ['O', 'knight'] }, { 9: -1 });
+    expect(api.apply(open, slide(9, 5)).ok).toBe(true);
+  });
+
+  it('a pawn never lists its own piece as a capture, only the other player', () => {
+    const cells: Cell[] = Array(16).fill(null);
+    cells[9] = 'X';
+    cells[4] = 'X'; // diagonal forward-left, own piece
+    cells[6] = 'O'; // diagonal forward-right, other player
+    const targets = pawnTargets(9, -1, cells, 'X');
+    expect(targets).toContainEqual({ to: 6, capture: true });
+    expect(targets.map(t => t.to)).not.toContain(4);
+    const state = slidePhase({ 9: ['X', 'pawn'], 4: ['X', 'rook'], 6: ['O', 'rook'] }, { 9: -1 });
+    expect(api.apply(state, slide(9, 4)).ok).toBe(false);
+    const took = api.apply(state, slide(9, 6));
+    expect(took.ok).toBe(true);
+    expect(took.state.cells[6]).toBe('X');
   });
 });

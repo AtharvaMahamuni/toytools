@@ -113,3 +113,50 @@ test('house-rule lines: quantum names its simplified scoring, chess has no draw 
   await ready(page, 'tic-tac-toe');
   await expect(page.locator('[data-board-rule]')).toHaveCount(0);
 });
+
+test('pair mode: with one square left, a single tap places the last mark and can win', async ({ page }) => {
+  await ready(page, 'quantum-tic-tac-toe');
+  const pair = async (a: number, b: number) => {
+    await cell(page, a).click();
+    await cell(page, b).click();
+  };
+  // Four same-pair 2-cycles. X marks a pair, O marks the same pair, X collapses so O keeps the
+  // second square. That leaves X X O / X X O / O O _ with only the bottom right open.
+  for (const [a, b, name] of [[0, 2, 'top right'], [1, 5, 'middle right'], [3, 6, 'bottom left'], [4, 7, 'bottom middle']] as const) {
+    await pair(a, b);
+    await pair(a, b);
+    await expect(banner(page)).toHaveText('X to choose the collapse. Pass the phone.');
+    await page.locator('[data-choice]', { hasText: `in the ${name}` }).click();
+  }
+  await expect(banner(page)).toHaveText('X: tap the last square to finish.');
+  await expect(page.locator('[data-cell][data-mark="empty"]')).toHaveCount(1);
+  await cell(page, 8).click();
+  await expect(cell(page, 8)).toHaveAttribute('data-mark', 'X');
+  await expect(banner(page)).toHaveText('X wins.');
+  await expect(cell(page, 8)).toHaveAccessibleName('Row 3, column 3, X, winning line');
+});
+
+test('selection is exposed to screen readers: chess from-square, quantum first pick, chess hand piece', async ({ page }) => {
+  await ready(page, 'quantum-tic-tac-toe');
+  await cell(page, 4).click();
+  await expect(cell(page, 4)).toHaveAccessibleName('Row 2, column 2, empty, selected');
+  await cell(page, 0).click();
+  await expect(cell(page, 4)).not.toHaveAccessibleName(/selected/);
+  await expect(page.locator('[data-cell][aria-label$=", selected"]')).toHaveCount(0);
+
+  await ready(page, 'chess-tac-toe');
+  const pawn = page.locator('[data-piece="pawn"]');
+  await expect(pawn).toHaveAttribute('aria-pressed', 'false');
+  await pawn.click();
+  await expect(page.locator('[data-piece="pawn"]')).toHaveAttribute('aria-pressed', 'true');
+  const place = async (piece: string, i: number) => {
+    await page.locator(`[data-piece="${piece}"]`).click();
+    await cell(page, i).click();
+  };
+  await cell(page, 0).click(); // the pawn is picked, so this places it
+  for (const [p, i] of [['pawn', 3], ['rook', 5], ['rook', 6], ['knight', 10], ['knight', 9], ['bishop', 14], ['bishop', 13]] as const) await place(p, i);
+  await cell(page, 5).click();
+  await expect(cell(page, 5)).toHaveAccessibleName(/^Row 2, column 2, .+, selected$/);
+  await cell(page, 5).click(); // tap again to put it down
+  await expect(cell(page, 5)).not.toHaveAccessibleName(/selected/);
+});

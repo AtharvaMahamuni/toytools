@@ -70,3 +70,50 @@ describe('connect 4', () => {
     expect(won.state.score).toEqual({ X: 0, O: 1, draws: 0 });
   });
 });
+
+describe('connect 4 mutant guards', () => {
+  type Cell = 'X' | 'O' | null;
+  const at = (r: number, c: number) => r * 7 + c;
+  function board(marks: Record<number, 'X' | 'O'>): Cell[] {
+    const cells: Cell[] = Array(42).fill(null);
+    for (const [i, m] of Object.entries(marks)) cells[Number(i)] = m;
+    return cells;
+  }
+  function drop(cells: Cell[], column: number, turn: 'X' | 'O' = 'X') {
+    const start = api.create('connect-4');
+    return api.apply({ ...start, cells, turn }, column);
+  }
+
+  it('wins on the diagonal that rises to the right', () => {
+    // X at (5,0) (4,1) (3,2); O stacks column 3 so X lands on (2,3).
+    const cells = board({ [at(5, 0)]: 'X', [at(4, 1)]: 'X', [at(3, 2)]: 'X', [at(5, 3)]: 'O', [at(4, 3)]: 'O', [at(3, 3)]: 'O' });
+    const result = drop(cells, 3);
+    expect(result.ok).toBe(true);
+    expect(result.state.cells[at(2, 3)]).toBe('X');
+    expect(result.state.outcome).toBe('X');
+    expect(api.view(result.state).cells.filter(c => c.win).map(c => c.index).sort((a, b) => a - b))
+      .toEqual([at(2, 3), at(3, 2), at(4, 1), at(5, 0)].sort((a, b) => a - b));
+  });
+
+  it('wins on the anti-diagonal that rises to the left', () => {
+    const cells = board({ [at(5, 6)]: 'X', [at(4, 5)]: 'X', [at(3, 4)]: 'X', [at(5, 3)]: 'O', [at(4, 3)]: 'O', [at(3, 3)]: 'O' });
+    const result = drop(cells, 3);
+    expect(result.state.cells[at(2, 3)]).toBe('X');
+    expect(result.state.outcome).toBe('X');
+    expect(api.view(result.state).banner).toBe('X wins.');
+  });
+
+  it('calls a draw when the last disc fills the board with no four', () => {
+    // Columns alternate X/O, flipping every two rows: no four anywhere.
+    const rows = ['XOXOXOX', 'XOXOXOX', 'OXOXOXO', 'OXOXOXO', 'XOXOXOX', 'XOXOXOX'];
+    const cells: Cell[] = rows.join('').split('') as Cell[];
+    cells[0] = null; // top of column 0, an X in the pattern
+    const before = drop(cells.slice(), 1, 'O');
+    expect(before.ok).toBe(false); // column 1 is full
+    const result = drop(cells, 0);
+    expect(result.ok).toBe(true);
+    expect(result.state.outcome).toBe('draw');
+    expect(result.state.score.draws).toBe(1);
+    expect(api.view(result.state).banner).toBe('Draw.');
+  });
+});

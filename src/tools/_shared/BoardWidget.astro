@@ -245,6 +245,7 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
         button.type = 'button';
         button.className = className + (String(item.id) === String(selected) ? ' is-selected' : '');
         button.setAttribute(attr, String(item.id));
+        if (attr === 'data-piece') button.setAttribute('aria-pressed', String(String(item.id) === String(selected)));
         button.textContent = item.label;
         box.appendChild(button);
       });
@@ -325,13 +326,14 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
         button.classList.toggle('is-win', !!cell.win);
         button.classList.toggle('is-preview', !!cell.preview);
         button.classList.toggle('is-ghost', !!cell.ghost);
-        button.classList.toggle('is-selected', cell.index === fromIndex || cell.index === pairIndex);
+        var selected = cell.index === fromIndex || cell.index === pairIndex;
+        button.classList.toggle('is-selected', selected);
         var mark = button.querySelector('.mark');
         if (mark) mark.className = 'mark' + shapeClass(cell.shape);
         var letter = button.querySelector('.mark-letter');
         var text = cell.letter || '';
         if (letter) letter.textContent = text;
-        var name = 'Row ' + (Math.floor(cell.index / columns) + 1) + ', column ' + ((cell.index % columns) + 1) + ', ' + (text || 'empty') + (cell.win ? ', winning line' : '');
+        var name = 'Row ' + (Math.floor(cell.index / columns) + 1) + ', column ' + ((cell.index % columns) + 1) + ', ' + (text || 'empty') + (cell.win ? ', winning line' : '') + (selected ? ', selected' : '');
         if (cell.ghost) name = 'Column ' + ((cell.index % columns) + 1) + ', preview';
         button.setAttribute('aria-label', name);
       });
@@ -450,6 +452,14 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
           if (markAttr === 'X' || markAttr === 'O') {
             var classical = api.apply(state, { kind: 'mark', a: index, b: index });
             show(classical.state, classical.ok ? '' : classical.reason);
+            return;
+          }
+          // One square left: a move cannot mark two, so a single tap places the classical mark
+          // there (the engine takes it as a = b). The banner says so.
+          var open = state.cells.filter(function (c) { return c === null; }).length;
+          if (open === 1 && pairIndex < 0) {
+            var last = api.apply(state, { kind: 'mark', a: index, b: index });
+            show(last.state, last.ok ? '' : last.reason);
             return;
           }
           if (pairIndex < 0) {

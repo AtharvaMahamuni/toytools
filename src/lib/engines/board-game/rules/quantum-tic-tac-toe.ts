@@ -201,8 +201,9 @@ function earliest(cells: readonly (Seat | null)[], seat: Seat, subs: readonly nu
   return best;
 }
 
-/** The earlier classical line takes the point. A tie on the subscript goes to X. */
-function decide(cells: readonly (Seat | null)[], subs: readonly number[]): { outcome: Outcome; note: string } {
+/** The earlier classical line takes the point: the line whose latest mark (highest subscript) is
+ *  lower. A tie on the subscript goes to X. Exported for tests. */
+export function decide(cells: readonly (Seat | null)[], subs: readonly number[]): { outcome: Outcome; note: string } {
   const xMax = earliest(cells, 'X', subs);
   const oMax = earliest(cells, 'O', subs);
   if (xMax === null && oMax === null) return { outcome: null, note: '' };
@@ -296,8 +297,9 @@ export const quantumTicTacToe: Rules = {
       return { ok: false, ply, reason: 'That square already has a classical mark.' };
     }
     if (move.a === move.b) {
-      // With one square left a move cannot mark two, so the last square takes a classical mark
-      // (tap it twice). That can still complete a line, so it is not a draw until it is played.
+      // With one square left a move cannot mark two, so the last square takes a classical mark.
+      // The widget sends it as a = b on a single tap. It can still complete a line, so it is not
+      // a draw until it is played.
       if (openSquares(ply.cells) !== 1) return { ok: false, ply, reason: 'A move marks two different squares.' };
       const cells = ply.cells.slice();
       cells[move.a] = ply.turn;
@@ -352,6 +354,7 @@ export const quantumTicTacToe: Rules = {
     if (ply.outcome === 'draw') banner = 'Draw.';
     else if (ply.outcome) banner = bag.note ? `${ply.outcome} wins. ${bag.note}` : `${ply.outcome} wins.`;
     else if (pending) banner = `${pending.chooser} to choose the collapse. Pass the phone.`;
+    else if (openSquares(ply.cells) === 1) banner = `${ply.turn}: tap the last square to finish.`;
     return {
       columns: 3,
       rows: 3,

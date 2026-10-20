@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createBoardGameApi } from './registry';
+import { decide } from './rules/quantum-tic-tac-toe';
 import type { BoardMove, MatchState } from './types';
 
 const api = createBoardGameApi();
@@ -114,7 +115,7 @@ describe('quantum tic tac toe', () => {
     // X O X / X O O / O X _ : no line yet, the bottom right is open.
     const state = oneLeft(['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', null]);
     expect(state.outcome).toBeNull();
-    expect(api.view(state).banner).toBe('X to play. Pass the phone.');
+    expect(api.view(state).banner).toBe('X: tap the last square to finish.');
     // Marking two squares is impossible with one left, and a classical square is still refused.
     expect(api.apply(state, mark(8, 0)).reason).toBe('That square already has a classical mark.');
     const last = api.apply(state, mark(8, 8));
@@ -143,5 +144,42 @@ describe('quantum tic tac toe', () => {
     const moved = api.apply(state, mark(7, 8));
     expect(moved.ok).toBe(true);
     expect(moved.state.outcome).toBeNull();
+  });
+});
+
+describe('quantum tic tac toe mutant guards', () => {
+  it('a collapse that leaves one square open is not a draw', () => {
+    // _ _ _ / X O O / O X X : no line. A 2-cycle on the top left and top middle collapses and
+    // leaves the top right open either way, with no line.
+    const start = api.create('quantum-tic-tac-toe');
+    const cells: ('X' | 'O' | null)[] = [null, null, null, 'X', 'O', 'O', 'O', 'X', 'X'];
+    const extra = start.extra as { subs: number[] };
+    const state = { ...start, cells, extra: { ...extra, subs: cells.map((c, i) => (c ? i : 0)), next: 10 } };
+    const pending = play(state, mark(0, 1), mark(0, 1));
+    for (const resolution of [0, 1]) {
+      const done = api.apply(pending, { kind: 'collapse', resolution });
+      expect(done.ok).toBe(true);
+      expect(done.state.cells.filter(c => c === null)).toHaveLength(1);
+      expect(done.state.outcome).toBeNull();
+      expect(api.view(done.state).banner).toMatch(/: tap the last square to finish\.$/);
+    }
+  });
+
+  it('the earlier line is the one whose latest mark is lower, not whose first mark is lower', () => {
+    // X's top row was finished by move 9 but started at move 1; O's bottom row ran 6 to 8.
+    // O's latest mark (8) is earlier than X's (9), so O takes the point. A min-based rule would say X.
+    const cells: ('X' | 'O' | null)[] = ['X', 'X', 'X', null, null, null, 'O', 'O', 'O'];
+    const subs = [1, 2, 9, 0, 0, 0, 6, 7, 8];
+    expect(decide(cells, subs)).toEqual({ outcome: 'O', note: 'X has a later line.' });
+    // And the mirror: X's latest (5) beats O's latest (8) even though O started at 3 and X at 4.
+    expect(decide(cells, [4, 5, 5, 0, 0, 0, 3, 3, 8]).outcome).toBe('X');
+  });
+
+  it('banner hints at the last square, and one move there finishes', () => {
+    const start = api.create('quantum-tic-tac-toe');
+    const cells: ('X' | 'O' | null)[] = ['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', null];
+    const extra = start.extra as { subs: number[] };
+    const state = { ...start, cells, extra: { ...extra, subs: cells.map((c, i) => (c ? i + 1 : 0)), next: 9 } };
+    expect(api.view(state).banner).toBe('X: tap the last square to finish.');
   });
 });
