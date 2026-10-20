@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-20T07:33:09.910Z",
+  "generatedAt": "2026-10-20T14:23:22.472Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -421,13 +421,22 @@
       "engine": "board-game",
       "existing": false,
       "relatedTools": [
-        "tic-tac-toe"
+        "tic-tac-toe",
+        "quantum-tic-tac-toe",
+        "connect-4",
+        "chess-tac-toe"
       ],
       "relatedGuides": [
-        "tic-tac-toe"
+        "tic-tac-toe",
+        "quantum-tic-tac-toe",
+        "connect-4",
+        "chess-tac-toe"
       ],
       "relatedFaqs": [
-        "tic-tac-toe"
+        "tic-tac-toe",
+        "quantum-tic-tac-toe",
+        "connect-4",
+        "chess-tac-toe"
       ]
     },
     {
@@ -630,13 +639,22 @@
       "engine": "board-game",
       "existing": false,
       "relatedTools": [
-        "tic-tac-toe"
+        "tic-tac-toe",
+        "chess-tac-toe",
+        "quantum-tic-tac-toe",
+        "connect-4"
       ],
       "relatedGuides": [
-        "tic-tac-toe"
+        "tic-tac-toe",
+        "chess-tac-toe",
+        "quantum-tic-tac-toe",
+        "connect-4"
       ],
       "relatedFaqs": [
-        "tic-tac-toe"
+        "tic-tac-toe",
+        "chess-tac-toe",
+        "quantum-tic-tac-toe",
+        "connect-4"
       ]
     },
     {
@@ -2403,13 +2421,22 @@
       "engine": "board-game",
       "existing": false,
       "relatedTools": [
-        "tic-tac-toe"
+        "tic-tac-toe",
+        "chess-tac-toe",
+        "connect-4",
+        "quantum-tic-tac-toe"
       ],
       "relatedGuides": [
-        "tic-tac-toe"
+        "tic-tac-toe",
+        "chess-tac-toe",
+        "connect-4",
+        "quantum-tic-tac-toe"
       ],
       "relatedFaqs": [
-        "tic-tac-toe"
+        "tic-tac-toe",
+        "chess-tac-toe",
+        "connect-4",
+        "quantum-tic-tac-toe"
       ]
     },
     {
@@ -3165,16 +3192,25 @@
       "engine": "board-game",
       "existing": false,
       "relatedTools": [
+        "connect-4",
+        "chess-tac-toe",
+        "quantum-tic-tac-toe",
         "coin-flipper",
         "dice-roller",
         "tic-tac-toe"
       ],
       "relatedGuides": [
+        "connect-4",
+        "chess-tac-toe",
+        "quantum-tic-tac-toe",
         "coin-flipper",
         "dice-roller",
         "tic-tac-toe"
       ],
       "relatedFaqs": [
+        "connect-4",
+        "chess-tac-toe",
+        "quantum-tic-tac-toe",
         "coin-flipper",
         "dice-roller",
         "tic-tac-toe"

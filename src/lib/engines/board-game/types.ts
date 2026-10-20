@@ -16,6 +16,8 @@ export interface Ply {
   turn: Seat;
   score: Score;
   outcome: Outcome;
+  /** Rules-private bag. Absent for tic-tac-toe. Cloned with each ply. */
+  extra?: unknown;
 }
 
 export interface MatchState extends Ply {
@@ -23,12 +25,43 @@ export interface MatchState extends Ply {
   past: Ply[];
 }
 
+export type CellShape =
+  | 'cross'
+  | 'ring'
+  | 'disc'
+  | 'empty'
+  | 'pawn'
+  | 'rook'
+  | 'knight'
+  | 'bishop';
+
 export interface CellView {
   index: number;
   mark: Seat | null;
-  shape: 'cross' | 'ring' | 'empty';
+  shape: CellShape;
   letter: string;
   win: boolean;
+  /** Column under the pointer, or a square chosen for the next tap. */
+  preview?: boolean;
+  /** A disc shown in the column before it drops. Not a placed mark. */
+  ghost?: boolean;
+}
+
+export type BoardInput = 'cell' | 'column' | 'pair' | 'chess';
+
+export interface HandPiece {
+  id: string;
+  letter: string;
+}
+
+export interface CollapseChoice {
+  id: number;
+  label: string;
+}
+
+export interface BoardLink {
+  a: number;
+  b: number;
 }
 
 export interface BoardView {
@@ -39,6 +72,22 @@ export interface BoardView {
   scoreText: string;
   canUndo: boolean;
   status: 'playing' | 'won' | 'draw';
+  input: BoardInput;
+  hand: HandPiece[];
+  choices: CollapseChoice[];
+  links: BoardLink[];
+}
+
+/** What a widget sends. Tic-tac-toe and Connect 4 send a column or square index. */
+export type BoardMove =
+  | number
+  | { kind: 'place'; piece: string; index: number }
+  | { kind: 'slide'; from: number; to: number }
+  | { kind: 'mark'; a: number; b: number }
+  | { kind: 'collapse'; resolution: number };
+
+export interface ViewHint {
+  column?: number | null;
 }
 
 export interface MoveResult {
@@ -52,7 +101,7 @@ export interface Rules {
   columns: number;
   rows: number;
   create(): Ply;
-  /** Never throws. An illegal index returns ok: false and the same ply. */
-  apply(ply: Ply, index: number): { ok: boolean; ply: Ply; reason: string };
-  view(ply: Ply, canUndo: boolean): BoardView;
+  /** Never throws. An illegal move returns ok: false and the same ply. */
+  apply(ply: Ply, move: BoardMove): { ok: boolean; ply: Ply; reason: string };
+  view(ply: Ply, canUndo: boolean, hint?: ViewHint): BoardView;
 }

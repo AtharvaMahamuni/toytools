@@ -1,0 +1,13 @@
+---
+import BoardWidget from '../../_shared/BoardWidget.astro';
+import { config } from './config';
+---
+
+<BoardWidget
+  rulesId="connect-4"
+  slug={config.slug}
+  craftId={config.craft?.id ?? 'column-preview'}
+  columns={7}
+  rows={6}
+  label="Connect 4 board"
+/>

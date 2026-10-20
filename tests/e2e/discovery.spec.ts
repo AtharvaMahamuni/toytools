@@ -234,8 +234,8 @@ test.describe('homepage index', () => {
     // mode of the color format converter, the shade generator, or the contrast checker. Waist to
     // hip, body surface area, and VO2 max join Health Calculator, and Sleep Hours joins Daily
     // Tracker, so those four add no directory link.
-    // Tic Tac Toe (beta-v13.0) is ungrouped: the only hot-seat board so far, so there is
-    // nothing to collapse it with. 117 + 1 = 118 directory links.
+    // The four hot-seat boards (beta-v13.1) are one group, so they add one directory
+    // link on top of the 117 that predate Games. 117 + 1 = 118 directory links.
     await expect(directory.locator('.dir-link')).toHaveCount(118);
   });
 

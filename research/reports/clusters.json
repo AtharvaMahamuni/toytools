@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-20T07:33:09.910Z",
+  "generatedAt": "2026-10-20T14:23:22.472Z",
   "clusters": [
     {
       "id": "quadratic-equations",
@@ -801,13 +801,19 @@
         "quantum-tic-tac-toe"
       ],
       "existingMembers": [
+        "chess-tac-toe",
+        "connect-4",
+        "quantum-tic-tac-toe",
         "tic-tac-toe"
       ],
       "size": 4,
       "meanScore": 79.5,
       "internalLinks": [
+        "chess-tac-toe",
         "coin-flipper",
+        "connect-4",
         "dice-roller",
+        "quantum-tic-tac-toe",
         "tic-tac-toe"
       ]
     },

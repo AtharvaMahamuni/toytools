@@ -2,6 +2,19 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v13.1] - 2026-10-20
+
+### Added
+
+- **Connect 4** (`/tool/game/connect-4/`). Two players drop discs on one phone. The column under the pointer lights up, and the disc drops when the finger lifts. Four in a row wins. Undo takes one disc back, and the score moves with it. The page does not match two players over the network.
+- **Chess Tac Toe** (`/tool/game/chess-tac-toe/`). Each player has a pawn, a rook, a knight, and a bishop on a 4 by 4 board. A refused tap names the rule, and the board stays put. Four of your own pieces in a line wins. The page does not decide the game by checkmate.
+- **Quantum Tic Tac Toe** (`/tool/game/quantum-tic-tac-toe/`). A move marks two squares, and the board draws the link. When those marks close a cycle, the other player chooses the collapse. A spooky three in a row does not win. The page does not teach the mathematics of quantum mechanics.
+- **Hot Seat.** Tic Tac Toe, Connect 4, Chess Tac Toe, and Quantum Tic Tac Toe switch from one row on each of those pages.
+
+### Changed
+
+- **Tic Tac Toe** sits in that Hot Seat row. Coin flip and dice roller stay linked from the page.
+
 ## [beta-v13.0] - 2026-10-20
 
 ### Added

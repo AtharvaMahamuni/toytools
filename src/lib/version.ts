@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 0,
+  minor: 1,
   patch: 0,
   status: 'beta',
   releaseDate: '2026-10-20',
-  description: 'Games category and a two-player tic-tac-toe board',
+  description: 'Connect 4, Chess Tac Toe, and Quantum Tic Tac Toe',
 };
 
 export function formatVersion(config: VersionConfig): string {

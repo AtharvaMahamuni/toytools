@@ -1,148 +1,7 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-20T07:33:09.910Z",
+  "generatedAt": "2026-10-20T14:23:22.472Z",
   "top": [
-    {
-      "id": "connect-4",
-      "title": "Connect 4",
-      "problem": "I want Connect Four for two players on one device, with win detection and a reset that does not require a page reload.",
-      "userIntent": "transactional",
-      "workflow": "input → Hot-Seat Board Game → output",
-      "transformation": "Hot-Seat Board Game",
-      "proposedTool": "connect-4",
-      "proposedEngine": "board-game",
-      "searchQueries": [
-        "connect 4 two player same device",
-        "connect 4 online",
-        "connect four two player",
-        "play connect 4 same device",
-        "connect 4 no download",
-        "four in a row game"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-20T07:33:09.910Z",
-      "existingSolutions": [
-        "app stores",
-        "ad-supported browser games"
-      ],
-      "solutionWeaknesses": [
-        "matchmaking when both players are on one couch",
-        "ads between every rematch",
-        "touch targets too small on phones"
-      ],
-      "userFailures": [
-        "A disc is dropped in the wrong column because the hover highlight lagged behind the finger.",
-        "A diagonal win is missed by the detector when the board is full of near-misses.",
-        "Undo reverts two plies instead of one after a mis-tap, and the turn indicator disagrees with the board.",
-        "Landscape mode clips the top row on a short phone and the winning cell is off-screen."
-      ],
-      "signals": [],
-      "relatedProblems": [
-        "tic tac toe",
-        "chess tac toe",
-        "hot seat multiplayer"
-      ],
-      "relatedTools": [
-        "tic-tac-toe"
-      ],
-      "relatedGuides": [
-        "tic-tac-toe"
-      ],
-      "relatedFaqs": [
-        "tic-tac-toe"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.86,
-      "competitionScore": 0.53,
-      "searchDemand": 0.68,
-      "implementationCost": 0.7,
-      "engineReuse": 1,
-      "seoPotential": 0.87,
-      "topicClusterPotential": 0.75,
-      "commercialPotential": 0.54,
-      "localizationPotential": 0.95,
-      "algorithmicFit": 1,
-      "authorityWinnability": 1,
-      "confidence": 0.8,
-      "finalScore": 79.7,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true,
-      "craftRisk": false
-    },
-    {
-      "id": "chess-tac-toe",
-      "title": "Chess Tac Toe",
-      "problem": "I want Chess-Tac-Toe (chess piece movement constraints on a tic-tac-toe style win) as a local hot-seat puzzle game with clear legal-move hints.",
-      "userIntent": "transactional",
-      "workflow": "input → Hot-Seat Board Game → output",
-      "transformation": "Hot-Seat Board Game",
-      "proposedTool": "chess-tac-toe",
-      "proposedEngine": "board-game",
-      "searchQueries": [
-        "chess tac toe hybrid board game",
-        "chess tac toe",
-        "chess tic tac toe",
-        "hybrid chess tic tac toe",
-        "chess piece tic tac toe",
-        "play chess tac toe"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-20T07:33:09.910Z",
-      "existingSolutions": [
-        "rules blog posts",
-        "one-off itch.io prototypes",
-        "house rules on paper"
-      ],
-      "solutionWeaknesses": [
-        "rules pages never ship a playable board",
-        "prototypes vanish or require download",
-        "legal moves are undocumented mid-game"
-      ],
-      "userFailures": [
-        "A player places a piece on an occupied square because the UI reused plain tic-tac-toe click handling.",
-        "Knight-move legality is checked from the wrong origin after a capture variant the ruleset does not allow.",
-        "Win detection fires on three-in-a-row while a chess-check rule the house uses is ignored, with no mode toggle.",
-        "New players cannot tell whose turn it is because piece color and turn banner disagree after undo."
-      ],
-      "signals": [],
-      "relatedProblems": [
-        "tic tac toe",
-        "quantum tic tac toe",
-        "connect four"
-      ],
-      "relatedTools": [
-        "tic-tac-toe"
-      ],
-      "relatedGuides": [
-        "tic-tac-toe"
-      ],
-      "relatedFaqs": [
-        "tic-tac-toe"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.8,
-      "competitionScore": 0.9,
-      "searchDemand": 0.42,
-      "implementationCost": 0.7,
-      "engineReuse": 1,
-      "seoPotential": 0.77,
-      "topicClusterPotential": 0.75,
-      "commercialPotential": 0.48,
-      "localizationPotential": 0.94,
-      "algorithmicFit": 0.98,
-      "authorityWinnability": 1,
-      "confidence": 0.64,
-      "finalScore": 78.2,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true,
-      "craftRisk": false
-    },
     {
       "id": "pregnancy-due-date-calculator",
       "title": "Pregnancy Due Date Calculator",
@@ -162,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T07:33:09.910Z",
+      "discoveredAt": "2026-10-20T14:23:22.472Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -225,77 +84,6 @@
       "craftRisk": true
     },
     {
-      "id": "quantum-tic-tac-toe",
-      "title": "Quantum Tic Tac Toe",
-      "problem": "I want Quantum Tic-Tac-Toe with entanglement and collapse rules playable hot-seat in the browser, so the weird rules are enforced by the tool instead of argued over.",
-      "userIntent": "transactional",
-      "workflow": "input → Hot-Seat Board Game → output",
-      "transformation": "Hot-Seat Board Game",
-      "proposedTool": "quantum-tic-tac-toe",
-      "proposedEngine": "board-game",
-      "searchQueries": [
-        "quantum tic tac toe online",
-        "quantum tic tac toe",
-        "quantum tic-tac-toe play",
-        "entanglement tic tac toe",
-        "quantum noughts and crosses",
-        "play quantum tic tac toe"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-20T07:33:09.910Z",
-      "existingSolutions": [
-        "academic demos",
-        "PDF rule sheets",
-        "rare flash ports"
-      ],
-      "solutionWeaknesses": [
-        "demos assume you already know the collapse rules",
-        "broken or abandoned ports",
-        "no step-through of why a collapse fired"
-      ],
-      "userFailures": [
-        "A player marks two classical cells thinking a spooky mark is already collapsed, and the board accepts an illegal classical move.",
-        "Collapse order is ambiguous when two cycles resolve and the tool picks one silently.",
-        "The entanglement graph is never shown, so disputes about which marks are linked cannot be settled.",
-        "Undo after a collapse cannot restore the prior superposition and the match has to be abandoned."
-      ],
-      "signals": [],
-      "relatedProblems": [
-        "tic tac toe",
-        "chess tac toe",
-        "webrtc local multiplayer"
-      ],
-      "relatedTools": [
-        "tic-tac-toe"
-      ],
-      "relatedGuides": [
-        "tic-tac-toe"
-      ],
-      "relatedFaqs": [
-        "tic-tac-toe"
-      ],
-      "difficulty": "high",
-      "evergreenScore": 0.78,
-      "competitionScore": 0.96,
-      "searchDemand": 0.48,
-      "implementationCost": 0.4,
-      "engineReuse": 1,
-      "seoPotential": 0.79,
-      "topicClusterPotential": 0.75,
-      "commercialPotential": 0.5,
-      "localizationPotential": 0.94,
-      "algorithmicFit": 0.96,
-      "authorityWinnability": 1,
-      "confidence": 0.64,
-      "finalScore": 76.4,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true,
-      "craftRisk": false
-    },
-    {
       "id": "ovulation-calculator",
       "title": "Ovulation Calculator",
       "problem": "Cycle length and the previous period start predict the fertile window days in the current month.",
@@ -314,7 +102,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T07:33:09.910Z",
+      "discoveredAt": "2026-10-20T14:23:22.472Z",
       "existingSolutions": [
         "babycenter.com",
         "clearblue.com",
@@ -395,7 +183,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T07:33:09.910Z",
+      "discoveredAt": "2026-10-20T14:23:22.472Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -468,7 +256,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T07:33:09.910Z",
+      "discoveredAt": "2026-10-20T14:23:22.472Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -544,7 +332,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T07:33:09.910Z",
+      "discoveredAt": "2026-10-20T14:23:22.472Z",
       "existingSolutions": [
         "imagecolorpicker.com",
         "coolors image picker"
@@ -617,7 +405,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T07:33:09.910Z",
+      "discoveredAt": "2026-10-20T14:23:22.472Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -681,7 +469,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T07:33:09.910Z",
+      "discoveredAt": "2026-10-20T14:23:22.472Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -726,6 +514,225 @@
       "gap": "engine-missing",
       "engineExists": false,
       "craftRisk": true
+    },
+    {
+      "id": "pdf-page-toolkit",
+      "title": "PDF Merge Split Rotate",
+      "problem": "I need to merge, split, rotate, or reorder PDF pages on my machine without uploading confidential documents to a random converter site.",
+      "userIntent": "transactional",
+      "workflow": "input → PDF Page Editing → output",
+      "transformation": "PDF Page Editing",
+      "proposedTool": "pdf-page-toolkit",
+      "proposedEngine": "pdf",
+      "searchQueries": [
+        "merge split rotate pdf in browser",
+        "merge pdf online",
+        "split pdf pages",
+        "rotate pdf pages",
+        "reorder pdf pages",
+        "combine pdf no upload"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "existingSolutions": [
+        "ilovepdf.com",
+        "smallpdf.com",
+        "desktop Acrobat"
+      ],
+      "solutionWeaknesses": [
+        "documents leave the machine and sit on a third-party server",
+        "page/file limits behind a paywall",
+        "desktop suites are heavy for a one-off reorder"
+      ],
+      "userFailures": [
+        "Pages land out of order because drag-reorder applied to thumbnails of a different file than the one being exported.",
+        "A scanned PDF rotates visually in the preview but the printed page stays landscape because only the view matrix changed.",
+        "Merging two PDFs with different page sizes produces a file that print dialogs crop without warning.",
+        "A password-protected PDF fails silently mid-merge and the output keeps only the unprotected half."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "image to pdf",
+        "pdf compress",
+        "document privacy"
+      ],
+      "relatedTools": [
+        "file-hash-verifier"
+      ],
+      "relatedGuides": [
+        "file-hash-verifier"
+      ],
+      "relatedFaqs": [
+        "file-hash-verifier"
+      ],
+      "difficulty": "high",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.4,
+      "searchDemand": 0.9,
+      "implementationCost": 0.3,
+      "engineReuse": 0.3,
+      "seoPotential": 0.96,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.94,
+      "algorithmicFit": 0.95,
+      "authorityWinnability": 0.95,
+      "confidence": 0.8,
+      "finalScore": 66,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false,
+      "craftRisk": false
+    },
+    {
+      "id": "image-convert-compress",
+      "title": "Image Convert Compress Resize",
+      "problem": "I need to convert, compress, or resize images including HEIC from a phone, entirely in the browser so the photos never upload.",
+      "userIntent": "transactional",
+      "workflow": "input → Image Conversion → output",
+      "transformation": "Image Conversion",
+      "proposedTool": "image-convert-compress",
+      "proposedEngine": "image",
+      "searchQueries": [
+        "convert compress resize image heic online",
+        "heic to jpg converter",
+        "compress image online",
+        "resize image no upload",
+        "convert png to webp",
+        "batch image compressor"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "existingSolutions": [
+        "cloudconvert",
+        "iloveimg",
+        "squoosh.app"
+      ],
+      "solutionWeaknesses": [
+        "most converters upload the image",
+        "HEIC support is missing or paywalled",
+        "batch limits and watermarks on free tiers"
+      ],
+      "userFailures": [
+        "A HEIC converts to JPEG but the orientation tag is dropped, so phone photos appear sideways.",
+        "Quality slider looks fine in preview and still blows the email attachment size limit because dimensions were never capped.",
+        "Transparent PNG becomes a black or white rectangle after JPEG conversion with no alpha warning.",
+        "A batch run silently skips one corrupted file and the zip looks complete until someone opens it."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "pdf from images",
+        "palette extraction",
+        "file checksum"
+      ],
+      "relatedTools": [
+        "file-hash-verifier"
+      ],
+      "relatedGuides": [
+        "file-hash-verifier"
+      ],
+      "relatedFaqs": [
+        "file-hash-verifier"
+      ],
+      "difficulty": "high",
+      "evergreenScore": 0.9,
+      "competitionScore": 0.44,
+      "searchDemand": 0.88,
+      "implementationCost": 0.3,
+      "engineReuse": 0.3,
+      "seoPotential": 0.95,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.94,
+      "algorithmicFit": 0.92,
+      "authorityWinnability": 0.95,
+      "confidence": 0.8,
+      "finalScore": 65.7,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false,
+      "craftRisk": false
+    },
+    {
+      "id": "gregorian-calendar",
+      "title": "Gregorian Calendar",
+      "problem": "I want a clean Gregorian month view that can optionally overlay lunar or panchang markers, running fully client-side with no account.",
+      "userIntent": "troubleshooting",
+      "workflow": "input → Calendar View → output",
+      "transformation": "Calendar View",
+      "proposedTool": "gregorian-calendar",
+      "proposedEngine": "panchang",
+      "searchQueries": [
+        "simple gregorian calendar with lunar overlay",
+        "gregorian calendar online",
+        "month calendar view",
+        "calendar with lunar dates",
+        "printable monthly calendar",
+        "calendar without login"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "existingSolutions": [
+        "Google Calendar",
+        "timeanddate.com",
+        "OS calendar apps"
+      ],
+      "solutionWeaknesses": [
+        "account required for anything beyond a static grid",
+        "lunar overlays buried behind region settings",
+        "cluttered with holidays the user did not ask for"
+      ],
+      "userFailures": [
+        "Week starts on Sunday when the user expected Monday and every planned block is off by a day in conversation.",
+        "A lunar overlay is shown for the wrong longitude because the tool reused a default city silently.",
+        "Printing cuts the last row of the month grid and the missing week is not obvious until after the paper is handed out.",
+        "Crossing a DST boundary makes an all-day marker appear on the previous civil day."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "marathi calendar",
+        "date difference",
+        "timezone conversion"
+      ],
+      "relatedTools": [
+        "date-difference-calculator",
+        "timezone-converter",
+        "age-calculator"
+      ],
+      "relatedGuides": [
+        "date-difference-calculator",
+        "timezone-converter",
+        "age-calculator"
+      ],
+      "relatedFaqs": [
+        "date-difference-calculator",
+        "timezone-converter",
+        "age-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.5,
+      "searchDemand": 0.7,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.88,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.54,
+      "localizationPotential": 0.7,
+      "algorithmicFit": 0.97,
+      "authorityWinnability": 0.9,
+      "confidence": 0.8,
+      "finalScore": 65.5,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false,
+      "craftRisk": false
     }
   ]
 }

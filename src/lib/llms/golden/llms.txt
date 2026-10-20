@@ -59,7 +59,7 @@ Prepare text before a model. ToyTools does not run a model.
 - [Music & Audio](https://toytoolsapp.com/category/music-audio/): Build, understand and share music equalizer settings, then apply them in your own player. (1 tool)
 - [Fidgets](https://toytoolsapp.com/category/fidgets/): Online virtual fidget toys you tap, flick, or flip in the browser, with optional sound and haptics. Runs entirely on your device. Nothing is uploaded. (7 tools)
 - [Prep for a model](https://toytoolsapp.com/category/prep/): Tools for preparing, cleaning, structuring, and checking text before you send it to an AI model. ToyTools does not run a model. (6 tools)
-- [Games](https://toytoolsapp.com/category/games/): Hot-seat board games for two people on one phone. Pass the device, undo a mis-tap, and rematch without an account. Nothing is uploaded. (1 tool)
+- [Games](https://toytoolsapp.com/category/games/): Hot-seat board games for two people on one phone. Pass the device, undo a mis-tap, and rematch without an account. Nothing is uploaded. (4 tools)
 
 ## Optional
 

@@ -22,6 +22,7 @@ export const config: ToolConfig = {
   pattern: 'board-play',
   family: 'hot-seat',
   processorId: 'tic-tac-toe',
+  toolGroup: 'hot-seat',
   keywords: [
     'tic tac toe two player online no account',
     'tic tac toe online',

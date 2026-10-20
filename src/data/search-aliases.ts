@@ -118,6 +118,7 @@ export const searchAliases: Record<string, string[]> = {
     'tic tac toe no download',
     'tic tac toe no account',
   ],
+  'chess-tac-toe': ['four in a line'],
   'random-name-picker': ['pick a name', 'wheel of names', 'raffle draw', 'classroom picker'],
   'random-choice-picker': ['decide for me', 'pick for me', 'what should i eat', 'shuffle a list'],
 

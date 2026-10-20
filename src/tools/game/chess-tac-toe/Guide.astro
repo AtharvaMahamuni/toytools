@@ -1,0 +1,169 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath, categoryPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const categoryHref = categoryPath(category);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>What is chess tac toe? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Chess tac toe is a 4 by 4 board for two people.
+      Each player has a pawn, a rook, a knight, and a bishop.
+    </p>
+    <p>
+      You play chess tac toe on this page by passing one phone.
+      Chess tic tac toe and hybrid chess tic tac toe name the same hybrid board game.
+    </p>
+    <p>
+      Chess piece tic tac toe still ends on four in a line.
+      It does not end on checkmate.
+    </p>
+    <a href={toolHref} class="cta-link">Open Chess Tac Toe</a>
+  </section>
+
+  <section id="why-one-device">
+    <h2>Why does one phone matter? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      One phone matters because both players are already in the room.
+      Passing one phone across a table when nobody has a chess set is the ordinary case.
+    </p>
+    <p>
+      Playing a full match without creating an account keeps the score on this device.
+      A small board is enough for four pieces each.
+    </p>
+    <p>
+      <a href={toolPathBySlug('tic-tac-toe')}>Tic tac toe</a> is the same hot seat with plain marks.
+      <a href={toolPathBySlug('connect-4')}>Connect 4</a> is the gravity board when you want discs instead of pieces.
+    </p>
+  </section>
+
+  <section id="how-a-turn-works">
+    <h2>How does a turn work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The banner says place while you still hold a piece, and move after the hand is empty.
+      Pick a letter, then tap an empty square.
+    </p>
+    <p>
+      For example, X places a pawn on the top left and O places a pawn on a different square.
+      X then places the rook, the knight, and the bishop.
+      After that fourth placement, X moves even if O still has a piece to place.
+    </p>
+    <p>
+      A legal move follows the piece.
+      An illegal tap does nothing, and the note names the rule.
+    </p>
+  </section>
+
+  <section id="rules">
+    <h2>Which moves are legal? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A legal move is the one the piece can actually make.
+      Piece movement is checked on every slide, and placement is only onto an empty square.
+    </p>
+    <ul>
+      <li>A knight moves in an L and can jump</li>
+      <li>A rook moves in a straight line and cannot pass through a piece</li>
+      <li>A bishop moves on a diagonal and cannot pass through a piece</li>
+      <li>A pawn steps one square toward the other player, or captures one square diagonally forward</li>
+    </ul>
+    <p>
+      For example, a knight on the corner can reach the square two across and one down.
+      Any other step from that corner is refused.
+    </p>
+    <p>
+      For example, a pawn that is already on its far rank turns around on the next move and keeps the new direction until it sits on the new far rank.
+    </p>
+  </section>
+
+  <section id="checkmate">
+    <h2>Why is this not checkmate? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Checkmate does not win, and the page does not look for it.
+      Four of your own pieces in a line is the only win.
+    </p>
+    <p>
+      Unlike chess, capturing a piece sends it back to that player hand.
+      Their next turn is a placement again.
+    </p>
+    <ReferenceBlock type="key-idea" heading="One ruleset">
+      <p>The win is four in a line. There is no second mode for check.</p>
+    </ReferenceBlock>
+    <p>
+      Expecting checkmate to end the match is the wrong reading.
+      This board lives in the <a href={categoryHref}>games category</a>.
+    </p>
+  </section>
+
+  <section id="illegal">
+    <h2>What does the note say about an illegal tap? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The note names the rule, and the board stays as it was.
+      The common mistake is placing on a square that is already taken. You cannot capture by placing.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Placing on an occupied square">
+      <p>
+        Placing a piece on a square the other player already occupies does not take that piece.
+        Pick an empty square instead.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Sliding through a piece">
+      <p>
+        Moving a rook through another piece is refused.
+        The same block stops a bishop. A knight is the piece that jumps.
+      </p>
+    </ReferenceBlock>
+    <p>
+      Waiting to move until the other player has placed all four gives away turns you already have.
+      Once your hand is empty, you move.
+    </p>
+    <p>
+      Undo takes back one placement or one move.
+      However, the session score stays when you rematch.
+    </p>
+    <p>
+      Taking back a placement that landed on the wrong square returns that piece to your hand.
+      Learning which square a knight can reach from a corner is the move the note is there to protect.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

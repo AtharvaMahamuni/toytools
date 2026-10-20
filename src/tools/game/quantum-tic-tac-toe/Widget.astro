@@ -1,0 +1,14 @@
+---
+import BoardWidget from '../../_shared/BoardWidget.astro';
+import { config } from './config';
+---
+
+<BoardWidget
+  rulesId="quantum-tic-tac-toe"
+  slug={config.slug}
+  craftId={config.craft?.id ?? 'entanglement-graph'}
+  craftAt="links"
+  columns={3}
+  rows={3}
+  label="Quantum tic tac toe board"
+/>

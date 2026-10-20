@@ -20,6 +20,7 @@ import { config as camelCaseConverter } from '@tools/text/camel-case-converter/c
 import { config as characterCounter } from '@tools/text/character-counter/config';
 import { config as characterMap } from '@tools/text/character-map/config';
 import { config as chatExportCleaner } from '@tools/prep/chat-export-cleaner/config';
+import { config as chessTacToe } from '@tools/game/chess-tac-toe/config';
 import { config as cidrCalculator } from '@tools/developer-utilities/cidr-calculator/config';
 import { config as coinFlipper } from '@tools/generate/coin-flipper/config';
 import { config as colorContrastChecker } from '@tools/design/color-contrast-checker/config';
@@ -28,6 +29,7 @@ import { config as colorShadesGenerator } from '@tools/design/color-shades-gener
 import { config as colorblindSimulator } from '@tools/design/colorblind-simulator/config';
 import { config as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/config';
 import { config as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/config';
+import { config as connect4 } from '@tools/game/connect-4/config';
 import { config as contextFitChecker } from '@tools/prep/context-fit-checker/config';
 import { config as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/config';
 import { config as cronExpressionParser } from '@tools/datetime/cron-expression-parser/config';
@@ -99,6 +101,7 @@ import { config as punycodeConverter } from '@tools/developer-utilities/punycode
 import { config as pxToDpConverter } from '@tools/design/px-to-dp-converter/config';
 import { config as pxToRemConverter } from '@tools/design/px-to-rem-converter/config';
 import { config as qrCodeGenerator } from '@tools/generate/qr-code-generator/config';
+import { config as quantumTicTacToe } from '@tools/game/quantum-tic-tac-toe/config';
 import { config as randomChoicePicker } from '@tools/generate/random-choice-picker/config';
 import { config as randomNamePicker } from '@tools/generate/random-name-picker/config';
 import { config as randomStringGenerator } from '@tools/generate/random-string-generator/config';
@@ -184,6 +187,7 @@ export const toolConfigs: ToolConfig[] = [
   characterCounter,
   characterMap,
   chatExportCleaner,
+  chessTacToe,
   cidrCalculator,
   coinFlipper,
   colorContrastChecker,
@@ -192,6 +196,7 @@ export const toolConfigs: ToolConfig[] = [
   colorblindSimulator,
   combinationsPermutationsCalculator,
   compoundInterestCalculator,
+  connect4,
   contextFitChecker,
   crc32HashGenerator,
   cronExpressionParser,
@@ -263,6 +268,7 @@ export const toolConfigs: ToolConfig[] = [
   pxToDpConverter,
   pxToRemConverter,
   qrCodeGenerator,
+  quantumTicTacToe,
   randomChoicePicker,
   randomNamePicker,
   randomStringGenerator,
