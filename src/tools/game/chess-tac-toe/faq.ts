@@ -17,7 +17,7 @@ export const items: FAQItem[] = [
     id: 'ctt-faq-3',
     question: 'When do the pieces start moving?',
     answer:
-      'After you have placed all four.\nYour later turns are chess moves even if the other player still has a piece in hand.',
+      'After you have placed all four.\nYour later turns are chess moves even if the other player still has a piece in hand. A boxed set that slides after three pieces is a different ruleset.',
   },
   {
     id: 'ctt-faq-4',

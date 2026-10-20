@@ -2,6 +2,18 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.2] - 2026-10-20
+
+### Fixed
+
+- **Chess Tac Toe and Quantum Tic Tac Toe.** A refused tap keeps the selected piece, or the first square of a two-square move. The note still names the rule, and the board stays put.
+
+### Changed
+
+- **Connect 4 guide.** Every horizontal four and every diagonal four uses the center column. A vertical four does not.
+- **Chess Tac Toe guide.** Pieces slide only after all four are placed. A boxed set that slides after three pieces is a different ruleset.
+- **SEO extract.** A Wikipedia page whose root class contains the word menu is kept. The old selector deleted the whole document, so those pages scored as empty.
+
 ## [alpha-v13.1] - 2026-10-20
 
 ### Added

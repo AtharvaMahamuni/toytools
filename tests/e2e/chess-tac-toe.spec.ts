@@ -21,6 +21,7 @@ test.describe('chess tac toe', () => {
     await square.click();
     await expect(note).toHaveText('You cannot capture by placing from your hand.');
     await expect(banner).toHaveText('O to place. Pass the phone.');
+    await expect(page.locator('[data-piece="pawn"]')).toHaveClass(/is-selected/);
 
     await page.locator('[data-board-undo]').click();
     await expect(square).toHaveAttribute('data-mark', 'empty');
