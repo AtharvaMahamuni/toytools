@@ -10,11 +10,12 @@ interface Props {
 
 const { rulesId, slug, craftId, columns, rows, label } = Astro.props;
 const cells = Array.from({ length: columns * rows }, (_, index) => index);
+const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column ${(index % columns) + 1}`;
 ---
 
 <section class="board-match" data-tool={slug} data-rules={rulesId} aria-label={label}>
   <div class="board-stage">
-    <p class="board-banner" data-board-banner>X to play. Pass the phone.</p>
+    <p class="board-banner" data-board-banner role="status" aria-live="polite">X to play. Pass the phone.</p>
     <p class="board-score" data-board-score>X 0, O 0, draws 0</p>
     <div
       class="board-grid"
@@ -25,16 +26,17 @@ const cells = Array.from({ length: columns * rows }, (_, index) => index);
       aria-label={label}
     >
       {cells.map((index) => (
-        <button type="button" class="board-cell" data-cell={index} data-shape="empty" data-mark="empty" aria-label={`Square ${index + 1}, empty`}>
+        <button type="button" class="board-cell" data-cell={index} data-shape="empty" data-mark="empty" aria-label={`${where(index)}, empty`}>
           <span class="mark" aria-hidden="true"></span>
           <span class="mark-letter"></span>
         </button>
       ))}
     </div>
-    <p class="board-note" data-board-note hidden></p>
+    <p class="board-note" data-board-note role="status" aria-live="polite"></p>
     <div class="board-actions">
       <button type="button" class="action-btn" data-board-undo disabled>Undo</button>
       <button type="button" class="action-btn" data-board-rematch>Rematch</button>
+      <button type="button" class="action-btn" data-board-reset>Reset score</button>
     </div>
   </div>
 </section>
@@ -67,7 +69,7 @@ const cells = Array.from({ length: columns * rows }, (_, index) => index);
     color: var(--color-text-muted);
     font-variant-numeric: tabular-nums;
   }
-  .board-note[hidden] { display: none; }
+  .board-note:empty { display: none; }
   .board-grid {
     display: grid;
     grid-template-columns: repeat(var(--board-cols), minmax(0, 1fr));
@@ -143,36 +145,22 @@ const cells = Array.from({ length: columns * rows }, (_, index) => index);
   }
 </style>
 
-<script is:inline define:vars={{ slug, rulesId }}>
+<script is:inline define:vars={{ slug, rulesId, columns }}>
+  // The score lives in this page's memory only: nothing is saved (privacy rule), so a refresh or a
+  // new tab starts at 0. Reset score zeroes it without touching the board.
   (function () {
     var root = document.querySelector('[data-tool="' + slug + '"][data-rules="' + rulesId + '"]');
     if (!root) return;
-    var scoreKey = 'toytools.' + slug + '.session';
-
-    function readScore() {
-      var raw = '';
-      try { raw = ToyTools.storage.get(scoreKey) || ''; } catch (e) { raw = ''; }
-      if (!raw) return null;
-      try {
-        var parsed = JSON.parse(raw);
-        if (!parsed || typeof parsed !== 'object') return null;
-        if (![parsed.X, parsed.O, parsed.draws].every(function (n) { return typeof n === 'number' && n >= 0 && Math.floor(n) === n; })) return null;
-        return parsed;
-      } catch (e) { return null; }
-    }
 
     function paint(view, reason) {
       var banner = root.querySelector('[data-board-banner]');
       var score = root.querySelector('[data-board-score]');
       var note = root.querySelector('[data-board-note]');
       var undo = root.querySelector('[data-board-undo]');
-      if (banner) banner.textContent = view.banner;
+      if (banner && banner.textContent !== view.banner) banner.textContent = view.banner;
       if (score) score.textContent = view.scoreText;
-      if (note) {
-        note.textContent = reason || '';
-        if (reason) note.removeAttribute('hidden');
-        else note.setAttribute('hidden', '');
-      }
+      // A live region that is empty is display:none; filling it shows and announces the reason.
+      if (note) note.textContent = reason || '';
       if (undo) undo.disabled = !view.canUndo;
       view.cells.forEach(function (cell) {
         var button = root.querySelector('[data-cell="' + cell.index + '"]');
@@ -184,23 +172,18 @@ const cells = Array.from({ length: columns * rows }, (_, index) => index);
         if (mark) mark.className = 'mark' + (cell.shape === 'cross' ? ' mark-x' : cell.shape === 'ring' ? ' mark-o' : '');
         var letter = button.querySelector('.mark-letter');
         if (letter) letter.textContent = cell.letter;
-        var name = cell.letter ? 'Square ' + (cell.index + 1) + ', ' + cell.letter : 'Square ' + (cell.index + 1) + ', empty';
-        button.setAttribute('aria-label', name);
+        var where = 'Row ' + (Math.floor(cell.index / columns) + 1) + ', column ' + ((cell.index % columns) + 1);
+        button.setAttribute('aria-label', where + ', ' + (cell.letter || 'empty'));
       });
-    }
-
-    function saveScore(state) {
-      try { ToyTools.storage.set(scoreKey, JSON.stringify(state.score)); } catch (e) {}
     }
 
     ToyTools.onReady(function () {
       var api = ToyTools.boardGame;
       if (!api) return;
-      var state = api.create(rulesId, readScore());
+      var state = api.create(rulesId);
 
       function show(next, reason) {
         state = next;
-        saveScore(state);
         paint(api.view(state), reason || '');
       }
 
@@ -217,7 +200,11 @@ const cells = Array.from({ length: columns * rows }, (_, index) => index);
           show(api.undo(state), '');
           return;
         }
-        if (target.closest('[data-board-rematch]')) show(api.rematch(state), '');
+        if (target.closest('[data-board-rematch]')) {
+          show(api.rematch(state), '');
+          return;
+        }
+        if (target.closest('[data-board-reset]')) show(api.resetScore(state), '');
       });
 
       show(state, '');

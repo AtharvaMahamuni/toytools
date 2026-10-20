@@ -233,7 +233,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     segment: 'game',
     intro: [
       'These are board games for two people who are already in the same room. One phone, two seats, and the turn is named on the board. There is no account, no matchmaking, and no computer opponent waiting in the other seat.',
-      'A mis-tap comes back with undo, one move at a time, and the score comes back with it. Rematch clears the board and keeps the tally for this session. Refreshing the page keeps that tally on this device and starts a fresh board.',
+      'A mis-tap comes back with undo, one move at a time, and the score comes back with it. Rematch clears the board, keeps the tally, and hands the first move to the other seat. Nothing is saved: the tally lives only in the open page, so a refresh starts it at zero, and Reset score zeroes it on the spot.',
       'Each game states its own rules and enforces them. A square that already has a mark stays as it is. The marks are a shape and a letter, so the two of you can tell them apart without relying on color.',
     ],
   },

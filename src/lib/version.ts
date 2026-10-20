@@ -13,7 +13,7 @@ export const VERSION_CONFIG: VersionConfig = {
   major: 13,
   minor: 0,
   patch: 0,
-  status: 'beta',
+  status: 'alpha',
   releaseDate: '2026-10-20',
   description: 'Games category and a two-player tic-tac-toe board',
 };

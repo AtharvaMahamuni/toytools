@@ -41,7 +41,7 @@ test.describe('tic tac toe', () => {
     await cell(2).click();
     await expect(banner).toHaveText('X wins.');
     await page.locator('[data-board-rematch]').click();
-    await expect(banner).toHaveText('X to play. Pass the phone.');
+    await expect(banner).toHaveText('O to play. Pass the phone.');
     await expect(score).toHaveText('X 1, O 0, draws 0');
     await expect(cell(0)).toHaveAttribute('data-mark', 'empty');
   });
