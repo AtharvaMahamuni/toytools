@@ -1,26 +1,7 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-17T08:18:54.596Z",
+  "generatedAt": "2026-10-20T07:33:09.910Z",
   "engines": [
-    {
-      "engine": "board-game",
-      "exists": false,
-      "confidence": 0.95,
-      "transformations": [
-        "Hot-Seat Board Game"
-      ],
-      "unlocksTools": [
-        "tic-tac-toe",
-        "connect-4",
-        "chess-tac-toe",
-        "quantum-tic-tac-toe"
-      ],
-      "topScore": 74.3,
-      "rationale": [
-        "4 opportunities share the missing \"board-game\" engine.",
-        "Cluster ≥ 3 → justifies a new reusable engine that unlocks 4 tools."
-      ]
-    },
     {
       "engine": "budget",
       "exists": false,

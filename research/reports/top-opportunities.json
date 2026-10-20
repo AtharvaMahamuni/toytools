@@ -1,7 +1,148 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-17T08:18:54.596Z",
+  "generatedAt": "2026-10-20T07:33:09.910Z",
   "top": [
+    {
+      "id": "connect-4",
+      "title": "Connect 4",
+      "problem": "I want Connect Four for two players on one device, with win detection and a reset that does not require a page reload.",
+      "userIntent": "transactional",
+      "workflow": "input → Hot-Seat Board Game → output",
+      "transformation": "Hot-Seat Board Game",
+      "proposedTool": "connect-4",
+      "proposedEngine": "board-game",
+      "searchQueries": [
+        "connect 4 two player same device",
+        "connect 4 online",
+        "connect four two player",
+        "play connect 4 same device",
+        "connect 4 no download",
+        "four in a row game"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
+      "existingSolutions": [
+        "app stores",
+        "ad-supported browser games"
+      ],
+      "solutionWeaknesses": [
+        "matchmaking when both players are on one couch",
+        "ads between every rematch",
+        "touch targets too small on phones"
+      ],
+      "userFailures": [
+        "A disc is dropped in the wrong column because the hover highlight lagged behind the finger.",
+        "A diagonal win is missed by the detector when the board is full of near-misses.",
+        "Undo reverts two plies instead of one after a mis-tap, and the turn indicator disagrees with the board.",
+        "Landscape mode clips the top row on a short phone and the winning cell is off-screen."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "tic tac toe",
+        "chess tac toe",
+        "hot seat multiplayer"
+      ],
+      "relatedTools": [
+        "tic-tac-toe"
+      ],
+      "relatedGuides": [
+        "tic-tac-toe"
+      ],
+      "relatedFaqs": [
+        "tic-tac-toe"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.86,
+      "competitionScore": 0.53,
+      "searchDemand": 0.68,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.87,
+      "topicClusterPotential": 0.75,
+      "commercialPotential": 0.54,
+      "localizationPotential": 0.95,
+      "algorithmicFit": 1,
+      "authorityWinnability": 1,
+      "confidence": 0.8,
+      "finalScore": 79.7,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
+      "id": "chess-tac-toe",
+      "title": "Chess Tac Toe",
+      "problem": "I want Chess-Tac-Toe (chess piece movement constraints on a tic-tac-toe style win) as a local hot-seat puzzle game with clear legal-move hints.",
+      "userIntent": "transactional",
+      "workflow": "input → Hot-Seat Board Game → output",
+      "transformation": "Hot-Seat Board Game",
+      "proposedTool": "chess-tac-toe",
+      "proposedEngine": "board-game",
+      "searchQueries": [
+        "chess tac toe hybrid board game",
+        "chess tac toe",
+        "chess tic tac toe",
+        "hybrid chess tic tac toe",
+        "chess piece tic tac toe",
+        "play chess tac toe"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
+      "existingSolutions": [
+        "rules blog posts",
+        "one-off itch.io prototypes",
+        "house rules on paper"
+      ],
+      "solutionWeaknesses": [
+        "rules pages never ship a playable board",
+        "prototypes vanish or require download",
+        "legal moves are undocumented mid-game"
+      ],
+      "userFailures": [
+        "A player places a piece on an occupied square because the UI reused plain tic-tac-toe click handling.",
+        "Knight-move legality is checked from the wrong origin after a capture variant the ruleset does not allow.",
+        "Win detection fires on three-in-a-row while a chess-check rule the house uses is ignored, with no mode toggle.",
+        "New players cannot tell whose turn it is because piece color and turn banner disagree after undo."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "tic tac toe",
+        "quantum tic tac toe",
+        "connect four"
+      ],
+      "relatedTools": [
+        "tic-tac-toe"
+      ],
+      "relatedGuides": [
+        "tic-tac-toe"
+      ],
+      "relatedFaqs": [
+        "tic-tac-toe"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.8,
+      "competitionScore": 0.9,
+      "searchDemand": 0.42,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.77,
+      "topicClusterPotential": 0.75,
+      "commercialPotential": 0.48,
+      "localizationPotential": 0.94,
+      "algorithmicFit": 0.98,
+      "authorityWinnability": 1,
+      "confidence": 0.64,
+      "finalScore": 78.2,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "craftRisk": false
+    },
     {
       "id": "pregnancy-due-date-calculator",
       "title": "Pregnancy Due Date Calculator",
@@ -21,7 +162,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -84,6 +225,77 @@
       "craftRisk": true
     },
     {
+      "id": "quantum-tic-tac-toe",
+      "title": "Quantum Tic Tac Toe",
+      "problem": "I want Quantum Tic-Tac-Toe with entanglement and collapse rules playable hot-seat in the browser, so the weird rules are enforced by the tool instead of argued over.",
+      "userIntent": "transactional",
+      "workflow": "input → Hot-Seat Board Game → output",
+      "transformation": "Hot-Seat Board Game",
+      "proposedTool": "quantum-tic-tac-toe",
+      "proposedEngine": "board-game",
+      "searchQueries": [
+        "quantum tic tac toe online",
+        "quantum tic tac toe",
+        "quantum tic-tac-toe play",
+        "entanglement tic tac toe",
+        "quantum noughts and crosses",
+        "play quantum tic tac toe"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
+      "existingSolutions": [
+        "academic demos",
+        "PDF rule sheets",
+        "rare flash ports"
+      ],
+      "solutionWeaknesses": [
+        "demos assume you already know the collapse rules",
+        "broken or abandoned ports",
+        "no step-through of why a collapse fired"
+      ],
+      "userFailures": [
+        "A player marks two classical cells thinking a spooky mark is already collapsed, and the board accepts an illegal classical move.",
+        "Collapse order is ambiguous when two cycles resolve and the tool picks one silently.",
+        "The entanglement graph is never shown, so disputes about which marks are linked cannot be settled.",
+        "Undo after a collapse cannot restore the prior superposition and the match has to be abandoned."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "tic tac toe",
+        "chess tac toe",
+        "webrtc local multiplayer"
+      ],
+      "relatedTools": [
+        "tic-tac-toe"
+      ],
+      "relatedGuides": [
+        "tic-tac-toe"
+      ],
+      "relatedFaqs": [
+        "tic-tac-toe"
+      ],
+      "difficulty": "high",
+      "evergreenScore": 0.78,
+      "competitionScore": 0.96,
+      "searchDemand": 0.48,
+      "implementationCost": 0.4,
+      "engineReuse": 1,
+      "seoPotential": 0.79,
+      "topicClusterPotential": 0.75,
+      "commercialPotential": 0.5,
+      "localizationPotential": 0.94,
+      "algorithmicFit": 0.96,
+      "authorityWinnability": 1,
+      "confidence": 0.64,
+      "finalScore": 76.4,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
       "id": "ovulation-calculator",
       "title": "Ovulation Calculator",
       "problem": "Cycle length and the previous period start predict the fertile window days in the current month.",
@@ -102,7 +314,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "babycenter.com",
         "clearblue.com",
@@ -183,7 +395,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -256,7 +468,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -313,80 +525,6 @@
       "craftRisk": true
     },
     {
-      "id": "tic-tac-toe",
-      "title": "Tic Tac Toe",
-      "problem": "I want a clean two-player tic-tac-toe I can play hot-seat in one browser tab with friends in the same room, with no account and no network.",
-      "userIntent": "troubleshooting",
-      "workflow": "input → Hot-Seat Board Game → output",
-      "transformation": "Hot-Seat Board Game",
-      "proposedTool": "tic-tac-toe",
-      "proposedEngine": "board-game",
-      "searchQueries": [
-        "tic tac toe two player online no account",
-        "tic tac toe online",
-        "tic tac toe two player",
-        "noughts and crosses",
-        "play tic tac toe same device",
-        "tic tac toe no download"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
-      "existingSolutions": [
-        "casual game sites with ads",
-        "mobile apps",
-        "paper"
-      ],
-      "solutionWeaknesses": [
-        "ad walls and autoplay video",
-        "forced online matchmaking for a couch game",
-        "no undo of an accidental tap"
-      ],
-      "userFailures": [
-        "An accidental double-tap places two marks before either player notices whose turn it was.",
-        "A finished board has no rematch affordance so they refresh and lose the score streak.",
-        "Color-only X/O styling fails for a colorblind player sharing the same screen.",
-        "They expect an optional AI opponent and the empty second seat just sits idle with no explanation."
-      ],
-      "signals": [],
-      "relatedProblems": [
-        "connect four",
-        "chess tac toe",
-        "quantum tic tac toe"
-      ],
-      "relatedTools": [
-        "coin-flipper",
-        "dice-roller"
-      ],
-      "relatedGuides": [
-        "coin-flipper",
-        "dice-roller"
-      ],
-      "relatedFaqs": [
-        "coin-flipper",
-        "dice-roller"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.88,
-      "competitionScore": 0.48,
-      "searchDemand": 0.72,
-      "implementationCost": 0.9,
-      "engineReuse": 0.3,
-      "seoPotential": 0.89,
-      "topicClusterPotential": 0.75,
-      "commercialPotential": 0.54,
-      "localizationPotential": 0.95,
-      "algorithmicFit": 1,
-      "authorityWinnability": 1,
-      "confidence": 0.8,
-      "finalScore": 74.3,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false,
-      "craftRisk": false
-    },
-    {
       "id": "image-palette-extractor",
       "title": "Image Palette Extractor",
       "problem": "I want to upload an image and extract its dominant color palette without the image leaving my browser.",
@@ -406,7 +544,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "imagecolorpicker.com",
         "coolors image picker"
@@ -463,200 +601,6 @@
       "craftRisk": true
     },
     {
-      "id": "connect-4",
-      "title": "Connect 4",
-      "problem": "I want Connect Four for two players on one device, with win detection and a reset that does not require a page reload.",
-      "userIntent": "transactional",
-      "workflow": "input → Hot-Seat Board Game → output",
-      "transformation": "Hot-Seat Board Game",
-      "proposedTool": "connect-4",
-      "proposedEngine": "board-game",
-      "searchQueries": [
-        "connect 4 two player same device",
-        "connect 4 online",
-        "connect four two player",
-        "play connect 4 same device",
-        "connect 4 no download",
-        "four in a row game"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
-      "existingSolutions": [
-        "app stores",
-        "ad-supported browser games"
-      ],
-      "solutionWeaknesses": [
-        "matchmaking when both players are on one couch",
-        "ads between every rematch",
-        "touch targets too small on phones"
-      ],
-      "userFailures": [
-        "A disc is dropped in the wrong column because the hover highlight lagged behind the finger.",
-        "A diagonal win is missed by the detector when the board is full of near-misses.",
-        "Undo reverts two plies instead of one after a mis-tap, and the turn indicator disagrees with the board.",
-        "Landscape mode clips the top row on a short phone and the winning cell is off-screen."
-      ],
-      "signals": [],
-      "relatedProblems": [
-        "tic tac toe",
-        "chess tac toe",
-        "hot seat multiplayer"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "medium",
-      "evergreenScore": 0.86,
-      "competitionScore": 0.53,
-      "searchDemand": 0.68,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.87,
-      "topicClusterPotential": 0.75,
-      "commercialPotential": 0.54,
-      "localizationPotential": 0.95,
-      "algorithmicFit": 1,
-      "authorityWinnability": 1,
-      "confidence": 0.8,
-      "finalScore": 70.4,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false,
-      "craftRisk": false
-    },
-    {
-      "id": "chess-tac-toe",
-      "title": "Chess Tac Toe",
-      "problem": "I want Chess-Tac-Toe (chess piece movement constraints on a tic-tac-toe style win) as a local hot-seat puzzle game with clear legal-move hints.",
-      "userIntent": "transactional",
-      "workflow": "input → Hot-Seat Board Game → output",
-      "transformation": "Hot-Seat Board Game",
-      "proposedTool": "chess-tac-toe",
-      "proposedEngine": "board-game",
-      "searchQueries": [
-        "chess tac toe hybrid board game",
-        "chess tac toe",
-        "chess tic tac toe",
-        "hybrid chess tic tac toe",
-        "chess piece tic tac toe",
-        "play chess tac toe"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
-      "existingSolutions": [
-        "rules blog posts",
-        "one-off itch.io prototypes",
-        "house rules on paper"
-      ],
-      "solutionWeaknesses": [
-        "rules pages never ship a playable board",
-        "prototypes vanish or require download",
-        "legal moves are undocumented mid-game"
-      ],
-      "userFailures": [
-        "A player places a piece on an occupied square because the UI reused plain tic-tac-toe click handling.",
-        "Knight-move legality is checked from the wrong origin after a capture variant the ruleset does not allow.",
-        "Win detection fires on three-in-a-row while a chess-check rule the house uses is ignored, with no mode toggle.",
-        "New players cannot tell whose turn it is because piece color and turn banner disagree after undo."
-      ],
-      "signals": [],
-      "relatedProblems": [
-        "tic tac toe",
-        "quantum tic tac toe",
-        "connect four"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "medium",
-      "evergreenScore": 0.8,
-      "competitionScore": 0.9,
-      "searchDemand": 0.42,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.77,
-      "topicClusterPotential": 0.75,
-      "commercialPotential": 0.48,
-      "localizationPotential": 0.94,
-      "algorithmicFit": 0.98,
-      "authorityWinnability": 1,
-      "confidence": 0.64,
-      "finalScore": 68.8,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false,
-      "craftRisk": false
-    },
-    {
-      "id": "quantum-tic-tac-toe",
-      "title": "Quantum Tic Tac Toe",
-      "problem": "I want Quantum Tic-Tac-Toe with entanglement and collapse rules playable hot-seat in the browser, so the weird rules are enforced by the tool instead of argued over.",
-      "userIntent": "transactional",
-      "workflow": "input → Hot-Seat Board Game → output",
-      "transformation": "Hot-Seat Board Game",
-      "proposedTool": "quantum-tic-tac-toe",
-      "proposedEngine": "board-game",
-      "searchQueries": [
-        "quantum tic tac toe online",
-        "quantum tic tac toe",
-        "quantum tic-tac-toe play",
-        "entanglement tic tac toe",
-        "quantum noughts and crosses",
-        "play quantum tic tac toe"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
-      "existingSolutions": [
-        "academic demos",
-        "PDF rule sheets",
-        "rare flash ports"
-      ],
-      "solutionWeaknesses": [
-        "demos assume you already know the collapse rules",
-        "broken or abandoned ports",
-        "no step-through of why a collapse fired"
-      ],
-      "userFailures": [
-        "A player marks two classical cells thinking a spooky mark is already collapsed, and the board accepts an illegal classical move.",
-        "Collapse order is ambiguous when two cycles resolve and the tool picks one silently.",
-        "The entanglement graph is never shown, so disputes about which marks are linked cannot be settled.",
-        "Undo after a collapse cannot restore the prior superposition and the match has to be abandoned."
-      ],
-      "signals": [],
-      "relatedProblems": [
-        "tic tac toe",
-        "chess tac toe",
-        "webrtc local multiplayer"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "high",
-      "evergreenScore": 0.78,
-      "competitionScore": 0.96,
-      "searchDemand": 0.48,
-      "implementationCost": 0.3,
-      "engineReuse": 0.3,
-      "seoPotential": 0.79,
-      "topicClusterPotential": 0.75,
-      "commercialPotential": 0.5,
-      "localizationPotential": 0.94,
-      "algorithmicFit": 0.96,
-      "authorityWinnability": 1,
-      "confidence": 0.64,
-      "finalScore": 67.1,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false,
-      "craftRisk": false
-    },
-    {
       "id": "net-worth-calculator",
       "title": "Net Worth Calculator",
       "problem": "I want to total my assets minus liabilities to see my net worth.",
@@ -673,7 +617,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -714,6 +658,70 @@
       "authorityWinnability": 0.6,
       "confidence": 0.8,
       "finalScore": 66.6,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false,
+      "craftRisk": true
+    },
+    {
+      "id": "loan-calculator",
+      "title": "Loan Calculator",
+      "problem": "I need monthly payments and total interest for a loan over a term.",
+      "userIntent": "transactional",
+      "workflow": "input → Loan Amortization → output",
+      "transformation": "Loan Amortization",
+      "proposedTool": "loan-calculator",
+      "proposedEngine": "loan",
+      "searchQueries": [
+        "loan calculator",
+        "monthly payment calculator",
+        "loan interest calculator",
+        "loan emi calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
+      "existingSolutions": [
+        "bankrate.com",
+        "calculator.net"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "slow",
+        "no shareable result",
+        "cluttered"
+      ],
+      "userFailures": [],
+      "signals": [],
+      "relatedProblems": [
+        "mortgage payment",
+        "amortization schedule",
+        "extra payments"
+      ],
+      "relatedTools": [
+        "compound-interest-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.54,
+      "searchDemand": 0.96,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.86,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.59,
+      "localizationPotential": 0.9,
+      "algorithmicFit": 0.85,
+      "authorityWinnability": 0.45,
+      "confidence": 0.8,
+      "finalScore": 66.2,
       "status": "recommended",
       "gap": "engine-missing",
       "engineExists": false,

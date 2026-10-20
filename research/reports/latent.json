@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-17T08:18:54.596Z",
+  "generatedAt": "2026-10-20T07:33:09.910Z",
   "signals": [
     {
       "kind": "asymmetry",
@@ -72,7 +72,7 @@
       "engines": [
         "encoding"
       ],
-      "weight": 0.27
+      "weight": 0.26
     },
     {
       "kind": "dead-end",
@@ -130,7 +130,7 @@
         "jwt",
         "structured-data"
       ],
-      "weight": 0.22
+      "weight": 0.21
     }
   ],
   "candidates": [],

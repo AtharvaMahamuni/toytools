@@ -329,6 +329,8 @@ export const GLYPHS: Record<string, string> = {
   sleepLog: S + '<path d="M3 15.5h18"/><path d="M5.5 15.5V19M18.5 15.5V19"/><path d="M6 15.5c.4-2.6 2-4.2 4-4.2h4.2c2.2 0 3.6 1.6 3.8 4.2"/><path d="M4 8.5 7 6.2l3 2.2 3-3 4 3.1"/>' + E,
   // Two stops and the blend between them.
   okGradient: S + '<rect x="3" y="8" width="18" height="8" rx="2"/><path d="M9 8v8M15 8v8"/>' + E,
+  // A 3 by 3 hash: noughts and crosses, not the 2 by 2 matrix grid.
+  noughts: S + '<path d="M9 4v16M15 4v16M4 9h16M4 15h16"/>' + E,
 
   // ── generic fallback (never blank) ────────────────────────────────────
   spark: S + '<path d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6Z"/>' + E,

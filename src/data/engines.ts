@@ -38,7 +38,7 @@ const ENGINE_IDS = [
   'text-analysis', 'text-processor', 'encoding', 'hashing', 'structured-data',
   'jwt', 'text-interactive', 'calculator', 'productivity', 'finance', 'csv', 'generation',
   'physics', 'datetime', 'math-lab', 'math', 'chemistry-lab', 'wellness', 'tracker', 'color', 'units',
-  'audio', 'feel', 'network',
+  'audio', 'feel', 'network', 'board-game',
 ] as const;
 export type EngineId = (typeof ENGINE_IDS)[number];
 
@@ -54,6 +54,7 @@ const PATTERN_IDS = [
   'fidget-interact',
   'network-calculate',
   'network-lookup',
+  'board-play',
 ] as const;
 export type PatternId = (typeof PATTERN_IDS)[number];
 
@@ -165,6 +166,9 @@ const engineDefs: EngineDef[] = [
   // namespace for "what is my IP". The lookup is a browser fetch to an IP echo (declared as
   // network-lookup, non-dispatching); the math is local and never leaves the device.
   { id: 'network', name: 'Network Engine', category: 'developer-utilities', patterns: ['network-calculate', 'network-lookup'], runtimeGlobal: 'runNetwork', sharedWidget: 'NetworkWidget.astro', globals: ['runNetwork', 'network', 'experience'] },
+  // Board Game Engine: hot-seat matches. Rules are pure data in src/lib/engines/board-game/.
+  // The category lands in the same change as Tic Tac Toe. An empty category fails the build.
+  { id: 'board-game', name: 'Board Game Engine', category: 'games', patterns: ['board-play'], runtimeGlobal: 'boardGame', sharedWidget: 'BoardWidget.astro', globals: ['boardGame'] },
 ];
 
 function familiesFor(engineId: string): string[] {

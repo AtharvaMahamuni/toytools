@@ -1,0 +1,225 @@
+---
+interface Props {
+  rulesId: string;
+  slug: string;
+  craftId: string;
+  columns: number;
+  rows: number;
+  label: string;
+}
+
+const { rulesId, slug, craftId, columns, rows, label } = Astro.props;
+const cells = Array.from({ length: columns * rows }, (_, index) => index);
+const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column ${(index % columns) + 1}`;
+---
+
+<section class="board-match" data-tool={slug} data-rules={rulesId} aria-label={label}>
+  <div class="board-stage">
+    <p class="board-banner" data-board-banner role="status" aria-live="polite">X to play. Pass the phone.</p>
+    <p class="board-score" data-board-score>X 0, O 0, draws 0</p>
+    <div
+      class="board-grid"
+      data-craft={craftId}
+      data-board-grid
+      style={`--board-cols: ${columns}; --board-rows: ${rows};`}
+      role="group"
+      aria-label={label}
+    >
+      {cells.map((index) => (
+        <button type="button" class="board-cell" data-cell={index} data-shape="empty" data-mark="empty" aria-label={`${where(index)}, empty`}>
+          <span class="mark" aria-hidden="true"></span>
+          <span class="mark-letter"></span>
+        </button>
+      ))}
+    </div>
+    <p class="board-note sr-only" data-board-note role="status" aria-live="polite"></p>
+    <div class="board-actions">
+      <button type="button" class="action-btn" data-board-undo disabled>Undo</button>
+      <button type="button" class="action-btn" data-board-rematch>Rematch</button>
+      <button type="button" class="action-btn" data-board-reset>Reset score</button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .board-match {
+    display: flex;
+    justify-content: center;
+  }
+  .board-stage {
+    width: min(100%, var(--width-control));
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .board-banner,
+  .board-score,
+  .board-note {
+    max-width: none;
+    margin: 0;
+  }
+  .board-banner {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+  }
+  .board-score,
+  .board-note {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .board-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--board-cols), minmax(0, 1fr));
+    gap: var(--space-2);
+    aspect-ratio: var(--board-cols) / var(--board-rows);
+    width: 100%;
+    padding: var(--space-2);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+  }
+  .board-cell {
+    min-width: 0;
+    min-height: var(--touch-target);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    padding: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    font: inherit;
+    cursor: pointer;
+  }
+  .board-cell:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  .board-cell:active { background: var(--color-surface-hover); }
+  .board-cell.is-win { background: var(--color-accent-subtle); }
+  .mark {
+    width: 1.25rem;
+    height: 1.25rem;
+    display: block;
+  }
+  .mark-x { position: relative; }
+  .mark-x::before,
+  .mark-x::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: var(--color-text);
+  }
+  .mark-x::before { transform: translateX(-50%) rotate(45deg); }
+  .mark-x::after { transform: translateX(-50%) rotate(-45deg); }
+  .mark-o {
+    box-sizing: border-box;
+    border: 2px solid var(--color-text);
+    border-radius: 50%;
+  }
+  .mark-letter {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    min-height: 1em;
+  }
+  .board-actions {
+    display: flex;
+    gap: var(--space-2);
+  }
+  .board-actions .action-btn {
+    flex: 1;
+  }
+  .board-actions .action-btn:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+</style>
+
+<script is:inline define:vars={{ slug, rulesId, columns }}>
+  // The score lives in this page's memory only: nothing is saved (privacy rule), so a refresh or a
+  // new tab starts at 0. Reset score zeroes it without touching the board.
+  (function () {
+    var root = document.querySelector('[data-tool="' + slug + '"][data-rules="' + rulesId + '"]');
+    if (!root) return;
+
+    function paint(view, reason) {
+      var banner = root.querySelector('[data-board-banner]');
+      var score = root.querySelector('[data-board-score]');
+      var note = root.querySelector('[data-board-note]');
+      var undo = root.querySelector('[data-board-undo]');
+      if (banner && banner.textContent !== view.banner) banner.textContent = view.banner;
+      if (score) score.textContent = view.scoreText;
+      // The note is a live region that stays rendered: screen readers miss the first message in a
+      // region that was display:none. Empty, it wears the global .sr-only clip (1px, no layout);
+      // with a reason it shows. The same reason twice (a second tap on a taken square) would not
+      // change the text, so it is cleared and set again on the next frame to be announced again.
+      if (note) {
+        var text = reason || '';
+        note.classList.toggle('sr-only', !text);
+        if (text && note.textContent === text) {
+          note.textContent = '';
+          requestAnimationFrame(function () { note.textContent = text; });
+        } else {
+          note.textContent = text;
+        }
+      }
+      if (undo) undo.disabled = !view.canUndo;
+      view.cells.forEach(function (cell) {
+        var button = root.querySelector('[data-cell="' + cell.index + '"]');
+        if (!button) return;
+        button.setAttribute('data-shape', cell.shape);
+        button.setAttribute('data-mark', cell.mark || 'empty');
+        button.classList.toggle('is-win', !!cell.win);
+        var mark = button.querySelector('.mark');
+        if (mark) mark.className = 'mark' + (cell.shape === 'cross' ? ' mark-x' : cell.shape === 'ring' ? ' mark-o' : '');
+        var letter = button.querySelector('.mark-letter');
+        if (letter) letter.textContent = cell.letter;
+        var where = 'Row ' + (Math.floor(cell.index / columns) + 1) + ', column ' + ((cell.index % columns) + 1);
+        button.setAttribute('aria-label', where + ', ' + (cell.letter || 'empty') + (cell.win ? ', winning line' : ''));
+      });
+    }
+
+    ToyTools.onReady(function () {
+      var api = ToyTools.boardGame;
+      if (!api) return;
+      var state = api.create(rulesId);
+
+      function show(next, reason) {
+        state = next;
+        paint(api.view(state), reason || '');
+      }
+
+      root.addEventListener('click', function (event) {
+        var target = event.target;
+        if (!target || !target.closest) return;
+        var cell = target.closest('[data-cell]');
+        if (cell && root.contains(cell)) {
+          var result = api.apply(state, Number(cell.getAttribute('data-cell')));
+          show(result.state, result.ok ? '' : result.reason);
+          return;
+        }
+        if (target.closest('[data-board-undo]')) {
+          show(api.undo(state), '');
+          return;
+        }
+        if (target.closest('[data-board-rematch]')) {
+          show(api.rematch(state), '');
+          return;
+        }
+        if (target.closest('[data-board-reset]')) show(api.resetScore(state), '');
+      });
+
+      show(state, '');
+      root.setAttribute('data-ready', 'true');
+    });
+  })();
+</script>

@@ -10,12 +10,12 @@ export interface VersionConfig {
 }
 
 export const VERSION_CONFIG: VersionConfig = {
-  major: 12,
-  minor: 14,
+  major: 13,
+  minor: 0,
   patch: 0,
-  status: 'beta',
-  releaseDate: '2026-10-19',
-  description: 'Tool pages link home from the tool icon, which wears a small ToyTools badge',
+  status: 'alpha',
+  releaseDate: '2026-10-20',
+  description: 'Games category and a two-player tic-tac-toe board',
 };
 
 export function formatVersion(config: VersionConfig): string {

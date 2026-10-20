@@ -142,6 +142,7 @@ import { items as taxCalculatorFaqs } from '@tools/number/tax-calculator/faq';
 import { items as tdeeCalculatorFaqs } from '@tools/health/tdee-calculator/faq';
 import { items as textCompareFaqs } from '@tools/text/text-compare/faq';
 import { items as textRepeaterFaqs } from '@tools/text/text-repeater/faq';
+import { items as ticTacToeFaqs } from '@tools/game/tic-tac-toe/faq';
 import { items as timezoneConverterFaqs } from '@tools/datetime/timezone-converter/faq';
 import { items as tipCalculatorFaqs } from '@tools/number/tip-calculator/faq';
 import { items as titleCaseConverterFaqs } from '@tools/text/title-case-converter/faq';
@@ -305,6 +306,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'tdee-calculator': tdeeCalculatorFaqs,
   'text-compare': textCompareFaqs,
   'text-repeater': textRepeaterFaqs,
+  'tic-tac-toe': ticTacToeFaqs,
   'timezone-converter': timezoneConverterFaqs,
   'tip-calculator': tipCalculatorFaqs,
   'title-case-converter': titleCaseConverterFaqs,

@@ -1,16 +1,16 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-17T08:18:54.596Z",
-  "fingerprint": "bbde1a44",
+  "generatedAt": "2026-10-20T07:33:09.910Z",
+  "fingerprint": "eb953587",
   "discovered": 106,
   "deduped": 106,
-  "alreadyExists": 87,
-  "recommended": 17,
-  "missingEngines": 1,
+  "alreadyExists": 88,
+  "recommended": 16,
+  "missingEngines": 0,
   "topScore": 85.9,
   "latentSignals": 7,
   "latentCandidates": 0,
   "craftReadyToPolish": 10,
   "craftAtRisk": 11,
-  "nextBuild": "pregnancy-due-date-calculator"
+  "nextBuild": "connect-4"
 }

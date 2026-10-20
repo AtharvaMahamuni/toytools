@@ -142,6 +142,7 @@ import { config as taxCalculator } from '@tools/number/tax-calculator/config';
 import { config as tdeeCalculator } from '@tools/health/tdee-calculator/config';
 import { config as textCompare } from '@tools/text/text-compare/config';
 import { config as textRepeater } from '@tools/text/text-repeater/config';
+import { config as ticTacToe } from '@tools/game/tic-tac-toe/config';
 import { config as timezoneConverter } from '@tools/datetime/timezone-converter/config';
 import { config as tipCalculator } from '@tools/number/tip-calculator/config';
 import { config as titleCaseConverter } from '@tools/text/title-case-converter/config';
@@ -305,6 +306,7 @@ export const toolConfigs: ToolConfig[] = [
   tdeeCalculator,
   textCompare,
   textRepeater,
+  ticTacToe,
   timezoneConverter,
   tipCalculator,
   titleCaseConverter,

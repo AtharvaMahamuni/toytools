@@ -40,6 +40,7 @@ export const CATEGORY_SUMMARY_TERMS: Readonly<Record<string, string>> = {
   'music-audio': 'music',
   fidgets: 'fidgets',
   prep: 'prep',
+  games: 'games',
 };
 
 type SummaryCategory = Pick<Category, 'slug'>;
@@ -88,7 +89,7 @@ export function renderDetail(): string {
     'support and privacy contract belong to the platform, so a tool is largely a declaration of ' +
     'which engine it runs on. What it exposes is single-purpose utilities plus interactive ' +
     `${listPhrase(simulationSubjects())} simulations, organized into the categories below. Each ` +
-    'category page lists its individual tools.'
+    'category page lists its individual tools. Games are hot-seat boards for two people on one device.'
   );
 }
 

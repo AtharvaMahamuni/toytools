@@ -221,6 +221,22 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
       'The model stays wherever you already use it. ChatGPT, Claude, Gemini, and Grok are not built in, and this category is not affiliated with them. A format here is a way to organize fields. It is not a claim that one layout is better for one model.',
     ],
   },
+  {
+    slug: 'games',
+    name: 'Games',
+    headline: 'Two-Player Games on One Device',
+    description:
+      'Hot-seat board games for two people on one phone. Pass the device, undo a mis-tap, and rematch without an account. Nothing is uploaded.',
+    tagline: 'Two players, one device. No account.',
+    highlights: ['tic-tac-toe'],
+    accent: '#3E6B58',
+    segment: 'game',
+    intro: [
+      'These are board games for two people who are already in the same room. One phone, two seats, and the turn is named on the board. There is no account, no matchmaking, and no computer opponent waiting in the other seat.',
+      'A mis-tap comes back with undo, one move at a time, and the score comes back with it. Rematch clears the board, keeps the tally, and hands the first move to the other seat. Nothing is saved: the tally lives only in the open page, so a refresh starts it at zero, and Reset score zeroes it on the spot.',
+      'Each game states its own rules and enforces them. A square that already has a mark stays as it is. The marks are a shape and a letter, so the two of you can tell them apart without relying on color.',
+    ],
+  },
 ];
 
 export const categories: Category[] = categoryDefs.map(c => ({

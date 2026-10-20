@@ -133,7 +133,7 @@ describe('SUMMARY names every category', () => {
   it('joins one, two and many terms readably', () => {
     expect(renderSummary([{ slug: 'prep' }])).toContain('tools for prep.');
     expect(renderSummary([{ slug: 'text-utilities' }, { slug: 'prep' }])).toContain('tools for text and prep.');
-    expect(renderSummary()).toContain(', fidgets, and prep.');
+    expect(renderSummary()).toContain(', prep, and games.');
   });
 
   it('uses no em dash', () => {

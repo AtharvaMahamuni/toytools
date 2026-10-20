@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-17T08:18:54.596Z",
+  "generatedAt": "2026-10-20T07:33:09.910Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -420,9 +420,15 @@
       "transformation": "Hot-Seat Board Game",
       "engine": "board-game",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "tic-tac-toe"
+      ],
+      "relatedGuides": [
+        "tic-tac-toe"
+      ],
+      "relatedFaqs": [
+        "tic-tac-toe"
+      ]
     },
     {
       "id": "cidr-calculator",
@@ -623,9 +629,15 @@
       "transformation": "Hot-Seat Board Game",
       "engine": "board-game",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "tic-tac-toe"
+      ],
+      "relatedGuides": [
+        "tic-tac-toe"
+      ],
+      "relatedFaqs": [
+        "tic-tac-toe"
+      ]
     },
     {
       "id": "context-fit-checker",
@@ -2390,9 +2402,15 @@
       "transformation": "Hot-Seat Board Game",
       "engine": "board-game",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "tic-tac-toe"
+      ],
+      "relatedGuides": [
+        "tic-tac-toe"
+      ],
+      "relatedFaqs": [
+        "tic-tac-toe"
+      ]
     },
     {
       "id": "random-string-generator",
@@ -3148,15 +3166,18 @@
       "existing": false,
       "relatedTools": [
         "coin-flipper",
-        "dice-roller"
+        "dice-roller",
+        "tic-tac-toe"
       ],
       "relatedGuides": [
         "coin-flipper",
-        "dice-roller"
+        "dice-roller",
+        "tic-tac-toe"
       ],
       "relatedFaqs": [
         "coin-flipper",
-        "dice-roller"
+        "dice-roller",
+        "tic-tac-toe"
       ]
     },
     {
