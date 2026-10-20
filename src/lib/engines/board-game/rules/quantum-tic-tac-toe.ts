@@ -147,15 +147,25 @@ function optionsFor(
   closing: QMark,
   prevSubs: readonly number[],
 ): CollapseOption[] | null {
-  const inCycle = new Set(cycle);
-  const cycleMarks = marks.filter(mark => inCycle.has(mark.a) && inCycle.has(mark.b));
-  const seeds: Map<number, QMark>[] = [new Map(), new Map()];
-  for (let i = 0; i < cycle.length; i += 1) {
-    const edge = edgeBetween(cycleMarks, cycle[i]!, cycle[(i + 1) % cycle.length]!);
+  // `cycle` is the path from the closing mark's a to its b through the older marks, so the cycle's
+  // edges are the path's edges, then the closing mark back from b to a. Picking each edge by its
+  // two squares alone fails on a 2-cycle (X1 0-1, then O2 0-1): both edges join the same squares,
+  // and the older mark was found both ways. So the last edge is the closing mark itself, and each
+  // path edge is an older mark not already used.
+  const older = marks.filter(mark => mark !== closing);
+  const edges: QMark[] = [];
+  for (let i = 0; i + 1 < cycle.length; i += 1) {
+    const edge = edgeBetween(older.filter(mark => !edges.includes(mark)), cycle[i]!, cycle[i + 1]!);
     if (!edge) return null;
+    edges.push(edge);
+  }
+  edges.push(closing);
+  // Two orientations: each edge collapses onto its first square, or onto its second.
+  const seeds: Map<number, QMark>[] = [new Map(), new Map()];
+  edges.forEach((edge, i) => {
     seeds[0]!.set(cycle[i]!, edge);
     seeds[1]!.set(cycle[(i + 1) % cycle.length]!, edge);
-  }
+  });
   const group = component(marks, cycle[0]!);
   const options: CollapseOption[] = [];
   for (const seed of seeds) {
@@ -266,7 +276,7 @@ export const quantumTicTacToe: Rules = {
       const option = bag.pending.options[move.resolution];
       if (!option) return { ok: false, ply, reason: 'That collapse is not one of the two resolutions.' };
       const { outcome, note } = decide(option.cells, option.subs);
-      const finalOutcome: Outcome = outcome ?? (openSquares(option.cells) < 2 ? 'draw' : null);
+      const finalOutcome: Outcome = outcome ?? (openSquares(option.cells) === 0 ? 'draw' : null);
       return commit(ply, option.cells, bag.pending.chooser, finalOutcome, {
         marks: option.marks,
         next: bag.next,
@@ -285,14 +295,29 @@ export const quantumTicTacToe: Rules = {
     if (ply.cells[move.a] || ply.cells[move.b]) {
       return { ok: false, ply, reason: 'That square already has a classical mark.' };
     }
-    if (move.a === move.b) return { ok: false, ply, reason: 'A move marks two different squares.' };
+    if (move.a === move.b) {
+      // With one square left a move cannot mark two, so the last square takes a classical mark
+      // (tap it twice). That can still complete a line, so it is not a draw until it is played.
+      if (openSquares(ply.cells) !== 1) return { ok: false, ply, reason: 'A move marks two different squares.' };
+      const cells = ply.cells.slice();
+      cells[move.a] = ply.turn;
+      const subs = bag.subs.slice();
+      subs[move.a] = bag.next;
+      const { outcome, note } = decide(cells, subs);
+      return commit(ply, cells, other(ply.turn), outcome ?? 'draw', {
+        marks: bag.marks.slice(),
+        next: bag.next + 1,
+        subs,
+        pending: null,
+        note,
+      });
+    }
 
     const mark: QMark = { n: bag.next, seat: ply.turn, a: move.a, b: move.b };
     const marks = bag.marks.concat(mark);
     const cycle = path(bag.marks, move.a, move.b);
     if (!cycle) {
-      const outcome: Outcome = openSquares(ply.cells) < 2 ? 'draw' : null;
-      return commit(ply, ply.cells.slice(), other(ply.turn), outcome, {
+      return commit(ply, ply.cells.slice(), other(ply.turn), null, {
         marks,
         next: bag.next + 1,
         subs: bag.subs.slice(),

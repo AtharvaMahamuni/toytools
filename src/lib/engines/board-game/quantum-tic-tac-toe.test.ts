@@ -85,4 +85,63 @@ describe('quantum tic tac toe', () => {
     expect(won!.cells.slice(0, 3)).toEqual(['X', 'X', 'X']);
     expect(won!.cells.slice(6)).toEqual(['O', 'O', 'O']);
   });
+
+  it('collapses a same-pair 2-cycle (X 0-1, then O 0-1) both ways', () => {
+    const pending = play(api.create('quantum-tic-tac-toe'), mark(0, 1), mark(0, 1));
+    const view = api.view(pending);
+    expect(view.banner).toBe('X to choose the collapse. Pass the phone.');
+    expect(view.choices.map(choice => choice.label).sort()).toEqual(['O2 in the top left', 'O2 in the top middle']);
+    const results = [0, 1].map(resolution => api.apply(pending, { kind: 'collapse', resolution }));
+    expect(results.every(result => result.ok)).toBe(true);
+    const boards = results.map(result => result.state.cells.slice(0, 2));
+    expect(boards).toContainEqual(['X', 'O']);
+    expect(boards).toContainEqual(['O', 'X']);
+    for (const result of results) {
+      expect(result.state.outcome).toBeNull();
+      expect(api.view(result.state).links).toEqual([]);
+    }
+  });
+
+  /** A board with classical marks and exactly one open square, X to move. */
+  function oneLeft(cells: ('X' | 'O' | null)[]): MatchState {
+    const start = api.create('quantum-tic-tac-toe');
+    const extra = start.extra as { subs: number[]; next: number };
+    const subs = cells.map((cell, i) => (cell ? i + 1 : 0));
+    return { ...start, cells, extra: { ...extra, subs, next: 9 } };
+  }
+
+  it('does not call a draw while a square is open: the last square takes a classical mark', () => {
+    // X O X / X O O / O X _ : no line yet, the bottom right is open.
+    const state = oneLeft(['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', null]);
+    expect(state.outcome).toBeNull();
+    expect(api.view(state).banner).toBe('X to play. Pass the phone.');
+    // Marking two squares is impossible with one left, and a classical square is still refused.
+    expect(api.apply(state, mark(8, 0)).reason).toBe('That square already has a classical mark.');
+    const last = api.apply(state, mark(8, 8));
+    expect(last.ok).toBe(true);
+    expect(last.state.cells[8]).toBe('X');
+    expect(last.state.outcome).toBe('draw');
+    expect(last.state.score.draws).toBe(1);
+  });
+
+  it('lets the last square win instead of calling it a draw early', () => {
+    // X X _ / O O X / O X O : X takes the top right for the top row.
+    const state = oneLeft(['X', 'X', null, 'O', 'O', 'X', 'O', 'X', 'O']);
+    const last = api.apply(state, mark(2, 2));
+    expect(last.ok).toBe(true);
+    expect(last.state.outcome).toBe('X');
+    expect(api.view(last.state).banner).toBe('X wins.');
+    expect(api.view(last.state).cells.filter(cell => cell.win).map(cell => cell.index)).toEqual([0, 1, 2]);
+  });
+
+  it('a non-cycle move with two squares open is never a draw', () => {
+    // Seven classical, two open (7 and 8), no line: a quantum move is legal and the game goes on.
+    const start = api.create('quantum-tic-tac-toe');
+    const cells: ('X' | 'O' | null)[] = ['X', 'O', 'X', 'X', 'O', 'O', 'O', null, null];
+    const extra = start.extra as { subs: number[] };
+    const state = { ...start, cells, extra: { ...extra, subs: cells.map((c, i) => (c ? i + 1 : 0)), next: 8 } };
+    const moved = api.apply(state, mark(7, 8));
+    expect(moved.ok).toBe(true);
+    expect(moved.state.outcome).toBeNull();
+  });
 });

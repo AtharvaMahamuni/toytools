@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'qtt-faq-4',
     question: 'What if both players get a line from one collapse?',
     answer:
-      'The earlier line takes the point.\nThe line whose highest move number is smaller wins. The later line does not take a half point.',
+      'The earlier line takes the point.\nThe line whose highest move number is smaller wins. The later line does not take a half point. This page plays a simplified variant and does not use Goff\'s half-point scoring.',
   },
   {
     id: 'qtt-faq-5',

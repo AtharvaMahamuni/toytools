@@ -8,9 +8,11 @@ interface Props {
   label: string;
   /** Where the single craft affordance sits. Chess uses the note, quantum the links. */
   craftAt?: 'grid' | 'note' | 'links';
+  /** One plain line of house rules under the score, in the score's own style (no new CSS). */
+  rule?: string;
 }
 
-const { rulesId, slug, craftId, columns, rows, label, craftAt = 'grid' } = Astro.props;
+const { rulesId, slug, craftId, columns, rows, label, craftAt = 'grid', rule } = Astro.props;
 const cells = Array.from({ length: columns * rows }, (_, index) => index);
 const dense = columns >= 7;
 const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column ${(index % columns) + 1}`;
@@ -20,6 +22,7 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
   <div class="board-stage">
     <p class="board-banner" data-board-banner role="status" aria-live="polite">X to play. Pass the phone.</p>
     <p class="board-score" data-board-score>X 0, O 0, draws 0</p>
+    {rule && <p class="board-score" data-board-rule>{rule}</p>}
     <div class="board-hand" data-board-hand hidden></div>
     <div
       class:list={['board-grid', { 'is-dense': dense }]}
@@ -414,7 +417,15 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
         }
         var cell = target.closest('[data-cell]');
         if (!cell || !root.contains(cell)) return;
-        if (inputMode === 'column') return;
+        if (inputMode === 'column') {
+          // Pointer drops happen on pointerup (above), and the click that follows them has
+          // detail >= 1, so it is ignored: one press, one disc. A keyboard press (Enter or Space on
+          // a focused square) fires only a click, with detail 0, so it drops into that column.
+          if (event.detail !== 0) return;
+          var dropped = api.apply(state, Number(cell.getAttribute('data-cell')) % columns);
+          show(dropped.state, dropped.ok ? '' : dropped.reason);
+          return;
+        }
         var index = Number(cell.getAttribute('data-cell'));
         if (inputMode === 'chess') {
           var placed;
