@@ -435,7 +435,16 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
           var placed;
           if (picked) {
             placed = api.apply(state, { kind: 'place', piece: picked, index: index });
-          } else if (fromIndex < 0) {
+          } else if (fromIndex < 0 || (index !== fromIndex && state.cells[index] === state.turn)) {
+            // Only the mover's own piece can be the origin. An empty or opposing square is not
+            // selected: the engine's reason ("That is not your piece." or "Place a piece from
+            // your hand first.") is shown and nothing stays picked, so the next tap starts fresh.
+            // Tapping another of your own pieces moves the selection to it.
+            if (state.cells[index] !== state.turn) {
+              var notYours = api.apply(state, { kind: 'slide', from: index, to: index });
+              show(notYours.state, notYours.reason || 'That is not your piece.');
+              return;
+            }
             fromIndex = index;
             paint(api.view(state), lastReason);
             return;
@@ -446,7 +455,8 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
           } else {
             placed = api.apply(state, { kind: 'slide', from: fromIndex, to: index });
           }
-          show(placed.state, placed.ok ? '' : placed.reason, !placed.ok);
+          // A refused move keeps the selection only while it is still the mover's own piece.
+          show(placed.state, placed.ok ? '' : placed.reason, !placed.ok && (picked !== '' || state.cells[fromIndex] === placed.state.turn));
           return;
         }
         if (inputMode === 'pair') {
