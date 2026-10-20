@@ -43,6 +43,8 @@ export function extractCompetitorPage(html: string, url: string): CompetitorPage
   // "related/recommended" blocks, recirculation cards) that leak unrelated blog
   // headings into the extracted questions/gaps. Keep JSON-LD scripts — they
   // carry FAQ schema and @type data parsed further down.
+  // Never remove html/body/head. `[class*="menu"]` matches Wikipedia's
+  // `vector-feature-main-menu-*` class on `<html>` and would delete the page.
   $([
     'nav', 'footer', 'header', 'aside',
     'script:not([type="application/ld+json"])', 'style', 'noscript', 'iframe',
@@ -51,7 +53,7 @@ export function extractCompetitorPage(html: string, url: string): CompetitorPage
     '[class*="sidebar"]', '[class*="related"]', '[class*="recirc"]',
     '[class*="recommend"]', '[class*="promo"]', '[class*="newsletter"]',
     '[class*="subscribe"]', '[class*="menu"]', '[class*="breadcrumb"]',
-  ].join(', ')).remove();
+  ].join(', ')).not('html, body, head').remove();
 
   const title = $('title').first().text().trim();
   const description = $('meta[name="description"]').attr('content')?.trim() ?? '';

@@ -70,6 +70,7 @@ const categoryHref = categoryPath(category);
       For example, X places a pawn on the top left and O places a pawn on a different square.
       X then places the rook, the knight, and the bishop.
       After that fourth placement, X moves even if O still has a piece to place.
+      A boxed set lets a piece slide once three pieces are down. This board waits until that fourth placement.
     </p>
     <p>
       A legal move follows the piece.
@@ -107,6 +108,7 @@ const categoryHref = categoryPath(category);
     <p>
       Unlike chess, capturing a piece sends it back to that player hand.
       Their next turn is a placement again.
+      That player places the captured piece again before any of their pieces can slide.
     </p>
     <ReferenceBlock type="key-idea" heading="One ruleset">
       <p>The win is four in a line. There is no second mode for check.</p>

@@ -33,4 +33,37 @@ test.describe('quantum tic tac toe', () => {
     await expect(root.locator('[data-board-links] line')).toHaveCount(3);
     await expect(root.locator('[data-craft="entanglement-graph"]')).toHaveCount(1);
   });
+
+  test('tapping the same square twice keeps that square selected', async ({ page }) => {
+    await page.goto(URL);
+    const root = page.locator('[data-tool="quantum-tic-tac-toe"]');
+    await expect(root).toHaveAttribute('data-ready', 'true');
+    const first = page.locator('[data-cell="0"]');
+
+    await first.click();
+    await first.click();
+
+    await expect(first).toHaveClass(/is-selected/);
+    await expect(page.locator('[data-board-note]')).toHaveText('A move marks two different squares.');
+    await expect(page.locator('[data-board-links] line')).toHaveCount(0);
+  });
+});
+
+test('tapping a classical square keeps the first square selected', async ({ page }) => {
+  await page.goto(URL);
+  await expect(page.locator('[data-tool="quantum-tic-tac-toe"]')).toHaveAttribute('data-ready', 'true');
+  const cell = (i: number) => page.locator(`[data-cell="${i}"]`);
+  // A same-pair 2-cycle on the top left and top middle, collapsed: both are classical.
+  for (let i = 0; i < 2; i++) {
+    await cell(0).click();
+    await cell(1).click();
+  }
+  await page.locator('[data-choice]').first().click();
+  await expect(cell(0)).not.toHaveAttribute('data-mark', 'empty');
+  await cell(4).click();
+  await expect(cell(4)).toHaveClass(/is-selected/);
+  await cell(0).click();
+  await expect(page.locator('[data-board-note]')).toHaveText('That square already has a classical mark.');
+  await expect(cell(4)).toHaveClass(/is-selected/);
+  await expect(cell(4)).toHaveAccessibleName(/, selected$/);
 });
