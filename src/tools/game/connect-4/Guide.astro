@@ -1,0 +1,163 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath, categoryPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const categoryHref = categoryPath(category);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>What is connect 4 same device? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Connect 4 is a 7 by 6 board for two people.
+      Four of one color in a line wins.
+    </p>
+    <p>
+      You play connect 4 online on this page by passing one phone.
+      That is how you play connect 4 same device, and connect 4 no download means the page is the whole game.
+    </p>
+    <p>
+      Connect four two player is the same match.
+      A four in a row game counts a row, a column, and a diagonal of four.
+    </p>
+    <a href={toolHref} class="cta-link">Open Connect 4</a>
+  </section>
+
+  <section id="why-one-device">
+    <h2>Why does one phone matter? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      One phone matters because both players are already in the room.
+      A hot seat keeps the match there.
+    </p>
+    <p>
+      Passing one phone across a table when nobody has paper is the ordinary case.
+      Playing a full match without creating an account is the other reason to stay on this page.
+    </p>
+    <p>
+      Who drops first is a separate question.
+      A <a href={toolPathBySlug('coin-flipper')}>coin flip</a> settles it, and
+      <a href={toolPathBySlug('tic-tac-toe')}>tic tac toe</a> is the smaller board when four is the wrong target.
+    </p>
+  </section>
+
+  <section id="how-a-drop-works">
+    <h2>How does the disc drop? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The disc drops into the lowest empty cell of the column under your finger.
+      The column lights up first, and the disc commits when you release.
+    </p>
+    <p>
+      For example, X releases on the left column and the disc sits on the bottom row.
+      O releases on the next column.
+      X returns to the left column, and the new disc sits on top of the first.
+    </p>
+    <p>
+      For example, four releases by X in that same column, with O answering beside it, make a vertical line.
+      The banner says X wins.
+    </p>
+  </section>
+
+  <section id="rules">
+    <h2>What are the four in a row rules? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The rules are one color, four cells, one straight line.
+      A diagonal counts the same as a row or a column.
+    </p>
+    <ul>
+      <li>X drops first, then O answers</li>
+      <li>A disc falls to the lowest empty cell</li>
+      <li>Four matching discs in a line end the game</li>
+      <li>A full board with no line is a draw</li>
+    </ul>
+    <p>
+      For example, discs on a diagonal from the bottom of one column up to the right are a win when they share a color.
+      Checking a diagonal before calling the board a draw is part of reading the result.
+    </p>
+  </section>
+
+  <section id="hot-seat">
+    <h2>How is a hot seat different from a network match? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A hot seat is two people sharing one phone.
+      A network match looks for someone on another device.
+    </p>
+    <p>
+      You pass the phone instead of waiting in a lobby.
+      Unlike a network match, the other color is not a computer.
+    </p>
+    <ReferenceBlock type="key-idea" heading="The other color is a person">
+      <p>The other color is a person, so the page never drops a disc for them.</p>
+    </ReferenceBlock>
+    <p>
+      Waiting for a computer to play the other color is the wrong picture of this page.
+      This board lives in the <a href={categoryHref}>games category</a>.
+    </p>
+  </section>
+
+  <section id="wrong-column">
+    <h2>What if the disc lands in the wrong column? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Undo takes that disc back, and only that disc.
+      Taking back a tap that landed in the wrong column returns the turn as well.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Aiming at the next column">
+      <p>
+        Dropping the disc in the column next to the one you aimed at happens when you release after the finger has slid.
+        Watch the lit column, then release.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Missing a diagonal">
+      <p>
+        Reading only the rows and missing a diagonal of four leaves a finished game looking open.
+        Check both diagonal directions before you call a draw.
+      </p>
+    </ReferenceBlock>
+    <p>
+      Avoid refreshing mid-match and expecting the score to still be there.
+      Nothing is saved, so a refresh clears the tally and the grid.
+    </p>
+    <p>
+      Rematch clears the board and hands the first drop to the color that went second.
+      However, the wins and draws stay on the tally until you press Reset score or leave the page.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -1,4 +1,4 @@
-import type { BoardView, CellView, Outcome, Ply, Rules, Score, Seat } from '../types';
+import type { BoardMove, BoardView, CellView, Outcome, Ply, Rules, Score, Seat } from '../types';
 
 const LINES: readonly (readonly number[])[] = [
   [0, 1, 2],
@@ -61,10 +61,11 @@ export const ticTacToe: Rules = {
       outcome: null,
     };
   },
-  apply(ply, index) {
+  apply(ply, move: BoardMove) {
     if (ply.outcome) {
       return { ok: false, ply, reason: 'The match is over. Rematch to play again.' };
     }
+    const index = typeof move === 'number' ? move : -1;
     if (!Number.isInteger(index) || index < 0 || index >= ply.cells.length) {
       return { ok: false, ply, reason: 'That square is not on the board.' };
     }
@@ -98,6 +99,10 @@ export const ticTacToe: Rules = {
       scoreText: `X ${ply.score.X}, O ${ply.score.O}, draws ${ply.score.draws}`,
       canUndo,
       status: ply.outcome === null ? 'playing' : ply.outcome === 'draw' ? 'draw' : 'won',
+      input: 'cell',
+      hand: [],
+      choices: [],
+      links: [],
     };
   },
 };

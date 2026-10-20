@@ -2,6 +2,24 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.1] - 2026-10-20
+
+### Added
+
+- **Connect 4** (`/tool/game/connect-4/`). Two players drop discs on one phone. The column under the pointer lights up, and the disc drops when the finger lifts. Four in a row wins. Undo takes one disc back, and the score moves with it. The page does not match two players over the network.
+- **Chess Tac Toe** (`/tool/game/chess-tac-toe/`). Each player has a pawn, a rook, a knight, and a bishop on a 4 by 4 board. A refused tap names the rule, and the board stays put. Four of your own pieces in a line wins. The page does not decide the game by checkmate.
+- **Quantum Tic Tac Toe** (`/tool/game/quantum-tic-tac-toe/`). A move marks two squares, and the board draws the link. When those marks close a cycle, the other player chooses the collapse. A spooky three in a row does not win. The page does not teach the mathematics of quantum mechanics.
+- **All four boards** keep the score only in the open page (nothing is saved), have a Reset score button, announce the turn, the result and a refused move to screen readers, name each square by row and column (and the winning line), and hand the first move of a rematch to the other player.
+- **Connect 4 from the keyboard.** Enter or Space on a focused square drops one disc into that column. A tap or click still drops exactly one.
+- **Quantum Tic Tac Toe** says on the page, in the guide and in the FAQ that it is a simplified variant without Goff's half-point scoring. Two marks on the same pair of squares now collapse either way instead of being refused, and the game is no longer called a draw while the last square is open. With one square left the banner says "X: tap the last square to finish.", and a single tap places the classical mark there, which can still win.
+- **Chess Tac Toe** says on the page and in the guide that there is no draw rule, so a stuck board ends with Rematch.
+- **Selections are announced.** The square picked to move in Chess Tac Toe and the first square of a Quantum pair read ", selected" to screen readers, and the hand piece you picked in Chess Tac Toe is a pressed button.
+- **Hot Seat.** Tic Tac Toe, Connect 4, Chess Tac Toe, and Quantum Tic Tac Toe switch from one row on each of those pages.
+
+### Changed
+
+- **Tic Tac Toe** sits in that Hot Seat row. Coin flip and dice roller stay linked from the page.
+
 ## [alpha-v13.0] - 2026-10-20
 
 ### Added

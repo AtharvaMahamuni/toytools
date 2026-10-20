@@ -20,6 +20,7 @@ import { knowledge as camelCaseConverter } from '@tools/text/camel-case-converte
 import { knowledge as characterCounter } from '@tools/text/character-counter/knowledge';
 import { knowledge as characterMap } from '@tools/text/character-map/knowledge';
 import { knowledge as chatExportCleaner } from '@tools/prep/chat-export-cleaner/knowledge';
+import { knowledge as chessTacToe } from '@tools/game/chess-tac-toe/knowledge';
 import { knowledge as cidrCalculator } from '@tools/developer-utilities/cidr-calculator/knowledge';
 import { knowledge as coinFlipper } from '@tools/generate/coin-flipper/knowledge';
 import { knowledge as colorContrastChecker } from '@tools/design/color-contrast-checker/knowledge';
@@ -28,6 +29,7 @@ import { knowledge as colorShadesGenerator } from '@tools/design/color-shades-ge
 import { knowledge as colorblindSimulator } from '@tools/design/colorblind-simulator/knowledge';
 import { knowledge as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/knowledge';
 import { knowledge as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/knowledge';
+import { knowledge as connect4 } from '@tools/game/connect-4/knowledge';
 import { knowledge as contextFitChecker } from '@tools/prep/context-fit-checker/knowledge';
 import { knowledge as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/knowledge';
 import { knowledge as cronExpressionParser } from '@tools/datetime/cron-expression-parser/knowledge';
@@ -99,6 +101,7 @@ import { knowledge as punycodeConverter } from '@tools/developer-utilities/punyc
 import { knowledge as pxToDpConverter } from '@tools/design/px-to-dp-converter/knowledge';
 import { knowledge as pxToRemConverter } from '@tools/design/px-to-rem-converter/knowledge';
 import { knowledge as qrCodeGenerator } from '@tools/generate/qr-code-generator/knowledge';
+import { knowledge as quantumTicTacToe } from '@tools/game/quantum-tic-tac-toe/knowledge';
 import { knowledge as randomChoicePicker } from '@tools/generate/random-choice-picker/knowledge';
 import { knowledge as randomNamePicker } from '@tools/generate/random-name-picker/knowledge';
 import { knowledge as randomStringGenerator } from '@tools/generate/random-string-generator/knowledge';
@@ -184,6 +187,7 @@ export const authoredKnowledge: Knowledge[] = [
   characterCounter,
   characterMap,
   chatExportCleaner,
+  chessTacToe,
   cidrCalculator,
   coinFlipper,
   colorContrastChecker,
@@ -192,6 +196,7 @@ export const authoredKnowledge: Knowledge[] = [
   colorblindSimulator,
   combinationsPermutationsCalculator,
   compoundInterestCalculator,
+  connect4,
   contextFitChecker,
   crc32HashGenerator,
   cronExpressionParser,
@@ -263,6 +268,7 @@ export const authoredKnowledge: Knowledge[] = [
   pxToDpConverter,
   pxToRemConverter,
   qrCodeGenerator,
+  quantumTicTacToe,
   randomChoicePicker,
   randomNamePicker,
   randomStringGenerator,

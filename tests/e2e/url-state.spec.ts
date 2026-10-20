@@ -80,7 +80,22 @@ test.describe('Split Bill and the UPI calculators keep nothing', () => {
       await page.locator(`[data-field-id="${field}"]`).fill(value);
       await page.waitForTimeout(600); // longer than the 300ms write debounce
       expect(new URL(page.url()).search).toBe('');
-      const stored = await page.evaluate(() => Object.entries(localStorage).map(([k, v]) => k + '=' + v).join('\n'));
+      // recent-tools stores a millisecond lastUsed. A short amount such as 7777 can sit inside
+      // that number by chance, which is not the calculator keeping the input. Strip that one field
+      // and nothing else: every other key, and every other field of every recent-tools item, is
+      // still searched, in localStorage and sessionStorage alike.
+      const stored = await page.evaluate(() => {
+        const dump = (store: Storage) => Object.entries(store).map(([k, v]) => {
+          if (k !== 'toytools:recent-tools') return k + '=' + v;
+          const items = (JSON.parse(v) as Record<string, unknown>[]).map((item) => {
+            const rest = { ...item };
+            delete rest.lastUsed;
+            return rest;
+          });
+          return k + '=' + JSON.stringify(items);
+        });
+        return [...dump(localStorage), ...dump(sessionStorage)].join('\n');
+      });
       expect(stored).not.toContain(value);
       await page.reload();
       await expect(page.locator(`[data-field-id="${field}"]`)).not.toHaveValue(value);

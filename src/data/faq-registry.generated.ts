@@ -20,6 +20,7 @@ import { items as camelCaseConverterFaqs } from '@tools/text/camel-case-converte
 import { items as characterCounterFaqs } from '@tools/text/character-counter/faq';
 import { items as characterMapFaqs } from '@tools/text/character-map/faq';
 import { items as chatExportCleanerFaqs } from '@tools/prep/chat-export-cleaner/faq';
+import { items as chessTacToeFaqs } from '@tools/game/chess-tac-toe/faq';
 import { items as cidrCalculatorFaqs } from '@tools/developer-utilities/cidr-calculator/faq';
 import { items as coinFlipperFaqs } from '@tools/generate/coin-flipper/faq';
 import { items as colorContrastCheckerFaqs } from '@tools/design/color-contrast-checker/faq';
@@ -28,6 +29,7 @@ import { items as colorShadesGeneratorFaqs } from '@tools/design/color-shades-ge
 import { items as colorblindSimulatorFaqs } from '@tools/design/colorblind-simulator/faq';
 import { items as combinationsPermutationsCalculatorFaqs } from '@tools/math/combinations-permutations-calculator/faq';
 import { items as compoundInterestCalculatorFaqs } from '@tools/finance/compound-interest-calculator/faq';
+import { items as connect4Faqs } from '@tools/game/connect-4/faq';
 import { items as contextFitCheckerFaqs } from '@tools/prep/context-fit-checker/faq';
 import { items as crc32HashGeneratorFaqs } from '@tools/developer-utilities/crc32-hash-generator/faq';
 import { items as cronExpressionParserFaqs } from '@tools/datetime/cron-expression-parser/faq';
@@ -99,6 +101,7 @@ import { items as punycodeConverterFaqs } from '@tools/developer-utilities/punyc
 import { items as pxToDpConverterFaqs } from '@tools/design/px-to-dp-converter/faq';
 import { items as pxToRemConverterFaqs } from '@tools/design/px-to-rem-converter/faq';
 import { items as qrCodeGeneratorFaqs } from '@tools/generate/qr-code-generator/faq';
+import { items as quantumTicTacToeFaqs } from '@tools/game/quantum-tic-tac-toe/faq';
 import { items as randomChoicePickerFaqs } from '@tools/generate/random-choice-picker/faq';
 import { items as randomNamePickerFaqs } from '@tools/generate/random-name-picker/faq';
 import { items as randomStringGeneratorFaqs } from '@tools/generate/random-string-generator/faq';
@@ -184,6 +187,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'character-counter': characterCounterFaqs,
   'character-map': characterMapFaqs,
   'chat-export-cleaner': chatExportCleanerFaqs,
+  'chess-tac-toe': chessTacToeFaqs,
   'cidr-calculator': cidrCalculatorFaqs,
   'coin-flipper': coinFlipperFaqs,
   'color-contrast-checker': colorContrastCheckerFaqs,
@@ -192,6 +196,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'colorblind-simulator': colorblindSimulatorFaqs,
   'combinations-permutations-calculator': combinationsPermutationsCalculatorFaqs,
   'compound-interest-calculator': compoundInterestCalculatorFaqs,
+  'connect-4': connect4Faqs,
   'context-fit-checker': contextFitCheckerFaqs,
   'crc32-hash-generator': crc32HashGeneratorFaqs,
   'cron-expression-parser': cronExpressionParserFaqs,
@@ -263,6 +268,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'px-to-dp-converter': pxToDpConverterFaqs,
   'px-to-rem-converter': pxToRemConverterFaqs,
   'qr-code-generator': qrCodeGeneratorFaqs,
+  'quantum-tic-tac-toe': quantumTicTacToeFaqs,
   'random-choice-picker': randomChoicePickerFaqs,
   'random-name-picker': randomNamePickerFaqs,
   'random-string-generator': randomStringGeneratorFaqs,

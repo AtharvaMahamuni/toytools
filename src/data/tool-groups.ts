@@ -184,6 +184,16 @@ export const toolGroups: ToolGroup[] = [
       { slug: 'kebab-case-converter',    label: 'kebab-case' },
     ],
   },
+  {
+    id: 'hot-seat',
+    name: 'Hot Seat',
+    members: [
+      { slug: 'tic-tac-toe', label: 'Tic Tac Toe' },
+      { slug: 'connect-4', label: 'Connect 4' },
+      { slug: 'chess-tac-toe', label: 'Chess' },
+      { slug: 'quantum-tic-tac-toe', label: 'Quantum' },
+    ],
+  },
 ];
 
 export function getToolGroup(id: string): ToolGroup | undefined {

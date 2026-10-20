@@ -1,17 +1,25 @@
+import { chessTacToe } from './rules/chess-tac-toe';
+import { connect4 } from './rules/connect-4';
+import { quantumTicTacToe } from './rules/quantum-tic-tac-toe';
 import { ticTacToe } from './rules/tic-tac-toe';
-import type { BoardView, MatchState, MoveResult, Ply, Rules, Score } from './types';
+import type { BoardMove, BoardView, MatchState, MoveResult, Ply, Rules, Score, ViewHint } from './types';
 
 export const RULES: Record<string, Rules> = {
   'tic-tac-toe': ticTacToe,
+  'connect-4': connect4,
+  'chess-tac-toe': chessTacToe,
+  'quantum-tic-tac-toe': quantumTicTacToe,
 };
 
 function snapshot(ply: Ply): Ply {
-  return {
+  const next: Ply = {
     cells: ply.cells.slice(),
     turn: ply.turn,
     score: { ...ply.score },
     outcome: ply.outcome,
   };
+  if (ply.extra !== undefined) next.extra = structuredClone(ply.extra);
+  return next;
 }
 
 function unavailable(rulesId: string): MatchState {
@@ -41,10 +49,10 @@ export function createBoardGameApi() {
       return { rulesId, starter: ply.turn, ...snapshot(ply), past: [] };
     },
 
-    apply(state: MatchState, index: number): MoveResult {
+    apply(state: MatchState, move: BoardMove): MoveResult {
       const rules = RULES[state.rulesId];
       if (!rules) return { ok: false, state, reason: 'This board is not available.' };
-      const result = rules.apply(snapshot(state), index);
+      const result = rules.apply(snapshot(state), move);
       if (!result.ok) return { ok: false, state, reason: result.reason };
       return {
         ok: true,
@@ -78,10 +86,10 @@ export function createBoardGameApi() {
      *  old score back. */
     resetScore(state: MatchState): MatchState {
       if (!RULES[state.rulesId]) return state;
-      return { ...state, cells: state.cells.slice(), score: { X: 0, O: 0, draws: 0 }, past: [] };
+      return { rulesId: state.rulesId, starter: state.starter, ...snapshot(state), score: { X: 0, O: 0, draws: 0 }, past: [] };
     },
 
-    view(state: MatchState): BoardView {
+    view(state: MatchState, hint?: ViewHint): BoardView {
       const rules = RULES[state.rulesId];
       if (!rules) {
         return {
@@ -92,9 +100,13 @@ export function createBoardGameApi() {
           scoreText: '',
           canUndo: false,
           status: 'playing',
+          input: 'cell',
+          hand: [],
+          choices: [],
+          links: [],
         };
       }
-      return rules.view(snapshot(state), state.past.length > 0);
+      return rules.view(snapshot(state), state.past.length > 0, hint);
     },
   };
 }

@@ -6,10 +6,15 @@ interface Props {
   columns: number;
   rows: number;
   label: string;
+  /** Where the single craft affordance sits. Chess uses the note, quantum the links. */
+  craftAt?: 'grid' | 'note' | 'links';
+  /** One plain line of house rules under the score, in the score's own style (no new CSS). */
+  rule?: string;
 }
 
-const { rulesId, slug, craftId, columns, rows, label } = Astro.props;
+const { rulesId, slug, craftId, columns, rows, label, craftAt = 'grid', rule } = Astro.props;
 const cells = Array.from({ length: columns * rows }, (_, index) => index);
+const dense = columns >= 7;
 const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column ${(index % columns) + 1}`;
 ---
 
@@ -17,14 +22,17 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
   <div class="board-stage">
     <p class="board-banner" data-board-banner role="status" aria-live="polite">X to play. Pass the phone.</p>
     <p class="board-score" data-board-score>X 0, O 0, draws 0</p>
+    {rule && <p class="board-score" data-board-rule>{rule}</p>}
+    <div class="board-hand" data-board-hand hidden></div>
     <div
-      class="board-grid"
-      data-craft={craftId}
+      class:list={['board-grid', { 'is-dense': dense }]}
+      data-craft={craftAt === 'grid' ? craftId : undefined}
       data-board-grid
       style={`--board-cols: ${columns}; --board-rows: ${rows};`}
       role="group"
       aria-label={label}
     >
+      <svg class="board-links" data-board-links data-craft={craftAt === 'links' ? craftId : undefined} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" hidden></svg>
       {cells.map((index) => (
         <button type="button" class="board-cell" data-cell={index} data-shape="empty" data-mark="empty" aria-label={`${where(index)}, empty`}>
           <span class="mark" aria-hidden="true"></span>
@@ -32,7 +40,8 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
         </button>
       ))}
     </div>
-    <p class="board-note sr-only" data-board-note role="status" aria-live="polite"></p>
+    <div class="board-choices" data-board-choices hidden></div>
+    <p class="board-note sr-only" data-board-note data-craft={craftAt === 'note' ? craftId : undefined} role="status" aria-live="polite"></p>
     <div class="board-actions">
       <button type="button" class="action-btn" data-board-undo disabled>Undo</button>
       <button type="button" class="action-btn" data-board-rematch>Rematch</button>
@@ -69,7 +78,11 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
     color: var(--color-text-muted);
     font-variant-numeric: tabular-nums;
   }
+  .board-hand[hidden],
+  .board-choices[hidden],
+  .board-links[hidden] { display: none; }
   .board-grid {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(var(--board-cols), minmax(0, 1fr));
     gap: var(--space-2);
@@ -78,6 +91,23 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
     padding: var(--space-2);
     background: var(--color-surface);
     border-radius: var(--radius-md);
+  }
+  /* Seven columns at 48px need a 2px gap to stay on a 393px phone. --space-2 drops the cells under the touch target. */
+  .board-grid.is-dense {
+    gap: 2px;
+    padding: 2px;
+  }
+  .board-links {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .board-links line {
+    stroke: var(--color-text);
+    stroke-width: 0.8;
+    stroke-linecap: round;
   }
   .board-cell {
     min-width: 0;
@@ -95,12 +125,18 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
     font: inherit;
     cursor: pointer;
   }
-  .board-cell:focus-visible {
+  .board-cell:focus-visible,
+  .board-hand-btn:focus-visible,
+  .board-choice-btn:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
   }
   .board-cell:active { background: var(--color-surface-hover); }
-  .board-cell.is-win { background: var(--color-accent-subtle); }
+  .board-cell.is-win,
+  .board-cell.is-preview,
+  .board-hand-btn.is-selected,
+  .board-cell.is-selected { background: var(--color-accent-subtle); }
+  .board-cell.is-ghost .mark { opacity: 0.45; }
   .mark {
     width: 1.25rem;
     height: 1.25rem;
@@ -124,6 +160,10 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
     border: 2px solid var(--color-text);
     border-radius: 50%;
   }
+  .mark-disc {
+    background: var(--color-text);
+    border-radius: 50%;
+  }
   .mark-letter {
     font-size: var(--text-xs);
     font-weight: var(--font-weight-semibold);
@@ -131,6 +171,31 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
     line-height: 1;
     min-height: 1em;
   }
+  .board-hand,
+  .board-choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .board-hand-btn,
+  .board-choice-btn {
+    min-height: var(--touch-target);
+    min-width: var(--touch-target);
+    padding-inline: var(--space-3);
+    background: var(--color-bg);
+    color: var(--color-text);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    font: inherit;
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+  }
+  .board-choice-btn {
+    flex: 1 1 100%;
+    text-align: left;
+  }
+  .board-hand-btn:active,
+  .board-choice-btn:active { background: var(--color-surface-hover); }
   .board-actions {
     display: flex;
     gap: var(--space-2);
@@ -144,14 +209,71 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
   }
 </style>
 
-<script is:inline define:vars={{ slug, rulesId, columns }}>
+<script is:inline define:vars={{ slug, rulesId, columns, rows }}>
   // The score lives in this page's memory only: nothing is saved (privacy rule), so a refresh or a
   // new tab starts at 0. Reset score zeroes it without touching the board.
   (function () {
     var root = document.querySelector('[data-tool="' + slug + '"][data-rules="' + rulesId + '"]');
     if (!root) return;
+    var picked = '';
+    var fromIndex = -1;
+    var pairIndex = -1;
+    var previewCol = -1;
+    var inputMode = 'cell';
+    var lastReason = '';
+    var noteFrame = 0;
+    var grid = root.querySelector('[data-board-grid]');
 
-    function paint(view, reason) {
+    function shapeClass(shape) {
+      if (shape === 'cross') return ' mark-x';
+      if (shape === 'ring') return ' mark-o';
+      if (shape === 'disc') return ' mark-disc';
+      if (shape && shape !== 'empty') return ' mark-piece';
+      return '';
+    }
+
+    function fillButtons(box, items, className, attr, selected) {
+      if (!box) return;
+      while (box.firstChild) box.removeChild(box.firstChild);
+      if (!items.length) {
+        box.setAttribute('hidden', '');
+        return;
+      }
+      box.removeAttribute('hidden');
+      items.forEach(function (item) {
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.className = className + (String(item.id) === String(selected) ? ' is-selected' : '');
+        button.setAttribute(attr, String(item.id));
+        if (attr === 'data-piece') button.setAttribute('aria-pressed', String(String(item.id) === String(selected)));
+        button.textContent = item.label;
+        box.appendChild(button);
+      });
+    }
+
+    function paintLinks(links) {
+      var svg = root.querySelector('[data-board-links]');
+      if (!svg) return;
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+      if (!links || !links.length) {
+        svg.setAttribute('hidden', '');
+        return;
+      }
+      svg.removeAttribute('hidden');
+      links.forEach(function (link) {
+        var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', String(((link.a % columns) + 0.5) / columns * 100));
+        line.setAttribute('y1', String((Math.floor(link.a / columns) + 0.5) / rows * 100));
+        line.setAttribute('x2', String(((link.b % columns) + 0.5) / columns * 100));
+        line.setAttribute('y2', String((Math.floor(link.b / columns) + 0.5) / rows * 100));
+        svg.appendChild(line);
+      });
+    }
+
+    // `fresh` is true only when a move was just tried. Hover previews and piece picks repaint with
+    // the last reason and must not announce it again.
+    function paint(view, reason, fresh) {
+      inputMode = view.input || 'cell';
       var banner = root.querySelector('[data-board-banner]');
       var score = root.querySelector('[data-board-score]');
       var note = root.querySelector('[data-board-note]');
@@ -160,32 +282,69 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
       if (score) score.textContent = view.scoreText;
       // The note is a live region that stays rendered: screen readers miss the first message in a
       // region that was display:none. Empty, it wears the global .sr-only clip (1px, no layout);
-      // with a reason it shows. The same reason twice (a second tap on a taken square) would not
-      // change the text, so it is cleared and set again on the next frame to be announced again.
+      // with a reason it shows. The same reason twice after a fresh tap (a second tap on a taken
+      // square) would not change the text, so it is cleared and set again on the next frame. Any
+      // paint first cancels a re-set still pending, so a stale reason never lands late.
       if (note) {
         var text = reason || '';
+        if (noteFrame) {
+          cancelAnimationFrame(noteFrame);
+          noteFrame = 0;
+        }
         note.classList.toggle('sr-only', !text);
-        if (text && note.textContent === text) {
+        if (fresh && text && note.textContent === text) {
           note.textContent = '';
-          requestAnimationFrame(function () { note.textContent = text; });
-        } else {
+          noteFrame = requestAnimationFrame(function () {
+            noteFrame = 0;
+            note.textContent = text;
+          });
+        } else if (note.textContent !== text) {
           note.textContent = text;
         }
       }
       if (undo) undo.disabled = !view.canUndo;
+      fillButtons(
+        root.querySelector('[data-board-hand]'),
+        (view.hand || []).map(function (piece) { return { id: piece.id, label: piece.letter }; }),
+        'board-hand-btn',
+        'data-piece',
+        picked
+      );
+      fillButtons(
+        root.querySelector('[data-board-choices]'),
+        (view.choices || []).map(function (choice) { return { id: choice.id, label: choice.label }; }),
+        'board-choice-btn',
+        'data-choice',
+        ''
+      );
+      paintLinks(view.links || []);
       view.cells.forEach(function (cell) {
         var button = root.querySelector('[data-cell="' + cell.index + '"]');
         if (!button) return;
         button.setAttribute('data-shape', cell.shape);
         button.setAttribute('data-mark', cell.mark || 'empty');
         button.classList.toggle('is-win', !!cell.win);
+        button.classList.toggle('is-preview', !!cell.preview);
+        button.classList.toggle('is-ghost', !!cell.ghost);
+        var selected = cell.index === fromIndex || cell.index === pairIndex;
+        button.classList.toggle('is-selected', selected);
         var mark = button.querySelector('.mark');
-        if (mark) mark.className = 'mark' + (cell.shape === 'cross' ? ' mark-x' : cell.shape === 'ring' ? ' mark-o' : '');
+        if (mark) mark.className = 'mark' + shapeClass(cell.shape);
         var letter = button.querySelector('.mark-letter');
-        if (letter) letter.textContent = cell.letter;
-        var where = 'Row ' + (Math.floor(cell.index / columns) + 1) + ', column ' + ((cell.index % columns) + 1);
-        button.setAttribute('aria-label', where + ', ' + (cell.letter || 'empty') + (cell.win ? ', winning line' : ''));
+        var text = cell.letter || '';
+        if (letter) letter.textContent = text;
+        var name = 'Row ' + (Math.floor(cell.index / columns) + 1) + ', column ' + ((cell.index % columns) + 1) + ', ' + (text || 'empty') + (cell.win ? ', winning line' : '') + (selected ? ', selected' : '');
+        if (cell.ghost) name = 'Column ' + ((cell.index % columns) + 1) + ', preview';
+        button.setAttribute('aria-label', name);
       });
+    }
+
+    function columnFromEvent(event) {
+      var target = event.target;
+      if (!target || !target.closest) return -1;
+      var cell = target.closest('[data-cell]');
+      if (!cell || !root.contains(cell)) return -1;
+      return Number(cell.getAttribute('data-cell')) % columns;
     }
 
     ToyTools.onReady(function () {
@@ -195,18 +354,43 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
 
       function show(next, reason) {
         state = next;
-        paint(api.view(state), reason || '');
+        picked = '';
+        fromIndex = -1;
+        pairIndex = -1;
+        previewCol = -1;
+        lastReason = reason || '';
+        paint(api.view(state), lastReason, true);
+      }
+
+      if (grid) {
+        grid.addEventListener('pointerover', function (event) {
+          if (inputMode !== 'column') return;
+          var col = columnFromEvent(event);
+          if (col < 0 || col === previewCol) return;
+          previewCol = col;
+          paint(api.view(state, { column: col }), lastReason);
+        });
+        grid.addEventListener('pointerleave', function () {
+          if (inputMode !== 'column' || previewCol < 0) return;
+          previewCol = -1;
+          paint(api.view(state), lastReason);
+        });
+        grid.addEventListener('pointerup', function (event) {
+          if (inputMode !== 'column') return;
+          var col = columnFromEvent(event);
+          previewCol = -1;
+          if (col < 0) {
+            paint(api.view(state), lastReason);
+            return;
+          }
+          var result = api.apply(state, col);
+          show(result.state, result.ok ? '' : result.reason);
+        });
       }
 
       root.addEventListener('click', function (event) {
         var target = event.target;
         if (!target || !target.closest) return;
-        var cell = target.closest('[data-cell]');
-        if (cell && root.contains(cell)) {
-          var result = api.apply(state, Number(cell.getAttribute('data-cell')));
-          show(result.state, result.ok ? '' : result.reason);
-          return;
-        }
         if (target.closest('[data-board-undo]')) {
           show(api.undo(state), '');
           return;
@@ -215,7 +399,80 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
           show(api.rematch(state), '');
           return;
         }
-        if (target.closest('[data-board-reset]')) show(api.resetScore(state), '');
+        if (target.closest('[data-board-reset]')) {
+          show(api.resetScore(state), '');
+          return;
+        }
+        var choice = target.closest('[data-choice]');
+        if (choice && root.contains(choice)) {
+          var collapsed = api.apply(state, { kind: 'collapse', resolution: Number(choice.getAttribute('data-choice')) });
+          show(collapsed.state, collapsed.ok ? '' : collapsed.reason);
+          return;
+        }
+        var piece = target.closest('[data-piece]');
+        if (piece && root.contains(piece)) {
+          var id = piece.getAttribute('data-piece') || '';
+          picked = picked === id ? '' : id;
+          fromIndex = -1;
+          paint(api.view(state), lastReason);
+          return;
+        }
+        var cell = target.closest('[data-cell]');
+        if (!cell || !root.contains(cell)) return;
+        if (inputMode === 'column') {
+          // Pointer drops happen on pointerup (above), and the click that follows them has
+          // detail >= 1, so it is ignored: one press, one disc. A keyboard press (Enter or Space on
+          // a focused square) fires only a click, with detail 0, so it drops into that column.
+          if (event.detail !== 0) return;
+          var dropped = api.apply(state, Number(cell.getAttribute('data-cell')) % columns);
+          show(dropped.state, dropped.ok ? '' : dropped.reason);
+          return;
+        }
+        var index = Number(cell.getAttribute('data-cell'));
+        if (inputMode === 'chess') {
+          var placed;
+          if (picked) {
+            placed = api.apply(state, { kind: 'place', piece: picked, index: index });
+          } else if (fromIndex < 0) {
+            fromIndex = index;
+            paint(api.view(state), lastReason);
+            return;
+          } else if (fromIndex === index) {
+            fromIndex = -1;
+            paint(api.view(state), lastReason);
+            return;
+          } else {
+            placed = api.apply(state, { kind: 'slide', from: fromIndex, to: index });
+          }
+          show(placed.state, placed.ok ? '' : placed.reason);
+          return;
+        }
+        if (inputMode === 'pair') {
+          var markAttr = cell.getAttribute('data-mark');
+          if (markAttr === 'X' || markAttr === 'O') {
+            var classical = api.apply(state, { kind: 'mark', a: index, b: index });
+            show(classical.state, classical.ok ? '' : classical.reason);
+            return;
+          }
+          // One square left: a move cannot mark two, so a single tap places the classical mark
+          // there (the engine takes it as a = b). The banner says so.
+          var open = state.cells.filter(function (c) { return c === null; }).length;
+          if (open === 1 && pairIndex < 0) {
+            var last = api.apply(state, { kind: 'mark', a: index, b: index });
+            show(last.state, last.ok ? '' : last.reason);
+            return;
+          }
+          if (pairIndex < 0) {
+            pairIndex = index;
+            paint(api.view(state), lastReason);
+            return;
+          }
+          var marked = api.apply(state, { kind: 'mark', a: pairIndex, b: index });
+          show(marked.state, marked.ok ? '' : marked.reason);
+          return;
+        }
+        var result = api.apply(state, index);
+        show(result.state, result.ok ? '' : result.reason);
       });
 
       show(state, '');

@@ -13,6 +13,9 @@
  */
 export const guidePublishedAt: Record<string, string> = {
   'tic-tac-toe': '2026-10-20',
+  'connect-4': '2026-10-20',
+  'chess-tac-toe': '2026-10-20',
+  'quantum-tic-tac-toe': '2026-10-20',
   'css-gradient-generator': '2026-10-17',
   'sleep-hours-tracker': '2026-10-17',
   'vo2-max-calculator': '2026-10-17',

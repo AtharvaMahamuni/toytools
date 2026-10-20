@@ -118,7 +118,7 @@ const FAMILY_GLYPH: Record<string, string> = {
   equalizer: 'equalizer',
   // fidgets
   fidget: 'dots',
-  // games — the first board keeps this mark; the next hot-seat tool needs its own slug glyph
+  // games — each board overrides this, so a new hot-seat tool needs its own slug glyph
   'hot-seat': 'noughts',
   // network
   addressing: 'cidr',
@@ -265,8 +265,11 @@ const SLUG_GLYPH: Record<string, string> = {
   // chemistry — VSEPR shares the bonding family with chemical-bond, so it needs its own sketch.
   'molecular-geometry-calculator': 'tetrahedron',
 
-  // games — pin the hash grid to this board so the next hot-seat tool cannot inherit it
+  // games — each board has its own mark so the family default cannot collide
   'tic-tac-toe': 'noughts',
+  'connect-4': 'connect4',
+  'chess-tac-toe': 'chessline',
+  'quantum-tic-tac-toe': 'entangle',
 
   // ── uniqueness overrides (every tool → distinct glyph id) ─────────────
   // cleanup (broom family default kept by csv-cleaner)

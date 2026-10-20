@@ -408,7 +408,7 @@
       "supportedFamilies": [
         "hot-seat"
       ],
-      "toolCount": 1
+      "toolCount": 4
     }
   },
   "toolGroups": {
@@ -555,6 +555,15 @@
         "camel-case-converter",
         "snake-case-converter",
         "kebab-case-converter"
+      ]
+    },
+    "hot-seat": {
+      "name": "Hot Seat",
+      "members": [
+        "tic-tac-toe",
+        "connect-4",
+        "chess-tac-toe",
+        "quantum-tic-tac-toe"
       ]
     }
   },
@@ -1282,6 +1291,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "chess-tac-toe": {
+      "name": "Chess Tac Toe",
+      "dir": "src/tools/game/chess-tac-toe",
+      "categorySlug": "games",
+      "url": "/tool/game/chess-tac-toe/",
+      "engine": "board-game",
+      "pattern": "board-play",
+      "family": "hot-seat",
+      "processorId": "chess-tac-toe",
+      "toolGroup": "hot-seat",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "cidr-calculator": {
       "name": "CIDR Calculator",
       "dir": "src/tools/developer-utilities/cidr-calculator",
@@ -1439,6 +1469,27 @@
       "family": "interest",
       "processorId": "compound-interest",
       "toolGroup": "growth-calculators",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "connect-4": {
+      "name": "Connect 4",
+      "dir": "src/tools/game/connect-4",
+      "categorySlug": "games",
+      "url": "/tool/game/connect-4/",
+      "engine": "board-game",
+      "pattern": "board-play",
+      "family": "hot-seat",
+      "processorId": "connect-4",
+      "toolGroup": "hot-seat",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2941,6 +2992,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "quantum-tic-tac-toe": {
+      "name": "Quantum Tic Tac Toe",
+      "dir": "src/tools/game/quantum-tic-tac-toe",
+      "categorySlug": "games",
+      "url": "/tool/game/quantum-tic-tac-toe/",
+      "engine": "board-game",
+      "pattern": "board-play",
+      "family": "hot-seat",
+      "processorId": "quantum-tic-tac-toe",
+      "toolGroup": "hot-seat",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "random-choice-picker": {
       "name": "Random Choice Picker",
       "dir": "src/tools/generate/random-choice-picker",
@@ -3853,7 +3925,7 @@
       "pattern": "board-play",
       "family": "hot-seat",
       "processorId": "tic-tac-toe",
-      "toolGroup": "",
+      "toolGroup": "hot-seat",
       "files": [
         "Guide.astro",
         "Widget.astro",

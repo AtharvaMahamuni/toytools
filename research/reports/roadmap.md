@@ -1,14 +1,11 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-10-20T07:33:09.910Z
+Generated: 2026-10-20T14:23:22.472Z
 
-Discovered 106 signals -> 106 unique opportunities (16 recommended, 88 already shipped). Top score 85.9. Missing-engine candidates: 0.
+Discovered 106 signals -> 106 unique opportunities (13 recommended, 91 already shipped). Top score 85.9. Missing-engine candidates: 0.
 
 ## Immediate builds (top tier)
-- **Connect 4** (`connect-4`) - score 79.7, reuses board-game. Reuses the existing board-game engine; Low implementation cost; Strong topic-cluster potential; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Chess Tac Toe** (`chess-tac-toe`) - score 78.2, reuses board-game. Weak / incomplete incumbents; Reuses the existing board-game engine; Low implementation cost; Strong topic-cluster potential; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Pregnancy Due Date Calculator** (`pregnancy-due-date-calculator`) - score 76.6, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
-- **Quantum Tic Tac Toe** (`quantum-tic-tac-toe`) - score 76.4, reuses board-game. Weak / incomplete incumbents; Reuses the existing board-game engine; Strong topic-cluster potential; Deterministic algorithm solves this exactly (AI adds nothing).
 
 ## Quick wins (low effort, recommended)
 - **Ovulation Calculator** (`ovulation-calculator`) - score 74.6, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
@@ -210,4 +207,4 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 
 ---
 
-_Inputs fingerprint: `eb953587`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `3297226d`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._

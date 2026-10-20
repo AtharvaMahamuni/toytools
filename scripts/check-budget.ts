@@ -52,7 +52,10 @@ const BUDGETS: Record<string, Budget> = {
   tool: { sheets: 6, cssKb: 18, jsKb: 24, htmlKb: 34, totalKb: 61 },
   guide: { sheets: 4, cssKb: 13, jsKb: 8, htmlKb: 26, totalKb: 42 },
   category: { sheets: 4, cssKb: 12, jsKb: 8, htmlKb: 26, totalKb: 40 },
-  page: { sheets: 4, cssKb: 12, jsKb: 12, htmlKb: 30, totalKb: 48 },
+  // 2026-10-20: page htmlKb 30 → 31. /search/ renders a card for every tool, so Connect 4,
+  // Chess Tac Toe, and Quantum Tic Tac Toe raised that document from just under 30KB gz to
+  // 30.1KB (30805 bytes). The cards are the catalog. This is not a heavier widget.
+  page: { sheets: 4, cssKb: 12, jsKb: 12, htmlKb: 31, totalKb: 48 },
 };
 
 // A page lands here only when its weight is inherent, and it still gets a ceiling.

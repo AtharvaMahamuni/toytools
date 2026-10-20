@@ -331,6 +331,12 @@ export const GLYPHS: Record<string, string> = {
   okGradient: S + '<rect x="3" y="8" width="18" height="8" rx="2"/><path d="M9 8v8M15 8v8"/>' + E,
   // A 3 by 3 hash: noughts and crosses, not the 2 by 2 matrix grid.
   noughts: S + '<path d="M9 4v16M15 4v16M4 9h16M4 15h16"/>' + E,
+  // Seven columns and one disc, so it is not the hash grid.
+  connect4: S + '<path d="M4 5v14M8 5v14M12 5v14M16 5v14M20 5v14"/><circle cx="8" cy="16" r="1.6"/>' + E,
+  // An L for the knight, so it is not another board grid.
+  chessline: S + '<path d="M5 18V8h7"/><path d="M12 8v5h7"/>' + E,
+  // Two squares joined by a link.
+  entangle: S + '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><path d="M10 6.5h4.2V14"/>' + E,
 
   // ── generic fallback (never blank) ────────────────────────────────────
   spark: S + '<path d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6Z"/>' + E,

@@ -1,0 +1,15 @@
+---
+import BoardWidget from '../../_shared/BoardWidget.astro';
+import { config } from './config';
+---
+
+<BoardWidget
+  rulesId="chess-tac-toe"
+  slug={config.slug}
+  craftId={config.craft?.id ?? 'illegal-reason'}
+  craftAt="note"
+  columns={4}
+  rows={4}
+  rule="No draw rule. If nobody can make four in a line, use Rematch."
+  label="Chess tac toe board"
+/>

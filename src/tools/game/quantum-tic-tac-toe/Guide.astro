@@ -1,0 +1,166 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath, categoryPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const categoryHref = categoryPath(category);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>What is quantum tic tac toe? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Quantum tic tac toe is a 3 by 3 board where one move marks two squares.
+      X starts, and a classical line of three wins.
+      This page plays a simplified variant, and it does not use Goff's half-point scoring.
+    </p>
+    <p>
+      You play quantum tic tac toe on this page by passing one phone.
+      Quantum tic-tac-toe play and entanglement tic tac toe name that same match.
+    </p>
+    <p>
+      Quantum noughts and crosses is the older name for the marks.
+      The page shows the link between the two squares until someone collapses the cycle.
+    </p>
+    <a href={toolHref} class="cta-link">Open Quantum Tic Tac Toe</a>
+  </section>
+
+  <section id="why-one-device">
+    <h2>Why does one phone matter? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      One phone matters because the collapse has to be chosen in the room.
+      Passing one phone across a table when the rules are easy to argue is the ordinary case.
+    </p>
+    <p>
+      Playing a full match without creating an account keeps the score in the open page, and nothing is saved.
+      A <a href={toolPathBySlug('coin-flipper')}>coin flip</a> can still decide who is X.
+    </p>
+    <p>
+      <a href={toolPathBySlug('tic-tac-toe')}>Tic tac toe</a> is the classical board, where one tap is one mark and it stays.
+    </p>
+  </section>
+
+  <section id="how-a-move-works">
+    <h2>How does a move work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A move marks two different squares with the same number.
+      The board draws a line between them.
+    </p>
+    <p>
+      For example, X taps the top left and the top middle. Those squares read X1.
+      O taps the top middle and the top right. Those squares read O2, and the top middle now shows both letters.
+      X taps the top right and the top left. That third mark closes a cycle.
+    </p>
+    <p>
+      The banner then asks O to choose the collapse.
+      Both ways to settle the cycle are listed before the choice.
+    </p>
+  </section>
+
+  <section id="collapse">
+    <h2>How does a cycle collapse? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A cycle collapses into one classical mark on each square it touches.
+      The player who did not close the cycle picks which of the two resolutions lands.
+    </p>
+    <ul>
+      <li>Spooky marks may share a square</li>
+      <li>A classical square takes no further mark</li>
+      <li>Only a classical line of three wins</li>
+      <li>A board with no pair of open squares left, and no line, is a draw</li>
+    </ul>
+    <p>
+      For example, the cycle above can leave X on the top left, O on the top middle, and X on the top right.
+      The other resolution swaps which end each mark keeps.
+    </p>
+    <p>
+      For example, if one collapse gives both players a classical line, the earlier line takes the point.
+      The later line does not take a half point, unlike Goff's original scoring. The score stays a whole number.
+    </p>
+  </section>
+
+  <section id="classical">
+    <h2>How is this different from classical tic tac toe? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A classical mark is a single X or O that has already collapsed.
+      A spooky line is still entangled, so it does not win.
+    </p>
+    <p>
+      Unlike the classical board, you do not choose your own collapse.
+      Seeing which squares a move linked before anyone calls a win is the point of the lines on the grid.
+    </p>
+    <ReferenceBlock type="key-idea" heading="The other player chooses">
+      <p>Closing a cycle and then choosing the collapse yourself is not this ruleset. The other player chooses.</p>
+    </ReferenceBlock>
+    <p>
+      The page does not teach the mathematics behind the name.
+      This board lives in the <a href={categoryHref}>games category</a>.
+    </p>
+  </section>
+
+  <section id="mistakes">
+    <h2>What does the note refuse? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The note refuses a mark that the rules do not allow, and the turn stays put.
+      A square that already collapsed says it already has a classical mark.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="One square is not a move">
+      <p>
+        Marking one square and expecting a classical X or O leaves the first tap waiting for a second square.
+        A move needs two different squares.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="A spooky line is not a win">
+      <p>
+        Treating a spooky three in a row as a win skips the collapse.
+        Wait until the letters are single classical marks.
+      </p>
+    </ReferenceBlock>
+    <p>
+      Undo puts the links back when the last ply was a collapse.
+      Taking back a collapse that the other player wants to reconsider restores both choices.
+    </p>
+    <p>
+      Avoid refreshing mid-match and expecting the score to still be there.
+      However, rematch keeps that tally, starts from an empty board, and the other player moves first.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>
