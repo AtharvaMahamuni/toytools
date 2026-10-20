@@ -22,6 +22,8 @@ export interface Ply {
 
 export interface MatchState extends Ply {
   rulesId: string;
+  /** Who opened this game. Rematch hands the first move to the other seat. */
+  starter: Seat;
   past: Ply[];
 }
 
@@ -100,7 +102,8 @@ export interface Rules {
   id: string;
   columns: number;
   rows: number;
-  create(): Ply;
+  /** A fresh board with `starter` (X by default) to move. */
+  create(starter?: Seat): Ply;
   /** Never throws. An illegal move returns ok: false and the same ply. */
   apply(ply: Ply, move: BoardMove): { ok: boolean; ply: Ply; reason: string };
   view(ply: Ply, canUndo: boolean, hint?: ViewHint): BoardView;

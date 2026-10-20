@@ -2,25 +2,26 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [beta-v13.1] - 2026-10-20
+## [alpha-v13.1] - 2026-10-20
 
 ### Added
 
 - **Connect 4** (`/tool/game/connect-4/`). Two players drop discs on one phone. The column under the pointer lights up, and the disc drops when the finger lifts. Four in a row wins. Undo takes one disc back, and the score moves with it. The page does not match two players over the network.
 - **Chess Tac Toe** (`/tool/game/chess-tac-toe/`). Each player has a pawn, a rook, a knight, and a bishop on a 4 by 4 board. A refused tap names the rule, and the board stays put. Four of your own pieces in a line wins. The page does not decide the game by checkmate.
 - **Quantum Tic Tac Toe** (`/tool/game/quantum-tic-tac-toe/`). A move marks two squares, and the board draws the link. When those marks close a cycle, the other player chooses the collapse. A spooky three in a row does not win. The page does not teach the mathematics of quantum mechanics.
+- **All four boards** keep the score only in the open page (nothing is saved), have a Reset score button, announce the turn, the result and a refused move to screen readers, name each square by row and column (and the winning line), and hand the first move of a rematch to the other player.
 - **Hot Seat.** Tic Tac Toe, Connect 4, Chess Tac Toe, and Quantum Tic Tac Toe switch from one row on each of those pages.
 
 ### Changed
 
 - **Tic Tac Toe** sits in that Hot Seat row. Coin flip and dice roller stay linked from the page.
 
-## [beta-v13.0] - 2026-10-20
+## [alpha-v13.0] - 2026-10-20
 
 ### Added
 
 - **Games** (`/category/games/`). A category for two-player boards on one device. No account, no matchmaking, and no computer opponent.
-- **Tic Tac Toe** (`/tool/game/tic-tac-toe/`). X and O share one phone. A second tap on a filled square does not place another mark. X is a cross and O is a ring, each with its letter. Undo takes back one move, including a win, and the score moves with it. Rematch clears the board and keeps the session score on this device. The page does not play against a computer.
+- **Tic Tac Toe** (`/tool/game/tic-tac-toe/`). X and O share one phone. A second tap on a filled square does not place another mark. X is a cross and O is a ring, each with its letter. Undo takes back one move, including a win, and the score moves with it. Rematch clears the board, keeps the score, and gives the first move to the other player. Reset score sets the tally back to zero. Nothing is saved: the score lives only in the open page. The turn, the result and a refused tap are announced to screen readers, a second tap on a taken square is announced again, and each square is named by its row and column, with the winning line called out. The page does not play against a computer.
 
 ## [beta-v12.14] - 2026-10-19
 

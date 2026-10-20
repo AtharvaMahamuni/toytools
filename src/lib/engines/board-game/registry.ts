@@ -25,6 +25,7 @@ function snapshot(ply: Ply): Ply {
 function unavailable(rulesId: string): MatchState {
   return {
     rulesId,
+    starter: 'X',
     cells: [],
     turn: 'X',
     score: { X: 0, O: 0, draws: 0 },
@@ -45,7 +46,7 @@ export function createBoardGameApi() {
       if (!rules) return unavailable(rulesId);
       const ply = rules.create();
       if (isScore(score)) ply.score = { ...score };
-      return { rulesId, ...snapshot(ply), past: [] };
+      return { rulesId, starter: ply.turn, ...snapshot(ply), past: [] };
     },
 
     apply(state: MatchState, move: BoardMove): MoveResult {
@@ -55,7 +56,7 @@ export function createBoardGameApi() {
       if (!result.ok) return { ok: false, state, reason: result.reason };
       return {
         ok: true,
-        state: { rulesId: state.rulesId, ...snapshot(result.ply), past: state.past.concat(snapshot(state)) },
+        state: { rulesId: state.rulesId, starter: state.starter, ...snapshot(result.ply), past: state.past.concat(snapshot(state)) },
         reason: '',
       };
     },
@@ -63,19 +64,29 @@ export function createBoardGameApi() {
     undo(state: MatchState): MatchState {
       if (!state.past.length) return state;
       const prev = state.past[state.past.length - 1]!;
-      return { rulesId: state.rulesId, ...snapshot(prev), past: state.past.slice(0, -1) };
+      return { rulesId: state.rulesId, starter: state.starter, ...snapshot(prev), past: state.past.slice(0, -1) };
     },
 
+    /** A fresh board, the same score, and the other seat moves first. */
     rematch(state: MatchState): MatchState {
       const rules = RULES[state.rulesId];
       if (!rules) return state;
-      const fresh = rules.create();
+      const starter = state.starter === 'X' ? 'O' : 'X';
+      const fresh = rules.create(starter);
       return {
         rulesId: state.rulesId,
+        starter,
         ...snapshot(fresh),
         score: { ...state.score },
         past: [],
       };
+    },
+
+    /** Zero the tally and leave the board as it is. Undo history goes too, so undo cannot bring the
+     *  old score back. */
+    resetScore(state: MatchState): MatchState {
+      if (!RULES[state.rulesId]) return state;
+      return { rulesId: state.rulesId, starter: state.starter, ...snapshot(state), score: { X: 0, O: 0, draws: 0 }, past: [] };
     },
 
     view(state: MatchState, hint?: ViewHint): BoardView {

@@ -13,11 +13,12 @@ interface Props {
 const { rulesId, slug, craftId, columns, rows, label, craftAt = 'grid' } = Astro.props;
 const cells = Array.from({ length: columns * rows }, (_, index) => index);
 const dense = columns >= 7;
+const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column ${(index % columns) + 1}`;
 ---
 
 <section class="board-match" data-tool={slug} data-rules={rulesId} aria-label={label}>
   <div class="board-stage">
-    <p class="board-banner" data-board-banner>X to play. Pass the phone.</p>
+    <p class="board-banner" data-board-banner role="status" aria-live="polite">X to play. Pass the phone.</p>
     <p class="board-score" data-board-score>X 0, O 0, draws 0</p>
     <div class="board-hand" data-board-hand hidden></div>
     <div
@@ -30,17 +31,18 @@ const dense = columns >= 7;
     >
       <svg class="board-links" data-board-links data-craft={craftAt === 'links' ? craftId : undefined} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" hidden></svg>
       {cells.map((index) => (
-        <button type="button" class="board-cell" data-cell={index} data-shape="empty" data-mark="empty" aria-label={`Square ${index + 1}, empty`}>
+        <button type="button" class="board-cell" data-cell={index} data-shape="empty" data-mark="empty" aria-label={`${where(index)}, empty`}>
           <span class="mark" aria-hidden="true"></span>
           <span class="mark-letter"></span>
         </button>
       ))}
     </div>
     <div class="board-choices" data-board-choices hidden></div>
-    <p class="board-note" data-board-note data-craft={craftAt === 'note' ? craftId : undefined} hidden></p>
+    <p class="board-note sr-only" data-board-note data-craft={craftAt === 'note' ? craftId : undefined} role="status" aria-live="polite"></p>
     <div class="board-actions">
       <button type="button" class="action-btn" data-board-undo disabled>Undo</button>
       <button type="button" class="action-btn" data-board-rematch>Rematch</button>
+      <button type="button" class="action-btn" data-board-reset>Reset score</button>
     </div>
   </div>
 </section>
@@ -73,7 +75,6 @@ const dense = columns >= 7;
     color: var(--color-text-muted);
     font-variant-numeric: tabular-nums;
   }
-  .board-note[hidden],
   .board-hand[hidden],
   .board-choices[hidden],
   .board-links[hidden] { display: none; }
@@ -206,29 +207,19 @@ const dense = columns >= 7;
 </style>
 
 <script is:inline define:vars={{ slug, rulesId, columns, rows }}>
+  // The score lives in this page's memory only: nothing is saved (privacy rule), so a refresh or a
+  // new tab starts at 0. Reset score zeroes it without touching the board.
   (function () {
     var root = document.querySelector('[data-tool="' + slug + '"][data-rules="' + rulesId + '"]');
     if (!root) return;
-    var scoreKey = 'toytools.' + slug + '.session';
     var picked = '';
     var fromIndex = -1;
     var pairIndex = -1;
     var previewCol = -1;
     var inputMode = 'cell';
     var lastReason = '';
+    var noteFrame = 0;
     var grid = root.querySelector('[data-board-grid]');
-
-    function readScore() {
-      var raw = '';
-      try { raw = ToyTools.storage.get(scoreKey) || ''; } catch (e) { raw = ''; }
-      if (!raw) return null;
-      try {
-        var parsed = JSON.parse(raw);
-        if (!parsed || typeof parsed !== 'object') return null;
-        if (![parsed.X, parsed.O, parsed.draws].every(function (n) { return typeof n === 'number' && n >= 0 && Math.floor(n) === n; })) return null;
-        return parsed;
-      } catch (e) { return null; }
-    }
 
     function shapeClass(shape) {
       if (shape === 'cross') return ' mark-x';
@@ -275,18 +266,37 @@ const dense = columns >= 7;
       });
     }
 
-    function paint(view, reason) {
+    // `fresh` is true only when a move was just tried. Hover previews and piece picks repaint with
+    // the last reason and must not announce it again.
+    function paint(view, reason, fresh) {
       inputMode = view.input || 'cell';
       var banner = root.querySelector('[data-board-banner]');
       var score = root.querySelector('[data-board-score]');
       var note = root.querySelector('[data-board-note]');
       var undo = root.querySelector('[data-board-undo]');
-      if (banner) banner.textContent = view.banner;
+      if (banner && banner.textContent !== view.banner) banner.textContent = view.banner;
       if (score) score.textContent = view.scoreText;
+      // The note is a live region that stays rendered: screen readers miss the first message in a
+      // region that was display:none. Empty, it wears the global .sr-only clip (1px, no layout);
+      // with a reason it shows. The same reason twice after a fresh tap (a second tap on a taken
+      // square) would not change the text, so it is cleared and set again on the next frame. Any
+      // paint first cancels a re-set still pending, so a stale reason never lands late.
       if (note) {
-        note.textContent = reason || '';
-        if (reason) note.removeAttribute('hidden');
-        else note.setAttribute('hidden', '');
+        var text = reason || '';
+        if (noteFrame) {
+          cancelAnimationFrame(noteFrame);
+          noteFrame = 0;
+        }
+        note.classList.toggle('sr-only', !text);
+        if (fresh && text && note.textContent === text) {
+          note.textContent = '';
+          noteFrame = requestAnimationFrame(function () {
+            noteFrame = 0;
+            note.textContent = text;
+          });
+        } else if (note.textContent !== text) {
+          note.textContent = text;
+        }
       }
       if (undo) undo.disabled = !view.canUndo;
       fillButtons(
@@ -318,14 +328,10 @@ const dense = columns >= 7;
         var letter = button.querySelector('.mark-letter');
         var text = cell.letter || '';
         if (letter) letter.textContent = text;
-        var name = text ? 'Square ' + (cell.index + 1) + ', ' + text : 'Square ' + (cell.index + 1) + ', empty';
+        var name = 'Row ' + (Math.floor(cell.index / columns) + 1) + ', column ' + ((cell.index % columns) + 1) + ', ' + (text || 'empty') + (cell.win ? ', winning line' : '');
         if (cell.ghost) name = 'Column ' + ((cell.index % columns) + 1) + ', preview';
         button.setAttribute('aria-label', name);
       });
-    }
-
-    function saveScore(state) {
-      try { ToyTools.storage.set(scoreKey, JSON.stringify(state.score)); } catch (e) {}
     }
 
     function columnFromEvent(event) {
@@ -339,7 +345,7 @@ const dense = columns >= 7;
     ToyTools.onReady(function () {
       var api = ToyTools.boardGame;
       if (!api) return;
-      var state = api.create(rulesId, readScore());
+      var state = api.create(rulesId);
 
       function show(next, reason) {
         state = next;
@@ -347,9 +353,8 @@ const dense = columns >= 7;
         fromIndex = -1;
         pairIndex = -1;
         previewCol = -1;
-        saveScore(state);
         lastReason = reason || '';
-        paint(api.view(state), lastReason);
+        paint(api.view(state), lastReason, true);
       }
 
       if (grid) {
@@ -387,6 +392,10 @@ const dense = columns >= 7;
         }
         if (target.closest('[data-board-rematch]')) {
           show(api.rematch(state), '');
+          return;
+        }
+        if (target.closest('[data-board-reset]')) {
+          show(api.resetScore(state), '');
           return;
         }
         var choice = target.closest('[data-choice]');

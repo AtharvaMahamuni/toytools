@@ -193,10 +193,10 @@ export const chessTacToe: Rules = {
   id: 'chess-tac-toe',
   columns: COLUMNS,
   rows: ROWS,
-  create(): Ply {
+  create(starter: Seat = 'X'): Ply {
     return {
       cells: Array<Seat | null>(SIZE).fill(null),
-      turn: 'X',
+      turn: starter,
       score: emptyScore(),
       outcome: null,
       extra: freshExtra(),

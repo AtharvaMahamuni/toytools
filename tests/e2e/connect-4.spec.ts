@@ -29,7 +29,8 @@ test.describe('connect 4', () => {
     await column(0).click();
     await expect(banner).toHaveText('X wins.');
     await page.locator('[data-board-rematch]').click();
-    await expect(banner).toHaveText('X to play. Pass the phone.');
+    // Rematch hands the first disc to the other seat.
+    await expect(banner).toHaveText('O to play. Pass the phone.');
     await expect(score).toHaveText('X 1, O 0, draws 0');
     await expect(column(35)).toHaveAttribute('data-mark', 'empty');
   });

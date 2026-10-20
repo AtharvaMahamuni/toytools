@@ -59,9 +59,9 @@ describe('tic-tac-toe', () => {
     const again = api.rematch(won);
     expect(again.score).toEqual({ X: 1, O: 0, draws: 0 });
     expect(again.cells.every(cell => cell === null)).toBe(true);
-    expect(again.turn).toBe('X');
+    expect(again.turn).toBe('O');
     expect(again.past).toHaveLength(0);
-    expect(api.view(again).banner).toBe('X to play. Pass the phone.');
+    expect(api.view(again).banner).toBe('O to play. Pass the phone.');
   });
 
   it('scores a draw and refuses another move until rematch', () => {
@@ -102,5 +102,67 @@ describe('tic-tac-toe', () => {
     const back = api.undo(once);
     expect(back.cells[4]).toBeNull();
     expect(api.undo(back)).toBe(back);
+  });
+});
+
+describe('tic-tac-toe winning lines', () => {
+  const LINES = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8],
+    [0, 3, 6], [1, 4, 7], [2, 5, 8],
+    [0, 4, 8], [2, 4, 6],
+  ];
+  for (const line of LINES) {
+    for (const winner of ['X', 'O'] as const) {
+      it(`${winner} wins on ${line.join('-')}`, () => {
+        const loser = winner === 'X' ? 'O' : 'X';
+        // The winner holds two of the line, the loser two squares off it, and the winner is to move.
+        const off = [0, 1, 2, 3, 4, 5, 6, 7, 8].filter(i => !line.includes(i)).slice(0, 2);
+        const base = api.create('tic-tac-toe');
+        const cells = base.cells.slice();
+        cells[line[0]!] = winner;
+        cells[line[1]!] = winner;
+        for (const i of off) cells[i] = loser;
+        const result = api.apply({ ...base, cells, turn: winner }, line[2]!);
+        expect(result.ok).toBe(true);
+        expect(result.state.outcome).toBe(winner);
+        expect(result.state.score[winner]).toBe(1);
+        expect(result.state.score[loser]).toBe(0);
+        const view = api.view(result.state);
+        expect(view.banner).toBe(`${winner} wins.`);
+        expect(view.cells.filter(c => c.win).map(c => c.index)).toEqual(line);
+      });
+    }
+  }
+});
+
+describe('tic-tac-toe rematch and reset', () => {
+  it('rematch alternates who starts and keeps the score', () => {
+    let state = play(api.create('tic-tac-toe'), 0, 3, 1, 4, 2);
+    expect(state.score.X).toBe(1);
+    state = api.rematch(state);
+    expect(state.turn).toBe('O');
+    expect(state.starter).toBe('O');
+    expect(api.view(state).banner).toBe('O to play. Pass the phone.');
+    expect(state.score).toEqual({ X: 1, O: 0, draws: 0 });
+    expect(state.cells.every(c => c === null)).toBe(true);
+    state = play(state, 4);
+    expect(state.cells[4]).toBe('O');
+    // Undo inside the second game does not change who opened it.
+    state = api.undo(state);
+    expect(state.turn).toBe('O');
+    state = api.rematch(state);
+    expect(state.turn).toBe('X');
+    state = api.rematch(state);
+    expect(state.turn).toBe('O');
+  });
+
+  it('reset score zeroes the tally, keeps the board, and undo cannot bring the points back', () => {
+    let state = play(api.create('tic-tac-toe'), 0, 3, 1, 4, 2);
+    state = api.resetScore(state);
+    expect(state.score).toEqual({ X: 0, O: 0, draws: 0 });
+    expect(state.cells[0]).toBe('X');
+    expect(state.outcome).toBe('X');
+    expect(api.view(state).canUndo).toBe(false);
+    expect(api.undo(state)).toBe(state);
   });
 });

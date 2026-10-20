@@ -105,10 +105,10 @@ export const connect4: Rules = {
   id: 'connect-4',
   columns: COLUMNS,
   rows: ROWS,
-  create(): Ply {
+  create(starter: Seat = 'X'): Ply {
     return {
       cells: Array<Seat | null>(COLUMNS * ROWS).fill(null),
-      turn: 'X',
+      turn: starter,
       score: emptyScore(),
       outcome: null,
     };

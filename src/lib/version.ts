@@ -13,7 +13,7 @@ export const VERSION_CONFIG: VersionConfig = {
   major: 13,
   minor: 1,
   patch: 0,
-  status: 'beta',
+  status: 'alpha',
   releaseDate: '2026-10-20',
   description: 'Connect 4, Chess Tac Toe, and Quantum Tic Tac Toe',
 };

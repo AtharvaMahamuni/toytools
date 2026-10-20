@@ -247,10 +247,10 @@ export const quantumTicTacToe: Rules = {
   id: 'quantum-tic-tac-toe',
   columns: 3,
   rows: 3,
-  create(): Ply {
+  create(starter: Seat = 'X'): Ply {
     return {
       cells: Array<Seat | null>(9).fill(null),
-      turn: 'X',
+      turn: starter,
       score: emptyScore(),
       outcome: null,
       extra: freshExtra(),

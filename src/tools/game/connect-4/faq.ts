@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'c4-faq-4',
     question: 'Does rematch wipe the score?',
     answer:
-      'No. Rematch keeps the session tally.\nIt clears the grid and gives the next game to X. Refreshing the page keeps that tally and starts from an empty board.',
+      'No. Rematch keeps the tally.\nIt clears the grid and the other color drops first. Nothing is saved, so refreshing the page starts the tally at zero, and Reset score zeroes it at any time.',
   },
   {
     id: 'c4-faq-5',
