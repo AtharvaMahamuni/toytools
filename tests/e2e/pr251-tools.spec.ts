@@ -29,6 +29,24 @@ test.describe('csv column picker', () => {
     await expect(status).toContainText('No column named "missing".');
   });
 
+  test('a numeric header wins over a position, with short-row and case notices', async ({ page }) => {
+    await page.goto(URL);
+    const input = page.locator('#csv-column-picker-input');
+    const pick = page.locator('#csv-column-picker-input-b');
+    const out = page.locator('#csv-column-picker-output');
+    const notice = page.locator('#csv-column-picker-notice');
+    await input.fill('b,1\nx,y');
+    await pick.fill('1');
+    await expect(out).toHaveText('1\ny');
+    await expect(notice).toContainText('matched a header name');
+    await input.fill('a,b,c\n1,2\n4,5,6');
+    await pick.fill('c');
+    await expect(notice).toContainText('1 row had fewer fields than the header.');
+    await input.fill('Name,Age\nAda,36');
+    await pick.fill('name');
+    await expect(page.locator('#csv-column-picker-status')).toContainText('Did you mean Name?');
+  });
+
   test('a tab file gets the tab notice, not a comma one', async ({ page }) => {
     await page.goto(URL);
     await page.locator('#csv-column-picker-input').fill('a,b\tc\td\n1\t2\t3');

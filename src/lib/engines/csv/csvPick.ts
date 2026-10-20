@@ -13,6 +13,13 @@ const POSITION_NOTICE =
 
 const DUPLICATE_NOTICE = 'A later column with the same name was left behind.';
 
+function numericNotice(names: string[]): string {
+  const list = names.join(', ');
+  return names.length === 1
+    ? `${list} matched a header name, so it was read as that column, not as a position.`
+    : `${list} matched header names, so they were read as those columns, not as positions.`;
+}
+
 function firstNonEmptyLine(text: string): string {
   let line = '';
   let inQuotes = false;
@@ -177,41 +184,51 @@ export const csvPick: CsvTool = {
       );
     }
 
-    if (tokens.every(token => POSITION.test(token))) {
-      const indexes: number[] = [];
-      for (const token of tokens) {
-        const n = Number(token);
-        if (!Number.isInteger(n) || n < 1 || n > headers.length) {
-          return { ok: false, output: '', error: `No column ${token} in this file.` };
-        }
-        indexes.push(n - 1);
-      }
-      const labels = indexes.map(index => headers[index] || `column ${index + 1}`);
-      const notice = [switched, POSITION_NOTICE].filter(Boolean).join(' ');
-      return withNotice(
-        {
-          ok: true,
-          output: serialize(project(matrix, indexes), delimiter),
-          summary: `Kept ${labels.join(', ')}`,
-        },
-        notice,
-      );
-    }
-
-    const indexes: number[] = [];
-    let duplicate = false;
+    // Each token is a header name first. Only when no header equals it, and it is a whole number
+    // in range, is it a 1-based position. So a column named "2024" is picked by name, and in a
+    // header "b,1" the token "1" keeps the column named 1, not column b.
     // Headers are matched trimmed, as the typed names are, so "id, name" offers "name".
     const trimmed = headers.map(h => h.trim());
-    for (const name of tokens) {
-      const at = trimmed.indexOf(name);
-      if (at < 0) {
-        return { ok: false, output: '', error: `No column named "${name}".` };
+    const indexes: number[] = [];
+    let duplicate = false;
+    let byPosition = false;
+    const numericNames: string[] = [];
+    for (const token of tokens) {
+      const at = trimmed.indexOf(token);
+      if (at >= 0) {
+        if (trimmed.indexOf(token, at + 1) !== -1) duplicate = true;
+        if (POSITION.test(token)) numericNames.push(token);
+        indexes.push(at);
+        continue;
       }
-      if (trimmed.indexOf(name, at + 1) !== -1) duplicate = true;
-      indexes.push(at);
+      if (POSITION.test(token)) {
+        const n = Number(token);
+        if (n > headers.length) return { ok: false, output: '', error: `No column ${token} in this file.` };
+        byPosition = true;
+        indexes.push(n - 1);
+        continue;
+      }
+      const lower = token.toLowerCase();
+      const near = trimmed.find(h => h.toLowerCase() === lower);
+      return {
+        ok: false,
+        output: '',
+        error: near ? `No column named "${token}". Did you mean ${near}?` : `No column named "${token}".`,
+      };
     }
-    const labels = indexes.map(index => headers[index]);
-    const notice = [switched, duplicate ? DUPLICATE_NOTICE : undefined].filter(Boolean).join(' ');
+    // A short row has no field at a kept index, so that cell comes out blank. Say how many.
+    const last = Math.max(...indexes);
+    const short = matrix
+      .slice(1)
+      .filter(row => !(row.length === 1 && row[0] === '') && row.length <= last).length;
+    const labels = indexes.map(index => headers[index] || `column ${index + 1}`);
+    const notice = [
+      switched,
+      byPosition ? POSITION_NOTICE : undefined,
+      numericNames.length ? numericNotice(numericNames) : undefined,
+      duplicate ? DUPLICATE_NOTICE : undefined,
+      short ? `${short} ${short === 1 ? 'row had' : 'rows had'} fewer fields than the header.` : undefined,
+    ].filter(Boolean).join(' ');
     return withNotice(
       {
         ok: true,

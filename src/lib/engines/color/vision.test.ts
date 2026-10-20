@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { parseColor } from './convert';
-import { CVD_TYPES, closestCollapse, collapseNote, rgbDistance, simulateCvd } from './vision';
+import { CVD_TYPES, closestCollapse, collapseNote, rgbDistance, simulateCvd, splitColorList } from './vision';
 import type { RGB } from './types';
 
 function rgb(input: string): RGB {
@@ -66,5 +66,47 @@ describe('closestCollapse', () => {
     expect(closestCollapse([rgb('#388e3c'), rgb('#388e3c')], ['#388e3c', '#388e3c'])).toBeNull();
     // Pure red and pure green differ in lightness, so Machado still separates them.
     expect(closestCollapse([rgb('#ff0000'), rgb('#00ff00')], ['#ff0000', '#00ff00'])).toBeNull();
+  });
+});
+
+describe('splitColorList (audit S1-1, S3-6)', () => {
+  const ok = (items: string[]) => items.every(item => parseColor(item).ok);
+
+  it('keeps rgb() whole, with or without spaces after the commas', () => {
+    expect(splitColorList('rgb(255, 0, 0) #00ff00').items).toEqual(['rgb(255, 0, 0)', '#00ff00']);
+    expect(splitColorList('rgb(255,0,0)').items).toEqual(['rgb(255,0,0)']);
+    expect(ok(splitColorList('rgb(255, 0, 0) rgb(1,2,3)').items)).toBe(true);
+  });
+
+  it('keeps rgba() and hsl() and hsla() whole', () => {
+    expect(splitColorList('rgba(0, 0, 255, 0.5)').items).toEqual(['rgba(0, 0, 255, 0.5)']);
+    expect(splitColorList('hsl(120, 100%, 25%), hsl(0 100% 50%)').items).toEqual(['hsl(120, 100%, 25%)', 'hsl(0 100% 50%)']);
+    expect(splitColorList('hsla(0, 100%, 50%, 1)').items).toEqual(['hsla(0, 100%, 50%, 1)']);
+  });
+
+  it('splits a mixed list on spaces and commas outside the parentheses', () => {
+    const { items } = splitColorList('#d32f2f, rgb(56, 142, 60) red,hsl(210, 79%, 46%)  #abc');
+    expect(items).toEqual(['#d32f2f', 'rgb(56, 142, 60)', 'red', 'hsl(210, 79%, 46%)', '#abc']);
+    expect(ok(items)).toBe(true);
+  });
+
+  it('keeps the existing formats: hex lists split on spaces or commas, names', () => {
+    expect(splitColorList('#d32f2f #388e3c #1976d2').items).toEqual(['#d32f2f', '#388e3c', '#1976d2']);
+    expect(splitColorList('red,green , blue').items).toEqual(['red', 'green', 'blue']);
+    expect(splitColorList('   ').items).toEqual([]);
+  });
+
+  it('an unclosed rgb( stays one token, so it fails as one color', () => {
+    const { items } = splitColorList('rgb(255, 0 #00ff00');
+    expect(items).toEqual(['rgb(255, 0 #00ff00']);
+    expect(parseColor(items[0]!).ok).toBe(false);
+  });
+
+  it('caps at eight and reports how many were dropped', () => {
+    const nine = Array.from({ length: 9 }, (_, i) => `rgb(${i}, 0, 0)`).join(' ');
+    const r = splitColorList(nine);
+    expect(r.items).toHaveLength(8);
+    expect(r.dropped).toBe(1);
+    expect(splitColorList('#000 #111').dropped).toBe(0);
   });
 });

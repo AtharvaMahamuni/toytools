@@ -2,6 +2,15 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.2.1] - 2026-10-21
+
+### Fixed
+
+- **Colorblind Simulator.** rgb(), rgba(), hsl() and hsla() colors work in the list. The list split on every comma and space, so rgb(255, 0, 0) broke into pieces and was refused. A color written as name(...) now stays whole, and hex and CSS names still split on spaces or commas.
+- **Colorblind Simulator cap.** A list longer than eight colors says "Only the first 8 colors are shown." instead of dropping the rest silently.
+- **CSV Column Picker.** A header name wins over a position. Keeping 2024 from an id,2024 header keeps the 2024 column, and keeping 1 from a b,1 header keeps the column named 1. A number is read as a position only when no header has that name, and the notice says which reading was used. Names and positions can be mixed in one list.
+- **CSV Column Picker notices.** Rows with fewer fields than the header are counted in a notice, and a name that differs only in letter case gets a "Did you mean" hint.
+
 ## [alpha-v13.2] - 2026-10-20
 
 ### Fixed
