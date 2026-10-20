@@ -7,6 +7,7 @@ fraction-calculator,fraction-calculator,Fraction Calculator,Fractions,math,true,
 color-format-converter,color-format-converter,Color Format Converter,Color Conversion,color,true,needs-improvement,already-exists,low,0.92,0.4,0.94,1,1,0.97,0,0.96,0.8,83.8
 unit-circle-calculator,unit-circle-calculator,Unit Circle Explorer,Unit Circle,math-lab,true,guide-missing,already-exists,low,0.88,0.64,0.96,1,1,0.95,0,0.8,0.8,83.8
 remove-line-breaks,remove-line-breaks,Remove Line Breaks,Line Break Removal,text-processor,true,needs-improvement,already-exists,low,0.84,0.7,0.9,1,1,0.94,0,0.75,0.8,83.6
+tic-tac-toe,tic-tac-toe,Tic Tac Toe,Hot-Seat Board Game,board-game,true,needs-improvement,already-exists,low,0.72,0.48,0.88,1,1,0.89,0.75,0.95,0.8,83.6
 combinations-permutations-calculator,combinations-permutations-calculator,Combinations & Permutations Calculator,Combinatorics,math,true,needs-improvement,already-exists,low,0.78,0.64,0.94,1,1,0.91,0,0.82,0.8,83.5
 px-to-rem-converter,px-to-rem-converter,PX to REM Converter,CSS Unit Conversion,units,true,needs-improvement,already-exists,low,0.84,0.52,0.92,1,1,0.94,0,0.96,0.8,83.5
 switch-board,switch-board,Switch Board,Fidget Interaction,feel,true,needs-improvement,already-exists,low,0.58,0.78,0.72,1,1,0.83,1,0.96,0.48,83.4
@@ -29,6 +30,7 @@ rot13-encoder-decoder,rot13-encoder-decoder,ROT13 Encoder / Decoder,ROT13,encodi
 remove-accents,remove-accents,Remove Accents,Diacritic Removal,text-processor,true,needs-improvement,already-exists,low,0.7,0.72,0.85,1,1,0.88,0,0.6,0.8,79.8
 triangle-solver,triangle-solver,Triangle Solver,Triangles,math,true,needs-improvement,already-exists,medium,0.8,0.59,0.95,0.7,1,0.92,0,0.8,0.8,79.8
 calorie-deficit-calculator,calorie-deficit-calculator,Calorie Deficit Calculator,Energy And Nutrition Planning,wellness,true,needs-improvement,already-exists,low,0.82,0.59,0.92,1,1,0.93,0.5,0.9,0.8,79.7
+connect-4,connect-4,Connect 4,Hot-Seat Board Game,board-game,true,cluster-missing,recommended,medium,0.68,0.53,0.86,0.7,1,0.87,0.75,0.95,0.8,79.7
 electron-configuration-calculator,electron-configuration-calculator,Electron Configuration Calculator,Electron Configuration,chemistry-lab,true,guide-missing,already-exists,medium,0.84,0.6,0.96,0.7,1,0.94,0,0.72,0.8,79.6
 sleep-cycle-calculator,sleep-cycle-calculator,Sleep Cycle Calculator,Health Date Calculation,datetime,true,needs-improvement,already-exists,low,0.78,0.63,0.92,1,1,0.91,0.5,0.9,0.8,79.5
 color-shades-generator,color-shades-generator,Color Shades & Tints Generator,Color Scale,color,true,needs-improvement,already-exists,low,0.64,0.6,0.86,1,1,0.86,0,0.92,0.8,79.4
@@ -44,6 +46,7 @@ projectile-motion-calculator,projectile-motion-calculator,Projectile Motion Simu
 probability-calculator,probability-calculator,Probability Lab,Probability,math-lab,true,guide-missing,already-exists,medium,0.85,0.69,0.95,0.7,1,0.94,0,0.82,0.8,78.6
 remove-emoji,remove-emoji,Remove Emoji,Emoji Removal,text-processor,true,needs-improvement,already-exists,low,0.66,0.76,0.78,1,1,0.74,0,0.8,0.8,78.5
 csv-to-tsv,csv-to-tsv,CSV to TSV,CSV/TSV Conversion,csv,true,needs-improvement,already-exists,low,0.58,0.82,0.8,1,1,0.71,0,0.9,0.64,78.4
+chess-tac-toe,chess-tac-toe,Chess Tac Toe,Hot-Seat Board Game,board-game,true,cluster-missing,recommended,medium,0.42,0.9,0.8,0.7,1,0.77,0.75,0.94,0.64,78.2
 roi-calculator,roi-calculator,ROI Calculator,Return on Investment,finance,true,needs-improvement,already-exists,low,0.88,0.58,0.9,1,1,0.71,0,0.85,0.8,78.1
 colorblind-simulator,colorblind-simulator,Colorblind Simulator,Color Vision Simulation,color,true,needs-improvement,already-exists,medium,0.66,0.7,0.9,0.7,1,0.86,0,0.94,0.8,77.8
 chemical-bond-calculator,chemical-bond-calculator,Chemical Bond Calculator,Bond Character,chemistry-lab,true,guide-missing,already-exists,medium,0.71,0.8,0.95,0.7,1,0.88,0,0.7,0.8,77.6
@@ -58,6 +61,7 @@ date-difference-calculator,date-difference-calculator,Date Difference Calculator
 reaction-rate-calculator,reaction-rate-calculator,Reaction Rate Calculator,Chemical Kinetics,chemistry-lab,true,guide-missing,already-exists,medium,0.74,0.66,0.95,0.7,1,0.9,0,0.78,0.8,76.7
 pregnancy-due-date-calculator,pregnancy-due-date-calculator,Pregnancy Due Date Calculator,Health Date Calculation,datetime,true,cluster-missing,recommended,low,0.88,0.46,0.95,1,1,0.95,0.5,0.88,0.8,76.6
 lean-body-mass-calculator,lean-body-mass-calculator,Lean Body Mass Calculator,Body Composition Calculation,wellness,true,needs-improvement,already-exists,low,0.55,0.7,0.92,1,1,0.82,0.5,0.92,0.64,76.5
+quantum-tic-tac-toe,quantum-tic-tac-toe,Quantum Tic Tac Toe,Hot-Seat Board Game,board-game,true,cluster-missing,recommended,high,0.48,0.96,0.78,0.4,1,0.79,0.75,0.94,0.64,76.4
 linear-regression-playground,linear-regression-playground,Linear Regression Playground,Linear Regression,math-lab,true,guide-missing,already-exists,medium,0.7,0.66,0.93,0.7,1,0.88,0,0.78,0.8,76.3
 crc32-hash-generator,crc32-hash-generator,CRC32 Hash Generator,Checksum (CRC32),hashing,true,needs-improvement,already-exists,low,0.56,0.68,0.8,1,1,0.7,0,0.92,0.64,76.1
 simple-harmonic-motion-calculator,simple-harmonic-motion-calculator,Spring (SHM) Simulator,Simple Harmonic Motion,physics,true,guide-missing,already-exists,low,0.68,0.73,0.94,1,1,0.87,0,0.8,0.8,76.1
@@ -74,7 +78,6 @@ function-grapher,function-grapher,Function Grapher,Function Graphing,math-lab,tr
 molecular-geometry-calculator,molecular-geometry-calculator,Molecular Geometry Calculator,VSEPR Geometry,chemistry-lab,true,guide-missing,already-exists,medium,0.73,0.66,0.95,0.7,1,0.89,0,0.68,0.8,74.5
 ideal-gas-law-calculator,ideal-gas-law-calculator,Ideal Gas Law Simulator,Ideal Gas Law,physics,true,guide-missing,already-exists,medium,0.82,0.6,0.95,0.7,1,0.93,0,0.82,0.8,74.4
 blood-pressure-tracker,blood-pressure-tracker,Blood Pressure Tracker,Personal Health Logging,tracker,true,cluster-missing,recommended,low,0.62,0.79,0.95,1,1,0.85,0.25,0.92,0.8,74.3
-tic-tac-toe,tic-tac-toe,Tic Tac Toe,Hot-Seat Board Game,board-game,false,engine-missing,recommended,low,0.72,0.48,0.88,0.9,0.3,0.89,0.75,0.95,0.8,74.3
 book-tracker,book-tracker,Book Tracker,Local Reading Tracker,productivity,true,needs-improvement,already-exists,medium,0.72,0.48,0.88,0.7,1,0.89,0,0.85,0.8,74.2
 css-gradient-generator,css-gradient-generator,Perceptual Gradient Generator,Perceptual Gradient,color,true,needs-improvement,already-exists,medium,0.7,0.38,0.88,0.7,1,0.88,0,0.9,0.8,74.1
 waist-to-hip-ratio-calculator,waist-to-hip-ratio-calculator,Waist to Hip Ratio Calculator,Body Composition Calculation,wellness,true,needs-improvement,already-exists,low,0.52,0.73,0.92,1,1,0.81,0.5,0.95,0.64,73.7
@@ -91,10 +94,7 @@ timezone-converter,timezone-converter,Timezone Converter,Timezone Conversion,dat
 image-palette-extractor,image-palette-extractor,Image Palette Extractor,Palette Extraction,color,true,cluster-missing,recommended,high,0.68,0.58,0.82,0.4,1,0.87,0,0.9,0.8,71.6
 inclined-plane-calculator,inclined-plane-calculator,Inclined Plane Simulator,Inclined Plane and Friction,physics,true,guide-missing,already-exists,medium,0.62,0.76,0.93,0.7,1,0.85,0,0.78,0.8,71.5
 cron-expression-parser,cron-expression-parser,Cron Expression Parser,Cron Parsing,datetime,true,needs-improvement,already-exists,high,0.72,0.54,0.84,0.4,1,0.77,0,0.92,0.8,70.8
-connect-4,connect-4,Connect 4,Hot-Seat Board Game,board-game,false,engine-missing,recommended,medium,0.68,0.53,0.86,0.6,0.3,0.87,0.75,0.95,0.8,70.4
 shell-quote-escalator,shell-quote-escalator,Shell Quote Escalator,Shell Quoting,encoding,true,needs-improvement,already-exists,medium,0.11,1,0.94,0.7,1,0.64,0,0.96,0.64,69.9
-chess-tac-toe,chess-tac-toe,Chess Tac Toe,Hot-Seat Board Game,board-game,false,engine-missing,recommended,medium,0.42,0.9,0.8,0.6,0.3,0.77,0.75,0.94,0.64,68.8
-quantum-tic-tac-toe,quantum-tic-tac-toe,Quantum Tic Tac Toe,Hot-Seat Board Game,board-game,false,engine-missing,recommended,high,0.48,0.96,0.78,0.3,0.3,0.79,0.75,0.94,0.64,67.1
 net-worth-calculator,net-worth-calculator,Net Worth Calculator,Net Worth,budget,false,engine-missing,recommended,low,0.8,0.62,0.88,0.9,0.3,0.68,0,0.78,0.8,66.6
 loan-calculator,loan-calculator,Loan Calculator,Loan Amortization,loan,false,engine-missing,recommended,medium,0.96,0.54,0.95,0.6,0.3,0.86,0,0.9,0.8,66.2
 pdf-page-toolkit,pdf-page-toolkit,PDF Merge Split Rotate,PDF Page Editing,pdf,false,engine-missing,recommended,high,0.9,0.4,0.92,0.3,0.3,0.96,0,0.94,0.8,66

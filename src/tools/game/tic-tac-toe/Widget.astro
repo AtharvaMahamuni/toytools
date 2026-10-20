@@ -1,0 +1,13 @@
+---
+import BoardWidget from '../../_shared/BoardWidget.astro';
+import { config } from './config';
+---
+
+<BoardWidget
+  rulesId="tic-tac-toe"
+  slug={config.slug}
+  craftId={config.craft?.id ?? 'marks-by-shape'}
+  columns={3}
+  rows={3}
+  label="Tic tac toe board"
+/>

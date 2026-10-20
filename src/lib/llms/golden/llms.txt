@@ -1,8 +1,8 @@
 # ToyTools
 
-> ToyTools is the internet's little toolbox: free, browser-based tools for text, numbers, developer utilities, productivity, money, generators, physics, applied math, chemistry, dates, health, design, music, fidgets, and prep. The prep tools prepare text before a model (ToyTools does not run a model). Runs entirely on your device. Nothing is uploaded.
+> ToyTools is the internet's little toolbox: free, browser-based tools for text, numbers, developer utilities, productivity, money, generators, physics, applied math, chemistry, dates, health, design, music, fidgets, prep, and games. The prep tools prepare text before a model (ToyTools does not run a model). Runs entirely on your device. Nothing is uploaded.
 
-ToyTools is one static platform rather than a collection of separate utilities: the computation lives in a set of shared, individually tested engines, and the interface, offline support and privacy contract belong to the platform, so a tool is largely a declaration of which engine it runs on. What it exposes is single-purpose utilities plus interactive physics, applied math, and chemistry simulations, organized into the categories below. Each category page lists its individual tools.
+ToyTools is one static platform rather than a collection of separate utilities: the computation lives in a set of shared, individually tested engines, and the interface, offline support and privacy contract belong to the platform, so a tool is largely a declaration of which engine it runs on. What it exposes is single-purpose utilities plus interactive physics, applied math, and chemistry simulations, organized into the categories below. Each category page lists its individual tools. Games are hot-seat boards for two people on one device.
 
 Every published tool is listed in [llms-full.txt](https://toytoolsapp.com/llms-full.txt).
 
@@ -59,6 +59,7 @@ Prepare text before a model. ToyTools does not run a model.
 - [Music & Audio](https://toytoolsapp.com/category/music-audio/): Build, understand and share music equalizer settings, then apply them in your own player. (1 tool)
 - [Fidgets](https://toytoolsapp.com/category/fidgets/): Online virtual fidget toys you tap, flick, or flip in the browser, with optional sound and haptics. Runs entirely on your device. Nothing is uploaded. (7 tools)
 - [Prep for a model](https://toytoolsapp.com/category/prep/): Tools for preparing, cleaning, structuring, and checking text before you send it to an AI model. ToyTools does not run a model. (6 tools)
+- [Games](https://toytoolsapp.com/category/games/): Hot-seat board games for two people on one phone. Pass the device, undo a mis-tap, and rematch without an account. Nothing is uploaded. (1 tool)
 
 ## Optional
 

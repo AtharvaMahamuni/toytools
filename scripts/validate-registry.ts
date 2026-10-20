@@ -26,6 +26,7 @@ import { CSV_TOOLS } from '../src/lib/engines/csv/registry';
 import { GENERATORS } from '../src/lib/generation/registry';
 import { EQ_DEFINITIONS } from '../src/lib/engines/audio/registry';
 import { NETWORK_CALCULATORS } from '../src/lib/engines/network/registry';
+import { RULES as BOARD_RULES } from '../src/lib/engines/board-game/registry';
 import { DOMAINS, SIMULATIONS } from '../src/lib/simulation/simulations/registry';
 import { MANIFESTS } from '../src/lib/simulation/manifests';
 import { SIMULATION_SCHEMA_VERSION } from '../src/lib/simulation/manifest';
@@ -56,6 +57,7 @@ const ENGINE_REGISTRIES: Record<string, Record<string, unknown>> = {
   tracker: TRACKER_DEFS,
   audio: EQ_DEFINITIONS,
   network: NETWORK_CALCULATORS,
+  'board-game': BOARD_RULES,
   // Each simulation domain plugin resolves only its own slice of the composed simulation map,
   // so e.g. a physics tool cannot claim a math-lab processorId.
   ...Object.fromEntries(DOMAINS.map(d => [d.id, d.simulations])),

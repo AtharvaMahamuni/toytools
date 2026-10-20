@@ -110,6 +110,14 @@ export const searchAliases: Record<string, string[]> = {
   'uuid-inspector': ['uuid validator', 'what version is this uuid', 'uuid v4 vs v7', 'is this a valid uuid', 'is this uuid valid', 'decode uuid timestamp'],
   'dice-roller': ['roll a dice', 'roll a die', 'd20', 'virtual dice', 'dnd dice'],
   'coin-flipper': ['flip a coin', 'heads or tails', 'coin toss'],
+  'tic-tac-toe': [
+    'tic tac toe online',
+    'tic tac toe two player',
+    'noughts and crosses',
+    'play tic tac toe same device',
+    'tic tac toe no download',
+    'tic tac toe no account',
+  ],
   'random-name-picker': ['pick a name', 'wheel of names', 'raffle draw', 'classroom picker'],
   'random-choice-picker': ['decide for me', 'pick for me', 'what should i eat', 'shuffle a list'],
 

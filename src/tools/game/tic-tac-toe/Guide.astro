@@ -1,0 +1,171 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath, categoryPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const categoryHref = categoryPath(category);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>What is tic tac toe two player on one phone? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Tic tac toe two player is a 3 by 3 board for two people.
+      X starts, and three in a row wins.
+    </p>
+    <p>
+      You play tic tac toe online on this page by passing one phone.
+      That is how you play tic tac toe same device, and tic tac toe no download means the page is the whole game.
+    </p>
+    <p>
+      A search for tic tac toe two player online no account lands on this board.
+      Xs and Os names the same two marks.
+    </p>
+    <a href={toolHref} class="cta-link">Open Tic Tac Toe</a>
+  </section>
+
+  <section id="why-one-device">
+    <h2>Why does one phone matter? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      One phone matters because both players are already in the room.
+      A hot seat keeps the match there instead of opening a second device.
+    </p>
+    <p>
+      Passing one phone across a table when nobody has paper is the ordinary case.
+      The purpose is a finished game with a score you can read out loud.
+    </p>
+    <p>
+      Who goes first is a separate question.
+      A <a href={toolPathBySlug('coin-flipper')}>coin flip</a> settles it, and a
+      <a href={toolPathBySlug('dice-roller')}>dice roll</a> does the same job when a coin is the wrong call.
+    </p>
+  </section>
+
+  <section id="how-a-turn-works">
+    <h2>How does a turn work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The banner names the seat that plays next.
+      Tap an empty square and that seat's mark stays.
+    </p>
+    <p>
+      For example, X takes the top left and O takes the middle left.
+      X then takes the top middle, and O takes the center.
+      X takes the top right, so the top row is three X marks.
+    </p>
+    <p>The banner says X wins, and further taps do nothing.</p>
+  </section>
+
+  <section id="rules">
+    <h2>What are the noughts and crosses rules? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The noughts and crosses rules are this same 3 by 3 game.
+      A diagonal counts as three in a row, the same as a row or a column.
+    </p>
+    <ul>
+      <li>X places first, then O answers</li>
+      <li>A mark stays where it landed</li>
+      <li>Three matching marks in a line end the game</li>
+      <li>Nine marks with no line is a draw</li>
+    </ul>
+    <p>
+      For example, X on the top left plus the center plus the bottom right is a diagonal win.
+    </p>
+  </section>
+
+  <section id="hot-seat">
+    <h2>How is a hot seat different from online matchmaking? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A hot seat is two people sharing one phone.
+      Online matchmaking looks for a stranger on another device.
+    </p>
+    <p>
+      You pass the phone instead of waiting in a lobby.
+      Unlike matchmaking, the empty seat is not a computer opponent.
+    </p>
+    <ReferenceBlock type="key-idea" heading="The other seat is a person">
+      <p>The other seat is a person, so the page never moves for them.</p>
+    </ReferenceBlock>
+    <p>
+      Expecting the other seat to move by itself is the wrong picture of this page.
+      This board lives in the <a href={categoryHref}>games category</a>.
+    </p>
+  </section>
+
+  <section id="filled-square">
+    <h2>What happens if you tap a filled square? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The second tap does nothing, and the turn stays put.
+      The note under the grid says that square already has a mark.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Tapping a filled square">
+      <p>
+        Tapping a filled square again and thinking the game ignored you is the common mistake.
+        Do not tap it again and expect a new mark.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Calling a diagonal a draw">
+      <p>
+        Missing a diagonal and calling a finished line a draw comes from scanning only the rows.
+        Check both diagonals before you call the game over.
+      </p>
+    </ReferenceBlock>
+    <p>
+      Avoid refreshing to start over and assuming the session score will vanish.
+      The tally stays on this device, and the grid starts empty.
+    </p>
+  </section>
+
+  <section id="undo">
+    <h2>Does undo remove the point? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Undo takes back one move, and the score follows that move.
+      Undo of a winning line takes that point off the tally.
+    </p>
+    <p>
+      For example, the top-row win above reads X 1.
+      Undo returns the score to X 0 and gives the turn back to X.
+    </p>
+    <p>
+      Rematch clears the nine squares and hands the first move to X.
+      However, wins and draws from this session stay on the phone.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

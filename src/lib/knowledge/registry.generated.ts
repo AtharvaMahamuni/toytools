@@ -142,6 +142,7 @@ import { knowledge as taxCalculator } from '@tools/number/tax-calculator/knowled
 import { knowledge as tdeeCalculator } from '@tools/health/tdee-calculator/knowledge';
 import { knowledge as textCompare } from '@tools/text/text-compare/knowledge';
 import { knowledge as textRepeater } from '@tools/text/text-repeater/knowledge';
+import { knowledge as ticTacToe } from '@tools/game/tic-tac-toe/knowledge';
 import { knowledge as timezoneConverter } from '@tools/datetime/timezone-converter/knowledge';
 import { knowledge as tipCalculator } from '@tools/number/tip-calculator/knowledge';
 import { knowledge as titleCaseConverter } from '@tools/text/title-case-converter/knowledge';
@@ -305,6 +306,7 @@ export const authoredKnowledge: Knowledge[] = [
   tdeeCalculator,
   textCompare,
   textRepeater,
+  ticTacToe,
   timezoneConverter,
   tipCalculator,
   titleCaseConverter,

@@ -23,6 +23,7 @@ import { TRACKER_DEFS } from '@lib/engines/tracker/registry';
 import { GENERATORS } from '@lib/generation/registry';
 import { EQ_DEFINITIONS } from '@lib/engines/audio/registry';
 import { createFeelApi, DEFAULT_FEEL_PREFS, FEEL_TOOLS } from '@lib/engines/feel/registry';
+import { createBoardGameApi, RULES as BOARD_RULES } from '@lib/engines/board-game/registry';
 import { headroom } from '@lib/engines/audio/headroom';
 import { engineRegistry } from '@data/engines';
 import { SIMULATIONS } from '@lib/simulation/simulations/registry';
@@ -374,6 +375,33 @@ describe('feel engine', () => {
   });
 });
 
+// ── board-game: one ruleset per tool, dispatched by processorId ───────────────────────────────
+describe('board-game engine', () => {
+  it('registers every board-game tool as a ruleset', () => {
+    const boardTools = byEngine('board-game');
+    expect(boardTools.length).toBeGreaterThan(0);
+    for (const t of boardTools) {
+      expect(BOARD_RULES[t.processorId!], `"${t.slug}" processor is a ruleset`).toBeDefined();
+    }
+  });
+
+  it('creates, refuses a filled square, undoes, and names an unknown board', () => {
+    const api = createBoardGameApi();
+    const start = api.create('tic-tac-toe');
+    const first = api.apply(start, 0);
+    expect(first.ok).toBe(true);
+    const refused = api.apply(first.state, 0);
+    expect(refused.ok).toBe(false);
+    expect(refused.state).toBe(first.state);
+    expect(refused.reason).toBe('That square already has a mark.');
+    const undone = api.undo(first.state);
+    expect(api.view(undone).cells[0]!.letter).toBe('');
+    const missing = api.create('not-a-board');
+    expect(api.view(missing).banner).toBe('This board is not available.');
+    expect(api.apply(missing, 0).ok).toBe(false);
+  });
+});
+
 // ── the meta-contract: an engine cannot ship without one of the blocks above ──────────────────
 //
 // Every block above had to be written by hand, which means the honest failure mode of this file
@@ -391,7 +419,7 @@ describe('feel engine', () => {
 const CONTRACT_TESTED = new Set([
   'text-processor', 'encoding', 'hashing', 'structured-data', 'finance', 'datetime', 'math',
   'jwt', 'wellness', 'generation', 'csv', 'tracker', 'physics', 'math-lab', 'chemistry-lab',
-  'audio', 'feel', 'network',
+  'audio', 'feel', 'network', 'board-game',
 ]);
 
 /**

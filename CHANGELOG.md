@@ -2,6 +2,13 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v13.0] - 2026-10-20
+
+### Added
+
+- **Games** (`/category/games/`). A category for two-player boards on one device. No account, no matchmaking, and no computer opponent.
+- **Tic Tac Toe** (`/tool/game/tic-tac-toe/`). X and O share one phone. A second tap on a filled square does not place another mark. X is a cross and O is a ring, each with its letter. Undo takes back one move, including a win, and the score moves with it. Rematch clears the board and keeps the session score on this device. The page does not play against a computer.
+
 ## [beta-v12.14] - 2026-10-19
 
 ### Changed

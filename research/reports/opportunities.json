@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-17T08:18:54.596Z",
+  "generatedAt": "2026-10-20T07:33:09.910Z",
   "opportunities": [
     {
       "id": "running-pace-calculator",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "runnersworld.com",
         "calculator.net",
@@ -102,7 +102,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "strengthlevel.com",
         "bodybuilding.com",
@@ -183,7 +183,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "symbolab.com",
         "calculator.net",
@@ -257,7 +257,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "mobile fidget apps",
         "ad-heavy web clones"
@@ -341,7 +341,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "calculator.net",
         "mathway.com",
@@ -424,7 +424,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "w3schools.com/colors",
         "rgbtohex.net"
@@ -500,7 +500,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "mathsisfun.com",
         "khanacademy.org",
@@ -573,7 +573,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -633,6 +633,83 @@
       "craftRisk": false
     },
     {
+      "id": "tic-tac-toe",
+      "title": "Tic Tac Toe",
+      "problem": "I want a clean two-player tic-tac-toe I can play hot-seat in one browser tab with friends in the same room, with no account and no network.",
+      "userIntent": "troubleshooting",
+      "workflow": "input → Hot-Seat Board Game → output",
+      "transformation": "Hot-Seat Board Game",
+      "proposedTool": "tic-tac-toe",
+      "proposedEngine": "board-game",
+      "searchQueries": [
+        "tic tac toe two player online no account",
+        "tic tac toe online",
+        "tic tac toe two player",
+        "noughts and crosses",
+        "play tic tac toe same device",
+        "tic tac toe no download"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
+      "existingSolutions": [
+        "casual game sites with ads",
+        "mobile apps",
+        "paper"
+      ],
+      "solutionWeaknesses": [
+        "ad walls and autoplay video",
+        "forced online matchmaking for a couch game",
+        "no undo of an accidental tap"
+      ],
+      "userFailures": [
+        "An accidental double-tap places two marks before either player notices whose turn it was.",
+        "A finished board has no rematch affordance so they refresh and lose the score streak.",
+        "Color-only X/O styling fails for a colorblind player sharing the same screen.",
+        "They expect an optional AI opponent and the empty second seat just sits idle with no explanation."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "connect four",
+        "chess tac toe",
+        "quantum tic tac toe"
+      ],
+      "relatedTools": [
+        "coin-flipper",
+        "dice-roller",
+        "tic-tac-toe"
+      ],
+      "relatedGuides": [
+        "coin-flipper",
+        "dice-roller",
+        "tic-tac-toe"
+      ],
+      "relatedFaqs": [
+        "coin-flipper",
+        "dice-roller",
+        "tic-tac-toe"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.88,
+      "competitionScore": 0.48,
+      "searchDemand": 0.72,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.89,
+      "topicClusterPotential": 0.75,
+      "commercialPotential": 0.54,
+      "localizationPotential": 0.95,
+      "algorithmicFit": 1,
+      "authorityWinnability": 1,
+      "confidence": 0.8,
+      "finalScore": 83.6,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
       "id": "combinations-permutations-calculator",
       "title": "Combinations & Permutations Calculator",
       "problem": "I want to compute nCr and nPr with the formula expanded and a visual of how many ways items can be chosen or arranged.",
@@ -651,7 +728,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "calculator.net",
         "calculatorsoup.com",
@@ -733,7 +810,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "nekocalc.com/px-to-rem",
         "pxtorem.com"
@@ -807,7 +884,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "ASMR videos",
         "mobile switch simulators"
@@ -891,7 +968,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -969,7 +1046,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "calculatorsoup.com",
         "calculator.net",
@@ -1052,7 +1129,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "webaim.org/resources/contrastchecker",
         "coolors.co/contrast-checker"
@@ -1129,7 +1206,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "pixplicity.com/dp-px-converter",
         "angrytools px to dp"
@@ -1201,7 +1278,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -1279,7 +1356,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "andrew.hedges.name/experiments/aspect_ratio",
         "calculateaspectratio.com"
@@ -1351,7 +1428,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -1431,7 +1508,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -1509,7 +1586,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -1583,7 +1660,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -1662,7 +1739,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "physics applets",
         "engineering textbooks",
@@ -1747,7 +1824,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -1829,7 +1906,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "jsoneditoronline.org",
         "diffchecker",
@@ -1917,7 +1994,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "Google's featured snippet",
         "whatismyipaddress.com",
@@ -2003,7 +2080,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "subnet-calculator.com",
         "whatismyip.com cidr calculator",
@@ -2089,7 +2166,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -2166,7 +2243,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -2243,7 +2320,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -2327,7 +2404,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -2390,6 +2467,76 @@
       "craftRisk": false
     },
     {
+      "id": "connect-4",
+      "title": "Connect 4",
+      "problem": "I want Connect Four for two players on one device, with win detection and a reset that does not require a page reload.",
+      "userIntent": "transactional",
+      "workflow": "input → Hot-Seat Board Game → output",
+      "transformation": "Hot-Seat Board Game",
+      "proposedTool": "connect-4",
+      "proposedEngine": "board-game",
+      "searchQueries": [
+        "connect 4 two player same device",
+        "connect 4 online",
+        "connect four two player",
+        "play connect 4 same device",
+        "connect 4 no download",
+        "four in a row game"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
+      "existingSolutions": [
+        "app stores",
+        "ad-supported browser games"
+      ],
+      "solutionWeaknesses": [
+        "matchmaking when both players are on one couch",
+        "ads between every rematch",
+        "touch targets too small on phones"
+      ],
+      "userFailures": [
+        "A disc is dropped in the wrong column because the hover highlight lagged behind the finger.",
+        "A diagonal win is missed by the detector when the board is full of near-misses.",
+        "Undo reverts two plies instead of one after a mis-tap, and the turn indicator disagrees with the board.",
+        "Landscape mode clips the top row on a short phone and the winning cell is off-screen."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "tic tac toe",
+        "chess tac toe",
+        "hot seat multiplayer"
+      ],
+      "relatedTools": [
+        "tic-tac-toe"
+      ],
+      "relatedGuides": [
+        "tic-tac-toe"
+      ],
+      "relatedFaqs": [
+        "tic-tac-toe"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.86,
+      "competitionScore": 0.53,
+      "searchDemand": 0.68,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.87,
+      "topicClusterPotential": 0.75,
+      "commercialPotential": 0.54,
+      "localizationPotential": 0.95,
+      "algorithmicFit": 1,
+      "authorityWinnability": 1,
+      "confidence": 0.8,
+      "finalScore": 79.7,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
       "id": "electron-configuration-calculator",
       "title": "Electron Configuration Calculator",
       "problem": "I need the electron configuration of an element or ion, and I need to see which electrons are the valence ones that actually take part in bonding.",
@@ -2409,7 +2556,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "periodictable.com",
         "omnicalculator.com",
@@ -2486,7 +2633,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -2570,7 +2717,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "uicolors.app",
         "smart-swatch"
@@ -2649,7 +2796,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "online md5 file hash sites",
         "shasum in a terminal",
@@ -2735,7 +2882,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "typescale.com",
         "type-scale.com"
@@ -2809,7 +2956,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -2886,7 +3033,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -2967,7 +3114,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "regex101.com",
         "regexr.com",
@@ -3050,7 +3197,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "groww.in",
         "moneycontrol.com"
@@ -3130,7 +3277,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "novelty web toys",
         "mobile apps"
@@ -3215,7 +3362,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "meditation apps",
         "YouTube timers"
@@ -3299,7 +3446,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com",
@@ -3374,7 +3521,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "random.org",
         "calculator.net",
@@ -3450,7 +3597,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -3526,7 +3673,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
@@ -3584,6 +3731,77 @@
       "craftRisk": false
     },
     {
+      "id": "chess-tac-toe",
+      "title": "Chess Tac Toe",
+      "problem": "I want Chess-Tac-Toe (chess piece movement constraints on a tic-tac-toe style win) as a local hot-seat puzzle game with clear legal-move hints.",
+      "userIntent": "transactional",
+      "workflow": "input → Hot-Seat Board Game → output",
+      "transformation": "Hot-Seat Board Game",
+      "proposedTool": "chess-tac-toe",
+      "proposedEngine": "board-game",
+      "searchQueries": [
+        "chess tac toe hybrid board game",
+        "chess tac toe",
+        "chess tic tac toe",
+        "hybrid chess tic tac toe",
+        "chess piece tic tac toe",
+        "play chess tac toe"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
+      "existingSolutions": [
+        "rules blog posts",
+        "one-off itch.io prototypes",
+        "house rules on paper"
+      ],
+      "solutionWeaknesses": [
+        "rules pages never ship a playable board",
+        "prototypes vanish or require download",
+        "legal moves are undocumented mid-game"
+      ],
+      "userFailures": [
+        "A player places a piece on an occupied square because the UI reused plain tic-tac-toe click handling.",
+        "Knight-move legality is checked from the wrong origin after a capture variant the ruleset does not allow.",
+        "Win detection fires on three-in-a-row while a chess-check rule the house uses is ignored, with no mode toggle.",
+        "New players cannot tell whose turn it is because piece color and turn banner disagree after undo."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "tic tac toe",
+        "quantum tic tac toe",
+        "connect four"
+      ],
+      "relatedTools": [
+        "tic-tac-toe"
+      ],
+      "relatedGuides": [
+        "tic-tac-toe"
+      ],
+      "relatedFaqs": [
+        "tic-tac-toe"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.8,
+      "competitionScore": 0.9,
+      "searchDemand": 0.42,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.77,
+      "topicClusterPotential": 0.75,
+      "commercialPotential": 0.48,
+      "localizationPotential": 0.94,
+      "algorithmicFit": 0.98,
+      "authorityWinnability": 1,
+      "confidence": 0.64,
+      "finalScore": 78.2,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
       "id": "roi-calculator",
       "title": "ROI Calculator",
       "problem": "I need the return on investment and annualized return for an investment.",
@@ -3600,7 +3818,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -3678,7 +3896,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "coblis (color-blindness.com)",
         "venngage colorblind simulator"
@@ -3757,7 +3975,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "omnicalculator.com",
         "chemicalaid.com",
@@ -3834,7 +4052,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "healthline.com",
         "bodybuilding.com",
@@ -3914,7 +4132,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
@@ -3992,7 +4210,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -4075,7 +4293,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -4152,7 +4370,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -4229,7 +4447,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "browser bits-and-bytes converters",
         "rapidtables",
@@ -4307,7 +4525,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "calculator.net",
         "onlinestatbook.com",
@@ -4385,7 +4603,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -4463,7 +4681,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calctool.org",
@@ -4537,7 +4755,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -4618,7 +4836,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calculator.net"
@@ -4682,6 +4900,77 @@
       "craftRisk": false
     },
     {
+      "id": "quantum-tic-tac-toe",
+      "title": "Quantum Tic Tac Toe",
+      "problem": "I want Quantum Tic-Tac-Toe with entanglement and collapse rules playable hot-seat in the browser, so the weird rules are enforced by the tool instead of argued over.",
+      "userIntent": "transactional",
+      "workflow": "input → Hot-Seat Board Game → output",
+      "transformation": "Hot-Seat Board Game",
+      "proposedTool": "quantum-tic-tac-toe",
+      "proposedEngine": "board-game",
+      "searchQueries": [
+        "quantum tic tac toe online",
+        "quantum tic tac toe",
+        "quantum tic-tac-toe play",
+        "entanglement tic tac toe",
+        "quantum noughts and crosses",
+        "play quantum tic tac toe"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
+      "existingSolutions": [
+        "academic demos",
+        "PDF rule sheets",
+        "rare flash ports"
+      ],
+      "solutionWeaknesses": [
+        "demos assume you already know the collapse rules",
+        "broken or abandoned ports",
+        "no step-through of why a collapse fired"
+      ],
+      "userFailures": [
+        "A player marks two classical cells thinking a spooky mark is already collapsed, and the board accepts an illegal classical move.",
+        "Collapse order is ambiguous when two cycles resolve and the tool picks one silently.",
+        "The entanglement graph is never shown, so disputes about which marks are linked cannot be settled.",
+        "Undo after a collapse cannot restore the prior superposition and the match has to be abandoned."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "tic tac toe",
+        "chess tac toe",
+        "webrtc local multiplayer"
+      ],
+      "relatedTools": [
+        "tic-tac-toe"
+      ],
+      "relatedGuides": [
+        "tic-tac-toe"
+      ],
+      "relatedFaqs": [
+        "tic-tac-toe"
+      ],
+      "difficulty": "high",
+      "evergreenScore": 0.78,
+      "competitionScore": 0.96,
+      "searchDemand": 0.48,
+      "implementationCost": 0.4,
+      "engineReuse": 1,
+      "seoPotential": 0.79,
+      "topicClusterPotential": 0.75,
+      "commercialPotential": 0.5,
+      "localizationPotential": 0.94,
+      "algorithmicFit": 0.96,
+      "authorityWinnability": 1,
+      "confidence": 0.64,
+      "finalScore": 76.4,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
       "id": "linear-regression-playground",
       "title": "Linear Regression Playground",
       "problem": "I want to tap points onto a scatter plot and watch the least-squares line, equation, and R squared update as I add, drag, or remove points.",
@@ -4700,7 +4989,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "desmos.com",
         "socscistatistics.com",
@@ -4779,7 +5068,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -4858,7 +5147,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -4932,7 +5221,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "hashes.com",
         "command-line shasum",
@@ -5027,7 +5316,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "mobile sand games",
         "heavy WebGL demos"
@@ -5112,7 +5401,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "mobile slime apps",
         "flash-era toys"
@@ -5197,7 +5486,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "regex snippets on stack overflow",
         "language-specific UUID libraries"
@@ -5290,7 +5579,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "chemtube3d.com",
         "molview.org",
@@ -5365,7 +5654,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "a hex editor",
         "regex hunting in an IDE",
@@ -5458,7 +5747,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -5539,7 +5828,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "libretexts.org",
         "chemistrylearner.com",
@@ -5613,7 +5902,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "babycenter.com",
         "clearblue.com",
@@ -5694,7 +5983,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -5767,7 +6056,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "libretexts.org",
         "chemicalaid.com",
@@ -5843,7 +6132,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -5916,7 +6205,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -5973,80 +6262,6 @@
       "craftRisk": true
     },
     {
-      "id": "tic-tac-toe",
-      "title": "Tic Tac Toe",
-      "problem": "I want a clean two-player tic-tac-toe I can play hot-seat in one browser tab with friends in the same room, with no account and no network.",
-      "userIntent": "troubleshooting",
-      "workflow": "input → Hot-Seat Board Game → output",
-      "transformation": "Hot-Seat Board Game",
-      "proposedTool": "tic-tac-toe",
-      "proposedEngine": "board-game",
-      "searchQueries": [
-        "tic tac toe two player online no account",
-        "tic tac toe online",
-        "tic tac toe two player",
-        "noughts and crosses",
-        "play tic tac toe same device",
-        "tic tac toe no download"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
-      "existingSolutions": [
-        "casual game sites with ads",
-        "mobile apps",
-        "paper"
-      ],
-      "solutionWeaknesses": [
-        "ad walls and autoplay video",
-        "forced online matchmaking for a couch game",
-        "no undo of an accidental tap"
-      ],
-      "userFailures": [
-        "An accidental double-tap places two marks before either player notices whose turn it was.",
-        "A finished board has no rematch affordance so they refresh and lose the score streak.",
-        "Color-only X/O styling fails for a colorblind player sharing the same screen.",
-        "They expect an optional AI opponent and the empty second seat just sits idle with no explanation."
-      ],
-      "signals": [],
-      "relatedProblems": [
-        "connect four",
-        "chess tac toe",
-        "quantum tic tac toe"
-      ],
-      "relatedTools": [
-        "coin-flipper",
-        "dice-roller"
-      ],
-      "relatedGuides": [
-        "coin-flipper",
-        "dice-roller"
-      ],
-      "relatedFaqs": [
-        "coin-flipper",
-        "dice-roller"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.88,
-      "competitionScore": 0.48,
-      "searchDemand": 0.72,
-      "implementationCost": 0.9,
-      "engineReuse": 0.3,
-      "seoPotential": 0.89,
-      "topicClusterPotential": 0.75,
-      "commercialPotential": 0.54,
-      "localizationPotential": 0.95,
-      "algorithmicFit": 1,
-      "authorityWinnability": 1,
-      "confidence": 0.8,
-      "finalScore": 74.3,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false,
-      "craftRisk": false
-    },
-    {
       "id": "book-tracker",
       "title": "Book Tracker",
       "problem": "I want to track books I am reading and have read, with progress and ratings stored in IndexedDB or localStorage, plus export/import, and absolutely no cloud account.",
@@ -6066,7 +6281,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "Goodreads",
         "StoryGraph",
@@ -6152,7 +6367,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "cssgradient.io",
         "coolors gradient maker"
@@ -6230,7 +6445,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "calculator.net",
         "who.int",
@@ -6313,7 +6528,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "phone app stores",
         "wearable companion apps"
@@ -6390,7 +6605,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "spreadsheet locale settings",
         "language date parsing docs",
@@ -6482,7 +6697,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -6553,7 +6768,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -6632,7 +6847,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "mdcalc.com",
         "calculator.net"
@@ -6715,7 +6930,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "systemd-analyze calendar on a machine you already have",
         "the systemd.time man page",
@@ -6809,7 +7024,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "cyberchef",
         "stack overflow answers",
@@ -6902,7 +7117,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -6975,7 +7190,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "omnicalculator.com",
         "healthline.com"
@@ -7055,7 +7270,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -7136,7 +7351,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "imagecolorpicker.com",
         "coolors image picker"
@@ -7212,7 +7427,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -7284,7 +7499,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "crontab.guru"
       ],
@@ -7345,70 +7560,6 @@
       "craftRisk": false
     },
     {
-      "id": "connect-4",
-      "title": "Connect 4",
-      "problem": "I want Connect Four for two players on one device, with win detection and a reset that does not require a page reload.",
-      "userIntent": "transactional",
-      "workflow": "input → Hot-Seat Board Game → output",
-      "transformation": "Hot-Seat Board Game",
-      "proposedTool": "connect-4",
-      "proposedEngine": "board-game",
-      "searchQueries": [
-        "connect 4 two player same device",
-        "connect 4 online",
-        "connect four two player",
-        "play connect 4 same device",
-        "connect 4 no download",
-        "four in a row game"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
-      "existingSolutions": [
-        "app stores",
-        "ad-supported browser games"
-      ],
-      "solutionWeaknesses": [
-        "matchmaking when both players are on one couch",
-        "ads between every rematch",
-        "touch targets too small on phones"
-      ],
-      "userFailures": [
-        "A disc is dropped in the wrong column because the hover highlight lagged behind the finger.",
-        "A diagonal win is missed by the detector when the board is full of near-misses.",
-        "Undo reverts two plies instead of one after a mis-tap, and the turn indicator disagrees with the board.",
-        "Landscape mode clips the top row on a short phone and the winning cell is off-screen."
-      ],
-      "signals": [],
-      "relatedProblems": [
-        "tic tac toe",
-        "chess tac toe",
-        "hot seat multiplayer"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "medium",
-      "evergreenScore": 0.86,
-      "competitionScore": 0.53,
-      "searchDemand": 0.68,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.87,
-      "topicClusterPotential": 0.75,
-      "commercialPotential": 0.54,
-      "localizationPotential": 0.95,
-      "algorithmicFit": 1,
-      "authorityWinnability": 1,
-      "confidence": 0.8,
-      "finalScore": 70.4,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false,
-      "craftRisk": false
-    },
-    {
       "id": "shell-quote-escalator",
       "title": "Shell Quote Escalator",
       "problem": "I need to send a command through several layers that each strip one level of quoting (a local shell, then ssh, then sudo or docker exec), and I cannot tell what the far end will actually receive until it runs.",
@@ -7428,7 +7579,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "trial and error against the real server",
         "python shlex.quote in a REPL",
@@ -7504,136 +7655,6 @@
       }
     },
     {
-      "id": "chess-tac-toe",
-      "title": "Chess Tac Toe",
-      "problem": "I want Chess-Tac-Toe (chess piece movement constraints on a tic-tac-toe style win) as a local hot-seat puzzle game with clear legal-move hints.",
-      "userIntent": "transactional",
-      "workflow": "input → Hot-Seat Board Game → output",
-      "transformation": "Hot-Seat Board Game",
-      "proposedTool": "chess-tac-toe",
-      "proposedEngine": "board-game",
-      "searchQueries": [
-        "chess tac toe hybrid board game",
-        "chess tac toe",
-        "chess tic tac toe",
-        "hybrid chess tic tac toe",
-        "chess piece tic tac toe",
-        "play chess tac toe"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
-      "existingSolutions": [
-        "rules blog posts",
-        "one-off itch.io prototypes",
-        "house rules on paper"
-      ],
-      "solutionWeaknesses": [
-        "rules pages never ship a playable board",
-        "prototypes vanish or require download",
-        "legal moves are undocumented mid-game"
-      ],
-      "userFailures": [
-        "A player places a piece on an occupied square because the UI reused plain tic-tac-toe click handling.",
-        "Knight-move legality is checked from the wrong origin after a capture variant the ruleset does not allow.",
-        "Win detection fires on three-in-a-row while a chess-check rule the house uses is ignored, with no mode toggle.",
-        "New players cannot tell whose turn it is because piece color and turn banner disagree after undo."
-      ],
-      "signals": [],
-      "relatedProblems": [
-        "tic tac toe",
-        "quantum tic tac toe",
-        "connect four"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "medium",
-      "evergreenScore": 0.8,
-      "competitionScore": 0.9,
-      "searchDemand": 0.42,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.77,
-      "topicClusterPotential": 0.75,
-      "commercialPotential": 0.48,
-      "localizationPotential": 0.94,
-      "algorithmicFit": 0.98,
-      "authorityWinnability": 1,
-      "confidence": 0.64,
-      "finalScore": 68.8,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false,
-      "craftRisk": false
-    },
-    {
-      "id": "quantum-tic-tac-toe",
-      "title": "Quantum Tic Tac Toe",
-      "problem": "I want Quantum Tic-Tac-Toe with entanglement and collapse rules playable hot-seat in the browser, so the weird rules are enforced by the tool instead of argued over.",
-      "userIntent": "transactional",
-      "workflow": "input → Hot-Seat Board Game → output",
-      "transformation": "Hot-Seat Board Game",
-      "proposedTool": "quantum-tic-tac-toe",
-      "proposedEngine": "board-game",
-      "searchQueries": [
-        "quantum tic tac toe online",
-        "quantum tic tac toe",
-        "quantum tic-tac-toe play",
-        "entanglement tic tac toe",
-        "quantum noughts and crosses",
-        "play quantum tic tac toe"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
-      "existingSolutions": [
-        "academic demos",
-        "PDF rule sheets",
-        "rare flash ports"
-      ],
-      "solutionWeaknesses": [
-        "demos assume you already know the collapse rules",
-        "broken or abandoned ports",
-        "no step-through of why a collapse fired"
-      ],
-      "userFailures": [
-        "A player marks two classical cells thinking a spooky mark is already collapsed, and the board accepts an illegal classical move.",
-        "Collapse order is ambiguous when two cycles resolve and the tool picks one silently.",
-        "The entanglement graph is never shown, so disputes about which marks are linked cannot be settled.",
-        "Undo after a collapse cannot restore the prior superposition and the match has to be abandoned."
-      ],
-      "signals": [],
-      "relatedProblems": [
-        "tic tac toe",
-        "chess tac toe",
-        "webrtc local multiplayer"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "high",
-      "evergreenScore": 0.78,
-      "competitionScore": 0.96,
-      "searchDemand": 0.48,
-      "implementationCost": 0.3,
-      "engineReuse": 0.3,
-      "seoPotential": 0.79,
-      "topicClusterPotential": 0.75,
-      "commercialPotential": 0.5,
-      "localizationPotential": 0.94,
-      "algorithmicFit": 0.96,
-      "authorityWinnability": 1,
-      "confidence": 0.64,
-      "finalScore": 67.1,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false,
-      "craftRisk": false
-    },
-    {
       "id": "net-worth-calculator",
       "title": "Net Worth Calculator",
       "problem": "I want to total my assets minus liabilities to see my net worth.",
@@ -7650,7 +7671,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -7714,7 +7735,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -7780,7 +7801,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "ilovepdf.com",
         "smallpdf.com",
@@ -7851,7 +7872,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "cloudconvert",
         "iloveimg",
@@ -7922,7 +7943,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "Google Calendar",
         "timeanddate.com",
@@ -7997,7 +8018,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -8060,7 +8081,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -8125,7 +8146,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "drikpanchang.com",
         "local print calendars",
@@ -8196,7 +8217,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -8266,7 +8287,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-17T08:18:54.596Z",
+      "discoveredAt": "2026-10-20T07:33:09.910Z",
       "existingSolutions": [
         "eatthismuch.com",
         "myfitnesspal.com",

@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-17T08:18:54.596Z",
+  "generatedAt": "2026-10-20T07:33:09.910Z",
   "trends": [
     {
       "transformation": "Fidget Interaction",
@@ -12,7 +12,7 @@
       "transformation": "Hot-Seat Board Game",
       "count": 4,
       "meanDemand": 0.57,
-      "meanScore": 70.2
+      "meanScore": 79.5
     },
     {
       "transformation": "Fitness Performance Calculation",

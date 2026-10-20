@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-17T08:18:54.596Z",
+  "generatedAt": "2026-10-20T07:33:09.910Z",
   "clusters": [
     {
       "id": "quadratic-equations",
@@ -788,6 +788,27 @@
         "molecular-geometry-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
+      ]
+    },
+    {
+      "id": "hot-seat-board-game",
+      "transformation": "Hot-Seat Board Game",
+      "engine": "board-game",
+      "members": [
+        "tic-tac-toe",
+        "connect-4",
+        "chess-tac-toe",
+        "quantum-tic-tac-toe"
+      ],
+      "existingMembers": [
+        "tic-tac-toe"
+      ],
+      "size": 4,
+      "meanScore": 79.5,
+      "internalLinks": [
+        "coin-flipper",
+        "dice-roller",
+        "tic-tac-toe"
       ]
     },
     {
@@ -2204,24 +2225,6 @@
         "date-format-detector",
         "sleep-cycle-calculator",
         "systemd-timer-converter"
-      ]
-    },
-    {
-      "id": "hot-seat-board-game",
-      "transformation": "Hot-Seat Board Game",
-      "engine": "board-game",
-      "members": [
-        "tic-tac-toe",
-        "connect-4",
-        "chess-tac-toe",
-        "quantum-tic-tac-toe"
-      ],
-      "existingMembers": [],
-      "size": 4,
-      "meanScore": 70.2,
-      "internalLinks": [
-        "coin-flipper",
-        "dice-roller"
       ]
     },
     {

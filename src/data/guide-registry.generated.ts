@@ -142,6 +142,7 @@ export const authoredGuideSlugs = [
   'tdee-calculator',
   'text-compare',
   'text-repeater',
+  'tic-tac-toe',
   'timezone-converter',
   'tip-calculator',
   'title-case-converter',

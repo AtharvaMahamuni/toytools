@@ -1,24 +1,21 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-10-17T08:18:54.596Z
+Generated: 2026-10-20T07:33:09.910Z
 
-Discovered 106 signals -> 106 unique opportunities (17 recommended, 87 already shipped). Top score 85.9. Missing-engine candidates: 1.
+Discovered 106 signals -> 106 unique opportunities (16 recommended, 88 already shipped). Top score 85.9. Missing-engine candidates: 0.
 
 ## Immediate builds (top tier)
+- **Connect 4** (`connect-4`) - score 79.7, reuses board-game. Reuses the existing board-game engine; Low implementation cost; Strong topic-cluster potential; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Chess Tac Toe** (`chess-tac-toe`) - score 78.2, reuses board-game. Weak / incomplete incumbents; Reuses the existing board-game engine; Low implementation cost; Strong topic-cluster potential; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Pregnancy Due Date Calculator** (`pregnancy-due-date-calculator`) - score 76.6, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
+- **Quantum Tic Tac Toe** (`quantum-tic-tac-toe`) - score 76.4, reuses board-game. Weak / incomplete incumbents; Reuses the existing board-game engine; Strong topic-cluster potential; Deterministic algorithm solves this exactly (AI adds nothing).
 
 ## Quick wins (low effort, recommended)
 - **Ovulation Calculator** (`ovulation-calculator`) - score 74.6, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Blood Pressure Tracker** (`blood-pressure-tracker`) - score 74.3, reuses tracker. Weak / incomplete incumbents; Reuses the existing tracker engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
-- **Tic Tac Toe** (`tic-tac-toe`) - score 74.3, new board-game engine. Implies a new board-game engine; Low implementation cost; Strong topic-cluster potential; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Net Worth Calculator** (`net-worth-calculator`) - score 66.6, new budget engine. High search demand; Weak / incomplete incumbents; Implies a new budget engine; Low implementation cost; Creates 2 internal links; CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 
 ## Missing engines (new reusable engines this evidence justifies)
-### board-game (confidence 0.95) - unlocks 4
-- 4 opportunities share the missing "board-game" engine.
-- Cluster ≥ 3 → justifies a new reusable engine that unlocks 4 tools.
-- Tools: tic-tac-toe, connect-4, chess-tac-toe, quantum-tic-tac-toe
-
 ### budget (confidence 0.65) - unlocks 2
 - 2 opportunities share the missing "budget" engine.
 - Below the 3-tool bar for a new engine - revisit as more demand accrues.
@@ -82,6 +79,7 @@ Discovered 106 signals -> 106 unique opportunities (17 recommended, 87 already s
 - **Diacritic Removal** (text-processor) - 1 tool(s), mean score 79.8.
 - **Triangles** (math) - 1 tool(s), mean score 79.8.
 - **Electron Configuration** (chemistry-lab) - 1 tool(s), mean score 79.6.
+- **Hot-Seat Board Game** (board-game) - 4 tool(s), mean score 79.5.
 - **Color Scale** (color) - 1 tool(s), mean score 79.4.
 - **File Hashing** (hashing) - 1 tool(s), mean score 79.3.
 - **Timestamp Conversion** (datetime) - 1 tool(s), mean score 79.2.
@@ -132,7 +130,6 @@ Discovered 106 signals -> 106 unique opportunities (17 recommended, 87 already s
 - **Palette Extraction** (color) - 1 tool(s), mean score 71.6.
 - **Inclined Plane and Friction** (physics) - 1 tool(s), mean score 71.5.
 - **Cron Parsing** (datetime) - 1 tool(s), mean score 70.8.
-- **Hot-Seat Board Game** (board-game) - 4 tool(s), mean score 70.2.
 - **Shell Quoting** (encoding) - 1 tool(s), mean score 69.9.
 - **Net Worth** (budget) - 1 tool(s), mean score 66.6.
 - **Loan Amortization** (loan) - 1 tool(s), mean score 66.2.
@@ -201,7 +198,7 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 
 ## Emerging trends (by transformation)
 - Fidget Interaction: 6 signal(s), mean demand 0.63, mean score 79.9.
-- Hot-Seat Board Game: 4 signal(s), mean demand 0.57, mean score 70.2.
+- Hot-Seat Board Game: 4 signal(s), mean demand 0.57, mean score 79.5.
 - Fitness Performance Calculation: 3 signal(s), mean demand 0.78, mean score 81.2.
 - Energy And Nutrition Planning: 3 signal(s), mean demand 0.77, mean score 78.8.
 - Health Date Calculation: 3 signal(s), mean demand 0.82, mean score 76.9.
@@ -213,4 +210,4 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 
 ---
 
-_Inputs fingerprint: `bbde1a44`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `eb953587`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._

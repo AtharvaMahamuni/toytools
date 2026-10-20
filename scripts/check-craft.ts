@@ -221,7 +221,9 @@ const THRESHOLDS = {
   // 2026-10-17: 0.732 (118/161), truncated from 0.732919. Five tools: OKLCH gradient
   //   (muddy sRGB middle), waist-to-hip (mixed units), body surface area (formula
   //   spread), VO2 max (Cooper versus resting pulse), sleep hours (time awake in bed).
-  coverage: 0.732,
+  // 2026-10-20: 0.734 (119/162), truncated from 0.734568. Tic Tac Toe ships orientation
+  //   craft marks-by-shape. X is a cross plus the letter, O is a ring plus the letter.
+  coverage: 0.734,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

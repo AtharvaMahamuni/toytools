@@ -6,12 +6,12 @@ import { newUntilIso } from '../../src/lib/tools/freshness';
 import { E2E_BUILD_NOW, FIXTURE_ADDED_ON } from './fixture-clock';
 
 test.describe('homepage index', () => {
-  test('leads with fifteen category AppTile shelves, not a wall of tool names', async ({ page }) => {
+  test('leads with sixteen category AppTile shelves, not a wall of tool names', async ({ page }) => {
     await page.goto('/');
     const shelves = page.locator('.category-shelves');
-    await expect(shelves.locator('.shelf')).toHaveCount(15);
+    await expect(shelves.locator('.shelf')).toHaveCount(16);
     // The categories are the homepage's content outline, not just styled links.
-    await expect(shelves.getByRole('heading', { level: 2 })).toHaveCount(15);
+    await expect(shelves.getByRole('heading', { level: 2 })).toHaveCount(16);
 
     // Each shelf carries a linked name, tagline, See all, and a capped AppTile row.
     const text = shelves.locator('.shelf').filter({ hasText: 'Text Utilities' });
@@ -47,7 +47,7 @@ test.describe('homepage index', () => {
     await page.goto('/');
     // A permanent isNew flag does not paint a badge on a highlight.
     await expect(page.locator('.category-shelves .app-tile-badge')).toHaveCount(0);
-    await expect(page.locator('.category-shelves').getByRole('heading', { level: 2 })).toHaveCount(15);
+    await expect(page.locator('.category-shelves').getByRole('heading', { level: 2 })).toHaveCount(16);
   });
 
   // The e2e build is rendered at E2E_BUILD_NOW, inside the five-day window of FIXTURE_ADDED_ON,
@@ -153,7 +153,7 @@ test.describe('homepage index', () => {
     await page.locator('.all-tools-summary').click();
 
     const directory = page.getByRole('navigation', { name: 'All tools by category' });
-    await expect(directory.locator('.dir-column')).toHaveCount(15);
+    await expect(directory.locator('.dir-column')).toHaveCount(16);
 
     // Case converters collapse to a single entry that still covers every member slug.
     const caseEntry = directory.getByRole('link', { name: 'Case Converter' });
@@ -234,7 +234,9 @@ test.describe('homepage index', () => {
     // mode of the color format converter, the shade generator, or the contrast checker. Waist to
     // hip, body surface area, and VO2 max join Health Calculator, and Sleep Hours joins Daily
     // Tracker, so those four add no directory link.
-    await expect(directory.locator('.dir-link')).toHaveCount(117);
+    // Tic Tac Toe (beta-v13.0) is ungrouped: the only hot-seat board so far, so there is
+    // nothing to collapse it with. 117 + 1 = 118 directory links.
+    await expect(directory.locator('.dir-link')).toHaveCount(118);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

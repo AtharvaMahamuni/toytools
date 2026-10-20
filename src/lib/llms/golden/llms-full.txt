@@ -534,6 +534,13 @@ Use for: Flip the switches.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
 
+## Tic Tac Toe
+
+URL: https://toytoolsapp.com/tool/game/tic-tac-toe/
+Use for: Two players, one phone.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Play against a computer opponent.
+
 ## Coin Flipper
 
 URL: https://toytoolsapp.com/tool/generate/coin-flipper/

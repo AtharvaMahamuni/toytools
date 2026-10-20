@@ -396,6 +396,19 @@
         "identity"
       ],
       "toolCount": 3
+    },
+    "board-game": {
+      "name": "Board Game Engine",
+      "category": "games",
+      "patterns": [
+        "board-play"
+      ],
+      "runtimeGlobal": "boardGame",
+      "sharedWidget": "src/tools/_shared/BoardWidget.astro",
+      "supportedFamilies": [
+        "hot-seat"
+      ],
+      "toolCount": 1
     }
   },
   "toolGroups": {
@@ -3819,6 +3832,27 @@
       "pattern": "text-interactive",
       "family": "repeat",
       "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "tic-tac-toe": {
+      "name": "Tic Tac Toe",
+      "dir": "src/tools/game/tic-tac-toe",
+      "categorySlug": "games",
+      "url": "/tool/game/tic-tac-toe/",
+      "engine": "board-game",
+      "pattern": "board-play",
+      "family": "hot-seat",
+      "processorId": "tic-tac-toe",
       "toolGroup": "",
       "files": [
         "Guide.astro",
