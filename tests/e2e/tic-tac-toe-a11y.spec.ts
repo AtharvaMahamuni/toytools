@@ -25,16 +25,38 @@ test.describe('tic tac toe announcements and privacy', () => {
 
     await cell(page, 0).click();
     await expectAnnounced(page, 'O to play. Pass the phone.');
+    const note = page.locator('[data-board-note]');
+    await expect(note).not.toHaveCSS('display', 'none');
     await cell(page, 0).click();
     await expectAnnounced(page, 'That square already has a mark.');
 
+    // A second tap on the taken square must change the DOM text again, or nothing is re-announced.
+    await note.evaluate((el) => {
+      (window as unknown as { __noteTexts: string[] }).__noteTexts = [];
+      new MutationObserver(() => (window as unknown as { __noteTexts: string[] }).__noteTexts.push(el.textContent ?? ''))
+        .observe(el, { childList: true, characterData: true, subtree: true });
+    });
+    await cell(page, 0).click();
+    await expectAnnounced(page, 'That square already has a mark.');
+    const texts = await page.evaluate(() => (window as unknown as { __noteTexts: string[] }).__noteTexts);
+    expect(texts).toEqual(['', 'That square already has a mark.']);
+    await expect(note).not.toHaveCSS('display', 'none');
+
     // A legal move clears the note.
     await cell(page, 3).click();
-    await expect(page.locator('[data-board-note]')).toHaveText('');
+    await expect(note).toHaveText('');
+    // Empty, it is clipped to 1px, not removed from rendering.
+    await expect(note).not.toHaveCSS('display', 'none');
+    const size = await note.evaluate((el) => [el.getBoundingClientRect().width, el.getBoundingClientRect().height]);
+    expect(size[0]).toBeLessThanOrEqual(1);
+    expect(size[1]).toBeLessThanOrEqual(1);
     await cell(page, 1).click();
     await cell(page, 4).click();
     await cell(page, 2).click();
     await expectAnnounced(page, 'X wins.');
+    await expect(cell(page, 0)).toHaveAccessibleName('Row 1, column 1, X, winning line');
+    await expect(cell(page, 2)).toHaveAccessibleName('Row 1, column 3, X, winning line');
+    await expect(cell(page, 3)).toHaveAccessibleName('Row 2, column 1, O');
 
     // Rematch: O opens. A full board with no line is a draw.
     await page.locator('[data-board-rematch]').click();
@@ -42,6 +64,8 @@ test.describe('tic tac toe announcements and privacy', () => {
     // O X O / O X X / X O O
     for (const i of [0, 1, 2, 4, 3, 6, 7, 5, 8]) await cell(page, i).click();
     await expectAnnounced(page, 'Draw.');
+    // A draw has no winning line, so no square says it is on one.
+    await expect(page.locator('[data-cell][aria-label*="winning line"]')).toHaveCount(0);
   });
 
   test('squares are named by row and column', async ({ page }) => {

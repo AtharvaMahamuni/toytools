@@ -32,7 +32,7 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
         </button>
       ))}
     </div>
-    <p class="board-note" data-board-note role="status" aria-live="polite"></p>
+    <p class="board-note sr-only" data-board-note role="status" aria-live="polite"></p>
     <div class="board-actions">
       <button type="button" class="action-btn" data-board-undo disabled>Undo</button>
       <button type="button" class="action-btn" data-board-rematch>Rematch</button>
@@ -69,7 +69,6 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
     color: var(--color-text-muted);
     font-variant-numeric: tabular-nums;
   }
-  .board-note:empty { display: none; }
   .board-grid {
     display: grid;
     grid-template-columns: repeat(var(--board-cols), minmax(0, 1fr));
@@ -159,8 +158,20 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
       var undo = root.querySelector('[data-board-undo]');
       if (banner && banner.textContent !== view.banner) banner.textContent = view.banner;
       if (score) score.textContent = view.scoreText;
-      // A live region that is empty is display:none; filling it shows and announces the reason.
-      if (note) note.textContent = reason || '';
+      // The note is a live region that stays rendered: screen readers miss the first message in a
+      // region that was display:none. Empty, it wears the global .sr-only clip (1px, no layout);
+      // with a reason it shows. The same reason twice (a second tap on a taken square) would not
+      // change the text, so it is cleared and set again on the next frame to be announced again.
+      if (note) {
+        var text = reason || '';
+        note.classList.toggle('sr-only', !text);
+        if (text && note.textContent === text) {
+          note.textContent = '';
+          requestAnimationFrame(function () { note.textContent = text; });
+        } else {
+          note.textContent = text;
+        }
+      }
       if (undo) undo.disabled = !view.canUndo;
       view.cells.forEach(function (cell) {
         var button = root.querySelector('[data-cell="' + cell.index + '"]');
@@ -173,7 +184,7 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
         var letter = button.querySelector('.mark-letter');
         if (letter) letter.textContent = cell.letter;
         var where = 'Row ' + (Math.floor(cell.index / columns) + 1) + ', column ' + ((cell.index % columns) + 1);
-        button.setAttribute('aria-label', where + ', ' + (cell.letter || 'empty'));
+        button.setAttribute('aria-label', where + ', ' + (cell.letter || 'empty') + (cell.win ? ', winning line' : ''));
       });
     }
 

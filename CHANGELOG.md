@@ -7,7 +7,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 ### Added
 
 - **Games** (`/category/games/`). A category for two-player boards on one device. No account, no matchmaking, and no computer opponent.
-- **Tic Tac Toe** (`/tool/game/tic-tac-toe/`). X and O share one phone. A second tap on a filled square does not place another mark. X is a cross and O is a ring, each with its letter. Undo takes back one move, including a win, and the score moves with it. Rematch clears the board, keeps the score, and gives the first move to the other player. Reset score sets the tally back to zero. Nothing is saved: the score lives only in the open page. The turn, the result and a refused tap are announced to screen readers, and each square is named by its row and column. The page does not play against a computer.
+- **Tic Tac Toe** (`/tool/game/tic-tac-toe/`). X and O share one phone. A second tap on a filled square does not place another mark. X is a cross and O is a ring, each with its letter. Undo takes back one move, including a win, and the score moves with it. Rematch clears the board, keeps the score, and gives the first move to the other player. Reset score sets the tally back to zero. Nothing is saved: the score lives only in the open page. The turn, the result and a refused tap are announced to screen readers, a second tap on a taken square is announced again, and each square is named by its row and column, with the winning line called out. The page does not play against a computer.
 
 ## [beta-v12.14] - 2026-10-19
 
