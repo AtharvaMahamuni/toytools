@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { runDateTime, DATETIME_TOOLS, dateTimeFields } from './registry';
 import { DATETIME_EXAMPLES } from './examples';
+import { addDays, parseISODate } from './models';
 
 const NO_OPTS = {};
 
@@ -123,5 +124,50 @@ describe('age and date difference share one y/m/d breakdown (Phase B PR 2)', () 
     expect(r.hero?.raw).toBe(26);
     expect(r.meta).toMatchObject({ years: 26, months: 11, days: 29, daysToBirthday: 1 });
     expect(r.insights?.some((i) => i.text === 'Happy birthday!')).toBe(false);
+  });
+});
+
+describe('pregnancy due date', () => {
+  const base = { lmp: '2026-01-01', cycle: 28, asOf: '2026-03-01' };
+
+  it('pins 1 January 2026 plus 280 days at 8 October, and a leap-year January at 7 October', () => {
+    expect(addDays(parseISODate('2026-01-01')!, 280)).toEqual({ y: 2026, m: 10, d: 8 });
+    expect(addDays(parseISODate('2024-01-01')!, 280)).toEqual({ y: 2024, m: 10, d: 7 });
+    const leap = runDateTime('pregnancy', { lmp: '2024-01-01', cycle: 28, asOf: '2024-01-01' }, NO_OPTS);
+    expect(leap.hero?.value).toBe('7 October 2024');
+    expect(leap.hero?.note).toBeUndefined();
+  });
+
+  it('keeps weeks on the last period when a 32 day cycle moves the due date', () => {
+    const shifted = runDateTime('pregnancy', { ...base, cycle: 32 }, NO_OPTS);
+    expect(shifted.hero?.value).toBe('12 October 2026');
+    expect(shifted.hero?.note).toBe('A 32 day cycle moves this due date 4 days later than a 28 day cycle. The page used 32.');
+    expect(shifted.metrics.find((m) => m.id === 'gestational-age')?.value).toBe('8 weeks, 3 days');
+    expect(shifted.metrics.find((m) => m.id === 'trimester')?.note).toContain('9 April 2026');
+    expect(shifted.metrics.find((m) => m.id === 'trimester')?.note).toContain('16 July 2026');
+  });
+
+  it('names an earlier due date for a 21 day cycle and stays quiet at 28', () => {
+    const standard = runDateTime('pregnancy', base, NO_OPTS);
+    expect(standard.hero?.note).toBeUndefined();
+    const early = runDateTime('pregnancy', { ...base, cycle: 21 }, NO_OPTS);
+    expect(early.hero?.value).toBe('1 October 2026');
+    expect(early.hero?.note).toContain('7 days earlier');
+  });
+
+  it('counts days past a due date that has already arrived', () => {
+    const r = runDateTime('pregnancy', { lmp: '2026-01-01', cycle: 28, asOf: '2026-10-10' }, NO_OPTS);
+    expect(r.metrics.find((m) => m.id === 'countdown')).toMatchObject({ value: '2 days', raw: -2 });
+    expect(r.metrics.find((m) => m.id === 'trimester')?.raw).toBe(3);
+    expect(r.metrics.find((m) => m.id === 'gestational-age')?.value).toBe('40 weeks, 2 days');
+  });
+
+  it('rejects a last period after the count date, a fractional cycle, and a missing date', () => {
+    expect(runDateTime('pregnancy', { lmp: '2026-03-02', cycle: 28, asOf: '2026-03-01' }, NO_OPTS).ok).toBe(false);
+    expect(runDateTime('pregnancy', { ...base, cycle: 28.5 }, NO_OPTS).ok).toBe(false);
+    expect(runDateTime('pregnancy', { ...base, cycle: 20 }, NO_OPTS).ok).toBe(false);
+    expect(runDateTime('pregnancy', { ...base, cycle: 46 }, NO_OPTS).ok).toBe(false);
+    expect(runDateTime('pregnancy', { lmp: '', cycle: 28, asOf: '2026-03-01' }, NO_OPTS).uiState).toBe('validation-error');
+    expect(runDateTime('pregnancy', { lmp: '2026-02-31', cycle: 28, asOf: '2026-03-01' }, NO_OPTS).ok).toBe(false);
   });
 });

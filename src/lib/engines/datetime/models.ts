@@ -58,6 +58,12 @@ export function daysBetween(a: CivilDate, b: CivilDate): number {
   return Math.round((toUTCms(b) - toUTCms(a)) / 86_400_000);
 }
 
+/** `start` moved by `n` whole days. Negative `n` moves backward. UTC, so DST never applies. */
+export function addDays(start: CivilDate, n: number): CivilDate {
+  const date = new Date(toUTCms(start) + n * 86_400_000);
+  return { y: date.getUTCFullYear(), m: date.getUTCMonth() + 1, d: date.getUTCDate() };
+}
+
 /** Order comparison: negative if a < b, 0 if equal, positive if a > b. */
 export function compareCivil(a: CivilDate, b: CivilDate): number {
   return toUTCms(a) - toUTCms(b);

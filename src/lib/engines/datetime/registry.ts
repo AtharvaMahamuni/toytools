@@ -13,6 +13,7 @@ import { unixTimestampConverter } from './calculators/unix-timestamp';
 import { cronExpressionParser } from './calculators/cron';
 import { systemdTimerConverter } from './calculators/systemd-timer';
 import { sleepCalculator } from './calculators/sleep';
+import { pregnancyCalculator } from './calculators/pregnancy';
 import { dateFormatDetector } from './calculators/date-format';
 
 export const DATETIME_TOOLS: Record<string, DateTimeTool> = {
@@ -23,6 +24,7 @@ export const DATETIME_TOOLS: Record<string, DateTimeTool> = {
   'cron': cronExpressionParser,
   'systemd-timer': systemdTimerConverter,
   'sleep': sleepCalculator,
+  'pregnancy': pregnancyCalculator,
   'date-format': dateFormatDetector,
 };
 
