@@ -100,8 +100,8 @@ const INTERACTION_ASSETS: { label: string; match: RegExp | string; maxKb: number
   {
     // Fetched only when the query is not already a tool name. Measured 9.2KB gz on 2026-10-02
     // with the six beta-v12.3 tools in the catalog. The cap is the term payload, not a second
-    // copy of the name catalog. On 2026-10-21 the category display name left each term list:
-    // it duplicated the interned category id, and with it the file sat at 10.0KB gzip.
+    // copy of the name catalog. The category display name is not repeated in each term list.
+    // The palette appends the interned category name at rank time, so "finance" still matches.
     label: 'search terms',
     match: 'search-terms.json',
     maxKb: 10,

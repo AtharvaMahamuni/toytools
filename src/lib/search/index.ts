@@ -89,8 +89,8 @@ export function buildClientIndex(): ClientIndex {
       (tool.keywords ?? []).forEach(add);
       (searchAliases[tool.slug] ?? []).forEach(add);
       add(tool.family);
-      // The category name is already the interned id on the name catalog. Copying it into
-      // every term list pushed search-terms.json over its 10KB gzip ceiling.
+      // The category display name stays on the interned `c` table. The palette appends it
+      // when ranking (`categorySearchTerm`) so search-terms.json does not repeat it.
 
       return {
         s: tool.slug,

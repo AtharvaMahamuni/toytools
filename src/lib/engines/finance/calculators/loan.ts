@@ -63,39 +63,77 @@ function amortize(
   currency: string,
 ): Schedule {
   const monthly = annualPct / 100 / 12;
-  const payment = scheduledPayment(principal, annualPct, termMonths);
-  let balance = principal;
+  const rawPayment = scheduledPayment(principal, annualPct, termMonths);
+  const payment = roundMoney(rawPayment);
+  const extraCents = roundMoney(extra);
+  let balance = roundMoney(principal);
   let interest = 0;
   let months = 0;
   let yearPrincipal = 0;
   let yearInterest = 0;
   const timeline: TimelinePoint[] = [
-    { year: 0, value: roundMoney(principal), display: money(roundMoney(principal), currency) },
+    { year: 0, value: balance, display: money(balance, currency) },
   ];
 
-  // Float dust is already zero. Half a cent is not: a $1 loan at 0% has an
-  // installment under $0.005, and stopping there dropped the last month and
-  // described it as an extra payment. A remainder under half a cent is zeroed
-  // only after the term, once no further payment is scheduled.
-  while (balance > 1e-8 && months < termMonths) {
-    const monthInterest = balance * monthly;
-    let due = payment + extra;
-    const owed = balance + monthInterest;
-    if (due > owed) due = owed;
-    const principalPaid = due - monthInterest;
-    balance = Math.max(0, balance - principalPaid);
-    interest += monthInterest;
-    yearInterest += monthInterest;
-    yearPrincipal += principalPaid;
+  // A rounded installment under half a cent cannot book a cent of principal.
+  // Keep the unrounded walk so a $1 loan still reaches the term, and let the
+  // caller label the payment as under one cent instead of $0.00.
+  const dust = payment === 0 && rawPayment > 0;
+  if (dust) {
+    balance = principal;
+    while (balance > 1e-8 && months < termMonths) {
+      const monthInterest = balance * monthly;
+      let due = rawPayment + extra;
+      const owed = balance + monthInterest;
+      if (due > owed) due = owed;
+      const principalPaid = due - monthInterest;
+      if (principalPaid <= 1e-8) break;
+      balance = Math.max(0, balance - principalPaid);
+      interest += monthInterest;
+      yearInterest += monthInterest;
+      yearPrincipal += principalPaid;
+      months += 1;
+      if (months % 12 === 0 || balance <= 1e-8) {
+        timeline.push({
+          year: months / 12,
+          value: roundMoney(balance),
+          display: money(roundMoney(balance), currency),
+          parts: {
+            principal: roundMoney(yearPrincipal),
+            interest: roundMoney(yearInterest),
+          },
+        });
+        yearPrincipal = 0;
+        yearInterest = 0;
+      }
+    }
+    if (balance < 0.005) balance = 0;
+    return { payment, months, interest, balance, timeline };
+  }
+
+  // Ordinary schedule: book every month to the cent. The last month pays whatever
+  // is still owed, so the rounded installment, the interest, and the timeline
+  // parts describe one schedule. A payment that does not reduce principal stops.
+  while (balance >= 0.01 && months < termMonths) {
+    const monthInterest = roundMoney(balance * monthly);
+    const regular = roundMoney(payment + extraCents);
+    if (roundMoney(regular - monthInterest) <= 0) break;
+    const owed = roundMoney(balance + monthInterest);
+    const due = months + 1 === termMonths || regular > owed ? owed : regular;
+    const principalPaid = roundMoney(due - monthInterest);
+    balance = roundMoney(Math.max(0, balance - principalPaid));
+    interest = roundMoney(interest + monthInterest);
+    yearPrincipal = roundMoney(yearPrincipal + principalPaid);
+    yearInterest = roundMoney(yearInterest + monthInterest);
     months += 1;
-    if (months % 12 === 0 || balance <= 1e-8) {
+    if (months % 12 === 0 || balance < 0.01) {
       timeline.push({
         year: months / 12,
-        value: roundMoney(balance),
-        display: money(roundMoney(balance), currency),
+        value: balance,
+        display: money(balance, currency),
         parts: {
-          principal: roundMoney(yearPrincipal),
-          interest: roundMoney(yearInterest),
+          principal: yearPrincipal,
+          interest: yearInterest,
         },
       });
       yearPrincipal = 0;
@@ -103,7 +141,7 @@ function amortize(
     }
   }
 
-  if (balance < 0.005) balance = 0;
+  if (balance < 0.01) balance = 0;
 
   return { payment, months, interest, balance, timeline };
 }
@@ -185,9 +223,12 @@ export const loan: FinanceCalculator = {
     }
 
     const termMonths = Math.round(years.value * 12);
+    const extraCents = roundMoney(extra.value);
     const plain = amortize(principal, rate.value, termMonths, 0, currency);
-    const schedule = extra.value > 0 ? amortize(principal, rate.value, termMonths, extra.value, currency) : plain;
-    if (schedule.balance > 1) {
+    const schedule = extraCents > 0
+      ? amortize(principal, rate.value, termMonths, extraCents, currency)
+      : plain;
+    if (schedule.balance >= 0.01) {
       return validationError(
         'This yearly rate and term never pay the balance down. Lower the rate, shorten the term, or add an extra payment.',
       );
@@ -198,10 +239,13 @@ export const loan: FinanceCalculator = {
     const total = roundMoney(principal + interest);
     // Interest saved is the gap between two finished schedules. A plain schedule that
     // never pays the balance down is not a comparable total.
-    const saved = plain.balance <= 1 ? roundMoney(plain.interest - schedule.interest) : 0;
+    const saved = plain.balance < 0.01 ? roundMoney(plain.interest - schedule.interest) : 0;
     const note = loanRateNote(rate.value);
+    const paymentText = payment === 0 && schedule.months > 0
+      ? `Under ${money(0.01, currency)}`
+      : money(payment, currency);
 
-    const hero = card('payment', 'Monthly payment', money(payment, currency), {
+    const hero = card('payment', 'Monthly payment', paymentText, {
       raw: payment,
       emphasis: 'hero',
       note,
@@ -213,16 +257,16 @@ export const loan: FinanceCalculator = {
       card('total', 'Total paid', money(total, currency), { raw: total }),
       card('payoff', 'Payoff', payoffLabel(schedule.months), { raw: schedule.months }),
     ];
-    if (extra.value > 0 && saved > 0) {
+    if (extraCents > 0 && saved > 0) {
       metrics.push(card('saved', 'Interest saved', money(saved, currency), { raw: saved }));
     }
 
     const interestShare = total > 0 ? Math.round((interest / total) * 100) : 0;
     const insights = [];
-    if (extra.value > 0 && saved > 0) {
+    if (extraCents > 0 && saved > 0) {
       insights.push(
         insight(
-          `An extra ${money(extra.value, currency)} a month clears the loan in ${payoffLabel(schedule.months)} and saves ${money(saved, currency)} of interest.`,
+          `An extra ${money(extraCents, currency)} a month clears the loan in ${payoffLabel(schedule.months)} and saves ${money(saved, currency)} of interest.`,
           'positive',
         ),
       );
@@ -235,19 +279,19 @@ export const loan: FinanceCalculator = {
     }
 
     const milestones = [
-      milestone('Paid off', schedule.balance <= 1, schedule.months / 12),
-      milestone('Extra payment shortened the term', schedule.months < plain.months),
+      milestone('Paid off', schedule.balance < 0.01, schedule.months / 12),
+      milestone('Extra payment shortened the term', extraCents > 0 && schedule.months < plain.months),
     ];
 
     const assumptions = [
       assumption('Yearly rate', rateText(rate.value)),
       assumption('Schedule', 'Monthly. The yearly rate is divided by 12.'),
       assumption('Down payment', down.value > 0 ? money(down.value, currency) : 'none'),
-      assumption('Extra payment', extra.value > 0 ? `${money(extra.value, currency)} a month, off the principal` : 'none'),
+      assumption('Extra payment', extraCents > 0 ? `${money(extraCents, currency)} a month, off the principal` : 'none'),
     ];
 
-    const shortened = extra.value > 0 && schedule.months < termMonths
-      ? ` An extra ${money(extra.value, currency)} a month pays it off in ${payoffLabel(schedule.months)}.`
+    const shortened = extraCents > 0 && schedule.months < termMonths
+      ? ` An extra ${money(extraCents, currency)} a month pays it off in ${payoffLabel(schedule.months)}.`
       : '';
 
     return successResult({
@@ -269,7 +313,7 @@ export const loan: FinanceCalculator = {
         'How much sooner does an extra payment clear it?',
         'What would this monthly amount become if it were invested instead?',
       ],
-      explanation: `Borrowing ${money(principal, currency)} at ${rateText(rate.value)} a year over ${payoffLabel(termMonths)} needs ${money(payment, currency)} a month. You pay ${money(interest, currency)} in interest.${shortened}`,
+      explanation: `Borrowing ${money(principal, currency)} at ${rateText(rate.value)} a year over ${payoffLabel(termMonths)} needs ${paymentText} a month. You pay ${money(interest, currency)} in interest.${shortened}`,
     });
   },
 };

@@ -107,7 +107,7 @@ export const FINANCE_EXAMPLES: WorkedExample<FinanceInput>[] = [
     ref: 'loan',
     title: '$100,000 at 12% for 5 years',
     inputs: { price: 100000, down: 0, rate: 12, years: 5, extra: 0 },
-    expect: { payment: 2224.44, borrowed: 100000, interest: 33466.69, payoff: 60 },
+    expect: { payment: 2224.44, borrowed: 100000, interest: 33466.83, payoff: 60 },
     narrative: 'Borrowing $100,000 at 12% a year for 5 years costs about $2,224 a month and about $33,467 in interest.',
   },
 ];

@@ -82,6 +82,23 @@ describe('extractPalette', () => {
     expect(red!.share).toBeLessThan(0.1);
   });
 
+  it('keeps a color that exists only in the last column', () => {
+    const data = image(400, 2, (x) => (x === 399 ? [225, 6, 0, 255] : [255, 255, 255, 255]));
+    const result = extractPalette(data, 400, 2);
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.swatches.some((swatch) => swatch.hex === '#e10600')).toBe(true);
+    expect(result.swatches).not.toEqual([{ hex: '#ffffff', share: 1, clamped: false }]);
+  });
+
+  it('keeps a color that exists only in the first column', () => {
+    const data = image(400, 2, (x) => (x === 0 ? [225, 6, 0, 255] : [255, 255, 255, 255]));
+    const result = extractPalette(data, 400, 2);
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.swatches.some((swatch) => swatch.hex === '#e10600')).toBe(true);
+  });
+
   it('marks a display-p3 red as clamped and leaves an in-gamut gray quiet', () => {
     const wide = extractPalette(solid(2, 2, 255, 0, 0), 2, 2, { space: 'display-p3' });
     expect(wide.ok).toBe(true);

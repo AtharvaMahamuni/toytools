@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { boundedDistance, namesAnswer, normalizeQuery, queryWords, scoreEntry, rankEntries } from './rank';
+import { boundedDistance, categorySearchTerm, namesAnswer, normalizeQuery, queryWords, scoreEntry, rankEntries } from './rank';
 import { buildCatalogWire, buildClientIndex, buildSearchTerms, entryUrl } from './index';
 import { searchAliases } from '@data/search-aliases';
 
@@ -270,5 +270,15 @@ describe('buildClientIndex', () => {
     expect(namesAnswer(merged, 'Word Counter')).toBe(true);
     expect(namesAnswer(merged, 'law of sines')).toBe(false);
     expect(rankEntries(merged, 'law of sines', 1)[0]?.s).toBe('triangle-solver');
+
+    const loanAt = wire.t.findIndex((item) => item.s === 'loan-calculator');
+    expect(terms[loanAt]!.join('\n')).not.toContain('money & finance');
+    const ranked = wire.t.map((item, i) => {
+      const row = terms[i] ?? [];
+      const category = categorySearchTerm(wire.c[item.c] ?? '', item.n);
+      return { ...item, k: category && !row.includes(category) ? row.concat(category) : row };
+    });
+    expect(rankEntries(ranked, 'finance').some((item) => item.s === 'loan-calculator')).toBe(true);
+    expect(rankEntries(ranked, 'health').some((item) => item.s === 'pregnancy-due-date-calculator')).toBe(true);
   });
 });

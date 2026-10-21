@@ -12,8 +12,19 @@
 export interface RankableEntry {
   /** Display name. */
   n: string;
-  /** Lowercased extra search terms: tags, keywords, family, category, aliases. */
+  /** Lowercased extra search terms: tags, keywords, family, aliases. Category is appended at rank time. */
   k: string[];
+}
+
+/**
+ * The category display name as one search term. Empty when the tool name already
+ * contains it. The terms file omits this string; the palette adds it from the
+ * interned category table so a query such as "finance" still matches the category.
+ */
+export function categorySearchTerm(categoryName: string, toolName: string): string {
+  const term = categoryName.trim().toLowerCase();
+  if (!term || toolName.toLowerCase().includes(term)) return '';
+  return term;
 }
 
 export interface RankedEntry<T> {

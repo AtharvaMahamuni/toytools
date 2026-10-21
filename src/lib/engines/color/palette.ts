@@ -120,9 +120,9 @@ function sampleGrid(
   const nh = Math.max(1, Math.round((height * maxEdge) / edge));
   const out = new Uint8ClampedArray(nw * nh * 4);
   for (let y = 0; y < nh; y++) {
-    const sy = Math.min(height - 1, Math.floor(((y + 0.5) * height) / nh));
+    const sy = nh === 1 ? 0 : Math.round((y * (height - 1)) / (nh - 1));
     for (let x = 0; x < nw; x++) {
-      const sx = Math.min(width - 1, Math.floor(((x + 0.5) * width) / nw));
+      const sx = nw === 1 ? 0 : Math.round((x * (width - 1)) / (nw - 1));
       const si = (sy * width + sx) * 4;
       const di = (y * nw + x) * 4;
       out[di] = data[si]!;

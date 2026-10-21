@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'loan-faq-payment',
     question: 'How is the monthly payment calculated?',
     answer:
-      'The payment is the fixed amount that clears the borrowed balance in equal months. The yearly rate is divided by 12 to get the monthly rate. For 100,000 at 12% a year over 5 years, that payment is 2,224.44 and the interest comes to 33,466.69.',
+      'The payment is the fixed amount that clears the borrowed balance in equal months. The yearly rate is divided by 12 to get the monthly rate. For 100,000 at 12% a year over 5 years, that payment is 2,224.44 and the interest comes to 33,466.83.',
   },
   {
     id: 'loan-faq-rate-unit',
@@ -17,7 +17,7 @@ export const items: FAQItem[] = [
     id: 'loan-faq-extra',
     question: 'Does an extra payment reduce interest?',
     answer:
-      'Yes. The extra amount is added on top of the installment and taken off the principal, so total interest falls while the installment stays the same. On 100,000 at 12% for 5 years, an extra 500 a month finishes the loan in 3 years 10 months and saves 8,239.15 of interest.',
+      'Yes. The extra amount is added on top of the installment and taken off the principal, so total interest falls while the installment stays the same. On 100,000 at 12% for 5 years, an extra 500 a month finishes the loan in 3 years 10 months and saves 8,239.19 of interest.',
   },
   {
     id: 'loan-faq-home',

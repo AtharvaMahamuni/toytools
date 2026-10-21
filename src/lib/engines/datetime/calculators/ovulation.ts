@@ -120,12 +120,18 @@ export const ovulationCalculator: DateTimeTool = {
       ...(note ? { note } : {}),
     });
 
+    const nextLabel = compareCivil(nextPeriod, ref) < 0
+      ? 'Following period'
+      : compareCivil(nextPeriod, ref) === 0
+        ? 'Period starts'
+        : 'Next period';
+
     const metrics: ResultCard[] = [
       card('fertile-window', 'Fertile window', `${formatCivil(windowStart)} to ${formatCivil(ovulation)}`, {
         raw: stamp(windowStart),
         note: 'Five days before ovulation through the day of ovulation.',
       }),
-      card('next-period', 'Next period', formatCivil(nextPeriod), {
+      card('next-period', nextLabel, formatCivil(nextPeriod), {
         raw: stamp(nextPeriod),
         note: 'One cycle length after the last period. The luteal phase does not move it.',
       }),
@@ -134,10 +140,9 @@ export const ovulationCalculator: DateTimeTool = {
 
     const insights = [
       insight(
-        `Ovulation is ${cycle - luteal} days after ${formatCivil(lmp.value)}. The fertile window runs from ${formatCivil(windowStart)} to ${formatCivil(ovulation)}.`,
+        `Ovulation is ${cycle - luteal} days after ${formatCivil(lmp.value)}. The fertile window runs from ${formatCivil(windowStart)} to ${formatCivil(ovulation)}. The next period is ${formatCivil(nextPeriod)}. The luteal phase does not move it.`,
       ),
     ];
-    if (note) insights.push(insight(note, 'caution'));
 
     return successResult({
       hero,

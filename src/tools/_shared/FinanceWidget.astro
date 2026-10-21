@@ -117,6 +117,46 @@ const currencyMeta = Object.fromEntries(
   <script type="application/json" id={`${slug}-examples`} set:html={JSON.stringify(examples)} />
 )}
 
+{financeId === 'loan' && (
+  <script is:inline>
+    (function () {
+      var root = document.querySelector('[data-finance="loan"]');
+      if (!root) return;
+      var slug = root.getAttribute('data-slug');
+      var exp = document.getElementById(slug + '-experience');
+      var rate = document.querySelector('[data-finance="loan"] [data-field-id="rate"]');
+      if (!exp || !rate) return;
+      var timer = 0;
+      function note() { return exp.querySelector('[data-hero-note]'); }
+      function partial() {
+        var raw = rate.getAttribute('data-raw');
+        return raw === '1' || raw === '2';
+      }
+      root.addEventListener('tt-loan', function () {
+        if (timer) clearTimeout(timer);
+        timer = 0;
+        var el = note();
+        if (!el || el.hidden || document.activeElement !== rate || !partial()) return;
+        if ((el.textContent || '').indexOf('is a yearly rate') === -1) return;
+        var seen = rate.getAttribute('data-raw');
+        el.hidden = true;
+        timer = setTimeout(function () {
+          timer = 0;
+          if (rate.getAttribute('data-raw') === seen) el.hidden = false;
+        }, 500);
+      });
+      rate.addEventListener('blur', function () {
+        if (timer) clearTimeout(timer);
+        timer = 0;
+        var el = note();
+        var raw = rate.getAttribute('data-raw');
+        if (!el || (raw !== '1' && raw !== '2')) return;
+        if ((el.textContent || '').indexOf('is a yearly rate') === -1) return;
+        el.hidden = false;
+      });
+    })();
+  </script>
+)}
 <script is:inline>
   (function () {
     var root = document.querySelector('[data-finance][data-slug]');
@@ -306,6 +346,7 @@ const currencyMeta = Object.fromEntries(
       }
       var res = ToyTools.runFinance(fid, c.input, { currency: currency });
       ToyTools.experience.render(expRoot, res);
+      if (fid === 'loan') root.dispatchEvent(new Event('tt-loan'));
     }
 
     // ── Shareable link ────────────────────────────────────────────────────────

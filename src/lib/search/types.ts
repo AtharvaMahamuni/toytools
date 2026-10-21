@@ -22,7 +22,7 @@ export interface SearchEntry extends RankableEntry {
   g: number;
   /** index into ClientIndex.c (category display name) */
   c: number;
-  /** lowercased extra search terms: tags, keywords, family, category, aliases */
+  /** lowercased extra search terms: tags, keywords, family, aliases. Category is not stored here. */
   k: string[];
 }
 

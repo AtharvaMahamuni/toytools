@@ -1,7 +1,8 @@
 // Pregnancy due date. Naegele's count is 280 days from the first day of the last period when the
-// cycle is 28 days. Each day the cycle differs from 28 moves only the due date. Weeks pregnant
-// and the trimester boundaries stay anchored to the last period, which is the count a longer
-// cycle would silently drop if the page only printed one shifted date.
+// cycle is 28 days. Each day the cycle differs from 28 moves the due date, the days remaining,
+// and the estimated conception date. Weeks pregnant and the trimester boundaries stay anchored
+// to the last period, which is the count a longer cycle would silently drop if the page only
+// printed one shifted date.
 
 import type { DateTimeTool } from '../types';
 import { successResult, card, validationError } from '@lib/results/index';
@@ -117,7 +118,7 @@ export const pregnancyCalculator: DateTimeTool = {
 
     const metrics: ResultCard[] = [
       card('gestational-age', 'Weeks pregnant', weeksPhrase(gestDays), { raw: gestDays }),
-      card('trimester', 'Trimester', trimester.name, {
+      card('trimester', 'Trimester', `${trimester.name}. Second starts ${formatCivil(second)}. Third starts ${formatCivil(third)}.`, {
         raw: trimester.n,
         note: `Second trimester starts ${formatCivil(second)}. Third starts ${formatCivil(third)}.`,
       }),
@@ -133,7 +134,6 @@ export const pregnancyCalculator: DateTimeTool = {
         `The due date is ${dueDays} days after ${formatCivil(lmp.value)}. Weeks pregnant still count from that first day.`,
       ),
     ];
-    if (note) insights.push(insight(note, 'caution'));
 
     return successResult({
       hero,
@@ -158,6 +158,7 @@ export const pregnancyCalculator: DateTimeTool = {
         `The due date is ${formatCivil(due)}, ${dueDays} days after ${formatCivil(lmp.value)}. `
         + `On ${formatCivil(ref)} that is ${weeksPhrase(gestDays)} pregnant, in the ${trimester.name.toLowerCase()} trimester. `
         + `The second trimester starts ${formatCivil(second)} and the third starts ${formatCivil(third)}, both counted from the last period. `
+        + `Estimated conception is ${formatCivil(conception)}, cycle length minus 14 days after the last period. `
         + `This is date arithmetic for planning. It is not a scan and it is not a diagnosis.`,
     });
   },

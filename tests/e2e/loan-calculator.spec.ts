@@ -14,6 +14,12 @@ test('a fixed-rate loan shows the payment, the rate note, and the extra-payment 
   await expect(page.locator('[data-hero-value]')).toContainText('2,224.44');
   await expect(page.locator('[data-craft="loan-rate-unit"]')).toBeHidden();
 
+  await field('rate').fill('1');
+  await expect(page.locator('[data-craft="loan-rate-unit"]')).toBeHidden();
+  await field('rate').blur();
+  await expect(page.locator('[data-craft="loan-rate-unit"]')).toBeVisible();
+  await expect(page.locator('[data-craft="loan-rate-unit"]')).toContainText('12%');
+
   await field('rate').fill('2');
   const note = page.locator('[data-craft="loan-rate-unit"]');
   await expect(note).toBeVisible();
@@ -22,7 +28,7 @@ test('a fixed-rate loan shows the payment, the rate note, and the extra-payment 
 
   await field('rate').fill('12');
   await field('extra').fill('500');
-  await expect(page.locator('.insight-list')).toContainText('8,239.15');
+  await expect(page.locator('.insight-list')).toContainText('8,239.19');
   await expect(page.locator('.insight-list')).toContainText('3 years 10 months');
 
   await page.getByRole('button', { name: 'Home loan, 20 years' }).click();

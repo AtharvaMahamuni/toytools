@@ -11,7 +11,7 @@
  * Nothing here may import the registry: see src/lib/search/types.ts.
  */
 
-import { namesAnswer, rankEntries } from './search/rank';
+import { categorySearchTerm, namesAnswer, rankEntries } from './search/rank';
 import { entryUrl, entryCategory, type ClientIndex, type SearchEntry } from './search/types';
 
 // /search/ and /404/ import these from here rather than from ./search/rank directly. That keeps
@@ -144,7 +144,9 @@ function attachTerms(index: ClientIndex): Promise<void> {
         for (let i = 0; i < index.t.length; i++) {
           const row = terms[i];
           const entry = index.t[i];
-          if (entry && Array.isArray(row)) entry.k = row;
+          if (!entry || !Array.isArray(row)) continue;
+          const category = categorySearchTerm(index.c[entry.c] ?? '', entry.n);
+          entry.k = category && !row.includes(category) ? row.concat(category) : row;
         }
       })
       .catch(() => undefined);

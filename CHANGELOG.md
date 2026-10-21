@@ -6,13 +6,21 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Added
 
-- **Ovulation Calculator.** `/tool/health/ovulation-calculator/` finds a fertile window, an ovulation date, and the next period from the last period, the cycle length, and the luteal phase. A luteal phase other than 14 days moves only the ovulation date, and the page says by how many days. A 14 day phase keeps that note hidden. Dates stay on the device.
+- **Ovulation Calculator.** `/tool/health/ovulation-calculator/` finds a fertile window, an ovulation date, and the next period from the last period, the cycle length, and the luteal phase. A luteal phase other than 14 days moves the ovulation date and the fertile window together, and the page says by how many days. The next period stays on the cycle length. A 14 day phase keeps that note hidden. Dates stay on the device.
+
+### Fixed
+
+- **Ovulation Calculator.** When the next period date is already before the day you are counting, the card says Following period and keeps that date. It does not roll the cycle forward. A cleared cycle or luteal field names that field. Clearing only the last-period date still asks for the first day of the last period.
 
 ## [alpha-v13.9] - 2026-10-21
 
 ### Added
 
-- **Pregnancy Due Date Calculator.** `/tool/health/pregnancy-due-date-calculator/` projects a due date, weeks pregnant, and trimester dates from the first day of the last period. A cycle other than 28 days moves only the due date, and the page says by how many days. A 28 day cycle keeps that note hidden. Dates stay on the device.
+- **Pregnancy Due Date Calculator.** `/tool/health/pregnancy-due-date-calculator/` projects a due date, weeks pregnant, and trimester dates from the first day of the last period. A cycle other than 28 days moves the due date, the days remaining, and the estimated conception date. The week count and the trimester dates stay on the last period, and the page says by how many days. A 28 day cycle keeps that note hidden. Dates stay on the device.
+
+### Fixed
+
+- **Pregnancy Due Date Calculator.** The trimester card shows the dates the second and third trimesters start. Estimated conception says it is the cycle length minus 14 days. A cleared cycle field asks for the cycle length. The guide's month shortcut uses 31 March 2026, where 280 days and the shortcut land on different days.
 
 ## [alpha-v13.8] - 2026-10-21
 
@@ -22,7 +30,8 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Fixed
 
-- **Image Palette Extractor.** An ordinary sRGB color, such as pure blue, no longer raises the out-of-gamut line. That line stays for a display-p3 sample that actually falls outside sRGB.
+- **Image Palette Extractor.** An ordinary sRGB color, such as pure blue, no longer raises the out-of-gamut line. That line stays for a display-p3 sample that actually falls outside sRGB. A color that sits only on the last column of the picture is included in the sample.
+- **Search.** A category word such as finance or health finds the tools in that category again. The category name is added when ranking, from the name already stored on the catalog, so the search-terms file stays the same size.
 
 ## [alpha-v13.7] - 2026-10-21
 
@@ -32,7 +41,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Fixed
 
-- **Loan Calculator.** A payment under one cent runs to the end of the term. The page no longer calls that an extra payment, and it no longer calls a rounded-away interest charge a zero rate.
+- **Loan Calculator.** A payment under one cent still runs to the end of the term, and the headline says it is under $0.01. The page does not call that an extra payment, and it does not call a rounded-away interest charge a zero rate. The monthly payment, the interest, the total, and the timeline now come from one cent schedule. An extra under half a cent is ignored. A rate whose rounded payment does not reduce the principal is rejected. The yearly-rate note waits until a typed 1 or 2 settles, so the first digit of 12 or 24 does not flash the warning.
 
 ## [alpha-v13.6] - 2026-10-21
 

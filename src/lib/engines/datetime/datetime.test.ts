@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { runDateTime, DATETIME_TOOLS, dateTimeFields } from './registry';
 import { DATETIME_EXAMPLES } from './examples';
-import { addDays, parseISODate } from './models';
+import { addDays, compareCivil, parseISODate } from './models';
 
 const NO_OPTS = {};
 
@@ -127,6 +127,13 @@ describe('age and date difference share one y/m/d breakdown (Phase B PR 2)', () 
   });
 });
 
+describe('civil dates before year 100', () => {
+  it('does not shift year 99 onto 1999', () => {
+    expect(addDays(parseISODate('0099-01-01')!, 280)).toEqual({ y: 99, m: 10, d: 8 });
+    expect(compareCivil(parseISODate('0099-12-01')!, parseISODate('0100-01-15')!)).toBeLessThan(0);
+  });
+});
+
 describe('pregnancy due date', () => {
   const base = { lmp: '2026-01-01', cycle: 28, asOf: '2026-03-01' };
 
@@ -143,8 +150,14 @@ describe('pregnancy due date', () => {
     expect(shifted.hero?.value).toBe('12 October 2026');
     expect(shifted.hero?.note).toBe('A 32 day cycle moves this due date 4 days later than a 28 day cycle. The page used 32.');
     expect(shifted.metrics.find((m) => m.id === 'gestational-age')?.value).toBe('8 weeks, 3 days');
+    expect(shifted.metrics.find((m) => m.id === 'trimester')?.value).toContain('9 April 2026');
     expect(shifted.metrics.find((m) => m.id === 'trimester')?.note).toContain('9 April 2026');
     expect(shifted.metrics.find((m) => m.id === 'trimester')?.note).toContain('16 July 2026');
+    expect(shifted.metrics.find((m) => m.id === 'countdown')?.raw).toBe(225);
+    expect(shifted.metrics.find((m) => m.id === 'conception')?.value).toBe('19 January 2026');
+    expect(shifted.explanation).toContain('cycle length minus 14');
+    expect(shifted.insights?.some((item) => item.tone === 'caution')).toBe(false);
+    expect(shifted.insights?.some((item) => item.text === shifted.hero?.note)).toBe(false);
   });
 
   it('names an earlier due date for a 21 day cycle and stays quiet at 28', () => {
@@ -180,7 +193,10 @@ describe('ovulation date', () => {
     expect(r.hero?.value).toBe('15 January 2026');
     expect(r.hero?.note).toBeUndefined();
     expect(r.metrics.find((m) => m.id === 'fertile-window')?.value).toBe('10 January 2026 to 15 January 2026');
-    expect(r.metrics.find((m) => m.id === 'next-period')?.value).toBe('29 January 2026');
+    expect(r.metrics.find((m) => m.id === 'next-period')).toMatchObject({
+      label: 'Next period',
+      value: '29 January 2026',
+    });
     expect(r.metrics.find((m) => m.id === 'window-status')).toMatchObject({
       value: 'Inside the fertile window',
       raw: 0,
@@ -194,6 +210,16 @@ describe('ovulation date', () => {
     expect(r.metrics.find((m) => m.id === 'fertile-window')?.value).toBe('12 January 2026 to 17 January 2026');
     expect(r.metrics.find((m) => m.id === 'next-period')?.value).toBe('29 January 2026');
     expect(r.metrics.find((m) => m.id === 'window-status')).toMatchObject({ value: '2 days', raw: -2 });
+    expect(r.insights?.some((item) => item.tone === 'caution')).toBe(false);
+    expect(r.insights?.[0]?.text).toContain('The luteal phase does not move it');
+  });
+
+  it('labels a period that is already past as the following period', () => {
+    const r = runDateTime('ovulation', { ...base, asOf: '2026-02-15' }, NO_OPTS);
+    expect(r.metrics.find((m) => m.id === 'next-period')).toMatchObject({
+      label: 'Following period',
+      value: '29 January 2026',
+    });
   });
 
   it('names an earlier ovulation for a 16 day luteal phase and stays quiet at 14', () => {

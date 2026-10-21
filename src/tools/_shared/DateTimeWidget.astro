@@ -148,11 +148,30 @@ const resolvedEmpty = emptyText ?? 'Enter your dates to calculate.';
       return { input: input, missingRequired: missingRequired };
     }
 
+    function fieldLabel(el) {
+      var wrap = el.closest && el.closest('[data-smart-input]');
+      var label = wrap ? wrap.querySelector('.widget-label') : null;
+      var text = label && label.textContent ? label.textContent.replace(/\s+/g, ' ').trim() : '';
+      return text || 'a value';
+    }
+
     function run() {
       if (!(window.ToyTools && ToyTools.runDateTime && ToyTools.experience)) return;
       var c = collect();
       if (c.missingRequired) {
-        ToyTools.experience.render(expRoot, { ok: false, uiState: 'empty', metrics: [] });
+        var named = '';
+        for (var i = 0; i < fieldEls.length; i++) {
+          var el = fieldEls[i];
+          if (el.getAttribute('data-required') !== 'true') continue;
+          if (readValue(el) !== '') continue;
+          var kind = el.getAttribute('data-field-type');
+          if (kind === 'date' || kind === 'datetime') continue;
+          named = 'Enter ' + fieldLabel(el) + '.';
+          break;
+        }
+        var empty = { ok: false, uiState: 'empty', metrics: [] };
+        if (named) empty.error = named;
+        ToyTools.experience.render(expRoot, empty);
         return;
       }
       var res = ToyTools.runDateTime(did, c.input, {});

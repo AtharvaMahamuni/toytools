@@ -190,11 +190,16 @@ describe('loan amortization', () => {
     expect(r.hero?.raw).toBeCloseTo(2224.44, 2);
     expect(r.hero?.note).toBeUndefined();
     expect(r.metrics.find((m) => m.id === 'borrowed')?.raw).toBe(100000);
-    expect(r.metrics.find((m) => m.id === 'interest')?.raw).toBeCloseTo(33466.69, 2);
+    expect(r.metrics.find((m) => m.id === 'interest')?.raw).toBeCloseTo(33466.83, 2);
     expect(r.metrics.find((m) => m.id === 'payoff')?.raw).toBe(60);
     expect(r.metrics.some((m) => m.id === 'saved')).toBe(false);
     expect(r.timeline?.[0]?.value).toBe(100000);
     expect(r.timeline?.[r.timeline.length - 1]?.value).toBe(0);
+    const parts = (r.timeline ?? []).slice(1);
+    const principalPaid = parts.reduce((sum, point) => sum + (point.parts?.principal ?? 0), 0);
+    const interestPaid = parts.reduce((sum, point) => sum + (point.parts?.interest ?? 0), 0);
+    expect(principalPaid).toBeCloseTo(100000, 2);
+    expect(interestPaid).toBeCloseTo(33466.83, 2);
   });
 
   it('subtracts the down payment from the amount borrowed', () => {
@@ -275,6 +280,8 @@ describe('loan amortization', () => {
     const zero = runFinance('loan', { ...base, price: 1, rate: 0, years: 20 }, USD);
     expect(zero.ok).toBe(true);
     expect(zero.metrics.find((m) => m.id === 'payoff')?.raw).toBe(240);
+    expect(zero.hero?.value).toContain('Under');
+    expect(zero.hero?.value).not.toBe('$0.00');
     expect(zero.explanation).not.toContain('An extra');
     expect(zero.insights?.[0]?.text).toContain('no interest');
 
@@ -283,6 +290,23 @@ describe('loan amortization', () => {
     expect(tiny.metrics.find((m) => m.id === 'payoff')?.raw).toBe(240);
     expect(tiny.explanation).not.toContain('An extra');
     expect(tiny.insights?.[0]?.text).not.toContain('zero yearly rate');
+    expect(tiny.hero?.value).toContain('Under');
+  });
+
+  it('ignores an extra payment that rounds away to zero cents', () => {
+    const plain = runFinance('loan', base, USD);
+    const dust = runFinance('loan', { ...base, extra: 0.004 }, USD);
+    expect(dust.ok).toBe(true);
+    expect(dust.metrics.find((m) => m.id === 'interest')?.raw).toBe(plain.metrics.find((m) => m.id === 'interest')?.raw);
+    expect(dust.metrics.some((m) => m.id === 'saved')).toBe(false);
+    expect(dust.explanation).not.toContain('An extra');
+    expect(dust.insights?.[0]?.text ?? '').not.toContain('$0.00');
+  });
+
+  it('rejects a rounded payment that does not reduce principal', () => {
+    const r = runFinance('loan', { ...base, rate: 36, years: 40 }, USD);
+    expect(r.ok).toBe(false);
+    expect(r.error).toContain('never pay the balance down');
   });
 
   it('does not describe rounded-away interest as a zero rate', () => {
