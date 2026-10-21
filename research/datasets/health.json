@@ -242,6 +242,9 @@
       "searchQueries": ["due date calculator", "pregnancy due date calculator", "naegele rule calculator", "how many weeks pregnant am i", "estimated delivery date"],
       "existingSolutions": ["whattoexpect.com", "babycenter.com", "mayoclinic.org"],
       "solutionWeaknesses": ["requires signup for the full timeline", "heavy tracking scripts", "upsells products", "slow on mobile"],
+      "userFailures": [
+        "A 28 day cycle is assumed for a longer cycle, so the due date lands early and nothing says the cycle length moved it."
+      ],
       "relatedProblems": ["gestational age today", "trimester boundaries", "conception date estimate"],
       "relatedTools": ["age-calculator", "date-difference-calculator"],
       "demand": 88,
