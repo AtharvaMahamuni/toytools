@@ -305,6 +305,13 @@ describe('csv-pick names before positions (audit S2-1, S3-7, S3-8)', () => {
     expect(r.notice).toBe('2024 matched a header name, so it was read as that column, not as a position.');
   });
 
+  it('uses the plural notice when two numbers matched header names', () => {
+    const r = runCsv('csv-pick', 'id,2024,2025\na,1,2', '2024,2025');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('2024,2025\n1,2');
+    expect(r.notice).toMatch(/^2024, 2025 matched header names, so they were read as those columns, not as positions\.$/);
+  });
+
   it('keeps the column named 1, not column b: header "b,1", keep 1', () => {
     const r = runCsv('csv-pick', 'b,1\nx,y', '1');
     expect(r.ok).toBe(true);

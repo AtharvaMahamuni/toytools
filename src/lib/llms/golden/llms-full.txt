@@ -538,28 +538,28 @@ Does not: Call an AI model.
 
 URL: https://toytoolsapp.com/tool/game/chess-tac-toe/
 Use for: Legal moves only.
-Privacy: No sync, no cloud. Your data stays on this device.
+Privacy: Works offline after the first page load.
 Does not: Decide a game by checkmate.
 
 ## Connect 4
 
 URL: https://toytoolsapp.com/tool/game/connect-4/
 Use for: The column lights up before the disc drops.
-Privacy: No sync, no cloud. Your data stays on this device.
+Privacy: Works offline after the first page load.
 Does not: Match two players over the network.
 
 ## Quantum Tic Tac Toe
 
 URL: https://toytoolsapp.com/tool/game/quantum-tic-tac-toe/
 Use for: Two squares a move.
-Privacy: No sync, no cloud. Your data stays on this device.
+Privacy: Works offline after the first page load.
 Does not: Teach the mathematics of quantum mechanics.
 
 ## Tic Tac Toe
 
 URL: https://toytoolsapp.com/tool/game/tic-tac-toe/
 Use for: Two players, one phone.
-Privacy: No sync, no cloud. Your data stays on this device.
+Privacy: Works offline after the first page load.
 Does not: Play against a computer opponent.
 
 ## Coin Flipper

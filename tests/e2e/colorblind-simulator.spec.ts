@@ -57,4 +57,18 @@ test.describe('colorblind simulator', () => {
     await expect(cap).toBeHidden();
     expect(errors, errors.join('\n')).toEqual([]);
   });
+
+  test('names the cap note and error from the input only while shown, and reads "rgb (1,2,3)"', async ({ page }) => {
+    await page.goto(URL);
+    const input = page.locator('#colorblind-simulator-input');
+    await input.fill('rgb (211, 47, 47) #1565c0');
+    await expect(page.locator('#colorblind-simulator-error')).toBeHidden();
+    await expect(input).not.toHaveAttribute('aria-describedby', /./);
+    await input.fill('#000 #111 #222 #333 #444 #555 #666 #777 #888');
+    await expect(input).toHaveAttribute('aria-describedby', 'colorblind-simulator-cap');
+    await expect(input).toHaveAccessibleDescription('Only the first 8 colors are shown.');
+    await input.fill('nope #000');
+    await expect(input).toHaveAttribute('aria-describedby', 'colorblind-simulator-error');
+    await expect(input).toHaveAccessibleDescription('nope is not a color.');
+  });
 });

@@ -181,6 +181,7 @@ export const PALETTE_MAX = 8;
  * Returns the first `max` tokens and how many were dropped beyond that.
  */
 export function splitColorList(text: string, max = PALETTE_MAX): { items: string[]; dropped: number } {
-  const all = text.match(/[a-z]+\([^)]*\)?|[^\s,()]+/gi) ?? [];
+  // A space before the parenthesis ("rgb (1,2,3)") still means one color, written without it.
+  const all = (text.match(/[a-z]+\s*\([^)]*\)?|[^\s,()]+/gi) ?? []).map(item => item.replace(/^([a-z]+)\s+\(/i, '$1('));
   return { items: all.slice(0, max), dropped: Math.max(0, all.length - max) };
 }

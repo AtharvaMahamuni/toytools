@@ -2,6 +2,19 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.4] - 2026-10-21
+
+### Changed
+
+- **Game boards and the keyboard.** Tic Tac Toe, Connect 4, Chess Tac Toe and Quantum Tic Tac Toe boards are one Tab stop. Arrow keys move between squares, Home and End go to the ends of the row, and Enter or Space plays the focused square.
+- **Chess Tac Toe for screen readers.** A square names its owner and piece, for example "Row 1, column 1, X rook". Hand buttons are named "Place pawn", "Place rook" and so on, and still show the letter.
+- **Game trust badge.** The four games show the Offline badge. The old "Data stored only on this device" badge was wrong, because the games save nothing.
+
+### Fixed
+
+- **Quantum Tic Tac Toe.** While a collapse is waiting, the first tap on a square says "Choose how the cycle collapses with the buttons under the board." It no longer half-selects a pair with no hint.
+- **Colorblind Simulator.** "rgb (1,2,3)" with a space before the parenthesis reads as one color. The cap note and the error are linked to the input only while they are shown.
+
 ## [alpha-v13.2.1] - 2026-10-21
 
 ### Fixed
