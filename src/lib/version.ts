@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 8,
+  minor: 9,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-10-21',
-  description: 'Image Palette Extractor for dominant colors and the pixel share of a local picture',
+  description: 'Pregnancy Due Date Calculator for a last period, cycle length, and weeks pregnant',
 };
 
 export function formatVersion(config: VersionConfig): string {

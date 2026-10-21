@@ -723,6 +723,13 @@ Use for: Your one rep max from a set you lifted, across four formulas.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
 
+## Pregnancy Due Date Calculator
+
+URL: https://toytoolsapp.com/tool/health/pregnancy-due-date-calculator/
+Use for: Due date, weeks pregnant, and trimester dates.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Diagnose a pregnancy, replace a scan or a prenatal visit, or upload these dates.
+
 ## Protein Intake Calculator
 
 URL: https://toytoolsapp.com/tool/health/protein-intake-calculator/

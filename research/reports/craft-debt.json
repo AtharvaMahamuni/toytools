@@ -1,7 +1,7 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-21T14:43:17.436Z",
-  "fingerprint": "7f10504b",
+  "generatedAt": "2026-10-21T15:12:21.966Z",
+  "fingerprint": "b0ca05f6",
   "readyToPolish": [
     {
       "slug": "electron-configuration-calculator",
@@ -283,12 +283,6 @@
   ],
   "atRisk": [
     {
-      "id": "pregnancy-due-date-calculator",
-      "proposedTool": "pregnancy-due-date-calculator",
-      "finalScore": 76.6,
-      "engine": "datetime"
-    },
-    {
       "id": "ovulation-calculator",
       "proposedTool": "ovulation-calculator",
       "finalScore": 74.6,
@@ -332,9 +326,9 @@
     }
   ],
   "summary": {
-    "shippedCovered": 94,
+    "shippedCovered": 95,
     "readyToPolish": 10,
     "needsEvidence": 25,
-    "atRisk": 8
+    "atRisk": 7
   }
 }

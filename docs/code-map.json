@@ -234,11 +234,12 @@
         "schedule",
         "duration",
         "parse",
+        "due-date",
         "sleep",
         "timezone",
         "timestamp"
       ],
-      "toolCount": 8
+      "toolCount": 9
     },
     "math-lab": {
       "name": "Math Lab Engine",
@@ -2876,6 +2877,27 @@
       "pattern": "fidget-interact",
       "family": "fidget",
       "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "pregnancy-due-date-calculator": {
+      "name": "Pregnancy Due Date Calculator",
+      "dir": "src/tools/health/pregnancy-due-date-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/pregnancy-due-date-calculator/",
+      "engine": "datetime",
+      "pattern": "datetime-calculate",
+      "family": "due-date",
+      "processorId": "pregnancy",
       "toolGroup": "",
       "files": [
         "Guide.astro",

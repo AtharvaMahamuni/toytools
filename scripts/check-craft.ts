@@ -232,7 +232,10 @@ const THRESHOLDS = {
   // 2026-10-21: 0.742 (124/167), truncated from 0.742514. Image Palette Extractor ships
   //   orientation craft palette-pixel-share. Each stop shows its share of the samples.
   //   The list stays hidden until a picture has been read.
-  coverage: 0.742,
+  // 2026-10-21: 0.744 (125/168), truncated from 0.744047. Pregnancy Due Date Calculator
+  //   ships guardrail craft due-cycle-length. A cycle other than 28 days names how many
+  //   days the due date moved. A 28 day cycle keeps that note hidden.
+  coverage: 0.744,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

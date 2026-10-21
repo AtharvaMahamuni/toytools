@@ -253,8 +253,10 @@ describe('buildClientIndex', () => {
     // Measured 11_811 raw bytes (2.99KB gzip) on 2026-10-02.
     // 2026-10-21: 13_000 → 13_100. Image Palette Extractor is one name-catalog entry. Measured
     // 13_067 raw. Terms stay in search-terms.json. Catalog growth, not alias bloat.
+    // 2026-10-21: 13_100 → 13_200. Pregnancy Due Date Calculator is one name-catalog entry.
+    // Measured 13_153 raw. Terms stay in search-terms.json. Catalog growth, not alias bloat.
     const wire = Buffer.byteLength(JSON.stringify(buildCatalogWire()), 'utf8');
-    expect(wire).toBeLessThan(13_100);
+    expect(wire).toBeLessThan(13_200);
     expect(JSON.stringify(buildCatalogWire())).not.toContain('"k"');
   });
 

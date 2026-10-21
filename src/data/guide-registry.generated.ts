@@ -96,6 +96,7 @@ export const authoredGuideSlugs = [
   'percentage-calculator',
   'pomodoro-timer',
   'pop-it',
+  'pregnancy-due-date-calculator',
   'prime-factorization-calculator',
   'prompt-packer',
   'protein-intake-calculator',

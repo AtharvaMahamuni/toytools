@@ -1,11 +1,11 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-10-21T14:43:17.436Z
+Generated: 2026-10-21T15:12:21.966Z
 
-Discovered 106 signals -> 106 unique opportunities (10 recommended, 94 already shipped). Top score 85.9. Missing-engine candidates: 0.
+Discovered 106 signals -> 106 unique opportunities (9 recommended, 95 already shipped). Top score 85.9. Missing-engine candidates: 0.
 
 ## Immediate builds (top tier)
-- **Pregnancy Due Date Calculator** (`pregnancy-due-date-calculator`) - score 76.6, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
+_None above the immediate bar._
 
 ## Quick wins (low effort, recommended)
 - **Ovulation Calculator** (`ovulation-calculator`) - score 74.6, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
@@ -175,8 +175,7 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 - newman-projection-calculator (chemistry-lab)
 - crystal-field-splitting-calculator (chemistry-lab)
 
-### At risk - 8 buildable opportunit(ies) that would ship craftless
-- pregnancy-due-date-calculator (score 76.6, datetime)
+### At risk - 7 buildable opportunit(ies) that would ship craftless
 - ovulation-calculator (score 74.6, datetime)
 - function-grapher (score 74.5, math-lab)
 - blood-pressure-tracker (score 74.3, tracker)
@@ -199,4 +198,4 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 
 ---
 
-_Inputs fingerprint: `7f10504b`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `b0ca05f6`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._

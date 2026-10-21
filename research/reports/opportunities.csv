@@ -59,7 +59,7 @@ ipv4-converter,ipv4-converter,IPv4 Converter,IPv4 Representation,network,true,ne
 normal-distribution-visualizer,normal-distribution-visualizer,Normal Distribution Visualizer,Normal Distribution,math-lab,true,guide-missing,already-exists,medium,0.76,0.61,0.94,0.7,1,0.9,0,0.8,0.8,77.1
 date-difference-calculator,date-difference-calculator,Date Difference Calculator,Date Difference,datetime,true,needs-improvement,already-exists,medium,0.85,0.56,0.9,0.7,1,0.7,0,0.8,0.8,77
 reaction-rate-calculator,reaction-rate-calculator,Reaction Rate Calculator,Chemical Kinetics,chemistry-lab,true,guide-missing,already-exists,medium,0.74,0.66,0.95,0.7,1,0.9,0,0.78,0.8,76.7
-pregnancy-due-date-calculator,pregnancy-due-date-calculator,Pregnancy Due Date Calculator,Health Date Calculation,datetime,true,cluster-missing,recommended,low,0.88,0.46,0.95,1,1,0.95,0.5,0.88,0.8,76.6
+pregnancy-due-date-calculator,pregnancy-due-date-calculator,Pregnancy Due Date Calculator,Health Date Calculation,datetime,true,needs-improvement,already-exists,low,0.88,0.46,0.95,1,1,0.95,0.5,0.88,0.8,76.6
 lean-body-mass-calculator,lean-body-mass-calculator,Lean Body Mass Calculator,Body Composition Calculation,wellness,true,needs-improvement,already-exists,low,0.55,0.7,0.92,1,1,0.82,0.5,0.92,0.64,76.5
 quantum-tic-tac-toe,quantum-tic-tac-toe,Quantum Tic Tac Toe,Hot-Seat Board Game,board-game,true,needs-improvement,already-exists,high,0.48,0.96,0.78,0.4,1,0.79,0.75,0.94,0.64,76.4
 linear-regression-playground,linear-regression-playground,Linear Regression Playground,Linear Regression,math-lab,true,guide-missing,already-exists,medium,0.7,0.66,0.93,0.7,1,0.88,0,0.78,0.8,76.3

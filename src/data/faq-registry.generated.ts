@@ -96,6 +96,7 @@ import { items as passwordGeneratorFaqs } from '@tools/generate/password-generat
 import { items as percentageCalculatorFaqs } from '@tools/number/percentage-calculator/faq';
 import { items as pomodoroTimerFaqs } from '@tools/productivity/pomodoro-timer/faq';
 import { items as popItFaqs } from '@tools/fidget/pop-it/faq';
+import { items as pregnancyDueDateCalculatorFaqs } from '@tools/health/pregnancy-due-date-calculator/faq';
 import { items as primeFactorizationCalculatorFaqs } from '@tools/math/prime-factorization-calculator/faq';
 import { items as promptPackerFaqs } from '@tools/prep/prompt-packer/faq';
 import { items as proteinIntakeCalculatorFaqs } from '@tools/health/protein-intake-calculator/faq';
@@ -265,6 +266,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'percentage-calculator': percentageCalculatorFaqs,
   'pomodoro-timer': pomodoroTimerFaqs,
   'pop-it': popItFaqs,
+  'pregnancy-due-date-calculator': pregnancyDueDateCalculatorFaqs,
   'prime-factorization-calculator': primeFactorizationCalculatorFaqs,
   'prompt-packer': promptPackerFaqs,
   'protein-intake-calculator': proteinIntakeCalculatorFaqs,

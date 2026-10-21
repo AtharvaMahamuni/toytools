@@ -1,16 +1,16 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-21T14:43:17.436Z",
-  "fingerprint": "7f10504b",
+  "generatedAt": "2026-10-21T15:12:21.966Z",
+  "fingerprint": "b0ca05f6",
   "discovered": 106,
   "deduped": 106,
-  "alreadyExists": 94,
-  "recommended": 10,
+  "alreadyExists": 95,
+  "recommended": 9,
   "missingEngines": 0,
   "topScore": 85.9,
   "latentSignals": 7,
   "latentCandidates": 0,
   "craftReadyToPolish": 10,
-  "craftAtRisk": 8,
-  "nextBuild": "pregnancy-due-date-calculator"
+  "craftAtRisk": 7,
+  "nextBuild": "ovulation-calculator"
 }

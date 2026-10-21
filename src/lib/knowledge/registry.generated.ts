@@ -96,6 +96,7 @@ import { knowledge as passwordGenerator } from '@tools/generate/password-generat
 import { knowledge as percentageCalculator } from '@tools/number/percentage-calculator/knowledge';
 import { knowledge as pomodoroTimer } from '@tools/productivity/pomodoro-timer/knowledge';
 import { knowledge as popIt } from '@tools/fidget/pop-it/knowledge';
+import { knowledge as pregnancyDueDateCalculator } from '@tools/health/pregnancy-due-date-calculator/knowledge';
 import { knowledge as primeFactorizationCalculator } from '@tools/math/prime-factorization-calculator/knowledge';
 import { knowledge as promptPacker } from '@tools/prep/prompt-packer/knowledge';
 import { knowledge as proteinIntakeCalculator } from '@tools/health/protein-intake-calculator/knowledge';
@@ -265,6 +266,7 @@ export const authoredKnowledge: Knowledge[] = [
   percentageCalculator,
   pomodoroTimer,
   popIt,
+  pregnancyDueDateCalculator,
   primeFactorizationCalculator,
   promptPacker,
   proteinIntakeCalculator,

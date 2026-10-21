@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.9] - 2026-10-21
+
+### Added
+
+- **Pregnancy Due Date Calculator.** `/tool/health/pregnancy-due-date-calculator/` projects a due date, weeks pregnant, and trimester dates from the first day of the last period. A cycle other than 28 days moves only the due date, and the page says by how many days. A 28 day cycle keeps that note hidden. Dates stay on the device.
+
 ## [alpha-v13.8] - 2026-10-21
 
 ### Added

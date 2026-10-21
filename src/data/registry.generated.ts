@@ -96,6 +96,7 @@ import { config as passwordGenerator } from '@tools/generate/password-generator/
 import { config as percentageCalculator } from '@tools/number/percentage-calculator/config';
 import { config as pomodoroTimer } from '@tools/productivity/pomodoro-timer/config';
 import { config as popIt } from '@tools/fidget/pop-it/config';
+import { config as pregnancyDueDateCalculator } from '@tools/health/pregnancy-due-date-calculator/config';
 import { config as primeFactorizationCalculator } from '@tools/math/prime-factorization-calculator/config';
 import { config as promptPacker } from '@tools/prep/prompt-packer/config';
 import { config as proteinIntakeCalculator } from '@tools/health/protein-intake-calculator/config';
@@ -265,6 +266,7 @@ export const toolConfigs: ToolConfig[] = [
   percentageCalculator,
   pomodoroTimer,
   popIt,
+  pregnancyDueDateCalculator,
   primeFactorizationCalculator,
   promptPacker,
   proteinIntakeCalculator,

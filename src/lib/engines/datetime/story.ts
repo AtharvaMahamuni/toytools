@@ -31,6 +31,7 @@ export const DATETIME_LINKED_TOOLS: Record<string, string> = {
   'timezone-converter': 'datetime',
   'unix-timestamp-converter': 'datetime',
   'cron-expression-parser': 'datetime',
+  'pregnancy-due-date-calculator': 'health',
 };
 
 /** A decision linking to a sibling datetime tool, or null when that tool has not shipped yet. */
