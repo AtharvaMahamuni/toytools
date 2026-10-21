@@ -257,13 +257,16 @@
     },
     {
       "query": "ovulation calculator",
-      "problem": "Cycle length and the previous period start predict the fertile window days in the current month.",
+      "problem": "Cycle length, the luteal phase, and the previous period start predict the fertile window for that cycle.",
       "intent": "transactional",
       "transformation": "Health Date Calculation",
       "proposedTool": "ovulation-calculator",
       "proposedName": "Ovulation Calculator",
       "proposedEngine": "datetime",
-      "searchQueries": ["ovulation calculator", "fertile window calculator", "period tracker calculator", "when am i ovulating", "conception date calculator"],
+      "searchQueries": ["ovulation calculator", "fertile window calculator", "when am i ovulating", "conception date calculator"],
+      "userFailures": [
+        "A 14 day luteal phase is assumed for a shorter luteal phase, so ovulation is marked early and nothing says the luteal length moved it."
+      ],
       "existingSolutions": ["babycenter.com", "clearblue.com", "flo.health"],
       "solutionWeaknesses": ["pushes an app install", "requires an account", "sends personal cycle data to a server", "ad heavy"],
       "relatedProblems": ["cycle length variation", "luteal phase length", "next period date"],
