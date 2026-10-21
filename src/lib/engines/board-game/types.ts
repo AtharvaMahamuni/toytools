@@ -42,6 +42,8 @@ export interface CellView {
   mark: Seat | null;
   shape: CellShape;
   letter: string;
+  /** The piece's full name for screen readers, e.g. "rook". Chess only. */
+  name?: string;
   win: boolean;
   /** Column under the pointer, or a square chosen for the next tap. */
   preview?: boolean;
@@ -54,6 +56,8 @@ export type BoardInput = 'cell' | 'column' | 'pair' | 'chess';
 export interface HandPiece {
   id: string;
   letter: string;
+  /** Full piece name, read by screen readers as "Place pawn". */
+  name?: string;
 }
 
 export interface CollapseChoice {

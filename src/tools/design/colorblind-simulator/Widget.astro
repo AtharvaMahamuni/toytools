@@ -91,6 +91,11 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       return wrap;
     }
 
+    function describe(ids) {
+      if (ids.length) textEl.setAttribute('aria-describedby', ids.join(' '));
+      else textEl.removeAttribute('aria-describedby');
+    }
+
     function render() {
       var TT = window.ToyTools;
       if (!TT || !TT.color || !TT.color.simulatePalette || !TT.color.parse || !TT.color.splitColorList) return;
@@ -98,6 +103,9 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       var split = TT.color.splitColorList(textEl.value);
       var parts = split.items;
       if (capEl) capEl.hidden = split.dropped === 0;
+      // A hidden note named by aria-describedby is still read, so the input names only the shown ones.
+      var described = [];
+      if (capEl && !capEl.hidden) described.push('colorblind-simulator-cap');
       var colors = [];
       var bad = [];
       for (var i = 0; i < parts.length; i++) {
@@ -110,11 +118,13 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       if (!colors.length) {
         errEl.hidden = false;
         errEl.textContent = bad.length ? bad[0] + ' is not a color.' : 'Enter a color.';
+        describe(['colorblind-simulator-error'].concat(described));
         showNote('');
         return;
       }
       errEl.hidden = bad.length === 0;
       errEl.textContent = bad.length ? bad[0] + ' is not a color.' : '';
+      describe((bad.length ? ['colorblind-simulator-error'] : []).concat(described));
       var original = colors.map(function (c) {
         return { hex: c.hex, ink: TT.color.ink(c.rgb) };
       });

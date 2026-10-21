@@ -272,7 +272,7 @@ export const quantumTicTacToe: Rules = {
     const bag = extraOf(ply);
     if (bag.pending) {
       if (typeof move === 'number' || move.kind !== 'collapse') {
-        return { ok: false, ply, reason: 'Choose how the cycle collapses.' };
+        return { ok: false, ply, reason: 'Choose how the cycle collapses with the buttons under the board.' };
       }
       const option = bag.pending.options[move.resolution];
       if (!option) return { ok: false, ply, reason: 'That collapse is not one of the two resolutions.' };

@@ -102,6 +102,12 @@ describe('splitColorList (audit S1-1, S3-6)', () => {
     expect(parseColor(items[0]!).ok).toBe(false);
   });
 
+  it('reads "rgb (1,2,3)" as one color, not rgb and three numbers', () => {
+    const { items } = splitColorList('rgb (1,2,3) hsl  (0, 100%, 50%)');
+    expect(items).toEqual(['rgb(1,2,3)', 'hsl(0, 100%, 50%)']);
+    expect(ok(items)).toBe(true);
+  });
+
   it('caps at eight and reports how many were dropped', () => {
     const nine = Array.from({ length: 9 }, (_, i) => `rgb(${i}, 0, 0)`).join(' ');
     const r = splitColorList(nine);

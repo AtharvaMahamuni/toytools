@@ -60,7 +60,7 @@ describe('quantum tic tac toe', () => {
   it('keeps a pending collapse until a resolution is chosen', () => {
     const pending = play(api.create('quantum-tic-tac-toe'), mark(0, 1), mark(1, 2), mark(2, 0));
     const early = api.apply(pending, mark(3, 4));
-    expect(early.reason).toBe('Choose how the cycle collapses.');
+    expect(early.reason).toBe('Choose how the cycle collapses with the buttons under the board.');
     expect(early.state).toBe(pending);
     const missing = api.apply(pending, { kind: 'collapse', resolution: 2 });
     expect(missing.reason).toBe('That collapse is not one of the two resolutions.');

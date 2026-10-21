@@ -185,6 +185,7 @@ function viewCells(ply: Ply, win: ReadonlySet<number>): CellView[] {
       mark,
       shape: (piece ?? 'empty') as CellShape,
       letter: piece ? LETTER[piece] : '',
+      ...(piece ? { name: piece } : {}),
       win: win.has(index),
     };
   });
@@ -264,7 +265,7 @@ export const chessTacToe: Rules = {
   view(ply, canUndo): BoardView {
     const bag = extraOf(ply);
     const win = new Set(ply.outcome && ply.outcome !== 'draw' ? ownedLine(ply.cells, ply.outcome) : []);
-    const hand = bag.hands[ply.turn].map(piece => ({ id: piece, letter: LETTER[piece] }));
+    const hand = bag.hands[ply.turn].map(piece => ({ id: piece, letter: LETTER[piece], name: piece }));
     return {
       columns: COLUMNS,
       rows: ROWS,

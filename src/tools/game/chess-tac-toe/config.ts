@@ -14,7 +14,7 @@ export const config: ToolConfig = {
   ],
   addedOn: '2026-10-20',
   updatedAt: '2026-10-20',
-  trustVariant: 'local',
+  trustVariant: 'offline',
   engine: 'board-game',
   pattern: 'board-play',
   family: 'hot-seat',
