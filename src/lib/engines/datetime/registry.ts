@@ -14,6 +14,7 @@ import { cronExpressionParser } from './calculators/cron';
 import { systemdTimerConverter } from './calculators/systemd-timer';
 import { sleepCalculator } from './calculators/sleep';
 import { pregnancyCalculator } from './calculators/pregnancy';
+import { ovulationCalculator } from './calculators/ovulation';
 import { dateFormatDetector } from './calculators/date-format';
 
 export const DATETIME_TOOLS: Record<string, DateTimeTool> = {
@@ -25,6 +26,7 @@ export const DATETIME_TOOLS: Record<string, DateTimeTool> = {
   'systemd-timer': systemdTimerConverter,
   'sleep': sleepCalculator,
   'pregnancy': pregnancyCalculator,
+  'ovulation': ovulationCalculator,
   'date-format': dateFormatDetector,
 };
 

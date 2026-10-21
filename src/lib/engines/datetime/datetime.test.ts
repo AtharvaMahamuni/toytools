@@ -171,3 +171,55 @@ describe('pregnancy due date', () => {
     expect(runDateTime('pregnancy', { lmp: '2026-02-31', cycle: 28, asOf: '2026-03-01' }, NO_OPTS).ok).toBe(false);
   });
 });
+
+describe('ovulation date', () => {
+  const base = { lmp: '2026-01-01', cycle: 28, luteal: 14, asOf: '2026-01-10' };
+
+  it('puts a 28 day cycle and a 14 day luteal phase on 15 January, inside the window on the 10th', () => {
+    const r = runDateTime('ovulation', base, NO_OPTS);
+    expect(r.hero?.value).toBe('15 January 2026');
+    expect(r.hero?.note).toBeUndefined();
+    expect(r.metrics.find((m) => m.id === 'fertile-window')?.value).toBe('10 January 2026 to 15 January 2026');
+    expect(r.metrics.find((m) => m.id === 'next-period')?.value).toBe('29 January 2026');
+    expect(r.metrics.find((m) => m.id === 'window-status')).toMatchObject({
+      value: 'Inside the fertile window',
+      raw: 0,
+    });
+  });
+
+  it('moves ovulation later for a 12 day luteal phase and leaves the next period in place', () => {
+    const r = runDateTime('ovulation', { ...base, luteal: 12 }, NO_OPTS);
+    expect(r.hero?.value).toBe('17 January 2026');
+    expect(r.hero?.note).toBe('A 12 day luteal phase moves ovulation 2 days later than a 14 day luteal phase. The page used 12.');
+    expect(r.metrics.find((m) => m.id === 'fertile-window')?.value).toBe('12 January 2026 to 17 January 2026');
+    expect(r.metrics.find((m) => m.id === 'next-period')?.value).toBe('29 January 2026');
+    expect(r.metrics.find((m) => m.id === 'window-status')).toMatchObject({ value: '2 days', raw: -2 });
+  });
+
+  it('names an earlier ovulation for a 16 day luteal phase and stays quiet at 14', () => {
+    const standard = runDateTime('ovulation', base, NO_OPTS);
+    expect(standard.hero?.note).toBeUndefined();
+    const early = runDateTime('ovulation', { ...base, luteal: 16 }, NO_OPTS);
+    expect(early.hero?.value).toBe('13 January 2026');
+    expect(early.hero?.note).toContain('2 days earlier');
+    expect(early.metrics.find((m) => m.id === 'fertile-window')?.value).toBe('8 January 2026 to 13 January 2026');
+  });
+
+  it('counts days after the window and matches a 32 day cycle to 19 January', () => {
+    const after = runDateTime('ovulation', { ...base, asOf: '2026-01-16' }, NO_OPTS);
+    expect(after.metrics.find((m) => m.id === 'window-status')).toMatchObject({ value: '1 day', raw: 1 });
+    const longer = runDateTime('ovulation', { ...base, cycle: 32 }, NO_OPTS);
+    expect(longer.hero?.value).toBe('19 January 2026');
+    expect(longer.hero?.note).toBeUndefined();
+    expect(longer.metrics.find((m) => m.id === 'next-period')?.value).toBe('2 February 2026');
+  });
+
+  it('rejects a last period after the count date, a luteal phase outside 10 to 16, and a missing date', () => {
+    expect(runDateTime('ovulation', { ...base, lmp: '2026-01-11' }, NO_OPTS).ok).toBe(false);
+    expect(runDateTime('ovulation', { ...base, luteal: 9 }, NO_OPTS).ok).toBe(false);
+    expect(runDateTime('ovulation', { ...base, luteal: 17 }, NO_OPTS).ok).toBe(false);
+    expect(runDateTime('ovulation', { ...base, luteal: 14.5 }, NO_OPTS).ok).toBe(false);
+    expect(runDateTime('ovulation', { ...base, cycle: 20 }, NO_OPTS).ok).toBe(false);
+    expect(runDateTime('ovulation', { lmp: '', cycle: 28, luteal: 14, asOf: '2026-01-10' }, NO_OPTS).uiState).toBe('validation-error');
+  });
+});
