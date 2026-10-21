@@ -210,7 +210,8 @@ export function parsePoints(text: string): PointsParse {
     const line = lines[i]!.trim();
     if (!line) continue;
     const parts = line.split(/[\s,;]+/).filter(Boolean);
-    const nums = parts.map(Number);
+    // Plain decimals only: Number() would also take "0x10" as 16 and "1e1" as 10.
+    const nums = parts.map((p) => (/^[+-]?(\d+\.?\d*|\.\d+)$/.test(p) ? Number(p) : Number.NaN));
     if (parts.length !== 2 || nums.some((v) => !Number.isFinite(v))) {
       return { ok: false, error: `Line ${i + 1} needs two numbers, x and y, like 3, 4.` };
     }

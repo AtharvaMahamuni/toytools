@@ -82,3 +82,29 @@ describe('adaptiveStep', () => {
     expect(adaptiveStep(-500)).toBe(50);
   });
 });
+
+describe('parseHumanNumber exponents (audit S3-15)', () => {
+  it('reads 1e9 as a billion, not as 1', () => {
+    expect(parseHumanNumber('1e9')).toBe(1e9);
+    expect(parseHumanNumber('1E9')).toBe(1e9);
+    expect(parseHumanNumber('2.5e-3')).toBe(0.0025);
+    expect(parseHumanNumber('-4e+2')).toBe(-400);
+    expect(parseHumanNumber('1e3k')).toBe(1e6);
+  });
+
+  it('refuses a half-typed or overflowing exponent instead of reading its prefix', () => {
+    expect(parseHumanNumber('1e')).toBeNull();
+    expect(parseHumanNumber('1e-')).toBeNull();
+    expect(parseHumanNumber('1e400')).toBeNull();
+    expect(parseHumanNumber('e9')).toBeNull();
+    expect(parseHumanNumber('abc')).toBeNull();
+  });
+
+  it('keeps the existing readings', () => {
+    expect(parseHumanNumber('10k')).toBe(1e4);
+    expect(parseHumanNumber('2 crore')).toBe(2e7);
+    expect(parseHumanNumber('₹25,000')).toBe(25000);
+    expect(parseHumanNumber('7.5%')).toBe(7.5);
+    expect(parseHumanNumber('5m')).toBe(5e6);
+  });
+});

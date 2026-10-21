@@ -13,8 +13,9 @@ export type Coerced<T> = Ok<T> | Err;
 function ok<T>(value: T): Ok<T> {
   return { ok: true, value };
 }
+/** Messages often open with a field label ("your weight must be..."), so the first letter is raised. */
 function fail(message: string): Err {
-  return { ok: false, result: validationError(message) };
+  return { ok: false, result: validationError(message.charAt(0).toUpperCase() + message.slice(1)) };
 }
 
 /** A finite number within [min, max], or a validation error. Blank is treated as missing. */

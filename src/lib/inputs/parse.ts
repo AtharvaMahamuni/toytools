@@ -40,8 +40,9 @@ export function parseHumanNumber(input: unknown): number | null {
   s = s.replace(/,/g, '');
   s = s.replace(/%$/, '').trim();
 
-  // Match: optional sign, number, optional space, optional suffix word.
-  const match = s.match(/^(-?\d*\.?\d+)\s*([a-z]+)?$/);
+  // Match: optional sign, number, optional exponent ("1e9", "2.5e-3"), optional space, optional
+  // suffix word. Without the exponent, "1e9" read as 1 while it was being typed.
+  const match = s.match(/^(-?\d*\.?\d+(?:e[+-]?\d+)?)\s*([a-z]+)?$/);
   if (!match) return null;
 
   const base = Number(match[1]);

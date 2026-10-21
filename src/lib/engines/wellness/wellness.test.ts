@@ -3,7 +3,7 @@
 // and validation paths.
 
 import { describe, expect, it } from 'vitest';
-import { WELLNESS_CALCULATORS, wellnessFields, runWellness } from './registry';
+import { WELLNESS_CALCULATORS, wellnessFields, runWellness, getWellnessCalculator } from './registry';
 import { WELLNESS_EXAMPLES } from './examples';
 import type { InteractiveResult } from '@lib/results/types';
 
@@ -552,6 +552,30 @@ describe('vo2 max calculator', () => {
     expect(res.error).toContain('kilometres');
   });
 
+  it('says a 10 km twelve-minute distance is past a world-record pace, not a metre count', () => {
+    const res = runWellness('vo2-max', { unit: 'km', distance: 10, age: '', resting: '' }, {});
+    expect(res.uiState).toBe('validation-error');
+    expect(res.error).toBe('That distance is more than a world-record pace for twelve minutes. A Cooper test is often near 2.4 km.');
+    const mi = runWellness('vo2-max', { unit: 'mi', distance: 5, age: '', resting: '' }, {});
+    expect(mi.error).toBe('That distance is more than a world-record pace for twelve minutes. A Cooper test is often near 1.5 miles.');
+  });
+
+  it('calls a very short distance too short, and a mile count in yards a units slip', () => {
+    const short = runWellness('vo2-max', { unit: 'km', distance: 0.5, age: '', resting: '' }, {});
+    expect(short.error).toContain('too short to read');
+    expect(short.error).not.toContain('count of metres');
+    const shortMi = runWellness('vo2-max', { unit: 'mi', distance: 0.3, age: '', resting: '' }, {});
+    expect(shortMi.error).toContain('too short to read');
+    const yards = runWellness('vo2-max', { unit: 'mi', distance: 2600, age: '', resting: '' }, {});
+    expect(yards.error).toContain('not a count of yards or metres');
+  });
+
+  it('shows 30 and 60 as the Age and Resting pulse examples, not 0', () => {
+    const def = getWellnessCalculator('vo2-max')!;
+    expect(def.fields.find((f) => f.id === 'age')?.placeholder).toBe('30');
+    expect(def.fields.find((f) => f.id === 'resting')?.placeholder).toBe('60');
+  });
+
   it('quotes the distance and the Tanaka rate the formula actually used', () => {
     const cooper = runWellness('vo2-max', { unit: 'km', distance: 2.45, age: '', resting: '' }, {});
     expect(cooper.hero?.value).toBe('43.5 ml/kg/min');
@@ -564,5 +588,29 @@ describe('vo2 max calculator', () => {
 
   it('asks for one complete method when every field is blank', () => {
     expect(runWellness('vo2-max', { unit: 'km', distance: '', age: '', resting: '' }, {}).uiState).toBe('validation-error');
+  });
+});
+
+describe('body surface area spread sign', () => {
+  it('the sentence and the card carry the same signed spread', () => {
+    for (const [h, w] of [[180, 80], [160, 90], [190, 120]]) {
+      const res = runWellness('body-surface-area', { unit: 'metric', height: h, weight: w }, {});
+      const card = res.metrics.find((c) => c.id === 'spread')!;
+      const text = res.insights!.map((i) => i.text).join(' ');
+      expect(text).toContain(`Mosteller minus Du Bois is ${card.value}.`);
+      expect(card.value).toMatch(/^[+-]?\d/);
+    }
+  });
+});
+
+describe('validation messages start with a capital letter', () => {
+  it('raises the first letter of a label-led message', () => {
+    const zero = runWellness('body-surface-area', { unit: 'metric', height: 170, weight: 0 }, {});
+    expect(zero.uiState).toBe('validation-error');
+    expect(zero.error).toMatch(/^[A-Z]/);
+    for (const id of ['bmi', 'waist-to-hip-ratio', 'body-surface-area', 'vo2-max']) {
+      const res = runWellness(id, { weight: -1, height: -1, waist: 999, hip: -1, distance: 'x', age: 'x' }, {});
+      if (res.error) expect(res.error, id).toMatch(/^[A-Z]/);
+    }
   });
 });

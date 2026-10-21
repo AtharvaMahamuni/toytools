@@ -183,10 +183,31 @@ describe('boot — wiring the wave-speed widget', () => {
     expect(root.querySelector('[data-param-value="frequency"]')!.textContent).toMatch(/1\.00 Hz/);
     expect(root.querySelector('[data-sim-observations]')!.children.length).toBeGreaterThan(0);
     expect(root.querySelector('[data-sim-explanation]')!.textContent!.length).toBeGreaterThan(10);
+    // The live summary is debounced, so it lands once the page settles.
+    expect(root.querySelector('[data-sim-live]')!.textContent).toBe('');
+    await new Promise((r) => setTimeout(r, 450));
     expect(root.querySelector('[data-sim-live]')!.textContent).toMatch(/Wave speed/);
     // Autoplay (not reduced motion) → button offers Pause and scheduled a frame.
     expect(root.querySelector('[data-sim-play]')!.getAttribute('aria-pressed')).toBe('true');
     expect(rafCb).not.toBeNull();
+  });
+
+  it('debounces the live summary: a burst of slider moves is announced once, with the last value', async () => {
+    const root = mountWidget(wave, 'wave-speed-calculator');
+    initSimulations(document);
+    await flush();
+    const live = root.querySelector('[data-sim-live]')!;
+    const writes: string[] = [];
+    new MutationObserver(() => writes.push(live.textContent ?? '')).observe(live, { childList: true, characterData: true, subtree: true });
+    const freq = slider(root, 'frequency');
+    for (const v of ['2', '3', '4']) {
+      freq.value = v;
+      freq.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+    await new Promise((r) => setTimeout(r, 450));
+    expect(writes).toHaveLength(1);
+    expect(writes[0]).toContain(`Wave speed ${measurement(root, 'waveSpeed')}`);
+    expect(measurement(root, 'waveSpeed')).not.toMatch(/^2\.00/);
   });
 
   it('recomputes when a slider moves', async () => {

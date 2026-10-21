@@ -49,6 +49,9 @@ for (const game of GAMES) {
     await expect(cell(page, last - game.columns + 1)).toBeFocused();
     await page.keyboard.press('ArrowLeft');
     await expect(cell(page, last - game.columns + 1)).toBeFocused();
+    // Clamping never leaves two squares, or none, in the Tab order.
+    await expect(page.locator('[data-cell][tabindex="0"]')).toHaveCount(1);
+    await expect(cell(page, last - game.columns + 1)).toHaveAttribute('tabindex', '0');
     await page.keyboard.press('End');
     await expect(cell(page, last)).toHaveAttribute('tabindex', '0');
     await expect(page.locator('[data-cell][tabindex="0"]')).toHaveCount(1);

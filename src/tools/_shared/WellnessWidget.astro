@@ -133,7 +133,9 @@ const craftId = config.craft?.id;
       var raw = el.getAttribute('data-raw');
       if (raw === '' || raw == null) return '';
       var n = parseFloat(raw);
-      return isNaN(n) ? '' : n;
+      // "NaN" is the smart input saying the text is not a number: pass it on so the engine says so.
+      if (isNaN(n)) return raw === 'NaN' ? NaN : '';
+      return n;
     }
 
     function setField(id, value) {

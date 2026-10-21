@@ -159,7 +159,7 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
           data-sim-points-input
           aria-describedby={`${slug}-points-help`}
         ></textarea>
-        <p class="widget-help" id={`${slug}-points-help`} data-sim-points-help aria-live="polite" data-help={sim.pointsEditor.help}>{sim.pointsEditor.help}</p>
+        <p class="widget-help" id={`${slug}-points-help`} data-sim-points-help data-help={sim.pointsEditor.help}>{sim.pointsEditor.help}</p>
       </div>
     )}
   </div>

@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 5,
+  minor: 6,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-10-21',
-  description: 'Linear Regression points can be added, edited and removed from the keyboard, and unitless sliders drop the in units label',
+  description: 'Health errors start with a capital, VO2 and sleep log messages are clearer, and number boxes read 1e9 instead of 1',
 };
 
 export function formatVersion(config: VersionConfig): string {
