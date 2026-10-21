@@ -39,6 +39,17 @@ for (const game of GAMES) {
     for (let i = 0; i < game.rows; i++) await page.keyboard.press('ArrowDown');
     await page.keyboard.press('End');
     await expect(cell(page, last)).toBeFocused();
+    // The bottom row and the right edge clamp: no wrap and no escape off the board.
+    await page.keyboard.press('ArrowDown');
+    await expect(cell(page, last)).toBeFocused();
+    await page.keyboard.press('ArrowRight');
+    await expect(cell(page, last)).toBeFocused();
+    await page.keyboard.press('Home');
+    await page.keyboard.press('ArrowDown');
+    await expect(cell(page, last - game.columns + 1)).toBeFocused();
+    await page.keyboard.press('ArrowLeft');
+    await expect(cell(page, last - game.columns + 1)).toBeFocused();
+    await page.keyboard.press('End');
     await expect(cell(page, last)).toHaveAttribute('tabindex', '0');
     await expect(page.locator('[data-cell][tabindex="0"]')).toHaveCount(1);
     // Tab leaves the board in one step and Shift+Tab comes back to the last square.
@@ -94,4 +105,19 @@ test('quantum: the first tap during a waiting collapse points to the collapse bu
   await page.locator('[data-choice]').first().click();
   await expect(page.locator('[data-choice]')).toHaveCount(0);
   await expect(page.locator('[data-board-note]')).toHaveText('');
+});
+
+test('chess tac toe: a valid pick clears the last refusal note', async ({ page }) => {
+  await ready(page, 'chess-tac-toe');
+  const note = page.locator('[data-board-note]');
+  await page.locator('[data-piece="pawn"]').click();
+  await cell(page, 0).click(); // X pawn
+  await page.locator('[data-piece="pawn"]').click();
+  await cell(page, 0).click(); // O on X: refused, pawn stays picked
+  await expect(note).not.toHaveText('');
+  await page.locator('[data-piece="rook"]').click();
+  await expect(note).toHaveText('');
+  await expect(page.locator('[data-piece="rook"]')).toHaveAttribute('aria-pressed', 'true');
+  await cell(page, 5).click(); // O rook placed
+  await expect(cell(page, 5)).toHaveAccessibleName('Row 2, column 2, O rook');
 });

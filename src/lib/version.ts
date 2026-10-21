@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 4,
+  minor: 5,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-10-21',
-  description: 'Game boards take arrow keys, chess squares name the owner and piece, and the games no longer claim to store data',
+  description: 'Linear Regression points can be added, edited and removed from the keyboard, and unitless sliders drop the in units label',
 };
 
 export function formatVersion(config: VersionConfig): string {

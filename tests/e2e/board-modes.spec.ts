@@ -130,6 +130,8 @@ test('pair mode: with one square left, a single tap places the last mark and can
   }
   await expect(banner(page)).toHaveText('X: tap the last square to finish.');
   await expect(page.locator('[data-cell][data-mark="empty"]')).toHaveCount(1);
+  await expect(cell(page, 8)).toHaveAccessibleName('Row 3, column 3, empty, last square');
+  await expect(page.locator('[data-cell][aria-label*=", last square"]')).toHaveCount(1);
   await cell(page, 8).click();
   await expect(cell(page, 8)).toHaveAttribute('data-mark', 'X');
   await expect(banner(page)).toHaveText('X wins.');

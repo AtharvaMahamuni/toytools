@@ -2,6 +2,22 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.5] - 2026-10-21
+
+### Added
+
+- **Linear Regression Playground points list.** A text list under the controls holds one x, y per line and stays in sync with the canvas. Type a line to add a point, edit a line to move it, delete a line to remove it. The fit, the measurements and the canvas follow as you type. A line that is not two numbers from 0 to 10 is named in the help text, and the last good fit stays.
+
+### Changed
+
+- **Simulation sliders.** A slider with no unit is named by its label alone, for example "Mean", not "Mean in units".
+- **Linear Regression observations.** A fit of three or more points with nothing else to report says its R² and how to refit, instead of the "Press Play" placeholder. This simulation has nothing to play.
+- **Quantum Tic Tac Toe.** With one open square left, that square's label ends in ", last square".
+
+### Fixed
+
+- **Chess Tac Toe.** Picking a hand piece or one of your own pieces clears the note left by a refused move.
+
 ## [alpha-v13.4] - 2026-10-21
 
 ### Changed
