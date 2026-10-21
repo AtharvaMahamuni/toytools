@@ -1,88 +1,7 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-21T15:12:21.966Z",
+  "generatedAt": "2026-10-21T15:31:34.331Z",
   "top": [
-    {
-      "id": "ovulation-calculator",
-      "title": "Ovulation Calculator",
-      "problem": "Cycle length and the previous period start predict the fertile window days in the current month.",
-      "userIntent": "transactional",
-      "workflow": "a date/time → Health Date Calculation → a date/time",
-      "transformation": "Health Date Calculation",
-      "proposedTool": "ovulation-calculator",
-      "proposedEngine": "datetime",
-      "searchQueries": [
-        "ovulation calculator",
-        "fertile window calculator",
-        "period tracker calculator",
-        "when am i ovulating",
-        "conception date calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-21T15:12:21.966Z",
-      "existingSolutions": [
-        "babycenter.com",
-        "clearblue.com",
-        "flo.health"
-      ],
-      "solutionWeaknesses": [
-        "pushes an app install",
-        "requires an account",
-        "sends personal cycle data to a server",
-        "ad heavy"
-      ],
-      "userFailures": [],
-      "signals": [],
-      "relatedProblems": [
-        "cycle length variation",
-        "luteal phase length",
-        "next period date"
-      ],
-      "relatedTools": [
-        "date-difference-calculator",
-        "age-calculator",
-        "cron-expression-parser",
-        "date-format-detector",
-        "pregnancy-due-date-calculator",
-        "sleep-cycle-calculator"
-      ],
-      "relatedGuides": [
-        "date-difference-calculator",
-        "age-calculator",
-        "cron-expression-parser",
-        "date-format-detector",
-        "pregnancy-due-date-calculator",
-        "sleep-cycle-calculator"
-      ],
-      "relatedFaqs": [
-        "date-difference-calculator",
-        "age-calculator",
-        "cron-expression-parser",
-        "date-format-detector",
-        "pregnancy-due-date-calculator",
-        "sleep-cycle-calculator"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.92,
-      "competitionScore": 0.48,
-      "searchDemand": 0.8,
-      "implementationCost": 1,
-      "engineReuse": 1,
-      "seoPotential": 0.92,
-      "topicClusterPotential": 0.5,
-      "commercialPotential": 0.56,
-      "localizationPotential": 0.88,
-      "algorithmicFit": 0.9,
-      "authorityWinnability": 0.1,
-      "confidence": 0.8,
-      "finalScore": 74.6,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true,
-      "craftRisk": true
-    },
     {
       "id": "function-grapher",
       "title": "Function Grapher",
@@ -102,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-21T15:12:21.966Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -175,7 +94,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-21T15:12:21.966Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -248,7 +167,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-21T15:12:21.966Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -314,7 +233,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-21T15:12:21.966Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "ilovepdf.com",
         "smallpdf.com",
@@ -385,7 +304,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-21T15:12:21.966Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "cloudconvert",
         "iloveimg",
@@ -459,7 +378,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-21T15:12:21.966Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "Google Calendar",
         "timeanddate.com",
@@ -534,7 +453,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-21T15:12:21.966Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -599,7 +518,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-21T15:12:21.966Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "drikpanchang.com",
         "local print calendars",
@@ -670,7 +589,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-21T15:12:21.966Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -716,6 +635,70 @@
       "authorityWinnability": 0.3,
       "confidence": 0.8,
       "finalScore": 58.3,
+      "status": "discovered",
+      "gap": "engine-missing",
+      "engineExists": false,
+      "craftRisk": true
+    },
+    {
+      "id": "meal-plan-generator",
+      "title": "Meal Plan Generator",
+      "problem": "I want a week of meals invented for me that hit my macros and leave out foods I dislike.",
+      "userIntent": "transactional",
+      "workflow": "input → Nutrition Authoring → output",
+      "transformation": "Nutrition Authoring",
+      "proposedTool": "meal-plan-generator",
+      "proposedEngine": "meal-planning",
+      "searchQueries": [
+        "meal plan generator",
+        "weekly meal planner",
+        "macro meal plan",
+        "diet plan generator",
+        "meal prep planner"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
+      "existingSolutions": [
+        "eatthismuch.com",
+        "myfitnesspal.com",
+        "chatbots"
+      ],
+      "solutionWeaknesses": [
+        "subscription required",
+        "recipe database is proprietary"
+      ],
+      "userFailures": [],
+      "signals": [],
+      "relatedProblems": [
+        "recipe substitution",
+        "grocery list building",
+        "dietary restrictions"
+      ],
+      "relatedTools": [
+        "macro-calculator"
+      ],
+      "relatedGuides": [
+        "macro-calculator"
+      ],
+      "relatedFaqs": [
+        "macro-calculator"
+      ],
+      "difficulty": "high",
+      "evergreenScore": 0.6,
+      "competitionScore": 0.3,
+      "searchDemand": 0.75,
+      "implementationCost": 0.3,
+      "engineReuse": 0.3,
+      "seoPotential": 0.9,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.55,
+      "localizationPotential": 0.4,
+      "algorithmicFit": 0.22,
+      "authorityWinnability": 0.35,
+      "confidence": 0.64,
+      "finalScore": 45.5,
       "status": "discovered",
       "gap": "engine-missing",
       "engineExists": false,

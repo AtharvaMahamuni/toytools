@@ -181,6 +181,7 @@ export const searchAliases: Record<string, string[]> = {
   // Health and fitness
   'bmi-calculator': ['body mass index'],
   'pregnancy-due-date-calculator': ['naegele rule', 'how many weeks pregnant am i', 'estimated delivery date'],
+  'ovulation-calculator': ['fertile window calculator', 'when am i ovulating', 'conception date calculator'],
   'body-fat-calculator': ['bodyfat percentage'],
   'body-weight-tracker': ['weight log'],
   'heart-rate-zone-calculator': ['max heart rate', 'cardio zones'],

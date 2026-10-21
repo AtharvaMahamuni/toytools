@@ -91,6 +91,7 @@ export const authoredGuideSlugs = [
   'notepad',
   'number-to-words',
   'one-rep-max-calculator',
+  'ovulation-calculator',
   'paragraph-counter',
   'password-generator',
   'percentage-calculator',

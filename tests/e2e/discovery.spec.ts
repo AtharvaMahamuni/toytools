@@ -239,7 +239,9 @@ test.describe('homepage index', () => {
     // ungrouped: a payoff schedule is not a mode of the growth calculators.
     // Image Palette Extractor (alpha-v13.8) is ungrouped too: a photo palette is not
     // a mode of the color converters. 117 + 1 + 1 + 1 = 120 directory links.
-    await expect(directory.locator('.dir-link')).toHaveCount(121);
+    // Pregnancy Due Date Calculator (alpha-v13.9) is ungrouped. Ovulation Calculator
+    // (alpha-v13.10) is ungrouped too: a fertile window is not a mode of the due date page.
+    await expect(directory.locator('.dir-link')).toHaveCount(122);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

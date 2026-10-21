@@ -234,12 +234,13 @@
         "schedule",
         "duration",
         "parse",
+        "fertile-window",
         "due-date",
         "sleep",
         "timezone",
         "timestamp"
       ],
-      "toolCount": 9
+      "toolCount": 10
     },
     "math-lab": {
       "name": "Math Lab Engine",
@@ -2773,6 +2774,27 @@
       "family": "fitness-performance",
       "processorId": "one-rep-max",
       "toolGroup": "body-metrics",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "ovulation-calculator": {
+      "name": "Ovulation Calculator",
+      "dir": "src/tools/health/ovulation-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/ovulation-calculator/",
+      "engine": "datetime",
+      "pattern": "datetime-calculate",
+      "family": "fertile-window",
+      "processorId": "ovulation",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

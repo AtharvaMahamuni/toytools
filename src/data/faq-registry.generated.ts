@@ -91,6 +91,7 @@ import { items as normalizeWhitespaceFaqs } from '@tools/text/normalize-whitespa
 import { items as notepadFaqs } from '@tools/productivity/notepad/faq';
 import { items as numberToWordsFaqs } from '@tools/number/number-to-words/faq';
 import { items as oneRepMaxCalculatorFaqs } from '@tools/health/one-rep-max-calculator/faq';
+import { items as ovulationCalculatorFaqs } from '@tools/health/ovulation-calculator/faq';
 import { items as paragraphCounterFaqs } from '@tools/text/paragraph-counter/faq';
 import { items as passwordGeneratorFaqs } from '@tools/generate/password-generator/faq';
 import { items as percentageCalculatorFaqs } from '@tools/number/percentage-calculator/faq';
@@ -261,6 +262,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'notepad': notepadFaqs,
   'number-to-words': numberToWordsFaqs,
   'one-rep-max-calculator': oneRepMaxCalculatorFaqs,
+  'ovulation-calculator': ovulationCalculatorFaqs,
   'paragraph-counter': paragraphCounterFaqs,
   'password-generator': passwordGeneratorFaqs,
   'percentage-calculator': percentageCalculatorFaqs,

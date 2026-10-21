@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-21T15:12:21.966Z",
+  "generatedAt": "2026-10-21T15:31:34.331Z",
   "clusters": [
     {
       "id": "quadratic-equations",
@@ -886,6 +886,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
+        "ovulation-calculator",
         "pregnancy-due-date-calculator",
         "sleep-cycle-calculator",
         "systemd-timer-converter",
@@ -899,7 +900,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "pregnancy-due-date-calculator",
+        "ovulation-calculator",
         "unix-timestamp-converter"
       ]
     },
@@ -1352,6 +1353,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
+        "ovulation-calculator",
         "pregnancy-due-date-calculator",
         "sleep-cycle-calculator",
         "systemd-timer-converter",
@@ -1365,8 +1367,8 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "pregnancy-due-date-calculator",
-        "sleep-cycle-calculator"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ]
     },
     {
@@ -1428,6 +1430,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
+        "ovulation-calculator",
         "pregnancy-due-date-calculator",
         "sleep-cycle-calculator",
         "systemd-timer-converter",
@@ -1441,40 +1444,8 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "pregnancy-due-date-calculator",
-        "sleep-cycle-calculator"
-      ]
-    },
-    {
-      "id": "health-date-calculation",
-      "transformation": "Health Date Calculation",
-      "engine": "datetime",
-      "members": [
-        "sleep-cycle-calculator",
-        "pregnancy-due-date-calculator",
-        "ovulation-calculator"
-      ],
-      "existingMembers": [
-        "age-calculator",
-        "cron-expression-parser",
-        "date-difference-calculator",
-        "date-format-detector",
-        "pregnancy-due-date-calculator",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
-      ],
-      "size": 3,
-      "meanScore": 76.9,
-      "internalLinks": [
-        "age-calculator",
-        "cron-expression-parser",
-        "date-difference-calculator",
-        "date-format-detector",
-        "move-today-tracker",
-        "pregnancy-due-date-calculator",
-        "sleep-cycle-calculator"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ]
     },
     {
@@ -1501,6 +1472,39 @@
         "ideal-gas-law-calculator",
         "molecular-geometry-calculator",
         "newman-projection-calculator"
+      ]
+    },
+    {
+      "id": "health-date-calculation",
+      "transformation": "Health Date Calculation",
+      "engine": "datetime",
+      "members": [
+        "sleep-cycle-calculator",
+        "pregnancy-due-date-calculator",
+        "ovulation-calculator"
+      ],
+      "existingMembers": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "date-format-detector",
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator",
+        "sleep-cycle-calculator",
+        "systemd-timer-converter",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "size": 3,
+      "meanScore": 76.6,
+      "internalLinks": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "date-format-detector",
+        "move-today-tracker",
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ]
     },
     {
@@ -2035,6 +2039,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
+        "ovulation-calculator",
         "pregnancy-due-date-calculator",
         "sleep-cycle-calculator",
         "systemd-timer-converter",
@@ -2125,6 +2130,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
+        "ovulation-calculator",
         "pregnancy-due-date-calculator",
         "sleep-cycle-calculator",
         "systemd-timer-converter",
@@ -2218,6 +2224,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
+        "ovulation-calculator",
         "pregnancy-due-date-calculator",
         "sleep-cycle-calculator",
         "systemd-timer-converter",
@@ -2231,7 +2238,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "pregnancy-due-date-calculator",
+        "ovulation-calculator",
         "timezone-converter"
       ]
     },
@@ -2305,6 +2312,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
+        "ovulation-calculator",
         "pregnancy-due-date-calculator",
         "sleep-cycle-calculator",
         "systemd-timer-converter",
@@ -2318,8 +2326,8 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "pregnancy-due-date-calculator",
-        "sleep-cycle-calculator"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ]
     },
     {

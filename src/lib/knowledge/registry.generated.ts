@@ -91,6 +91,7 @@ import { knowledge as normalizeWhitespace } from '@tools/text/normalize-whitespa
 import { knowledge as notepad } from '@tools/productivity/notepad/knowledge';
 import { knowledge as numberToWords } from '@tools/number/number-to-words/knowledge';
 import { knowledge as oneRepMaxCalculator } from '@tools/health/one-rep-max-calculator/knowledge';
+import { knowledge as ovulationCalculator } from '@tools/health/ovulation-calculator/knowledge';
 import { knowledge as paragraphCounter } from '@tools/text/paragraph-counter/knowledge';
 import { knowledge as passwordGenerator } from '@tools/generate/password-generator/knowledge';
 import { knowledge as percentageCalculator } from '@tools/number/percentage-calculator/knowledge';
@@ -261,6 +262,7 @@ export const authoredKnowledge: Knowledge[] = [
   notepad,
   numberToWords,
   oneRepMaxCalculator,
+  ovulationCalculator,
   paragraphCounter,
   passwordGenerator,
   percentageCalculator,

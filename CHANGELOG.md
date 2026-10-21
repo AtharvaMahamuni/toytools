@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.10] - 2026-10-21
+
+### Added
+
+- **Ovulation Calculator.** `/tool/health/ovulation-calculator/` finds a fertile window, an ovulation date, and the next period from the last period, the cycle length, and the luteal phase. A luteal phase other than 14 days moves only the ovulation date, and the page says by how many days. A 14 day phase keeps that note hidden. Dates stay on the device.
+
 ## [alpha-v13.9] - 2026-10-21
 
 ### Added

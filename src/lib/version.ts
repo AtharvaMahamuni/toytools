@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 9,
+  minor: 10,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-10-21',
-  description: 'Pregnancy Due Date Calculator for a last period, cycle length, and weeks pregnant',
+  description: 'Ovulation Calculator for a fertile window, luteal phase, and next period',
 };
 
 export function formatVersion(config: VersionConfig): string {

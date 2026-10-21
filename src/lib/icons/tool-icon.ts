@@ -71,6 +71,7 @@ const FAMILY_GLYPH: Record<string, string> = {
   timezone: 'globe',
   sleep: 'moon',
   'due-date': 'dueMark',
+  'fertile-window': 'fertileMark',
   'sleep-log': 'sleepLog',
   parse: 'dateSwap',
   // generate

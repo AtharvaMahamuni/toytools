@@ -74,7 +74,6 @@ newman-projection-calculator,newman-projection-calculator,Newman Projection Calc
 invisible-character-detector,invisible-character-detector,Invisible Character Detector,Invisible Character Detection,text-processor,true,needs-improvement,already-exists,medium,0.41,0.9,0.94,0.7,1,0.76,0,0.88,0.64,74.8
 csv-column-picker,csv-column-picker,CSV Column Picker,CSV Column Selection,csv,true,needs-improvement,already-exists,medium,0.6,0.78,0.8,0.7,1,0.72,0,0.88,0.8,74.7
 crystal-field-splitting-calculator,crystal-field-splitting-calculator,Crystal Field Splitting Calculator,Crystal Field Splitting,chemistry-lab,true,guide-missing,already-exists,medium,0.58,0.94,0.93,0.7,1,0.83,0,0.66,0.64,74.6
-ovulation-calculator,ovulation-calculator,Ovulation Calculator,Health Date Calculation,datetime,true,cluster-missing,recommended,low,0.8,0.48,0.92,1,1,0.92,0.5,0.88,0.8,74.6
 function-grapher,function-grapher,Function Grapher,Function Graphing,math-lab,true,cluster-missing,recommended,high,0.9,0.39,0.97,0.4,1,0.96,0,0.85,0.8,74.5
 molecular-geometry-calculator,molecular-geometry-calculator,Molecular Geometry Calculator,VSEPR Geometry,chemistry-lab,true,guide-missing,already-exists,medium,0.73,0.66,0.95,0.7,1,0.89,0,0.68,0.8,74.5
 ideal-gas-law-calculator,ideal-gas-law-calculator,Ideal Gas Law Simulator,Ideal Gas Law,physics,true,guide-missing,already-exists,medium,0.82,0.6,0.95,0.7,1,0.93,0,0.82,0.8,74.4
@@ -83,6 +82,7 @@ book-tracker,book-tracker,Book Tracker,Local Reading Tracker,productivity,true,n
 css-gradient-generator,css-gradient-generator,Perceptual Gradient Generator,Perceptual Gradient,color,true,needs-improvement,already-exists,medium,0.7,0.38,0.88,0.7,1,0.88,0,0.9,0.8,74.1
 waist-to-hip-ratio-calculator,waist-to-hip-ratio-calculator,Waist to Hip Ratio Calculator,Body Composition Calculation,wellness,true,needs-improvement,already-exists,low,0.52,0.73,0.92,1,1,0.81,0.5,0.95,0.64,73.7
 mortgage-calculator,mortgage-calculator,Mortgage Calculator,Mortgage Amortization,finance,true,needs-improvement,already-exists,medium,0.98,0.4,0.96,0.7,1,0.87,0,0.88,0.8,73.6
+ovulation-calculator,ovulation-calculator,Ovulation Calculator,Health Date Calculation,datetime,true,needs-improvement,already-exists,low,0.8,0.48,0.92,1,1,0.8,0.5,0.88,0.8,73.6
 sleep-hours-tracker,sleep-hours-tracker,Sleep Hours Tracker,Personal Health Logging,tracker,true,needs-improvement,already-exists,low,0.5,0.6,0.88,1,1,0.8,0.25,0.9,0.64,73.5
 date-format-detector,date-format-detector,Date Format Detector,Date Format Disambiguation,datetime,true,needs-improvement,already-exists,medium,0.36,0.9,0.93,0.7,1,0.74,0,0.8,0.64,73.2
 doppler-effect-calculator,doppler-effect-calculator,Doppler Effect Simulator,Doppler Effect,physics,true,guide-missing,already-exists,medium,0.78,0.68,0.94,0.7,1,0.79,0,0.8,0.8,73.1

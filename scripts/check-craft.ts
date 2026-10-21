@@ -235,7 +235,10 @@ const THRESHOLDS = {
   // 2026-10-21: 0.744 (125/168), truncated from 0.744047. Pregnancy Due Date Calculator
   //   ships guardrail craft due-cycle-length. A cycle other than 28 days names how many
   //   days the due date moved. A 28 day cycle keeps that note hidden.
-  coverage: 0.744,
+  // 2026-10-21: 0.745 (126/169), truncated from 0.745562. Ovulation Calculator ships
+  //   guardrail craft luteal-phase-length. A luteal phase other than 14 days names how
+  //   many days ovulation moved. A 14 day phase keeps that note hidden.
+  coverage: 0.745,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

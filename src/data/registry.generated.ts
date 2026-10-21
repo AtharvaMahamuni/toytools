@@ -91,6 +91,7 @@ import { config as normalizeWhitespace } from '@tools/text/normalize-whitespace/
 import { config as notepad } from '@tools/productivity/notepad/config';
 import { config as numberToWords } from '@tools/number/number-to-words/config';
 import { config as oneRepMaxCalculator } from '@tools/health/one-rep-max-calculator/config';
+import { config as ovulationCalculator } from '@tools/health/ovulation-calculator/config';
 import { config as paragraphCounter } from '@tools/text/paragraph-counter/config';
 import { config as passwordGenerator } from '@tools/generate/password-generator/config';
 import { config as percentageCalculator } from '@tools/number/percentage-calculator/config';
@@ -261,6 +262,7 @@ export const toolConfigs: ToolConfig[] = [
   notepad,
   numberToWords,
   oneRepMaxCalculator,
+  ovulationCalculator,
   paragraphCounter,
   passwordGenerator,
   percentageCalculator,

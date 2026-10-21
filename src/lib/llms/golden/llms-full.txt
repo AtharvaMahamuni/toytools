@@ -723,6 +723,13 @@ Use for: Your one rep max from a set you lifted, across four formulas.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
 
+## Ovulation Calculator
+
+URL: https://toytoolsapp.com/tool/health/ovulation-calculator/
+Use for: Fertile window, ovulation date, and the next period.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Confirm ovulation with a test, predict a pregnancy, keep a multi-cycle log, or upload these dates.
+
 ## Pregnancy Due Date Calculator
 
 URL: https://toytoolsapp.com/tool/health/pregnancy-due-date-calculator/

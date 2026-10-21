@@ -127,6 +127,7 @@ export const GLYPHS: Record<string, string> = {
   clock: S + '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.2l3.4 2"/>' + E,
   calendarRange: S + '<rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/><path d="M7.5 14h4M12.5 17h4"/>' + E,
   dueMark: S + '<rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/><circle cx="12" cy="15" r="2.2" fill="#fff" stroke="none"/>' + E,
+  fertileMark: S + '<circle cx="12" cy="12" r="7.5"/><circle cx="16.2" cy="8.2" r="2.2" fill="#fff" stroke="none"/>' + E,
   cron: S + '<circle cx="12" cy="12" r="7"/><path d="M12 8.5v3.5l2.2 1.4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2"/>' + E,
 
   // ── generate ──────────────────────────────────────────────────────────

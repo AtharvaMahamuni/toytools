@@ -255,8 +255,10 @@ describe('buildClientIndex', () => {
     // 13_067 raw. Terms stay in search-terms.json. Catalog growth, not alias bloat.
     // 2026-10-21: 13_100 → 13_200. Pregnancy Due Date Calculator is one name-catalog entry.
     // Measured 13_153 raw. Terms stay in search-terms.json. Catalog growth, not alias bloat.
+    // 2026-10-21: 13_200 → 13_250. Ovulation Calculator is one more name-catalog entry.
+    // Measured 13_221 raw. Terms stay in search-terms.json. Catalog growth, not alias bloat.
     const wire = Buffer.byteLength(JSON.stringify(buildCatalogWire()), 'utf8');
-    expect(wire).toBeLessThan(13_200);
+    expect(wire).toBeLessThan(13_250);
     expect(JSON.stringify(buildCatalogWire())).not.toContain('"k"');
   });
 

@@ -1,14 +1,13 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-10-21T15:12:21.966Z
+Generated: 2026-10-21T15:31:34.331Z
 
-Discovered 106 signals -> 106 unique opportunities (9 recommended, 95 already shipped). Top score 85.9. Missing-engine candidates: 0.
+Discovered 106 signals -> 106 unique opportunities (8 recommended, 96 already shipped). Top score 85.9. Missing-engine candidates: 0.
 
 ## Immediate builds (top tier)
 _None above the immediate bar._
 
 ## Quick wins (low effort, recommended)
-- **Ovulation Calculator** (`ovulation-calculator`) - score 74.6, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Blood Pressure Tracker** (`blood-pressure-tracker`) - score 74.3, reuses tracker. Weak / incomplete incumbents; Reuses the existing tracker engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Net Worth Calculator** (`net-worth-calculator`) - score 66.6, new budget engine. High search demand; Weak / incomplete incumbents; Implies a new budget engine; Low implementation cost; Creates 2 internal links; CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 
@@ -94,8 +93,8 @@ _None above the immediate bar._
 - **IPv4 Representation** (network) - 1 tool(s), mean score 77.1.
 - **Normal Distribution** (math-lab) - 1 tool(s), mean score 77.1.
 - **Date Difference** (datetime) - 1 tool(s), mean score 77.
-- **Health Date Calculation** (datetime) - 3 tool(s), mean score 76.9.
 - **Chemical Kinetics** (chemistry-lab) - 1 tool(s), mean score 76.7.
+- **Health Date Calculation** (datetime) - 3 tool(s), mean score 76.6.
 - **Linear Regression** (math-lab) - 1 tool(s), mean score 76.3.
 - **Checksum (CRC32)** (hashing) - 1 tool(s), mean score 76.1.
 - **Simple Harmonic Motion** (physics) - 1 tool(s), mean score 76.1.
@@ -175,8 +174,7 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 - newman-projection-calculator (chemistry-lab)
 - crystal-field-splitting-calculator (chemistry-lab)
 
-### At risk - 7 buildable opportunit(ies) that would ship craftless
-- ovulation-calculator (score 74.6, datetime)
+### At risk - 6 buildable opportunit(ies) that would ship craftless
 - function-grapher (score 74.5, math-lab)
 - blood-pressure-tracker (score 74.3, tracker)
 - net-worth-calculator (score 66.6, budget)
@@ -189,7 +187,7 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 - Hot-Seat Board Game: 4 signal(s), mean demand 0.57, mean score 79.5.
 - Fitness Performance Calculation: 3 signal(s), mean demand 0.78, mean score 81.2.
 - Energy And Nutrition Planning: 3 signal(s), mean demand 0.77, mean score 78.8.
-- Health Date Calculation: 3 signal(s), mean demand 0.82, mean score 76.9.
+- Health Date Calculation: 3 signal(s), mean demand 0.82, mean score 76.6.
 - Body Composition Calculation: 3 signal(s), mean demand 0.52, mean score 74.4.
 - Personal Health Logging: 2 signal(s), mean demand 0.56, mean score 73.9.
 - Quadratic Equations: 1 signal(s), mean demand 0.94, mean score 85.4.
@@ -198,4 +196,4 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 
 ---
 
-_Inputs fingerprint: `b0ca05f6`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `7fa57797`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
