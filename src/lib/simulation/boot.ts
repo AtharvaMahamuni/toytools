@@ -162,12 +162,24 @@ function wire(root: HTMLElement, def: SimulationDef): void {
   }
 
   /** One polite screen-reader summary — updated on user actions only, never at frame rate. */
+  // Debounced: typing in the points list or dragging a slider fires many refreshes, and a screen
+  // reader should hear the settled numbers once, not every keystroke. A pending message (a points
+  // list error) is said in place of the summary.
+  const LIVE_DELAY_MS = 400;
+  let liveTimer = 0;
+  let liveMessage = '';
   function updateLiveSummary(): void {
     if (!liveEl) return;
-    const parts = def.measurements
-      .filter((m) => !m.hidden)
-      .map((m) => `${m.label} ${formatWithUnit(m.compute(state), m.unit, m.decimals ?? 2)}`);
-    liveEl.textContent = parts.join(', ') + '.';
+    if (liveTimer) clearTimeout(liveTimer);
+    liveTimer = window.setTimeout(() => {
+      liveTimer = 0;
+      const parts = def.measurements
+        .filter((m) => !m.hidden)
+        .map((m) => `${m.label} ${formatWithUnit(m.compute(state), m.unit, m.decimals ?? 2)}`);
+      const text = liveMessage || parts.join(', ') + '.';
+      liveMessage = '';
+      if (liveEl.textContent !== text) liveEl.textContent = text;
+    }, LIVE_DELAY_MS);
   }
 
   function persist(): void {
@@ -297,9 +309,18 @@ function wire(root: HTMLElement, def: SimulationDef): void {
     const editor = def.pointsEditor;
     pointsInput.addEventListener('input', () => {
       const error = editor.apply(state, pointsInput.value);
-      if (pointsHelp) pointsHelp.textContent = error ?? pointsHelp.getAttribute('data-help') ?? '';
+      // The help line is not a live region, so restoring it is silent. An error is spoken once,
+      // through the debounced summary region.
+      const helpText = error ?? pointsHelp?.getAttribute('data-help') ?? '';
+      if (pointsHelp && pointsHelp.textContent !== helpText) pointsHelp.textContent = helpText;
       pointsInput.setAttribute('aria-invalid', String(!!error));
-      if (!error) refreshAll();
+      if (error) {
+        liveMessage = error;
+        updateLiveSummary();
+      } else {
+        liveMessage = '';
+        refreshAll();
+      }
     });
     // Leaving the list tidies it to the points the canvas shows.
     pointsInput.addEventListener('blur', () => {

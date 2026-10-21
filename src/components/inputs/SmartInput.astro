@@ -135,7 +135,7 @@ function compactCurrency(value: number, code: string): string {
         enterkeyhint={enterKeyHint}
         autocomplete="off"
         value={field.default !== 0 ? initialDisplay : ''}
-        placeholder={String(field.default ?? '')}
+        placeholder={field.placeholder ?? String(field.default ?? '')}
         data-field-id={field.id}
         data-field-type={field.type}
         data-required={field.optional ? 'false' : 'true'}

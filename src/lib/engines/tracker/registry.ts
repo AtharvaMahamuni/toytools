@@ -55,6 +55,10 @@ export interface TrackerDef {
   goalLabel?: string;
   /** Optional display-unit choices (cosmetic label only; values are stored as entered). */
   units?: TrackerUnitOption[];
+  /** Accessible name and visible label of the typed-value input. Defaults to "Log today's <unit>". */
+  inputLabel?: string;
+  /** Toast for a typed 0 or negative value. Defaults to "Enter a value above 0." */
+  minMessage?: string;
   /** Refuse a typed value above this with a toast. Omit to keep the previous unbounded log. */
   max?: number;
   /** Placeholder for the value input. Omit to keep the historical "e.g. 70". */
@@ -115,6 +119,8 @@ export const TRACKER_DEFS: Record<string, TrackerDef> = {
     goalLabel: 'Goal (hours)',
     max: 16,
     placeholder: 'e.g. 7.5',
+    inputLabel: 'Hours slept today',
+    minMessage: 'Enter hours above 0.',
   },
 };
 

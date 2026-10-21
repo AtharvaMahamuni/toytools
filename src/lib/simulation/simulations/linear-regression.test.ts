@@ -245,6 +245,10 @@ describe('linear regression points editor', () => {
     expect(parsePoints('1, 11')).toEqual({ ok: false, error: 'Line 1: x and y must each be from 0 to 10.' });
     expect(parsePoints('-1, 1')).toEqual({ ok: false, error: 'Line 1: x and y must each be from 0 to 10.' });
     expect(parsePoints('0, 0\n10, 10').ok).toBe(true);
+    expect(parsePoints('0x10, 1')).toEqual({ ok: false, error: 'Line 1 needs two numbers, x and y, like 3, 4.' });
+    expect(parsePoints('1, 1e1')).toEqual({ ok: false, error: 'Line 1 needs two numbers, x and y, like 3, 4.' });
+    expect(parsePoints('1, Infinity').ok).toBe(false);
+    expect(parsePoints('.5, 3.\n+1, 2')).toEqual({ ok: true, points: [[0.5, 3], [1, 2]] });
   });
 
   it('refuses a ninth point', () => {

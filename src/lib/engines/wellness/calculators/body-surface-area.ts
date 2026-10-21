@@ -104,7 +104,7 @@ export const bodySurfaceAreaCalculator: WellnessCalculator = {
       hero,
       metrics,
       insights: [
-        insight(`Mosteller is ${area(mosteller)} and Du Bois is ${area(dubois)}. The spread is ${Math.abs(spread).toFixed(3)} m².`),
+        insight(`Mosteller is ${area(mosteller)} and Du Bois is ${area(dubois)}. Mosteller minus Du Bois is ${signedSpread(spread)}.`),
         insight(
           'Both formulas estimate surface area from height and weight. Neither figure is a chemotherapy dose, a cardiac index, or a paediatric dose.',
           'caution',

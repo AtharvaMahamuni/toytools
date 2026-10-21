@@ -53,7 +53,7 @@ const craftId = config.craft?.id;
         </div>
       ) : (
         <div class="tracker-actions tracker-actions--value">
-          <label class="tracker-input-label" for={`${slug}-input`}>Log today's {def.unit}</label>
+          <label class="tracker-input-label" for={`${slug}-input`}>{def.inputLabel ?? `Log today's ${def.unit}`}</label>
           <div class="tracker-input-row">
             <input
               id={`${slug}-input`}
@@ -305,7 +305,12 @@ const craftId = config.craft?.id;
     if (logBtn && inputEl) {
       var submit = function () {
         var v = parseFloat(inputEl.value);
-        if (!isFinite(v) || !(v > 0)) return;
+        if (!isFinite(v)) return;
+        if (!(v > 0)) {
+          // A typed 0 or negative is refused out loud, like the too-high case below.
+          if (window.ToyTools) ToyTools.toast(def.minMessage || 'Enter a value above 0.');
+          return;
+        }
         if (typeof def.max === 'number' && v > def.max) {
           if (window.ToyTools) ToyTools.toast(def.max + ' ' + def.unit + ' is the most this log accepts.');
           return;

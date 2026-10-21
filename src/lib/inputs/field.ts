@@ -55,6 +55,8 @@ export interface SmartFieldDef {
   help?: string;
   /** Blank is allowed and coerces to 0 / skipped. */
   optional?: boolean;
+  /** Example shown in an empty number box. Defaults to the default value. */
+  placeholder?: string;
   /** Per-field quick-pick chips. */
   presets?: SmartFieldPreset[];
   /** When type is text, render a textarea so pastes with new lines stay intact. */

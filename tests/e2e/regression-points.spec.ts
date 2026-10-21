@@ -26,6 +26,11 @@ test('add, edit and remove points with the keyboard, and the fit updates', async
   await expect(n).toHaveText('3');
   await expect(slope).toHaveText('1.00');
   await expect(r2).toHaveText('1.000');
+  // The screen-reader summary settles on the new fit.
+  const live = page.locator('[data-sim-live]');
+  await expect(live).toContainText('Points 3');
+  await expect(live).toContainText('Slope 1.00');
+  await expect(live).toContainText('R² 1.000');
 
   // Add a point off the line: the fit loosens.
   await page.keyboard.press('ControlOrMeta+End');
@@ -43,6 +48,8 @@ test('add, edit and remove points with the keyboard, and the fit updates', async
   await expect(help).toHaveText('Line 4 needs two numbers, x and y, like 3, 4.');
   await expect(list).toHaveAttribute('aria-invalid', 'true');
   await expect(n).toHaveText('4');
+  await expect(live).toHaveText('Line 4 needs two numbers, x and y, like 3, 4.');
+  await expect(help).not.toHaveAttribute('aria-live', /./);
   await page.keyboard.press('Backspace');
   await expect(list).toHaveAttribute('aria-invalid', 'false');
   await expect(help).toContainText('Up to 8 points');
@@ -53,6 +60,7 @@ test('add, edit and remove points with the keyboard, and the fit updates', async
   await page.keyboard.press('Backspace');
   await expect(n).toHaveText('3');
   await expect(slope).toHaveText('1.00');
+  await expect(live).toContainText('Points 3');
 });
 
 test('a preset rewrites the list, and observations never show the Play placeholder', async ({ page }) => {

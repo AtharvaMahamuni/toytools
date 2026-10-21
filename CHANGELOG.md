@@ -2,6 +2,21 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.6] - 2026-10-21
+
+### Changed
+
+- **Body Surface Area.** The sentence under the cards gives the same signed spread as the card, for example "Mosteller minus Du Bois is +0.005 m²."
+- **Health error messages.** Every health calculator error starts with a capital letter, for example "Your weight must be greater than zero."
+- **VO2 Max.** A distance between 6 and 100 km (or the same in miles) says it is more than a world-record pace for twelve minutes. A metre count typed as kilometres still says so, and a very short distance says it is too short to read. Age and Resting pulse show 30 and 60 as examples instead of 0.
+- **Sleep Hours Tracker.** The input is named "Hours slept today". Logging 0 or a negative number shows "Enter hours above 0." instead of doing nothing. The other typed-value trackers say "Enter a value above 0."
+- **Simulation screen-reader summary.** The live summary waits until typing or dragging settles, then speaks once. The points list help line is no longer a live region, so it is not read again after an error clears.
+
+### Fixed
+
+- **Number boxes.** "1e9" reads as a billion instead of 1. Text that is not a number, such as "abc" or a half-typed "1e", now gives "... must be a number." instead of keeping the last result. This applies to every health, finance, math, date and network tool that uses the shared number box.
+- **Linear Regression points list.** "0x10" and "1e1" are refused. Only plain decimals are read.
+
 ## [alpha-v13.5] - 2026-10-21
 
 ### Added

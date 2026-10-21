@@ -88,15 +88,18 @@ function enhance(field: HTMLInputElement): void {
       return;
     }
     const parsed = parseHumanNumber(field.value);
-    if (parsed !== null) {
-      field.dataset.raw = String(parsed);
-      field.dispatchEvent(new Event('change', { bubbles: true }));
-    }
+    // Text that is not a number ("abc", a half-typed "1e") marks the field invalid instead of
+    // keeping the last good value, so the result never shows a number the box no longer says.
+    // Widgets read data-raw "NaN" as NaN and the engine answers "... must be a number."
+    field.dataset.raw = parsed !== null ? String(parsed) : 'NaN';
+    field.dispatchEvent(new Event('change', { bubbles: true }));
   });
 
   // On blur: normalise the display (grouping / magnitude expansion).
   field.addEventListener('blur', () => {
     if (field.value.trim() === '') return;
+    // Leave unreadable text as typed: reformatting it would swap in a number nobody entered.
+    if (parseHumanNumber(field.value) === null) return;
     commit(field, rawOf(field), true, false);
   });
 

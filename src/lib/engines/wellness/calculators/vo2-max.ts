@@ -61,6 +61,7 @@ export const vo2MaxCalculator: WellnessCalculator = {
       min: 0,
       step: 1,
       optional: true,
+      placeholder: '30',
       help: 'Years. Used only with a resting pulse. Leave blank to skip that estimate.',
     },
     {
@@ -71,6 +72,7 @@ export const vo2MaxCalculator: WellnessCalculator = {
       min: 0,
       step: 1,
       optional: true,
+      placeholder: '60',
       help: 'Beats per minute, at rest. Not a unit of distance.',
     },
   ],
@@ -100,11 +102,27 @@ export const vo2MaxCalculator: WellnessCalculator = {
     let cooper: number | null = null;
     if (hasDistance) {
       const km = distanceToKm(unit.value, distance.value);
-      if (km < COOPER_MIN_KM || km > COOPER_MAX_KM) {
+      if (km >= 100) {
+        // 2400 in the km box is metres typed in the wrong unit.
         return validationError(
           isKm
             ? 'Distance is in kilometres. A twelve-minute Cooper test is often near 2.4 km, not a count of metres.'
-            : 'Distance is in miles. A twelve-minute Cooper test is often near 1.5 miles.',
+            : 'Distance is in miles. A twelve-minute Cooper test is often near 1.5 miles, not a count of yards or metres.',
+        );
+      }
+      if (km > COOPER_MAX_KM) {
+        // Between 6 and 100 km is a pace problem, not a units one: it beats the world record.
+        return validationError(
+          isKm
+            ? 'That distance is more than a world-record pace for twelve minutes. A Cooper test is often near 2.4 km.'
+            : 'That distance is more than a world-record pace for twelve minutes. A Cooper test is often near 1.5 miles.',
+        );
+      }
+      if (km < COOPER_MIN_KM) {
+        return validationError(
+          isKm
+            ? 'Distance is in kilometres. A twelve-minute Cooper test is often near 2.4 km, so a small number like 0.5 is too short to read.'
+            : 'Distance is in miles. A twelve-minute Cooper test is often near 1.5 miles, so a small number like 0.3 is too short to read.',
         );
       }
       cooper = cooperVo2(km * 1000);
