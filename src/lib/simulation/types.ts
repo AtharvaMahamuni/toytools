@@ -143,6 +143,13 @@ export interface PointerControl {
   isHolding?(s: SimState): boolean;
 }
 
+export interface PointsEditor {
+  label: string;
+  help: string;
+  format(s: SimState): string;
+  apply(s: SimState, text: string): string | null;
+}
+
 export interface SimulationDef {
   /** Must equal the module filename and the tool's processorId. */
   id: string;
@@ -165,6 +172,12 @@ export interface SimulationDef {
   graph?: GraphDef;
   /** Optional direct-manipulation on the canvas (drag the wave/bob/block). */
   pointer?: PointerControl;
+  /**
+   * Optional keyboard twin of the canvas points: a text list, one "x, y" per line, kept in sync
+   * with what the pointer does. format() writes the list; apply() reads it back and returns an
+   * error sentence, or null after it has set state.vars.
+   */
+  pointsEditor?: PointsEditor;
   /** Ordered rules; each returns a sentence for the current state or null to stay silent. */
   observations: ((s: SimState) => string | null)[];
   /** A short contextual paragraph explaining what the current state shows. */

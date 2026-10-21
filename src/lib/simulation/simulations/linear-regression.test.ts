@@ -11,6 +11,11 @@ import linearRegression, {
   pointCount,
   showsLine,
   worldFromPointer,
+  parsePoints,
+  formatPoints,
+  setPoints,
+  steadyObservation,
+  MAX_POINTS,
 } from './linear-regression';
 
 function stateFor(example: number): SimState {
@@ -224,5 +229,56 @@ describe('linear regression model', () => {
     expect(text).toContain('n = 5');
     expect(text).toContain('y = 0.91x + 1.11');
     expect(text).toContain('R² is 0.880');
+  });
+});
+
+describe('linear regression points editor', () => {
+  it('reads one x, y per line, with commas, spaces or semicolons, and skips blank lines', () => {
+    expect(parsePoints('1, 2\n\n3 4\n5;6\n')).toEqual({ ok: true, points: [[1, 2], [3, 4], [5, 6]] });
+    expect(parsePoints('')).toEqual({ ok: true, points: [] });
+  });
+
+  it('names the line that is not two numbers, or is off the board', () => {
+    expect(parsePoints('1, 2\n3')).toEqual({ ok: false, error: 'Line 2 needs two numbers, x and y, like 3, 4.' });
+    expect(parsePoints('a, 2')).toEqual({ ok: false, error: 'Line 1 needs two numbers, x and y, like 3, 4.' });
+    expect(parsePoints('1, 2, 3')).toEqual({ ok: false, error: 'Line 1 needs two numbers, x and y, like 3, 4.' });
+    expect(parsePoints('1, 11')).toEqual({ ok: false, error: 'Line 1: x and y must each be from 0 to 10.' });
+    expect(parsePoints('-1, 1')).toEqual({ ok: false, error: 'Line 1: x and y must each be from 0 to 10.' });
+    expect(parsePoints('0, 0\n10, 10').ok).toBe(true);
+  });
+
+  it('refuses a ninth point', () => {
+    const nine = Array.from({ length: MAX_POINTS + 1 }, (_, i) => `${i}, ${i}`).join('\n');
+    expect(parsePoints(nine)).toEqual({ ok: false, error: 'Up to 8 points. Remove a line.' });
+  });
+
+  it('formats to two decimals at most and round-trips through the model', () => {
+    expect(formatPoints([[1, 2.2], [3.456, 4]])).toBe('1, 2.2\n3.46, 4');
+    const s = stateFor(0);
+    expect(linearRegression.pointsEditor!.format(s)).toBe('1, 2.2\n2, 2.8\n3, 4.1\n4, 3.9\n5, 6.2');
+  });
+
+  it('apply sets the points, drops stale slots, and refits', () => {
+    const s = stateFor(0);
+    expect(linearRegression.pointsEditor!.apply(s, '1, 1\n2, 2\n3, 3')).toBeNull();
+    expect(pointCount(s)).toBe(3);
+    expect(s.vars.x3).toBeUndefined();
+    expect(fitOf(s).slope).toBeCloseTo(1, 6);
+    expect(fitOf(s).r2).toBeCloseTo(1, 6);
+    expect(linearRegression.pointsEditor!.apply(s, '1, 1\nx')).toBe('Line 2 needs two numbers, x and y, like 3, 4.');
+    expect(pointCount(s)).toBe(3);
+    setPoints(s, []);
+    expect(pointCount(s)).toBe(0);
+    expect(s.vars.grab).toBe(-1);
+  });
+
+  it('speaks a steady observation only when no other rule does', () => {
+    const s = stateFor(0);
+    expect(steadyObservation(s)).toBe('With 5 points, R² is 0.880. Move a point, or edit the points list, and the line refits.');
+    expect(steadyObservation(stateFor(2))).toBeNull();
+    setPoints(s, [[1, 1], [2, 2]]);
+    expect(steadyObservation(s)).toBeNull();
+    setPoints(s, [[3, 1], [3, 2], [3, 4]]);
+    expect(steadyObservation(s)).toBeNull();
   });
 });

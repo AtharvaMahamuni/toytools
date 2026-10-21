@@ -185,9 +185,64 @@ export function outlierObservation(s: SimState): string | null {
   return `Point ${hit.index + 1} is an outlier: its absolute residual is ${abs.toFixed(2)}, at least twice the next residual at a different x and at least 1.5.`;
 }
 
+/**
+ * Said when no other rule speaks, so a fit with three or more points never leaves the panel on
+ * the shared "Press Play" placeholder: this simulation has nothing to play.
+ */
+export function steadyObservation(s: SimState): string | null {
+  const n = pointCount(s);
+  if (n < 3 || fitOf(s).vertical || outlierObservation(s)) return null;
+  return `With ${n} points, R² is ${fitOf(s).r2.toFixed(3)}. Move a point, or edit the points list, and the line refits.`;
+}
+
 export function formatEquation(slope: number, intercept: number): string {
   const sign = intercept < 0 ? '-' : '+';
   return `y = ${slope.toFixed(2)}x ${sign} ${Math.abs(intercept).toFixed(2)}`;
+}
+
+export type PointsParse = { ok: true; points: [number, number][] } | { ok: false; error: string };
+
+/** One "x, y" (or "x y") per line. Blank lines are skipped. Every value must sit in 0..WORLD. */
+export function parsePoints(text: string): PointsParse {
+  const points: [number, number][] = [];
+  const lines = text.split(/\r?\n/);
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]!.trim();
+    if (!line) continue;
+    const parts = line.split(/[\s,;]+/).filter(Boolean);
+    const nums = parts.map(Number);
+    if (parts.length !== 2 || nums.some((v) => !Number.isFinite(v))) {
+      return { ok: false, error: `Line ${i + 1} needs two numbers, x and y, like 3, 4.` };
+    }
+    if (nums.some((v) => v < 0 || v > WORLD)) {
+      return { ok: false, error: `Line ${i + 1}: x and y must each be from 0 to ${WORLD}.` };
+    }
+    points.push([nums[0]!, nums[1]!]);
+  }
+  if (points.length > MAX_POINTS) return { ok: false, error: `Up to ${MAX_POINTS} points. Remove a line.` };
+  return { ok: true, points };
+}
+
+function trim2(v: number): string {
+  return String(Math.round(v * 100) / 100);
+}
+
+export function formatPoints(pts: readonly (readonly [number, number])[]): string {
+  return pts.map(([x, y]) => `${trim2(x)}, ${trim2(y)}`).join('\n');
+}
+
+/** Writes the points into vars (n, x0, y0 ...) and drops any stale higher slots. */
+export function setPoints(s: SimState, pts: readonly (readonly [number, number])[]): void {
+  for (let i = 0; i < MAX_POINTS; i++) {
+    delete s.vars[`x${i}`];
+    delete s.vars[`y${i}`];
+  }
+  pts.forEach(([x, y], i) => {
+    s.vars[`x${i}`] = x;
+    s.vars[`y${i}`] = y;
+  });
+  s.vars.n = pts.length;
+  s.vars.grab = -1;
 }
 
 function clampWorld(v: number): number {
@@ -266,6 +321,7 @@ const linearRegression: SimulationDef = {
         : null,
     (s) => verticalMessage(s),
     outlierObservation,
+    steadyObservation,
   ],
   pointer: {
     hint: 'Tap to add a point. Drag a point to move it.',
@@ -297,6 +353,17 @@ const linearRegression: SimulationDef = {
       } else {
         s.vars.grab = -1;
       }
+      return null;
+    },
+  },
+  pointsEditor: {
+    label: 'Points, one x, y per line',
+    help: `Up to ${MAX_POINTS} points, each value from 0 to ${WORLD}. Edit a line to move a point, add a line to add one, delete a line to remove it.`,
+    format: (s) => formatPoints(pointsOf(s)),
+    apply(s, text) {
+      const parsed = parsePoints(text);
+      if (!parsed.ok) return parsed.error;
+      setPoints(s, parsed.points);
       return null;
     },
   },

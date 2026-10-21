@@ -319,6 +319,9 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
         ''
       );
       paintLinks(view.links || []);
+      // Quantum: with one open square left a single tap marks it, so its label says so.
+      var openCells = view.cells.filter(function (c) { return !c.mark; });
+      var lastOpen = inputMode === 'pair' && view.status === 'playing' && openCells.length === 1 ? openCells[0].index : -1;
       view.cells.forEach(function (cell) {
         var button = root.querySelector('[data-cell="' + cell.index + '"]');
         if (!button) return;
@@ -334,7 +337,7 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
         var letter = button.querySelector('.mark-letter');
         var text = cell.letter || '';
         if (letter) letter.textContent = text;
-        var name = 'Row ' + (Math.floor(cell.index / columns) + 1) + ', column ' + ((cell.index % columns) + 1) + ', ' + (cell.name ? cell.mark + ' ' + cell.name : text || 'empty') + (cell.win ? ', winning line' : '') + (selected ? ', selected' : '');
+        var name = 'Row ' + (Math.floor(cell.index / columns) + 1) + ', column ' + ((cell.index % columns) + 1) + ', ' + (cell.name ? cell.mark + ' ' + cell.name : text || 'empty') + (cell.win ? ', winning line' : '') + (cell.index === lastOpen ? ', last square' : '') + (selected ? ', selected' : '');
         if (cell.ghost) name = 'Column ' + ((cell.index % columns) + 1) + ', preview';
         button.setAttribute('aria-label', name);
       });
@@ -449,6 +452,8 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
           var id = piece.getAttribute('data-piece') || '';
           picked = picked === id ? '' : id;
           fromIndex = -1;
+          // A valid pick answers the last refusal, so its note goes.
+          lastReason = '';
           paint(api.view(state), lastReason);
           return;
         }
@@ -479,6 +484,7 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
               return;
             }
             fromIndex = index;
+            lastReason = '';
             paint(api.view(state), lastReason);
             return;
           } else if (fromIndex === index) {

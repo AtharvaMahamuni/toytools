@@ -198,7 +198,18 @@ function wire(root: HTMLElement, def: SimulationDef): void {
     playBtn.textContent = running ? 'Pause' : 'Play';
   }
 
+  // ── Points editor: the keyboard twin of the canvas points (Linear Regression) ────────────
+  const pointsInput = root.querySelector<HTMLTextAreaElement>('[data-sim-points-input]');
+  const pointsHelp = root.querySelector<HTMLElement>('[data-sim-points-help]');
+  function syncPointsText(): void {
+    // Never rewrite the list while it is being typed in: the caret would jump.
+    if (!pointsInput || !def.pointsEditor || document.activeElement === pointsInput) return;
+    const text = def.pointsEditor.format(state);
+    if (pointsInput.value !== text) pointsInput.value = text;
+  }
+
   function refreshAll(): void {
+    syncPointsText();
     render();
     updateReadouts();
     updateNarrative();
@@ -279,6 +290,21 @@ function wire(root: HTMLElement, def: SimulationDef): void {
       }
       for (const pid of Object.keys(values)) setSliderTo(pid, values[pid]);
       onParamsChanged();
+    });
+  }
+
+  if (pointsInput && def.pointsEditor) {
+    const editor = def.pointsEditor;
+    pointsInput.addEventListener('input', () => {
+      const error = editor.apply(state, pointsInput.value);
+      if (pointsHelp) pointsHelp.textContent = error ?? pointsHelp.getAttribute('data-help') ?? '';
+      pointsInput.setAttribute('aria-invalid', String(!!error));
+      if (!error) refreshAll();
+    });
+    // Leaving the list tidies it to the points the canvas shows.
+    pointsInput.addEventListener('blur', () => {
+      if (pointsInput.getAttribute('aria-invalid') === 'true') return;
+      syncPointsText();
     });
   }
 

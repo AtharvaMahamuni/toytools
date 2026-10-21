@@ -130,7 +130,7 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
             max={p.max}
             step={p.step}
             value={p.default}
-            aria-label={`${p.label} in ${p.unit || 'units'}`}
+            aria-label={p.unit ? `${p.label} in ${p.unit}` : p.label}
           />
         </div>
       ))}
@@ -145,6 +145,21 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
             data-values={JSON.stringify(preset.values)}
           >{preset.label}</button>
         ))}
+      </div>
+    )}
+    {sim.pointsEditor && (
+      <div class="phys-control" data-sim-points>
+        <label class="widget-label" for={`${slug}-points`}>{sim.pointsEditor.label}</label>
+        <textarea
+          id={`${slug}-points`}
+          class="widget-input"
+          rows="5"
+          spellcheck="false"
+          autocomplete="off"
+          data-sim-points-input
+          aria-describedby={`${slug}-points-help`}
+        ></textarea>
+        <p class="widget-help" id={`${slug}-points-help`} data-sim-points-help aria-live="polite" data-help={sim.pointsEditor.help}>{sim.pointsEditor.help}</p>
       </div>
     )}
   </div>

@@ -254,7 +254,7 @@ test.describe('molecular geometry simulator', () => {
     await page.getByRole('button', { name: 'Pause' }).click();
     await page.getByRole('button', { name: 'Water, bent' }).click();
 
-    const lone = page.getByLabel('Lone pairs (E) in units');
+    const lone = page.getByLabel('Lone pairs (E)', { exact: true });
     await lone.fill('0');
     await lone.dispatchEvent('input');
     await expect(page.locator('[data-measurement="stericNumber"]')).toHaveText(/^2$/);
