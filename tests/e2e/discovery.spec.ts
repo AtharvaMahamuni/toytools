@@ -235,8 +235,11 @@ test.describe('homepage index', () => {
     // hip, body surface area, and VO2 max join Health Calculator, and Sleep Hours joins Daily
     // Tracker, so those four add no directory link.
     // The four hot-seat boards (beta-v13.1) are one group, so they add one directory
-    // link on top of the 117 that predate Games. 117 + 1 = 118 directory links.
-    await expect(directory.locator('.dir-link')).toHaveCount(118);
+    // link on top of the 117 that predate Games. Loan Calculator (alpha-v13.7) is
+    // ungrouped: a payoff schedule is not a mode of the growth calculators.
+    // Image Palette Extractor (alpha-v13.8) is ungrouped too: a photo palette is not
+    // a mode of the color converters. 117 + 1 + 1 + 1 = 120 directory links.
+    await expect(directory.locator('.dir-link')).toHaveCount(120);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

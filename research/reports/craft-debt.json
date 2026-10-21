@@ -1,7 +1,7 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-20T14:23:22.472Z",
-  "fingerprint": "3297226d",
+  "generatedAt": "2026-10-21T14:43:17.436Z",
+  "fingerprint": "7f10504b",
   "readyToPolish": [
     {
       "slug": "electron-configuration-calculator",
@@ -307,34 +307,16 @@
       "engine": "tracker"
     },
     {
-      "id": "image-palette-extractor",
-      "proposedTool": "image-palette-extractor",
-      "finalScore": 71.6,
-      "engine": "color"
-    },
-    {
       "id": "net-worth-calculator",
       "proposedTool": "net-worth-calculator",
       "finalScore": 66.6,
       "engine": "budget"
     },
     {
-      "id": "loan-calculator",
-      "proposedTool": "loan-calculator",
-      "finalScore": 66.2,
-      "engine": "loan"
-    },
-    {
       "id": "salary-calculator",
       "proposedTool": "salary-calculator",
       "finalScore": 64.7,
       "engine": "budget"
-    },
-    {
-      "id": "mortgage-calculator",
-      "proposedTool": "mortgage-calculator",
-      "finalScore": 64.3,
-      "engine": "loan"
     },
     {
       "id": "retirement-calculator",
@@ -350,9 +332,9 @@
     }
   ],
   "summary": {
-    "shippedCovered": 91,
+    "shippedCovered": 94,
     "readyToPolish": 10,
     "needsEvidence": 25,
-    "atRisk": 11
+    "atRisk": 8
   }
 }

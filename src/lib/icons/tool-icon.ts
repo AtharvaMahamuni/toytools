@@ -114,6 +114,7 @@ const FAMILY_GLYPH: Record<string, string> = {
   'css-unit': 'ruler',
   aspect: 'aspectFrame',
   'type-scale': 'typeRamp',
+  'image-palette': 'dropper',
   // music & audio
   equalizer: 'equalizer',
   // fidgets
@@ -195,6 +196,7 @@ const SLUG_GLYPH: Record<string, string> = {
   'emergency-fund-calculator': 'piggy',
   'upi-1999-split': 'upiSplit',
   'compound-interest-calculator': 'coins',
+  'loan-calculator': 'house',
   'cagr-calculator': 'cagr',
   'roi-calculator': 'roi',
   'inflation-calculator': 'trendUp',

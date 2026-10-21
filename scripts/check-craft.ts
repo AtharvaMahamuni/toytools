@@ -226,7 +226,13 @@ const THRESHOLDS = {
   // 2026-10-20: 0.739 (122/165), truncated from 0.739393. Connect 4, Chess Tac Toe, and
   //   Quantum Tic Tac Toe join the hot-seat group. The column under the pointer, the
   //   illegal-move note, and the entanglement lines are the three touches.
-  coverage: 0.739,
+  // 2026-10-21: 0.740 (123/166), truncated from 0.740963. Loan Calculator ships guardrail
+  //   craft loan-rate-unit. A yearly rate under 3% or over 36% says the field is a
+  //   percent per year. A rate inside that band keeps the note hidden.
+  // 2026-10-21: 0.742 (124/167), truncated from 0.742514. Image Palette Extractor ships
+  //   orientation craft palette-pixel-share. Each stop shows its share of the samples.
+  //   The list stays hidden until a picture has been read.
+  coverage: 0.742,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

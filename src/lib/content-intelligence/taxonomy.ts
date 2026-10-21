@@ -82,6 +82,7 @@ export const EXPANSION_TAXONOMY: ExpansionTaxonomy = [
           'rule-of-72-calculator',
           'simple-interest-calculator',
           'cagr-calculator',
+          'loan-calculator',
         ],
       },
       {

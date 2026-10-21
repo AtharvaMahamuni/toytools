@@ -27,9 +27,11 @@ interface Props {
   emptyText?: string;
   /** Desktop 50/50 form | filled result. Defaults on for 1–2 field tools. */
   splitScreens?: boolean;
+  /** Which experience node carries this tool's craft id. Omit when the tool has no craft here. */
+  craftOn?: 'visualization' | 'hero-note' | 'empty';
 }
 
-const { slug, financeId, config, emptyText, splitScreens: splitScreensProp } = Astro.props;
+const { slug, financeId, config, emptyText, splitScreens: splitScreensProp, craftOn } = Astro.props;
 const calc = getFinanceCalculator(financeId);
 const fields = calc?.fields ?? [];
 const splitScreens = splitScreensProp ?? fields.length <= 2;
@@ -91,6 +93,8 @@ const currencyMeta = Object.fromEntries(
       emptyText={resolvedEmpty}
       layout={calc?.layout}
       capabilities={caps}
+      craftId={craftOn ? config.craft?.id : undefined}
+      craftOn={craftOn}
     />
   </ToolSplit>
 </div>

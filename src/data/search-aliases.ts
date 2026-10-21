@@ -129,6 +129,13 @@ export const searchAliases: Record<string, string[]> = {
   'aspect-ratio-calculator': ['16 9', 'screen ratio'],
   'color-contrast-checker': ['wcag contrast', 'contrast ratio', 'accessible colors'],
   'color-format-converter': ['hex to rgb', 'rgb to hex', 'hsl'],
+  'image-palette-extractor': [
+    'image color palette',
+    'extract colors from image',
+    'get palette from photo',
+    'dominant color from image',
+    'image to palette',
+  ],
   'px-to-dp-converter': ['pixels to dp', 'density independent'],
   'px-to-rem-converter': ['pixels to rem'],
 
@@ -139,6 +146,7 @@ export const searchAliases: Record<string, string[]> = {
   'emergency-fund-calculator': ['rainy day fund'],
   'upi-1999-split': ['upi split meme'],
   'inflation-calculator': ['purchasing power'],
+  'loan-calculator': ['emi calculator', 'home loan calculator', 'mortgage calculator', 'mortgage payment', 'loan amortization'],
   'margin-calculator': ['profit margin'],
   'markup-calculator': ['cost plus'],
   'roi-calculator': ['return on investment'],

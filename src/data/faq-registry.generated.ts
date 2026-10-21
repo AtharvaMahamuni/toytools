@@ -56,6 +56,7 @@ import { items as heartRateZoneCalculatorFaqs } from '@tools/health/heart-rate-z
 import { items as hexEncoderDecoderFaqs } from '@tools/developer-utilities/hex-encoder-decoder/faq';
 import { items as htmlEntityEncoderDecoderFaqs } from '@tools/developer-utilities/html-entity-encoder-decoder/faq';
 import { items as idealWeightCalculatorFaqs } from '@tools/health/ideal-weight-calculator/faq';
+import { items as imagePaletteExtractorFaqs } from '@tools/design/image-palette-extractor/faq';
 import { items as inflationCalculatorFaqs } from '@tools/finance/inflation-calculator/faq';
 import { items as invisibleCharacterDetectorFaqs } from '@tools/text/invisible-character-detector/faq';
 import { items as ipv4ConverterFaqs } from '@tools/developer-utilities/ipv4-converter/faq';
@@ -77,6 +78,7 @@ import { items as leanBodyMassCalculatorFaqs } from '@tools/health/lean-body-mas
 import { items as letterCounterFaqs } from '@tools/text/letter-counter/faq';
 import { items as lineCounterFaqs } from '@tools/text/line-counter/faq';
 import { items as llmsTxtGeneratorFaqs } from '@tools/prep/llms-txt-generator/faq';
+import { items as loanCalculatorFaqs } from '@tools/finance/loan-calculator/faq';
 import { items as loremIpsumGeneratorFaqs } from '@tools/generate/lorem-ipsum-generator/faq';
 import { items as lowercaseConverterFaqs } from '@tools/text/lowercase-converter/faq';
 import { items as macroCalculatorFaqs } from '@tools/health/macro-calculator/faq';
@@ -223,6 +225,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'hex-encoder-decoder': hexEncoderDecoderFaqs,
   'html-entity-encoder-decoder': htmlEntityEncoderDecoderFaqs,
   'ideal-weight-calculator': idealWeightCalculatorFaqs,
+  'image-palette-extractor': imagePaletteExtractorFaqs,
   'inflation-calculator': inflationCalculatorFaqs,
   'invisible-character-detector': invisibleCharacterDetectorFaqs,
   'ipv4-converter': ipv4ConverterFaqs,
@@ -244,6 +247,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'letter-counter': letterCounterFaqs,
   'line-counter': lineCounterFaqs,
   'llms-txt-generator': llmsTxtGeneratorFaqs,
+  'loan-calculator': loanCalculatorFaqs,
   'lorem-ipsum-generator': loremIpsumGeneratorFaqs,
   'lowercase-converter': lowercaseConverterFaqs,
   'macro-calculator': macroCalculatorFaqs,

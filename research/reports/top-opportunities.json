@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-20T14:23:22.472Z",
+  "generatedAt": "2026-10-21T14:43:17.436Z",
   "top": [
     {
       "id": "pregnancy-due-date-calculator",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T14:43:17.436Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -102,7 +102,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T14:43:17.436Z",
       "existingSolutions": [
         "babycenter.com",
         "clearblue.com",
@@ -183,7 +183,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T14:43:17.436Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -256,7 +256,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T14:43:17.436Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -313,82 +313,6 @@
       "craftRisk": true
     },
     {
-      "id": "image-palette-extractor",
-      "title": "Image Palette Extractor",
-      "problem": "I want to upload an image and extract its dominant color palette without the image leaving my browser.",
-      "userIntent": "transactional",
-      "workflow": "a color → Palette Extraction → a color",
-      "transformation": "Palette Extraction",
-      "proposedTool": "image-palette-extractor",
-      "proposedEngine": "color",
-      "searchQueries": [
-        "image color palette extractor",
-        "image color palette",
-        "extract colors from image",
-        "get palette from photo",
-        "dominant color from image",
-        "image to palette"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
-      "existingSolutions": [
-        "imagecolorpicker.com",
-        "coolors image picker"
-      ],
-      "solutionWeaknesses": [
-        "uploads image to a server (privacy)",
-        "ad-supported",
-        "no client-side-only guarantee"
-      ],
-      "userFailures": [],
-      "signals": [],
-      "relatedProblems": [
-        "color conversion",
-        "color shades"
-      ],
-      "relatedTools": [
-        "color-format-converter",
-        "color-shades-generator",
-        "color-contrast-checker",
-        "colorblind-simulator",
-        "css-gradient-generator"
-      ],
-      "relatedGuides": [
-        "color-format-converter",
-        "color-shades-generator",
-        "color-contrast-checker",
-        "colorblind-simulator",
-        "css-gradient-generator"
-      ],
-      "relatedFaqs": [
-        "color-format-converter",
-        "color-shades-generator",
-        "color-contrast-checker",
-        "colorblind-simulator",
-        "css-gradient-generator"
-      ],
-      "difficulty": "high",
-      "evergreenScore": 0.82,
-      "competitionScore": 0.58,
-      "searchDemand": 0.68,
-      "implementationCost": 0.4,
-      "engineReuse": 1,
-      "seoPotential": 0.87,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.54,
-      "localizationPotential": 0.9,
-      "algorithmicFit": 0.85,
-      "authorityWinnability": 1,
-      "confidence": 0.8,
-      "finalScore": 71.6,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true,
-      "craftRisk": true
-    },
-    {
       "id": "net-worth-calculator",
       "title": "Net Worth Calculator",
       "problem": "I want to total my assets minus liabilities to see my net worth.",
@@ -405,7 +329,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T14:43:17.436Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -452,70 +376,6 @@
       "craftRisk": true
     },
     {
-      "id": "loan-calculator",
-      "title": "Loan Calculator",
-      "problem": "I need monthly payments and total interest for a loan over a term.",
-      "userIntent": "transactional",
-      "workflow": "input → Loan Amortization → output",
-      "transformation": "Loan Amortization",
-      "proposedTool": "loan-calculator",
-      "proposedEngine": "loan",
-      "searchQueries": [
-        "loan calculator",
-        "monthly payment calculator",
-        "loan interest calculator",
-        "loan emi calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
-      "existingSolutions": [
-        "bankrate.com",
-        "calculator.net"
-      ],
-      "solutionWeaknesses": [
-        "ad heavy",
-        "slow",
-        "no shareable result",
-        "cluttered"
-      ],
-      "userFailures": [],
-      "signals": [],
-      "relatedProblems": [
-        "mortgage payment",
-        "amortization schedule",
-        "extra payments"
-      ],
-      "relatedTools": [
-        "compound-interest-calculator"
-      ],
-      "relatedGuides": [
-        "compound-interest-calculator"
-      ],
-      "relatedFaqs": [
-        "compound-interest-calculator"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.54,
-      "searchDemand": 0.96,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.86,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.59,
-      "localizationPotential": 0.9,
-      "algorithmicFit": 0.85,
-      "authorityWinnability": 0.45,
-      "confidence": 0.8,
-      "finalScore": 66.2,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false,
-      "craftRisk": true
-    },
-    {
       "id": "pdf-page-toolkit",
       "title": "PDF Merge Split Rotate",
       "problem": "I need to merge, split, rotate, or reorder PDF pages on my machine without uploading confidential documents to a random converter site.",
@@ -535,7 +395,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T14:43:17.436Z",
       "existingSolutions": [
         "ilovepdf.com",
         "smallpdf.com",
@@ -606,7 +466,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T14:43:17.436Z",
       "existingSolutions": [
         "cloudconvert",
         "iloveimg",
@@ -630,12 +490,15 @@
         "file checksum"
       ],
       "relatedTools": [
+        "image-palette-extractor",
         "file-hash-verifier"
       ],
       "relatedGuides": [
+        "image-palette-extractor",
         "file-hash-verifier"
       ],
       "relatedFaqs": [
+        "image-palette-extractor",
         "file-hash-verifier"
       ],
       "difficulty": "high",
@@ -677,7 +540,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T14:43:17.436Z",
       "existingSolutions": [
         "Google Calendar",
         "timeanddate.com",
@@ -729,6 +592,143 @@
       "authorityWinnability": 0.9,
       "confidence": 0.8,
       "finalScore": 65.5,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false,
+      "craftRisk": false
+    },
+    {
+      "id": "salary-calculator",
+      "title": "Salary Calculator",
+      "problem": "I want to convert hourly pay to annual salary and see take home pay.",
+      "userIntent": "transactional",
+      "workflow": "input → Salary Conversion → output",
+      "transformation": "Salary Conversion",
+      "proposedTool": "salary-calculator",
+      "proposedEngine": "budget",
+      "searchQueries": [
+        "salary calculator",
+        "hourly to salary",
+        "take home pay calculator",
+        "annual salary calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-21T14:43:17.436Z",
+      "existingSolutions": [
+        "adp.com",
+        "talent.com"
+      ],
+      "solutionWeaknesses": [
+        "region specific tax assumptions",
+        "ads",
+        "no simple gross conversion"
+      ],
+      "userFailures": [],
+      "signals": [],
+      "relatedProblems": [
+        "budgeting",
+        "take home pay",
+        "hourly wage"
+      ],
+      "relatedTools": [
+        "percentage-calculator"
+      ],
+      "relatedGuides": [
+        "percentage-calculator"
+      ],
+      "relatedFaqs": [
+        "percentage-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.52,
+      "searchDemand": 0.9,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.84,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.88,
+      "algorithmicFit": 0.85,
+      "authorityWinnability": 0.5,
+      "confidence": 0.8,
+      "finalScore": 64.7,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false,
+      "craftRisk": true
+    },
+    {
+      "id": "marathi-calendar",
+      "title": "Marathi Calendar",
+      "problem": "I need today's Marathi calendar date with tithi, nakshatra, and festival markers, computed locally so I am not depending on an ad-heavy panchang site.",
+      "userIntent": "transactional",
+      "workflow": "input → Panchang Calendar → output",
+      "transformation": "Panchang Calendar",
+      "proposedTool": "marathi-calendar",
+      "proposedEngine": "panchang",
+      "searchQueries": [
+        "marathi calendar panchang today",
+        "marathi calendar",
+        "marathi calendar today",
+        "panchang today",
+        "tithi today marathi",
+        "marathi masik calendar"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-21T14:43:17.436Z",
+      "existingSolutions": [
+        "drikpanchang.com",
+        "local print calendars",
+        "phone calendar apps with limited tithi"
+      ],
+      "solutionWeaknesses": [
+        "ad-heavy and slow on mobile",
+        "location defaults are wrong so tithi flips a day early",
+        "no offline mode once the page is closed"
+      ],
+      "userFailures": [
+        "Reads a tithi that already rolled over after sunset because the tool used sunrise boundaries without saying so.",
+        "Picks the wrong city and every festival shifts by a day with no location callout on the page.",
+        "Confuses Amanta and Purnimanta month labeling and schedules an event in the wrong Marathi month.",
+        "Exports a date that looks Gregorian-local but was computed in a fixed zone the user never chose."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "gregorian calendar",
+        "festival dates",
+        "timezone conversion"
+      ],
+      "relatedTools": [
+        "timezone-converter",
+        "date-difference-calculator"
+      ],
+      "relatedGuides": [
+        "timezone-converter",
+        "date-difference-calculator"
+      ],
+      "relatedFaqs": [
+        "timezone-converter",
+        "date-difference-calculator"
+      ],
+      "difficulty": "high",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.58,
+      "searchDemand": 0.78,
+      "implementationCost": 0.3,
+      "engineReuse": 0.3,
+      "seoPotential": 0.91,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.4,
+      "algorithmicFit": 0.96,
+      "authorityWinnability": 0.75,
+      "confidence": 0.8,
+      "finalScore": 62,
       "status": "recommended",
       "gap": "engine-missing",
       "engineExists": false,

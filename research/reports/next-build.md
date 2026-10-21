@@ -1,6 +1,6 @@
 # Recommended Next Build
 
-Generated: 2026-10-20T14:23:22.472Z
+Generated: 2026-10-21T14:43:17.436Z
 
 ## Pregnancy Due Date Calculator  (`pregnancy-due-date-calculator`)
 
@@ -48,4 +48,4 @@ No task-level failure recorded for this tool, so there is no craft candidate fro
 
 ---
 
-_Inputs fingerprint: `3297226d`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `7f10504b`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._

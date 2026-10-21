@@ -1,0 +1,16 @@
+{
+  "version": 3,
+  "generatedAt": "2026-10-21T14:43:17.436Z",
+  "fingerprint": "7f10504b",
+  "discovered": 106,
+  "deduped": 106,
+  "alreadyExists": 94,
+  "recommended": 10,
+  "missingEngines": 0,
+  "topScore": 85.9,
+  "latentSignals": 7,
+  "latentCandidates": 0,
+  "craftReadyToPolish": 10,
+  "craftAtRisk": 8,
+  "nextBuild": "pregnancy-due-date-calculator"
+}

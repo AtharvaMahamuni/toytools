@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-20T14:23:22.472Z",
+  "generatedAt": "2026-10-21T14:43:17.436Z",
   "clusters": [
     {
       "id": "quadratic-equations",
@@ -64,7 +64,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "size": 1,
       "meanScore": 83.8,
@@ -73,7 +74,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ]
     },
     {
@@ -272,7 +274,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "size": 1,
       "meanScore": 82.5,
@@ -281,7 +284,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ]
     },
     {
@@ -829,7 +833,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "size": 1,
       "meanScore": 79.4,
@@ -838,7 +843,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ]
     },
     {
@@ -956,6 +962,7 @@
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
+        "loan-calculator",
         "roi-calculator",
         "rule-of-72-calculator",
         "savings-goal-calculator",
@@ -972,7 +979,7 @@
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "roi-calculator",
+        "loan-calculator",
         "savings-goal-calculator"
       ]
     },
@@ -1176,6 +1183,7 @@
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
+        "loan-calculator",
         "roi-calculator",
         "rule-of-72-calculator",
         "savings-goal-calculator",
@@ -1192,7 +1200,7 @@
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "roi-calculator",
+        "loan-calculator",
         "rule-of-72-calculator"
       ]
     },
@@ -1208,7 +1216,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "size": 1,
       "meanScore": 77.8,
@@ -1217,7 +1226,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ]
     },
     {
@@ -1308,6 +1318,7 @@
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
+        "loan-calculator",
         "roi-calculator",
         "rule-of-72-calculator",
         "savings-goal-calculator",
@@ -1324,7 +1335,7 @@
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "roi-calculator",
+        "loan-calculator",
         "rule-of-72-calculator"
       ]
     },
@@ -1597,6 +1608,39 @@
         "sha1-hash-generator",
         "sha256-hash-generator",
         "sha512-hash-generator"
+      ]
+    },
+    {
+      "id": "loan-amortization",
+      "transformation": "Loan Amortization",
+      "engine": "finance",
+      "members": [
+        "loan-calculator"
+      ],
+      "existingMembers": [
+        "cagr-calculator",
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "loan-calculator",
+        "roi-calculator",
+        "rule-of-72-calculator",
+        "savings-goal-calculator",
+        "shop-upi-tally",
+        "sip-calculator",
+        "split-bill",
+        "upi-1999-split",
+        "upi-mdr-estimator"
+      ],
+      "size": 1,
+      "meanScore": 75.5,
+      "internalLinks": [
+        "cagr-calculator",
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "loan-calculator",
+        "roi-calculator"
       ]
     },
     {
@@ -1905,7 +1949,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "size": 1,
       "meanScore": 74.1,
@@ -1914,7 +1959,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ]
     },
     {
@@ -1938,6 +1984,39 @@
         "move-today-tracker",
         "sleep-hours-tracker",
         "water-intake-tracker"
+      ]
+    },
+    {
+      "id": "mortgage-amortization",
+      "transformation": "Mortgage Amortization",
+      "engine": "finance",
+      "members": [
+        "mortgage-calculator"
+      ],
+      "existingMembers": [
+        "cagr-calculator",
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "loan-calculator",
+        "roi-calculator",
+        "rule-of-72-calculator",
+        "savings-goal-calculator",
+        "shop-upi-tally",
+        "sip-calculator",
+        "split-bill",
+        "upi-1999-split",
+        "upi-mdr-estimator"
+      ],
+      "size": 1,
+      "meanScore": 73.6,
+      "internalLinks": [
+        "cagr-calculator",
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "loan-calculator",
+        "roi-calculator"
       ]
     },
     {
@@ -2161,7 +2240,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "size": 1,
       "meanScore": 71.6,
@@ -2170,7 +2250,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ]
     },
     {
@@ -2281,20 +2362,6 @@
       ]
     },
     {
-      "id": "loan-amortization",
-      "transformation": "Loan Amortization",
-      "engine": "loan",
-      "members": [
-        "loan-calculator"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 66.2,
-      "internalLinks": [
-        "compound-interest-calculator"
-      ]
-    },
-    {
       "id": "pdf-page-editing",
       "transformation": "PDF Page Editing",
       "engine": "pdf",
@@ -2319,7 +2386,8 @@
       "size": 1,
       "meanScore": 65.7,
       "internalLinks": [
-        "file-hash-verifier"
+        "file-hash-verifier",
+        "image-palette-extractor"
       ]
     },
     {
@@ -2350,20 +2418,6 @@
       "meanScore": 64.7,
       "internalLinks": [
         "percentage-calculator"
-      ]
-    },
-    {
-      "id": "mortgage-amortization",
-      "transformation": "Mortgage Amortization",
-      "engine": "loan",
-      "members": [
-        "mortgage-calculator"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 64.3,
-      "internalLinks": [
-        "compound-interest-calculator"
       ]
     },
     {

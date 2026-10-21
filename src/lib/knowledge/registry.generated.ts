@@ -56,6 +56,7 @@ import { knowledge as heartRateZoneCalculator } from '@tools/health/heart-rate-z
 import { knowledge as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/knowledge';
 import { knowledge as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/knowledge';
 import { knowledge as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/knowledge';
+import { knowledge as imagePaletteExtractor } from '@tools/design/image-palette-extractor/knowledge';
 import { knowledge as inflationCalculator } from '@tools/finance/inflation-calculator/knowledge';
 import { knowledge as invisibleCharacterDetector } from '@tools/text/invisible-character-detector/knowledge';
 import { knowledge as ipv4Converter } from '@tools/developer-utilities/ipv4-converter/knowledge';
@@ -77,6 +78,7 @@ import { knowledge as leanBodyMassCalculator } from '@tools/health/lean-body-mas
 import { knowledge as letterCounter } from '@tools/text/letter-counter/knowledge';
 import { knowledge as lineCounter } from '@tools/text/line-counter/knowledge';
 import { knowledge as llmsTxtGenerator } from '@tools/prep/llms-txt-generator/knowledge';
+import { knowledge as loanCalculator } from '@tools/finance/loan-calculator/knowledge';
 import { knowledge as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/knowledge';
 import { knowledge as lowercaseConverter } from '@tools/text/lowercase-converter/knowledge';
 import { knowledge as macroCalculator } from '@tools/health/macro-calculator/knowledge';
@@ -223,6 +225,7 @@ export const authoredKnowledge: Knowledge[] = [
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,
   idealWeightCalculator,
+  imagePaletteExtractor,
   inflationCalculator,
   invisibleCharacterDetector,
   ipv4Converter,
@@ -244,6 +247,7 @@ export const authoredKnowledge: Knowledge[] = [
   letterCounter,
   lineCounter,
   llmsTxtGenerator,
+  loanCalculator,
   loremIpsumGenerator,
   lowercaseConverter,
   macroCalculator,

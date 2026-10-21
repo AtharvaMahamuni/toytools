@@ -1,0 +1,108 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const formatHref = toolPathBySlug('color-format-converter');
+const shadesHref = toolPathBySlug('color-shades-generator');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>How do you extract colors from an image? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Choose a picture from your device. The page samples it in the tab and returns a short row of
+      colors. Each stop shows a hex and its pixel share. Copy CSS writes custom properties you can
+      paste into a stylesheet. There is no address box, because a remote URL would leave the device.
+    </p>
+    <p>
+      An image color palette here is the colors that actually occupy the file, not one blended
+      swatch. People type extract colors from image, get palette from photo, dominant color from image, and image to palette. They mean this page. For example, a product photo with a white
+      wall and a red logo keeps both. The wall takes most of the pixel share. The logo stays its
+      own stop. Pulling a logo red out of a product photo before it is averaged away is the job.
+      Copying CSS custom properties from a picture that stays on this device is the thing you leave with.
+    </p>
+    <a href={toolHref} class="cta-link">Open the Image Palette Extractor →</a>
+  </section>
+
+  <section id="cut">
+    <h2>How median cut picks a palette <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      How median cut picks a palette is a split, not a blur. The long edge is sampled on a grid.
+      Each sample keeps the pixel it lands on. The samples are then cut at the median in OKLab
+      until the boxes are small, and boxes that sit close together are merged. That is the whole
+      algorithm. It does not average a rectangle and call the result a color.
+    </p>
+    <p>
+      A palette versus an average of the picture is the difference you can see. An average of a
+      white wall and a red mark is pink, and the red is gone. The cut keeps the red as long as a
+      sample landed on it. For example, three white pixels and one red pixel return white and red,
+      not one pink.
+    </p>
+  </section>
+
+  <section id="share">
+    <h2>Read the pixel share on a swatch <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Read the pixel share on a swatch as the fraction of samples in that stop. Seeing which stop
+      is the wall, because its pixel share is most of the picture, is the point of the number.
+      A background should return several similar stops only when those stops are actually different.
+      Close grays are one wall. The share on that one stop is large, and the subject is still in the row.
+    </p>
+    <p>
+      For example, a picture that is nine tenths light gray and one tenth #e10600 shows the gray
+      near 90% and the red near 10%. You do not have to guess which chip is the backdrop.
+    </p>
+  </section>
+
+  <section id="gamut">
+    <h2>Why a hex is marked clamped <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Why a hex is marked clamped is a gamut fact, not a second palette. Some photos are display-p3.
+      A display-p3 red can sit outside sRGB. The page converts the sample, writes the sRGB hex, and
+      leaves a line when a channel had to be clamped. The copied value is that clamped hex. An
+      ordinary sRGB file does not show the line.
+    </p>
+    <p>
+      Do not treat the hex as the camera value once that line is visible. It is the color CSS can
+      store in sRGB. The <a href={formatHref}>color format converter</a> will turn it into RGB or
+      OKLCH. The <a href={shadesHref}>shades generator</a> will build a ramp from a stop you kept.
+    </p>
+  </section>
+
+  <section id="mistakes">
+    <h2>Common mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The common mistake is to average a region and call it the palette. The logo red the person
+      can see never appears, because it was mixed into the wall. This page refuses that average.
+    </p>
+    <p>
+      Another miss is a row of near-identical background stops with the subject left out. Merge
+      those stops. The pixel share then names the wall, and a distinct color still has a seat.
+    </p>
+    <p>
+      A third miss is copying a wide-gamut sample as if the hex were unclamped. When the line is
+      up, the hex is the clamped sRGB value. A warning on a quiet sRGB photo would be noise, so
+      the line stays hidden until a sample was actually outside the gamut.
+    </p>
+  </section>
+</GuideLayout>

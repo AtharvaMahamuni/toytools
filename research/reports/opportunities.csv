@@ -67,6 +67,7 @@ crc32-hash-generator,crc32-hash-generator,CRC32 Hash Generator,Checksum (CRC32),
 simple-harmonic-motion-calculator,simple-harmonic-motion-calculator,Spring (SHM) Simulator,Simple Harmonic Motion,physics,true,guide-missing,already-exists,low,0.68,0.73,0.94,1,1,0.87,0,0.8,0.8,76.1
 hash-identifier,hash-identifier,Hash Identifier and Verifier,Hash Identification,hashing,true,needs-improvement,already-exists,low,0.38,0.76,0.92,1,1,0.75,0,0.95,0.64,75.9
 kinetic-sand,kinetic-sand,Kinetic Sand,Fidget Interaction,feel,true,needs-improvement,already-exists,high,0.6,0.73,0.68,0.4,1,0.84,1,0.96,0.64,75.6
+loan-calculator,loan-calculator,Loan Calculator,Loan Amortization,finance,true,needs-improvement,already-exists,medium,0.96,0.54,0.95,0.7,1,0.86,0,0.9,0.8,75.5
 slime,slime,Slime,Fidget Interaction,feel,true,needs-improvement,already-exists,high,0.64,0.68,0.66,0.4,1,0.86,1,0.96,0.64,75.5
 uuid-inspector,uuid-inspector,UUID Inspector,Identifier Inspection,generation,true,needs-improvement,already-exists,low,0.3,0.87,0.88,1,1,0.72,0,0.92,0.64,75
 newman-projection-calculator,newman-projection-calculator,Newman Projection Calculator,Conformational Analysis,chemistry-lab,true,guide-missing,already-exists,medium,0.62,0.9,0.94,0.7,1,0.85,0,0.7,0.8,74.9
@@ -81,6 +82,7 @@ blood-pressure-tracker,blood-pressure-tracker,Blood Pressure Tracker,Personal He
 book-tracker,book-tracker,Book Tracker,Local Reading Tracker,productivity,true,needs-improvement,already-exists,medium,0.72,0.48,0.88,0.7,1,0.89,0,0.85,0.8,74.2
 css-gradient-generator,css-gradient-generator,Perceptual Gradient Generator,Perceptual Gradient,color,true,needs-improvement,already-exists,medium,0.7,0.38,0.88,0.7,1,0.88,0,0.9,0.8,74.1
 waist-to-hip-ratio-calculator,waist-to-hip-ratio-calculator,Waist to Hip Ratio Calculator,Body Composition Calculation,wellness,true,needs-improvement,already-exists,low,0.52,0.73,0.92,1,1,0.81,0.5,0.95,0.64,73.7
+mortgage-calculator,mortgage-calculator,Mortgage Calculator,Mortgage Amortization,finance,true,needs-improvement,already-exists,medium,0.98,0.4,0.96,0.7,1,0.87,0,0.88,0.8,73.6
 sleep-hours-tracker,sleep-hours-tracker,Sleep Hours Tracker,Personal Health Logging,tracker,true,needs-improvement,already-exists,low,0.5,0.6,0.88,1,1,0.8,0.25,0.9,0.64,73.5
 date-format-detector,date-format-detector,Date Format Detector,Date Format Disambiguation,datetime,true,needs-improvement,already-exists,medium,0.36,0.9,0.93,0.7,1,0.74,0,0.8,0.64,73.2
 doppler-effect-calculator,doppler-effect-calculator,Doppler Effect Simulator,Doppler Effect,physics,true,guide-missing,already-exists,medium,0.78,0.68,0.94,0.7,1,0.79,0,0.8,0.8,73.1
@@ -91,17 +93,15 @@ encoding-detector,encoding-detector,Encoding Detector,Encoding Detection,encodin
 momentum-collision-calculator,momentum-collision-calculator,Momentum & Collision Simulator,Momentum and Collisions,physics,true,guide-missing,already-exists,medium,0.72,0.7,0.95,0.7,1,0.77,0,0.8,0.8,72.2
 vo2-max-calculator,vo2-max-calculator,VO2 Max Calculator,Fitness Performance Calculation,wellness,true,needs-improvement,already-exists,medium,0.58,0.68,0.9,0.7,1,0.83,0.5,0.85,0.64,72.2
 timezone-converter,timezone-converter,Timezone Converter,Timezone Conversion,datetime,true,needs-improvement,already-exists,high,0.8,0.54,0.86,0.4,1,0.68,0,0.84,0.8,71.9
-image-palette-extractor,image-palette-extractor,Image Palette Extractor,Palette Extraction,color,true,cluster-missing,recommended,high,0.68,0.58,0.82,0.4,1,0.87,0,0.9,0.8,71.6
+image-palette-extractor,image-palette-extractor,Image Palette Extractor,Palette Extraction,color,true,needs-improvement,already-exists,high,0.68,0.58,0.82,0.4,1,0.87,0,0.9,0.8,71.6
 inclined-plane-calculator,inclined-plane-calculator,Inclined Plane Simulator,Inclined Plane and Friction,physics,true,guide-missing,already-exists,medium,0.62,0.76,0.93,0.7,1,0.85,0,0.78,0.8,71.5
 cron-expression-parser,cron-expression-parser,Cron Expression Parser,Cron Parsing,datetime,true,needs-improvement,already-exists,high,0.72,0.54,0.84,0.4,1,0.77,0,0.92,0.8,70.8
 shell-quote-escalator,shell-quote-escalator,Shell Quote Escalator,Shell Quoting,encoding,true,needs-improvement,already-exists,medium,0.11,1,0.94,0.7,1,0.64,0,0.96,0.64,69.9
 net-worth-calculator,net-worth-calculator,Net Worth Calculator,Net Worth,budget,false,engine-missing,recommended,low,0.8,0.62,0.88,0.9,0.3,0.68,0,0.78,0.8,66.6
-loan-calculator,loan-calculator,Loan Calculator,Loan Amortization,loan,false,engine-missing,recommended,medium,0.96,0.54,0.95,0.6,0.3,0.86,0,0.9,0.8,66.2
 pdf-page-toolkit,pdf-page-toolkit,PDF Merge Split Rotate,PDF Page Editing,pdf,false,engine-missing,recommended,high,0.9,0.4,0.92,0.3,0.3,0.96,0,0.94,0.8,66
 image-convert-compress,image-convert-compress,Image Convert Compress Resize,Image Conversion,image,false,engine-missing,recommended,high,0.88,0.44,0.9,0.3,0.3,0.95,0,0.94,0.8,65.7
 gregorian-calendar,gregorian-calendar,Gregorian Calendar,Calendar View,panchang,false,engine-missing,recommended,medium,0.7,0.5,0.95,0.6,0.3,0.88,0,0.7,0.8,65.5
 salary-calculator,salary-calculator,Salary Calculator,Salary Conversion,budget,false,engine-missing,recommended,medium,0.9,0.52,0.92,0.6,0.3,0.84,0,0.88,0.8,64.7
-mortgage-calculator,mortgage-calculator,Mortgage Calculator,Mortgage Amortization,loan,false,engine-missing,recommended,medium,0.98,0.4,0.96,0.6,0.3,0.87,0,0.88,0.8,64.3
 marathi-calendar,marathi-calendar,Marathi Calendar,Panchang Calendar,panchang,false,engine-missing,recommended,high,0.78,0.58,0.92,0.3,0.3,0.91,0,0.4,0.8,62
 retirement-calculator,retirement-calculator,Retirement Calculator,Retirement Projection,retirement,false,engine-missing,discovered,high,0.94,0.46,0.94,0.3,0.3,0.74,0,0.82,0.8,58.3
 meal-plan-generator,meal-plan-generator,Meal Plan Generator,Nutrition Authoring,meal-planning,false,engine-missing,discovered,high,0.75,0.3,0.6,0.3,0.3,0.9,0,0.4,0.64,45.5

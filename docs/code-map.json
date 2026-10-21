@@ -162,7 +162,7 @@
         "bill",
         "estimator"
       ],
-      "toolCount": 12
+      "toolCount": 13
     },
     "csv": {
       "name": "CSV Engine",
@@ -336,9 +336,10 @@
         "color",
         "color-scale",
         "color-vision",
-        "perceptual-gradient"
+        "perceptual-gradient",
+        "image-palette"
       ],
-      "toolCount": 5
+      "toolCount": 6
     },
     "units": {
       "name": "CSS Unit Engine",
@@ -2047,6 +2048,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "image-palette-extractor": {
+      "name": "Image Palette Extractor",
+      "dir": "src/tools/design/image-palette-extractor",
+      "categorySlug": "design-tools",
+      "url": "/tool/design/image-palette-extractor/",
+      "engine": "color",
+      "pattern": "color-convert",
+      "family": "image-palette",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "inflation-calculator": {
       "name": "Inflation Calculator",
       "dir": "src/tools/finance/inflation-calculator",
@@ -2476,6 +2498,27 @@
       "pattern": "text-assemble",
       "family": "prep-assemble",
       "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "loan-calculator": {
+      "name": "Loan Calculator",
+      "dir": "src/tools/finance/loan-calculator",
+      "categorySlug": "money-finance",
+      "url": "/tool/finance/loan-calculator/",
+      "engine": "finance",
+      "pattern": "finance-growth",
+      "family": "interest",
+      "processorId": "loan",
       "toolGroup": "",
       "files": [
         "Guide.astro",

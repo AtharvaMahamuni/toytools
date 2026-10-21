@@ -18,6 +18,7 @@ import { upi1999Split } from './calculators/upi-1999-split';
 import { upiMdrEstimator } from './calculators/upi-mdr-estimator';
 import { splitBillCalc } from './calculators/split-bill';
 import { shopUpiTally } from './calculators/shop-upi-tally';
+import { loan } from './calculators/loan';
 
 export const FINANCE_CALCULATORS: Record<string, FinanceCalculator> = {
   'compound-interest': compoundInterest,
@@ -32,6 +33,7 @@ export const FINANCE_CALCULATORS: Record<string, FinanceCalculator> = {
   'upi-mdr-estimator': upiMdrEstimator,
   'split-bill': splitBillCalc,
   'shop-upi-tally': shopUpiTally,
+  loan,
 };
 
 /**

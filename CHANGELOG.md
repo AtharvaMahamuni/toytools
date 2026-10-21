@@ -2,6 +2,26 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.8] - 2026-10-21
+
+### Added
+
+- **Image Palette Extractor.** `/tool/design/image-palette-extractor/` reads a picture on this device and returns a short dominant-color row. Each stop shows its share of the samples, so a large background is one wall and the subject color keeps a seat. A display-p3 sample that falls outside sRGB is copied as the clamped hex, and the page says so. Copy CSS writes custom properties. Nothing is uploaded. On a phone the colors sit above the file and the preview.
+
+### Fixed
+
+- **Image Palette Extractor.** An ordinary sRGB color, such as pure blue, no longer raises the out-of-gamut line. That line stays for a display-p3 sample that actually falls outside sRGB.
+
+## [alpha-v13.7] - 2026-10-21
+
+### Added
+
+- **Loan Calculator.** `/tool/finance/loan-calculator/` works out the monthly payment and the interest on a fixed-rate loan. Enter a price, an optional down payment, a yearly rate, and a term in years. An extra monthly payment comes off the principal and shortens the payoff. A yearly rate under 3% or over 36% says the field is a percent per year. Home loans of 15, 20, and 30 years are scenarios on the same page.
+
+### Fixed
+
+- **Loan Calculator.** A payment under one cent runs to the end of the term. The page no longer calls that an extra payment, and it no longer calls a rounded-away interest charge a zero rate.
+
 ## [alpha-v13.6] - 2026-10-21
 
 ### Changed

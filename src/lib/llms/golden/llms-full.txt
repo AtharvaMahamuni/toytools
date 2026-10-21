@@ -219,6 +219,13 @@ Use for: An OKLCH linear gradient, copied as CSS code.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Apply a vendor easing curve or upload the color stops.
 
+## Image Palette Extractor
+
+URL: https://toytoolsapp.com/tool/design/image-palette-extractor/
+Use for: Dominant colors from a photo, each with its share of the pixels.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Upload the picture, fetch a remote image, or send the sample to a server.
+
 ## PX to DP Converter
 
 URL: https://toytoolsapp.com/tool/design/px-to-dp-converter/
@@ -792,6 +799,13 @@ URL: https://toytoolsapp.com/tool/finance/inflation-calculator/
 Use for: What your money will be worth later, and what it will cost.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
+
+## Loan Calculator
+
+URL: https://toytoolsapp.com/tool/finance/loan-calculator/
+Use for: Monthly payment, total interest, and what an extra payment saves.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Quote a lender rate, include taxes or insurance, or send the loan amount to a server.
 
 ## ROI Calculator
 

@@ -100,7 +100,8 @@ const INTERACTION_ASSETS: { label: string; match: RegExp | string; maxKb: number
   {
     // Fetched only when the query is not already a tool name. Measured 9.2KB gz on 2026-10-02
     // with the six beta-v12.3 tools in the catalog. The cap is the term payload, not a second
-    // copy of the name catalog.
+    // copy of the name catalog. On 2026-10-21 the category display name left each term list:
+    // it duplicated the interned category id, and with it the file sat at 10.0KB gzip.
     label: 'search terms',
     match: 'search-terms.json',
     maxKb: 10,
@@ -257,10 +258,13 @@ function measure(rel: string): Measured | null {
   // Wellness pages likewise lazy-load exactly one calculator, keyed by the widget's data attribute
   // (src/lib/engines/wellness/lazy.ts uses the same ids as its import() map keys).
   const wellnessIds = [...html.matchAll(/data-wellness="([^"]+)"/g)].map((m) => m[1]!);
+  // The image palette quantizer is a second lazy key inside the color chunk. Only a page that
+  // declares data-palette fetches it. Other color tools must not be charged for it.
+  const paletteIds = [...html.matchAll(/data-palette="([^"]+)"/g)].map((m) => m[1]!);
 
   const scripts = [...html.matchAll(/<script[^>]+src="([^"]+)"/g)].map((m) => m[1]!);
   let jsGz = 0;
-  for (const href of collectJs(scripts, [...engines, ...simIds, ...wellnessIds])) {
+  for (const href of collectJs(scripts, [...engines, ...simIds, ...wellnessIds, ...paletteIds])) {
     const buf = asset(href);
     if (buf) jsGz += gz(buf);
   }

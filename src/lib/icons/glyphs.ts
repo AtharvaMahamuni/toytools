@@ -106,6 +106,7 @@ export const GLYPHS: Record<string, string> = {
 
   // ── money & finance ───────────────────────────────────────────────────
   coins: '<g fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><ellipse cx="9" cy="7" rx="5.2" ry="2.4"/><path d="M3.8 7v3.6c0 1.3 2.3 2.4 5.2 2.4"/><ellipse cx="15" cy="14.5" rx="5.2" ry="2.4"/><path d="M9.8 14.6v2.9c0 1.3 2.3 2.4 5.2 2.4s5.2-1.1 5.2-2.4v-2.9"/></g>',
+  house: S + '<path d="M3.5 11 12 3.5 20.5 11"/><path d="M6 10.2V20h12V10.2"/><path d="M10 20v-5h4v5"/>' + E,
   trendUp: S + '<path d="M3 17 9 11l4 3 8-8"/><path d="M15 6h6v6"/>' + E,
   recurring: S + '<path d="M19 12a7 7 0 1 1-2-4.9"/><path d="M19 4v4h-4"/><circle cx="12" cy="12" r="2.4" fill="#fff" stroke="none"/>' + E,
   target: S + '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.3"/><circle cx="12" cy="12" r="1" fill="#fff" stroke="none"/>' + E,
@@ -185,6 +186,8 @@ export const GLYPHS: Record<string, string> = {
 
   // ── design & CSS ──────────────────────────────────────────────────────
   swatch: S + '<circle cx="9" cy="9" r="5.5"/><path d="M12.5 5.5A5.5 5.5 0 0 1 18.5 15"/><path d="M14 14.5h5a1 1 0 0 1 1 1V19a1 1 0 0 1-1 1h-8"/><circle cx="9" cy="9" r="0.6" fill="#fff"/>' + E,
+  // An eyedropper: the tool that pulls colors out of a picture, not another swatch.
+  dropper: S + '<path d="M14 5.5 18.5 10"/><path d="M9 10.5 16.5 3a2 2 0 0 1 2.8 2.8L12 13.2"/><path d="M9.2 10.8 5.5 14.5a2.4 2.4 0 0 0 0 3.4l.6.6a2.4 2.4 0 0 0 3.4 0l3.7-3.7"/>' + E,
   ruler: S + '<path d="M4 8h16a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><path d="M8 8v3"/><path d="M12 8v4"/><path d="M16 8v3"/>' + E,
   aspectFrame: S + '<path d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/><path d="M8 9v6"/><path d="M8 9h6"/>' + E,
 

@@ -1,0 +1,160 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const sipHref = toolPathBySlug('sip-calculator');
+const compoundHref = toolPathBySlug('compound-interest-calculator');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A fixed-rate loan payment is the monthly amount that pays the borrowed balance off
+      in equal installments. Divide the yearly rate by 12, then apply that monthly rate
+      across the term. Borrowing 100,000 at 12% a year for 5 years costs 2,224.44 a month.
+      You pay 33,466.69 in interest on top of the 100,000. The loan EMI calculator on this
+      page updates that payment as you change the price, the down payment, the rate, or the term.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Loan Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How the Monthly Payment Is Worked Out <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      You enter the price or the amount borrowed, an optional down payment, the yearly
+      interest rate, and the term in years. The amount borrowed is the price minus the
+      down payment. The term field is in years: 5 means five years, which is 60 months,
+      and 20 means 240 months.
+    </p>
+    <p>
+      Each month the lender charges interest on whatever balance is left. The payment
+      covers that interest first. The rest reduces the balance. Early months are mostly
+      interest. Later months are mostly principal, because the balance the interest is
+      charged on has shrunk. The headline number is that level monthly payment. The
+      rows under it show the amount borrowed, the total interest, the total you pay,
+      and when the balance reaches zero.
+    </p>
+  </section>
+
+  <section id="formula">
+    <h2>Loan Amortization <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Payment = P × r × (1 + r)^n / ((1 + r)^n - 1)</strong></p>
+    <p>
+      P is the amount borrowed. r is the yearly rate divided by 12 and then by 100, so
+      12% a year is 0.01 a month. n is the number of months. At a zero rate the payment
+      is simply P divided by n, and the interest is zero.
+    </p>
+    <p>
+      That schedule is fixed-rate amortization. The payment stays level. Only the split
+      between interest and principal changes as the balance falls.
+    </p>
+    <ReferenceBlock type="key-idea" heading="One worked example">
+      <p>
+        100,000 at 12% a year for 60 months is a payment of 2,224.44. Over the full term
+        you hand over 133,466.69, of which 33,466.69 is interest. Interest is about 25%
+        of what you pay back.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="home-loan">
+    <h2>The Mortgage Payment <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A mortgage calculator and a home loan calculator are this page with a price and a
+      down payment filled in. A 500,000 price with a 100,000 down payment borrows 400,000.
+      At 8.5% a year for 20 years the mortgage payment is 3,471.29, and the interest over
+      those 20 years is 433,110.30. A 30 year term on the same price keeps the
+      payment lower and the interest higher, because the balance sits there longer.
+    </p>
+    <p>
+      Property tax, insurance, and a fee a lender quotes are outside this result. The
+      page also does not look up today's rate. You type the yearly percent you were offered.
+    </p>
+  </section>
+
+  <section id="extra-payment">
+    <h2>What an Extra Payment Does <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      An extra monthly payment is added on top of the installment and taken off the
+      principal. It is not a discount on the next bill. On the 100,000 loan at 12% for
+      5 years, an extra 500 a month clears the balance in 3 years 10 months. Interest
+      falls from 33,466.69 to 25,227.54, which saves 8,239.15. The payoff row and the
+      interest-saved row both move as soon as you type the extra amount.
+    </p>
+    <p>
+      At an extreme rate the ordinary payment can be nothing but interest. At 100% a year
+      for 40 years the balance never falls, and the page says so. An extra payment on
+      top of that installment is what starts paying the principal down.
+    </p>
+  </section>
+
+  <section id="yearly-rate">
+    <h2>Yearly Rate, Not a Monthly Rate <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The rate field is a percent per year. 2 means 2% a year. People who quote loans
+      as "2% a month" need 24 in this field, because 2% a month is 24% a year. When the
+      number is under 3%, the result says that 2% a month would be 24% a year and that
+      the payment did not use that reading. A rate above 36% gets the same kind of note
+      in the other direction: 48% a year is about 4% a month, and the payment uses the
+      yearly figure.
+    </p>
+    <p>
+      Ordinary loans sit in the quiet band. 8.5% on a home loan and 12% or 14% on a
+      personal loan produce no unit note, because those figures already read as yearly rates.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A common mistake is typing a monthly rate into the yearly field. For example, 2 means 2% a year.
+      Checking the EMI on a personal loan before signing, people quote "2% a month", which is 24% a year.
+      The monthly payment calculator names that mix-up when the rate is under 3%.
+    </p>
+    <p>
+      Another mistake is reading the term as months, because the field says years. For example, 30 is
+      thirty years, which is 360 months. A loan interest calculator that treats 30 as months finishes
+      the loan in two and a half years.
+    </p>
+    <p>
+      A third mistake is treating an extra payment as a discount on the next installment.
+      The extra comes off the principal. For example, 500 extra on the 100,000 loan is added to the
+      2,224.44 payment, and the equated monthly installment itself does not shrink.
+    </p>
+  </section>
+
+  <section id="compare">
+    <h2>Borrowing Compared with Investing the Same Amount <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The monthly payment is money leaving you. The same amount, sent to an investment
+      instead of a lender, is a different sum. The
+      <a href={sipHref}>SIP calculator</a>
+      projects a fixed monthly contribution forward. The
+      <a href={compoundHref}>compound interest calculator</a>
+      does the same for a lump sum. Neither one prices a loan. They answer the question
+      the payment row raises: what else that monthly amount could have done.
+    </p>
+  </section>
+</GuideLayout>

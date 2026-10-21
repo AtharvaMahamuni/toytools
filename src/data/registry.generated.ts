@@ -56,6 +56,7 @@ import { config as heartRateZoneCalculator } from '@tools/health/heart-rate-zone
 import { config as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/config';
 import { config as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/config';
 import { config as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/config';
+import { config as imagePaletteExtractor } from '@tools/design/image-palette-extractor/config';
 import { config as inflationCalculator } from '@tools/finance/inflation-calculator/config';
 import { config as invisibleCharacterDetector } from '@tools/text/invisible-character-detector/config';
 import { config as ipv4Converter } from '@tools/developer-utilities/ipv4-converter/config';
@@ -77,6 +78,7 @@ import { config as leanBodyMassCalculator } from '@tools/health/lean-body-mass-c
 import { config as letterCounter } from '@tools/text/letter-counter/config';
 import { config as lineCounter } from '@tools/text/line-counter/config';
 import { config as llmsTxtGenerator } from '@tools/prep/llms-txt-generator/config';
+import { config as loanCalculator } from '@tools/finance/loan-calculator/config';
 import { config as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/config';
 import { config as lowercaseConverter } from '@tools/text/lowercase-converter/config';
 import { config as macroCalculator } from '@tools/health/macro-calculator/config';
@@ -223,6 +225,7 @@ export const toolConfigs: ToolConfig[] = [
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,
   idealWeightCalculator,
+  imagePaletteExtractor,
   inflationCalculator,
   invisibleCharacterDetector,
   ipv4Converter,
@@ -244,6 +247,7 @@ export const toolConfigs: ToolConfig[] = [
   letterCounter,
   lineCounter,
   llmsTxtGenerator,
+  loanCalculator,
   loremIpsumGenerator,
   lowercaseConverter,
   macroCalculator,

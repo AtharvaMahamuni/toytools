@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-20T14:23:22.472Z",
+  "generatedAt": "2026-10-21T14:43:17.436Z",
   "trends": [
     {
       "transformation": "Fidget Interaction",
@@ -351,6 +351,12 @@
       "meanScore": 75.9
     },
     {
+      "transformation": "Loan Amortization",
+      "count": 1,
+      "meanDemand": 0.96,
+      "meanScore": 75.5
+    },
+    {
       "transformation": "Identifier Inspection",
       "count": 1,
       "meanDemand": 0.3,
@@ -409,6 +415,12 @@
       "count": 1,
       "meanDemand": 0.7,
       "meanScore": 74.1
+    },
+    {
+      "transformation": "Mortgage Amortization",
+      "count": 1,
+      "meanDemand": 0.98,
+      "meanScore": 73.6
     },
     {
       "transformation": "Date Format Disambiguation",
@@ -483,12 +495,6 @@
       "meanScore": 66.6
     },
     {
-      "transformation": "Loan Amortization",
-      "count": 1,
-      "meanDemand": 0.96,
-      "meanScore": 66.2
-    },
-    {
       "transformation": "PDF Page Editing",
       "count": 1,
       "meanDemand": 0.9,
@@ -511,12 +517,6 @@
       "count": 1,
       "meanDemand": 0.9,
       "meanScore": 64.7
-    },
-    {
-      "transformation": "Mortgage Amortization",
-      "count": 1,
-      "meanDemand": 0.98,
-      "meanScore": 64.3
     },
     {
       "transformation": "Panchang Calendar",

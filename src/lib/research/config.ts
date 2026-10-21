@@ -98,6 +98,8 @@ export const THRESHOLDS = {
  */
 export const SLUG_ALIASES: Record<string, string> = {
   'text-to-binary': 'binary-text-converter',
+  // A home loan here is the same fixed-rate job: price, down payment, and term.
+  'mortgage-calculator': 'loan-calculator',
 };
 
 /** Resolve a proposed slug through SLUG_ALIASES (identity for unaliased slugs). */

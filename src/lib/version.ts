@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 6,
+  minor: 8,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-10-21',
-  description: 'Health errors start with a capital, VO2 and sleep log messages are clearer, and number boxes read 1e9 instead of 1',
+  description: 'Image Palette Extractor for dominant colors and the pixel share of a local picture',
 };
 
 export function formatVersion(config: VersionConfig): string {
