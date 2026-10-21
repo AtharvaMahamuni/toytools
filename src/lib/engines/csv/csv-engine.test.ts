@@ -295,3 +295,60 @@ describe('csv-pick', () => {
     expect(runCsv('csv-pick', '', '').error).toBe('Nothing to pick');
   });
 });
+
+describe('csv-pick names before positions (audit S2-1, S3-7, S3-8)', () => {
+  it('picks a year-named column by name: header "id,2024,2025", keep 2024', () => {
+    const r = runCsv('csv-pick', 'id,2024,2025\na,1,2\nb,3,4', '2024');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('2024\n1\n3');
+    expect(r.summary).toBe('Kept 2024');
+    expect(r.notice).toBe('2024 matched a header name, so it was read as that column, not as a position.');
+  });
+
+  it('keeps the column named 1, not column b: header "b,1", keep 1', () => {
+    const r = runCsv('csv-pick', 'b,1\nx,y', '1');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('1\ny');
+    expect(r.notice).toContain('read as that column, not as a position');
+  });
+
+  it('still reads a number as a position when no header has that name', () => {
+    const r = runCsv('csv-pick', 'a,b,c\n1,2,3', '3,1');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('c,a\n3,1');
+    expect(r.notice).toBe('This pick is by position, so inserting a column changes which field is kept.');
+  });
+
+  it('mixes a name and a position, and says the position reading was used', () => {
+    const r = runCsv('csv-pick', 'id,2024,x\n1,2,3', '2024,3');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('2024,x\n2,3');
+    expect(r.notice).toContain('This pick is by position');
+    expect(r.notice).toContain('2024 matched a header name');
+  });
+
+  it('refuses a position past the last column', () => {
+    const r = runCsv('csv-pick', 'a,b\n1,2', '3');
+    expect(r.ok).toBe(false);
+    expect(r.error).toBe('No column 3 in this file.');
+  });
+
+  it('counts short rows that leave a kept cell blank', () => {
+    const r = runCsv('csv-pick', 'a,b,c\n1,2\n4,5,6\n7', 'c');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('c\n\n6\n');
+    expect(r.notice).toBe('2 rows had fewer fields than the header.');
+    const one = runCsv('csv-pick', 'a,b,c\n1,2\n4,5,6', 'c');
+    expect(one.notice).toBe('1 row had fewer fields than the header.');
+    const none = runCsv('csv-pick', 'a,b,c\n1,2\n4,5,6', 'a');
+    expect(none.notice).toBeUndefined();
+  });
+
+  it('suggests the header when only the letter case differs', () => {
+    const r = runCsv('csv-pick', 'Name,Age\nAda,36', 'name');
+    expect(r.ok).toBe(false);
+    expect(r.error).toBe('No column named "name". Did you mean Name?');
+    const miss = runCsv('csv-pick', 'Name,Age\nAda,36', 'email');
+    expect(miss.error).toBe('No column named "email".');
+  });
+});

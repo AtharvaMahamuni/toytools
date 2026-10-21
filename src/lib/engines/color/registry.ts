@@ -7,7 +7,7 @@ import { hexByteOrder } from './hints';
 import { contrastRatio, wcagLevels, luminance, suggestAccessible } from './contrast';
 import { inkFor, oklchToRgb, shadeScale } from './shades';
 import { perceptualGradient } from './gradient';
-import { CVD_TYPES, collapseNote, simulateCvd, simulatePalette } from './vision';
+import { CVD_TYPES, PALETTE_MAX, collapseNote, simulateCvd, simulatePalette, splitColorList } from './vision';
 import type { RGB } from './types';
 
 export const color = {
@@ -30,6 +30,8 @@ export const color = {
   simulateCvd,
   simulatePalette,
   collapseNote,
+  splitColorList,
+  paletteMax: PALETTE_MAX,
   /** Parse two colors and return the full WCAG verdict, or an error. */
   check: (fg: string, bg: string) => {
     const f = parseColor(fg), b = parseColor(bg);

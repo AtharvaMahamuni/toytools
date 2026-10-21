@@ -12,9 +12,9 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
   minor: 2,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
-  releaseDate: '2026-10-20',
+  releaseDate: '2026-10-21',
   description: 'Refused board taps keep the selection, and the game guides name the center column and the four piece rule',
 };
 

@@ -24,6 +24,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
         />
         <p class="cb-help">Up to eight colors, separated by spaces. HEX, RGB, HSL, or a CSS name. The list scrolls. You do not switch types.</p>
         <p class="cb-error" id="colorblind-simulator-error" hidden></p>
+        <p class="cb-help" id="colorblind-simulator-cap" hidden>Only the first 8 colors are shown.</p>
       </div>
     </IoPanel>
 
@@ -45,6 +46,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     var textEl = document.getElementById('colorblind-simulator-input');
     var rowsEl = document.getElementById('colorblind-simulator-rows');
     var errEl = document.getElementById('colorblind-simulator-error');
+    var capEl = document.getElementById('colorblind-simulator-cap');
     var noteEl = document.getElementById('colorblind-simulator-note');
     var noteTxt = document.getElementById('colorblind-simulator-note-text');
     var copyBtn = document.getElementById('colorblind-simulator-copy');
@@ -91,8 +93,11 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
 
     function render() {
       var TT = window.ToyTools;
-      if (!TT || !TT.color || !TT.color.simulatePalette || !TT.color.parse) return;
-      var parts = textEl.value.split(/[\s,]+/).filter(Boolean).slice(0, 8);
+      if (!TT || !TT.color || !TT.color.simulatePalette || !TT.color.parse || !TT.color.splitColorList) return;
+      // Spaces and commas separate colors, but rgb(...) and hsl(...) stay whole.
+      var split = TT.color.splitColorList(textEl.value);
+      var parts = split.items;
+      if (capEl) capEl.hidden = split.dropped === 0;
       var colors = [];
       var bad = [];
       for (var i = 0; i < parts.length; i++) {

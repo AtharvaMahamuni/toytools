@@ -170,3 +170,17 @@ export function collapseNote(collapse: Collapse | null): string {
   if (!collapse) return '';
   return `Under ${collapse.label}, ${collapse.aHex} and ${collapse.bHex} land ${collapse.after} apart. They were ${collapse.before} apart as typed.`;
 }
+
+/** Most colors the simulator shows at once. */
+export const PALETTE_MAX = 8;
+
+/**
+ * Split a typed palette into color tokens. Spaces and commas separate colors, but a functional
+ * color such as `rgb(255, 0, 0)` or `hsl(120 50% 50% / 0.5)` is kept whole, commas and spaces
+ * included. An unclosed `rgb(` runs to the end of the text so it fails as one token.
+ * Returns the first `max` tokens and how many were dropped beyond that.
+ */
+export function splitColorList(text: string, max = PALETTE_MAX): { items: string[]; dropped: number } {
+  const all = text.match(/[a-z]+\([^)]*\)?|[^\s,()]+/gi) ?? [];
+  return { items: all.slice(0, max), dropped: Math.max(0, all.length - max) };
+}

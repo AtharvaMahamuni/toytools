@@ -34,4 +34,27 @@ test.describe('colorblind simulator', () => {
     await expect(page.locator('#colorblind-simulator-error')).toBeVisible();
     await expect(page.locator('#colorblind-simulator-note')).toBeHidden();
   });
+
+  test('accepts rgb() and hsl() lists and notes the eight-color cap', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto(URL);
+    const input = page.locator('#colorblind-simulator-input');
+    const err = page.locator('#colorblind-simulator-error');
+    const cap = page.locator('#colorblind-simulator-cap');
+    const firstLine = page.locator('#colorblind-simulator-rows .cb-row').first().locator('.cb-swatch');
+    await input.fill('rgb(211, 47, 47) hsl(123, 43%, 39%)');
+    await expect(err).toBeHidden();
+    await expect(firstLine).toHaveCount(2);
+    await input.fill('rgba(0, 0, 255, 0.5), #00ff00 red');
+    await expect(err).toBeHidden();
+    await expect(firstLine).toHaveCount(3);
+    await expect(cap).toBeHidden();
+    await input.fill('#000 #111 #222 #333 #444 #555 #666 #777 #888');
+    await expect(cap).toBeVisible();
+    await expect(cap).toHaveText('Only the first 8 colors are shown.');
+    await expect(firstLine).toHaveCount(8);
+    await input.fill('#000 #fff');
+    await expect(cap).toBeHidden();
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
 });
