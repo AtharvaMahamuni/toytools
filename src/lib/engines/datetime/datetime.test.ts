@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { runDateTime, DATETIME_TOOLS, dateTimeFields } from './registry';
 import { DATETIME_EXAMPLES } from './examples';
-import { addDays, compareCivil, parseISODate } from './models';
+import { addDays, compareCivil, daysBetween, daysInMonth, parseISODate, toUTCms } from './models';
+import { OVULATION_CAVEAT } from './calculators/ovulation';
 
 const NO_OPTS = {};
 
@@ -128,6 +129,15 @@ describe('age and date difference share one y/m/d breakdown (Phase B PR 2)', () 
 });
 
 describe('civil dates before year 100', () => {
+  it('keeps years 0 to 99 off the 1900s: year 0 and year 4 are leap years, year 100 is not', () => {
+    expect(daysInMonth(0, 2)).toBe(29);
+    expect(daysInMonth(4, 2)).toBe(29);
+    expect(daysInMonth(100, 2)).toBe(28);
+    expect(daysInMonth(1900, 2)).toBe(28);
+    expect(toUTCms({ y: 50, m: 1, d: 1 })).toBeLessThan(toUTCms({ y: 1950, m: 1, d: 1 }));
+    expect(daysBetween({ y: 4, m: 2, d: 28 }, { y: 4, m: 3, d: 1 })).toBe(2);
+  });
+
   it('does not shift year 99 onto 1999', () => {
     expect(addDays(parseISODate('0099-01-01')!, 280)).toEqual({ y: 99, m: 10, d: 8 });
     expect(compareCivil(parseISODate('0099-12-01')!, parseISODate('0100-01-15')!)).toBeLessThan(0);
@@ -175,6 +185,28 @@ describe('pregnancy due date', () => {
     expect(r.metrics.find((m) => m.id === 'gestational-age')?.value).toBe('40 weeks, 2 days');
   });
 
+  it('refuses a last period more than 44 weeks back, and accepts exactly 44 weeks', () => {
+    const old = runDateTime('pregnancy', { lmp: '2020-01-01', cycle: 28, asOf: '2026-03-01' }, NO_OPTS);
+    expect(old.ok).toBe(false);
+    expect(old.error).toBe('That last period is more than 44 weeks before the date you are counting from, which is longer than a pregnancy lasts. Check the year, or enter the most recent period.');
+    const edge = runDateTime('pregnancy', { lmp: '2026-01-01', cycle: 28, asOf: '2026-11-05' }, NO_OPTS);
+    expect(edge.ok).toBe(true);
+    expect(edge.metrics.find((m) => m.id === 'gestational-age')?.value).toBe('44 weeks');
+    expect(runDateTime('pregnancy', { lmp: '2026-01-01', cycle: 28, asOf: '2026-11-06' }, NO_OPTS).ok).toBe(false);
+  });
+
+  it('switches trimester exactly on day 98 and day 196', () => {
+    const tri = (asOf: string) => runDateTime('pregnancy', { lmp: '2026-01-01', cycle: 28, asOf }, NO_OPTS).metrics.find((m) => m.id === 'trimester')?.raw;
+    expect(tri('2026-04-08')).toBe(1); // day 97
+    expect(tri('2026-04-09')).toBe(2); // day 98
+    expect(tri('2026-07-15')).toBe(2); // day 195
+    expect(tri('2026-07-16')).toBe(3); // day 196
+  });
+
+  it('names irregular cycles and PCOS in the explanation', () => {
+    expect(runDateTime('pregnancy', base, NO_OPTS).explanation).toContain('irregular cycles or PCOS');
+  });
+
   it('rejects a last period after the count date, a fractional cycle, and a missing date', () => {
     expect(runDateTime('pregnancy', { lmp: '2026-03-02', cycle: 28, asOf: '2026-03-01' }, NO_OPTS).ok).toBe(false);
     expect(runDateTime('pregnancy', { ...base, cycle: 28.5 }, NO_OPTS).ok).toBe(false);
@@ -210,16 +242,51 @@ describe('ovulation date', () => {
     expect(r.metrics.find((m) => m.id === 'fertile-window')?.value).toBe('12 January 2026 to 17 January 2026');
     expect(r.metrics.find((m) => m.id === 'next-period')?.value).toBe('29 January 2026');
     expect(r.metrics.find((m) => m.id === 'window-status')).toMatchObject({ value: '2 days', raw: -2 });
-    expect(r.insights?.some((item) => item.tone === 'caution')).toBe(false);
-    expect(r.insights?.[0]?.text).toContain('The luteal phase does not move it');
+    // The only caution is the birth control caveat; the luteal note stays on the hero.
+    expect(r.insights?.filter((item) => item.tone === 'caution').map((item) => item.text)).toEqual([OVULATION_CAVEAT]);
+    expect(r.insights?.some((item) => item.text.includes('The luteal phase does not move it'))).toBe(true);
   });
 
-  it('labels a period that is already past as the following period', () => {
+  it('rolls an old last period forward to the cycle the count date falls in, and says so', () => {
     const r = runDateTime('ovulation', { ...base, asOf: '2026-02-15' }, NO_OPTS);
-    expect(r.metrics.find((m) => m.id === 'next-period')).toMatchObject({
-      label: 'Following period',
-      value: '29 January 2026',
-    });
+    expect(r.hero?.value).toBe('12 February 2026');
+    expect(r.metrics.find((m) => m.id === 'next-period')).toMatchObject({ label: 'Next period', value: '26 February 2026' });
+    expect(r.metrics.find((m) => m.id === 'fertile-window')?.value).toBe('7 February 2026 to 12 February 2026');
+    expect(r.metrics.find((m) => m.id === 'window-status')).toMatchObject({ label: 'After the window', value: '3 days', raw: 3 });
+    const roll = r.insights?.find((item) => item.text.startsWith('The last period you entered'));
+    expect(roll?.text).toBe('The last period you entered was 45 days before 15 February 2026, so these dates project 1 cycle forward, to a period starting 29 January 2026. Enter your latest period for a better estimate.');
+    expect(roll?.tone).toBe('caution');
+    expect(r.assumptions?.find((a) => a.label === 'Projected period start')?.value).toBe('29 January 2026');
+    // The count date on a period start is the start of that cycle, not the end of the last.
+    const onStart = runDateTime('ovulation', { ...base, asOf: '2026-01-29' }, NO_OPTS);
+    expect(onStart.hero?.value).toBe('12 February 2026');
+    const dayBefore = runDateTime('ovulation', { ...base, asOf: '2026-01-28' }, NO_OPTS);
+    expect(dayBefore.hero?.value).toBe('15 January 2026');
+    expect(dayBefore.insights?.some((item) => item.text.startsWith('The last period you entered'))).toBe(false);
+  });
+
+  it('refuses a last period more than a year back', () => {
+    const r = runDateTime('ovulation', { ...base, lmp: '2024-12-01', asOf: '2026-01-10' }, NO_OPTS);
+    expect(r.ok).toBe(false);
+    expect(r.error).toBe('That last period is more than a year before the date you are counting from. Enter the most recent period.');
+    expect(runDateTime('ovulation', { ...base, lmp: '2025-01-09', asOf: '2026-01-10' }, NO_OPTS).ok).toBe(true);
+  });
+
+  it('says it is a calendar estimate and not birth control, in the insights and the explanation', () => {
+    const r = runDateTime('ovulation', base, NO_OPTS);
+    expect(r.insights?.[0]).toMatchObject({ text: OVULATION_CAVEAT, tone: 'caution' });
+    expect(OVULATION_CAVEAT).toContain('not a form of birth control');
+    expect(OVULATION_CAVEAT).toContain('timing varies');
+    expect(r.explanation).toContain(OVULATION_CAVEAT);
+    expect(r.explanation).toContain('PCOS');
+  });
+
+  it('status on each edge of the window: before, first day, ovulation day, day after', () => {
+    const at = (asOf: string) => runDateTime('ovulation', { ...base, asOf }, NO_OPTS).metrics.find((m) => m.id === 'window-status');
+    expect(at('2026-01-09')).toMatchObject({ label: 'Before the window', value: '1 day', raw: -1 });
+    expect(at('2026-01-10')).toMatchObject({ label: 'This date', value: 'Inside the fertile window', raw: 0 });
+    expect(at('2026-01-15')).toMatchObject({ label: 'This date', value: 'Inside the fertile window', raw: 0 });
+    expect(at('2026-01-16')).toMatchObject({ label: 'After the window', value: '1 day', raw: 1 });
   });
 
   it('names an earlier ovulation for a 16 day luteal phase and stays quiet at 14', () => {

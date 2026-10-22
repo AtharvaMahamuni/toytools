@@ -183,10 +183,11 @@ export const loan: FinanceCalculator = {
       label: 'Term',
       type: 'duration',
       default: 5,
-      min: 1,
+      min: 0.08,
       max: 40,
       step: 1,
       suffix: 'years',
+      help: 'Under a year, type a fraction: 0.5 is 6 months, 0.25 is 3 months.',
     },
     {
       id: 'extra',
@@ -212,8 +213,12 @@ export const loan: FinanceCalculator = {
     if (!down.ok) return down.result;
     const rate = number(input, 'rate', 'a yearly interest rate', { min: 0, max: 100 });
     if (!rate.ok) return rate.result;
-    const years = number(input, 'years', 'a term in years', { min: 1, max: 40 });
+    const years = number(input, 'years', 'a term in years', { min: 0, max: 40 });
     if (!years.ok) return years.result;
+    // Terms under a year are fractions of a year, rounded to whole months.
+    if (Math.round(years.value * 12) < 1) {
+      return validationError('The shortest term is one month. Type 0.08 for one month or 0.5 for six.');
+    }
     const extra = number(input, 'extra', 'the extra monthly payment', { optional: true, min: 0 });
     if (!extra.ok) return extra.result;
 

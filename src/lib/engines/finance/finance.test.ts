@@ -271,9 +271,52 @@ describe('loan amortization', () => {
     expect(r.metrics.find((m) => m.id === 'payoff')?.value).toBe('1 month');
   });
 
-  it('rejects a term under a year', () => {
+  it('rejects a term under one month', () => {
     const r = runFinance('loan', { ...base, years: 0 }, USD);
     expect(r.ok).toBe(false);
+    expect(r.error).toBe('The shortest term is one month. Type 0.08 for one month or 0.5 for six.');
+    expect(runFinance('loan', { ...base, years: 0.04 }, USD).ok).toBe(false);
+  });
+
+  it('takes a term under a year as whole months', () => {
+    const six = runFinance('loan', { ...base, rate: 12, years: 0.5 }, USD);
+    expect(six.ok).toBe(true);
+    expect(six.metrics.find((m) => m.id === 'payoff')?.raw).toBe(6);
+    expect(six.metrics.find((m) => m.id === 'payoff')?.value).toBe('6 months');
+    expect(six.hero?.raw).toBeCloseTo(17254.84, 2);
+    const one = runFinance('loan', { ...base, rate: 0, years: 0.08 }, USD);
+    expect(one.metrics.find((m) => m.id === 'payoff')?.raw).toBe(1);
+    expect(one.hero?.raw).toBe(100000);
+  });
+
+  it('rounds each month of interest to the cent before it is booked', () => {
+    // 150 at 12% over 3 months is a case where booking unrounded monthly interest gives a
+    // different schedule. 51 a month and 3.02 interest match an independent cent-by-cent walk.
+    const r = runFinance('loan', { ...base, price: 150, rate: 12, years: 0.25 }, USD);
+    expect(r.hero?.raw).toBe(51);
+    expect(r.metrics.find((m) => m.id === 'interest')?.raw).toBe(3.02);
+    expect(r.timeline?.[1]?.parts).toEqual({ principal: 150, interest: 3.02 });
+  });
+
+  it('total paid is the amount borrowed plus the interest, to the cent', () => {
+    const r = runFinance('loan', { ...base, down: 20000 }, USD);
+    const total = r.metrics.find((m) => m.id === 'total')!;
+    const interest = r.metrics.find((m) => m.id === 'interest')!.raw!;
+    expect(total.raw).toBeCloseTo(80000 + interest, 2);
+    expect(total.raw).toBe(106773.25);
+  });
+
+  it('books interest to the cent each month, so the schedule sums exactly', () => {
+    // 1000 at 7% over 7 months: the unrounded interest would drift by fractions of a cent.
+    const r = runFinance('loan', { ...base, price: 1000, rate: 7, years: 7 / 12 }, USD);
+    const parts = (r.timeline ?? []).slice(1);
+    const interestPaid = parts.reduce((sum, p) => sum + (p.parts?.interest ?? 0), 0);
+    const interest = r.metrics.find((m) => m.id === 'interest')!.raw!;
+    expect(Math.round(interest * 100)).toBe(interest * 100);
+    expect(interestPaid).toBeCloseTo(interest, 6);
+    // Matches an independent cent-by-cent schedule: 146.21 a month, 23.46 interest.
+    expect(interest).toBe(23.46);
+    expect(r.hero?.raw).toBe(146.21);
   });
 
   it('runs a sub-cent installment to the end of the term', () => {

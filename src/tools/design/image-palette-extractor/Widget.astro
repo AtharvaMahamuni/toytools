@@ -15,7 +15,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
           accept="image/*"
         />
         <p class="pal-help">Runs entirely on your device. Nothing is uploaded.</p>
-        <p class="pal-error" id="image-palette-extractor-error" hidden></p>
+        <p class="pal-error" id="image-palette-extractor-error" role="alert" hidden></p>
         <div class="pal-frame" id="image-palette-extractor-frame" hidden>
           <img id="image-palette-extractor-preview" alt="The picture you chose" />
         </div>
@@ -23,7 +23,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     </IoPanel>
 
     <IoPanel slot="output" label="Palette" variant="prose" result bare>
-      <div class="io-body">
+      <div class="io-body" aria-live="polite">
         <ul class="pal-list" id="image-palette-extractor-list" data-craft="palette-pixel-share" hidden></ul>
         <p class="pal-gamut" id="image-palette-extractor-gamut" hidden>
           A sample was outside sRGB. The hex is the clamped value.

@@ -16,6 +16,8 @@ const STANDARD_CYCLE = 28;
 const NAEGELE_DAYS = 280;
 const SECOND_TRIMESTER_DAY = 14 * 7;
 const THIRD_TRIMESTER_DAY = 28 * 7;
+/** About 44 weeks: past this, a last period cannot belong to a current pregnancy. */
+export const MAX_GESTATION_DAYS = 44 * 7;
 
 function whole(input: Record<string, number | string>, key: string, label: string, min: number, max: number): number | string {
   const raw = input[key];
@@ -96,6 +98,9 @@ export const pregnancyCalculator: DateTimeTool = {
     if (compareCivil(lmp.value, ref) > 0) {
       return validationError('The last period is after the date you are measuring from. Check the dates.');
     }
+    if (daysBetween(lmp.value, ref) > MAX_GESTATION_DAYS) {
+      return validationError('That last period is more than 44 weeks before the date you are counting from, which is longer than a pregnancy lasts. Check the year, or enter the most recent period.');
+    }
 
     const dueDays = NAEGELE_DAYS + (cycle - STANDARD_CYCLE);
     const due = addDays(lmp.value, dueDays);
@@ -159,7 +164,8 @@ export const pregnancyCalculator: DateTimeTool = {
         + `On ${formatCivil(ref)} that is ${weeksPhrase(gestDays)} pregnant, in the ${trimester.name.toLowerCase()} trimester. `
         + `The second trimester starts ${formatCivil(second)} and the third starts ${formatCivil(third)}, both counted from the last period. `
         + `Estimated conception is ${formatCivil(conception)}, cycle length minus 14 days after the last period. `
-        + `This is date arithmetic for planning. It is not a scan and it is not a diagnosis.`,
+        + `This is date arithmetic for planning. It is not a scan and it is not a diagnosis. `
+        + `With irregular cycles or PCOS the date can be off by a week or more, and an ultrasound dating scan gives a better date.`,
     });
   },
 };

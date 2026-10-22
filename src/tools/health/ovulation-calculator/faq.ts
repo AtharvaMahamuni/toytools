@@ -29,7 +29,7 @@ export const items: FAQItem[] = [
     id: 'ovulation-calculator-faq-5',
     question: 'Is the ovulation date a conception date?',
     answer:
-      'It is the estimated conception date this page can make from a cycle. A 14 day luteal phase and a 28 day cycle give 15 January 2026, which is the same estimate the pregnancy due date page uses for that cycle. It is not a conception date calculator that reads a test. The card says ovulation. A test is the thing that confirms it.',
+      'The likeliest conception days are the fertile window; this date is an estimate. A 14 day luteal phase and a 28 day cycle give 15 January 2026, which is the same estimate the pregnancy due date page uses for that cycle. It is not a conception date calculator that reads a test. The card says ovulation. A test is the thing that confirms it.',
   },
   {
     id: 'ovulation-calculator-faq-6',
@@ -41,12 +41,12 @@ export const items: FAQItem[] = [
     id: 'ovulation-calculator-faq-7',
     question: 'Does this replace an ovulation test?',
     answer:
-      'No. The page does date arithmetic so you can see an ovulation date, a fertile window, and the next period change together. It does not read a test strip, it does not confirm a temperature shift, and it does not predict a pregnancy. If a test and this date disagree, the test is the one to trust.',
+      'No. The page does date arithmetic so you can see an ovulation date, a fertile window, and the next period change together. It does not read a test strip, it does not confirm a temperature shift, and it does not predict a pregnancy. If a test and this date disagree, the test is the one to trust. This is a calendar estimate, not contraception, and timing varies from cycle to cycle, so it is not reliable for avoiding pregnancy. If cycles vary by more than a few days, or with PCOS, a calendar date can be off by a week or more; an ultrasound or a clinician gives a better date.',
   },
   {
     id: 'ovulation-calculator-faq-8',
     question: 'Are these dates uploaded?',
     answer:
-      'No. Runs entirely on your device. Nothing is uploaded. The last period, the cycle length, the luteal phase, and the count date stay in the browser. A chat can recite day 14 once. It will not keep the window and the luteal shift on one screen while you change a field.',
+      'No. The last period, the cycle length, the luteal phase, and the count date stay in the browser. Runs entirely on your device. Nothing is uploaded.',
   },
 ];

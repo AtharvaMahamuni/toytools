@@ -13,10 +13,11 @@ import { unixTimestampConverter } from './calculators/unix-timestamp';
 import { cronExpressionParser } from './calculators/cron';
 import { systemdTimerConverter } from './calculators/systemd-timer';
 import { sleepCalculator } from './calculators/sleep';
+import { dateFormatDetector } from './calculators/date-format';
 import { pregnancyCalculator } from './calculators/pregnancy';
 import { ovulationCalculator } from './calculators/ovulation';
-import { dateFormatDetector } from './calculators/date-format';
 
+/** Every tool, for build-time consumers. The browser runtime loads one per page through lazy.ts. */
 export const DATETIME_TOOLS: Record<string, DateTimeTool> = {
   'age': ageCalculator,
   'date-difference': dateDifferenceCalculator,
@@ -25,9 +26,9 @@ export const DATETIME_TOOLS: Record<string, DateTimeTool> = {
   'cron': cronExpressionParser,
   'systemd-timer': systemdTimerConverter,
   'sleep': sleepCalculator,
+  'date-format': dateFormatDetector,
   'pregnancy': pregnancyCalculator,
   'ovulation': ovulationCalculator,
-  'date-format': dateFormatDetector,
 };
 
 /**

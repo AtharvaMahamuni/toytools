@@ -20,6 +20,7 @@ import { splitBillCalc } from './calculators/split-bill';
 import { shopUpiTally } from './calculators/shop-upi-tally';
 import { loan } from './calculators/loan';
 
+/** Every calculator, for build-time consumers. The browser runtime loads one per page through lazy.ts. */
 export const FINANCE_CALCULATORS: Record<string, FinanceCalculator> = {
   'compound-interest': compoundInterest,
   'rule-of-72': ruleOf72Calc,

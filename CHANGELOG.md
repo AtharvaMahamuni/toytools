@@ -10,7 +10,12 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Fixed
 
-- **Ovulation Calculator.** When the next period date is already before the day you are counting, the card says Following period and keeps that date. It does not roll the cycle forward. A cleared cycle or luteal field names that field. Clearing only the last-period date still asks for the first day of the last period.
+- **Ovulation Calculator.** A last period more than one cycle before the day you are counting now rolls forward to the cycle that day falls in, and the page says how many cycles it projected and asks for the latest period. A last period more than a year back is refused. A cleared cycle or luteal field names that field. Clearing only the last-period date still asks for the first day of the last period.
+- **Ovulation Calculator.** The result, the FAQ, the guide, and the llms "Does not" line say this is a calendar estimate, not contraception, and that timing varies. A line under the result says the same. The guide adds ovulation tests versus the calendar, an irregular cycle and PCOS note, and a Sources section, and its headings no longer repeat the FAQ. The meta description now says it is not birth control.
+- **Pregnancy Due Date Calculator.** A last period more than 44 weeks before the day you are counting is refused. A line under the result says it is an estimate from dates only and to talk to a midwife or doctor. The FAQ and guide add an irregular cycle and PCOS note, the guide adds last period versus ultrasound dating and a Sources section naming Naegele's rule, ACOG Committee Opinion 700, and the NHS, and its headings no longer repeat the FAQ.
+- **Loan Calculator.** A term under a year is accepted as a fraction, down to one month. The guide says it is arithmetic, not financial advice, and that the last payment can differ by a few cents from rounding. A privacy FAQ is added and the meta description is rewritten.
+- **Image Palette Extractor.** The title is shorter, an error is announced as an alert, and the palette sits in a polite live region. The contrast checker and shades generator guides link to it.
+- **Date and finance calculators.** Each calculator now loads on its own page only, so date and finance tool pages carry about 8 KB less JavaScript. The budget check now counts those lazy chunks.
 
 ## [alpha-v13.9] - 2026-10-21
 

@@ -3,9 +3,9 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'loan-calculator',
   name: 'Loan Calculator',
-  seoTitle: 'Loan Calculator: Monthly Payment and EMI',
+  seoTitle: 'Loan Calculator: EMI, Mortgage and Amortization',
   description:
-    'Work out a home loan EMI, the monthly payment, and the interest. The mortgage payment and the amortization update as you type.',
+    'Work out the monthly payment or EMI on a home loan, the total interest, and what an extra payment saves. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Monthly payment, total interest, and what an extra payment saves.',
   categorySlug: 'money-finance',
   tags: [

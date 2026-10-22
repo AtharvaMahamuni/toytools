@@ -3,9 +3,9 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'image-palette-extractor',
   name: 'Image Palette Extractor',
-  seoTitle: 'Image Palette Extractor: Dominant Colors from a Photo',
+  seoTitle: 'Image Palette Extractor: Colors from a Photo',
   description:
-    'Extract a dominant color palette from a photo. Get colors from an image, then copy the image to palette CSS.',
+    'Extract a dominant color palette from a photo. Get colors from an image, then copy the colors as CSS.',
   tagline: 'Dominant colors from a photo, each with its share of the pixels.',
   categorySlug: 'design-tools',
   tags: [

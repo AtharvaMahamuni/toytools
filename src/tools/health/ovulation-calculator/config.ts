@@ -3,8 +3,9 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'ovulation-calculator',
   name: 'Ovulation Calculator',
+  seoTitle: 'Ovulation Calculator: When Am I Ovulating?',
   description:
-    'When am I ovulating? Fertile window and conception date from the last period. Runs entirely on your device. Nothing is uploaded.',
+    'Estimate ovulation, conception date, fertile window and next period from a last period. Not birth control. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Fertile window, ovulation date, and the next period.',
   categorySlug: 'health-fitness',
   tags: [
@@ -30,7 +31,7 @@ export const config: ToolConfig = {
   },
   citation: {
     problem: 'Use the Ovulation Calculator when a last period, a cycle length, and a luteal phase should show an ovulation date, a fertile window, and the next period together.',
-    nonGoal: 'confirm ovulation with a test, predict a pregnancy, keep a multi-cycle log, or upload these dates.',
+    nonGoal: 'work as birth control (it is a calendar estimate, not contraception, and timing varies), confirm ovulation with a test, predict a pregnancy, keep a multi-cycle log, or upload these dates.',
   },
   job: {
     intent: 'calculate',

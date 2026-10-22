@@ -37,4 +37,10 @@ export const items: FAQItem[] = [
     answer:
       'At 100% a year over 40 years the monthly interest uses the whole payment, so the balance never falls. Lower the yearly rate, shorten the term, or add an extra payment that covers more than the interest.',
   },
+  {
+    id: 'loan-faq-privacy',
+    question: 'Are my loan amount and rate uploaded?',
+    answer:
+      'No. The amount, the rate, the term, and the extra payment stay in the browser, and the page does not fetch a rate. Runs entirely on your device. Nothing is uploaded.',
+  },
 ];

@@ -20,6 +20,7 @@ const category = categories.find(c => c.slug === config.categorySlug)!;
 const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 const contrastHref = toolPathBySlug('color-contrast-checker');
 const formatHref = toolPathBySlug('color-format-converter');
+const paletteHref = toolPathBySlug('image-palette-extractor');
 ---
 
 <GuideLayout
@@ -40,7 +41,9 @@ const formatHref = toolPathBySlug('color-format-converter');
     <p>
       That block is the thing you came for. Copy CSS takes all of it. Tap a single swatch to copy
       only that hex. #3b82f6, rgb(59, 130, 246), hsl(217, 91%, 60%), and a name like teal all
-      count as input. The arithmetic stays in the browser. Nothing is uploaded.
+      count as input. To start from a photo, take a color from the
+      <a href={paletteHref}>image palette extractor</a> and paste it here. The arithmetic
+      stays in the browser. Nothing is uploaded.
     </p>
     <a href={toolHref} class="cta-link">Open the Color Shades Generator →</a>
   </section>

@@ -20,4 +20,13 @@ test.describe('ovulation calculator', () => {
     await expect(page.locator('[data-craft="luteal-phase-length"]')).toContainText('2 days later');
     await expect(experience(page)).toContainText('29 January 2026');
   });
+
+  test('shows the not-contraception note under the result, and rolls an old period forward', async ({ page }) => {
+    await page.goto(URL);
+    await expect(page.locator('[data-result-note]')).toContainText('not contraception');
+    await page.locator('#ovulation-calculator-f-lmp').fill('2026-01-01');
+    await page.locator('#ovulation-calculator-f-asOf').fill('2026-02-15');
+    await expect(experience(page)).toContainText('12 February 2026');
+    await expect(experience(page)).toContainText('not a form of birth control');
+  });
 });

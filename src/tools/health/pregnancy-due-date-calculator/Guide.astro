@@ -29,7 +29,7 @@ const ageHref = toolPathBySlug('age-calculator');
   toolCategorySlug={config.categorySlug}
 >
   <section id="quick-answer">
-    <h2>What due date does the last period give? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>From a last period to a due date <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Add 280 days to the first day of the last period when the cycle is 28 days. That is the
       Naegele count this page uses. For example, a last period on 1 January 2026 is due on
@@ -54,7 +54,7 @@ const ageHref = toolPathBySlug('age-calculator');
   </section>
 
   <section id="naegele">
-    <h2>How does the Naegele rule use cycle length? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>Why the 280 day count beats the month shortcut <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       The usual statement is one year minus three months plus seven days from the first day of
       the last period. What the Naegele rule counts, for a 28 day cycle, is about 280 days,
@@ -86,7 +86,7 @@ const ageHref = toolPathBySlug('age-calculator');
   </section>
 
   <section id="weeks">
-    <h2>How many weeks pregnant am I? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>Reading the week count on any date <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Subtract the last period from the date you are counting, in whole days, and split that
       span into weeks and leftover days. 1 January 2026 to 1 March 2026 is 59 days. 59 divided
@@ -116,7 +116,7 @@ const ageHref = toolPathBySlug('age-calculator');
   </section>
 
   <section id="trimesters">
-    <h2>When do the trimester dates fall? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>What the trimester cards and milestones show <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       This page starts the second trimester at 14 weeks, which is 98 days after the last
       period, and the third at 28 weeks, which is 196 days. From 1 January 2026 the second
@@ -137,6 +137,29 @@ const ageHref = toolPathBySlug('age-calculator');
       A 32 day cycle gives 19 January 2026. The label says estimated. It is the same
       assumption a calendar method uses, and it is not a hormone test.
     </p>
+  </section>
+
+  <section id="ultrasound">
+    <h2>Last period dating versus an ultrasound scan <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A date from the last period assumes ovulation about 14 days after it began. An early
+      ultrasound measures the baby instead, so it does not need that assumption. When the two
+      differ by more than set thresholds, which depend on how far along the scan is, the
+      scan date replaces the last period date. That is the practice in ACOG Committee Opinion
+      700. Bring the date from this page to the scan, and use the date the clinician gives
+      you after it.
+    </p>
+    <p>
+      If cycles vary by more than a few days, or with PCOS, a calendar date can be off by a
+      week or more; an ultrasound or a clinician gives a better date. The cycle length field
+      helps only when the cycle is long but steady. An unpredictable cycle has no single
+      length to type.
+    </p>
+    <ReferenceBlock type="note" heading="Talk to a midwife or doctor">
+      <p>
+        An estimate from dates only. Talk to a midwife or doctor about your dating.
+      </p>
+    </ReferenceBlock>
   </section>
 
   <section id="common-mistakes">
@@ -170,6 +193,15 @@ const ageHref = toolPathBySlug('age-calculator');
         arithmetic you can rerun when the cycle length was wrong.
       </p>
     </ReferenceBlock>
+  </section>
+
+  <section id="sources">
+    <h2>Sources <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>Naegele's rule: 280 days, or 40 weeks, from the first day of the last period for a 28 day cycle.</li>
+      <li>ACOG Committee Opinion 700, Methods for Estimating the Due Date: ultrasound dating replaces last period dating when they differ beyond set thresholds.</li>
+      <li>NHS guidance on due dates and on when ovulation happens in a cycle.</li>
+    </ul>
   </section>
 
   <section id="next">

@@ -15,6 +15,11 @@ import { assumption, decisions, insight, milestone, toolDecision } from '../stor
 
 const STANDARD_LUTEAL = 14;
 const FERTILE_DAYS_BEFORE = 5;
+/** Past this, rolling the cycle forward is guesswork: ask for a recent period instead. */
+const MAX_ROLL_DAYS = 366;
+/** Said with every result: the page is a calendar, not a contraceptive or a test. */
+export const OVULATION_CAVEAT =
+  'This is a calendar estimate, not a form of birth control, and it is not reliable for avoiding pregnancy. Ovulation timing varies from cycle to cycle.';
 
 function whole(input: Record<string, number | string>, key: string, label: string, min: number, max: number): number | string {
   const raw = input[key];
@@ -94,9 +99,17 @@ export const ovulationCalculator: DateTimeTool = {
       return validationError('The last period is after the date you are measuring from. Check the dates.');
     }
 
-    const ovulation = addDays(lmp.value, cycle - luteal);
+    const sinceLmp = daysBetween(lmp.value, ref);
+    if (sinceLmp > MAX_ROLL_DAYS) {
+      return validationError('That last period is more than a year before the date you are counting from. Enter the most recent period.');
+    }
+    // An old last period rolls forward whole cycles to the one the count date falls in, and the
+    // result says so. Without this, every date it shows would already be past.
+    const rolled = Math.floor(sinceLmp / cycle);
+    const start = addDays(lmp.value, rolled * cycle);
+    const ovulation = addDays(start, cycle - luteal);
     const windowStart = addDays(ovulation, -FERTILE_DAYS_BEFORE);
-    const nextPeriod = addDays(lmp.value, cycle);
+    const nextPeriod = addDays(start, cycle);
     const note = lutealShiftNote(luteal);
 
     let statusLabel = 'This date';
@@ -120,11 +133,8 @@ export const ovulationCalculator: DateTimeTool = {
       ...(note ? { note } : {}),
     });
 
-    const nextLabel = compareCivil(nextPeriod, ref) < 0
-      ? 'Following period'
-      : compareCivil(nextPeriod, ref) === 0
-        ? 'Period starts'
-        : 'Next period';
+    // After rolling forward, the count date is always before the next period.
+    const nextLabel = 'Next period';
 
     const metrics: ResultCard[] = [
       card('fertile-window', 'Fertile window', `${formatCivil(windowStart)} to ${formatCivil(ovulation)}`, {
@@ -133,14 +143,23 @@ export const ovulationCalculator: DateTimeTool = {
       }),
       card('next-period', nextLabel, formatCivil(nextPeriod), {
         raw: stamp(nextPeriod),
-        note: 'One cycle length after the last period. The luteal phase does not move it.',
+        note: rolled > 0
+          ? 'One cycle length after the projected period start. The luteal phase does not move it.'
+          : 'One cycle length after the last period. The luteal phase does not move it.',
       }),
       card('window-status', statusLabel, statusValue, { raw: statusRaw }),
     ];
 
     const insights = [
+      ...(rolled > 0
+        ? [insight(
+          `The last period you entered was ${plural(sinceLmp, 'day')} before ${formatCivil(ref)}, so these dates project ${plural(rolled, 'cycle')} forward, to a period starting ${formatCivil(start)}. Enter your latest period for a better estimate.`,
+          'caution',
+        )]
+        : []),
+      insight(OVULATION_CAVEAT, 'caution'),
       insight(
-        `Ovulation is ${cycle - luteal} days after ${formatCivil(lmp.value)}. The fertile window runs from ${formatCivil(windowStart)} to ${formatCivil(ovulation)}. The next period is ${formatCivil(nextPeriod)}. The luteal phase does not move it.`,
+        `Ovulation is ${cycle - luteal} days after ${formatCivil(start)}. The fertile window runs from ${formatCivil(windowStart)} to ${formatCivil(ovulation)}. The next period is ${formatCivil(nextPeriod)}. The luteal phase does not move it.`,
       ),
     ];
 
@@ -150,6 +169,7 @@ export const ovulationCalculator: DateTimeTool = {
       insights,
       assumptions: [
         assumption('Last period', formatCivil(lmp.value)),
+        ...(rolled > 0 ? [assumption('Projected period start', formatCivil(start))] : []),
         assumption('Cycle length', `${cycle} days`),
         assumption('Luteal phase', `${luteal} days`),
         assumption('Counted on', formatCivil(ref)),
@@ -164,11 +184,12 @@ export const ovulationCalculator: DateTimeTool = {
         toolDecision('Count the days between two dates', 'date-difference-calculator'),
       ]),
       explanation:
-        `Ovulation is ${formatCivil(ovulation)}, ${cycle - luteal} days after ${formatCivil(lmp.value)}, `
+        `Ovulation is ${formatCivil(ovulation)}, ${cycle - luteal} days after ${formatCivil(start)}, `
         + `because the cycle is ${cycle} days and the luteal phase is ${luteal} days. `
         + `The fertile window is ${formatCivil(windowStart)} to ${formatCivil(ovulation)}. `
         + `The next period is ${formatCivil(nextPeriod)}. `
-        + `This is date arithmetic. It is not an ovulation test and it does not predict a pregnancy.`,
+        + `This is date arithmetic. It is not an ovulation test and it does not predict a pregnancy. `
+        + `${OVULATION_CAVEAT} With irregular cycles or PCOS the dates can be off by a week or more.`,
     });
   },
 };

@@ -36,7 +36,7 @@ export const knowledge: Knowledge = {
   realWorldUseCases: [
     'Checking an estimated delivery date before a first prenatal visit.',
     'Seeing how a 32 day cycle moves 8 October 2026 to 12 October 2026.',
-    'Weeks pregnant on 1 March 2026 stay on the device. Nothing is uploaded.',
+    'Finding the 14 and 28 week dates to plan around the second and third trimesters.',
   ],
   commonMistakes: [
     'Leaving the cycle at 28 days when the real cycle is longer, so the due date lands early.',
@@ -51,12 +51,14 @@ export const knowledge: Knowledge = {
   ],
   usedWith: [
     { slug: 'date-difference-calculator', reason: 'Count the days between the last period and any later date', strength: 0.4 },
+    { slug: 'ovulation-calculator', reason: 'The ovulation date and fertile window from the same last period', strength: 0.4 },
   ],
   alternatives: [
     { slug: 'age-calculator', reason: 'An exact age from a birth date, which is a different count', strength: 0.2 },
   ],
   nextSteps: [
     { slug: 'date-difference-calculator', reason: 'Measure a span that is not a pregnancy', strength: 0.3 },
+    { slug: 'ovulation-calculator', reason: 'Check the fertile window of a cycle from the last period', strength: 0.3 },
   ],
   workflowStage: ['analyze'],
   keywords: [

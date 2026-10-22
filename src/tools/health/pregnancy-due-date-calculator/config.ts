@@ -3,8 +3,9 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'pregnancy-due-date-calculator',
   name: 'Pregnancy Due Date Calculator',
+  seoTitle: 'Pregnancy Due Date Calculator: Naegele Rule',
   description:
-    'How many weeks pregnant am I? Naegele rule estimated delivery date and trimester dates. Runs entirely on your device. Nothing is uploaded.',
+    'How many weeks pregnant am I? Find your estimated delivery date and trimester dates from your last period. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Due date, weeks pregnant, and trimester dates.',
   categorySlug: 'health-fitness',
   tags: [

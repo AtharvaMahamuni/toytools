@@ -25,4 +25,12 @@ test.describe('pregnancy due date calculator', () => {
     await page.locator('#pregnancy-due-date-calculator-f-cycle').fill('');
     await expect(page.locator('[data-experience-empty]')).toContainText('Enter Cycle length (days).');
   });
+
+  test('shows the midwife note under the result, and refuses a last period over 44 weeks back', async ({ page }) => {
+    await page.goto(URL);
+    await expect(page.locator('[data-result-note]')).toHaveText('An estimate from dates only. Talk to a midwife or doctor about your dating.');
+    await page.locator('#pregnancy-due-date-calculator-f-lmp').fill('2020-01-01');
+    await page.locator('#pregnancy-due-date-calculator-f-asOf').fill('2026-03-01');
+    await expect(experience(page)).toContainText('more than 44 weeks');
+  });
 });

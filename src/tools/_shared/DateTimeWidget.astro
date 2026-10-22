@@ -26,9 +26,11 @@ interface Props {
    * data-craft element, or the page carries two.
    */
   craftOn?: 'visualization' | 'hero-note';
+  /** One plain line shown under the result, using the existing widget-help style. */
+  resultNote?: string;
 }
 
-const { slug, dateTimeId, config, emptyText, craftOn } = Astro.props;
+const { slug, dateTimeId, config, emptyText, craftOn, resultNote } = Astro.props;
 
 // Shareable-link mode, decided at build time from the registry (src/lib/url-state.ts).
 // "auto" syncs the address bar as you type; "manual" only builds a link when asked.
@@ -70,6 +72,8 @@ const resolvedEmpty = emptyText ?? 'Enter your dates to calculate.';
     />
   </ToolSplit>
 </div>
+
+{resultNote && <p class="widget-help" data-result-note>{resultNote}</p>}
 
 <div class="tool-actions">
   <button class="action-btn action-btn--copy" id={`${slug}-copy`} data-label="Copy" type="button">Copy</button>

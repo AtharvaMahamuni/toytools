@@ -41,12 +41,12 @@ export const items: FAQItem[] = [
     id: 'pregnancy-due-date-calculator-faq-7',
     question: 'Does this replace a prenatal visit?',
     answer:
-      'No. The page does date arithmetic so you can see a due date, a week count, and trimester dates change together. It does not read a scan, it does not diagnose a pregnancy, and it does not know a clinician has already dated the pregnancy a different way. If a scan date and this date disagree, the scan is the one to take to the visit.',
+      'No. The page does date arithmetic so you can see a due date, a week count, and trimester dates change together. It does not read a scan, it does not diagnose a pregnancy, and it does not know a clinician has already dated the pregnancy a different way. If a scan date and this date disagree, the scan is the one to take to the visit. If cycles vary by more than a few days, or with PCOS, a calendar date can be off by a week or more; an ultrasound or a clinician gives a better date.',
   },
   {
     id: 'pregnancy-due-date-calculator-faq-8',
     question: 'Are these dates uploaded?',
     answer:
-      'No. Runs entirely on your device. Nothing is uploaded. The last period, the cycle length, and the count date stay in the browser. A chat can recite 280 days once. It will not keep the three dates and the cycle shift on one screen while you change a field.',
+      'No. The last period, the cycle length, and the count date stay in the browser. Runs entirely on your device. Nothing is uploaded.',
   },
 ];
