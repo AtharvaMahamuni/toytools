@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 10,
+  minor: 11,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-10-21',
-  description: 'Ovulation Calculator for a fertile window, luteal phase, and next period',
+  releaseDate: '2026-10-23',
+  description: 'Clearer board game pieces, legal-move markers, and a turn indicator',
 };
 
 export function formatVersion(config: VersionConfig): string {
