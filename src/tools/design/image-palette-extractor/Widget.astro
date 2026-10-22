@@ -1,0 +1,261 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+---
+
+<div class="calc-ledger" data-tool="image-palette-extractor" data-palette="image-palette">
+  <ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
+    <IoPanel slot="input" label="Picture" variant="prose" bare>
+      <div class="io-body">
+        <label class="widget-label" for="image-palette-extractor-file">Image file</label>
+        <input
+          id="image-palette-extractor-file"
+          class="pal-file"
+          type="file"
+          accept="image/*"
+        />
+        <p class="pal-help">Runs entirely on your device. Nothing is uploaded.</p>
+        <p class="pal-error" id="image-palette-extractor-error" role="alert" hidden></p>
+        <div class="pal-frame" id="image-palette-extractor-frame" hidden>
+          <img id="image-palette-extractor-preview" alt="The picture you chose" />
+        </div>
+      </div>
+    </IoPanel>
+
+    <IoPanel slot="output" label="Palette" variant="prose" result bare>
+      <div class="io-body" aria-live="polite">
+        <ul class="pal-list" id="image-palette-extractor-list" data-craft="palette-pixel-share" hidden></ul>
+        <p class="pal-gamut" id="image-palette-extractor-gamut" hidden>
+          A sample was outside sRGB. The hex is the clamped value.
+        </p>
+        <pre class="pal-css" id="image-palette-extractor-css" hidden></pre>
+      </div>
+    </IoPanel>
+  </ToolSplit>
+</div>
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id="image-palette-extractor-copy" data-label="Copy CSS" type="button">Copy CSS</button>
+</div>
+
+<script is:inline>
+  (function () {
+    var fileEl = document.getElementById('image-palette-extractor-file');
+    var errorEl = document.getElementById('image-palette-extractor-error');
+    var frameEl = document.getElementById('image-palette-extractor-frame');
+    var previewEl = document.getElementById('image-palette-extractor-preview');
+    var listEl = document.getElementById('image-palette-extractor-list');
+    var gamutEl = document.getElementById('image-palette-extractor-gamut');
+    var cssEl = document.getElementById('image-palette-extractor-css');
+    var copyBtn = document.getElementById('image-palette-extractor-copy');
+    if (!fileEl || !listEl || !previewEl || !frameEl) return;
+
+    var css = '';
+    var previewUrl = '';
+    var MAX_EDGE = 160;
+
+    function showError(message) {
+      if (!errorEl) return;
+      if (!message) { errorEl.hidden = true; errorEl.textContent = ''; return; }
+      errorEl.textContent = message;
+      errorEl.hidden = false;
+    }
+
+    function clearResult() {
+      css = '';
+      listEl.hidden = true;
+      listEl.replaceChildren();
+      if (gamutEl) gamutEl.hidden = true;
+      if (cssEl) { cssEl.hidden = true; cssEl.textContent = ''; }
+    }
+
+    function shareText(share) {
+      var pct = share * 100;
+      if (pct > 0 && pct < 10) return (Math.round(pct * 10) / 10) + '%';
+      return Math.round(pct) + '%';
+    }
+
+    function paint(result) {
+      clearResult();
+      if (!result || !result.ok) {
+        showError((result && result.error) || 'This image could not be read.');
+        return;
+      }
+      showError('');
+      var lines = [':root {'];
+      result.swatches.forEach(function (swatch, index) {
+        var item = document.createElement('li');
+        item.className = 'pal-swatch';
+        var chip = document.createElement('span');
+        chip.className = 'pal-chip';
+        chip.style.background = swatch.hex;
+        chip.setAttribute('role', 'img');
+        chip.setAttribute('aria-label', swatch.hex);
+        var hex = document.createElement('span');
+        hex.className = 'pal-hex';
+        hex.textContent = swatch.hex;
+        var share = document.createElement('span');
+        share.className = 'pal-share';
+        share.textContent = shareText(swatch.share);
+        item.appendChild(chip);
+        item.appendChild(hex);
+        item.appendChild(share);
+        listEl.appendChild(item);
+        lines.push('  --palette-' + (index + 1) + ': ' + swatch.hex + '; /* ' + shareText(swatch.share) + ' */');
+      });
+      lines.push('}');
+      css = lines.join('\n');
+      listEl.hidden = false;
+      if (cssEl) { cssEl.textContent = css; cssEl.hidden = false; }
+      if (gamutEl) gamutEl.hidden = !result.clamped;
+    }
+
+    function raster(img, colorSpace) {
+      var scale = Math.min(1, MAX_EDGE / Math.max(img.naturalWidth, img.naturalHeight));
+      var width = Math.max(1, Math.round(img.naturalWidth * scale));
+      var height = Math.max(1, Math.round(img.naturalHeight * scale));
+      var canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      var opts = { willReadFrequently: true };
+      if (colorSpace) opts.colorSpace = colorSpace;
+      var ctx = null;
+      try { ctx = canvas.getContext('2d', opts); } catch (_) { ctx = null; }
+      if (!ctx) return null;
+      if (colorSpace && ctx.getContextAttributes) {
+        var attrs = ctx.getContextAttributes();
+        if (!attrs || attrs.colorSpace !== colorSpace) return null;
+      }
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(img, 0, 0, width, height);
+      return { data: ctx.getImageData(0, 0, width, height).data, width: width, height: height };
+    }
+
+    function draw(img) {
+      // The hex comes from an sRGB read, so an ordinary file keeps the bytes it stored.
+      // A display-p3 read only raises the clamp note. Using it for the hex shifts an sRGB red.
+      var srgb = raster(img);
+      if (!srgb) { showError('This image could not be read.'); return; }
+      var TT = window.ToyTools;
+      var extract = TT && TT.color && TT.color.extractPalette;
+      if (!extract) { showError('The palette could not be read in this browser.'); return; }
+      var result = extract(srgb.data, srgb.width, srgb.height, { space: 'srgb' });
+      var wide = raster(img, 'display-p3');
+      if (wide && result && result.ok) {
+        var wideResult = extract(wide.data, wide.width, wide.height, { space: 'display-p3' });
+        if (wideResult && wideResult.ok && wideResult.clamped) result.clamped = true;
+      }
+      paint(result);
+    }
+
+    function failRead() {
+      clearResult();
+      frameEl.hidden = true;
+      showError('This image could not be read.');
+    }
+
+    fileEl.addEventListener('change', function () {
+      var file = fileEl.files && fileEl.files[0];
+      if (previewUrl) { URL.revokeObjectURL(previewUrl); previewUrl = ''; }
+      clearResult();
+      showError('');
+      frameEl.hidden = true;
+      if (!file || file.size < 1 || (file.type && file.type.indexOf('image/') !== 0)) {
+        if (file) failRead();
+        return;
+      }
+      previewUrl = URL.createObjectURL(file);
+      previewEl.onload = function () {
+        frameEl.hidden = false;
+        var TT = window.ToyTools;
+        if (TT && TT.onReady) TT.onReady(function () { draw(previewEl); });
+        else draw(previewEl);
+      };
+      previewEl.onerror = failRead;
+      previewEl.src = previewUrl;
+    });
+
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      var TT = window.ToyTools;
+      if (!css) { TT && TT.toast && TT.toast('Nothing to copy yet.'); return; }
+      if (TT && TT.copy) TT.copy(css);
+    });
+  })();
+</script>
+
+<style>
+  .pal-file {
+    display: block;
+    inline-size: 100%;
+    min-block-size: var(--touch-target);
+    margin-top: var(--space-1);
+    font-size: 1rem;
+  }
+  .pal-help,
+  .pal-error,
+  .pal-gamut {
+    margin: var(--space-2) 0 0;
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+  .pal-help { color: var(--color-text-muted); }
+  .pal-error { color: var(--color-danger); }
+  .pal-gamut { color: var(--color-text-muted); }
+  .pal-error[hidden],
+  .pal-gamut[hidden],
+  .pal-frame[hidden],
+  .pal-list[hidden],
+  .pal-css[hidden] { display: none; }
+  .pal-frame {
+    aspect-ratio: 4 / 3;
+    margin-top: var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    overflow: hidden;
+  }
+  .pal-frame img {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: contain;
+  }
+  .pal-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .pal-list :global(.pal-swatch) {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-block-size: var(--touch-target);
+  }
+  .pal-list :global(.pal-chip) {
+    flex: 0 0 auto;
+    inline-size: var(--touch-target);
+    block-size: var(--touch-target);
+    border-radius: var(--radius-md);
+    outline: 1px solid var(--color-border);
+  }
+  .pal-list :global(.pal-hex) {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+  }
+  .pal-list :global(.pal-share) {
+    margin-inline-start: auto;
+    font-variant-numeric: tabular-nums;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .pal-css {
+    margin: var(--space-3) 0 0;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    white-space: pre;
+  }
+</style>

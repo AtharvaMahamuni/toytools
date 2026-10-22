@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-20T14:23:22.472Z",
+  "generatedAt": "2026-10-21T15:31:34.331Z",
   "opportunities": [
     {
       "id": "running-pace-calculator",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "runnersworld.com",
         "calculator.net",
@@ -102,7 +102,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "strengthlevel.com",
         "bodybuilding.com",
@@ -183,7 +183,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "symbolab.com",
         "calculator.net",
@@ -257,7 +257,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "mobile fidget apps",
         "ad-heavy web clones"
@@ -341,7 +341,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "calculator.net",
         "mathway.com",
@@ -424,7 +424,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "w3schools.com/colors",
         "rgbtohex.net"
@@ -446,21 +446,24 @@
         "color-shades-generator",
         "color-format-converter",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "relatedGuides": [
         "color-contrast-checker",
         "color-shades-generator",
         "color-format-converter",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "relatedFaqs": [
         "color-contrast-checker",
         "color-shades-generator",
         "color-format-converter",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "difficulty": "low",
       "evergreenScore": 0.94,
@@ -500,7 +503,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "mathsisfun.com",
         "khanacademy.org",
@@ -573,7 +576,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -652,7 +655,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "casual game sites with ads",
         "mobile apps",
@@ -737,7 +740,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "calculator.net",
         "calculatorsoup.com",
@@ -819,7 +822,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "nekocalc.com/px-to-rem",
         "pxtorem.com"
@@ -893,7 +896,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "ASMR videos",
         "mobile switch simulators"
@@ -977,7 +980,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -1055,7 +1058,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "calculatorsoup.com",
         "calculator.net",
@@ -1138,7 +1141,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "webaim.org/resources/contrastchecker",
         "coolors.co/contrast-checker"
@@ -1160,21 +1163,24 @@
         "colorblind-simulator",
         "color-contrast-checker",
         "color-shades-generator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "relatedGuides": [
         "color-format-converter",
         "colorblind-simulator",
         "color-contrast-checker",
         "color-shades-generator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "relatedFaqs": [
         "color-format-converter",
         "colorblind-simulator",
         "color-contrast-checker",
         "color-shades-generator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "difficulty": "low",
       "evergreenScore": 0.95,
@@ -1215,7 +1221,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "pixplicity.com/dp-px-converter",
         "angrytools px to dp"
@@ -1287,7 +1293,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -1365,7 +1371,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "andrew.hedges.name/experiments/aspect_ratio",
         "calculateaspectratio.com"
@@ -1437,7 +1443,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -1517,7 +1523,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -1595,7 +1601,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -1669,7 +1675,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -1748,7 +1754,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "physics applets",
         "engineering textbooks",
@@ -1833,7 +1839,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -1915,7 +1921,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "jsoneditoronline.org",
         "diffchecker",
@@ -2003,7 +2009,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "Google's featured snippet",
         "whatismyipaddress.com",
@@ -2089,7 +2095,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "subnet-calculator.com",
         "whatismyip.com cidr calculator",
@@ -2175,7 +2181,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -2252,7 +2258,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -2329,7 +2335,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -2413,7 +2419,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -2495,7 +2501,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "app stores",
         "ad-supported browser games"
@@ -2574,7 +2580,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "periodictable.com",
         "omnicalculator.com",
@@ -2651,7 +2657,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -2678,7 +2684,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator"
+        "ovulation-calculator"
       ],
       "relatedGuides": [
         "move-today-tracker",
@@ -2686,7 +2692,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator"
+        "ovulation-calculator"
       ],
       "relatedFaqs": [
         "move-today-tracker",
@@ -2694,7 +2700,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator"
+        "ovulation-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.92,
@@ -2735,7 +2741,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "uicolors.app",
         "smart-swatch"
@@ -2759,21 +2765,24 @@
         "css-gradient-generator",
         "color-contrast-checker",
         "color-shades-generator",
-        "colorblind-simulator"
+        "colorblind-simulator",
+        "image-palette-extractor"
       ],
       "relatedGuides": [
         "color-format-converter",
         "css-gradient-generator",
         "color-contrast-checker",
         "color-shades-generator",
-        "colorblind-simulator"
+        "colorblind-simulator",
+        "image-palette-extractor"
       ],
       "relatedFaqs": [
         "color-format-converter",
         "css-gradient-generator",
         "color-contrast-checker",
         "color-shades-generator",
-        "colorblind-simulator"
+        "colorblind-simulator",
+        "image-palette-extractor"
       ],
       "difficulty": "low",
       "evergreenScore": 0.86,
@@ -2814,7 +2823,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "online md5 file hash sites",
         "shasum in a terminal",
@@ -2900,7 +2909,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "typescale.com",
         "type-scale.com"
@@ -2974,7 +2983,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -2995,7 +3004,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator"
+        "ovulation-calculator"
       ],
       "relatedGuides": [
         "unix-timestamp-converter",
@@ -3003,7 +3012,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator"
+        "ovulation-calculator"
       ],
       "relatedFaqs": [
         "unix-timestamp-converter",
@@ -3011,7 +3020,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator"
+        "ovulation-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.92,
@@ -3051,7 +3060,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -3132,7 +3141,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "regex101.com",
         "regexr.com",
@@ -3215,7 +3224,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "groww.in",
         "moneycontrol.com"
@@ -3238,7 +3247,7 @@
         "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "roi-calculator"
+        "loan-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
@@ -3246,7 +3255,7 @@
         "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "roi-calculator"
+        "loan-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
@@ -3254,7 +3263,7 @@
         "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "roi-calculator"
+        "loan-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.9,
@@ -3295,7 +3304,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "novelty web toys",
         "mobile apps"
@@ -3380,7 +3389,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "meditation apps",
         "YouTube timers"
@@ -3464,7 +3473,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com",
@@ -3539,7 +3548,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "random.org",
         "calculator.net",
@@ -3615,7 +3624,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -3691,7 +3700,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
@@ -3768,7 +3777,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "rules blog posts",
         "one-off itch.io prototypes",
@@ -3845,7 +3854,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -3867,7 +3876,7 @@
         "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "roi-calculator"
+        "loan-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
@@ -3875,7 +3884,7 @@
         "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "roi-calculator"
+        "loan-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
@@ -3883,7 +3892,7 @@
         "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "roi-calculator"
+        "loan-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.9,
@@ -3923,7 +3932,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "coblis (color-blindness.com)",
         "venngage colorblind simulator"
@@ -3947,21 +3956,24 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "relatedGuides": [
         "color-contrast-checker",
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "relatedFaqs": [
         "color-contrast-checker",
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.9,
@@ -4002,7 +4014,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "omnicalculator.com",
         "chemicalaid.com",
@@ -4079,7 +4091,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "healthline.com",
         "bodybuilding.com",
@@ -4159,7 +4171,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
@@ -4237,7 +4249,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -4320,7 +4332,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -4342,7 +4354,7 @@
         "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "roi-calculator"
+        "loan-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
@@ -4350,7 +4362,7 @@
         "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "roi-calculator"
+        "loan-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
@@ -4358,7 +4370,7 @@
         "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "roi-calculator"
+        "loan-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.88,
@@ -4397,7 +4409,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -4416,24 +4428,24 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ],
       "relatedGuides": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ],
       "relatedFaqs": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.88,
@@ -4474,7 +4486,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "browser bits-and-bytes converters",
         "rapidtables",
@@ -4552,7 +4564,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "calculator.net",
         "onlinestatbook.com",
@@ -4630,7 +4642,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -4650,24 +4662,24 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ],
       "relatedGuides": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ],
       "relatedFaqs": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.9,
@@ -4708,7 +4720,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calctool.org",
@@ -4782,7 +4794,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -4794,7 +4806,9 @@
         "upsells products",
         "slow on mobile"
       ],
-      "userFailures": [],
+      "userFailures": [
+        "A 28 day cycle is assumed for a longer cycle, so the due date lands early and nothing says the cycle length moved it."
+      ],
       "signals": [],
       "relatedProblems": [
         "gestational age today",
@@ -4806,24 +4820,24 @@
         "date-difference-calculator",
         "cron-expression-parser",
         "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ],
       "relatedGuides": [
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
         "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ],
       "relatedFaqs": [
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
         "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.95,
@@ -4839,10 +4853,10 @@
       "authorityWinnability": 0.08,
       "confidence": 0.8,
       "finalScore": 76.6,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
-      "craftRisk": true
+      "craftRisk": false
     },
     {
       "id": "lean-body-mass-calculator",
@@ -4863,7 +4877,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calculator.net"
@@ -4946,7 +4960,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "academic demos",
         "PDF rule sheets",
@@ -5025,7 +5039,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "desmos.com",
         "socscistatistics.com",
@@ -5104,7 +5118,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -5183,7 +5197,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -5257,7 +5271,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "hashes.com",
         "command-line shasum",
@@ -5352,7 +5366,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "mobile sand games",
         "heavy WebGL demos"
@@ -5418,6 +5432,89 @@
       "craftRisk": false
     },
     {
+      "id": "loan-calculator",
+      "title": "Loan Calculator",
+      "problem": "I need monthly payments and total interest for a loan over a term.",
+      "userIntent": "transactional",
+      "workflow": "numbers → Loan Amortization → a computed result",
+      "transformation": "Loan Amortization",
+      "proposedTool": "loan-calculator",
+      "proposedEngine": "finance",
+      "searchQueries": [
+        "loan calculator",
+        "monthly payment calculator",
+        "loan interest calculator",
+        "loan emi calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
+      "existingSolutions": [
+        "bankrate.com",
+        "calculator.net"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "slow",
+        "no shareable result",
+        "cluttered"
+      ],
+      "userFailures": [
+        "A monthly rate such as 2 is typed into the yearly percent field, the interest nearly disappears, and nothing says the field is a percent per year.",
+        "An extra payment is subtracted from the next installment instead of from principal, so the payoff date does not move.",
+        "A term of 30 is read as 30 months because the field never says years."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "mortgage payment",
+        "amortization schedule",
+        "extra payments"
+      ],
+      "relatedTools": [
+        "compound-interest-calculator",
+        "cagr-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "loan-calculator",
+        "roi-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator",
+        "cagr-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "loan-calculator",
+        "roi-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator",
+        "cagr-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "loan-calculator",
+        "roi-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.54,
+      "searchDemand": 0.96,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.86,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.59,
+      "localizationPotential": 0.9,
+      "algorithmicFit": 0.85,
+      "authorityWinnability": 0.45,
+      "confidence": 0.8,
+      "finalScore": 75.5,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
       "id": "slime",
       "title": "Slime",
       "problem": "I want a stretchy virtual slime I can poke and pull in the browser for a short sensory break, with no download.",
@@ -5437,7 +5534,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "mobile slime apps",
         "flash-era toys"
@@ -5522,7 +5619,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "regex snippets on stack overflow",
         "language-specific UUID libraries"
@@ -5615,7 +5712,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "chemtube3d.com",
         "molview.org",
@@ -5690,7 +5787,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "a hex editor",
         "regex hunting in an IDE",
@@ -5783,7 +5880,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -5864,7 +5961,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "libretexts.org",
         "chemistrylearner.com",
@@ -5920,87 +6017,6 @@
       "craftRisk": false
     },
     {
-      "id": "ovulation-calculator",
-      "title": "Ovulation Calculator",
-      "problem": "Cycle length and the previous period start predict the fertile window days in the current month.",
-      "userIntent": "transactional",
-      "workflow": "a date/time → Health Date Calculation → a date/time",
-      "transformation": "Health Date Calculation",
-      "proposedTool": "ovulation-calculator",
-      "proposedEngine": "datetime",
-      "searchQueries": [
-        "ovulation calculator",
-        "fertile window calculator",
-        "period tracker calculator",
-        "when am i ovulating",
-        "conception date calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
-      "existingSolutions": [
-        "babycenter.com",
-        "clearblue.com",
-        "flo.health"
-      ],
-      "solutionWeaknesses": [
-        "pushes an app install",
-        "requires an account",
-        "sends personal cycle data to a server",
-        "ad heavy"
-      ],
-      "userFailures": [],
-      "signals": [],
-      "relatedProblems": [
-        "cycle length variation",
-        "luteal phase length",
-        "next period date"
-      ],
-      "relatedTools": [
-        "date-difference-calculator",
-        "age-calculator",
-        "cron-expression-parser",
-        "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
-      ],
-      "relatedGuides": [
-        "date-difference-calculator",
-        "age-calculator",
-        "cron-expression-parser",
-        "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
-      ],
-      "relatedFaqs": [
-        "date-difference-calculator",
-        "age-calculator",
-        "cron-expression-parser",
-        "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.92,
-      "competitionScore": 0.48,
-      "searchDemand": 0.8,
-      "implementationCost": 1,
-      "engineReuse": 1,
-      "seoPotential": 0.92,
-      "topicClusterPotential": 0.5,
-      "commercialPotential": 0.56,
-      "localizationPotential": 0.88,
-      "algorithmicFit": 0.9,
-      "authorityWinnability": 0.1,
-      "confidence": 0.8,
-      "finalScore": 74.6,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true,
-      "craftRisk": true
-    },
-    {
       "id": "function-grapher",
       "title": "Function Grapher",
       "problem": "I want to type a formula like f(x) and get an instant plot I can zoom, pan, and trace, with sliders for parameters, without creating an account.",
@@ -6019,7 +6035,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -6092,7 +6108,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "libretexts.org",
         "chemicalaid.com",
@@ -6168,7 +6184,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -6241,7 +6257,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -6317,7 +6333,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "Goodreads",
         "StoryGraph",
@@ -6403,7 +6419,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "cssgradient.io",
         "coolors gradient maker"
@@ -6427,21 +6443,24 @@
         "color-shades-generator",
         "color-contrast-checker",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "relatedGuides": [
         "color-format-converter",
         "color-shades-generator",
         "color-contrast-checker",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "relatedFaqs": [
         "color-format-converter",
         "color-shades-generator",
         "color-contrast-checker",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.88,
@@ -6481,7 +6500,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "calculator.net",
         "who.int",
@@ -6546,6 +6565,166 @@
       "craftRisk": false
     },
     {
+      "id": "mortgage-calculator",
+      "title": "Mortgage Calculator",
+      "problem": "I want monthly mortgage payments including principal and interest over 15 to 30 years.",
+      "userIntent": "transactional",
+      "workflow": "numbers → Mortgage Amortization → a computed result",
+      "transformation": "Mortgage Amortization",
+      "proposedTool": "mortgage-calculator",
+      "proposedEngine": "finance",
+      "searchQueries": [
+        "mortgage calculator",
+        "home loan calculator",
+        "monthly mortgage payment",
+        "mortgage amortization"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
+      "existingSolutions": [
+        "zillow.com",
+        "bankrate.com"
+      ],
+      "solutionWeaknesses": [
+        "lead capture forms",
+        "ads",
+        "requires sign in for full features"
+      ],
+      "userFailures": [],
+      "signals": [],
+      "relatedProblems": [
+        "loan payment",
+        "amortization schedule",
+        "refinance"
+      ],
+      "relatedTools": [
+        "compound-interest-calculator",
+        "cagr-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "loan-calculator",
+        "roi-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator",
+        "cagr-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "loan-calculator",
+        "roi-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator",
+        "cagr-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "loan-calculator",
+        "roi-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.96,
+      "competitionScore": 0.4,
+      "searchDemand": 0.98,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.87,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.6,
+      "localizationPotential": 0.88,
+      "algorithmicFit": 0.85,
+      "authorityWinnability": 0.4,
+      "confidence": 0.8,
+      "finalScore": 73.6,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
+      "id": "ovulation-calculator",
+      "title": "Ovulation Calculator",
+      "problem": "Cycle length, the luteal phase, and the previous period start predict the fertile window for that cycle.",
+      "userIntent": "transactional",
+      "workflow": "a date/time → Health Date Calculation → a date/time",
+      "transformation": "Health Date Calculation",
+      "proposedTool": "ovulation-calculator",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "ovulation calculator",
+        "fertile window calculator",
+        "when am i ovulating",
+        "conception date calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
+      "existingSolutions": [
+        "babycenter.com",
+        "clearblue.com",
+        "flo.health"
+      ],
+      "solutionWeaknesses": [
+        "pushes an app install",
+        "requires an account",
+        "sends personal cycle data to a server",
+        "ad heavy"
+      ],
+      "userFailures": [
+        "A 14 day luteal phase is assumed for a shorter luteal phase, so ovulation is marked early and nothing says the luteal length moved it."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "cycle length variation",
+        "luteal phase length",
+        "next period date"
+      ],
+      "relatedTools": [
+        "date-difference-calculator",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-format-detector",
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
+      ],
+      "relatedGuides": [
+        "date-difference-calculator",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-format-detector",
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
+      ],
+      "relatedFaqs": [
+        "date-difference-calculator",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-format-detector",
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.48,
+      "searchDemand": 0.8,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.8,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.88,
+      "algorithmicFit": 0.9,
+      "authorityWinnability": 0.1,
+      "confidence": 0.8,
+      "finalScore": 73.6,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
       "id": "sleep-hours-tracker",
       "title": "Sleep Hours Tracker",
       "problem": "Recording how many hours I actually slept each night surfaces a weekly average and a streak.",
@@ -6564,7 +6743,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "phone app stores",
         "wearable companion apps"
@@ -6641,7 +6820,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "spreadsheet locale settings",
         "language date parsing docs",
@@ -6733,7 +6912,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -6804,7 +6983,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -6883,7 +7062,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "mdcalc.com",
         "calculator.net"
@@ -6966,7 +7145,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "systemd-analyze calendar on a machine you already have",
         "the systemd.time man page",
@@ -7060,7 +7239,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "cyberchef",
         "stack overflow answers",
@@ -7153,7 +7332,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -7226,7 +7405,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "omnicalculator.com",
         "healthline.com"
@@ -7306,7 +7485,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -7330,7 +7509,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator"
+        "ovulation-calculator"
       ],
       "relatedGuides": [
         "timezone-converter",
@@ -7338,7 +7517,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator"
+        "ovulation-calculator"
       ],
       "relatedFaqs": [
         "timezone-converter",
@@ -7346,7 +7525,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator"
+        "ovulation-calculator"
       ],
       "difficulty": "high",
       "evergreenScore": 0.86,
@@ -7387,7 +7566,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "imagecolorpicker.com",
         "coolors image picker"
@@ -7397,7 +7576,11 @@
         "ad-supported",
         "no client-side-only guarantee"
       ],
-      "userFailures": [],
+      "userFailures": [
+        "A large background returns several near-identical stops and the subject color is missing from the row.",
+        "The copied hex is a clamped sRGB value and nothing says the sample was out of gamut.",
+        "An average of a region is presented as a palette, so the logo red the person can see never appears."
+      ],
       "signals": [],
       "relatedProblems": [
         "color conversion",
@@ -7408,21 +7591,24 @@
         "color-shades-generator",
         "color-contrast-checker",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "relatedGuides": [
         "color-format-converter",
         "color-shades-generator",
         "color-contrast-checker",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "relatedFaqs": [
         "color-format-converter",
         "color-shades-generator",
         "color-contrast-checker",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "difficulty": "high",
       "evergreenScore": 0.82,
@@ -7438,10 +7624,10 @@
       "authorityWinnability": 1,
       "confidence": 0.8,
       "finalScore": 71.6,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
-      "craftRisk": true
+      "craftRisk": false
     },
     {
       "id": "inclined-plane-calculator",
@@ -7463,7 +7649,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -7535,7 +7721,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "crontab.guru"
       ],
@@ -7557,24 +7743,24 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ],
       "relatedGuides": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ],
       "relatedFaqs": [
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ],
       "difficulty": "high",
       "evergreenScore": 0.84,
@@ -7615,7 +7801,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "trial and error against the real server",
         "python shlex.quote in a REPL",
@@ -7707,7 +7893,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -7754,70 +7940,6 @@
       "craftRisk": true
     },
     {
-      "id": "loan-calculator",
-      "title": "Loan Calculator",
-      "problem": "I need monthly payments and total interest for a loan over a term.",
-      "userIntent": "transactional",
-      "workflow": "input → Loan Amortization → output",
-      "transformation": "Loan Amortization",
-      "proposedTool": "loan-calculator",
-      "proposedEngine": "loan",
-      "searchQueries": [
-        "loan calculator",
-        "monthly payment calculator",
-        "loan interest calculator",
-        "loan emi calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
-      "existingSolutions": [
-        "bankrate.com",
-        "calculator.net"
-      ],
-      "solutionWeaknesses": [
-        "ad heavy",
-        "slow",
-        "no shareable result",
-        "cluttered"
-      ],
-      "userFailures": [],
-      "signals": [],
-      "relatedProblems": [
-        "mortgage payment",
-        "amortization schedule",
-        "extra payments"
-      ],
-      "relatedTools": [
-        "compound-interest-calculator"
-      ],
-      "relatedGuides": [
-        "compound-interest-calculator"
-      ],
-      "relatedFaqs": [
-        "compound-interest-calculator"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.54,
-      "searchDemand": 0.96,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.86,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.59,
-      "localizationPotential": 0.9,
-      "algorithmicFit": 0.85,
-      "authorityWinnability": 0.45,
-      "confidence": 0.8,
-      "finalScore": 66.2,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false,
-      "craftRisk": true
-    },
-    {
       "id": "pdf-page-toolkit",
       "title": "PDF Merge Split Rotate",
       "problem": "I need to merge, split, rotate, or reorder PDF pages on my machine without uploading confidential documents to a random converter site.",
@@ -7837,7 +7959,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "ilovepdf.com",
         "smallpdf.com",
@@ -7908,7 +8030,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "cloudconvert",
         "iloveimg",
@@ -7932,12 +8054,15 @@
         "file checksum"
       ],
       "relatedTools": [
+        "image-palette-extractor",
         "file-hash-verifier"
       ],
       "relatedGuides": [
+        "image-palette-extractor",
         "file-hash-verifier"
       ],
       "relatedFaqs": [
+        "image-palette-extractor",
         "file-hash-verifier"
       ],
       "difficulty": "high",
@@ -7979,7 +8104,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "Google Calendar",
         "timeanddate.com",
@@ -8054,7 +8179,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -8100,69 +8225,6 @@
       "craftRisk": true
     },
     {
-      "id": "mortgage-calculator",
-      "title": "Mortgage Calculator",
-      "problem": "I want monthly mortgage payments including principal and interest over 15 to 30 years.",
-      "userIntent": "transactional",
-      "workflow": "input → Mortgage Amortization → output",
-      "transformation": "Mortgage Amortization",
-      "proposedTool": "mortgage-calculator",
-      "proposedEngine": "loan",
-      "searchQueries": [
-        "mortgage calculator",
-        "home loan calculator",
-        "monthly mortgage payment",
-        "mortgage amortization"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
-      "existingSolutions": [
-        "zillow.com",
-        "bankrate.com"
-      ],
-      "solutionWeaknesses": [
-        "lead capture forms",
-        "ads",
-        "requires sign in for full features"
-      ],
-      "userFailures": [],
-      "signals": [],
-      "relatedProblems": [
-        "loan payment",
-        "amortization schedule",
-        "refinance"
-      ],
-      "relatedTools": [
-        "compound-interest-calculator"
-      ],
-      "relatedGuides": [
-        "compound-interest-calculator"
-      ],
-      "relatedFaqs": [
-        "compound-interest-calculator"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.96,
-      "competitionScore": 0.4,
-      "searchDemand": 0.98,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.87,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.6,
-      "localizationPotential": 0.88,
-      "algorithmicFit": 0.85,
-      "authorityWinnability": 0.4,
-      "confidence": 0.8,
-      "finalScore": 64.3,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false,
-      "craftRisk": true
-    },
-    {
       "id": "marathi-calendar",
       "title": "Marathi Calendar",
       "problem": "I need today's Marathi calendar date with tithi, nakshatra, and festival markers, computed locally so I am not depending on an ad-heavy panchang site.",
@@ -8182,7 +8244,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "drikpanchang.com",
         "local print calendars",
@@ -8253,7 +8315,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -8323,7 +8385,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-20T14:23:22.472Z",
+      "discoveredAt": "2026-10-21T15:31:34.331Z",
       "existingSolutions": [
         "eatthismuch.com",
         "myfitnesspal.com",

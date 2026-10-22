@@ -1,0 +1,239 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const dueHref = toolPathBySlug('pregnancy-due-date-calculator');
+const diffHref = toolPathBySlug('date-difference-calculator');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>From a last period to an ovulation date <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Subtract the luteal phase from the cycle length, then add that many days to the first
+      day of the last period. That is what a luteal phase counts. A 28 day cycle and a 14 day
+      luteal phase means 14 days after the last period. For example, a last period on
+      1 January 2026 is ovulation on 15 January 2026. The fertile window is the five days
+      before that date through the ovulation day, so 10 January 2026 to 15 January 2026.
+      Count the same period on 10 January and the page says you are inside the fertile window.
+    </p>
+    <p>
+      Change the luteal phase and the ovulation date and the fertile window move together.
+      For example, a 12 day luteal phase from that same January day is ovulation on
+      17 January 2026, two days later, and the window becomes 12 January 2026 through
+      17 January 2026. Seeing how a 12 day luteal phase moves 15 January 2026 to
+      17 January 2026 is the whole point of the note. The next period stays 29 January 2026,
+      because the next period is one cycle length after the last period, not a luteal
+      calculation. At 14 the note stays hidden.
+    </p>
+    <p>
+      A chat reply can recite "day 14." It will not keep the last period, the cycle length,
+      the luteal phase, and the window on one screen while you edit one of them. The
+      arithmetic stays in the browser. Runs entirely on your device. Nothing is uploaded.
+    </p>
+    <a href={toolHref} class="cta-link">Open the Ovulation Calculator →</a>
+  </section>
+
+  <section id="luteal">
+    <h2>Why a shorter luteal phase moves ovulation later <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The luteal phase is the span from ovulation to the next period. What a luteal phase
+      counts, on this page, is that span in whole days. A 14 day phase is the usual count.
+      You adjust ovulation for a luteal phase that is not 14 days by typing the length you
+      mean. Each day below 14 adds one day to the wait after the last period. Each day above
+      14 subtracts one. A shorter phase does not move ovulation earlier. It moves it later,
+      because the next period stays put and the luteal span is the part just before it.
+    </p>
+    <p>
+      The field accepts 10 to 16 days. For example, a 16 day luteal phase from 1 January
+      2026 puts ovulation on 13 January 2026, two days earlier, and the note says two days
+      earlier. A 10 day phase would move the date four days later, to 19 January 2026. The
+      fertile window slides with ovulation. The next period does not. A 14 day luteal phase
+      versus a 12 day luteal phase is 15 January against 17 January, with 29 January unchanged.
+    </p>
+    <p>
+      Cycle length is the other number. It accepts 21 to 45 days. For example, a 32 day cycle
+      and a 14 day luteal phase from 1 January 2026 put ovulation on 19 January 2026, and the
+      next period on 2 February 2026. That 19 January date is the same estimate a conception
+      date from the last period gets on the due-date page when the cycle is 32 and the luteal
+      assumption is 14. The two pages agree on purpose when the luteal phase is 14.
+    </p>
+    <ReferenceBlock type="key-idea" heading="The next period stays on the cycle length">
+      <p>
+        The next period stays on the cycle length. A shorter luteal phase does not make the
+        cycle shorter. It places ovulation later inside the same cycle, by the number of days
+        the phase differs from 14.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="window">
+    <h2>Six days and one estimate: reading the window <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      How a fertile window is dated here is five days before ovulation through the ovulation
+      day. That is six days, not the whole cycle. The fertile window versus ovulation date is
+      a span against one day: the span is when sperm from an earlier day can still meet the
+      egg, and the single day is the estimate of when the egg is present. 1 January 2026 with
+      a 14 day phase dates the window 10 January through 15 January. The same period with a
+      12 day phase dates it 12 January through 17 January.
+    </p>
+    <p>
+      Leave "Count on" blank and the page uses today. Fill it when you want a past or future
+      day. The last period has to be on or before that date. A later period is rejected,
+      because a window measured backwards from a swapped pair of dates is not a cycle.
+    </p>
+    <p>
+      On the first day of the window the status says you are inside it. On 10 January 2026
+      that is the 14 day example. One day after ovulation, 16 January 2026, the page says
+      1 day after the window. Past the window is allowed. The date you type is the date the
+      status uses. Checking a fertile window before using an ovulation test is a reason to
+      open the page. The test is still the confirmation. This count is not the test.
+      This is a calendar estimate, not contraception, and timing varies from cycle to cycle,
+      so it is not reliable for avoiding pregnancy.
+    </p>
+    <ReferenceBlock type="note" heading="Today is a date, not a guess">
+      <p>
+        Blank means today on this device. A worked example pins both dates so the status
+        cannot change overnight. 1 January 2026 counted on 10 January 2026 is inside the
+        window when the luteal phase is 14, and two days before it when the phase is 12.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="period">
+    <h2>The cycle length, not ovulation, sets the next period <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      When the next period starts is one cycle length after the first day of the last period.
+      A 28 day cycle from 1 January 2026 starts the next period on 29 January 2026. The next
+      period on 29 January 2026 stays put when the luteal phase changes. A 12 day phase and a
+      16 day phase both still say 29 January. If you expected the period to slide with
+      ovulation, the card is telling you the page did not do that.
+    </p>
+    <p>
+      A 32 day cycle starts the next period on 2 February 2026. February 2026 is not a leap
+      month, and the page does not need one: 1 January plus 32 days is 2 February either way.
+      The ovulation date for that longer cycle, with a 14 day phase, is 19 January. The window
+      is 14 January to 19 January. Cycle length moved both the window and the period. Luteal
+      length would have moved only the window.
+    </p>
+    <p>
+      This is one cycle. The page does not keep a log of earlier periods, and it does not
+      average several cycles. You type the length you mean. A fertile window calculator that
+      stored a year of periods would be a different page. This one recomputes the dates you
+      can see.
+    </p>
+  </section>
+
+  <section id="tests">
+    <h2>Ovulation tests versus the calendar <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The calendar projects a day from the last period and two lengths you type. An ovulation
+      test reads the hormone surge that comes a day or so before ovulation in the cycle you
+      are in. So the test can catch a late or early month that the calendar cannot. When the
+      two disagree, plan around the test. Use this page to know which days to start testing.
+    </p>
+    <p>
+      If cycles vary by more than a few days, or with PCOS, a calendar date can be off by a
+      week or more; an ultrasound or a clinician gives a better date. A test can also read
+      differently with PCOS, which is one more reason to ask a clinician.
+    </p>
+    <ReferenceBlock type="note" heading="Not birth control">
+      <p>
+        This is a calendar estimate, not contraception, and timing varies. Do not use these
+        dates to avoid pregnancy. Talk to a midwife or doctor about your cycle.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Which mistakes move the date? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Leaving a shorter luteal phase at 14">
+      <p>
+        A 12 day luteal phase counted as 14 lands two days early: 15 January instead of
+        17 January in the January 2026 example. The note appears only after you type 12. If
+        the field still says 14, the page is doing what you asked, and the date is the early
+        one. That is the failure a hidden 14 day assumption produces.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Expecting the next period to move too">
+      <p>
+        The next period is the cycle length. Adjusting ovulation does not rewind or advance
+        the period. 29 January is the next period at luteal phase 14 and at luteal phase 12.
+        Read the ovulation card if you wanted the date that actually moved.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Typing the ovulation date as the last period">
+      <p>
+        The first field is the first day of bleeding, not the day you hope to ovulate. Put
+        15 January 2026 in that field and the page will project a window about 14 days after
+        January, which is a different cycle. The tool cannot tell those two dates apart. You can.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="This is not an ovulation test">
+      <p>
+        No strip, no temperature chart, no pregnancy prediction. If a test has already
+        marked a different day, that day is the one to plan around. This page is the
+        arithmetic you can rerun when the luteal phase was wrong. To estimate a conception
+        date from the last period, read the ovulation date. It is an estimate, and a
+        conception date calculator that claims more than that is overselling the count.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="sources">
+    <h2>Sources <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>Naegele's rule: the due date count of 280 days from the last period assumes ovulation on day 14 of a 28 day cycle, which is the date this page gives at those lengths.</li>
+      <li>ACOG Committee Opinion 700, Methods for Estimating the Due Date: a calendar date from the last period is replaced by ultrasound dating when the two differ.</li>
+      <li>NHS guidance on when ovulation happens and on the fertile window in a cycle.</li>
+    </ul>
+  </section>
+
+  <section id="next">
+    <h2>What should you open next? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      An ovulation calculator versus the alternatives keeps the luteal phase on the page and
+      recomputes the ovulation date, the fertile window, and the next period together. A due
+      date from the same last period belongs in the
+      <a href={dueHref}>pregnancy due date calculator</a>. When the luteal phase is 14, that
+      page's conception estimate matches this ovulation date. A span of calendar days that is
+      not a cycle belongs in the <a href={diffHref}>date difference calculator</a>.
+    </p>
+    <p>
+      Come back when the count date changes, or when you learn the luteal phase is not 14.
+      The same last period and the same cycle produce a new ovulation date in one edit. Leave
+      the luteal phase at 14 only when 14 is the phase you mean. A different length should be
+      visible next to the ovulation date, which is what the note is for.
+    </p>
+    <a href={toolHref} class="cta-link">Check 1 January 2026 →</a>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    margin-top: var(--space-3);
+    font-weight: var(--font-weight-medium);
+  }
+</style>

@@ -100,7 +100,8 @@ const INTERACTION_ASSETS: { label: string; match: RegExp | string; maxKb: number
   {
     // Fetched only when the query is not already a tool name. Measured 9.2KB gz on 2026-10-02
     // with the six beta-v12.3 tools in the catalog. The cap is the term payload, not a second
-    // copy of the name catalog.
+    // copy of the name catalog. The category display name is not repeated in each term list.
+    // The palette appends the interned category name at rank time, so "finance" still matches.
     label: 'search terms',
     match: 'search-terms.json',
     maxKb: 10,
@@ -203,11 +204,13 @@ function collectJs(entryHrefs: string[], lazyKeys: string[]): Set<string> {
     const fileDeps = [...src.matchAll(/const __vite__fileDeps=\[([^\]]*)\]/g)]
       .flatMap((m) => [...m[1]!.matchAll(/"([^"]+)"/g)].map((d) => d[1]!));
 
-    // Lazy chunks: only under the keys this page actually resolves.
+    // Lazy chunks: only under the keys this page actually resolves. The preload wrapper Vite
+    // emits can be named with a $ ("$e(() => import(...))"), so the name allows it; without
+    // that, a lazy chunk behind such a wrapper was silently not charged to its page.
     for (const key of lazyKeys) {
       const pattern = new RegExp(
         `["']?${key.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}["']?\\s*:\\s*\\(\\)\\s*=>\\s*` +
-        `\\w*\\(?\\s*\\(\\)\\s*=>\\s*import\\("([^"]+)"\\)\\s*,?\\s*` +
+        `[\\w$]*\\(?\\s*\\(\\)\\s*=>\\s*import\\("([^"]+)"\\)\\s*,?\\s*` +
         `(?:__vite__mapDeps\\(\\[([\\d,\\s]*)\\]\\)|\\[\\])?`,
       );
       const hit = src.match(pattern);
@@ -257,10 +260,17 @@ function measure(rel: string): Measured | null {
   // Wellness pages likewise lazy-load exactly one calculator, keyed by the widget's data attribute
   // (src/lib/engines/wellness/lazy.ts uses the same ids as its import() map keys).
   const wellnessIds = [...html.matchAll(/data-wellness="([^"]+)"/g)].map((m) => m[1]!);
+  // The image palette quantizer is a second lazy key inside the color chunk. Only a page that
+  // declares data-palette fetches it. Other color tools must not be charged for it.
+  const paletteIds = [...html.matchAll(/data-palette="([^"]+)"/g)].map((m) => m[1]!);
+
+  // Date and finance pages lazy-load their tool when it is not in the engine's core map
+  // (src/lib/engines/{datetime,finance}/lazy.ts use the widget's data attribute as the key).
+  const lazyCalcIds = [...html.matchAll(/data-(?:datetime|finance)="([^"]+)"/g)].map((m) => m[1]!);
 
   const scripts = [...html.matchAll(/<script[^>]+src="([^"]+)"/g)].map((m) => m[1]!);
   let jsGz = 0;
-  for (const href of collectJs(scripts, [...engines, ...simIds, ...wellnessIds])) {
+  for (const href of collectJs(scripts, [...engines, ...simIds, ...wellnessIds, ...paletteIds, ...lazyCalcIds])) {
     const buf = asset(href);
     if (buf) jsGz += gz(buf);
   }

@@ -18,7 +18,9 @@ import { upi1999Split } from './calculators/upi-1999-split';
 import { upiMdrEstimator } from './calculators/upi-mdr-estimator';
 import { splitBillCalc } from './calculators/split-bill';
 import { shopUpiTally } from './calculators/shop-upi-tally';
+import { loan } from './calculators/loan';
 
+/** Every calculator, for build-time consumers. The browser runtime loads one per page through lazy.ts. */
 export const FINANCE_CALCULATORS: Record<string, FinanceCalculator> = {
   'compound-interest': compoundInterest,
   'rule-of-72': ruleOf72Calc,
@@ -32,6 +34,7 @@ export const FINANCE_CALCULATORS: Record<string, FinanceCalculator> = {
   'upi-mdr-estimator': upiMdrEstimator,
   'split-bill': splitBillCalc,
   'shop-upi-tally': shopUpiTally,
+  loan,
 };
 
 /**

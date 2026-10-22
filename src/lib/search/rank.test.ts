@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { boundedDistance, namesAnswer, normalizeQuery, queryWords, scoreEntry, rankEntries } from './rank';
+import { boundedDistance, categorySearchTerm, namesAnswer, normalizeQuery, queryWords, scoreEntry, rankEntries } from './rank';
 import { buildCatalogWire, buildClientIndex, buildSearchTerms, entryUrl } from './index';
 import { searchAliases } from '@data/search-aliases';
 
@@ -251,8 +251,14 @@ describe('buildClientIndex', () => {
     // is now the always-fetched half (slug, name, interned ids), which is what a search fetches
     // before it knows the query needs aliases.
     // Measured 11_811 raw bytes (2.99KB gzip) on 2026-10-02.
+    // 2026-10-21: 13_000 → 13_100. Image Palette Extractor is one name-catalog entry. Measured
+    // 13_067 raw. Terms stay in search-terms.json. Catalog growth, not alias bloat.
+    // 2026-10-21: 13_100 → 13_200. Pregnancy Due Date Calculator is one name-catalog entry.
+    // Measured 13_153 raw. Terms stay in search-terms.json. Catalog growth, not alias bloat.
+    // 2026-10-21: 13_200 → 13_250. Ovulation Calculator is one more name-catalog entry.
+    // Measured 13_221 raw. Terms stay in search-terms.json. Catalog growth, not alias bloat.
     const wire = Buffer.byteLength(JSON.stringify(buildCatalogWire()), 'utf8');
-    expect(wire).toBeLessThan(13_000);
+    expect(wire).toBeLessThan(13_250);
     expect(JSON.stringify(buildCatalogWire())).not.toContain('"k"');
   });
 
@@ -264,5 +270,15 @@ describe('buildClientIndex', () => {
     expect(namesAnswer(merged, 'Word Counter')).toBe(true);
     expect(namesAnswer(merged, 'law of sines')).toBe(false);
     expect(rankEntries(merged, 'law of sines', 1)[0]?.s).toBe('triangle-solver');
+
+    const loanAt = wire.t.findIndex((item) => item.s === 'loan-calculator');
+    expect(terms[loanAt]!.join('\n')).not.toContain('money & finance');
+    const ranked = wire.t.map((item, i) => {
+      const row = terms[i] ?? [];
+      const category = categorySearchTerm(wire.c[item.c] ?? '', item.n);
+      return { ...item, k: category && !row.includes(category) ? row.concat(category) : row };
+    });
+    expect(rankEntries(ranked, 'finance').some((item) => item.s === 'loan-calculator')).toBe(true);
+    expect(rankEntries(ranked, 'health').some((item) => item.s === 'pregnancy-due-date-calculator')).toBe(true);
   });
 });

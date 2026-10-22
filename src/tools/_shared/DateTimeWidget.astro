@@ -26,9 +26,11 @@ interface Props {
    * data-craft element, or the page carries two.
    */
   craftOn?: 'visualization' | 'hero-note';
+  /** One plain line shown under the result, using the existing widget-help style. */
+  resultNote?: string;
 }
 
-const { slug, dateTimeId, config, emptyText, craftOn } = Astro.props;
+const { slug, dateTimeId, config, emptyText, craftOn, resultNote } = Astro.props;
 
 // Shareable-link mode, decided at build time from the registry (src/lib/url-state.ts).
 // "auto" syncs the address bar as you type; "manual" only builds a link when asked.
@@ -70,6 +72,8 @@ const resolvedEmpty = emptyText ?? 'Enter your dates to calculate.';
     />
   </ToolSplit>
 </div>
+
+{resultNote && <p class="widget-help" data-result-note>{resultNote}</p>}
 
 <div class="tool-actions">
   <button class="action-btn action-btn--copy" id={`${slug}-copy`} data-label="Copy" type="button">Copy</button>
@@ -148,11 +152,30 @@ const resolvedEmpty = emptyText ?? 'Enter your dates to calculate.';
       return { input: input, missingRequired: missingRequired };
     }
 
+    function fieldLabel(el) {
+      var wrap = el.closest && el.closest('[data-smart-input]');
+      var label = wrap ? wrap.querySelector('.widget-label') : null;
+      var text = label && label.textContent ? label.textContent.replace(/\s+/g, ' ').trim() : '';
+      return text || 'a value';
+    }
+
     function run() {
       if (!(window.ToyTools && ToyTools.runDateTime && ToyTools.experience)) return;
       var c = collect();
       if (c.missingRequired) {
-        ToyTools.experience.render(expRoot, { ok: false, uiState: 'empty', metrics: [] });
+        var named = '';
+        for (var i = 0; i < fieldEls.length; i++) {
+          var el = fieldEls[i];
+          if (el.getAttribute('data-required') !== 'true') continue;
+          if (readValue(el) !== '') continue;
+          var kind = el.getAttribute('data-field-type');
+          if (kind === 'date' || kind === 'datetime') continue;
+          named = 'Enter ' + fieldLabel(el) + '.';
+          break;
+        }
+        var empty = { ok: false, uiState: 'empty', metrics: [] };
+        if (named) empty.error = named;
+        ToyTools.experience.render(expRoot, empty);
         return;
       }
       var res = ToyTools.runDateTime(did, c.input, {});

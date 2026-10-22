@@ -1,0 +1,15 @@
+---
+// Pregnancy Due Date Calculator. The date arithmetic lives in
+// src/lib/engines/datetime/calculators/pregnancy.ts.
+import DateTimeWidget from '@tools/_shared/DateTimeWidget.astro';
+import { config } from './config';
+---
+
+<DateTimeWidget
+  slug={config.slug}
+  dateTimeId="pregnancy"
+  config={config}
+  craftOn="hero-note"
+  resultNote="An estimate from dates only. Talk to a midwife or doctor about your dating."
+  emptyText="Enter the first day of the last period."
+/>

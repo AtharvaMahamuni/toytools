@@ -162,7 +162,7 @@
         "bill",
         "estimator"
       ],
-      "toolCount": 12
+      "toolCount": 13
     },
     "csv": {
       "name": "CSV Engine",
@@ -234,11 +234,13 @@
         "schedule",
         "duration",
         "parse",
+        "fertile-window",
+        "due-date",
         "sleep",
         "timezone",
         "timestamp"
       ],
-      "toolCount": 8
+      "toolCount": 10
     },
     "math-lab": {
       "name": "Math Lab Engine",
@@ -336,9 +338,10 @@
         "color",
         "color-scale",
         "color-vision",
-        "perceptual-gradient"
+        "perceptual-gradient",
+        "image-palette"
       ],
-      "toolCount": 5
+      "toolCount": 6
     },
     "units": {
       "name": "CSS Unit Engine",
@@ -2047,6 +2050,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "image-palette-extractor": {
+      "name": "Image Palette Extractor",
+      "dir": "src/tools/design/image-palette-extractor",
+      "categorySlug": "design-tools",
+      "url": "/tool/design/image-palette-extractor/",
+      "engine": "color",
+      "pattern": "color-convert",
+      "family": "image-palette",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "inflation-calculator": {
       "name": "Inflation Calculator",
       "dir": "src/tools/finance/inflation-calculator",
@@ -2488,6 +2512,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "loan-calculator": {
+      "name": "Loan Calculator",
+      "dir": "src/tools/finance/loan-calculator",
+      "categorySlug": "money-finance",
+      "url": "/tool/finance/loan-calculator/",
+      "engine": "finance",
+      "pattern": "finance-growth",
+      "family": "interest",
+      "processorId": "loan",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "lorem-ipsum-generator": {
       "name": "Lorem Ipsum Generator",
       "dir": "src/tools/generate/lorem-ipsum-generator",
@@ -2740,6 +2785,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "ovulation-calculator": {
+      "name": "Ovulation Calculator",
+      "dir": "src/tools/health/ovulation-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/ovulation-calculator/",
+      "engine": "datetime",
+      "pattern": "datetime-calculate",
+      "family": "fertile-window",
+      "processorId": "ovulation",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "paragraph-counter": {
       "name": "Paragraph Counter",
       "dir": "src/tools/text/paragraph-counter",
@@ -2833,6 +2899,27 @@
       "pattern": "fidget-interact",
       "family": "fidget",
       "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "pregnancy-due-date-calculator": {
+      "name": "Pregnancy Due Date Calculator",
+      "dir": "src/tools/health/pregnancy-due-date-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/pregnancy-due-date-calculator/",
+      "engine": "datetime",
+      "pattern": "datetime-calculate",
+      "family": "due-date",
+      "processorId": "pregnancy",
       "toolGroup": "",
       "files": [
         "Guide.astro",

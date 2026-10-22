@@ -1,0 +1,12 @@
+---
+import FinanceWidget from '@tools/_shared/FinanceWidget.astro';
+import { config } from './config';
+---
+
+<FinanceWidget
+  slug={config.slug}
+  financeId={config.processorId!}
+  config={config}
+  craftOn="hero-note"
+  emptyText="Enter a price, a yearly rate, and a term in years."
+/>

@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-20T14:23:22.472Z",
+  "generatedAt": "2026-10-21T15:31:34.331Z",
   "clusters": [
     {
       "id": "quadratic-equations",
@@ -64,7 +64,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "size": 1,
       "meanScore": 83.8,
@@ -73,7 +74,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ]
     },
     {
@@ -272,7 +274,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "size": 1,
       "meanScore": 82.5,
@@ -281,7 +284,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ]
     },
     {
@@ -829,7 +833,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "size": 1,
       "meanScore": 79.4,
@@ -838,7 +843,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ]
     },
     {
@@ -880,6 +886,8 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator",
         "sleep-cycle-calculator",
         "systemd-timer-converter",
         "timezone-converter",
@@ -892,7 +900,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator",
+        "ovulation-calculator",
         "unix-timestamp-converter"
       ]
     },
@@ -956,6 +964,7 @@
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
+        "loan-calculator",
         "roi-calculator",
         "rule-of-72-calculator",
         "savings-goal-calculator",
@@ -972,7 +981,7 @@
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "roi-calculator",
+        "loan-calculator",
         "savings-goal-calculator"
       ]
     },
@@ -1176,6 +1185,7 @@
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
+        "loan-calculator",
         "roi-calculator",
         "rule-of-72-calculator",
         "savings-goal-calculator",
@@ -1192,7 +1202,7 @@
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "roi-calculator",
+        "loan-calculator",
         "rule-of-72-calculator"
       ]
     },
@@ -1208,7 +1218,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "size": 1,
       "meanScore": 77.8,
@@ -1217,7 +1228,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ]
     },
     {
@@ -1308,6 +1320,7 @@
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
+        "loan-calculator",
         "roi-calculator",
         "rule-of-72-calculator",
         "savings-goal-calculator",
@@ -1324,7 +1337,7 @@
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "roi-calculator",
+        "loan-calculator",
         "rule-of-72-calculator"
       ]
     },
@@ -1340,6 +1353,8 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator",
         "sleep-cycle-calculator",
         "systemd-timer-converter",
         "timezone-converter",
@@ -1352,8 +1367,8 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ]
     },
     {
@@ -1415,6 +1430,8 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator",
         "sleep-cycle-calculator",
         "systemd-timer-converter",
         "timezone-converter",
@@ -1427,39 +1444,8 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
-      ]
-    },
-    {
-      "id": "health-date-calculation",
-      "transformation": "Health Date Calculation",
-      "engine": "datetime",
-      "members": [
-        "sleep-cycle-calculator",
-        "pregnancy-due-date-calculator",
-        "ovulation-calculator"
-      ],
-      "existingMembers": [
-        "age-calculator",
-        "cron-expression-parser",
-        "date-difference-calculator",
-        "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
-      ],
-      "size": 3,
-      "meanScore": 76.9,
-      "internalLinks": [
-        "age-calculator",
-        "cron-expression-parser",
-        "date-difference-calculator",
-        "date-format-detector",
-        "move-today-tracker",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ]
     },
     {
@@ -1486,6 +1472,39 @@
         "ideal-gas-law-calculator",
         "molecular-geometry-calculator",
         "newman-projection-calculator"
+      ]
+    },
+    {
+      "id": "health-date-calculation",
+      "transformation": "Health Date Calculation",
+      "engine": "datetime",
+      "members": [
+        "sleep-cycle-calculator",
+        "pregnancy-due-date-calculator",
+        "ovulation-calculator"
+      ],
+      "existingMembers": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "date-format-detector",
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator",
+        "sleep-cycle-calculator",
+        "systemd-timer-converter",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "size": 3,
+      "meanScore": 76.6,
+      "internalLinks": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "date-format-detector",
+        "move-today-tracker",
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ]
     },
     {
@@ -1597,6 +1616,39 @@
         "sha1-hash-generator",
         "sha256-hash-generator",
         "sha512-hash-generator"
+      ]
+    },
+    {
+      "id": "loan-amortization",
+      "transformation": "Loan Amortization",
+      "engine": "finance",
+      "members": [
+        "loan-calculator"
+      ],
+      "existingMembers": [
+        "cagr-calculator",
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "loan-calculator",
+        "roi-calculator",
+        "rule-of-72-calculator",
+        "savings-goal-calculator",
+        "shop-upi-tally",
+        "sip-calculator",
+        "split-bill",
+        "upi-1999-split",
+        "upi-mdr-estimator"
+      ],
+      "size": 1,
+      "meanScore": 75.5,
+      "internalLinks": [
+        "cagr-calculator",
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "loan-calculator",
+        "roi-calculator"
       ]
     },
     {
@@ -1905,7 +1957,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "size": 1,
       "meanScore": 74.1,
@@ -1914,7 +1967,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ]
     },
     {
@@ -1941,6 +1995,39 @@
       ]
     },
     {
+      "id": "mortgage-amortization",
+      "transformation": "Mortgage Amortization",
+      "engine": "finance",
+      "members": [
+        "mortgage-calculator"
+      ],
+      "existingMembers": [
+        "cagr-calculator",
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "loan-calculator",
+        "roi-calculator",
+        "rule-of-72-calculator",
+        "savings-goal-calculator",
+        "shop-upi-tally",
+        "sip-calculator",
+        "split-bill",
+        "upi-1999-split",
+        "upi-mdr-estimator"
+      ],
+      "size": 1,
+      "meanScore": 73.6,
+      "internalLinks": [
+        "cagr-calculator",
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "loan-calculator",
+        "roi-calculator"
+      ]
+    },
+    {
       "id": "date-format-disambiguation",
       "transformation": "Date Format Disambiguation",
       "engine": "datetime",
@@ -1952,6 +2039,8 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator",
         "sleep-cycle-calculator",
         "systemd-timer-converter",
         "timezone-converter",
@@ -2041,6 +2130,8 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator",
         "sleep-cycle-calculator",
         "systemd-timer-converter",
         "timezone-converter",
@@ -2133,6 +2224,8 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator",
         "sleep-cycle-calculator",
         "systemd-timer-converter",
         "timezone-converter",
@@ -2145,7 +2238,7 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator",
+        "ovulation-calculator",
         "timezone-converter"
       ]
     },
@@ -2161,7 +2254,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ],
       "size": 1,
       "meanScore": 71.6,
@@ -2170,7 +2264,8 @@
         "color-format-converter",
         "color-shades-generator",
         "colorblind-simulator",
-        "css-gradient-generator"
+        "css-gradient-generator",
+        "image-palette-extractor"
       ]
     },
     {
@@ -2217,6 +2312,8 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator",
         "sleep-cycle-calculator",
         "systemd-timer-converter",
         "timezone-converter",
@@ -2229,8 +2326,8 @@
         "cron-expression-parser",
         "date-difference-calculator",
         "date-format-detector",
-        "sleep-cycle-calculator",
-        "systemd-timer-converter"
+        "ovulation-calculator",
+        "pregnancy-due-date-calculator"
       ]
     },
     {
@@ -2281,20 +2378,6 @@
       ]
     },
     {
-      "id": "loan-amortization",
-      "transformation": "Loan Amortization",
-      "engine": "loan",
-      "members": [
-        "loan-calculator"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 66.2,
-      "internalLinks": [
-        "compound-interest-calculator"
-      ]
-    },
-    {
       "id": "pdf-page-editing",
       "transformation": "PDF Page Editing",
       "engine": "pdf",
@@ -2319,7 +2402,8 @@
       "size": 1,
       "meanScore": 65.7,
       "internalLinks": [
-        "file-hash-verifier"
+        "file-hash-verifier",
+        "image-palette-extractor"
       ]
     },
     {
@@ -2350,20 +2434,6 @@
       "meanScore": 64.7,
       "internalLinks": [
         "percentage-calculator"
-      ]
-    },
-    {
-      "id": "mortgage-amortization",
-      "transformation": "Mortgage Amortization",
-      "engine": "loan",
-      "members": [
-        "mortgage-calculator"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 64.3,
-      "internalLinks": [
-        "compound-interest-calculator"
       ]
     },
     {

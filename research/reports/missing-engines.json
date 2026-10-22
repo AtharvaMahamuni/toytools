@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-20T14:23:22.472Z",
+  "generatedAt": "2026-10-21T15:31:34.331Z",
   "engines": [
     {
       "engine": "budget",
@@ -17,24 +17,6 @@
       "topScore": 66.6,
       "rationale": [
         "2 opportunities share the missing \"budget\" engine.",
-        "Below the 3-tool bar for a new engine - revisit as more demand accrues."
-      ]
-    },
-    {
-      "engine": "loan",
-      "exists": false,
-      "confidence": 0.65,
-      "transformations": [
-        "Loan Amortization",
-        "Mortgage Amortization"
-      ],
-      "unlocksTools": [
-        "loan-calculator",
-        "mortgage-calculator"
-      ],
-      "topScore": 66.2,
-      "rationale": [
-        "2 opportunities share the missing \"loan\" engine.",
         "Below the 3-tool bar for a new engine - revisit as more demand accrues."
       ]
     },

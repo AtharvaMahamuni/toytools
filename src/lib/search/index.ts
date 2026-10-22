@@ -89,7 +89,8 @@ export function buildClientIndex(): ClientIndex {
       (tool.keywords ?? []).forEach(add);
       (searchAliases[tool.slug] ?? []).forEach(add);
       add(tool.family);
-      add(categoryName);
+      // The category display name stays on the interned `c` table. The palette appends it
+      // when ranking (`categorySearchTerm`) so search-terms.json does not repeat it.
 
       return {
         s: tool.slug,

@@ -9,9 +9,15 @@ export interface CivilDate {
   d: number;
 }
 
-/** Days in month `m` (1-12) of year `y`, leap-year aware. */
+/**
+ * Days in month `m` (1-12) of year `y`, leap-year aware.
+ * `setUTCFullYear` is required: `Date.UTC` maps years 0 through 99 onto 1900 through 1999,
+ * which makes year 0 a non-leap February.
+ */
 export function daysInMonth(y: number, m: number): number {
-  return new Date(Date.UTC(y, m, 0)).getUTCDate();
+  const date = new Date(0);
+  date.setUTCFullYear(y, m, 0);
+  return date.getUTCDate();
 }
 
 /** Parse 'YYYY-MM-DD' (or the date part of a 'YYYY-MM-DDTHH:mm' datetime-local value). */
@@ -48,14 +54,26 @@ export function parseISODateTime(s: string): CivilDateTime | null {
   return { ...date, hour, minute, second };
 }
 
-/** Midnight-UTC epoch ms for a civil date — the basis for exact whole-day differences. */
+/**
+ * Midnight-UTC epoch ms for a civil date. `setUTCFullYear` keeps years 0 through 99.
+ * `Date.UTC` would shift those years by 1900.
+ */
 export function toUTCms(c: CivilDate): number {
-  return Date.UTC(c.y, c.m - 1, c.d);
+  const date = new Date(0);
+  date.setUTCFullYear(c.y, c.m - 1, c.d);
+  date.setUTCHours(0, 0, 0, 0);
+  return date.getTime();
 }
 
 /** Whole days from `a` to `b` (positive when `b` is later). */
 export function daysBetween(a: CivilDate, b: CivilDate): number {
   return Math.round((toUTCms(b) - toUTCms(a)) / 86_400_000);
+}
+
+/** `start` moved by `n` whole days. Negative `n` moves backward. UTC, so DST never applies. */
+export function addDays(start: CivilDate, n: number): CivilDate {
+  const date = new Date(toUTCms(start) + n * 86_400_000);
+  return { y: date.getUTCFullYear(), m: date.getUTCMonth() + 1, d: date.getUTCDate() };
 }
 
 /** Order comparison: negative if a < b, 0 if equal, positive if a > b. */

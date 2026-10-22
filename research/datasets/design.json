@@ -185,6 +185,11 @@
         "ad-supported",
         "no client-side-only guarantee"
       ],
+      "userFailures": [
+        "A large background returns several near-identical stops and the subject color is missing from the row.",
+        "The copied hex is a clamped sRGB value and nothing says the sample was out of gamut.",
+        "An average of a region is presented as a palette, so the logo red the person can see never appears."
+      ],
       "relatedProblems": ["color conversion", "color shades"],
       "relatedTools": ["color-format-converter", "color-shades-generator"],
       "demand": 68,

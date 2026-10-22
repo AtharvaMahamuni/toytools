@@ -56,6 +56,7 @@ import { config as heartRateZoneCalculator } from '@tools/health/heart-rate-zone
 import { config as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/config';
 import { config as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/config';
 import { config as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/config';
+import { config as imagePaletteExtractor } from '@tools/design/image-palette-extractor/config';
 import { config as inflationCalculator } from '@tools/finance/inflation-calculator/config';
 import { config as invisibleCharacterDetector } from '@tools/text/invisible-character-detector/config';
 import { config as ipv4Converter } from '@tools/developer-utilities/ipv4-converter/config';
@@ -77,6 +78,7 @@ import { config as leanBodyMassCalculator } from '@tools/health/lean-body-mass-c
 import { config as letterCounter } from '@tools/text/letter-counter/config';
 import { config as lineCounter } from '@tools/text/line-counter/config';
 import { config as llmsTxtGenerator } from '@tools/prep/llms-txt-generator/config';
+import { config as loanCalculator } from '@tools/finance/loan-calculator/config';
 import { config as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/config';
 import { config as lowercaseConverter } from '@tools/text/lowercase-converter/config';
 import { config as macroCalculator } from '@tools/health/macro-calculator/config';
@@ -89,11 +91,13 @@ import { config as normalizeWhitespace } from '@tools/text/normalize-whitespace/
 import { config as notepad } from '@tools/productivity/notepad/config';
 import { config as numberToWords } from '@tools/number/number-to-words/config';
 import { config as oneRepMaxCalculator } from '@tools/health/one-rep-max-calculator/config';
+import { config as ovulationCalculator } from '@tools/health/ovulation-calculator/config';
 import { config as paragraphCounter } from '@tools/text/paragraph-counter/config';
 import { config as passwordGenerator } from '@tools/generate/password-generator/config';
 import { config as percentageCalculator } from '@tools/number/percentage-calculator/config';
 import { config as pomodoroTimer } from '@tools/productivity/pomodoro-timer/config';
 import { config as popIt } from '@tools/fidget/pop-it/config';
+import { config as pregnancyDueDateCalculator } from '@tools/health/pregnancy-due-date-calculator/config';
 import { config as primeFactorizationCalculator } from '@tools/math/prime-factorization-calculator/config';
 import { config as promptPacker } from '@tools/prep/prompt-packer/config';
 import { config as proteinIntakeCalculator } from '@tools/health/protein-intake-calculator/config';
@@ -223,6 +227,7 @@ export const toolConfigs: ToolConfig[] = [
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,
   idealWeightCalculator,
+  imagePaletteExtractor,
   inflationCalculator,
   invisibleCharacterDetector,
   ipv4Converter,
@@ -244,6 +249,7 @@ export const toolConfigs: ToolConfig[] = [
   letterCounter,
   lineCounter,
   llmsTxtGenerator,
+  loanCalculator,
   loremIpsumGenerator,
   lowercaseConverter,
   macroCalculator,
@@ -256,11 +262,13 @@ export const toolConfigs: ToolConfig[] = [
   notepad,
   numberToWords,
   oneRepMaxCalculator,
+  ovulationCalculator,
   paragraphCounter,
   passwordGenerator,
   percentageCalculator,
   pomodoroTimer,
   popIt,
+  pregnancyDueDateCalculator,
   primeFactorizationCalculator,
   promptPacker,
   proteinIntakeCalculator,

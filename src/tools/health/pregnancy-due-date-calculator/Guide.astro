@@ -1,0 +1,233 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const diffHref = toolPathBySlug('date-difference-calculator');
+const ageHref = toolPathBySlug('age-calculator');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>From a last period to a due date <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Add 280 days to the first day of the last period when the cycle is 28 days. That is the
+      Naegele count this page uses. For example, a last period on 1 January 2026 is due on
+      8 October 2026. Count the same period on 1 March 2026 and the page says 8 weeks and 3
+      days, still the first trimester, with 221 days left before 8 October.
+    </p>
+    <p>
+      Change the cycle and the due date, the days remaining, and the estimated conception
+      date move together. For example, a 32 day cycle from that same January day is due on
+      12 October 2026, four days later, with 225 days remaining and conception on 19 January
+      2026. The week count stays 8 weeks and 3 days, because weeks are counted from the last
+      period, not from the adjusted due date. The second trimester still starts 9 April 2026
+      and the third still starts 16 July 2026. The note under the date says the page used 32
+      and that the date moved four days later than a 28 day cycle. At 28 that note stays hidden.
+    </p>
+    <p>
+      A chat reply can recite "280 days." It will not keep the last period, the cycle length,
+      the count date, and the trimester boundaries on one screen while you edit one of them.
+      The arithmetic stays in the browser. Runs entirely on your device. Nothing is uploaded.
+    </p>
+    <a href={toolHref} class="cta-link">Open the Pregnancy Due Date Calculator →</a>
+  </section>
+
+  <section id="naegele">
+    <h2>Why the 280 day count beats the month shortcut <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The usual statement is one year minus three months plus seven days from the first day of
+      the last period. What the Naegele rule counts, for a 28 day cycle, is about 280 days,
+      and 280 days is what this page adds. The month shortcut and the day count disagree when
+      the months in between do not add to 280 days. 31 March 2026 plus one year, minus three
+      months, plus seven days is 7 January 2027. The same day plus 280 days is 5 January 2027.
+      The page keeps the day count so a leap day and a short month cannot drift the result.
+    </p>
+    <p>
+      2026 is not a leap year, so 1 January plus 280 days is 8 October. For example, 1 January
+      2024 plus 280 days is 7 October 2024, because 2024 is a leap year and 29 February sits
+      inside the span. The due date comes one calendar day earlier than the non-leap year.
+      The page does not round that away.
+    </p>
+    <p>
+      Cycle length is the other input. The field accepts 21 to 45 days. Each day above 28
+      adds one day to the 280. Each day below 28 subtracts one. For example, a 21 day cycle
+      from 1 January 2026 is due 1 October 2026, seven days earlier, and the note says seven
+      days earlier. A 45 day cycle would move the date 17 days later. The week count and the trimester
+      dates do not take that adjustment. They still start at the last period.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Weeks stay on the last period">
+      <p>
+        Weeks pregnant stay anchored to the first day of the last period. A longer cycle does
+        not make you further along. It makes the estimated delivery date later, by the number
+        of days the cycle differs from 28.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="weeks">
+    <h2>Reading the week count on any date <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Subtract the last period from the date you are counting, in whole days, and split that
+      span into weeks and leftover days. 1 January 2026 to 1 March 2026 is 59 days. 59 divided
+      by 7 is 8 weeks, with 3 days left over. The card reads "8 weeks, 3 days." The same span
+      with a 32 day cycle is still 8 weeks and 3 days. What changed is the due date, from 8
+      October to 12 October, and the days remaining, from 221 to 225.
+    </p>
+    <p>
+      Leave "Weeks pregnant on" blank and the page uses today. Fill it when you want a past
+      or future day: a midwife appointment next Tuesday, or the day a test line appeared.
+      The last period has to be on or before that date. A later period is rejected, because a
+      negative week count would be a swapped pair of dates, not a pregnancy.
+    </p>
+    <p>
+      On the due date itself the count is 40 weeks exactly for a 28 day cycle, because 280
+      divided by 7 is 40. Two days later, 10 October 2026, the page says 2 days past due and
+      40 weeks and 2 days, in the third trimester. Past the due date is allowed. The date you
+      type is the date the week count uses.
+    </p>
+    <ReferenceBlock type="note" heading="Today is a date, not a guess">
+      <p>
+        Blank means today on this device. A worked example pins both dates so the week count
+        cannot change overnight. 1 January 2026 counted on 1 March 2026 is always 8 weeks and
+        3 days.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="trimesters">
+    <h2>What the trimester cards and milestones show <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      This page starts the second trimester at 14 weeks, which is 98 days after the last
+      period, and the third at 28 weeks, which is 196 days. From 1 January 2026 the second
+      trimester starts on 9 April 2026 and the third starts on 16 July 2026. The due date for
+      a 28 day cycle is 8 October 2026, which is inside the third trimester. Those two start
+      dates are printed on the trimester card so you do not have to add 98 and 196 yourself.
+    </p>
+    <p>
+      The milestones under the result mark each of those dates reached or not, using the same
+      count date as the week card. On 1 March 2026 none of them have arrived. On 10 October
+      2026 all three have. A 32 day cycle does not slide 9 April or 16 July. It only slides
+      8 October to 12 October. If you expected the trimesters to move with the due date, the
+      card is telling you the page did not do that.
+    </p>
+    <p>
+      Estimated conception is a separate card. It is the cycle length minus 14 days after the
+      last period. A 28 day cycle puts it on day 14, so 1 January 2026 gives 15 January 2026.
+      A 32 day cycle gives 19 January 2026. The label says estimated. It is the same
+      assumption a calendar method uses, and it is not a hormone test.
+    </p>
+  </section>
+
+  <section id="ultrasound">
+    <h2>Last period dating versus an ultrasound scan <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A date from the last period assumes ovulation about 14 days after it began. An early
+      ultrasound measures the baby instead, so it does not need that assumption. When the two
+      differ by more than set thresholds, which depend on how far along the scan is, the
+      scan date replaces the last period date. That is the practice in ACOG Committee Opinion
+      700. Bring the date from this page to the scan, and use the date the clinician gives
+      you after it.
+    </p>
+    <p>
+      If cycles vary by more than a few days, or with PCOS, a calendar date can be off by a
+      week or more; an ultrasound or a clinician gives a better date. The cycle length field
+      helps only when the cycle is long but steady. An unpredictable cycle has no single
+      length to type.
+    </p>
+    <ReferenceBlock type="note" heading="Talk to a midwife or doctor">
+      <p>
+        An estimate from dates only. Talk to a midwife or doctor about your dating.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Which mistakes move the date? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Leaving a longer cycle at 28">
+      <p>
+        A 32 day cycle counted as 28 lands four days early: 8 October instead of 12 October
+        in the January 2026 example. The note appears only after you type 32. If the field
+        still says 28, the page is doing what you asked, and the date is the early one.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Expecting the weeks to move too">
+      <p>
+        The week count is the age of the pregnancy from the last period. Adjusting the due
+        date does not rewind or advance that age. 59 days is 8 weeks and 3 days at cycle 28
+        and at cycle 32. Read the days-until card if you wanted the distance to the new date.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Typing the due date as the last period">
+      <p>
+        The first field is the first day of bleeding, not the date you hope to deliver. Put
+        8 October 2026 in that field and the page will project a due date about 280 days
+        after October, which is a different pregnancy. The tool cannot tell those two dates
+        apart. You can.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="This is not a prenatal visit">
+      <p>
+        No scan, no diagnosis, no fundal height. If a clinician has already dated the
+        pregnancy from an ultrasound, that date is the one to plan around. This page is the
+        arithmetic you can rerun when the cycle length was wrong.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="sources">
+    <h2>Sources <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>Naegele's rule: 280 days, or 40 weeks, from the first day of the last period for a 28 day cycle.</li>
+      <li>ACOG Committee Opinion 700, Methods for Estimating the Due Date: ultrasound dating replaces last period dating when they differ beyond set thresholds.</li>
+      <li>NHS guidance on due dates and on when ovulation happens in a cycle.</li>
+    </ul>
+  </section>
+
+  <section id="next">
+    <h2>What should you open next? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A pregnancy due date calculator versus the alternatives keeps the cycle length on the
+      page and recomputes the due date, the weeks, and the trimester dates together. A span
+      of calendar days that is not a pregnancy belongs in the
+      <a href={diffHref}>date difference calculator</a>. An exact age from a birth date
+      belongs in the <a href={ageHref}>age calculator</a>. Neither of those reads a cycle
+      length, and this page does not try to compute an age in years.
+    </p>
+    <p>
+      Come back when the count date changes. The same last period and the same cycle produce
+      a new week count in one edit. Leave the cycle at 28 only when 28 is the cycle you
+      mean. A different length should be visible next to the due date, which is what the
+      note is for.
+    </p>
+    <a href={toolHref} class="cta-link">Check 1 January 2026 →</a>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    margin-top: var(--space-3);
+    font-weight: var(--font-weight-medium);
+  }
+</style>

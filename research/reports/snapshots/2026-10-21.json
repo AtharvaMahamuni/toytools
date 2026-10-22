@@ -1,0 +1,16 @@
+{
+  "version": 3,
+  "generatedAt": "2026-10-21T15:31:34.331Z",
+  "fingerprint": "7fa57797",
+  "discovered": 106,
+  "deduped": 106,
+  "alreadyExists": 96,
+  "recommended": 8,
+  "missingEngines": 0,
+  "topScore": 85.9,
+  "latentSignals": 7,
+  "latentCandidates": 0,
+  "craftReadyToPolish": 10,
+  "craftAtRisk": 6,
+  "nextBuild": "function-grapher"
+}

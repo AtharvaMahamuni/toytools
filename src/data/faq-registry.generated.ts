@@ -56,6 +56,7 @@ import { items as heartRateZoneCalculatorFaqs } from '@tools/health/heart-rate-z
 import { items as hexEncoderDecoderFaqs } from '@tools/developer-utilities/hex-encoder-decoder/faq';
 import { items as htmlEntityEncoderDecoderFaqs } from '@tools/developer-utilities/html-entity-encoder-decoder/faq';
 import { items as idealWeightCalculatorFaqs } from '@tools/health/ideal-weight-calculator/faq';
+import { items as imagePaletteExtractorFaqs } from '@tools/design/image-palette-extractor/faq';
 import { items as inflationCalculatorFaqs } from '@tools/finance/inflation-calculator/faq';
 import { items as invisibleCharacterDetectorFaqs } from '@tools/text/invisible-character-detector/faq';
 import { items as ipv4ConverterFaqs } from '@tools/developer-utilities/ipv4-converter/faq';
@@ -77,6 +78,7 @@ import { items as leanBodyMassCalculatorFaqs } from '@tools/health/lean-body-mas
 import { items as letterCounterFaqs } from '@tools/text/letter-counter/faq';
 import { items as lineCounterFaqs } from '@tools/text/line-counter/faq';
 import { items as llmsTxtGeneratorFaqs } from '@tools/prep/llms-txt-generator/faq';
+import { items as loanCalculatorFaqs } from '@tools/finance/loan-calculator/faq';
 import { items as loremIpsumGeneratorFaqs } from '@tools/generate/lorem-ipsum-generator/faq';
 import { items as lowercaseConverterFaqs } from '@tools/text/lowercase-converter/faq';
 import { items as macroCalculatorFaqs } from '@tools/health/macro-calculator/faq';
@@ -89,11 +91,13 @@ import { items as normalizeWhitespaceFaqs } from '@tools/text/normalize-whitespa
 import { items as notepadFaqs } from '@tools/productivity/notepad/faq';
 import { items as numberToWordsFaqs } from '@tools/number/number-to-words/faq';
 import { items as oneRepMaxCalculatorFaqs } from '@tools/health/one-rep-max-calculator/faq';
+import { items as ovulationCalculatorFaqs } from '@tools/health/ovulation-calculator/faq';
 import { items as paragraphCounterFaqs } from '@tools/text/paragraph-counter/faq';
 import { items as passwordGeneratorFaqs } from '@tools/generate/password-generator/faq';
 import { items as percentageCalculatorFaqs } from '@tools/number/percentage-calculator/faq';
 import { items as pomodoroTimerFaqs } from '@tools/productivity/pomodoro-timer/faq';
 import { items as popItFaqs } from '@tools/fidget/pop-it/faq';
+import { items as pregnancyDueDateCalculatorFaqs } from '@tools/health/pregnancy-due-date-calculator/faq';
 import { items as primeFactorizationCalculatorFaqs } from '@tools/math/prime-factorization-calculator/faq';
 import { items as promptPackerFaqs } from '@tools/prep/prompt-packer/faq';
 import { items as proteinIntakeCalculatorFaqs } from '@tools/health/protein-intake-calculator/faq';
@@ -223,6 +227,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'hex-encoder-decoder': hexEncoderDecoderFaqs,
   'html-entity-encoder-decoder': htmlEntityEncoderDecoderFaqs,
   'ideal-weight-calculator': idealWeightCalculatorFaqs,
+  'image-palette-extractor': imagePaletteExtractorFaqs,
   'inflation-calculator': inflationCalculatorFaqs,
   'invisible-character-detector': invisibleCharacterDetectorFaqs,
   'ipv4-converter': ipv4ConverterFaqs,
@@ -244,6 +249,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'letter-counter': letterCounterFaqs,
   'line-counter': lineCounterFaqs,
   'llms-txt-generator': llmsTxtGeneratorFaqs,
+  'loan-calculator': loanCalculatorFaqs,
   'lorem-ipsum-generator': loremIpsumGeneratorFaqs,
   'lowercase-converter': lowercaseConverterFaqs,
   'macro-calculator': macroCalculatorFaqs,
@@ -256,11 +262,13 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'notepad': notepadFaqs,
   'number-to-words': numberToWordsFaqs,
   'one-rep-max-calculator': oneRepMaxCalculatorFaqs,
+  'ovulation-calculator': ovulationCalculatorFaqs,
   'paragraph-counter': paragraphCounterFaqs,
   'password-generator': passwordGeneratorFaqs,
   'percentage-calculator': percentageCalculatorFaqs,
   'pomodoro-timer': pomodoroTimerFaqs,
   'pop-it': popItFaqs,
+  'pregnancy-due-date-calculator': pregnancyDueDateCalculatorFaqs,
   'prime-factorization-calculator': primeFactorizationCalculatorFaqs,
   'prompt-packer': promptPackerFaqs,
   'protein-intake-calculator': proteinIntakeCalculatorFaqs,
