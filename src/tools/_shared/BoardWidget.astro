@@ -157,8 +157,7 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
   [data-seat='O'] { color: var(--color-accent); }
   .board-cell.is-last { box-shadow: inset 0 0 0 2px var(--color-text-muted); }
   .board-cell.is-win,
-  .board-cell.is-preview,
-  :global(.board-hand-btn.is-selected) { background: var(--color-accent-subtle); }
+  .board-cell.is-preview { background: var(--color-accent-subtle); }
   .board-cell.is-selected,
   :global(.board-hand-btn.is-selected) {
     background: var(--color-accent-subtle);
@@ -197,6 +196,12 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
     stroke: var(--color-bg);
     stroke-width: 3;
     stroke-linejoin: round;
+  }
+  /* Chess: X pieces are filled, O pieces are outlined in the accent (shape, not only colour). */
+  :global([data-input='chess'] :is([data-mark='O'], [data-seat='O']) .fill) {
+    fill: var(--color-bg);
+    stroke: currentColor;
+    stroke-width: 7;
   }
   :global(.mark-svg .cut) {
     stroke: var(--color-bg);
@@ -351,6 +356,7 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
     // the last reason and must not announce it again.
     function paint(view, reason, fresh) {
       inputMode = view.input || 'cell';
+      root.setAttribute('data-input', inputMode);
       var banner = root.querySelector('[data-board-banner]');
       var score = root.querySelector('[data-board-score]');
       var note = root.querySelector('[data-board-note]');
@@ -422,7 +428,7 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
         var selected = cell.index === fromIndex || cell.index === pairIndex;
         button.classList.toggle('is-selected', selected);
         button.classList.toggle('is-target', targets.indexOf(cell.index) >= 0);
-        button.classList.toggle('is-last', lastMove.indexOf(cell.index) >= 0 && !cell.ghost);
+        button.classList.toggle('is-last', lastMove.indexOf(cell.index) >= 0);
         var mark = button.querySelector('.mark');
         if (mark) {
           var cls = 'mark' + shapeClass(cell.shape);
@@ -485,6 +491,7 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
         picked = '';
         fromIndex = -1;
         pairIndex = -1;
+        lastReason = '';
         paint(api.view(state), lastReason);
         return true;
       }
@@ -629,11 +636,15 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
               return;
             }
             fromIndex = index;
-            lastReason = '';
-            paint(api.view(state), lastReason);
+            // Announce the pick and how many squares it can reach, e.g. "Rook selected, 2 legal moves".
+            var count = legalTargets().length;
+            var pieceName = api.view(state).cells[index].name || 'piece';
+            lastReason = pieceName.charAt(0).toUpperCase() + pieceName.slice(1) + ' selected, ' + count + ' legal move' + (count === 1 ? '' : 's');
+            paint(api.view(state), lastReason, true);
             return;
           } else if (fromIndex === index) {
             fromIndex = -1;
+            lastReason = '';
             paint(api.view(state), lastReason);
             return;
           } else {

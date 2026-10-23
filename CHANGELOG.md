@@ -8,6 +8,8 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 - **Board games.** Tic Tac Toe, Connect 4, Chess Tac Toe, and Quantum Tic Tac Toe draw every piece as a large SVG shape in theme colours, so X, O, the Connect 4 discs, and the chess pawn, rook, knight, and bishop read clearly in light and dark themes. Connect 4 O is a thick ring so the two colours differ by shape as well. The chess hand buttons show the piece icon.
 - **Board games.** A picked piece, a selected square, or the first square of a pair is outlined, and every legal square shows a dot, or a ring on an occupied square. The last move is outlined until the next move, undo, or rematch. A chip beside the status shows whose turn it is. Escape drops a selection, and tapping a picked chess piece or a selected chess square again drops it. Chess Tac Toe has no king, so there is no check to show.
+- **Chess Tac Toe.** X pieces are solid and O pieces are outlined in the accent colour, so the two sides differ by shape, not only colour. The turn chip shows the current player's piece in that same style.
+- **Chess Tac Toe.** Selecting a piece on the board says which piece and how many legal moves it has, for example "Rook selected, 3 legal moves". The note clears when the piece is dropped.
 
 ### Fixed
 

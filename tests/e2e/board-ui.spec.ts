@@ -146,3 +146,108 @@ test('at 320 px each board fits and every square is still a touch target', async
     expect(sq!.width, slug).toBeGreaterThanOrEqual(slug === 'connect-4' ? 36 : 44);
   }
 });
+
+// Exact legal-move sets. Each set below differs from "every other square", so a marker that skips
+// the engine check (marking any square that names a move) fails these.
+const targets = (page: Page) =>
+  page.evaluate(() => [...document.querySelectorAll<HTMLElement>('.board-cell.is-target')].map((b) => Number(b.dataset.cell)).sort((a, b) => a - b));
+
+async function chessSliding(page: Page) {
+  await open(page, 'chess-tac-toe');
+  // X rook 12 under its own knight on 8, X pawn 9 with an O rook diagonally ahead on 4.
+  for (const [piece, i] of [['rook', 12], ['pawn', 3], ['knight', 8], ['rook', 4], ['pawn', 9], ['bishop', 15], ['bishop', 0], ['knight', 7]] as const) {
+    await page.locator(`[data-piece="${piece}"]`).click();
+    await cell(page, i).click();
+  }
+  await expect(page.locator('[data-board-banner]')).toHaveText('X to move. Pass the phone.');
+}
+
+test('chess tac toe: a blocked rook marks only the squares it can reach, and the note counts them', async ({ page }) => {
+  await chessSliding(page);
+  await cell(page, 12).click();
+  await expect(cell(page, 12)).toHaveClass(/is-selected/);
+  expect(await targets(page)).toEqual([13, 14, 15]);
+  await expect(page.locator('[data-board-note]')).toHaveText('Rook selected, 3 legal moves');
+  await expect(cell(page, 12)).toHaveAccessibleName('Row 4, column 1, X rook, selected');
+  await cell(page, 12).click();
+  await expect(page.locator('[data-board-note]')).toHaveText('');
+});
+
+test('chess tac toe: a pawn marks its forward square and its diagonal capture only', async ({ page }) => {
+  await chessSliding(page);
+  await cell(page, 9).click();
+  expect(await targets(page)).toEqual([4, 5]);
+  await expect(page.locator('[data-board-note]')).toHaveText('Pawn selected, 2 legal moves');
+  await page.keyboard.press('Escape');
+  await expect(page.locator('[data-board-note]')).toHaveText('');
+});
+
+test('quantum: a pair start marks every empty square except itself, not the classical ones', async ({ page }) => {
+  await open(page, 'quantum-tic-tac-toe');
+  for (let i = 0; i < 2; i++) {
+    await cell(page, 0).click();
+    await cell(page, 1).click();
+  }
+  await page.locator('[data-choice]').first().click();
+  await expect(cell(page, 0)).not.toHaveAttribute('data-mark', 'empty');
+  await expect(cell(page, 1)).not.toHaveAttribute('data-mark', 'empty');
+  await cell(page, 2).click();
+  expect(await targets(page)).toEqual([3, 4, 5, 6, 7, 8]);
+});
+
+for (const theme of ['light', 'dark'] as const) {
+  test(`chess tac toe: X pieces are filled, O pieces outlined, on the board and the turn chip (${theme})`, async ({ page }) => {
+    await open(page, 'chess-tac-toe', theme);
+    const chip = page.locator('[data-board-turn]');
+    const style = (sel: string) =>
+      page.evaluate((s) => {
+        const el = document.querySelector(s)!;
+        const host = el.closest('[data-cell], [data-board-turn]') as HTMLElement;
+        const cs = getComputedStyle(el);
+        return { fill: cs.fill, stroke: cs.stroke, width: parseFloat(cs.strokeWidth), bg: getComputedStyle(host).backgroundColor, page: getComputedStyle(document.body).backgroundColor };
+      }, sel);
+    let c = await style('[data-board-turn] .fill');
+    expect(c.fill).not.toBe(c.page);
+    await page.locator('[data-piece="pawn"]').click();
+    await cell(page, 5).click();
+    await expect(chip).toHaveAttribute('data-seat', 'O');
+    c = await style('[data-board-turn] .fill');
+    expect(c.width).toBeGreaterThanOrEqual(6);
+    expect(await contrast(page, c.stroke, c.fill)).toBeGreaterThanOrEqual(3);
+    await page.locator('[data-piece="pawn"]').click();
+    await cell(page, 10).click();
+    const x = await style('[data-cell="5"] .mark .fill');
+    const o = await style('[data-cell="10"] .mark .fill');
+    // X: a solid body in the text colour. O: hollow (body painted the square colour), thick accent edge.
+    expect(await contrast(page, x.fill, x.bg)).toBeGreaterThanOrEqual(3);
+    expect(o.fill).toBe(o.bg);
+    expect(o.width).toBeGreaterThanOrEqual(6);
+    expect(await contrast(page, o.stroke, o.bg)).toBeGreaterThanOrEqual(3);
+    expect(x.fill).not.toBe(o.fill);
+    expect(x.width).toBeLessThan(o.width);
+  });
+}
+
+test('the turn chip hides once the game is won', async ({ page }) => {
+  await open(page, 'tic-tac-toe');
+  const chip = page.locator('[data-board-turn]');
+  await expect(chip).toBeVisible();
+  for (const i of [0, 3, 1, 4, 2]) await cell(page, i).click();
+  await expect(chip).toBeHidden();
+  await page.locator('[data-board-rematch]').click();
+  await expect(chip).toBeVisible();
+});
+
+test('connect 4: the O disc is a thick ring, on the board and in the turn chip', async ({ page }) => {
+  await open(page, 'connect-4');
+  await cell(page, 38).click();
+  await cell(page, 38).click();
+  const width = (sel: string) => page.locator(sel).evaluate((el) => getComputedStyle(el).strokeWidth);
+  expect(await width('[data-cell="31"] .mark circle')).toBe('20px');
+  await cell(page, 37).click();
+  expect(await width('[data-board-turn] circle')).toBe('20px');
+  // The hover ghost is a preview, never the last move.
+  await cell(page, 3).hover();
+  if (!test.info().project.name.includes('pixel')) await expect(page.locator('.board-cell.is-ghost')).toHaveCount(1);
+  await expect(page.locator('.board-cell.is-ghost.is-last')).toHaveCount(0);
+});
