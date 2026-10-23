@@ -20,7 +20,10 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
 
 <section class="board-match" data-tool={slug} data-rules={rulesId} aria-label={label}>
   <div class="board-stage">
-    <p class="board-banner" data-board-banner role="status" aria-live="polite">X to play. Pass the phone.</p>
+    <div class="board-head">
+      <span class="board-turn" data-board-turn data-seat="X" aria-hidden="true"><svg class="mark-svg" viewBox="0 0 100 100"></svg></span>
+      <p class="board-banner" data-board-banner role="status" aria-live="polite">X to play. Pass the phone.</p>
+    </div>
     <p class="board-score" data-board-score>X 0, O 0, draws 0</p>
     {rule && <p class="board-score" data-board-rule>{rule}</p>}
     <div class="board-hand" data-board-hand hidden></div>
@@ -67,6 +70,20 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
     max-width: none;
     margin: 0;
   }
+  .board-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .board-turn {
+    flex: none;
+    width: 2rem;
+    height: 2rem;
+    padding: 0.25rem;
+    border: 2px solid currentColor;
+    border-radius: var(--radius-sm);
+  }
+  .board-turn[hidden] { display: none; }
   .board-banner {
     font-size: var(--text-lg);
     font-weight: var(--font-weight-semibold);
@@ -110,6 +127,7 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
     stroke-linecap: round;
   }
   .board-cell {
+    position: relative;
     min-width: 0;
     min-height: var(--touch-target);
     display: flex;
@@ -126,43 +144,77 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
     cursor: pointer;
   }
   .board-cell:focus-visible,
-  .board-hand-btn:focus-visible,
-  .board-choice-btn:focus-visible {
+  :global(.board-hand-btn:focus-visible),
+  :global(.board-choice-btn:focus-visible) {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
   }
   .board-cell:active { background: var(--color-surface-hover); }
+  /* Seat colours: X is the text colour, O the accent. Both clear 3:1 on the cell in each theme. */
+  [data-mark='X'],
+  [data-seat='X'] { color: var(--color-text); }
+  [data-mark='O'],
+  [data-seat='O'] { color: var(--color-accent); }
+  .board-cell.is-last { box-shadow: inset 0 0 0 2px var(--color-text-muted); }
   .board-cell.is-win,
-  .board-cell.is-preview,
-  .board-hand-btn.is-selected,
-  .board-cell.is-selected { background: var(--color-accent-subtle); }
-  .board-cell.is-ghost .mark { opacity: 0.45; }
-  .mark {
-    width: 1.25rem;
-    height: 1.25rem;
-    display: block;
+  .board-cell.is-preview { background: var(--color-accent-subtle); }
+  .board-cell.is-selected,
+  :global(.board-hand-btn.is-selected) {
+    background: var(--color-accent-subtle);
+    box-shadow: inset 0 0 0 3px var(--color-accent);
   }
-  .mark-x { position: relative; }
-  .mark-x::before,
-  .mark-x::after {
+  .board-cell.is-target::after {
     content: '';
     position: absolute;
-    left: 50%;
-    top: 0;
-    width: 2px;
+    inset: 36%;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+  .board-cell.is-target:not([data-mark='empty'])::after {
+    inset: 8%;
+    background: none;
+    border: 3px solid var(--color-accent);
+  }
+  .board-cell.is-ghost .mark { opacity: 0.45; }
+  .mark {
+    width: min(68%, 4rem);
+    aspect-ratio: 1;
+    display: block;
+  }
+  .board-grid.is-dense .mark { width: 78%; }
+  :global(.mark-svg) {
+    display: block;
+    width: 100%;
     height: 100%;
-    background: var(--color-text);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 13;
+    stroke-linecap: round;
   }
-  .mark-x::before { transform: translateX(-50%) rotate(45deg); }
-  .mark-x::after { transform: translateX(-50%) rotate(-45deg); }
-  .mark-o {
-    box-sizing: border-box;
-    border: 2px solid var(--color-text);
-    border-radius: 50%;
+  :global(.mark-svg .fill) {
+    fill: currentColor;
+    stroke: var(--color-bg);
+    stroke-width: 3;
+    stroke-linejoin: round;
   }
-  .mark-disc {
-    background: var(--color-text);
-    border-radius: 50%;
+  /* Chess: X pieces are filled, O pieces are outlined in the accent (shape, not only colour). */
+  :global([data-input='chess'] :is([data-mark='O'], [data-seat='O']) .fill) {
+    fill: var(--color-bg);
+    stroke: currentColor;
+    stroke-width: 7;
+  }
+  :global(.mark-svg .cut) {
+    stroke: var(--color-bg);
+    stroke-width: 4;
+  }
+  :global(.board-hand-btn .mark-svg) {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  :global(.board-hand-btn) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
   }
   .mark-letter {
     font-size: var(--text-xs);
@@ -177,8 +229,8 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
     flex-wrap: wrap;
     gap: var(--space-2);
   }
-  .board-hand-btn,
-  .board-choice-btn {
+  :global(.board-hand-btn),
+  :global(.board-choice-btn) {
     min-height: var(--touch-target);
     min-width: var(--touch-target);
     padding-inline: var(--space-3);
@@ -190,12 +242,12 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
     font-weight: var(--font-weight-semibold);
     cursor: pointer;
   }
-  .board-choice-btn {
+  :global(.board-choice-btn) {
     flex: 1 1 100%;
     text-align: left;
   }
-  .board-hand-btn:active,
-  .board-choice-btn:active { background: var(--color-surface-hover); }
+  :global(.board-hand-btn:active),
+  :global(.board-choice-btn:active) { background: var(--color-surface-hover); }
   .board-actions {
     display: flex;
     gap: var(--space-2);
@@ -222,8 +274,29 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
     var inputMode = 'cell';
     var lastReason = '';
     var noteFrame = 0;
+    // The shown state, for the turn chip and legal-move markers, and the squares the last move changed.
+    var currentState = null;
+    var lastMove = [];
+    var targetsFor = null;
     var grid = root.querySelector('[data-board-grid]');
 
+    // Every mark is an inline SVG drawn in currentColor: no font glyph, so no tofu and no emoji.
+    var PIECE = {
+      pawn: '<circle class="fill" cx="50" cy="30" r="13"/><path class="fill" d="M36 80Q38 56 45 44h10q7 12 9 36Z"/><rect class="fill" x="24" y="78" width="52" height="12" rx="4"/>',
+      rook: '<path class="fill" d="M26 14h12v9h6v-9h12v9h6v-9h12v24l-9 7v27l9 6v12H26V78l9-6V45l-9-7Z"/>',
+      knight: '<path class="fill" d="M28 90h48v-8c0-20-5-40-13-52-5-8-12-14-20-16l-2 9c-9 5-17 15-19 25l7 7 12-6c4 4 9 6 13 6-12 9-25 17-26 35Z"/><circle class="cut" cx="45" cy="30" r="1"/>',
+      bishop: '<circle class="fill" cx="50" cy="13" r="7"/><path class="fill" d="M50 22C35 34 33 52 41 62h18c8-10 6-28-9-40Z"/><path class="fill" d="M28 90q4-20 14-26h16q10 6 14 26Z"/><path class="cut" d="M46 34l9 12"/>',
+    };
+    var SHAPE = {
+      cross: '<path d="M24 24L76 76M76 24L24 76"/>',
+      ring: '<circle cx="50" cy="50" r="31"/>',
+      disc: '<circle class="fill" cx="50" cy="50" r="44"/>',
+      donut: '<circle cx="50" cy="50" r="34" style="stroke-width:20"/>',
+    };
+    function svgFor(shape) {
+      if (inputMode === 'column' && shape === 'ring') shape = 'donut';
+      return SHAPE[shape] || PIECE[shape] || '';
+    }
     function shapeClass(shape) {
       if (shape === 'cross') return ' mark-x';
       if (shape === 'ring') return ' mark-o';
@@ -247,6 +320,14 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
         button.setAttribute(attr, String(item.id));
         if (attr === 'data-piece') button.setAttribute('aria-pressed', String(String(item.id) === String(selected)));
         button.textContent = item.label;
+        if (item.shape) {
+          var icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          icon.setAttribute('class', 'mark-svg');
+          icon.setAttribute('viewBox', '0 0 100 100');
+          icon.setAttribute('aria-hidden', 'true');
+          icon.innerHTML = PIECE[item.shape] || '';
+          button.insertBefore(icon, button.firstChild);
+        }
         if (item.name) button.setAttribute('aria-label', item.name);
         box.appendChild(button);
       });
@@ -275,6 +356,7 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
     // the last reason and must not announce it again.
     function paint(view, reason, fresh) {
       inputMode = view.input || 'cell';
+      root.setAttribute('data-input', inputMode);
       var banner = root.querySelector('[data-board-banner]');
       var score = root.querySelector('[data-board-score]');
       var note = root.querySelector('[data-board-note]');
@@ -306,7 +388,7 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
       if (undo) undo.disabled = !view.canUndo;
       fillButtons(
         root.querySelector('[data-board-hand]'),
-        (view.hand || []).map(function (piece) { return { id: piece.id, label: piece.letter, name: piece.name ? 'Place ' + piece.name : '' }; }),
+        (view.hand || []).map(function (piece) { return { id: piece.id, label: piece.letter, name: piece.name ? 'Place ' + piece.name : '', shape: piece.name || '' }; }),
         'board-hand-btn',
         'data-piece',
         picked
@@ -319,6 +401,19 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
         ''
       );
       paintLinks(view.links || []);
+      var targets = legalTargets();
+      var turn = root.querySelector('[data-board-turn]');
+      if (turn) {
+        var seat = currentState ? currentState.turn : 'X';
+        turn.hidden = view.status !== 'playing';
+        turn.setAttribute('data-seat', seat);
+        var chip = inputMode === 'column' ? (seat === 'X' ? 'disc' : 'donut') : inputMode === 'chess' ? 'pawn' : seat === 'X' ? 'cross' : 'ring';
+        var chipSvg = turn.querySelector('svg');
+        if (chipSvg && turn.getAttribute('data-drawn') !== chip) {
+          turn.setAttribute('data-drawn', chip);
+          chipSvg.innerHTML = SHAPE[chip] || PIECE[chip];
+        }
+      }
       // Quantum: with one open square left a single tap marks it, so its label says so.
       var openCells = view.cells.filter(function (c) { return !c.mark; });
       var lastOpen = inputMode === 'pair' && view.status === 'playing' && openCells.length === 1 ? openCells[0].index : -1;
@@ -332,8 +427,18 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
         button.classList.toggle('is-ghost', !!cell.ghost);
         var selected = cell.index === fromIndex || cell.index === pairIndex;
         button.classList.toggle('is-selected', selected);
+        button.classList.toggle('is-target', targets.indexOf(cell.index) >= 0);
+        button.classList.toggle('is-last', lastMove.indexOf(cell.index) >= 0);
         var mark = button.querySelector('.mark');
-        if (mark) mark.className = 'mark' + shapeClass(cell.shape);
+        if (mark) {
+          var cls = 'mark' + shapeClass(cell.shape);
+          var key = cell.shape + (cell.shape === 'ring' ? inputMode : '');
+          if (mark.className !== cls || mark.getAttribute('data-drawn') !== key) {
+            mark.className = cls;
+            mark.setAttribute('data-drawn', key);
+            mark.innerHTML = cell.shape === 'empty' ? '' : '<svg class="mark-svg" viewBox="0 0 100 100">' + svgFor(cell.shape) + '</svg>';
+          }
+        }
         var letter = button.querySelector('.mark-letter');
         var text = cell.letter || '';
         if (letter) letter.textContent = text;
@@ -341,6 +446,10 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
         if (cell.ghost) name = 'Column ' + ((cell.index % columns) + 1) + ', preview';
         button.setAttribute('aria-label', name);
       });
+    }
+
+    function legalTargets() {
+      return targetsFor ? targetsFor() : [];
     }
 
     function columnFromEvent(event) {
@@ -355,9 +464,44 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
       var api = ToyTools.boardGame;
       if (!api) return;
       var state = api.create(rulesId);
+      // Legal targets for the current pick, found by asking the engine (apply is pure and never throws).
+      targetsFor = function () {
+        var out = [];
+        if (state.outcome) return out;
+        for (var i = 0; i < columns * rows; i++) {
+          var move = null;
+          if (inputMode === 'chess' && picked) move = { kind: 'place', piece: picked, index: i };
+          else if (inputMode === 'chess' && fromIndex >= 0 && i !== fromIndex) move = { kind: 'slide', from: fromIndex, to: i };
+          else if (inputMode === 'pair' && pairIndex >= 0 && i !== pairIndex) move = { kind: 'mark', a: pairIndex, b: i };
+          if (move && api.apply(state, move).ok) out.push(i);
+        }
+        return out;
+      };
+      function changed(before, after) {
+        var out = [];
+        if (!before) return out;
+        after.cells.forEach(function (cell, i) {
+          var was = before.cells[i];
+          if (was && (was.mark !== cell.mark || was.shape !== cell.shape || was.letter !== cell.letter)) out.push(i);
+        });
+        return out;
+      }
+      function deselect() {
+        if (!picked && fromIndex < 0 && pairIndex < 0) return false;
+        picked = '';
+        fromIndex = -1;
+        pairIndex = -1;
+        lastReason = '';
+        paint(api.view(state), lastReason);
+        return true;
+      }
 
-      function show(next, reason, keepSelection) {
+      function show(next, reason, keepSelection, moved) {
+        var before = currentState ? api.view(currentState) : null;
         state = next;
+        currentState = next;
+        if (moved === true) lastMove = changed(before, api.view(next));
+        else if (moved === 'clear') lastMove = [];
         if (!keepSelection) {
           picked = '';
           fromIndex = -1;
@@ -422,29 +566,37 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
             return;
           }
           var result = api.apply(state, col);
-          show(result.state, result.ok ? '' : result.reason);
+          show(result.state, result.ok ? '' : result.reason, false, result.ok);
         });
       }
+
+      // Escape drops a picked piece, a selected square, or the first square of a pair.
+      document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Escape') return;
+        var active = document.activeElement;
+        if (active && active !== document.body && !root.contains(active)) return;
+        if (deselect()) event.preventDefault();
+      });
 
       root.addEventListener('click', function (event) {
         var target = event.target;
         if (!target || !target.closest) return;
         if (target.closest('[data-board-undo]')) {
-          show(api.undo(state), '');
+          show(api.undo(state), '', false, 'clear');
           return;
         }
         if (target.closest('[data-board-rematch]')) {
-          show(api.rematch(state), '');
+          show(api.rematch(state), '', false, 'clear');
           return;
         }
         if (target.closest('[data-board-reset]')) {
-          show(api.resetScore(state), '');
+          show(api.resetScore(state), '', false, 'clear');
           return;
         }
         var choice = target.closest('[data-choice]');
         if (choice && root.contains(choice)) {
           var collapsed = api.apply(state, { kind: 'collapse', resolution: Number(choice.getAttribute('data-choice')) });
-          show(collapsed.state, collapsed.ok ? '' : collapsed.reason);
+          show(collapsed.state, collapsed.ok ? '' : collapsed.reason, false, collapsed.ok);
           return;
         }
         var piece = target.closest('[data-piece]');
@@ -465,7 +617,7 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
           // a focused square) fires only a click, with detail 0, so it drops into that column.
           if (event.detail !== 0) return;
           var dropped = api.apply(state, Number(cell.getAttribute('data-cell')) % columns);
-          show(dropped.state, dropped.ok ? '' : dropped.reason);
+          show(dropped.state, dropped.ok ? '' : dropped.reason, false, dropped.ok);
           return;
         }
         var index = Number(cell.getAttribute('data-cell'));
@@ -484,18 +636,22 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
               return;
             }
             fromIndex = index;
-            lastReason = '';
-            paint(api.view(state), lastReason);
+            // Announce the pick and how many squares it can reach, e.g. "Rook selected, 2 legal moves".
+            var count = legalTargets().length;
+            var pieceName = api.view(state).cells[index].name || 'piece';
+            lastReason = pieceName.charAt(0).toUpperCase() + pieceName.slice(1) + ' selected, ' + count + ' legal move' + (count === 1 ? '' : 's');
+            paint(api.view(state), lastReason, true);
             return;
           } else if (fromIndex === index) {
             fromIndex = -1;
+            lastReason = '';
             paint(api.view(state), lastReason);
             return;
           } else {
             placed = api.apply(state, { kind: 'slide', from: fromIndex, to: index });
           }
           // A refused move keeps the selection only while it is still the mover's own piece.
-          show(placed.state, placed.ok ? '' : placed.reason, !placed.ok && (picked !== '' || state.cells[fromIndex] === placed.state.turn));
+          show(placed.state, placed.ok ? '' : placed.reason, !placed.ok && (picked !== '' || state.cells[fromIndex] === placed.state.turn), placed.ok);
           return;
         }
         if (inputMode === 'pair') {
@@ -508,7 +664,7 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
           var markAttr = cell.getAttribute('data-mark');
           if (markAttr === 'X' || markAttr === 'O') {
             var classical = api.apply(state, { kind: 'mark', a: index, b: index });
-            show(classical.state, classical.ok ? '' : classical.reason, !classical.ok);
+            show(classical.state, classical.ok ? '' : classical.reason, !classical.ok, classical.ok);
             return;
           }
           // One square left: a move cannot mark two, so a single tap places the classical mark
@@ -516,7 +672,7 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
           var open = state.cells.filter(function (c) { return c === null; }).length;
           if (open === 1 && pairIndex < 0) {
             var last = api.apply(state, { kind: 'mark', a: index, b: index });
-            show(last.state, last.ok ? '' : last.reason);
+            show(last.state, last.ok ? '' : last.reason, false, last.ok);
             return;
           }
           if (pairIndex < 0) {
@@ -525,11 +681,11 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
             return;
           }
           var marked = api.apply(state, { kind: 'mark', a: pairIndex, b: index });
-          show(marked.state, marked.ok ? '' : marked.reason, !marked.ok);
+          show(marked.state, marked.ok ? '' : marked.reason, !marked.ok, marked.ok);
           return;
         }
         var result = api.apply(state, index);
-        show(result.state, result.ok ? '' : result.reason);
+        show(result.state, result.ok ? '' : result.reason, false, result.ok);
       });
 
       show(state, '');
