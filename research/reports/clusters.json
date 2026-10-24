@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-24T18:47:25.839Z",
+  "generatedAt": "2026-10-24T19:03:25.749Z",
   "clusters": [
     {
       "id": "quadratic-equations",
@@ -399,6 +399,38 @@
         "matrix-calculator",
         "probability-calculator",
         "statistics-visualizer"
+      ]
+    },
+    {
+      "id": "frequency-and-period",
+      "transformation": "Frequency and Period",
+      "engine": "physics",
+      "members": [
+        "frequency-period-calculator"
+      ],
+      "existingMembers": [
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator",
+        "nuclear-reactor-calculator",
+        "ohms-law-calculator",
+        "pendulum-period-calculator",
+        "projectile-motion-calculator",
+        "simple-harmonic-motion-calculator",
+        "wave-speed-calculator"
+      ],
+      "size": 1,
+      "meanScore": 81.7,
+      "internalLinks": [
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "nuclear-reactor-calculator",
+        "ohms-law-calculator",
+        "simple-harmonic-motion-calculator",
+        "wave-speed-calculator"
       ]
     },
     {
@@ -1592,6 +1624,38 @@
       ]
     },
     {
+      "id": "wave-speed",
+      "transformation": "Wave Speed",
+      "engine": "physics",
+      "members": [
+        "wave-speed-calculator"
+      ],
+      "existingMembers": [
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator",
+        "nuclear-reactor-calculator",
+        "ohms-law-calculator",
+        "pendulum-period-calculator",
+        "projectile-motion-calculator",
+        "simple-harmonic-motion-calculator",
+        "wave-speed-calculator"
+      ],
+      "size": 1,
+      "meanScore": 76,
+      "internalLinks": [
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "nuclear-reactor-calculator"
+      ]
+    },
+    {
       "id": "hash-identification",
       "transformation": "Hash Identification",
       "engine": "hashing",
@@ -2119,6 +2183,38 @@
       ]
     },
     {
+      "id": "pendulum-period",
+      "transformation": "Pendulum Period",
+      "engine": "physics",
+      "members": [
+        "pendulum-period-calculator"
+      ],
+      "existingMembers": [
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator",
+        "nuclear-reactor-calculator",
+        "ohms-law-calculator",
+        "pendulum-period-calculator",
+        "projectile-motion-calculator",
+        "simple-harmonic-motion-calculator",
+        "wave-speed-calculator"
+      ],
+      "size": 1,
+      "meanScore": 72.9,
+      "internalLinks": [
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "inclined-plane-calculator",
+        "nuclear-reactor-calculator",
+        "projectile-motion-calculator",
+        "simple-harmonic-motion-calculator"
+      ]
+    },
+    {
       "id": "schedule-expression-translation",
       "transformation": "Schedule Expression Translation",
       "engine": "datetime",
@@ -2266,6 +2362,38 @@
         "colorblind-simulator",
         "css-gradient-generator",
         "image-palette-extractor"
+      ]
+    },
+    {
+      "id": "heat-transfer",
+      "transformation": "Heat Transfer",
+      "engine": "physics",
+      "members": [
+        "heat-transfer-calculator"
+      ],
+      "existingMembers": [
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator",
+        "nuclear-reactor-calculator",
+        "ohms-law-calculator",
+        "pendulum-period-calculator",
+        "projectile-motion-calculator",
+        "simple-harmonic-motion-calculator",
+        "wave-speed-calculator"
+      ],
+      "size": 1,
+      "meanScore": 71.5,
+      "internalLinks": [
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "nuclear-reactor-calculator"
       ]
     },
     {
@@ -2434,6 +2562,38 @@
       "meanScore": 64.7,
       "internalLinks": [
         "percentage-calculator"
+      ]
+    },
+    {
+      "id": "nuclear-reactor-kinetics",
+      "transformation": "Nuclear Reactor Kinetics",
+      "engine": "physics",
+      "members": [
+        "nuclear-reactor-calculator"
+      ],
+      "existingMembers": [
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator",
+        "nuclear-reactor-calculator",
+        "ohms-law-calculator",
+        "pendulum-period-calculator",
+        "projectile-motion-calculator",
+        "simple-harmonic-motion-calculator",
+        "wave-speed-calculator"
+      ],
+      "size": 1,
+      "meanScore": 63.8,
+      "internalLinks": [
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "nuclear-reactor-calculator"
       ]
     },
     {

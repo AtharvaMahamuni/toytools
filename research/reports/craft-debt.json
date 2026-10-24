@@ -1,7 +1,7 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-24T18:47:25.839Z",
-  "fingerprint": "7fa57797",
+  "generatedAt": "2026-10-24T19:03:25.749Z",
+  "fingerprint": "fbb95183",
   "readyToPolish": [
     {
       "slug": "electron-configuration-calculator",
@@ -246,11 +246,32 @@
       "demand": 72
     },
     {
+      "slug": "pendulum-period-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "physics",
+      "demand": 70
+    },
+    {
       "slug": "simple-harmonic-motion-calculator",
       "kind": "needs-evidence",
       "userFailures": [],
       "engine": "physics",
       "demand": 68
+    },
+    {
+      "slug": "wave-speed-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "physics",
+      "demand": 66
+    },
+    {
+      "slug": "frequency-period-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "physics",
+      "demand": 64
     },
     {
       "slug": "rot13-encoder-decoder",
@@ -274,11 +295,25 @@
       "demand": 62
     },
     {
+      "slug": "heat-transfer-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "physics",
+      "demand": 60
+    },
+    {
       "slug": "crystal-field-splitting-calculator",
       "kind": "needs-evidence",
       "userFailures": [],
       "engine": "chemistry-lab",
       "demand": 58
+    },
+    {
+      "slug": "nuclear-reactor-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "physics",
+      "demand": 48
     }
   ],
   "atRisk": [
@@ -320,9 +355,9 @@
     }
   ],
   "summary": {
-    "shippedCovered": 96,
+    "shippedCovered": 101,
     "readyToPolish": 10,
-    "needsEvidence": 25,
+    "needsEvidence": 30,
     "atRisk": 6
   }
 }

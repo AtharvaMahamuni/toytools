@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-24T18:47:25.839Z",
+  "generatedAt": "2026-10-24T19:03:25.749Z",
   "trends": [
     {
       "transformation": "Fidget Interaction",
@@ -126,6 +126,12 @@
       "transformation": "Descriptive Statistics",
       "count": 1,
       "meanDemand": 0.92,
+      "meanScore": 81.7
+    },
+    {
+      "transformation": "Frequency and Period",
+      "count": 1,
+      "meanDemand": 0.64,
       "meanScore": 81.7
     },
     {
@@ -345,6 +351,12 @@
       "meanScore": 76.1
     },
     {
+      "transformation": "Wave Speed",
+      "count": 1,
+      "meanDemand": 0.66,
+      "meanScore": 76
+    },
+    {
       "transformation": "Hash Identification",
       "count": 1,
       "meanDemand": 0.38,
@@ -441,6 +453,12 @@
       "meanScore": 73
     },
     {
+      "transformation": "Pendulum Period",
+      "count": 1,
+      "meanDemand": 0.7,
+      "meanScore": 72.9
+    },
+    {
       "transformation": "Schedule Expression Translation",
       "count": 1,
       "meanDemand": 0.29,
@@ -469,6 +487,12 @@
       "count": 1,
       "meanDemand": 0.68,
       "meanScore": 71.6
+    },
+    {
+      "transformation": "Heat Transfer",
+      "count": 1,
+      "meanDemand": 0.6,
+      "meanScore": 71.5
     },
     {
       "transformation": "Inclined Plane and Friction",
@@ -517,6 +541,12 @@
       "count": 1,
       "meanDemand": 0.9,
       "meanScore": 64.7
+    },
+    {
+      "transformation": "Nuclear Reactor Kinetics",
+      "count": 1,
+      "meanDemand": 0.48,
+      "meanScore": 63.8
     },
     {
       "transformation": "Panchang Calendar",

@@ -1,8 +1,8 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-10-24T18:47:25.839Z
+Generated: 2026-10-24T19:03:25.749Z
 
-Discovered 106 signals -> 106 unique opportunities (8 recommended, 96 already shipped). Top score 85.9. Missing-engine candidates: 0.
+Discovered 111 signals -> 111 unique opportunities (8 recommended, 101 already shipped). Top score 85.9. Missing-engine candidates: 0.
 
 ## Immediate builds (top tier)
 _None above the immediate bar._
@@ -57,6 +57,7 @@ _None above the immediate bar._
 - **Slugification** (text-processor) - 1 tool(s), mean score 82.
 - **Aspect Ratio** (units) - 1 tool(s), mean score 81.8.
 - **Descriptive Statistics** (math) - 1 tool(s), mean score 81.7.
+- **Frequency and Period** (physics) - 1 tool(s), mean score 81.7.
 - **Binary Encoding** (encoding) - 1 tool(s), mean score 81.6.
 - **Ohm's Law** (physics) - 1 tool(s), mean score 81.4.
 - **JSON String Escaping** (structured-data) - 1 tool(s), mean score 81.3.
@@ -98,6 +99,7 @@ _None above the immediate bar._
 - **Linear Regression** (math-lab) - 1 tool(s), mean score 76.3.
 - **Checksum (CRC32)** (hashing) - 1 tool(s), mean score 76.1.
 - **Simple Harmonic Motion** (physics) - 1 tool(s), mean score 76.1.
+- **Wave Speed** (physics) - 1 tool(s), mean score 76.
 - **Hash Identification** (hashing) - 1 tool(s), mean score 75.9.
 - **Loan Amortization** (finance) - 1 tool(s), mean score 75.5.
 - **Identifier Inspection** (generation) - 1 tool(s), mean score 75.
@@ -116,11 +118,13 @@ _None above the immediate bar._
 - **Date Format Disambiguation** (datetime) - 1 tool(s), mean score 73.2.
 - **Doppler Effect** (physics) - 1 tool(s), mean score 73.1.
 - **Word Frequency Analysis** (text-analysis) - 1 tool(s), mean score 73.
+- **Pendulum Period** (physics) - 1 tool(s), mean score 72.9.
 - **Schedule Expression Translation** (datetime) - 1 tool(s), mean score 72.9.
 - **Encoding Detection** (encoding) - 1 tool(s), mean score 72.8.
 - **Momentum and Collisions** (physics) - 1 tool(s), mean score 72.2.
 - **Timezone Conversion** (datetime) - 1 tool(s), mean score 71.9.
 - **Palette Extraction** (color) - 1 tool(s), mean score 71.6.
+- **Heat Transfer** (physics) - 1 tool(s), mean score 71.5.
 - **Inclined Plane and Friction** (physics) - 1 tool(s), mean score 71.5.
 - **Cron Parsing** (datetime) - 1 tool(s), mean score 70.8.
 - **Shell Quoting** (encoding) - 1 tool(s), mean score 69.9.
@@ -129,6 +133,7 @@ _None above the immediate bar._
 - **Image Conversion** (image) - 1 tool(s), mean score 65.7.
 - **Calendar View** (panchang) - 1 tool(s), mean score 65.5.
 - **Salary Conversion** (budget) - 1 tool(s), mean score 64.7.
+- **Nuclear Reactor Kinetics** (physics) - 1 tool(s), mean score 63.8.
 - **Panchang Calendar** (panchang) - 1 tool(s), mean score 62.
 - **Retirement Projection** (retirement) - 1 tool(s), mean score 58.3.
 - **Nutrition Authoring** (meal-planning) - 1 tool(s), mean score 45.5.
@@ -146,7 +151,7 @@ _None above the immediate bar._
 - **linear-regression-playground** (math-lab) - Dragging one point tilts the whole line, and nothing names which point did it. / Two points always give an R squared of 1, which looks like a strong fit when it is only a line through two dots.
 - **csv-to-tsv** (csv) - The source uses semicolons rather than commas, so the whole file converts into one column per row. / A field containing a tab breaks the output silently, since TSV has no quoting convention to fall back on.
 
-### Needs evidence - 25 shipped tool(s) with no craft and no recorded failure
+### Needs evidence - 30 shipped tool(s) with no craft and no recorded failure
 Add `userFailures` to the seed record before a craft can be honest. Never invent one.
 - ohms-law-calculator (physics)
 - quadratic-equation-solver (math-lab)
@@ -168,11 +173,16 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 - binary-text-converter (encoding)
 - reaction-rate-calculator (chemistry-lab)
 - momentum-collision-calculator (physics)
+- pendulum-period-calculator (physics)
 - simple-harmonic-motion-calculator (physics)
+- wave-speed-calculator (physics)
+- frequency-period-calculator (physics)
 - rot13-encoder-decoder (encoding)
 - inclined-plane-calculator (physics)
 - newman-projection-calculator (chemistry-lab)
+- heat-transfer-calculator (physics)
 - crystal-field-splitting-calculator (chemistry-lab)
+- nuclear-reactor-calculator (physics)
 
 ### At risk - 6 buildable opportunit(ies) that would ship craftless
 - function-grapher (score 74.5, math-lab)
@@ -196,4 +206,4 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 
 ---
 
-_Inputs fingerprint: `7fa57797`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `fbb95183`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._

@@ -1,6 +1,6 @@
 # Recommended Next Build
 
-Generated: 2026-10-24T18:47:25.839Z
+Generated: 2026-10-24T19:03:25.749Z
 
 ## Function Grapher  (`function-grapher`)
 
@@ -46,4 +46,4 @@ No task-level failure recorded for this tool, so there is no craft candidate fro
 
 ---
 
-_Inputs fingerprint: `7fa57797`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `fbb95183`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
