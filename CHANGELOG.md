@@ -2,11 +2,16 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [alpha-v13.12.3] - 2026-10-24
+## [alpha-v13.13.0] - 2026-10-24
+
+### Changed
+
+- **Five physics simulations.** Pendulum Period, Frequency and Period, Wave Speed, Heat Transfer and Nuclear Reactor now say what people search for in their page descriptions: simple pendulum, hertz to seconds, the wave equation, conduction and Newton's law of cooling, reactor kinetics, prompt critical and the reactor period.
 
 ### Fixed
 
-- **Research roadmap.** Simulation guides are counted with the other guides. Newman Projection Calculator and the other simulation tools no longer show up as missing a guide. The pages themselves are unchanged.
+- **Category chips.** The active chip is centred again whenever the row or a chip changes size, so a late font or layout change can no longer leave Prep for a model partly out of view on a 320px phone. A hand scroll on the row is still never undone.
+- **Research roadmap.** Simulation guides are counted with the other guides. Newman Projection Calculator and the other simulation tools no longer show up as missing a guide.
 
 ## [alpha-v13.12.2] - 2026-10-24
 
