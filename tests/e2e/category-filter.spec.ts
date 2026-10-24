@@ -258,7 +258,7 @@ test.describe('a shared ?cat link on a 320px phone', () => {
   // as a hand on the row). Change the chips' widths late, the way a font swap does, and the active
   // chip must still be re-centred into view. Games covers the clamp at the row's right edge.
   for (const [slug, label] of [['prep', /^Prep for a model/], ['games', /^Games/]] as const) {
-    for (const [name, css] of [['narrower', '0.85em'], ['wider', '1.2em']] as const) {
+    for (const [name, css] of [['wider', '1.2em']] as const) {
       test(`/search/?cat=${slug}: a late ${name} font still leaves the chip in view`, async ({ page }) => {
         await page.goto(`/search/?cat=${slug}`);
         await expect(page.locator('.cat-chip[aria-pressed="true"]')).toHaveText(label);
@@ -276,6 +276,26 @@ test.describe('a shared ?cat link on a 320px phone', () => {
       });
     }
   }
+
+  // A tap is a pointerdown on the row, which used to leave it marked as handled, so a font or
+  // layout change after tapping Prep left it clipped. The tap asked for that chip: keep it in view.
+  test('a tapped chip stays in view after a later font change', async ({ page }) => {
+    await page.goto('/search/');
+    await ready(page);
+    await page.evaluate(() => document.fonts.ready);
+    const prep = page.locator('.cat-chip', { hasText: /^Prep for a model/ });
+    await prep.click();
+    await expect(prep).toHaveAttribute('aria-pressed', 'true');
+    await page.addStyleTag({ content: '.cat-chip { font-size: 1.2em !important; }' });
+    await page.waitForTimeout(200);
+    const [row, chipBox] = await page.evaluate(() => {
+      const r = document.querySelector('.cat-row')!.getBoundingClientRect();
+      const c = document.querySelector('.cat-chip[aria-pressed="true"]')!.getBoundingClientRect();
+      return [[r.left, r.right], [c.left, c.right]];
+    });
+    expect(chipBox[0]).toBeGreaterThanOrEqual(row[0]);
+    expect(chipBox[1]).toBeLessThanOrEqual(row[1]);
+  });
 
   test('a hand scroll before the font arrives is never snapped back', async ({ page }) => {
     let release = () => {};

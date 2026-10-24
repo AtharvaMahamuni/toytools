@@ -134,6 +134,9 @@ const chips = categories
       // pushState: Back undoes a filter. popstate below restores it.
       window.history.pushState(null, '', catUrl(window.location.href, next));
       set(next, true);
+      // The tap's pointerdown marked the row as handled, but the tap asked for exactly this chip,
+      // so our centring now owns the row again and a later font or layout change may re-centre it.
+      handled = false;
     });
     window.addEventListener('popstate', () => set(parseCat(window.location.search, valid), true));
     set(parseCat(window.location.search, valid), false);

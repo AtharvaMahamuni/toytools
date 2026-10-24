@@ -76,7 +76,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Nuclear Reactor Calculator: Reactivity & Chain Reactions',
     description:
-      'Drag a control rod and watch reactor kinetics respond live: reactivity, the delayed neutron reactor period, the prompt critical line, and a safety trip.',
+      'Drag a control rod and watch reactor kinetics respond live: reactivity, the delayed neutron reactor period, the jump past prompt critical, and a safety trip.',
     tagline: 'Drag a control rod and watch a chain reaction respond in real time.',
     keywords: ['nuclear reactor simulator', 'reactivity', 'point kinetics', 'control rod', 'prompt critical', 'reactor trip', 'chain reaction'],
   },
