@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { classifyGap } from './analyzers/gaps';
 import { catalogInputs, defaultInputs, runResearchIntelligence } from './index';
 import type { SeedDataset } from './models/provider';
 
@@ -99,6 +100,17 @@ describe('RIE integration (real registries)', () => {
     expect(c.existingSlugs.has('word-counter')).toBe(true);
     expect(c.engineIds.has('text-processor')).toBe(true);
     expect(c.catalog.length).toBeGreaterThan(20);
+    expect(c.guideSlugs.has('pop-it')).toBe(true);
+    // Manifest guides are registered without a Guide.astro file.
+    expect(c.guideSlugs.has('newman-projection-calculator')).toBe(true);
+    expect(
+      classifyGap('newman-projection-calculator', 'chemistry-lab', {
+        ...c,
+        raw: [],
+        now: '2026-01-01T00:00:00.000Z',
+        fingerprint: 'test',
+      }),
+    ).toBe('needs-improvement');
   });
 
   it('runs end to end, classifying existing vs new and detecting a missing engine', () => {

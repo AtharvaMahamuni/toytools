@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-21T15:31:34.331Z",
+  "generatedAt": "2026-10-24T18:47:25.839Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -404,7 +404,14 @@
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "electron-configuration-calculator",
+        "chemical-bond-calculator",
+        "crystal-field-splitting-calculator",
+        "molecular-geometry-calculator",
+        "newman-projection-calculator",
+        "reaction-rate-calculator"
+      ],
       "relatedFaqs": [
         "electron-configuration-calculator",
         "chemical-bond-calculator",
@@ -619,6 +626,7 @@
         "statistics-visualizer"
       ],
       "relatedGuides": [
+        "probability-calculator",
         "prime-factorization-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
@@ -755,7 +763,14 @@
         "molecular-geometry-calculator",
         "reaction-rate-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "newman-projection-calculator",
+        "chemical-bond-calculator",
+        "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
+        "molecular-geometry-calculator",
+        "reaction-rate-calculator"
+      ],
       "relatedFaqs": [
         "newman-projection-calculator",
         "chemical-bond-calculator",
@@ -1013,7 +1028,14 @@
         "heat-transfer-calculator",
         "ideal-gas-law-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "wave-speed-calculator",
+        "frequency-period-calculator",
+        "nuclear-reactor-calculator",
+        "doppler-effect-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator"
+      ],
       "relatedFaqs": [
         "wave-speed-calculator",
         "frequency-period-calculator",
@@ -1037,7 +1059,14 @@
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "crystal-field-splitting-calculator",
+        "chemical-bond-calculator",
+        "electron-configuration-calculator",
+        "molecular-geometry-calculator",
+        "newman-projection-calculator",
+        "reaction-rate-calculator"
+      ],
       "relatedFaqs": [
         "crystal-field-splitting-calculator",
         "chemical-bond-calculator",
@@ -1145,6 +1174,7 @@
       ],
       "relatedGuides": [
         "prime-factorization-calculator",
+        "quadratic-equation-solver",
         "fraction-calculator",
         "combinations-permutations-calculator",
         "matrix-calculator",
@@ -1182,7 +1212,13 @@
         "probability-calculator",
         "unit-circle-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "quadratic-equation-solver",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
+        "probability-calculator",
+        "unit-circle-calculator"
+      ],
       "relatedFaqs": [
         "quadratic-equation-solver",
         "linear-regression-playground",
@@ -1339,7 +1375,14 @@
         "ideal-gas-law-calculator",
         "inclined-plane-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "heat-transfer-calculator",
+        "nuclear-reactor-calculator",
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator"
+      ],
       "relatedFaqs": [
         "heat-transfer-calculator",
         "nuclear-reactor-calculator",
@@ -1423,7 +1466,14 @@
         "heat-transfer-calculator",
         "ideal-gas-law-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "pendulum-period-calculator",
+        "nuclear-reactor-calculator",
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator"
+      ],
       "relatedFaqs": [
         "pendulum-period-calculator",
         "nuclear-reactor-calculator",
@@ -1731,7 +1781,12 @@
         "unit-circle-calculator"
       ],
       "relatedGuides": [
-        "statistics-visualizer"
+        "statistics-visualizer",
+        "normal-distribution-visualizer",
+        "linear-regression-playground",
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ],
       "relatedFaqs": [
         "statistics-visualizer",
@@ -1883,7 +1938,14 @@
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "chemical-bond-calculator",
+        "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
+        "molecular-geometry-calculator",
+        "newman-projection-calculator",
+        "reaction-rate-calculator"
+      ],
       "relatedFaqs": [
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
@@ -1907,7 +1969,14 @@
         "heat-transfer-calculator",
         "ideal-gas-law-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "pendulum-period-calculator",
+        "nuclear-reactor-calculator",
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator"
+      ],
       "relatedFaqs": [
         "pendulum-period-calculator",
         "nuclear-reactor-calculator",
@@ -1991,7 +2060,14 @@
         "molecular-geometry-calculator",
         "newman-projection-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "reaction-rate-calculator",
+        "chemical-bond-calculator",
+        "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
+        "molecular-geometry-calculator",
+        "newman-projection-calculator"
+      ],
       "relatedFaqs": [
         "reaction-rate-calculator",
         "chemical-bond-calculator",
@@ -2016,7 +2092,12 @@
         "unit-circle-calculator"
       ],
       "relatedGuides": [
-        "statistics-visualizer"
+        "statistics-visualizer",
+        "probability-calculator",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ],
       "relatedFaqs": [
         "statistics-visualizer",
@@ -2071,7 +2152,14 @@
         "ideal-gas-law-calculator",
         "inclined-plane-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "frequency-period-calculator",
+        "nuclear-reactor-calculator",
+        "doppler-effect-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator"
+      ],
       "relatedFaqs": [
         "frequency-period-calculator",
         "nuclear-reactor-calculator",
@@ -2317,7 +2405,12 @@
         "unit-circle-calculator"
       ],
       "relatedGuides": [
-        "statistics-visualizer"
+        "normal-distribution-visualizer",
+        "statistics-visualizer",
+        "probability-calculator",
+        "linear-regression-playground",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ],
       "relatedFaqs": [
         "normal-distribution-visualizer",
@@ -2342,7 +2435,14 @@
         "heat-transfer-calculator",
         "ideal-gas-law-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "pendulum-period-calculator",
+        "nuclear-reactor-calculator",
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator"
+      ],
       "relatedFaqs": [
         "pendulum-period-calculator",
         "nuclear-reactor-calculator",
@@ -2456,7 +2556,13 @@
         "probability-calculator",
         "quadratic-equation-solver"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "unit-circle-calculator",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
+        "probability-calculator",
+        "quadratic-equation-solver"
+      ],
       "relatedFaqs": [
         "unit-circle-calculator",
         "linear-regression-playground",
@@ -2514,7 +2620,14 @@
         "molecular-geometry-calculator",
         "newman-projection-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "ideal-gas-law-calculator",
+        "chemical-bond-calculator",
+        "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
+        "molecular-geometry-calculator",
+        "newman-projection-calculator"
+      ],
       "relatedFaqs": [
         "ideal-gas-law-calculator",
         "chemical-bond-calculator",
@@ -2935,7 +3048,14 @@
         "heat-transfer-calculator",
         "ideal-gas-law-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "pendulum-period-calculator",
+        "frequency-period-calculator",
+        "nuclear-reactor-calculator",
+        "doppler-effect-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator"
+      ],
       "relatedFaqs": [
         "pendulum-period-calculator",
         "frequency-period-calculator",
@@ -3140,6 +3260,8 @@
         "matrix-calculator"
       ],
       "relatedGuides": [
+        "probability-calculator",
+        "linear-regression-playground",
         "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
@@ -3323,6 +3445,7 @@
         "prime-factorization-calculator"
       ],
       "relatedGuides": [
+        "unit-circle-calculator",
         "matrix-calculator",
         "triangle-solver",
         "combinations-permutations-calculator",
@@ -3376,7 +3499,13 @@
         "probability-calculator",
         "unit-circle-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "quadratic-equation-solver",
+        "linear-regression-playground",
+        "normal-distribution-visualizer",
+        "probability-calculator",
+        "unit-circle-calculator"
+      ],
       "relatedFaqs": [
         "quadratic-equation-solver",
         "linear-regression-playground",

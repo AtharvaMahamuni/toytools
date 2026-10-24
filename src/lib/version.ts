@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
   minor: 12,
-  patch: 2,
+  patch: 3,
   status: 'alpha',
   releaseDate: '2026-10-24',
-  description: 'Active category chip re-centres after the web font loads',
+  description: 'Count simulation guides in the research roadmap',
 };
 
 export function formatVersion(config: VersionConfig): string {

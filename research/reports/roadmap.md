@@ -1,6 +1,6 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-10-21T15:31:34.331Z
+Generated: 2026-10-24T18:47:25.839Z
 
 Discovered 106 signals -> 106 unique opportunities (8 recommended, 96 already shipped). Top score 85.9. Missing-engine candidates: 0.
 

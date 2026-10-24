@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.12.3] - 2026-10-24
+
+### Fixed
+
+- **Research roadmap.** Simulation guides are counted with the other guides. Newman Projection Calculator and the other simulation tools no longer show up as missing a guide. The pages themselves are unchanged.
+
 ## [alpha-v13.12.2] - 2026-10-24
 
 ### Fixed

@@ -7,7 +7,7 @@
 import { tools as allTools } from '@data/registry';
 import { engineRegistry } from '@data/engines';
 import { faqsByToolSlug } from '@data/faq-registry';
-import { registeredGuideSlugs } from '@data/guide-registry';
+import { registeredGuideSlugSet } from '@data/guide-registry';
 import { KNOWLEDGE } from '@lib/knowledge/registry';
 import type { SeedDataset, ProviderContext } from './models/provider';
 import type { ResearchInputs, CatalogRef } from './types';
@@ -37,7 +37,9 @@ export function catalogInputs(): Omit<ResearchInputs, 'raw' | 'now'> {
     catalog,
     craftSlugs: new Set(allTools.filter(t => t.craft).map(t => t.slug)),
     knowledgeSlugs: new Set(KNOWLEDGE.keys()),
-    guideSlugs: new Set(registeredGuideSlugs),
+    // Simulation guides have no Guide.astro. They live on registeredGuideSlugSet, beside the
+    // authored files. The authored list alone marks every shipped simulation guide-missing.
+    guideSlugs: new Set(registeredGuideSlugSet),
     faqSlugs: new Set(Object.keys(faqsByToolSlug).filter(s => (faqsByToolSlug[s]?.length ?? 0) > 0)),
   };
 }
