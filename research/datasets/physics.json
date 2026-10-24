@@ -142,7 +142,7 @@
       "proposedTool": "pendulum-period-calculator",
       "proposedName": "Pendulum Period Calculator",
       "proposedEngine": "physics",
-      "searchQueries": ["pendulum period calculator", "simple pendulum calculator", "pendulum period formula", "pendulum simulator", "T = 2 pi sqrt(L/g)"],
+      "searchQueries": ["pendulum period calculator", "simple pendulum calculator", "pendulum period formula", "pendulum simulator"],
       "existingSolutions": ["omnicalculator.com", "phet.colorado.edu"],
       "solutionWeaknesses": ["static calculators hide the wide-swing error", "no energy trade between the top and the bottom", "phet is heavy and dated"],
       "relatedProblems": ["small-angle period", "pendulum length", "energy in a swing"],

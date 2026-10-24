@@ -76,7 +76,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Wave Speed Calculator: Explore v = f times lambda',
     description:
-      'Watch a travelling wave in real time and see how frequency and wavelength set its speed. Drag the wave, change any value, and explore v = f times lambda live.',
+      'Watch a travelling wave in real time and see how frequency and wavelength set its speed. Change any value and explore the wave equation v = f times lambda.',
     tagline: 'Watch a wave travel and see how frequency and wavelength set its speed.',
     keywords: ['wave speed', 'v = f lambda', 'frequency', 'wavelength', 'travelling wave', 'wave simulator'],
   },

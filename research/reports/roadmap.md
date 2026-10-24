@@ -1,6 +1,6 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-10-24T19:03:25.749Z
+Generated: 2026-10-24T19:18:18.907Z
 
 Discovered 111 signals -> 111 unique opportunities (8 recommended, 101 already shipped). Top score 85.9. Missing-engine candidates: 0.
 
@@ -118,10 +118,10 @@ _None above the immediate bar._
 - **Date Format Disambiguation** (datetime) - 1 tool(s), mean score 73.2.
 - **Doppler Effect** (physics) - 1 tool(s), mean score 73.1.
 - **Word Frequency Analysis** (text-analysis) - 1 tool(s), mean score 73.
-- **Pendulum Period** (physics) - 1 tool(s), mean score 72.9.
 - **Schedule Expression Translation** (datetime) - 1 tool(s), mean score 72.9.
 - **Encoding Detection** (encoding) - 1 tool(s), mean score 72.8.
 - **Momentum and Collisions** (physics) - 1 tool(s), mean score 72.2.
+- **Pendulum Period** (physics) - 1 tool(s), mean score 71.9.
 - **Timezone Conversion** (datetime) - 1 tool(s), mean score 71.9.
 - **Palette Extraction** (color) - 1 tool(s), mean score 71.6.
 - **Heat Transfer** (physics) - 1 tool(s), mean score 71.5.
@@ -206,4 +206,4 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 
 ---
 
-_Inputs fingerprint: `fbb95183`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `ad49869c`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._

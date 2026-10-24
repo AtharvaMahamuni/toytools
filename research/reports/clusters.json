@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-24T19:03:25.749Z",
+  "generatedAt": "2026-10-24T19:18:18.907Z",
   "clusters": [
     {
       "id": "quadratic-equations",
@@ -2183,38 +2183,6 @@
       ]
     },
     {
-      "id": "pendulum-period",
-      "transformation": "Pendulum Period",
-      "engine": "physics",
-      "members": [
-        "pendulum-period-calculator"
-      ],
-      "existingMembers": [
-        "doppler-effect-calculator",
-        "frequency-period-calculator",
-        "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator",
-        "momentum-collision-calculator",
-        "nuclear-reactor-calculator",
-        "ohms-law-calculator",
-        "pendulum-period-calculator",
-        "projectile-motion-calculator",
-        "simple-harmonic-motion-calculator",
-        "wave-speed-calculator"
-      ],
-      "size": 1,
-      "meanScore": 72.9,
-      "internalLinks": [
-        "doppler-effect-calculator",
-        "frequency-period-calculator",
-        "inclined-plane-calculator",
-        "nuclear-reactor-calculator",
-        "projectile-motion-calculator",
-        "simple-harmonic-motion-calculator"
-      ]
-    },
-    {
       "id": "schedule-expression-translation",
       "transformation": "Schedule Expression Translation",
       "engine": "datetime",
@@ -2306,6 +2274,38 @@
         "ideal-gas-law-calculator",
         "nuclear-reactor-calculator",
         "pendulum-period-calculator"
+      ]
+    },
+    {
+      "id": "pendulum-period",
+      "transformation": "Pendulum Period",
+      "engine": "physics",
+      "members": [
+        "pendulum-period-calculator"
+      ],
+      "existingMembers": [
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator",
+        "nuclear-reactor-calculator",
+        "ohms-law-calculator",
+        "pendulum-period-calculator",
+        "projectile-motion-calculator",
+        "simple-harmonic-motion-calculator",
+        "wave-speed-calculator"
+      ],
+      "size": 1,
+      "meanScore": 71.9,
+      "internalLinks": [
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "inclined-plane-calculator",
+        "nuclear-reactor-calculator",
+        "projectile-motion-calculator",
+        "simple-harmonic-motion-calculator"
       ]
     },
     {

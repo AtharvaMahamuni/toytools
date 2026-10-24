@@ -76,7 +76,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Heat Transfer Calculator: Watch Blocks Reach Equilibrium',
     description:
-      'Watch heat flow from a hot block to a cold one until they reach the same temperature. Drag a block to set its heat and see equilibrium happen live.',
+      'Watch heat flow by conduction from a hot block to a cold one until thermal equilibrium. The cooling curve follows Newton\'s law of cooling, live.',
     tagline: 'Watch heat flow between two blocks until they reach equilibrium.',
     keywords: ['heat transfer', 'thermal equilibrium', 'conduction', 'heat flow', 'temperature', 'thermodynamics'],
   },

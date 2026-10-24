@@ -76,7 +76,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Pendulum Period Calculator: Length, Gravity & Energy',
     description:
-      'Drag the bob and let it swing. Change length, angle, and gravity and watch the period, velocity, and potential-to-kinetic energy trade update live.',
+      'Drag the bob of a simple pendulum and let it swing. Change length, angle, and gravity and watch the period, velocity, and energy trade update live.',
     tagline: 'Drag the bob and watch period, velocity and energy trade off live.',
     keywords: ['pendulum', 'pendulum period', 'simple harmonic motion', 'potential energy', 'kinetic energy', 'gravity'],
   },

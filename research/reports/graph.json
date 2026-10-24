@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-24T19:03:25.749Z",
+  "generatedAt": "2026-10-24T19:18:18.907Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -4930,6 +4930,11 @@
       "kind": "shares-engine"
     },
     {
+      "from": "momentum-collision-calculator",
+      "to": "pendulum-period-calculator",
+      "kind": "shares-engine"
+    },
+    {
       "from": "mortgage-calculator",
       "to": "compound-interest-calculator",
       "kind": "links-to-tool"
@@ -5102,11 +5107,6 @@
     {
       "from": "pendulum-period-calculator",
       "to": "inclined-plane-calculator",
-      "kind": "shares-engine"
-    },
-    {
-      "from": "pendulum-period-calculator",
-      "to": "momentum-collision-calculator",
       "kind": "shares-engine"
     },
     {

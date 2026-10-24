@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-24T19:03:25.749Z",
+  "generatedAt": "2026-10-24T19:18:18.907Z",
   "trends": [
     {
       "transformation": "Fidget Interaction",
@@ -453,12 +453,6 @@
       "meanScore": 73
     },
     {
-      "transformation": "Pendulum Period",
-      "count": 1,
-      "meanDemand": 0.7,
-      "meanScore": 72.9
-    },
-    {
       "transformation": "Schedule Expression Translation",
       "count": 1,
       "meanDemand": 0.29,
@@ -475,6 +469,12 @@
       "count": 1,
       "meanDemand": 0.72,
       "meanScore": 72.2
+    },
+    {
+      "transformation": "Pendulum Period",
+      "count": 1,
+      "meanDemand": 0.7,
+      "meanScore": 71.9
     },
     {
       "transformation": "Timezone Conversion",
