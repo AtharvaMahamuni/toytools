@@ -5,6 +5,8 @@ Asked by Atharva: "how many categories and tools can we schedule next? Create a 
 
 **Method.** Read `AtharvaMahamuni/toytools` at `origin/main` 3336600c (alpha-v13.10) through `git show` and `git grep` after a `git fetch`. Also read `/workspace/specs/*`, `/workspace/arch-audit/toytools-multidomain-embed-report.md`. No build, no tests and no `npm run research:*` were run (no install in the clone), so any number that comes from a generated report is quoted from the committed file, not recomputed.
 
+Related: `docs/pdf-tools-roadmap.md` (PDF & Files), a separate plan that also proposes a new category, so the two compete for the next major bump.
+
 **Legend used everywhere**
 - **[V]** verified: I read it in the repo or a spec, and the path is given.
 - **[P]** proposed: my idea or recommendation. Not in the repo.
