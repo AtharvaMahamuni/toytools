@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
   minor: 12,
-  patch: 1,
+  patch: 2,
   status: 'alpha',
   releaseDate: '2026-10-24',
-  description: 'Category chip no longer scrolls the page on load',
+  description: 'Active category chip re-centres after the web font loads',
 };
 
 export function formatVersion(config: VersionConfig): string {

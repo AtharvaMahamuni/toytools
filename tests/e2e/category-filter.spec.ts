@@ -218,21 +218,55 @@ test.describe('without JavaScript', () => {
 test.describe('a shared ?cat link on a 320px phone', () => {
   test.use({ viewport: { width: 320, height: 640 } });
 
-  for (const path of ['/?cat=physics', '/search/?cat=physics']) {
-    test(`${path} never moves the page, and the active chip is visible in the row`, async ({ page }) => {
-      await page.goto(path);
-      const active = page.locator('.cat-chip[aria-pressed="true"]');
-      await expect(active).toHaveText(/^Physics \d+$/);
-      if (path.startsWith('/search/')) await ready(page);
-      await page.waitForTimeout(300);
-      expect(await page.evaluate(() => window.scrollY)).toBe(0);
-      const [row, chipBox] = await page.evaluate(() => {
-        const r = document.querySelector('.cat-row')!.getBoundingClientRect();
-        const c = document.querySelector('.cat-chip[aria-pressed="true"]')!.getBoundingClientRect();
-        return [[r.left, r.right], [c.left, c.right]];
+  // Prep for a model sits near the end of the row and is the one the font swap used to clip.
+  const cats: Array<[string, RegExp]> = [
+    ['physics', /^Physics \d+$/],
+    ['prep', /^Prep for a model \d+$/],
+    ['text-utilities', /^Text Utilities \d+$/],
+    ['money-finance', /^Money & Finance \d+$/],
+    ['chemistry', /^Chemistry \d+$/],
+    // Last in the row, so the centring clamps at the row's right edge.
+    ['games', /^Games \d+$/],
+  ];
+
+  for (const base of ['/', '/search/']) {
+    for (const [slug, label] of cats) {
+      test(`${base}?cat=${slug}: page stays put, chip fully visible after fonts, nothing stored`, async ({ page }) => {
+        await page.goto(`${base}?cat=${slug}`);
+        await expect(page.locator('.cat-chip[aria-pressed="true"]')).toHaveText(label);
+        if (base === '/search/') await ready(page);
+        await page.evaluate(() => document.fonts.ready);
+        await page.waitForTimeout(200);
+        expect(await page.evaluate(() => window.scrollY)).toBe(0);
+        const [row, chipBox] = await page.evaluate(() => {
+          const r = document.querySelector('.cat-row')!.getBoundingClientRect();
+          const c = document.querySelector('.cat-chip[aria-pressed="true"]')!.getBoundingClientRect();
+          return [[r.left, r.right], [c.left, c.right]];
+        });
+        expect(chipBox[0]).toBeGreaterThanOrEqual(row[0]);
+        expect(chipBox[1]).toBeLessThanOrEqual(row[1]);
+        // Nothing in either store but the platform's one-time legacy-cleanup marker (written on
+        // every first visit, unrelated to chips): the filter lives in the URL only.
+        const keys = await page.evaluate(() => [...Object.keys(localStorage), ...Object.keys(sessionStorage)]);
+        expect(keys.filter((k) => k !== 'toytools.private-inputs-cleared')).toEqual([]);
       });
-      expect(chipBox[0]).toBeGreaterThanOrEqual(row[0] - 1);
-      expect(chipBox[1]).toBeLessThanOrEqual(row[1] + 1);
-    });
+    }
   }
+
+  test('a hand scroll before the font arrives is never snapped back', async ({ page }) => {
+    let release = () => {};
+    const gate = new Promise<void>((r) => { release = r; });
+    await page.route(/\.woff2$/, async (route) => { await gate; await route.continue(); });
+    await page.goto('/search/?cat=physics', { waitUntil: 'domcontentloaded' });
+    const row = page.locator('.cat-row');
+    await expect(page.locator('.cat-chip[aria-pressed="true"]')).toHaveText(/^Physics/);
+    expect(await page.evaluate(() => document.fonts.status)).toBe('loading');
+    // The user drags the row back to the start before the font has loaded.
+    await row.evaluate((el) => { el.scrollLeft = 0; el.dispatchEvent(new Event('scroll')); });
+    const before = await row.evaluate((el) => el.scrollLeft);
+    release();
+    await page.evaluate(() => document.fonts.ready);
+    await page.waitForTimeout(200);
+    expect(await row.evaluate((el) => el.scrollLeft)).toBe(before);
+  });
 });
