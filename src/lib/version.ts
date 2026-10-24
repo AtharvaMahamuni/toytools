@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 11,
+  minor: 12,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-10-23',
-  description: 'Clearer board game pieces, legal-move markers, and a turn indicator',
+  releaseDate: '2026-10-24',
+  description: 'Category chips filter the Home directory and Search by category via ?cat',
 };
 
 export function formatVersion(config: VersionConfig): string {

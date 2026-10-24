@@ -2,6 +2,7 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { generatePageTitle } from '../lib/titles';
 import ToolCard from '@components/ToolCard.astro';
+import CategoryChips from '@components/CategoryChips.astro';
 import NewBadgeExpiry from '@components/NewBadgeExpiry.astro';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
@@ -57,6 +58,8 @@ function searchVocabulary(tool: (typeof tools)[number], categoryName: string): s
     </form>
   </section>
 
+  <CategoryChips allHref={withBase('/search/')} />
+
   <section class="search-results" aria-live="polite">
     <p class="result-count" id="result-count"></p>
     <div class="tool-grid" id="search-results">
@@ -81,6 +84,7 @@ function searchVocabulary(tool: (typeof tools)[number], categoryName: string): s
       No matching tools found.
       <a id="empty-suggest" href={withBase('/feedback/')}>Suggest it &rarr;</a>
     </p>
+    <p class="empty-state" id="cat-empty" hidden></p>
   </section>
   <NewBadgeExpiry />
 </BaseLayout>
@@ -173,6 +177,15 @@ function searchVocabulary(tool: (typeof tools)[number], categoryName: string): s
   }
 </style>
 
+{/*
+  Notes for the inline pass below. They live here, not as // comments inside it, because an
+  is:inline script ships verbatim and /search/ is the heaviest HTML document on the site.
+  - The card's own text carries the name, description and category; the attribute carries the
+    tags, keywords and family, which are real search terms that never appear on screen.
+  - Hand the unmatched query to the feedback form, which opens on "Suggest a New Tool" with
+    "what are you trying to do?" already filled in. The raw (uncased) term is used so it
+    reads back the way they typed it.
+*/}
 <script is:inline>
   var params = new URLSearchParams(window.location.search);
   var query = (params.get('q') || '').trim().toLowerCase();
@@ -185,8 +198,6 @@ function searchVocabulary(tool: (typeof tools)[number], categoryName: string): s
 
   var visible = 0;
   items.forEach(function (item) {
-    // The card's own text carries the name, description and category; the attribute carries the
-    // tags, keywords and family, which are real search terms that never appear on screen.
     var haystack = (item.getAttribute('data-search') || '') + ' ' + (item.textContent || '').toLowerCase();
     var matches = !query || haystack.includes(query);
     item.hidden = !matches;
@@ -196,9 +207,6 @@ function searchVocabulary(tool: (typeof tools)[number], categoryName: string): s
   if (count) count.textContent = query ? visible + ' matching tools' : items.length + ' tools available';
   if (empty) empty.hidden = visible !== 0;
 
-  // Hand the unmatched query to the feedback form, which opens on "Suggest a New Tool" with
-  // "what are you trying to do?" already filled in. The raw (uncased) term is used so it
-  // reads back the way they typed it.
   var suggest = document.getElementById('empty-suggest');
   if (suggest) {
     var raw = (params.get('q') || '').trim();
@@ -217,6 +225,7 @@ function searchVocabulary(tool: (typeof tools)[number], categoryName: string): s
 */}
 <script>
   import { loadIndex, rankCatalog, entryCategory } from '@lib/palette';
+  import { announceCat } from '@lib/category-filter';
 
   const form = document.querySelector<HTMLFormElement>('.search-page-form');
   const input = document.getElementById('search-page-query') as HTMLInputElement | null;
@@ -233,42 +242,90 @@ function searchVocabulary(tool: (typeof tools)[number], categoryName: string): s
       cards.set(el.dataset.slug!, el);
     }
 
+    const chipsRoot = document.querySelector<HTMLElement>('.cat-chips');
+    const live = chipsRoot?.querySelector<HTMLElement>('[data-cat-live]');
+    // The cat empty state is built here, not in the HTML: /search/ is the heaviest document.
+    const catEmpty = document.getElementById('cat-empty');
+    const catEmptyName = document.createElement('span');
+    const catClear = document.createElement('button');
+    catClear.type = 'button';
+    catClear.textContent = 'Show all categories';
+    catClear.addEventListener('click', () => {
+      chipsRoot?.querySelector<HTMLButtonElement>('button.cat-chip[data-cat=""]')?.click();
+    });
+    catEmpty?.append('No ', catEmptyName, ' tools match. ', catClear);
+    // The card prints its category name, so matching on that costs no extra HTML per card.
+    const catOf = (el: HTMLElement) => el.querySelector('.tool-category')?.textContent ?? '';
+
+    // Until the index loads (or offline), the category ANDs onto the inline substring pass.
+    const basic = (announce: boolean) => {
+      const catName = chipsRoot?.dataset.activeName ?? '';
+      const query = input.value.trim().toLowerCase();
+      let n = 0;
+      for (const el of cards.values()) {
+        const hay = (el.dataset.search ?? '') + ' ' + (el.textContent ?? '').toLowerCase();
+        el.hidden = !((!query || hay.includes(query)) && (!catName || catOf(el) === catName));
+        if (!el.hidden) n += 1;
+      }
+      count.textContent = query || catName ? `${n} matching tool${n === 1 ? '' : 's'}` : `${cards.size} tools available`;
+      if (empty) empty.hidden = n !== 0 || !!catName;
+      if (catEmpty) catEmpty.hidden = n !== 0 || !catName;
+      catEmptyName.textContent = catName;
+      if (announce && live) live.textContent = announceCat(n, catName || null);
+    };
+    const onBasic = (e: Event) => basic((e as CustomEvent<{ announce: boolean }>).detail.announce);
+    chipsRoot?.addEventListener('cat-change', onBasic);
+    basic(false);
+
     void loadIndex().then((index) => {
-      if (!index) return; // offline: the inline substring pass above still works
+      if (!index) return; // offline: the basic pass above keeps working
+      chipsRoot?.removeEventListener('cat-change', onBasic);
 
       let seq = 0;
-      const apply = async (raw: string) => {
+      const apply = async (raw: string, announce = false) => {
         const token = ++seq;
         const query = raw.trim();
+        const catName = chipsRoot?.dataset.activeName ?? '';
 
+        let shown: string[];
         if (!query) {
-          for (const el of cards.values()) el.hidden = false;
-          count.textContent = `${cards.size} tools available`;
-          if (empty) empty.hidden = true;
-          return;
+          shown = [...cards.keys()];
+        } else {
+          const ranked = await rankCatalog(index, query);
+          if (token !== seq) return;
+          shown = ranked.map((e) => e.s);
+          // Reordering is why this beats hiding: the best answer moves to the top of the page
+          // instead of staying wherever the alphabet put it.
+          for (const slug of shown) {
+            const el = cards.get(slug);
+            if (el) grid.appendChild(el);
+          }
+          if (ranked.length) {
+            const top = ranked[0]!;
+            count.title = `Best match: ${top.n} (${entryCategory(index, top)})`;
+          }
         }
-
-        const ranked = await rankCatalog(index, query);
-        if (token !== seq) return;
-        const matched = new Set(ranked.map((e) => e.s));
+        // Text AND category.
+        const matched = new Set(shown.filter((s) => !catName || (cards.get(s) && catOf(cards.get(s)!) === catName)));
         for (const [slug, el] of cards) el.hidden = !matched.has(slug);
-        // Reordering is why this beats hiding: the best answer moves to the top of the page
-        // instead of staying wherever the alphabet put it.
-        for (const entry of ranked) {
-          const el = cards.get(entry.s);
-          if (el) grid.appendChild(el);
-        }
+        const n = matched.size;
 
-        count.textContent = `${ranked.length} matching tool${ranked.length === 1 ? '' : 's'}`;
-        if (empty) empty.hidden = ranked.length !== 0;
-        if (suggest && !ranked.length) {
+        count.textContent = query || catName
+          ? `${n} matching tool${n === 1 ? '' : 's'}`
+          : `${cards.size} tools available`;
+        const none = n === 0;
+        if (empty) empty.hidden = !none || !!catName;
+        if (catEmpty) catEmpty.hidden = !none || !catName;
+        catEmptyName.textContent = catName;
+        if (suggest && none && query) {
           suggest.setAttribute('href', `${index.b}/feedback/?type=new&q=${encodeURIComponent(query)}`);
         }
-        if (ranked.length) {
-          const top = ranked[0]!;
-          count.title = `Best match: ${top.n} (${entryCategory(index, top)})`;
-        }
+        if (announce && live) live.textContent = announceCat(n, catName || null);
       };
+
+      chipsRoot?.addEventListener('cat-change', (e) => {
+        void apply(input.value, (e as CustomEvent<{ announce: boolean }>).detail.announce);
+      });
 
       let timer: number | undefined;
       input.addEventListener('input', () => {

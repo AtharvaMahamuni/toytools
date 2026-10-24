@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.12] - 2026-10-24
+
+### Added
+
+- **Home and Search.** A row of category chips filters the "Browse all tools" directory on Home and the results on `/search/`, with each chip showing its tool count. Tapping a chip shows only that category, and tapping it again or tapping All clears it. On Search the chip combines with the text box, and an empty result names the category and offers a button to show all categories. The choice lives in the address bar as `?cat=`, so a filtered view can be shared and Back undoes it; an unknown category shows everything. Nothing is saved on the device. Without JavaScript each chip is a link to its category page.
+
 ## [alpha-v13.11] - 2026-10-23
 
 ### Changed

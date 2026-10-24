@@ -7,6 +7,7 @@ import CategoryIndex from '@components/CategoryIndex.astro';
 import FeaturedRow from '@components/FeaturedRow.astro';
 import NewBadgeExpiry from '@components/NewBadgeExpiry.astro';
 import ToolDirectory from '@components/ToolDirectory.astro';
+import CategoryChips from '@components/CategoryChips.astro';
 import { tools } from '@data/registry';
 import { engineRegistry, knownPatterns } from '@data/engines';
 import { withBase } from '@lib/paths';
@@ -114,6 +115,7 @@ const siteHref = siteUrl(Astro.site).href;
       Browse all {tools.length} tools
     </summary>
     <div class="all-tools-body">
+      <CategoryChips allHref={withBase('/')} target="dir" />
       <ToolDirectory />
     </div>
   </details>

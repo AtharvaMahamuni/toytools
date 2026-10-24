@@ -49,6 +49,7 @@ function entriesFor(categorySlug: string, segment: string): DirectoryEntry[] {
 }
 
 const columns = categories.map(c => ({
+  slug: c.slug,
   name: c.name,
   href: categoryPath(c),
   count: tools.filter(t => t.categorySlug === c.slug).length,
@@ -58,7 +59,7 @@ const columns = categories.map(c => ({
 
 <nav class="tool-directory" aria-label="All tools by category">
   {columns.map(col => (
-    <div class="dir-column">
+    <div class="dir-column" data-cat={col.slug}>
       <a class="dir-heading" href={col.href}>
         {col.name}
         <span class="dir-count">{col.count}</span>
