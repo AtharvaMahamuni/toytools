@@ -225,6 +225,8 @@ test.describe('a shared ?cat link on a 320px phone', () => {
     ['text-utilities', /^Text Utilities \d+$/],
     ['money-finance', /^Money & Finance \d+$/],
     ['chemistry', /^Chemistry \d+$/],
+    // Last in the row, so the centring clamps at the row's right edge.
+    ['games', /^Games \d+$/],
   ];
 
   for (const base of ['/', '/search/']) {
@@ -250,4 +252,21 @@ test.describe('a shared ?cat link on a 320px phone', () => {
       });
     }
   }
+
+  test('a hand scroll before the font arrives is never snapped back', async ({ page }) => {
+    let release = () => {};
+    const gate = new Promise<void>((r) => { release = r; });
+    await page.route(/\.woff2$/, async (route) => { await gate; await route.continue(); });
+    await page.goto('/search/?cat=physics', { waitUntil: 'domcontentloaded' });
+    const row = page.locator('.cat-row');
+    await expect(page.locator('.cat-chip[aria-pressed="true"]')).toHaveText(/^Physics/);
+    expect(await page.evaluate(() => document.fonts.status)).toBe('loading');
+    // The user drags the row back to the start before the font has loaded.
+    await row.evaluate((el) => { el.scrollLeft = 0; el.dispatchEvent(new Event('scroll')); });
+    const before = await row.evaluate((el) => el.scrollLeft);
+    release();
+    await page.evaluate(() => document.fonts.ready);
+    await page.waitForTimeout(200);
+    expect(await row.evaluate((el) => el.scrollLeft)).toBe(before);
+  });
 });

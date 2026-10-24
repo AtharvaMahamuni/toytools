@@ -86,12 +86,21 @@ const chips = categories
     let current: string | null = null;
 
     // Centre the active chip in its row by moving the ROW's scrollLeft only, never the page.
+    const row = root.querySelector<HTMLElement>('.cat-row')!;
+    // ourLeft is what our own centring left the row at; handled marks a user's hand on the row.
+    let ourLeft = -1;
+    let handled = false;
     const centre = (chip: HTMLElement) => {
-      const row = chip.parentElement!;
       const r = row.getBoundingClientRect();
       const c = chip.getBoundingClientRect();
       row.scrollLeft += c.left - r.left - (r.width - c.width) / 2;
+      ourLeft = row.scrollLeft;
     };
+    const hand = () => { handled = true; };
+    row.addEventListener('pointerdown', hand, { passive: true });
+    row.addEventListener('wheel', hand, { passive: true });
+    // Our own scrollLeft write fires a scroll too; it lands exactly on ourLeft, so it is ignored.
+    row.addEventListener('scroll', () => { if (row.scrollLeft !== ourLeft) handled = true; }, { passive: true });
 
     const set = (slug: string | null, announce: boolean) => {
       current = slug;
@@ -126,9 +135,10 @@ const chips = categories
     set(parseCat(window.location.search, valid), false);
     // The first centring runs before the web font swaps in, and the swap widens the chips (Prep
     // ended up 2px clipped at 320px). Centre again once fonts are ready, where the API exists.
+    // Never fight the user: if they scrolled the row before fonts arrived, leave it where it is.
     document.fonts?.ready?.then(() => {
       const active = chips.find((c) => c.getAttribute('aria-pressed') === 'true');
-      if (active) centre(active);
+      if (active && !handled && row.scrollLeft === ourLeft) centre(active);
     });
   }
 </script>
