@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.12.2] - 2026-10-24
+
+### Fixed
+
+- **Home and Search.** On a narrow phone, the active category chip from a shared `?cat=` link is no longer clipped at the edge of the chip row. The row centred the chip before the web font loaded, and the font made the chip wider. The row now centres it again once fonts are ready. Only the chip row scrolls sideways, and the page stays where it opened.
+
 ## [alpha-v13.12.1] - 2026-10-24
 
 ### Fixed
