@@ -214,3 +214,25 @@ test.describe('without JavaScript', () => {
     });
   }
 });
+
+test.describe('a shared ?cat link on a 320px phone', () => {
+  test.use({ viewport: { width: 320, height: 640 } });
+
+  for (const path of ['/?cat=physics', '/search/?cat=physics']) {
+    test(`${path} never moves the page, and the active chip is visible in the row`, async ({ page }) => {
+      await page.goto(path);
+      const active = page.locator('.cat-chip[aria-pressed="true"]');
+      await expect(active).toHaveText(/^Physics \d+$/);
+      if (path.startsWith('/search/')) await ready(page);
+      await page.waitForTimeout(300);
+      expect(await page.evaluate(() => window.scrollY)).toBe(0);
+      const [row, chipBox] = await page.evaluate(() => {
+        const r = document.querySelector('.cat-row')!.getBoundingClientRect();
+        const c = document.querySelector('.cat-chip[aria-pressed="true"]')!.getBoundingClientRect();
+        return [[r.left, r.right], [c.left, c.right]];
+      });
+      expect(chipBox[0]).toBeGreaterThanOrEqual(row[0] - 1);
+      expect(chipBox[1]).toBeLessThanOrEqual(row[1] + 1);
+    });
+  }
+});

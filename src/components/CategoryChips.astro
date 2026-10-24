@@ -99,9 +99,12 @@ const chips = categories
         if (slug) root.closest('details')?.setAttribute('open', '');
         if (announce && live) live.textContent = announceCat(Number(chip.dataset.count), slug ? chip.dataset.name! : null);
       }
-      // Bring the active chip into view in the sideways-scrolling row. block:'nearest' leaves the
-      // page alone when the row is already on screen.
-      chip.scrollIntoView({ block: 'nearest', inline: 'center' });
+      // Centre the active chip in the sideways-scrolling row by moving the ROW only. scrollIntoView
+      // also scrolls the page, which made a shared /?cat= link jump to the directory on load.
+      const row = chip.parentElement!;
+      const r = row.getBoundingClientRect();
+      const c = chip.getBoundingClientRect();
+      row.scrollLeft += c.left - r.left - (r.width - c.width) / 2;
       // /search/ listens and writes its own announcement, since its count depends on the text box.
       root.dispatchEvent(new CustomEvent('cat-change', { detail: { announce } }));
     };
