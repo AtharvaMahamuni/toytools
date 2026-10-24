@@ -100,7 +100,11 @@ const chips = categories
     row.addEventListener('pointerdown', hand, { passive: true });
     row.addEventListener('wheel', hand, { passive: true });
     // Our own scrollLeft write fires a scroll too; it lands exactly on ourLeft, so it is ignored.
-    row.addEventListener('scroll', () => { if (row.scrollLeft !== ourLeft) handled = true; }, { passive: true });
+    // So does the browser's clamp when the row's content shrinks under it (a narrower font, a
+    // page scrollbar): that lands on the new maximum, and is layout, not a hand.
+    const max = () => row.scrollWidth - row.clientWidth;
+    const ours = () => row.scrollLeft === ourLeft || (row.scrollLeft < ourLeft && Math.abs(row.scrollLeft - max()) < 1);
+    row.addEventListener('scroll', () => { if (!ours()) handled = true; }, { passive: true });
 
     const set = (slug: string | null, announce: boolean) => {
       current = slug;
@@ -130,15 +134,28 @@ const chips = categories
       // pushState: Back undoes a filter. popstate below restores it.
       window.history.pushState(null, '', catUrl(window.location.href, next));
       set(next, true);
+      // The tap's pointerdown marked the row as handled, but the tap asked for exactly this chip,
+      // so our centring now owns the row again and a later font or layout change may re-centre it.
+      handled = false;
     });
     window.addEventListener('popstate', () => set(parseCat(window.location.search, valid), true));
     set(parseCat(window.location.search, valid), false);
     // The first centring runs before the web font swaps in, and the swap widens the chips (Prep
     // ended up 2px clipped at 320px). Centre again once fonts are ready, where the API exists.
     // Never fight the user: if they scrolled the row before fonts arrived, leave it where it is.
-    document.fonts?.ready?.then(() => {
+    const recentre = () => {
       const active = chips.find((c) => c.getAttribute('aria-pressed') === 'true');
-      if (active && !handled && row.scrollLeft === ourLeft) centre(active);
-    });
+      if (active && !handled && ours()) centre(active);
+    };
+    document.fonts?.ready?.then(recentre);
+    // fonts.ready is not enough on its own: it can resolve before a font load has even started,
+    // and a chip that widens after the last centring left Prep 6px out of view in CI. Any later
+    // change to the row's or a chip's size re-centres too, behind the same never-fight-the-user
+    // guard.
+    if ('ResizeObserver' in window) {
+      const ro = new ResizeObserver(recentre);
+      ro.observe(row);
+      for (const c of chips) ro.observe(c);
+    }
   }
 </script>

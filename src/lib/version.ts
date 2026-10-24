@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 12,
-  patch: 2,
+  minor: 13,
+  patch: 0,
   status: 'alpha',
   releaseDate: '2026-10-24',
-  description: 'Active category chip re-centres after the web font loads',
+  description: 'Five physics pages target their search phrasings; chip re-centres on resize',
 };
 
 export function formatVersion(config: VersionConfig): string {
