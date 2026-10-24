@@ -15,7 +15,7 @@ interface Props {
 }
 const { allHref, target } = Astro.props;
 const chips = categories
-  .map(c => ({ slug: c.slug, name: c.name, href: categoryPath(c), count: tools.filter(t => t.categorySlug === c.slug).length }))
+  .map(c => ({ slug: c.slug, seg: c.segment, name: c.name, href: categoryPath(c), count: tools.filter(t => t.categorySlug === c.slug).length }))
   .filter(c => c.count > 0);
 ---
 
@@ -23,10 +23,11 @@ const chips = categories
   <div class="cat-row" role="group" aria-label="Filter by category">
     <a class="cat-chip" href={allHref} data-cat="">All {tools.length}</a>
     {chips.map(c => (
-      <a class="cat-chip" href={c.href} data-cat={c.slug}>{c.name} {c.count}</a>
+      <a class="cat-chip" href={c.href} data-cat={c.slug} data-seg={c.seg}>{c.name} {c.count}</a>
     ))}
   </div>
-  <p class="sr-only" role="status" data-cat-live></p>
+  {/* Home only. /search/ announces through its results' own live region, so one message, not two. */}
+  {target && <p class="sr-only" role="status" data-cat-live></p>}
 </div>
 
 <style is:global>
@@ -47,7 +48,7 @@ const chips = categories
     gap: var(--space-2);
     min-height: var(--touch-target);
     padding: 0 var(--space-4);
-    border: var(--border);
+    border: 1px solid var(--color-text-muted);
     border-radius: 99px;
     background: var(--color-surface);
     color: var(--color-text);
@@ -66,7 +67,7 @@ const chips = categories
   import { announceCat, catUrl, parseCat, toggleCat } from '@lib/category-filter';
 
   for (const root of document.querySelectorAll<HTMLElement>('.cat-chips')) {
-    const live = root.querySelector<HTMLElement>('[data-cat-live]')!;
+    const live = root.querySelector<HTMLElement>('[data-cat-live]');
     // Upgrade each link to a real button: same label and data, no navigation.
     const chips = [...root.querySelectorAll<HTMLAnchorElement>('a.cat-chip')].map((a) => {
       const b = document.createElement('button');
@@ -90,13 +91,17 @@ const chips = categories
       for (const c of chips) c.setAttribute('aria-pressed', String(c === chip));
       root.dataset.active = slug ?? '';
       root.dataset.activeName = slug ? chip.dataset.name! : '';
+      root.dataset.activeSeg = chip.dataset.seg ?? '';
       if (root.dataset.target === 'dir') {
         for (const col of document.querySelectorAll<HTMLElement>('.dir-column[data-cat]')) {
           col.hidden = !!slug && col.dataset.cat !== slug;
         }
         if (slug) root.closest('details')?.setAttribute('open', '');
-        if (announce) live.textContent = announceCat(Number(chip.dataset.count), slug ? chip.dataset.name! : null);
+        if (announce && live) live.textContent = announceCat(Number(chip.dataset.count), slug ? chip.dataset.name! : null);
       }
+      // Bring the active chip into view in the sideways-scrolling row. block:'nearest' leaves the
+      // page alone when the row is already on screen.
+      chip.scrollIntoView({ block: 'nearest', inline: 'center' });
       // /search/ listens and writes its own announcement, since its count depends on the text box.
       root.dispatchEvent(new CustomEvent('cat-change', { detail: { announce } }));
     };

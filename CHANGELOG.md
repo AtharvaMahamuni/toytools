@@ -8,6 +8,11 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 - **Home and Search.** A row of category chips filters the "Browse all tools" directory on Home and the results on `/search/`, with each chip showing its tool count. Tapping a chip shows only that category, and tapping it again or tapping All clears it. On Search the chip combines with the text box, and an empty result names the category and offers a button to show all categories. The choice lives in the address bar as `?cat=`, so a filtered view can be shared and Back undoes it; an unknown category shows everything. Nothing is saved on the device. Without JavaScript each chip is a link to its category page.
 
+### Fixed
+
+- **Search.** Back and Forward restore the search text along with the category, and the results are rerun. Before, going Back to an earlier search showed its address but an empty box and every tool.
+- **Search.** The category filter works before the search index has loaded and offline, and a category is matched by its id rather than its display name. Search announces each result once, not twice. Unselected chips have a stronger border in both themes, and the active chip scrolls into view in the chip row.
+
 ## [alpha-v13.11] - 2026-10-23
 
 ### Changed

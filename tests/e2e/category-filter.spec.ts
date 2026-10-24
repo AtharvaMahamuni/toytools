@@ -80,7 +80,9 @@ test.describe('search category chips', () => {
     expect(n).toBeGreaterThan(0);
     expect(n).toBeLessThan(all);
     for (const t of await visibleCards(page).locator('.tool-category').allTextContents()) expect(t).toBe('Physics');
-    await expect(page.locator('[data-cat-live]')).toHaveText(`Showing ${n} Physics tool${n === 1 ? '' : 's'}`);
+    // One announcement on /search/: the results' live region, and no second chip region.
+    await expect(page.locator('#result-count')).toHaveText(`Showing ${n} Physics tool${n === 1 ? '' : 's'}`);
+    await expect(page.locator('[data-cat-live]')).toHaveCount(0);
 
     // Typing keeps the category.
     await page.locator('#search-page-query').fill('zzqqxx');
@@ -110,6 +112,84 @@ test.describe('search category chips', () => {
     await expect(chip(page, /^All/)).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('#result-count')).toHaveText(/tools available$/);
   });
+
+  test('Back and Forward restore ?q and ?cat together', async ({ page }) => {
+    await page.goto('/search/');
+    await ready(page);
+    const box = page.locator('#search-page-query');
+    await box.fill('loan');
+    await expect(page).toHaveURL(/\?q=loan$/);
+    const loanCount = await visibleCards(page).count();
+    await chip(page, /^Money & Finance/).click();
+    await expect(page).toHaveURL(/q=loan&cat=money-finance$/);
+    await chip(page, /^All/).click();
+    await expect(page).toHaveURL(/\?q=loan$/);
+
+    await page.goBack();
+    await expect(page).toHaveURL(/q=loan&cat=money-finance$/);
+    await expect(box).toHaveValue('loan');
+    await expect(chip(page, /^Money & Finance/)).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('#result-count')).toHaveText(/^Showing \d+ Money & Finance tools?$/);
+
+    // Typing uses replaceState, so the entry before the chip is ?q=loan itself (the regression:
+    // this used to show ?q=loan with an empty box and every tool).
+    await page.goBack();
+    await expect(page).toHaveURL(/\?q=loan$/);
+    await expect(box).toHaveValue('loan');
+    await expect(chip(page, /^All/)).toHaveAttribute('aria-pressed', 'true');
+    await expect(visibleCards(page)).toHaveCount(loanCount);
+    expect(loanCount).toBeLessThan(150);
+
+    await page.goForward();
+    await expect(page).toHaveURL(/q=loan&cat=money-finance$/);
+    await expect(box).toHaveValue('loan');
+    await page.goForward();
+    await expect(page).toHaveURL(/\?q=loan$/);
+    await expect(box).toHaveValue('loan');
+    await expect(chip(page, /^All/)).toHaveAttribute('aria-pressed', 'true');
+    await expect(visibleCards(page)).toHaveCount(loanCount);
+  });
+
+  test('Back after clearing the box restores the earlier ?q into the box and reruns it', async ({ page }) => {
+    await page.goto('/search/');
+    await ready(page);
+    const box = page.locator('#search-page-query');
+    await box.fill('loan');
+    await expect(page).toHaveURL(/\?q=loan$/);
+    const loanCount = await visibleCards(page).count();
+    await chip(page, /^Money & Finance/).click();
+    await box.fill('');
+    await expect(page).toHaveURL(/\?cat=money-finance$/);
+    await page.goBack();
+    await expect(page).toHaveURL(/\?q=loan$/);
+    await expect(box).toHaveValue('loan');
+    await expect(visibleCards(page)).toHaveCount(loanCount);
+    await page.goForward();
+    await expect(box).toHaveValue('');
+    await expect(page.locator('#result-count')).toHaveText(/^Showing \d+ Money & Finance tools?$/);
+  });
+
+  for (const mode of ['offline', 'still loading'] as const) {
+    test(`the chip filters while the search index is ${mode}`, async ({ page }) => {
+      let release = () => {};
+      const gate = new Promise<void>((r) => { release = r; });
+      await page.route('**/search-index.json', async (route) => {
+        if (mode === 'offline') return route.abort();
+        await gate;
+        return route.continue();
+      });
+      await page.goto('/search/?cat=chemistry');
+      await expect(chip(page, /^Chemistry/)).toHaveAttribute('aria-pressed', 'true');
+      await expect(page.locator('#search-results')).not.toHaveAttribute('data-search-ready', 'true');
+      const cats = await visibleCards(page).locator('.tool-category').allTextContents();
+      expect(cats.length).toBeGreaterThan(0);
+      for (const t of cats) expect(t).toBe('Chemistry');
+      await chip(page, /^Physics/).click();
+      await expect(page.locator('#result-count')).toHaveText(/^Showing \d+ Physics tools?$/);
+      for (const t of await visibleCards(page).locator('.tool-category').allTextContents()) expect(t).toBe('Physics');
+      release();
+    });
+  }
 
   test('canonical stays on the plain page', async ({ page }) => {
     await page.goto('/search/?cat=physics');
