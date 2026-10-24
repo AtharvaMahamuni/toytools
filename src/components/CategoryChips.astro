@@ -1,0 +1,120 @@
+---
+// Category chips for Home (the "all tools" directory) and /search/. Without JS each chip is a plain
+// link to its /category/<slug>/ page. The script upgrades them to toggle buttons (aria-pressed)
+// that drive ?cat=<slug>. Rendered on those two pages only, so this CSS never reaches a tool page.
+// The script owns the URL and the pressed state, then fires "cat-change" on the row; each page
+// decides what to hide. Home passes target="dir" and the script hides directory columns itself.
+import { tools } from '@data/registry';
+import { categories } from '@data/categories';
+import { categoryPath } from '@lib/paths';
+
+interface Props {
+  /** Where "All" links without JS: the plain page itself. */
+  allHref: string;
+  target?: 'dir';
+}
+const { allHref, target } = Astro.props;
+const chips = categories
+  .map(c => ({ slug: c.slug, seg: c.segment, name: c.name, href: categoryPath(c), count: tools.filter(t => t.categorySlug === c.slug).length }))
+  .filter(c => c.count > 0);
+---
+
+<div class="cat-chips" data-target={target}>
+  <div class="cat-row" role="group" aria-label="Filter by category">
+    <a class="cat-chip" href={allHref} data-cat="">All {tools.length}</a>
+    {chips.map(c => (
+      <a class="cat-chip" href={c.href} data-cat={c.slug} data-seg={c.seg}>{c.name} {c.count}</a>
+    ))}
+  </div>
+  {/* Home only. /search/ announces through its results' own live region, so one message, not two. */}
+  {target && <p class="sr-only" role="status" data-cat-live></p>}
+</div>
+
+<style is:global>
+  /* Global, not scoped: scoping stamps a data-astro-cid on every chip, and this CSS is inlined
+     into /search/, the heaviest HTML on the site. Kept minimal for that reason. */
+  .cat-row {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    padding: var(--space-1) var(--space-1) var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .cat-chip {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--touch-target);
+    padding: 0 var(--space-4);
+    border: 1px solid var(--color-text-muted);
+    border-radius: 99px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .cat-chip[aria-pressed='true'] {
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+  }
+</style>
+
+<script>
+  import { announceCat, catUrl, parseCat, toggleCat } from '@lib/category-filter';
+
+  for (const root of document.querySelectorAll<HTMLElement>('.cat-chips')) {
+    const live = root.querySelector<HTMLElement>('[data-cat-live]');
+    // Upgrade each link to a real button: same label and data, no navigation.
+    const chips = [...root.querySelectorAll<HTMLAnchorElement>('a.cat-chip')].map((a) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = a.className;
+      for (const k of Object.keys(a.dataset)) b.dataset[k] = a.dataset[k];
+      b.textContent = a.textContent;
+      // Name and count come from the label, not extra attributes, to keep the HTML small.
+      const [, name, n] = /^(.*) (\d+)$/.exec(a.textContent!.trim())!;
+      b.dataset.name = name;
+      b.dataset.count = n;
+      a.replaceWith(b);
+      return b;
+    });
+    const valid = chips.map((c) => c.dataset.cat!).filter(Boolean);
+    let current: string | null = null;
+
+    const set = (slug: string | null, announce: boolean) => {
+      current = slug;
+      const chip = chips.find((c) => c.dataset.cat === (slug ?? ''))!;
+      for (const c of chips) c.setAttribute('aria-pressed', String(c === chip));
+      root.dataset.active = slug ?? '';
+      root.dataset.activeName = slug ? chip.dataset.name! : '';
+      root.dataset.activeSeg = chip.dataset.seg ?? '';
+      if (root.dataset.target === 'dir') {
+        for (const col of document.querySelectorAll<HTMLElement>('.dir-column[data-cat]')) {
+          col.hidden = !!slug && col.dataset.cat !== slug;
+        }
+        if (slug) root.closest('details')?.setAttribute('open', '');
+        if (announce && live) live.textContent = announceCat(Number(chip.dataset.count), slug ? chip.dataset.name! : null);
+      }
+      // Bring the active chip into view in the sideways-scrolling row. block:'nearest' leaves the
+      // page alone when the row is already on screen.
+      chip.scrollIntoView({ block: 'nearest', inline: 'center' });
+      // /search/ listens and writes its own announcement, since its count depends on the text box.
+      root.dispatchEvent(new CustomEvent('cat-change', { detail: { announce } }));
+    };
+
+    root.addEventListener('click', (e) => {
+      const chip = (e.target as Element).closest<HTMLButtonElement>('button.cat-chip');
+      if (!chip) return;
+      const next = toggleCat(current, chip.dataset.cat!);
+      // pushState: Back undoes a filter. popstate below restores it.
+      window.history.pushState(null, '', catUrl(window.location.href, next));
+      set(next, true);
+    });
+    window.addEventListener('popstate', () => set(parseCat(window.location.search, valid), true));
+    set(parseCat(window.location.search, valid), false);
+  }
+</script>
