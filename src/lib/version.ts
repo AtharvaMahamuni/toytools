@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
   minor: 12,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
   releaseDate: '2026-10-24',
-  description: 'Category chips filter the Home directory and Search by category via ?cat',
+  description: 'Category chip no longer scrolls the page on load',
 };
 
 export function formatVersion(config: VersionConfig): string {

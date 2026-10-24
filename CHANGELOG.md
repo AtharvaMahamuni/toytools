@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.12.1] - 2026-10-24
+
+### Fixed
+
+- **Home and Search.** Opening a shared `?cat=` link no longer jumps the page down to the chip row. Only the chip row scrolls sideways to bring the active chip into view, and the page stays where it opened.
+
 ## [alpha-v13.12] - 2026-10-24
 
 ### Added
