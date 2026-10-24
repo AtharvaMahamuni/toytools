@@ -2,7 +2,7 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [alpha-v13.13.0] - 2026-10-24
+## [alpha-v13.13] - 2026-10-24
 
 ### Changed
 
