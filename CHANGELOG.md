@@ -2,6 +2,13 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.13.1] - 2026-10-25
+
+### Fixed
+
+- **Calculators on phones.** The result area now holds its space from the first paint, so the inputs and the Copy and Reset buttons no longer jump down when the answer appears. This covers the finance, health, math and network calculators, plus Px to Dp, Px to Rem, Color Shades and Type Scale. The space held is never taller than the result that fills it, so the settled page looks the same as before.
+- **Faster loading on grouped tools.** Tools with mode pills, such as the health and finance calculators, no longer download every sibling page while they load. That was up to 16 pages, about 360 KB, on a health calculator. A sibling page is now fetched when you hover, focus or touch its pill, so switching still feels instant.
+
 ## [alpha-v13.13] - 2026-10-24
 
 ### Changed
