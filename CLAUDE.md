@@ -10,6 +10,7 @@ the signal it belongs somewhere below instead.
 | you are... | read |
 |---|---|
 | building or changing UI | **`ui-design-system` skill** |
+| shaping a new tool idea into a spec before coding | **`new-tool-skeleton` skill** |
 | adding a tool or an engine | **`add-tool` skill** |
 | deciding what to build next | **`next-tool` skill** |
 | writing a guide, FAQ or knowledge file | **`seo-content` skill** |
