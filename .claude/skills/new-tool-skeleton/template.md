@@ -11,7 +11,8 @@ Fill in every field before coding. Leave nothing as "TBD" without listing it und
 - **Closest existing tools, and why this is not an improve-tool job:**
 - **Category (`src/data/categories.ts` slug):**
 - **Slug:**
-- **Name (no '&', no em dash):**
+- **Name (no '&'; no em dash here or anywhere in the PR):**
+- **addedOn (ship day, YYYY-MM-DD):**
 - **Seo title:**
 - **Tagline (80 chars max):**
 
@@ -29,7 +30,8 @@ Fill in every field before coding. Leave nothing as "TBD" without listing it und
 - **Edge cases and what the page says for each:**
 - **Craft (`tool-craft` skill): id, kind, the failure it solves:**
 - **Privacy:** trustVariant: ___ / keepInput: no or yes (why) / url-state mode: off, manual or auto / nothing saved by default [ ] no credentials stored [ ]
-- **Dependencies and size:** libraries (licence, gz size), loaded by dynamic import on: ___ / expected page JS under 24,576 B gz [ ]
+- **Dependencies and size:** libraries (licence, gz size), loaded by dynamic import on: ___
+- **Budgets (gz):** JS under 24,576 B [ ] CSS under 18,432 B [ ] HTML under 34,816 B [ ] total under 62,464 B [ ] /search/ under 31,744 B [ ] search-terms.json under 10,240 B [ ] (if one trips: trim or isolate, never raise)
 - **citation.nonGoal (what it does not do):**
 - **methodology (name and one-line detail):**
 
@@ -37,7 +39,7 @@ Fill in every field before coding. Leave nothing as "TBD" without listing it und
 
 - [ ] `npm run scaffold:tool -- ... --dry-run` output reviewed
 - [ ] Engine file and registry entry: `src/lib/engines/<engine>/...`
-- [ ] Engine unit tests:
+- [ ] Engine unit tests, plus a lazy-load test if the engine is lazily loaded:
 - [ ] `src/tools/<segment>/<slug>/` config.ts, Widget.astro, faq.ts, Guide.astro, knowledge.ts
 - [ ] `src/data/guide-published.ts` entry
 - [ ] `knowledge.primaryConcepts[0]`:
