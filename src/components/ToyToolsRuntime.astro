@@ -207,6 +207,19 @@
     if (e.button || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || !e.target.closest || !e.target.closest('.group-pill')) return;
     try { window.name = 'tt:' + JSON.stringify(carry); } catch (_) {}
   });
+  // Group pills prefetch a sibling page on intent only (hover, focus, touch), never at load.
+  // A <link rel=prefetch> per sibling in the HTML fetched up to 16 pages during load.
+  var pf = {};
+  function intent(e) {
+    var a = e.target && e.target.closest && e.target.closest('.group-pill:not([aria-current])');
+    if (!a || pf[a.href]) return;
+    pf[a.href] = 1;
+    var l = document.createElement('link');
+    l.rel = 'prefetch';
+    l.href = a.href;
+    document.head.appendChild(l);
+  }
+  ['pointerover', 'focusin', 'touchstart'].forEach(function (t) { document.addEventListener(t, intent, { passive: true }); });
   TT.state = {
     PREFIX: 'toytools:',
     VERSION: 1,

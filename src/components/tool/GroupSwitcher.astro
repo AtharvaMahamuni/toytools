@@ -1,7 +1,8 @@
 ---
 // GroupSwitcher — mode pills for tools that belong to a tool group (src/data/tool-groups.ts).
 // Each pill is a real link to the sibling tool's own page: crawlable internal links, works
-// without JS. Sibling pages are prefetched so switching feels instant; the text you typed follows
+// without JS. A sibling page is prefetched when a pill is hovered, focused or touched (ToyToolsRuntime.astro),
+// never at load, so switching still feels instant; the text you typed follows
 // a plain click on a pill through the runtime's group hand-off (tab memory only, see
 // ToyToolsRuntime.astro), never through storage.
 import type { ToolConfig } from '@data/types';
@@ -28,7 +29,6 @@ const members = (group?.members ?? []).map(member => {
   };
 }).filter(m => m.href !== null);
 
-const siblings = members.filter(m => !m.active);
 ---
 
 {group && members.length > 1 && (
@@ -42,7 +42,6 @@ const siblings = members.filter(m => !m.active);
         >{m.label}</a>
       ))}
     </nav>
-    {siblings.map(m => <link rel="prefetch" href={m.href} />)}
   </>
 )}
 
