@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
   minor: 13,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
-  releaseDate: '2026-10-24',
-  description: 'Five physics pages target their search phrasings; chip re-centres on resize',
+  releaseDate: '2026-10-25',
+  description: 'Calculator results no longer push the page on phones; sibling pages prefetch on intent',
 };
 
 export function formatVersion(config: VersionConfig): string {

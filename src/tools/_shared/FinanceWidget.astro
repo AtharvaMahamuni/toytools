@@ -40,6 +40,10 @@ const scenarios = calc?.scenarios ?? [];
 const caps = { ...DEFAULT_CAPABILITIES, ...(calc?.capabilities ?? {}) };
 const examples = financeExamplesFor(financeId).map((e) => e.inputs);
 const defaults = Object.fromEntries(fields.map((f) => [f.id, f.default]));
+// Space held for the result on phones (ToolSplit `reserve`). The full calculators (the ones with
+// examples) settle at 391-549px tall at 393px wide; the small split and UPI tallies at 195-226px
+// and get none, so their settled layout does not grow.
+const financeReserve = caps.loadExample ? '23rem' : undefined;
 const resolvedEmpty = emptyText ?? 'Enter your values to calculate, visualize milestones, and see what happens over time.';
 
 // "A shareable link to this calculation" is the most requested thing an online calculator does, and
@@ -60,7 +64,7 @@ const currencyMeta = Object.fromEntries(
 ---
 
 <div class:list={['calc-ledger', { 'split-screens': splitScreens }]}>
-  <ToolSplit ratio={splitRatio} stackOrder="output-first" stickyOutput={false} equalHeight={false}>
+  <ToolSplit ratio={splitRatio} stackOrder="output-first" stickyOutput={false} equalHeight={false} reserve={financeReserve}>
     <IoPanel
       slot="input"
       label="Details"

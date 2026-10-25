@@ -357,7 +357,7 @@ main:focus {
 /* ── Cross-document View Transitions ─────────────────────────────────────
    CSS-only smooth cross-fade between same-origin navigations (Chrome 126+,
    Safari 18.2+). Older browsers simply do a normal navigation. Makes tool-group
-   mode switching (GroupSwitcher) feel instant alongside sibling-page prefetch. */
+   mode switching (GroupSwitcher) feel instant alongside the on-intent sibling prefetch. */
 @view-transition {
   navigation: auto;
 }

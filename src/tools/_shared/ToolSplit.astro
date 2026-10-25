@@ -14,6 +14,14 @@ interface Props {
    * box. Form-driven widgets pass false.
    */
   equalHeight?: boolean;
+  /**
+   * Phones only (<640px): space held for the result pane before its script fills it. A result
+   * that appears after first paint pushes the input (output-first) or the actions below it
+   * (input-first) down, and that shift was most of the mobile CLS in the October 2026 Lighthouse
+   * audit. Pass a CSS length no taller than the smallest result this widget renders at 393px, so
+   * the settled layout is unchanged and only the jump goes away.
+   */
+  reserve?: string;
 }
 
 const {
@@ -21,6 +29,7 @@ const {
   stackOrder = 'input-first',
   stickyOutput = true,
   equalHeight = true,
+  reserve,
 } = Astro.props;
 const classes = [
   'tool-split',
@@ -31,7 +40,7 @@ const classes = [
 ].filter(Boolean).join(' ');
 ---
 
-<div class={classes}>
+<div class={classes} style={reserve ? `--ts-output-reserve:${reserve}` : undefined}>
   <div class="ts-input"><slot name="input" /></div>
   <div class="ts-output"><slot name="output" /></div>
 </div>
@@ -50,6 +59,12 @@ const classes = [
   .ts-input,
   .ts-output {
     min-width: 0;
+  }
+
+  @media (max-width: 639px) {
+    .ts-output {
+      min-height: var(--ts-output-reserve, 0);
+    }
   }
 
   /* Mobile/tablet only: optionally lead with the answer. Scoped to <1024px so it can
