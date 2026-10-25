@@ -33,9 +33,11 @@ fast, static-first, mobile-first, engine-first, with no accounts and no backend.
    `docs/code-map.json` answers "where does X live". If an existing tool already does the job,
    the answer is the **`improve-tool`** skill, not a new page.
 4. **Category, slug, name.** Pick an existing category from `src/data/categories.ts`. A new
-   category is a major bump (CLAUDE.md, "Versioning and changelog") and a decision for Atharva,
+   category is a major bump (CLAUDE.md:128-134, "Versioning and changelog") and a decision for Atharva,
    not for the agent. The slug is kebab-case and permanent (a rename is a redirect and a minor
-   bump). The name has no '&' and no em dash.
+   bump). The name has no '&'. The em dash ban covers every piece of text
+   the tool ships and everything around it: name, title, tagline, description, FAQ, guide,
+   knowledge, aliases, code comments, commit messages, the CHANGELOG and the PR body.
 
 ## Phase 2: Conceptualise
 
@@ -58,10 +60,26 @@ fast, static-first, mobile-first, engine-first, with no accounts and no backend.
      which strips `wifiPassword` from QR state).
 6. **Craft.** The one thoughtful touch, from the **`tool-craft`** skill: a real user failure the
    engine alone does not catch. If there is none, say so in the spec.
-7. **Size budget.** `scripts/check-budget.ts` caps a tool page at `jsKb: 24` (24,576 B gz), and
-   it counts all JS fetched on load, including the engine chunk. A heavy library goes behind a
-   dynamic `import()` fired by user action, and engine runtimes stay lazy through
-   `src/lib/runtime/loaders.ts`. Never raise a budget to fit a tool (the **`gates`** skill).
+7. **Size budget.** Every limit below is gzipped and comes from `scripts/check-budget.ts`
+   (`BUDGETS.tool`, `BUDGETS.page` and `INTERACTION_ASSETS`), which `npm run build` runs.
+   1 KB there is 1,024 B.
+
+   | Budget | Limit | Source |
+   |---|---|---|
+   | Tool page JS (entry, static deps and its engine chunk) | 24,576 B (`jsKb: 24`) | `BUDGETS.tool` |
+   | Tool page CSS | 18,432 B (`cssKb: 18`), at most 6 stylesheets | `BUDGETS.tool` |
+   | Tool page HTML | 34,816 B (`htmlKb: 34`) | `BUDGETS.tool` |
+   | Tool page total | 62,464 B (`totalKb: 61`) | `BUDGETS.tool` |
+   | `/search/` HTML (one card per tool, so every new tool grows it) | 31,744 B (`htmlKb: 31`) | `BUDGETS.page` |
+   | `search-terms.json` (aliases and tags, fetched on search) | 10,240 B (`maxKb: 10`) | `INTERACTION_ASSETS` |
+   | `search-index.json` | 12,288 B (`maxKb: 12`) | `INTERACTION_ASSETS` |
+
+   When a new tool trips one, trim or isolate. Never raise it. Trim means shorter aliases and
+   tags, leaner widget CSS or a shorter description. Isolate means moving a heavy library behind
+   a dynamic `import()` fired by user action, keeping engine runtimes lazy through
+   `src/lib/runtime/loaders.ts`, or splitting shared CSS. Budgets only fall (CLAUDE.md, "The six
+   hard gates"). Raising one is Atharva's decision, with the reason recorded in a comment in
+   `check-budget.ts`, never an agent's.
 
 ## Phase 3: Skeleton
 
@@ -79,14 +97,14 @@ npm run scaffold:tool -- --slug <slug> --name "<Name>" --category <category> \
 
 | Part | Files (from #265) | Notes |
 |---|---|---|
-| Engine logic | `src/lib/engines/<engine>/calculators/<id>.ts`, its registry entry, `lazy.ts` if heavy | Pure. Unit tests in the engine's test file (`finance.test.ts`, `datetime.test.ts`) |
+| Engine logic | Follow the engine's own layout, since there is no single path. Calculator engines (`finance`, `datetime`, `math`, `network`, `wellness`) use `src/lib/engines/<engine>/calculators/<id>.ts`, their `registry.ts` and the lazy `lazy.ts`. Flat engines (`color`, `units`, `audio`, `hashing`) use `src/lib/engines/<engine>/<name>.ts`; a heavy one adds a `<name>-lazy.ts` (`color/palette-lazy.ts`). `board-game` keeps its rules in `rules/`. | Pure. Unit tests go next to the engine (`finance.test.ts`, `datetime.test.ts`, `palette.test.ts`). Anything lazily loaded also gets a lazy-load test: `finance/lazy.test.ts`, `datetime/lazy.test.ts`, `color/palette-lazy.test.ts` |
 | Engine runtime | `src/lib/runtime/engines/<engine>.ts` | Only if the engine surface grows; keep it lazy |
 | Tool directory | `src/tools/<segment>/<slug>/config.ts`, `Widget.astro`, `faq.ts`, `Guide.astro`, `knowledge.ts` | Nothing else goes in the folder (add-tool hard rule 3) |
-| Config fields | `job`, `tagline` (80 chars max), `description`, `tags`, `craft`, `citation` with a specific `nonGoal`, `methodology`, `trustVariant` | `loan-calculator/config.ts` is a complete example |
-| FAQ and JSON-LD | `faq.ts` | FAQ and Article schema are rendered by the platform (`src/components/tool/ToolPage.astro`); do not add JSON-LD by hand |
+| Config fields | `job`, `tagline` (80 chars max), `description`, `tags`, `craft`, `citation` with a specific `nonGoal`, `methodology`, `trustVariant`, `addedOn` (the ship day, `YYYY-MM-DD` in UTC; it drives the New badge for five days, see `src/lib/tools/freshness.ts`) | `loan-calculator/config.ts` is a complete example |
+| FAQ and JSON-LD | `faq.ts` | The platform renders the schema, so never add JSON-LD by hand. FAQPage comes from `src/components/tool/ToolPage.astro`, and Article comes from `src/layouts/GuideLayout.astro` |
 | Guide | `Guide.astro`, plus the ship day in `src/data/guide-published.ts` | validate-registry fails a guide with no entry |
 | Knowledge | `knowledge.ts` | `primaryConcepts[0]` heads the page H2s, so it drives query targeting |
-| Search terms | `src/data/search-aliases.ts`, `tags` | Phrases are unique across the file. `search-terms.json` is capped at 10 KB gz in `check-budget.ts`; measure it |
+| Search terms | `src/data/search-aliases.ts`, `tags` | Phrases are unique across the file. `search-terms.json` is capped at 10,240 B gz and `/search/` HTML at 31,744 B (see Phase 2, step 7); measure both |
 | Icon | a unique glyph in `src/lib/icons/glyphs.ts` and `SLUG_GLYPH` in `src/lib/icons/tool-icon.ts`, then `npm run icons:generate` | Commit the `public/icons/tool/<slug>-192.png` and `-512.png` it writes |
 | Generated files | `src/data/registry.generated.ts`, `faq-registry.generated.ts`, `guide-registry.generated.ts`, `src/lib/knowledge/registry.generated.ts`, `docs/code-map.json` | Only through `npm run registries:generate` and `npm run map:generate`. Never hand-edit `*.generated.ts` |
 | Research seed | a record in `research/datasets/<domain>.json` with `proposedTool: <slug>` and real `searchQueries` | `npm run research:validate`, then regenerate reports with the research scripts |
@@ -99,7 +117,7 @@ npm run scaffold:tool -- --slug <slug> --name "<Name>" --category <category> \
 
 ## PR checklist (copy into the spec)
 
-- Version per CLAUDE.md, "Versioning and changelog": a new tool is a **minor** bump, a new
+- Version per CLAUDE.md:128-134, "Versioning and changelog": a new tool is a **minor** bump, a new
   category or engine is **major**; `npm run version:bump` plus a hand-written CHANGELOG entry.
 - PR body line: `llms files: updated` or `llms files: no change needed`, with one reason.
 - `npm run check:queries` at 100% targeting, `npm run check:craft`, `npm run check:budget`.
