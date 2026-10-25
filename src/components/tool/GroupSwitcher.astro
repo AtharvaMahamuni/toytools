@@ -42,12 +42,13 @@ const members = (group?.members ?? []).map(member => {
         >{m.label}</a>
       ))}
     </nav>
-    {/* Prefetch a sibling page on intent only (hover, focus, touch), never at load. One
-        <link rel="prefetch"> per sibling in the HTML used to fetch up to 16 pages during load.
-        Inline and only on grouped pages, so no other page carries it. */}
-    <script is:inline>(function(){var d=document,p={};function f(e){var a=e.target&&e.target.closest&&e.target.closest('.group-pill:not([aria-current])');if(!a||p[a.href])return;p[a.href]=1;var l=d.createElement('link');l.rel='prefetch';l.href=a.href;d.head.appendChild(l)}['pointerover','focusin','touchstart'].forEach(function(t){d.addEventListener(t,f,{passive:true})})})();</script>
   </>
 )}
+
+{/* Prefetch a sibling page on intent only (hover, focus, touch), never at load. One
+    <link rel="prefetch"> per sibling in the HTML used to fetch up to 16 pages during load.
+    ToolPage renders this component only for a tool in a group, so no other page carries it. */}
+<script is:inline>(function(){var d=document,p={};function f(e){var a=e.target&&e.target.closest&&e.target.closest('.group-pill:not([aria-current])');if(!a||p[a.href])return;p[a.href]=1;var l=d.createElement('link');l.rel='prefetch';l.href=a.href;d.head.appendChild(l)}['pointerover','focusin','touchstart'].forEach(function(t){d.addEventListener(t,f,{passive:true})})})();</script>
 
 <style>
   .group-switcher {
