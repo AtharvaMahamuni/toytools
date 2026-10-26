@@ -132,6 +132,7 @@ test.describe('word frequency counter: Ignore numbers', () => {
     expect(await page.locator('#wf-list .wf-word').allTextContents()).not.toContain('2026');
     await page.goto('/tool/text/word-frequency-counter/');
     await expect(page.locator('#wf-ignore-numbers')).not.toBeChecked();
+    await page.locator('#word-frequency-counter-input').fill(TEXT);
     await page.locator('#wf-ignore-numbers').check();
     await page.waitForTimeout(400);
     expect(new URL(page.url()).search).toBe('');

@@ -33,20 +33,8 @@ test.describe('quantum tic tac toe', () => {
     await expect(root.locator('[data-board-links] line')).toHaveCount(3);
     await expect(root.locator('[data-craft="entanglement-graph"]')).toHaveCount(1);
   });
-
-  test('tapping the same square twice keeps that square selected', async ({ page }) => {
-    await page.goto(URL);
-    const root = page.locator('[data-tool="quantum-tic-tac-toe"]');
-    await expect(root).toHaveAttribute('data-ready', 'true');
-    const first = page.locator('[data-cell="0"]');
-
-    await first.click();
-    await first.click();
-
-    await expect(first).toHaveClass(/is-selected/);
-    await expect(page.locator('[data-board-note]')).toHaveText('A move marks two different squares.');
-    await expect(page.locator('[data-board-links] line')).toHaveCount(0);
-  });
+  // Tapping the same square twice now deselects it (Atharva, 26 Oct 2026): see the
+  // 'deselecting the first square' describe below.
 });
 
 test('tapping a classical square keeps the first square selected', async ({ page }) => {
