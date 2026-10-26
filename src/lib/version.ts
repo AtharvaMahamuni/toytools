@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 13,
-  patch: 2,
+  minor: 14,
+  patch: 0,
   status: 'alpha',
   releaseDate: '2026-10-26',
-  description: 'No blank result space with scripts off; no prefetch on Save-Data or 2g',
+  description: 'Word Frequency ignores numbers; 1,5 reads as 1.5; tiny values never show 0; Quantum Tic Tac Toe deselect',
 };
 
 export function formatVersion(config: VersionConfig): string {
