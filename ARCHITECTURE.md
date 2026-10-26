@@ -675,7 +675,7 @@ optional guide/faq. `validate-registry.ts` enforces that the `processorId` resol
 registry. **Tests target the engine, not the tool** (`encoding.test.ts`, `hashing.test.ts`,
 `structured-data.test.ts`) — tools are configuration, engines are behavior.
 
-> **Date Engine (planned).** The Date & Time category follows this same engine-first shape — a
+> **Date Engine (planned).** The Date and Time category follows this same engine-first shape — a
 > primitive-first pure engine (`src/lib/engines/date/`) behind a single `ToyTools.runDateTool`
 > resolver, driven by a descriptor-driven generic widget. See `docs/date-time-engine.md` for the
 > full Phase F1 design.
@@ -999,7 +999,7 @@ deterministic. On demand via **`npm run research`** (NOT in `npm run build`). Fu
   `gaps` (classification vs the catalog), `trend`, `roadmap` (tiers + next-build). Pipeline in
   `pipeline.ts`; `index.ts` `defaultInputs()` wires the real registries, tests pass fixtures.
 - **Taxonomy** (`taxonomy.ts`) — declarative `domain → transformation → expected[]` engine
-  hypotheses (CSV, Date & Time), edited as data.
+  hypotheses (CSV, Date and Time), edited as data.
 - **Reports** → `research/reports/*` (committed): `roadmap.md`, `next-build.md`, `opportunities.json`,
   `top-opportunities.json`, `missing-engines.json`, `clusters.json`, `trends.json`, `graph.json`,
   `opportunities.csv`, `index.json` + dated `snapshots/`. Validated by `validate.ts` before any write.
