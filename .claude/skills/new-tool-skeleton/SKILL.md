@@ -74,9 +74,11 @@ fast, static-first, mobile-first, engine-first, with no accounts and no backend.
    | `search-terms.json` (aliases and tags, fetched on search) | 10,240 B (`maxKb: 10`) | `INTERACTION_ASSETS` |
    | `search-index.json` | 12,288 B (`maxKb: 12`) | `INTERACTION_ASSETS` |
 
-   Headroom on main at alpha-v13.13.1 (measured with Node `gzipSync`, the same call
-   `check-budget.ts` makes): `/search/` HTML 31,632 B, so **112 B** left; `search-terms.json`
-   10,042 B, so **198 B** left. Every new tool adds a search card and its aliases, so measure
+   Headroom measured with Node `gzipSync` (the same call `check-budget.ts` makes):
+   `search-terms.json` 10,042 B, so **198 B** left. `/search/` HTML was 31,632 B (**112 B**
+   left) in the 2026-10-25 build of main and 31,519 B (225 B left) on 2026-10-26, because every
+   card carrying a New badge (`addedOn` within five days) costs bytes until the badge expires.
+   Plan against the smaller figure. Every new tool adds a search card and its aliases, so measure
    both before and after the tool lands.
 
    When a new tool trips one, trim or isolate. Never raise it. Trim means shorter aliases and
