@@ -39,7 +39,7 @@ export const RESEARCH_TAXONOMY: ResearchTaxonomy = [
     domain: 'datetime',
     transformations: [
       {
-        transformation: 'Date & Time Engine',
+        transformation: 'Date and Time Engine',
         engine: 'datetime',
         expected: [
           'unix-timestamp-converter',

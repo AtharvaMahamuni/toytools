@@ -134,7 +134,9 @@ export function queryWords(normalized: string): string[] {
 }
 
 export function normalizeQuery(value: string): string {
-  return value.trim().toLowerCase().replace(/\s+/g, ' ');
+  // "&" reads as "and": every name now spells it out ("Date and Time", "URL Encoder and
+  // Decoder"), so "date & time" and "url encoder&decoder" still find them.
+  return value.trim().toLowerCase().replace(/\s*&\s*/g, ' and ').replace(/\s+/g, ' ').trim();
 }
 
 /**

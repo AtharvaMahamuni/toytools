@@ -42,7 +42,7 @@
  * It was the forest accent (#2F6B4F) until 2026-08-15, on the reasonable-sounding
  * principle that the site mark should be made of brand tokens. Measuring it
  * killed that: the forest accent sits 8.2 (CIE76) from the Productivity category
- * accent and 11.5 from Money & Finance, and anything under ~15 reads as the same
+ * accent and 11.5 from Money and Finance, and anything under ~15 reads as the same
  * colour at icon size. Every tool icon is coloured by its category accent, so the
  * parent of the family was indistinguishable from two of its own children — on a
  * home screen the site icon read as one more productivity tool.

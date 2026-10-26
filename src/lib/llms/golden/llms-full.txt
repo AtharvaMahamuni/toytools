@@ -2,7 +2,7 @@
 
 > Runs entirely on your device. Nothing is uploaded. ToyTools does not run an AI model.
 
-## Combinations & Permutations Calculator
+## Combinations and Permutations Calculator
 
 URL: https://toytoolsapp.com/tool/math/combinations-permutations-calculator/
 Use for: nCr and nPr with the formula expanded step by step.
@@ -247,7 +247,7 @@ Use for: Font sizes from a ratio, in rem and CSS variables.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Match a published design-system ramp, pick a font family, or send the sizes to an AI model.
 
-## Base64 Encoder & Decoder
+## Base64 Encoder and Decoder
 
 URL: https://toytoolsapp.com/tool/developer-utilities/base64-encoder-decoder/
 Use for: Encode and decode Base64 in your browser.
@@ -338,7 +338,7 @@ Use for: Encode text to hex and decode hex back to text.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
 
-## HTML Entity Encoder & Decoder
+## HTML Entity Encoder and Decoder
 
 URL: https://toytoolsapp.com/tool/developer-utilities/html-entity-encoder-decoder/
 Use for: Encode and decode HTML entities in your browser.
@@ -471,7 +471,7 @@ Use for: Escape a command for every shell between you and the far end.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
 
-## URL Encoder & Decoder
+## URL Encoder and Decoder
 
 URL: https://toytoolsapp.com/tool/developer-utilities/url-encoder-decoder/
 Use for: Percent-encode and decode URL components.

@@ -282,3 +282,23 @@ describe('buildClientIndex', () => {
     expect(rankEntries(ranked, 'health').some((item) => item.s === 'pregnancy-due-date-calculator')).toBe(true);
   });
 });
+
+describe('"&" queries after the and rename (Atharva, 26 Oct 2026)', () => {
+  const index = buildClientIndex();
+
+  it('normalizeQuery reads "&" as "and"', () => {
+    expect(normalizeQuery('Date & Time')).toBe('date and time');
+    expect(normalizeQuery('encoder&decoder')).toBe('encoder and decoder');
+  });
+
+  for (const [query, slug] of [
+    ['url encoder & decoder', 'url-encoder-decoder'],
+    ['base64 encoder & decoder', 'base64-encoder-decoder'],
+    ['html entity encoder & decoder', 'html-entity-encoder-decoder'],
+    ['combinations & permutations calculator', 'combinations-permutations-calculator'],
+  ] as const) {
+    it(`"${query}" still ranks ${slug} first`, () => {
+      expect(rankEntries(index.t, query, 1)[0]?.s).toBe(slug);
+    });
+  }
+});

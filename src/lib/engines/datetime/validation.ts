@@ -1,4 +1,4 @@
-// Never-throw input guards for the Date & Time engine. A tool runs each field through these; the first
+// Never-throw input guards for the Date and Time engine. A tool runs each field through these; the first
 // failure short-circuits to a validation-error InteractiveResult so the experience layer phrases it as
 // "check your inputs" rather than crashing.
 

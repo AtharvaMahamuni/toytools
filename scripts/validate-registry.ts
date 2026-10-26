@@ -407,29 +407,28 @@ for (const manifest of MANIFESTS) {
 // These were warnings while 94 of 119 tools still fell back to a long description. That backlog is
 // cleared, so they are errors: the whole catalog holds the one-line contract, and the cheapest way
 // to keep holding it is to stop the next tool shipping without one.
-// Names use "and", never "&" (Atharva, 26 Oct 2026). The names below predate the rule and are
-// grandfathered: renaming them is a separate decision, so only new names are held to it.
-const AMPERSAND_GRANDFATHERED = new Set([
-  'URL Encoder & Decoder',
-  'Base64 Encoder & Decoder',
-  'HTML Entity Encoder & Decoder',
-  'Combinations & Permutations Calculator',
-  'Money & Finance',
-  'Date & Time',
-  'Health & Fitness',
-  'Design & CSS',
-  'Music & Audio',
-]);
-for (const tool of tools) {
-  const n = (tool as { name?: string }).name ?? '';
-  if (n.includes('&') && !AMPERSAND_GRANDFATHERED.has(n)) {
-    errors.push(`Tool "${tool.slug}" name "${n}" contains "&": write "and" instead`);
+// Names and titles use "and", never "&" (Atharva, 26 Oct 2026). No exemptions: every tool name,
+// seoTitle and guide title, and every category name, is held to it.
+function ampersandIn(label: string, value: unknown): void {
+  if (typeof value === 'string' && value.includes('&')) {
+    errors.push(`${label} "${value}" contains "&": write "and" instead`);
   }
 }
+for (const tool of tools) {
+  const t = tool as { slug: string; name?: string; seoTitle?: string; title?: string; guide?: { title?: string } };
+  ampersandIn(`Tool "${t.slug}" name`, t.name);
+  ampersandIn(`Tool "${t.slug}" seoTitle`, t.seoTitle);
+  ampersandIn(`Tool "${t.slug}" title`, t.title);
+  ampersandIn(`Tool "${t.slug}" guide title`, t.guide?.title);
+}
+for (const manifest of MANIFESTS) {
+  ampersandIn(`Simulation "${manifest.metadata.slug}" seo.title`, (manifest as { seo?: { title?: string } }).seo?.title);
+}
 for (const category of categories) {
-  if (category.name.includes('&') && !AMPERSAND_GRANDFATHERED.has(category.name)) {
-    errors.push(`Category "${category.slug}" name "${category.name}" contains "&": write "and" instead`);
-  }
+  const c = category as { slug: string; name: string; seoTitle?: string; title?: string };
+  ampersandIn(`Category "${c.slug}" name`, c.name);
+  ampersandIn(`Category "${c.slug}" seoTitle`, c.seoTitle);
+  ampersandIn(`Category "${c.slug}" title`, c.title);
 }
 
 const TAGLINE_MAX = 80;

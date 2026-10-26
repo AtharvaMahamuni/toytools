@@ -1,4 +1,4 @@
-// Engine-owned storytelling for the Date & Time engine — small constructors so every tool builds
+// Engine-owned storytelling for the Date and Time engine — small constructors so every tool builds
 // insights, milestones, and next-step decisions in the same shape. Pure and synchronous.
 
 import type { Assumption, Insight, Milestone, Decision } from '@lib/results/types';

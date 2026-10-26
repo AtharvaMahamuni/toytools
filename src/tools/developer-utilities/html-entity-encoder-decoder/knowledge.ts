@@ -3,7 +3,7 @@ import { KNOWLEDGE_SCHEMA_VERSION, type Knowledge } from '@lib/knowledge/types';
 export const knowledge: Knowledge = {
   schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
   slug: 'html-entity-encoder-decoder',
-  title: 'HTML Entity Encoder & Decoder',
+  title: 'HTML Entity Encoder and Decoder',
   category: 'developer-utilities',
   summary: 'Escape characters the HTML parser treats as markup, and decode entities back to text.',
   primaryConcepts: ['HTML entities'],

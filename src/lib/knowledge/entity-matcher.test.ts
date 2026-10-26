@@ -5,7 +5,7 @@ import type { ToolConfig } from '@data/types';
 
 const tools: ToolConfig[] = [
   { slug: 'json-formatter', name: 'JSON Formatter', description: 'd', categorySlug: 'developer-tools', tags: ['t'] },
-  { slug: 'base64-encoder-decoder', name: 'Base64 Encoder & Decoder', description: 'd', categorySlug: 'developer-tools', tags: ['t'] },
+  { slug: 'base64-encoder-decoder', name: 'Base64 Encoder and Decoder', description: 'd', categorySlug: 'developer-tools', tags: ['t'] },
 ];
 
 const knowledge = [

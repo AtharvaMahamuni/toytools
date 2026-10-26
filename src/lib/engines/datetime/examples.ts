@@ -1,4 +1,4 @@
-// Date & Time worked examples — the engine's data for the platform example registry. One source of
+// Date and Time worked examples — the engine's data for the platform example registry. One source of
 // truth for guides, the widget Load Example action, and tests (datetime.test.ts re-runs each and
 // asserts `expect`). Examples that assert on results pin BOTH dates so the outcome is deterministic.
 

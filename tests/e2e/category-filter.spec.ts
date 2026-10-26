@@ -35,14 +35,14 @@ test.describe('home category chips', () => {
   test('a shared ?cat link opens the directory filtered, Back undoes it, nothing stored', async ({ page }) => {
     await page.goto('/?cat=money-finance');
     await expect(page.locator('details.all-tools')).toHaveAttribute('open', '');
-    await expect(chip(page, /^Money & Finance/)).toHaveAttribute('aria-pressed', 'true');
+    await expect(chip(page, /^Money and Finance/)).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('.dir-column:visible')).toHaveCount(1);
 
     await chip(page, /^Physics/).click();
     await expect(page).toHaveURL(/\?cat=physics$/);
     await page.goBack();
     await expect(page).toHaveURL(/\?cat=money-finance$/);
-    await expect(chip(page, /^Money & Finance/)).toHaveAttribute('aria-pressed', 'true');
+    await expect(chip(page, /^Money and Finance/)).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('.dir-column[data-cat="money-finance"]')).toBeVisible();
     await expect(page.locator('.dir-column[data-cat="physics"]')).toBeHidden();
 
@@ -120,7 +120,7 @@ test.describe('search category chips', () => {
     await box.fill('loan');
     await expect(page).toHaveURL(/\?q=loan$/);
     const loanCount = await visibleCards(page).count();
-    await chip(page, /^Money & Finance/).click();
+    await chip(page, /^Money and Finance/).click();
     await expect(page).toHaveURL(/q=loan&cat=money-finance$/);
     await chip(page, /^All/).click();
     await expect(page).toHaveURL(/\?q=loan$/);
@@ -128,8 +128,8 @@ test.describe('search category chips', () => {
     await page.goBack();
     await expect(page).toHaveURL(/q=loan&cat=money-finance$/);
     await expect(box).toHaveValue('loan');
-    await expect(chip(page, /^Money & Finance/)).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.locator('#result-count')).toHaveText(/^Showing \d+ Money & Finance tools?$/);
+    await expect(chip(page, /^Money and Finance/)).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('#result-count')).toHaveText(/^Showing \d+ Money and Finance tools?$/);
 
     // Typing uses replaceState, so the entry before the chip is ?q=loan itself (the regression:
     // this used to show ?q=loan with an empty box and every tool).
@@ -157,7 +157,7 @@ test.describe('search category chips', () => {
     await box.fill('loan');
     await expect(page).toHaveURL(/\?q=loan$/);
     const loanCount = await visibleCards(page).count();
-    await chip(page, /^Money & Finance/).click();
+    await chip(page, /^Money and Finance/).click();
     await box.fill('');
     await expect(page).toHaveURL(/\?cat=money-finance$/);
     await page.goBack();
@@ -166,7 +166,7 @@ test.describe('search category chips', () => {
     await expect(visibleCards(page)).toHaveCount(loanCount);
     await page.goForward();
     await expect(box).toHaveValue('');
-    await expect(page.locator('#result-count')).toHaveText(/^Showing \d+ Money & Finance tools?$/);
+    await expect(page.locator('#result-count')).toHaveText(/^Showing \d+ Money and Finance tools?$/);
   });
 
   for (const mode of ['offline', 'still loading'] as const) {
@@ -223,7 +223,7 @@ test.describe('a shared ?cat link on a 320px phone', () => {
     ['physics', /^Physics \d+$/],
     ['prep', /^Prep for a model \d+$/],
     ['text-utilities', /^Text Utilities \d+$/],
-    ['money-finance', /^Money & Finance \d+$/],
+    ['money-finance', /^Money and Finance \d+$/],
     ['chemistry', /^Chemistry \d+$/],
     // Last in the row, so the centring clamps at the row's right edge.
     ['games', /^Games \d+$/],

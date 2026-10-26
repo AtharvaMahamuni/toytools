@@ -3,7 +3,7 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'tdee-calculator',
   name: 'TDEE Calculator',
-  seoTitle: 'TDEE Calculator — Daily Calorie & Maintenance Needs',
+  seoTitle: 'TDEE Calculator — Daily Calorie and Maintenance Needs',
   description: 'Estimate your Total Daily Energy Expenditure and the calories to eat to lose, maintain, or gain weight, using the Mifflin-St Jeor formula.',
   tagline: 'Your daily energy expenditure, and calories to lose or gain.',
   categorySlug: 'health-fitness',

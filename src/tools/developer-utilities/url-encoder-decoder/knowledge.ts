@@ -3,7 +3,7 @@ import { KNOWLEDGE_SCHEMA_VERSION, type Knowledge } from '@lib/knowledge/types';
 export const knowledge: Knowledge = {
   schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
   slug: 'url-encoder-decoder',
-  title: 'URL Encoder & Decoder',
+  title: 'URL Encoder and Decoder',
   category: 'developer-utilities',
   summary: 'Percent-encode characters that would break a URL, and decode them back to plain text.',
   primaryConcepts: ['URL encoding'],

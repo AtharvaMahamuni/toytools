@@ -1,4 +1,4 @@
-// Presentation formatters for the Date & Time engine. Kept pure and dependency-light: static month /
+// Presentation formatters for the Date and Time engine. Kept pure and dependency-light: static month /
 // weekday tables (no locale surprises in tests) plus grouped integers for large day/hour counts.
 
 import type { AgeParts, CivilDate } from './models';

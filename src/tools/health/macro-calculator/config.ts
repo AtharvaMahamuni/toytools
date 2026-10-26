@@ -3,7 +3,7 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'macro-calculator',
   name: 'Macro Calculator',
-  seoTitle: 'Macro Calculator — Protein, Carbs & Fat From Calories',
+  seoTitle: 'Macro Calculator — Protein, Carbs and Fat From Calories',
   description: 'Split a daily calorie target into grams of protein, carbs, and fat with balanced, high-protein, low-carb, or keto presets.',
   tagline: 'Split a calorie target into protein, carbs and fat.',
   categorySlug: 'health-fitness',

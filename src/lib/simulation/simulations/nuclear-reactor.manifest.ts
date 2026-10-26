@@ -74,7 +74,7 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Nuclear Reactor Calculator: Reactivity & Chain Reactions',
+    title: 'Nuclear Reactor Calculator: Reactivity and Chain Reactions',
     description:
       'Drag a control rod and watch reactor kinetics respond live: reactivity, the delayed neutron reactor period, the jump past prompt critical, and a safety trip.',
     tagline: 'Drag a control rod and watch a chain reaction respond in real time.',

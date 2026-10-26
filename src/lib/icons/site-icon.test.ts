@@ -88,7 +88,7 @@ describe('site mark', () => {
 
   it('stays visibly distinct from every category accent, so the parent is not one of its children', () => {
     // Tool icons are coloured by category accent. The site mark shipped 8.2 from
-    // the Productivity accent and 11.5 from Money & Finance, which read as the
+    // the Productivity accent and 11.5 from Money and Finance, which read as the
     // same colour on a home screen. The collision appeared silently when the
     // category palette was retoned (2026-08-09), so this measures on every build
     // rather than trusting whoever edits categories.ts next to remember.

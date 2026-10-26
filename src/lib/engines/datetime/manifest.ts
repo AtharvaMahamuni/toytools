@@ -1,4 +1,4 @@
-// Date & Time engine manifest — structured metadata describing the engine as a citizen of the
+// Date and Time engine manifest — structured metadata describing the engine as a citizen of the
 // engine-first architecture. Available to diagnostics and the /architecture view; derived from the
 // registry so it never drifts.
 

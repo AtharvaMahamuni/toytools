@@ -31,7 +31,7 @@ test.describe('homepage index', () => {
     await expect(text.locator('a[href*="install=1"]')).toHaveCount(0);
 
     // Highlights name tools the collapsed directory hides behind a group entry.
-    const health = shelves.locator('.shelf').filter({ hasText: 'Health & Fitness' });
+    const health = shelves.locator('.shelf').filter({ hasText: 'Health and Fitness' });
     await expect(health.locator('.app-tile-main[data-slug="bmi-calculator"]')).toBeVisible();
 
     // See all sits in the title cluster. A link parked at the far edge of the row fails this.

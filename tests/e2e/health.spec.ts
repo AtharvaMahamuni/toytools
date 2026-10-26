@@ -1,4 +1,4 @@
-// Deep suite for the Health & Fitness category (wellness + tracker engines). Generic render/a11y
+// Deep suite for the Health and Fitness category (wellness + tracker engines). Generic render/a11y
 // smoke is covered by smoke.spec.ts; this asserts the interactive behaviour build and unit tests
 // cannot see: that the platform visualization renders real SVG in the browser, that a calculator
 // recomputes live, and that the tracker's stored history survives a round trip.

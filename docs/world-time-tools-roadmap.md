@@ -5,7 +5,7 @@ Asked by Atharva: "how many categories and tools can we schedule next? Create a 
 
 **Method.** Read `AtharvaMahamuni/toytools` at `origin/main` 3336600c (alpha-v13.10) through `git show` and `git grep` after a `git fetch`. Also read `/workspace/specs/*`, `/workspace/arch-audit/toytools-multidomain-embed-report.md`. No build, no tests and no `npm run research:*` were run (no install in the clone), so any number that comes from a generated report is quoted from the committed file, not recomputed.
 
-Related: `docs/pdf-tools-roadmap.md` (PDF & Files), a separate plan that also proposes a new category, so the two compete for the next major bump.
+Related: `docs/pdf-tools-roadmap.md` (PDF and Files), a separate plan that also proposes a new category, so the two compete for the next major bump.
 
 **Legend used everywhere**
 - **[V]** verified: I read it in the repo or a spec, and the path is given.
@@ -21,18 +21,18 @@ Related: `docs/pdf-tools-roadmap.md` (PDF & Files), a separate plan that also pr
 
 | | Count | Names |
 |---|---|---|
-| New category | **1** | **World & Travel** (`world-travel`, segment `world`) |
-| Existing category extended | 1 | **Date & Time** (`date-time`) gets 4 of the 15 tools |
+| New category | **1** | **World and Travel** (`world-travel`, segment `world`) |
+| Existing category extended | 1 | **Date and Time** (`date-time`) gets 4 of the 15 tools |
 | New engine | 1 | `geo` (map, country data, quiz, sphere and sun maths) |
 | Existing engine extended | 1 | `datetime` (planner primitives, lazy calculators) |
-| New tools | **15** | 4 in Date & Time, 11 in World & Travel (table in section 2) |
+| New tools | **15** | 4 in Date and Time, 11 in World and Travel (table in section 2) |
 | Upgraded existing tool | 1 | `timezone-converter` (links to the new planner, optional multi-target), not a new page |
 | Ideas folded into another tool | 7 | best call window, work-week overlap, world clock wall, deadline checker, driving side and units, emergency numbers, languages and scripts map |
 | Rejected | 2 | tipping and etiquette, currency conversion (full reasons in the appendix) |
 | Deferred | 1 | public-holiday overlap (data licence not verified) |
 
 **Why this shape**
-1. **Time tools extend Date & Time, they do not get a category of their own.** [V] `datetime` already owns the patterns `datetime-convert` and `datetime-schedule`, an `Intl`-based `zones.ts` with a curated zone list, and a lazy-loaded calculator map (`src/lib/engines/datetime/lazy.ts`). [V] `timezone-converter` already exists and is the only candidate with a RIE score in the committed reports (71.9, status `already-exists`, gap `needs-improvement`, `research/reports/opportunities.json`). These tools need only a minor version bump and no new category or engine.
+1. **Time tools extend Date and Time, they do not get a category of their own.** [V] `datetime` already owns the patterns `datetime-convert` and `datetime-schedule`, an `Intl`-based `zones.ts` with a curated zone list, and a lazy-loaded calculator map (`src/lib/engines/datetime/lazy.ts`). [V] `timezone-converter` already exists and is the only candidate with a RIE score in the committed reports (71.9, status `already-exists`, gap `needs-improvement`, `research/reports/opportunities.json`). These tools need only a minor version bump and no new category or engine.
 2. **Maps and travel prep get one new category.** Quizzes, map layers and travel lookups share one data table, one geometry file and one engine. Splitting them into two categories would duplicate that data and cost two category pages and two major bumps. Within one category, `category-sections.ts` can still group them by pattern ("Map quizzes", "Explore the map", "Travel prep") [V mechanism, P titles].
 3. **The first pilot changes from my earlier study.** The earlier study (`countries-explore-study.md`) recommended the World Map Quiz as the pilot. With the repo evidence now read, **I recommend `meeting-time-finder` first, and the World Map Quiz second.** Reasons: (a) it needs no major bump, no new data pipeline and no border decision; (b) [V] the committed dataset already records two task-level failures for the timezone tool that the finder fixes ("the converted time is correct but nothing says whether it is a reasonable hour to call" and "the date rolls over across the conversion and the day change goes unnoticed", `research/datasets/datetime.json`), and lists "meeting planner" as a related problem and `worldtimebuddy` as the incumbent; (c) it lands in an already-indexed category. The map quiz stays the best first tool of the new category.
 4. **Lookup-only tools fail the repo's own substitution test** (`docs/tool-design.md` [V]). "Plug type in Japan" is a one-line chat answer. So lookups are merged into a few tools that add something a chat does not: a home-to-destination pair check, a printable trip card, a dialling string builder, a map layer you explore.
@@ -181,7 +181,7 @@ Gate to continue after Phase 1: four weeks of GSC with no new "Crawled - current
 
 | PR | Scope | Bump | Tests | Budget notes | llms note |
 |---|---|---|---|---|---|
-| **2.1 World & Travel + `geo` engine + `world-map-quiz`** | Category entry (3 intro paragraphs, 3 highlights), engine, `category-sections.ts` rows, loader registration, `data-geo` lazy key, **`check-budget.ts` regex and `INTERACTION_ASSETS` entries**, `geo-build` outputs and validators, first tool and guide. POV per D1. | **major** (category and engine) | Data validators (every country has a capital or an explicit "no map" reason, aliases unique, byte ratchet). Map a11y: typed mode never needs the map, countries are focusable and named, live region, no colour-only feedback (the chess lesson [V]), 44 px targets, pinch zoom allowed. e2e at 320 px. | Geometry 38,495 B (measured, 110m) fetched lazily; JS ≤ 6 KB; CSS ≤ 3 KB; no budget raised. | `llms files: updated`: [V] `llms.txt`'s category sentence is generated from the category list, so the new category appears automatically; new tool in `llms-full.txt`; golden regenerated. Decide whether any new tool joins the curated CORE list (default: no). |
+| **2.1 World and Travel + `geo` engine + `world-map-quiz`** | Category entry (3 intro paragraphs, 3 highlights), engine, `category-sections.ts` rows, loader registration, `data-geo` lazy key, **`check-budget.ts` regex and `INTERACTION_ASSETS` entries**, `geo-build` outputs and validators, first tool and guide. POV per D1. | **major** (category and engine) | Data validators (every country has a capital or an explicit "no map" reason, aliases unique, byte ratchet). Map a11y: typed mode never needs the map, countries are focusable and named, live region, no colour-only feedback (the chess lesson [V]), 44 px targets, pinch zoom allowed. e2e at 320 px. | Geometry 38,495 B (measured, 110m) fetched lazily; JS ≤ 6 KB; CSS ≤ 3 KB; no budget raised. | `llms files: updated`: [V] `llms.txt`'s category sentence is generated from the category list, so the new category appears automatically; new tool in `llms-full.txt`; golden regenerated. Decide whether any new tool joins the curated CORE list (default: no). |
 | 2.2 `capitals-flags-quiz` | Country table consumer, flags loader. | minor | Typed-answer normalisation (accents, "the", case), flag lazy load. | Flags 398 B median each (measured); table shared. | updated |
 | 2.3 `higher-or-lower-countries` | Pure game on the table. | minor | Deterministic seeded sequence in tests. | ≈ 2 KB data (estimate). | updated |
 

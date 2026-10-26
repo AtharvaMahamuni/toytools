@@ -1,4 +1,4 @@
-// Pure cron-expression parsing for the Date & Time engine. Handles the standard 5-field format
+// Pure cron-expression parsing for the Date and Time engine. Handles the standard 5-field format
 // (minute hour day-of-month month day-of-week) with *, lists, ranges, steps, and month/weekday names.
 // Everything is deterministic and computed in UTC; the caller passes an explicit reference instant so
 // "next run" results are testable. Never throws: a malformed expression yields { ok: false, error }.

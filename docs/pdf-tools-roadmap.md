@@ -9,7 +9,7 @@ Based on the read-only study `/workspace/specs/pdf-tools-study.md` (ihatepdf.cv 
 - **[TV]** to verify: a number or behaviour that must be checked before the work package that depends on it starts.
 - Sizes are min + gzip -9, measured in the study unless marked "to measure". There are **no search volumes** in this document that were measured here.
 
-Related: `docs/world-time-tools-roadmap.md` (World & Travel). The two plans share open decision 1 below.
+Related: `docs/world-time-tools-roadmap.md` (World and Travel). The two plans share open decision 1 below.
 
 ---
 
@@ -89,7 +89,7 @@ These are **proposed** delivery rules [P], to confirm when the open questions ar
 
 These are not decided here.
 
-1. Is a new "PDF and Files" category approved, and does it get its own major bump or share alpha-v14 with World & Travel? Which roadmap goes first?
+1. Is a new "PDF and Files" category approved, and does it get its own major bump or share alpha-v14 with World and Travel? Which roadmap goes first?
 2. Is a one-time, on-demand engine download (about 207 KB gz for pdf-lib, up to about 585 KB with pdf.js) acceptable under "lightweight"?
 3. Is the pilot set Merge, Split and Images to PDF?
 4. Do the image tools (compress, resize, convert) go in the same category, or in Design?
