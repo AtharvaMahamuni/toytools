@@ -265,7 +265,7 @@ test.describe('category pages', () => {
   test('text-utilities groups into three titled sections', async ({ page }) => {
     await page.goto('/category/text-utilities/');
     const headings = page.locator('.cat-section-heading');
-    await expect(headings).toHaveText(['Counting & Analysis', 'Case Conversion', 'Cleanup', 'Find & Compare']);
+    await expect(headings).toHaveText(['Counting and Analysis', 'Case Conversion', 'Cleanup', 'Find and Compare']);
 
     // Grouped rows render mode chips: 7 case converters + 9 text-cleanup + 9 text counters.
     await expect(page.locator('.cat-chip')).toHaveCount(25);

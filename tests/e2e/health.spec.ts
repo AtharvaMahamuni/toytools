@@ -130,7 +130,7 @@ test.describe('result layout', () => {
 
   test('the category reads as a journey, not a taxonomy', async ({ page }) => {
     await page.goto('/category/health-fitness/');
-    await expect(page.getByText('Measure & Plan')).toBeVisible();
+    await expect(page.getByText('Measure and Plan')).toBeVisible();
     await expect(page.getByText('Keep It Up')).toBeVisible();
   });
 });
