@@ -3,7 +3,7 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'ideal-weight-calculator',
   name: 'Ideal Weight Calculator',
-  seoTitle: 'Ideal Weight Calculator — Devine, Robinson and Healthy Range',
+  seoTitle: 'Ideal Weight Calculator — Devine, Robinson, Healthy Range',
   description: 'Estimate your ideal body weight from height and sex with the Devine, Robinson, Miller and Hamwi formulas, plus a BMI healthy range to set a target weight.',
   tagline: 'Ideal body weight by four formulas, plus the BMI healthy range.',
   categorySlug: 'health-fitness',
