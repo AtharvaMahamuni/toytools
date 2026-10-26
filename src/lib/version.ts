@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
   minor: 13,
-  patch: 1,
+  patch: 2,
   status: 'alpha',
-  releaseDate: '2026-10-25',
-  description: 'Calculator results no longer push the page on phones; sibling pages prefetch on intent',
+  releaseDate: '2026-10-26',
+  description: 'No blank result space with scripts off; no prefetch on Save-Data or 2g',
 };
 
 export function formatVersion(config: VersionConfig): string {

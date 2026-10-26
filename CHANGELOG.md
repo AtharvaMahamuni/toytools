@@ -2,6 +2,13 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.13.2] - 2026-10-26
+
+### Fixed
+
+- **Calculators on phones.** The space held for a result is now held only while the page's script fills it in, and it is released at your first tap or keystroke or a few seconds after the page loads. With scripts turned off, or when a result is empty or short, pages such as Type Scale and Color Shades no longer show a large blank area. Results still appear without pushing the page down.
+- **Data saver.** Grouped tools no longer prefetch a sibling page when your browser asks to save data or the connection is 2G.
+
 ## [alpha-v13.13.1] - 2026-10-25
 
 ### Fixed
