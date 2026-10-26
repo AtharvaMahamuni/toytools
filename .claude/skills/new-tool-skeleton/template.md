@@ -11,8 +11,8 @@ Fill in every field before coding. Leave nothing as "TBD" without listing it und
 - **Closest existing tools, and why this is not an improve-tool job:**
 - **Category (`src/data/categories.ts` slug):**
 - **Slug:**
-- **Name (no '&'; no em dash here or anywhere in the PR):**
-- **addedOn (ship day, YYYY-MM-DD):**
+- **Name (no em dash here or anywhere in the PR):**
+- **addedOn (ship day, YYYY-MM-DD; scaffold stamps the IST scaffold day):**
 - **Seo title:**
 - **Tagline (80 chars max):**
 

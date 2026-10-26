@@ -33,9 +33,9 @@ fast, static-first, mobile-first, engine-first, with no accounts and no backend.
    `docs/code-map.json` answers "where does X live". If an existing tool already does the job,
    the answer is the **`improve-tool`** skill, not a new page.
 4. **Category, slug, name.** Pick an existing category from `src/data/categories.ts`. A new
-   category is a major bump (CLAUDE.md:128-134, "Versioning and changelog") and a decision for Atharva,
+   category is a major bump (CLAUDE.md:123-135, "Versioning & changelog") and a decision for Atharva,
    not for the agent. The slug is kebab-case and permanent (a rename is a redirect and a minor
-   bump). The name has no '&'. The em dash ban covers every piece of text
+   bump). The em dash ban covers every piece of text
    the tool ships and everything around it: name, title, tagline, description, FAQ, guide,
    knowledge, aliases, code comments, commit messages, the CHANGELOG and the PR body.
 
@@ -74,6 +74,11 @@ fast, static-first, mobile-first, engine-first, with no accounts and no backend.
    | `search-terms.json` (aliases and tags, fetched on search) | 10,240 B (`maxKb: 10`) | `INTERACTION_ASSETS` |
    | `search-index.json` | 12,288 B (`maxKb: 12`) | `INTERACTION_ASSETS` |
 
+   Headroom on main at alpha-v13.13.1 (measured with Node `gzipSync`, the same call
+   `check-budget.ts` makes): `/search/` HTML 31,632 B, so **112 B** left; `search-terms.json`
+   10,042 B, so **198 B** left. Every new tool adds a search card and its aliases, so measure
+   both before and after the tool lands.
+
    When a new tool trips one, trim or isolate. Never raise it. Trim means shorter aliases and
    tags, leaner widget CSS or a shorter description. Isolate means moving a heavy library behind
    a dynamic `import()` fired by user action, keeping engine runtimes lazy through
@@ -97,10 +102,10 @@ npm run scaffold:tool -- --slug <slug> --name "<Name>" --category <category> \
 
 | Part | Files (from #265) | Notes |
 |---|---|---|
-| Engine logic | Follow the engine's own layout, since there is no single path. Calculator engines (`finance`, `datetime`, `math`, `network`, `wellness`) use `src/lib/engines/<engine>/calculators/<id>.ts`, their `registry.ts` and the lazy `lazy.ts`. Flat engines (`color`, `units`, `audio`, `hashing`) use `src/lib/engines/<engine>/<name>.ts`; a heavy one adds a `<name>-lazy.ts` (`color/palette-lazy.ts`). `board-game` keeps its rules in `rules/`. | Pure. Unit tests go next to the engine (`finance.test.ts`, `datetime.test.ts`, `palette.test.ts`). Anything lazily loaded also gets a lazy-load test: `finance/lazy.test.ts`, `datetime/lazy.test.ts`, `color/palette-lazy.test.ts` |
+| Engine logic | Follow the engine's own layout, since there is no single path. Calculator engines (`finance`, `datetime`, `math`, `network`, `wellness`) use `src/lib/engines/<engine>/calculators/<id>.ts`, and their `registry.ts`. A `lazy.ts` per-calculator loader exists only where importing the whole registry would make every page heavier (`finance`, `datetime`, `wellness`); `math` and `network` have none, so do not add one for a light calculator. Flat engines (`color`, `units`, `audio`, `hashing`) use `src/lib/engines/<engine>/<name>.ts`; a heavy one adds a `<name>-lazy.ts` (`color/palette-lazy.ts`). `board-game` keeps its rules in `rules/`. | Pure. Unit tests go next to the engine (`finance.test.ts`, `datetime.test.ts`, `palette.test.ts`). Anything lazily loaded also gets a lazy-load test: `finance/lazy.test.ts`, `datetime/lazy.test.ts`, `color/palette-lazy.test.ts` |
 | Engine runtime | `src/lib/runtime/engines/<engine>.ts` | Only if the engine surface grows; keep it lazy |
 | Tool directory | `src/tools/<segment>/<slug>/config.ts`, `Widget.astro`, `faq.ts`, `Guide.astro`, `knowledge.ts` | Nothing else goes in the folder (add-tool hard rule 3) |
-| Config fields | `job`, `tagline` (80 chars max), `description`, `tags`, `craft`, `citation` with a specific `nonGoal`, `methodology`, `trustVariant`, `addedOn` (the ship day, `YYYY-MM-DD` in UTC; it drives the New badge for five days, see `src/lib/tools/freshness.ts`) | `loan-calculator/config.ts` is a complete example |
+| Config fields | `job`, `tagline` (80 chars max), `description`, `tags`, `craft`, `citation` with a specific `nonGoal`, `methodology`, `trustVariant`, `addedOn` (the ship day, `YYYY-MM-DD`; it drives the New badge for five UTC days, see `src/lib/tools/freshness.ts`). `scaffold:tool` stamps the India-time (IST) day it runs (`indiaDay()` in `scripts/scaffold-tool.ts`), so re-stamp it if the tool ships on a later day | `loan-calculator/config.ts` is a complete example |
 | FAQ and JSON-LD | `faq.ts` | The platform renders the schema, so never add JSON-LD by hand. FAQPage comes from `src/components/tool/ToolPage.astro`, and Article comes from `src/layouts/GuideLayout.astro` |
 | Guide | `Guide.astro`, plus the ship day in `src/data/guide-published.ts` | validate-registry fails a guide with no entry |
 | Knowledge | `knowledge.ts` | `primaryConcepts[0]` heads the page H2s, so it drives query targeting |
@@ -117,7 +122,7 @@ npm run scaffold:tool -- --slug <slug> --name "<Name>" --category <category> \
 
 ## PR checklist (copy into the spec)
 
-- Version per CLAUDE.md:128-134, "Versioning and changelog": a new tool is a **minor** bump, a new
+- Version per CLAUDE.md:123-135, "Versioning & changelog": a new tool is a **minor** bump, a new
   category or engine is **major**; `npm run version:bump` plus a hand-written CHANGELOG entry.
 - PR body line: `llms files: updated` or `llms files: no change needed`, with one reason.
 - `npm run check:queries` at 100% targeting, `npm run check:craft`, `npm run check:budget`.
