@@ -407,6 +407,31 @@ for (const manifest of MANIFESTS) {
 // These were warnings while 94 of 119 tools still fell back to a long description. That backlog is
 // cleared, so they are errors: the whole catalog holds the one-line contract, and the cheapest way
 // to keep holding it is to stop the next tool shipping without one.
+// Names use "and", never "&" (Atharva, 26 Oct 2026). The names below predate the rule and are
+// grandfathered: renaming them is a separate decision, so only new names are held to it.
+const AMPERSAND_GRANDFATHERED = new Set([
+  'URL Encoder & Decoder',
+  'Base64 Encoder & Decoder',
+  'HTML Entity Encoder & Decoder',
+  'Combinations & Permutations Calculator',
+  'Money & Finance',
+  'Date & Time',
+  'Health & Fitness',
+  'Design & CSS',
+  'Music & Audio',
+]);
+for (const tool of tools) {
+  const n = (tool as { name?: string }).name ?? '';
+  if (n.includes('&') && !AMPERSAND_GRANDFATHERED.has(n)) {
+    errors.push(`Tool "${tool.slug}" name "${n}" contains "&": write "and" instead`);
+  }
+}
+for (const category of categories) {
+  if (category.name.includes('&') && !AMPERSAND_GRANDFATHERED.has(category.name)) {
+    errors.push(`Category "${category.slug}" name "${category.name}" contains "&": write "and" instead`);
+  }
+}
+
 const TAGLINE_MAX = 80;
 
 for (const tool of tools) {

@@ -15,7 +15,7 @@ Related: `docs/world-time-tools-roadmap.md` (World & Travel). The two plans shar
 
 ## 1. Executive summary
 
-**Proposed: 1 new category ("PDF & Files"), 17 candidate tools in phases, up to 5 new engines (one, `pdf-crypt`, has no library yet), 0 tools built by this PR.**
+**Proposed: 1 new category ("PDF and Files"), 17 candidate tools in phases, up to 5 new engines (one, `pdf-crypt`, has no library yet), 0 tools built by this PR.**
 
 1. **Demand is an order above most current niches.** "merge pdf", "split pdf", "jpg to pdf", "pdf to jpg" and "compress pdf" are among the highest-volume utility queries (millions per month per public keyword tools; not measured here) [TV].
 2. **ToyTools has the differentiator incumbents lack.** Files never leave the device, there is no upload, no account, and every library is self-hosted and open source, which anyone can check in the repo. The reference site, ihatepdf.cv, loads its heavy libraries from third-party CDNs at runtime, and its Chat/Summarize tools send document text to Gemini [V study].
@@ -89,7 +89,7 @@ These are **proposed** delivery rules [P], to confirm when the open questions ar
 
 These are not decided here.
 
-1. Is a new "PDF & Files" category approved, and does it get its own major bump or share alpha-v14 with World & Travel? Which roadmap goes first?
+1. Is a new "PDF and Files" category approved, and does it get its own major bump or share alpha-v14 with World & Travel? Which roadmap goes first?
 2. Is a one-time, on-demand engine download (about 207 KB gz for pdf-lib, up to about 585 KB with pdf.js) acceptable under "lightweight"?
 3. Is the pilot set Merge, Split and Images to PDF?
 4. Do the image tools (compress, resize, convert) go in the same category, or in Design?

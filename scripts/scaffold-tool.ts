@@ -146,6 +146,7 @@ const wantKnowledge = !args['no-knowledge']; // knowledge by default (coverage i
 if (!slug || !name || !category || !engine || !pattern || !family) {
   die('required: --slug --name --category --engine --pattern --family (see header for usage)');
 }
+if (name.includes('&')) die(`name "${name}" contains "&": write "and" instead`);
 if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) die(`slug "${slug}" must be kebab-case`);
 if (tools.some(t => t.slug === slug)) die(`slug "${slug}" already exists in the registry`);
 if (!categories.find(c => c.slug === category)) die(`unknown category "${category}"`);
