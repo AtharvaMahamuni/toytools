@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { analyzeText, wordTokens } from './analysis';
+import { analyzeText, isNumberToken, wordTokens } from './analysis';
 
 describe('analyzeText', () => {
   it('returns all zeros for empty string', () => {
@@ -280,5 +280,26 @@ describe('wordTokens: one tokenizer for Words, Unique Words and Top Words (Phase
     expect(analyzeText('don\u2019t don\'t').uniqueWords).toBe(1);
     // A closing curly quote at the end is still trimmed as punctuation.
     expect(wordTokens('\u2018quoted\u2019')).toEqual(['quoted']);
+  });
+});
+
+describe('Word Frequency decisions (26 Oct 2026)', () => {
+  it('every apostrophe form folds to one word', () => {
+    expect(wordTokens("don't don\u2019t don\u2018t don\u02bct don\uff07t DON\u2019T")).toEqual(Array(6).fill("don't"));
+    expect(analyzeText("don't don\u2019t").uniqueWords).toBe(1);
+  });
+
+  it('isNumberToken: digits with no letters are numbers', () => {
+    for (const t of ['1', '2026', '1,000', '3.14', '50%', '10:30', '1/2', '-5', '\u0967\u0968']) {
+      expect(isNumberToken(t), t).toBe(true);
+    }
+    for (const t of ['1st', 'mp3', 'covid-19', 'b2b', 'dog', "don't", 'café', '']) {
+      expect(isNumberToken(t), t).toBe(false);
+    }
+  });
+
+  it('filtering numbers out of real tokens keeps the words', () => {
+    const toks = wordTokens('In 2026, 1,000 people paid 3.14 each; the 1st one left at 10:30.');
+    expect(toks.filter(t => !isNumberToken(t))).toEqual(['in', 'people', 'paid', 'each', 'the', '1st', 'one', 'left', 'at']);
   });
 });

@@ -101,3 +101,41 @@ test.describe('word frequency counter: same tokenizer', () => {
     expect(await page.locator('#wf-list .wf-word').allTextContents()).toEqual(["don't"]);
   });
 });
+
+test.describe('word frequency counter: Ignore numbers', () => {
+  const TEXT = 'In 2026, 1,000 people paid 3.14 each; 1,000 left at 10:30 on the 1st.';
+
+  test('off by default; on drops number tokens but keeps words like 1st', async ({ page }) => {
+    await page.goto('/tool/text/word-frequency-counter/');
+    const filter = page.locator('#wf-stop-filter');
+    if (await filter.isChecked()) await filter.uncheck();
+    const nums = page.locator('#wf-ignore-numbers');
+    await expect(nums).not.toBeChecked();
+    await page.locator('#word-frequency-counter-input').fill(TEXT);
+    let words = await page.locator('#wf-list .wf-word').allTextContents();
+    expect(words).toContain('1,000');
+    expect(words).toContain('2026');
+    await nums.check();
+    words = await page.locator('#wf-list .wf-word').allTextContents();
+    expect(words.filter(w => /^[\d.,:%/-]+$/.test(w))).toEqual([]);
+    expect(words).toContain('1st');
+    expect(words).toContain('people');
+    // The headline counts describe the text itself, so they do not change with a table filter.
+    await expect(page.locator('[data-metric="words"]')).toHaveText('14');
+  });
+
+  test('read from the URL, never written to it or stored', async ({ page }) => {
+    await page.goto('/tool/text/word-frequency-counter/?numbers=ignore&common=show');
+    await expect(page.locator('#wf-ignore-numbers')).toBeChecked();
+    await expect(page.locator('#wf-stop-filter')).not.toBeChecked();
+    await page.locator('#word-frequency-counter-input').fill(TEXT);
+    expect(await page.locator('#wf-list .wf-word').allTextContents()).not.toContain('2026');
+    await page.goto('/tool/text/word-frequency-counter/');
+    await expect(page.locator('#wf-ignore-numbers')).not.toBeChecked();
+    await page.locator('#wf-ignore-numbers').check();
+    await page.waitForTimeout(400);
+    expect(new URL(page.url()).search).toBe('');
+    const stored = await page.evaluate(() => JSON.stringify({ ...localStorage }) + JSON.stringify({ ...sessionStorage }));
+    expect(stored).not.toMatch(/numbers|ignore-numbers/i);
+  });
+});
