@@ -15,7 +15,7 @@ Related: `docs/world-time-tools-roadmap.md` (World & Travel). The two plans shar
 
 ## 1. Executive summary
 
-**Proposed: 1 new category ("PDF & Files"), 16 candidate tools in phases, up to 5 new engines (one, `pdf-crypt`, has no library yet), 0 tools built by this PR.**
+**Proposed: 1 new category ("PDF & Files"), 17 candidate tools in phases, up to 5 new engines (one, `pdf-crypt`, has no library yet), 0 tools built by this PR.**
 
 1. **Demand is an order above most current niches.** "merge pdf", "split pdf", "jpg to pdf", "pdf to jpg" and "compress pdf" are among the highest-volume utility queries (millions per month per public keyword tools; not measured here) [TV].
 2. **ToyTools has the differentiator incumbents lack.** Files never leave the device, there is no upload, no account, and every library is self-hosted and open source, which anyone can check in the repo. The reference site, ihatepdf.cv, loads its heavy libraries from third-party CDNs at runtime, and its Chat/Summarize tools send document text to Gemini [V study].

@@ -15,7 +15,8 @@ interface Props {
    */
   equalHeight?: boolean;
   /**
-   * Phones only (<640px): space held for the result pane before its script fills it. A result
+   * Phones only (<640px), scripts on, until the first interaction or 3s after load: space held
+   * for the result pane before its script fills it. A result
    * that appears after first paint pushes the input (output-first) or the actions below it
    * (input-first) down, and that shift was most of the mobile CLS in the October 2026 Lighthouse
    * audit. Pass a CSS length no taller than the smallest result this widget renders at 393px, so
@@ -44,6 +45,11 @@ const classes = [
   <div class="ts-input"><slot name="input" /></div>
   <div class="ts-output"><slot name="output" /></div>
 </div>
+{/* The reservation applies only when scripts run: this marks the split before first paint, and
+    with JS off there is no result to wait for, so no blank space is held. It is released on the
+    first interaction inside the split (a shift right after input is not CLS) or 3s after load,
+    so an empty or short result never keeps a blank area. */}
+<script is:inline>(function(s){if(!s.style.getPropertyValue('--ts-output-reserve'))return;s.classList.add('ts-reserving');function o(){s.classList.remove('ts-reserving')}['pointerdown','keydown','input'].forEach(function(t){s.addEventListener(t,o,{once:true,passive:true})});addEventListener('load',function(){setTimeout(o,3000)})})(document.currentScript.previousElementSibling);</script>
 
 <style>
   .tool-split {
@@ -62,7 +68,7 @@ const classes = [
   }
 
   @media (max-width: 639px) {
-    .ts-output {
+    .tool-split.ts-reserving .ts-output {
       min-height: var(--ts-output-reserve, 0);
     }
   }
