@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { parseHumanNumber } from './parse';
-import { formatGrouped } from './format';
+import { formatGrouped, formatDecimal, tinyNonZero } from './format';
 import { adaptiveStep } from './step';
 
 describe('parseHumanNumber', () => {
@@ -106,5 +106,65 @@ describe('parseHumanNumber exponents (audit S3-15)', () => {
     expect(parseHumanNumber('₹25,000')).toBe(25000);
     expect(parseHumanNumber('7.5%')).toBe(7.5);
     expect(parseHumanNumber('5m')).toBe(5e6);
+  });
+});
+
+describe('comma rule (Atharva, 26 Oct 2026): "1,5" is 1.5, "1,500" is 1500', () => {
+  it('a lone comma without three digits after it is a decimal comma', () => {
+    expect(parseHumanNumber('1,5')).toBe(1.5);
+    expect(parseHumanNumber('12,75')).toBe(12.75);
+    expect(parseHumanNumber('0,0025')).toBe(0.0025);
+    expect(parseHumanNumber('-1,5')).toBe(-1.5);
+    expect(parseHumanNumber(',5')).toBe(0.5);
+    expect(parseHumanNumber('1,5 lakh')).toBe(150000);
+    expect(parseHumanNumber('1,5%')).toBe(1.5);
+  });
+
+  it('complete Western or Indian grouping is thousands separators', () => {
+    expect(parseHumanNumber('1,500')).toBe(1500);
+    expect(parseHumanNumber('12,345,678')).toBe(12345678);
+    expect(parseHumanNumber('1,500.25')).toBe(1500.25);
+    expect(parseHumanNumber('1,50,000')).toBe(150000);
+    expect(parseHumanNumber('12,50,00,000')).toBe(125000000);
+    expect(parseHumanNumber('₹25,000')).toBe(25000);
+    expect(parseHumanNumber('$1,234.56')).toBe(1234.56);
+  });
+
+  it('ambiguous comma use is rejected, never guessed', () => {
+    for (const s of ['1,2,3', '1,5.2', '1.500,25', '12,34,5', '1,', '1,,5']) {
+      expect(parseHumanNumber(s), s).toBeNull();
+    }
+  });
+
+  it('round-trips what formatGrouped displays', () => {
+    for (const n of [1500, 1234567.5, 0.0025, 1.5]) {
+      expect(parseHumanNumber(formatGrouped(n, { maximumFractionDigits: 4 }))).toBe(n);
+      expect(parseHumanNumber(formatGrouped(n, { grouping: 'indian', maximumFractionDigits: 4 }))).toBe(n);
+    }
+  });
+});
+
+describe('tiny values never display as 0 (Atharva, 26 Oct 2026)', () => {
+  it('tinyNonZero: two significant digits, scientific below 1e-6, noise stays 0', () => {
+    expect(tinyNonZero(0.0025, 1)).toBe('0.0025');
+    expect(tinyNonZero(-0.000012, 2)).toBe('-0.000012');
+    expect(tinyNonZero(2.5e-7, 2)).toBe('2.5e-7');
+    expect(tinyNonZero(3e-9, 2)).toBe('3e-9');
+    expect(tinyNonZero(5.5e-17, 2)).toBeNull();
+    expect(tinyNonZero(0, 2)).toBeNull();
+    expect(tinyNonZero(0.05, 1)).toBeNull(); // rounds to 0.1, which is visible
+    expect(tinyNonZero(0.04, 1)).toBe('0.04');
+  });
+
+  it('formatGrouped and formatDecimal keep tiny values visible; money keeps cents', () => {
+    expect(formatGrouped(0.0025, { maximumFractionDigits: 2 })).toBe('0.0025');
+    expect(formatGrouped(0.0004)).toBe('0.0004');
+    expect(formatGrouped(0.004, { style: 'percent', maximumFractionDigits: 1 })).toBe('0.004%');
+    expect(formatGrouped(1234.5, { maximumFractionDigits: 2 })).toBe('1,234.5');
+    expect(formatGrouped(0.001, { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 })).toBe('$0.00');
+    expect(formatGrouped(0)).toBe('0');
+    expect(formatDecimal(0.0025, 2)).toBe('0.0025');
+    expect(formatDecimal(22.456, 1)).toBe('22.5');
+    expect(formatDecimal(0.1 + 0.2 - 0.3, 2)).toBe('0');
   });
 });

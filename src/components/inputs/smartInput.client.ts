@@ -13,7 +13,7 @@
 // recomputes. With JS disabled the control degrades to a plain typed number input.
 
 import { parseHumanNumber } from '@lib/inputs/parse';
-import { formatGrouped } from '@lib/inputs/format';
+import { formatGrouped, tinyNonZero } from '@lib/inputs/format';
 import { adaptiveStep } from '@lib/inputs/step';
 
 interface FieldEls {
@@ -51,8 +51,8 @@ function displayFor(field: HTMLInputElement, n: number): string {
   if (type === 'integer') return String(Math.round(n));
   // Group money/number; leave percent/duration as a plain number so the suffix reads naturally.
   if (type === 'currency' || type === 'number') return formatGrouped(n, { maximumFractionDigits: 2 });
-  // strip trailing .0 noise
-  return String(Number(n.toFixed(4)));
+  // strip trailing .0 noise, but never turn a tiny non-zero value into 0
+  return tinyNonZero(n, 4) ?? String(Number(n.toFixed(4)));
 }
 
 // Stepping clamps to the field's bounds. A typed value is kept as typed (clamp = false), so an

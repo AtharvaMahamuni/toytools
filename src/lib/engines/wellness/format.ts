@@ -2,10 +2,17 @@
 // Node, SSR, and the browser, and tests can assert exact strings.
 
 import { kgToLb } from './models';
+import { tinyNonZero } from '@lib/inputs/format';
 
-/** Round to one decimal place, trimming a trailing ".0" (e.g. 22.0 -> "22", 22.45 -> "22.5"). */
+/**
+ * Round to one decimal place, trimming a trailing ".0" (e.g. 22.0 -> "22", 22.45 -> "22.5"). A value that
+ * would round to 0 but is not 0 keeps two significant digits (0.0025 -> "0.0025").
+ */
 export function num1(value: number): string {
   if (!Number.isFinite(value)) return '0';
+  // A tiny non-zero value never reads as 0 (BMI 0.0025 showed "0, Underweight").
+  const tiny = tinyNonZero(value, 1);
+  if (tiny !== null) return tiny;
   const rounded = Math.round(value * 10) / 10;
   return Number.isInteger(rounded)
     ? rounded.toLocaleString('en-US')
