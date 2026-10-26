@@ -67,3 +67,28 @@ test('tapping a classical square keeps the first square selected', async ({ page
   await expect(cell(4)).toHaveClass(/is-selected/);
   await expect(cell(4)).toHaveAccessibleName(/, selected$/);
 });
+
+test.describe('quantum tic tac toe: deselecting the first square', () => {
+  test('tapping the selected first square again deselects it and announces it', async ({ page }) => {
+    await page.goto(URL);
+    const root = page.locator('[data-tool="quantum-tic-tac-toe"]');
+    await expect(root).toHaveAttribute('data-ready', 'true');
+    const cell = (index: number) => page.locator(`[data-cell="${index}"]`);
+    const note = root.locator('[data-board-note]');
+    await expect(note).toHaveAttribute('aria-live', 'polite');
+
+    await cell(4).click();
+    await expect(cell(4)).toHaveClass(/is-selected/);
+    await cell(4).click();
+    await expect(cell(4)).not.toHaveClass(/is-selected/);
+    await expect(note).toHaveText('Row 2, column 2 deselected. Pick two different squares.');
+    await expect(page.locator('[data-board-banner]')).toHaveText('X to play. Pass the phone.');
+
+    // The next two taps make a normal move from scratch.
+    await cell(0).click();
+    await cell(8).click();
+    await expect(cell(0)).toContainText('X1');
+    await expect(cell(8)).toContainText('X1');
+    await expect(cell(4)).not.toContainText('X1');
+  });
+});

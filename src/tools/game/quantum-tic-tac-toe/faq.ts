@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'qtt-faq-1',
     question: 'What is a move in quantum tic tac toe?',
     answer:
-      'A move marks two different squares with the same number.\nX1 is the first move. Those two squares stay linked until a cycle collapses.',
+      'A move marks two different squares with the same number.\nX1 is the first move. Those two squares stay linked until a cycle collapses. Tap the first square again to deselect it.',
   },
   {
     id: 'qtt-faq-2',
