@@ -2,6 +2,18 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.14.1] - 2026-10-26
+
+### Changed
+
+- **No more "&" in names.** The categories are now Money and Finance, Date and Time, Health and Fitness, Design and CSS, and Music and Audio, and every tool name and page title that used "&" now says "and". Every URL and slug is unchanged. The registry check now fails on any "&" in a name, title or SEO title, with no exemptions. Search still matches "&" queries, since "Date & Time" is read as "date and time".
+
+### Fixed
+
+- **"0,500" is 0.5.** A leading zero group is not thousands grouping, so "0,500" and "0,5" read as 0.5, and "0,500,000" is refused as ambiguous.
+- **One number parser for finance.** UPI MDR, UPI 1999 split, Split Bill, Shop UPI Tally and the shared finance number guard all read typed amounts through the shared parser, so "1,5" is 1.5 and "1,50,000" is 150000 everywhere.
+- **UPI 1999 split field.** A paise amount such as 2.4 stays as typed next to the "whole rupees only" error instead of showing a rounded 2.
+
 ## [alpha-v13.14] - 2026-10-26
 
 ### Added

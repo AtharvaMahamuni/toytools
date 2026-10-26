@@ -70,7 +70,8 @@ import { config } from './config';
       if (!amountEl) return NaN;
       var raw = amountEl.getAttribute('data-raw');
       if (raw == null || raw === '') return NaN;
-      return Number(String(raw).replace(/,/g, '').replace(/\s/g, ''));
+      // data-raw is already the shared parser's number (smartInput), so it is read as is.
+      return Number(raw);
     }
 
     function rupeeLabel(amount) {

@@ -2,6 +2,7 @@
 // lazy.ts, keyed by the widget's data-finance attribute.
 import { loadFinanceCalculator, runLazyFinance } from '@lib/engines/finance/lazy';
 import { upiNextPay } from '@lib/engines/finance/calculators/upi-1999-split';
+import { parseHumanNumber } from '@lib/inputs/parse';
 import { attachExperience } from '../experience';
 import type { AttachFn } from '../types';
 
@@ -16,5 +17,6 @@ export const attach: AttachFn = async (TT) => {
   await Promise.all([...ids].map(loadFinanceCalculator));
   TT.runFinance = runLazyFinance;
   TT.upiNextPay = upiNextPay;
+  TT.parseAmount = parseHumanNumber; // the shared number parser, for inline widget scripts
   attachExperience(TT);
 };

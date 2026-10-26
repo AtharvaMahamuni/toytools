@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
   minor: 14,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
   releaseDate: '2026-10-26',
-  description: 'Word Frequency ignores numbers; 1,5 reads as 1.5; tiny values never show 0; Quantum Tic Tac Toe deselect',
+  description: 'Every and name, shared number parser in finance, 0,500 is 0.5, UPI field keeps paise as typed',
 };
 
 export function formatVersion(config: VersionConfig): string {

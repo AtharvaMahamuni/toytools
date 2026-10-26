@@ -48,7 +48,9 @@ function rawOf(field: HTMLInputElement): number {
 
 function displayFor(field: HTMLInputElement, n: number): string {
   const type = field.dataset.fieldType;
-  if (type === 'integer') return String(Math.round(n));
+  // A whole-number field shows a fractional entry as typed (2.5 stays 2.5), never rounded: the
+  // engine refuses it ("whole rupees only"), and the box must not show a number it did not get.
+  if (type === 'integer') return Number.isInteger(n) ? String(n) : String(Number(n.toFixed(6)));
   // Group money/number; leave percent/duration as a plain number so the suffix reads naturally.
   if (type === 'currency' || type === 'number') return formatGrouped(n, { maximumFractionDigits: 2 });
   // strip trailing .0 noise, but never turn a tiny non-zero value into 0

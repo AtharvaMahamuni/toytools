@@ -116,6 +116,10 @@ describe('comma rule (Atharva, 26 Oct 2026): "1,5" is 1.5, "1,500" is 1500', () 
     expect(parseHumanNumber('0,0025')).toBe(0.0025);
     expect(parseHumanNumber('-1,5')).toBe(-1.5);
     expect(parseHumanNumber(',5')).toBe(0.5);
+    // A leading zero group is never thousands (reviewer, PR 277): 0,500 is 0.5, not 500.
+    expect(parseHumanNumber('0,500')).toBe(0.5);
+    expect(parseHumanNumber('0,5')).toBe(0.5);
+    expect(parseHumanNumber('-0,250')).toBe(-0.25);
     expect(parseHumanNumber('1,5 lakh')).toBe(150000);
     expect(parseHumanNumber('1,5%')).toBe(1.5);
   });
@@ -131,7 +135,7 @@ describe('comma rule (Atharva, 26 Oct 2026): "1,5" is 1.5, "1,500" is 1500', () 
   });
 
   it('ambiguous comma use is rejected, never guessed', () => {
-    for (const s of ['1,2,3', '1,5.2', '1.500,25', '12,34,5', '1,', '1,,5']) {
+    for (const s of ['0,500,000', '1,2,3', '1,5.2', '1.500,25', '12,34,5', '1,', '1,,5']) {
       expect(parseHumanNumber(s), s).toBeNull();
     }
   });

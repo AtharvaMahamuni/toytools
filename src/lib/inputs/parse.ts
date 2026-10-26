@@ -30,6 +30,7 @@ const SUFFIXES: Record<string, number> = {
  *   1. Thousands separators. Commas that form a complete digit grouping are dropped:
  *      Western groups of three ("1,500", "12,345,678", "1,500.25") or Indian lakh/crore
  *      grouping ("1,50,000", "12,50,00,000"). The integer part must be grouped all the way.
+ *      A leading zero group is not grouping: "0,500" is 0.5 under rule 2, "0,500,000" is null.
  *   2. Decimal comma. Exactly one comma, no dot, and NOT exactly three digits after it, is a
  *      decimal point: "1,5" is 1.5, "12,75" is 12.75, "0,0025" is 0.0025.
  *   3. Anything else with a comma ("1,2,3", "1,5.2", "1.500,25", "12,34,5") is ambiguous and
@@ -46,6 +47,9 @@ function normaliseCommas(s: string): string | null {
   const [, sign, num, tail] = m;
   const western = /^\d{1,3}(?:,\d{3})+(?:\.\d+)?$/;
   const indian = /^\d{1,2}(?:,\d{2})*,\d{3}(?:\.\d+)?$/;
+  // A leading zero group is never thousands: "0,500" is 0.5 (decimal comma), and a longer
+  // "0,500,000" has no sensible reading, so it is refused.
+  if (/^0,/.test(num)) return /^0,\d+$/.test(num) ? sign + num.replace(',', '.') + tail : null;
   if (western.test(num) || indian.test(num)) return sign + num.replace(/,/g, '') + tail;
   if (/^\d*,\d+$/.test(num) && !/^\d+,\d{3}$/.test(num)) return sign + num.replace(',', '.') + tail;
   return null;

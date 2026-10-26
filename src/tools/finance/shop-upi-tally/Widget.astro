@@ -112,9 +112,11 @@
   }
 
   function toPaise(text) {
-    var t = String(text || '').trim().replace(/,/g, '').replace(/\u20b9/g, '');
-    if (!/^\d+(\.\d{1,2})?$/.test(t)) return null;
-    var n = Number(t);
+    // The shared parser (ToyTools.parseAmount, src/lib/inputs/parse.ts) reads "1,5" as 1.5 and
+    // "1,500" or "1,50,000" as grouped thousands, the same as every other calculator.
+    var n = window.ToyTools && ToyTools.parseAmount ? ToyTools.parseAmount(String(text || '')) : null;
+    if (n === null || !isFinite(n)) return null;
+    if (Math.abs(n * 100 - Math.round(n * 100)) > 1e-6) return null; // at most two decimals
     if (!(n > 0) || n > 100000000) return null;
     return Math.round(n * 100);
   }
