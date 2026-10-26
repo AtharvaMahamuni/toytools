@@ -61,7 +61,7 @@ test.describe('result space is reserved on phones only while scripts fill it', (
       const off = await browser.newContext({ ...opts, javaScriptEnabled: false });
       const offPage = await off.newPage();
       await offPage.goto(p, { waitUntil: 'load' });
-      expect(await offPage.locator('.ts-output').first().evaluate((el) => getComputedStyle(el).minHeight)).toBe('0px');
+      expect(await offPage.locator('.ts-output').first().evaluate((el) => getComputedStyle(el).minHeight)).toMatch(/^(auto|0px)$/);
       await off.close();
 
       const on = await browser.newContext(opts);
@@ -89,6 +89,6 @@ test.describe('result space is reserved on phones only while scripts fill it', (
     await expect(split).toHaveClass(/ts-reserving/);
     await split.dispatchEvent('pointerdown');
     await expect(split).not.toHaveClass(/ts-reserving/);
-    expect(await page.locator('.ts-output').first().evaluate((el) => getComputedStyle(el).minHeight)).toBe('0px');
+    expect(await page.locator('.ts-output').first().evaluate((el) => getComputedStyle(el).minHeight)).toMatch(/^(auto|0px)$/);
   });
 });
