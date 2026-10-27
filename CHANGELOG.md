@@ -9,6 +9,10 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 - **Related tools stay in the same category.** A tool from the same category now ranks ahead of one from another category that only shares the engine. A date tool no longer offers a health calculator first, and an encoder no longer offers a numeral converter first. Those links still appear after every same-category tool.
 - **Guide category line.** The line at the end of a guide no longer repeats sibling tools. It links to the category. The guide already lists those tools.
 
+### Added
+
+- **growth:score.** `npm run growth:score -- <slug>` prints one growth row from the SEO research file, the guide, the FAQ, and the widget. A slider, canvas, or draggable element scores interaction as 1. Anything else leaves that cell blank. Reddit demand is ignored when it was not collected.
+
 ## [alpha-v13.15] - 2026-10-27
 
 ### Changed

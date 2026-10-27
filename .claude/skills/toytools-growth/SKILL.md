@@ -108,8 +108,8 @@ For "what to build next", demand order still comes from `next-tool` (`npm run re
 ### Auditing existing tools
 1. Run `npm run seo:status -- <slug>` and follow its next command. If `research.json` is missing, status will say whether the next step is `seo:research` then `seo:extract`. Simulations are gated with `npm run seo:gate:sim -- <slug>`. Do not run `seo:research` on a simulation slug. The collector searches a truncated token.
 2. Read the research file's Reddit block and the tool's guide, FAQ, knowledge, and widget.
-3. Score each factor from the table above. Leave Performance at 0 unless a GSC export was provided.
-4. Apply the quality floor.
+3. Run `npm run growth:score -- <slug>`. Use that row for Niche, Intent, Content, Depth, and Performance. A blank cell is unscored, not a zero. When Interaction is 1, the widget has a slider, a canvas, or a draggable element. Rare is still your judgment: the command never emits 2. Leave Performance at 0 unless a GSC export was provided, which this command does not read.
+4. Apply the quality floor. The command's pass/fail covers FAQ count, common mistakes, a numbered example, and a control label in the page text. The other floor rules (generic filler, a page that still makes sense with the tool removed, the guide as the only explanation) stay a reading of the prose.
 5. Assign priority (High / Medium / Low / Cleanup).
 6. Output a prioritized table and recommended actions.
 
