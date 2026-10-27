@@ -19,6 +19,7 @@ export const config: ToolConfig = {
   },
   processorId: 'normalizeWhitespace',
   toolGroup: 'text-cleanup',
+  relatedTools: ['remove-extra-spaces', 'trim-text', 'remove-line-breaks'],
   // Its guide was folded into the whitespace hub (GSC pilot, 27 Oct 2026); the old guide URL is a
   // redirect stub in src/data/guide-redirects.ts.
   sharedGuide: 'remove-blank-lines',
