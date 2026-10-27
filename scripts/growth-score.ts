@@ -9,6 +9,7 @@ import {
   scoreGrowth,
   type GrowthResearch,
   type GrowthSources,
+  isToolSlug,
 } from './growth/score';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -103,7 +104,7 @@ function main(): void {
   const json = args.includes('--json');
   const slug = args.find(arg => arg !== '--json');
   if (!slug) usage();
-  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
+  if (!isToolSlug(slug)) {
     console.error(`[growth:score] "${slug}" is not a tool slug.`);
     process.exit(1);
   }

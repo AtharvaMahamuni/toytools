@@ -1,9 +1,13 @@
 import { describe, expect, it } from 'vitest';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 import {
   controlLabels,
   faqAnswers,
   formatGrowthReport,
   guideProse,
+  isToolSlug,
   scoreContent,
   scoreDepth,
   growthBand,
@@ -267,4 +271,23 @@ const n = 42;
     expect(scoreDepth(null, null, guide).note).toMatch(/no numbered example/);
     expect(scoreDepth(null, null, `${guide}\n<p>Trim 3 lines.</p>`).note).toMatch(/a numbered example/);
   });
+});
+
+describe('growth:score slug check', () => {
+  it('accepts tool slugs', () => {
+    for (const ok of ['roman-numeral-converter', 'connect-4', 'a']) expect(isToolSlug(ok), ok).toBe(true);
+  });
+
+  it('rejects paths and malformed slugs', () => {
+    for (const bad of ['../x', '../../etc/passwd', 'a/b', '/abs', 'Roman', 'a--b', '-a', 'a-', 'a b', '', 'a.b', 'a\\b']) {
+      expect(isToolSlug(bad), bad).toBe(false);
+    }
+  });
+
+  it('the CLI refuses a path-like slug before looking for a tool dir', () => {
+    const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
+    const run = spawnSync(process.execPath, ['--import', 'tsx', 'scripts/growth-score.ts', '../src'], { cwd: root, encoding: 'utf8' });
+    expect(run.status).toBe(1);
+    expect(run.stderr).toContain('"../src" is not a tool slug.');
+  }, 30_000);
 });

@@ -69,6 +69,14 @@ function cell(score: 0 | 1 | 2 | null, note: string): GrowthCell {
   return { score, note };
 }
 
+/**
+ * A tool slug is lowercase words joined by single hyphens. The CLI refuses anything else before it
+ * touches the filesystem, so `../x`, `a/b` or an absolute path can never be read as a tool dir.
+ */
+export function isToolSlug(value: string): boolean {
+  return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value);
+}
+
 export function tokens(value: string): Set<string> {
   const out = new Set<string>();
   for (const word of value.toLowerCase().split(/[^a-z0-9]+/)) {
