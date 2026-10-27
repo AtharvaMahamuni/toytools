@@ -338,6 +338,16 @@ and `dist/knowledge-graph.json`. Related tools, guides and FAQs are **derived** 
 (engine → pattern → family → category); you author only the overlay fields. Coverage gaps surface in
 `npm run intel`.
 
+**Related tools rule** (`src/lib/tools/related.ts`, tested over every tool in
+`related-floor.test.ts`): a related link is either a same-category tool that clears a relevance
+floor (same pattern and engine, same engine, same family, or a `relatedTools` link either way), or a
+tool named in the tool's own hand-picked `relatedTools` override, which may sit in another category.
+Sharing only the category, or only a word, is below the floor, and there is no automatic
+cross-category fill and no padding. Every tool must show at least `MIN_RELATED` (2) links outside its
+group; when the floor gives fewer, add a sensible `relatedTools` override on that tool. The one-slot
+door out of the family is taken only from eligible tools, and validate-knowledge's bubble check reads
+the same eligible set (`eligibleCandidates`).
+
 The data layer (`src/data/`) holds `types.ts`, `categories.ts`, `engines.ts` (the engine/pattern
 single source of truth), `registry.ts`, `tool-groups.ts`, `category-sections.ts`, `metadata.ts`, the
 `*.generated.ts` barrels, and the two redirect tables (`faq-redirects.ts`, `tool-redirects.ts` —

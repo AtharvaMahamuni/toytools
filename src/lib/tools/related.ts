@@ -38,8 +38,8 @@ function registryOrder(allTools: ToolConfig[]): RegistryOrder {
  * member is reached by the tools just before it.
  *
  * Same category first because a tier is defined by engine, pattern or family, and those cross
- * categories (the `encoding` engine holds developer encoders and number converters alike). Inside
- * one tier, a sibling from the same category is the closer neighbour.
+ * categories (the `encoding` engine holds developer encoders and number converters alike). The
+ * public lists go further and keep ONLY the same category (see the relevance floor below).
  *
  * Deterministic by construction: the only inputs are the registry order (a generated, slug-sorted
  * list after the static simulation manifest list) and the current tool, so the same commit always
@@ -119,11 +119,11 @@ function rankCandidates(
 }
 
 /**
- * Related tools, ranked by the 4-tier hierarchy, with a guaranteed door out of the family.
+ * Related tools: same-category tools above the relevance floor, ranked by the 4-tier hierarchy,
+ * plus a door out of the family when an eligible one exists.
  *
- * The guarantee is skipped when the source has no family, when the set already reaches another
- * family on its own, and when no cross-family candidate exists at all: padding a list with nothing
- * would be worse than a homogeneous one.
+ * The door is skipped when the source has no family, when the set already reaches another family on
+ * its own, and when no eligible cross-family candidate exists: the door never lowers the floor.
  */
 export function getRelatedTools(
   currentTool: ToolConfig,
@@ -133,14 +133,58 @@ export function getRelatedTools(
   return relatedFrom(currentTool, allTools, max, registryOrder(allTools));
 }
 
+/**
+ * The relevance floor (2026-10-27). Automatic related tools stay in the current tool's category, and
+ * a same-category tool must also be RELEVANT to be linked: it shares the pattern and engine, the
+ * engine or the family (tiers 1 to 3), or the author linked the two in `relatedTools` (either
+ * direction). Sharing only the category (tier 4) is below the floor: the Roman numeral converter and
+ * the tax calculator are both "number utilities", but nobody converting MCMXCIX wants a tax.
+ *
+ * No automatic fallback: a weak or automatic out-of-category link is worse than a short row. A tool
+ * whose category is thin gets its links from its own `relatedTools` override, hand-picked and
+ * explicit, which may name a tool in another category. Every tool has at least MIN_RELATED links
+ * outside its group, pinned by a test; a thin tool fixes that with an override, never in code.
+ */
+export const MIN_RELATED = 2;
+
+export function clearsRelevanceFloor(current: ToolConfig, other: ToolConfig): boolean {
+  if (other.slug === current.slug || other.categorySlug !== current.categorySlug) return false;
+  const tier = relationTier(current, other);
+  if (tier >= 1 && tier <= 3) return true;
+  return (current.relatedTools ?? []).includes(other.slug) || (other.relatedTools ?? []).includes(current.slug);
+}
+
+/**
+ * Eligible candidates in rank order: same-category tools above the relevance floor, then the tool's
+ * own hand-picked `relatedTools` that are not already in (the explicit override, the ONLY way a
+ * link leaves the category). Nothing is ever filled in automatically from another category.
+ */
+function eligible(currentTool: ToolConfig, allTools: ToolConfig[], order: RegistryOrder): ToolConfig[] {
+  const floor = rankCandidates(currentTool, allTools, order).filter(t => clearsRelevanceFloor(currentTool, t));
+  const seen = new Set(floor.map(t => t.slug));
+  const bySlug = new Map(allTools.map(t => [t.slug, t]));
+  const overrides: ToolConfig[] = [];
+  for (const slug of currentTool.relatedTools ?? []) {
+    const t = bySlug.get(slug);
+    if (!t || t.slug === currentTool.slug || seen.has(slug)) continue;
+    seen.add(slug);
+    overrides.push(t);
+  }
+  return [...floor, ...overrides];
+}
+
+/** True when `other` is in `current`'s own hand-picked `relatedTools` override. */
+export function isOverride(current: ToolConfig, other: ToolConfig): boolean {
+  return other.slug !== current.slug && (current.relatedTools ?? []).includes(other.slug);
+}
+
 function relatedFrom(
   currentTool: ToolConfig,
   allTools: ToolConfig[],
   max: number,
   order: RegistryOrder,
 ): ToolConfig[] {
-  const ranked = rankCandidates(currentTool, allTools, order);
-  if (ranked.length === 0) return curated(currentTool, allTools, max);
+  const ranked = eligible(currentTool, allTools, order);
   const natural = ranked.slice(0, max);
   if (!currentTool.family || natural.length < 2) return natural;
 
@@ -149,6 +193,8 @@ function relatedFrom(
   // cross-family links on tools that never had the problem, which is the opposite of the point.
   if (natural.some(t => t.family !== currentTool.family)) return natural;
 
+  // The door out of the family: the nearest eligible outsider (same category, above the floor).
+  // None means none: the door never lowers the floor.
   const nearestOutsider = ranked.find(t => t.family !== undefined && t.family !== currentTool.family);
   if (!nearestOutsider) return natural;
 
@@ -157,27 +203,16 @@ function relatedFrom(
 }
 
 /**
- * The config's own `relatedTools`, used ONLY when all four tiers came back empty.
- *
- * Every tier is scoped to this tool's engine, family or category, so the first tool in a new
- * category has no candidate anywhere and derives an empty list. That page is then a dead end in the
- * internal link graph, which platform-health rightly fails the build over, and nothing the author
- * could write would have fixed it: the derivation had no input to work from.
- *
- * A last resort rather than an override. Where the derivation finds anything at all it still wins,
- * because a hand-written list of neighbours is exactly the thing that goes stale as a catalog
- * grows, and 94 of the configs carrying one predate the derivation entirely.
+ * Every tool that could be recommended for `currentTool`, in rank order and unsliced: the
+ * same-category tools above the relevance floor. validate-knowledge reads this to decide whether a
+ * one-family row had an outsider available, so a bubble is only an error when an ELIGIBLE tool from
+ * another family existed and the door missed it, never because a below-floor tool was skipped.
  */
-function curated(currentTool: ToolConfig, allTools: ToolConfig[], max: number): ToolConfig[] {
-  const bySlug = new Map(allTools.map((t) => [t.slug, t]));
-  return (currentTool.relatedTools ?? [])
-    .filter((slug) => slug !== currentTool.slug)
-    .map((slug) => bySlug.get(slug))
-    .filter((t): t is ToolConfig => t !== undefined)
-    .slice(0, max);
+export function eligibleCandidates(currentTool: ToolConfig, allTools: ToolConfig[]): ToolConfig[] {
+  return eligible(currentTool, allTools, registryOrder(allTools));
 }
 
-/** Every tool that could be recommended for `currentTool`, in rank order and unsliced. */
+/** The raw 4-tier ranking, every other tool in rank order, unsliced and unfiltered. */
 export function relatedCandidates(currentTool: ToolConfig, allTools: ToolConfig[]): ToolConfig[] {
   return rankCandidates(currentTool, allTools);
 }

@@ -18,7 +18,7 @@ export const config: ToolConfig = {
     kind: 'orientation',
     solves: 'Backing tax out of an inclusive total by subtracting the rate is the arithmetic almost everyone reaches for first, and it under-reports the pre-tax price every time, by more the larger the rate. The tool prints the right figure and says nothing about the one the user already wrote down.',
   },
-  relatedTools: ['percentage-calculator', 'discount-calculator'],
+  relatedTools: ['percentage-calculator', 'discount-calculator', 'split-bill'],
   guide: {
     slug: 'how-to-calculate-sales-tax',
     categorySlug: 'number',

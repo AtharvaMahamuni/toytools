@@ -18,7 +18,7 @@ export const config: ToolConfig = {
     solves: 'Shop signage stacks discounts, and thirty percent off plus an extra twenty at the till reads as fifty percent off to almost everyone. It is forty four. The tool computes one discount at a time and offers no way to chain them, so the second one gets applied to the wrong base or not at all.',
   },
   toolGroup: 'everyday-calculators',
-  relatedTools: ['percentage-calculator'],
+  relatedTools: ['percentage-calculator', 'inflation-calculator'],
   guide: {
     slug: 'discount-calculator',
     categorySlug: 'number-utilities',

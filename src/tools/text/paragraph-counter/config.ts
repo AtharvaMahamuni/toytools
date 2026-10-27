@@ -30,5 +30,5 @@ export const config: ToolConfig = {
     label: 'Paragraphs',
     formatter: 'integer',
   },
-  relatedTools: ['sentence-counter', 'word-counter', 'line-counter'],
+  relatedTools: ['sentence-counter', 'word-counter', 'line-counter', 'remove-blank-lines', 'normalize-whitespace'],
 };

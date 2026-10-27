@@ -26,7 +26,7 @@ export const config: ToolConfig = {
     label: 'Words',
     formatter: 'integer',
   },
-  relatedTools: ['character-counter', 'reading-time-calculator', 'sentence-counter'],
+  relatedTools: ['character-counter', 'reading-time-calculator', 'sentence-counter', 'find-replace'],
   craft: {
     id: 'wc-goal',
     kind: 'verification',

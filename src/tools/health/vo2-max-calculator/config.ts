@@ -27,7 +27,7 @@ export const config: ToolConfig = {
   },
   toolGroup: 'body-metrics',
   processorId: 'vo2-max',
-  relatedTools: ['heart-rate-zone-calculator', 'running-pace-calculator'],
+  relatedTools: ['heart-rate-zone-calculator', 'running-pace-calculator', 'move-today-tracker', 'sleep-hours-tracker'],
   methodology: {
     name: 'Cooper 1968, Uth 2004, and Tanaka 2001',
     detail:

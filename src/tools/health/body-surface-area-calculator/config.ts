@@ -28,7 +28,7 @@ export const config: ToolConfig = {
   },
   toolGroup: 'body-metrics',
   processorId: 'body-surface-area',
-  relatedTools: ['bmi-calculator', 'lean-body-mass-calculator', 'ideal-weight-calculator'],
+  relatedTools: ['bmi-calculator', 'lean-body-mass-calculator', 'ideal-weight-calculator', 'body-weight-tracker', 'water-intake-tracker'],
   methodology: {
     name: 'Mosteller 1987 and Du Bois 1916',
     detail:

@@ -25,7 +25,7 @@ export const config: ToolConfig = {
   },
   toolGroup: 'body-metrics',
   processorId: 'ideal-weight',
-  relatedTools: ['bmi-calculator', 'body-fat-calculator', 'body-weight-tracker'],
+  relatedTools: ['bmi-calculator', 'body-fat-calculator', 'body-weight-tracker', 'move-today-tracker'],
   methodology: {
     name: 'Devine, Robinson, Miller and Hamwi formulas',
     detail: 'Four published clinical formulas, shown side by side because they disagree by several kilograms and no single one is authoritative.',

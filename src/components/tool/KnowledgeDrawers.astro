@@ -8,10 +8,11 @@
 //                       a two-line guide teaser, and a "Related:" list
 //   KnowledgeDrawers    the drawers those links pointed at
 //   CategoryDiscovery   "Browse all N X" plus a SECOND related-tools list from the same source
+//                       (it left the tool page then; it now ends guides only, GuideLayout.astro)
 //   FeedbackLink        a copy of the footer's own feedback link
 //
-// So the fix was deletion, not compression. Related tools collapse into the category link (the
-// catalog is one click away either way), feedback moved to the footer where its twin already lived,
+// So the fix was deletion, not compression. Related tools collapsed into the category link for a
+// while (they came back, see 0 below), feedback moved to the footer where its twin already lived,
 // and the links that pointed at content directly below them are gone because the content is right
 // there.
 //
@@ -67,8 +68,10 @@ const concept = knowledge?.primaryConcepts?.[0] || tool.name;
 
 const category = categories.find((c) => c.slug === tool.categorySlug);
 
-// Derived, never authored: engine → pattern → family → category, with one slot guaranteed to a
-// different family (src/lib/tools/related.ts). Three named siblings, not a category dump.
+// Derived (src/lib/tools/related.ts): same-category tools ranked engine → pattern → family above a
+// relevance floor, then the tool's own hand-picked relatedTools override, with one slot kept for an
+// eligible different family. Nothing leaves the category automatically; an empty row is hidden.
+// At most three named siblings, not a category dump.
 // Group members are dropped because GroupSwitcher renders them as pills at the top of the page.
 const RELATED_COUNT = 3;
 // Fetch well past the largest tool group (body-metrics is 11) so that after dropping

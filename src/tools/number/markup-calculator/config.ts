@@ -18,7 +18,7 @@ export const config: ToolConfig = {
     solves: 'A selling price under cost prints as a percentage like any other result, and a percentage is the one format that makes a loss easy to skim past. Someone pricing a clearance SKU reads minus twenty five percent as a markup figure rather than as money leaving on every unit sold.',
   },
   toolGroup: 'everyday-calculators',
-  relatedTools: ['margin-calculator', 'percentage-calculator'],
+  relatedTools: ['margin-calculator', 'percentage-calculator', 'roi-calculator'],
   guide: {
     slug: 'markup-vs-margin',
     categorySlug: 'number',

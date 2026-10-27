@@ -26,7 +26,7 @@ export const config: ToolConfig = {
   ],
   inputs: ['move'],
   outputs: ['board'],
-  relatedTools: ['tic-tac-toe', 'coin-flipper'],
+  relatedTools: ['tic-tac-toe', 'coin-flipper', 'dice-roller'],
   craft: {
     id: 'column-preview',
     kind: 'orientation',

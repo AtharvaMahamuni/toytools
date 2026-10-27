@@ -31,7 +31,7 @@ export const config: ToolConfig = {
     readMinutes: 3,
     updatedAt: '2026-06-25',
   },
-  relatedTools: ['character-counter', 'letter-counter', 'word-counter', 'line-counter'],
+  relatedTools: ['character-counter', 'letter-counter', 'word-counter', 'line-counter', 'remove-extra-spaces', 'normalize-whitespace'],
   keywords: ['whitespace count', 'blank space counter', 'count blank characters'],
   inputs: ['text'],
   outputs: ['metric'],

@@ -12,6 +12,7 @@ export const config: ToolConfig = {
   engine: 'encoding',
   pattern: 'encode-decode',
   family: 'web',
+  relatedTools: ['slugify-text', 'url-encoder-decoder'],
   processorId: 'punycode',
   toolGroup: 'encoders',
   guide: {

@@ -31,7 +31,7 @@ export const config: ToolConfig = {
     readMinutes: 3,
     updatedAt: '2026-07-10',
   },
-  relatedTools: ['paragraph-counter', 'word-counter', 'character-counter', 'space-counter'],
+  relatedTools: ['paragraph-counter', 'word-counter', 'character-counter', 'space-counter', 'remove-blank-lines', 'remove-line-breaks'],
   keywords: ['row count', 'newline count', 'count line breaks'],
   inputs: ['text'],
   outputs: ['metric'],

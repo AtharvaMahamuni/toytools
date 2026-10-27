@@ -35,7 +35,7 @@ export const config: ToolConfig = {
   },
   toolGroup: 'body-metrics',
   processorId: 'lean-body-mass',
-  relatedTools: ['body-fat-calculator', 'ideal-weight-calculator', 'bmi-calculator'],
+  relatedTools: ['body-fat-calculator', 'ideal-weight-calculator', 'bmi-calculator', 'body-weight-tracker', 'move-today-tracker'],
   methodology: {
     name: 'Boer 1984, James 1976, and Hume 1966',
     detail:

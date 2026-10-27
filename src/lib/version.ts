@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 15,
+  minor: 16,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-10-27',
-  description: 'Whitespace hub folds the normalize whitespace guide, 404 and sitemap guards',
+  description: 'Related tools stay in the category unless hand-picked, at least two per tool',
 };
 
 export function formatVersion(config: VersionConfig): string {

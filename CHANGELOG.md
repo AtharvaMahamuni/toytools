@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.16] - 2026-10-27
+
+### Changed
+
+- **Related tools stay in the category unless hand-picked, with at least two per tool.** The related row on a tool page, the Related Tools list on a guide, the sibling links at the end of a guide and the knowledge graph link same-category tools that share the engine, the pattern and engine, or the family, or are hand-linked in either direction. Sharing only the category or a word is not enough, and nothing leaves the category automatically. Tools that had fewer than two good siblings now carry hand-picked links instead: the health calculators link the body weight, move and water trackers, the text counters link the matching cleanup tools, the tip and tax calculators link Split Bill, margin and markup link the ROI calculator, and the board games link the dice roller. The Roman numeral converter offers Binary Converter, Number to Words and Scientific Calculator, and none of the numeral tools reaches the tax or tip calculators.
+
 ## [alpha-v13.15] - 2026-10-27
 
 ### Changed
