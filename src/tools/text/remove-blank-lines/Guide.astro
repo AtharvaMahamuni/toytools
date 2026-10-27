@@ -114,7 +114,8 @@ const normalizeHref = toolPathBySlug('normalize-whitespace');
     <h2>Normalize Whitespace To One Line <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Whitespace normalization is the more aggressive cleanup, and it handles tabs and breaks, not
-      just spaces. It will collapse tabs and spaces, carriage returns and newlines: each run becomes
+      just spaces. It is broader than a simple double-space fix, so use it to fix messy spacing and
+      restore whitespace consistency in one step. It will collapse tabs and spaces, carriage returns and newlines: each run becomes
       one space, and the ends are trimmed. In other words, it will clean whitespace and standardize
       spacing in one pass, which also makes it the way to standardize whitespace across content
       pasted from many sources. The result is single line text with consistent spacing, which is what a CSV cell,

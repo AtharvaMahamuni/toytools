@@ -41,7 +41,7 @@ export const items: FAQItem[] = [
     id: 'nw-faq-7',
     question: 'How do I make spacing consistent before parsing text?',
     answer:
-      'Run the raw text through Normalize Whitespace first, so your parser only ever meets single spaces between tokens. Paste the input, copy the flattened output, and feed that to your script or import step. For example, a product list pasted from a spreadsheet arrives with tabs between columns and a newline after each row; after normalizing, it is one line of space-separated values that a simple split on spaces handles reliably.',
+      'Run the raw text through Normalize Whitespace first, so your parser only ever meets single spaces between tokens. Paste the input, copy the flattened output, and feed that to your script or import step. For example, a product name copied from a spreadsheet cell carries stray tabs, doubled spaces or a trailing line break; after normalizing, it is a clean single-spaced string ready to match or store. Keep whole tables out of it: normalizing turns the tabs between columns and the breaks between rows into plain spaces, so the table structure is lost.',
   },
   {
     id: 'nw-faq-8',
