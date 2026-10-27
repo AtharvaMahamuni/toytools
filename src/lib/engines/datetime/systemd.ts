@@ -1,4 +1,4 @@
-// Cron to systemd OnCalendar translation, for the Date & Time engine.
+// Cron to systemd OnCalendar translation, for the Date and Time engine.
 //
 // The two grammars look similar enough that people translate by eye, and they differ in one place
 // that produces no error and no warning: when a crontab line restricts BOTH day-of-month and

@@ -3,7 +3,7 @@ import { KNOWLEDGE_SCHEMA_VERSION, type Knowledge } from '@lib/knowledge/types';
 export const knowledge: Knowledge = {
   schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
   slug: 'combinations-permutations-calculator',
-  title: 'Combinations & Permutations Calculator',
+  title: 'Combinations and Permutations Calculator',
   category: 'applied-math',
   summary: 'Count nCr and nPr exactly, with or without repetition, with the formula expanded and the count read back in plain language.',
   primaryConcepts: ['combinations', 'permutations'],

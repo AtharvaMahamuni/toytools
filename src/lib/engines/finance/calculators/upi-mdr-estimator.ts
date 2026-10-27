@@ -7,6 +7,7 @@ import { successResult, card, validationError } from '@lib/results/index';
 import type { InteractiveResult } from '@lib/results/types';
 import { money, roundMoney } from '../format';
 import { insight, milestone, assumption, toolDecision } from '../story';
+import { parseAmount } from '../validation';
 
 export const MDR_FLOOR = 2000;
 export const MDR_PAGE_CAP = 100_000_000;
@@ -64,7 +65,7 @@ function readAmount(raw: unknown): { ok: true; value: number } | { ok: false; re
   if (raw === undefined || raw === null) return { ok: false, result: fail('Enter an amount in whole rupees.') };
   const text = typeof raw === 'number' ? String(raw) : String(raw).trim();
   if (text === '') return { ok: false, result: fail('Enter an amount in whole rupees.') };
-  const n = Number(text.replace(/,/g, '').replace(/\s/g, ''));
+  const n = parseAmount(text);
   if (!Number.isFinite(n)) return { ok: false, result: fail('Amount must be a number.') };
   if (n <= 0) return { ok: false, result: fail('Amount must be greater than zero.') };
   if (!Number.isInteger(n)) return { ok: false, result: fail('Enter whole rupees only. No paise.') };

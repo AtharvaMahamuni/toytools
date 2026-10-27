@@ -83,7 +83,7 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Probability Calculator: Coin Flips & Law of Large Numbers',
+    title: 'Probability Calculator: Coin Flips and Law of Large Numbers',
     description:
       'Toss a coin or roll dice thousands of times and watch the odds converge on theory: a live demonstration of the law of large numbers you can experiment with.',
     tagline: 'Roll thousands of times and watch frequency converge on probability.',

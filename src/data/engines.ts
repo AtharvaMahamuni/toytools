@@ -103,7 +103,7 @@ interface EngineDef {
 
 // Declared engine definitions. New engines register here exactly once.
 const engineDefs: EngineDef[] = [
-  { id: 'text-analysis', name: 'Text Analysis Engine', category: 'text-utilities', patterns: ['text-metric'], runtimeGlobal: 'analyze', sharedWidget: 'TextMetricWidget.astro', globals: ['analyze', 'textNotice', 'formatMetric', 'wordTokens'] },
+  { id: 'text-analysis', name: 'Text Analysis Engine', category: 'text-utilities', patterns: ['text-metric'], runtimeGlobal: 'analyze', sharedWidget: 'TextMetricWidget.astro', globals: ['analyze', 'textNotice', 'formatMetric', 'wordTokens', 'isNumberToken'] },
   { id: 'text-processor', name: 'Text Processor Engine', category: 'text-utilities', patterns: ['text-transform', 'text-cleanup', 'text-inspect', 'text-assemble'], runtimeGlobal: 'process', sharedWidget: 'TextProcessorWidget.astro', globals: ['process', 'textHandoff', 'detectInvisible', 'packPrompt', 'cleanChatExport', 'estimateContextFit', 'buildLlmsTxt'] },
   { id: 'encoding', name: 'Encoding Engine', category: 'developer-utilities', patterns: ['encode-decode', 'encode-detect'], runtimeGlobal: 'runEncoding', sharedWidget: 'ConverterWidget.astro', globals: ['runEncoding', 'detectEncoding', 'transform'] },
   { id: 'hashing', name: 'Hashing Engine', category: 'developer-utilities', patterns: ['hash', 'hash-identify'], runtimeGlobal: 'runHash', sharedWidget: 'ConverterWidget.astro', globals: ['runHash', 'hashBytes', 'hashBlob', 'compareFileDigest', 'identifyHash', 'verifyHash', 'transform'] },
@@ -112,7 +112,7 @@ const engineDefs: EngineDef[] = [
   { id: 'text-interactive', name: 'Text Interactive Engine', category: 'text-utilities', patterns: ['text-interactive'], runtimeGlobal: '', globals: ['diff', 'diffStats', 'whitespaceNoise', 'shell', 'regex'] },
   { id: 'calculator', name: 'Calculator Engine', category: 'number-utilities', patterns: ['calculate'], runtimeGlobal: '', globals: ['pitfall'] },
   { id: 'productivity', name: 'Productivity Engine', category: 'productivity', patterns: ['stateful'], runtimeGlobal: '' },
-  { id: 'finance', name: 'Finance Engine', category: 'money-finance', patterns: ['finance-growth', 'finance-planning'], runtimeGlobal: 'runFinance', sharedWidget: 'FinanceWidget.astro', globals: ['runFinance', 'upiNextPay', 'experience'] },
+  { id: 'finance', name: 'Finance Engine', category: 'money-finance', patterns: ['finance-growth', 'finance-planning'], runtimeGlobal: 'runFinance', sharedWidget: 'FinanceWidget.astro', globals: ['runFinance', 'upiNextPay', 'parseAmount', 'experience'] },
   { id: 'csv', name: 'CSV Engine', category: 'developer-utilities', patterns: ['csv-transform'], runtimeGlobal: 'runCsv', sharedWidget: 'CsvWidget.astro', globals: ['runCsv', 'csv'] },
   { id: 'generation', name: 'Generation Engine', category: 'generate', patterns: ['generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code', 'generate-chance'], runtimeGlobal: 'runGeneration', sharedWidget: 'GeneratorWidget.astro', globals: ['runGeneration'] },
   // Physics Playground: interactive canvas simulations. runtimeGlobal is '' — unlike the
@@ -120,9 +120,9 @@ const engineDefs: EngineDef[] = [
   // (that loads site-wide). Instead SimulationWidget ships a bundled per-page script that
   // lazy-loads one simulation module, so physics code never touches non-physics pages.
   { id: 'physics', name: 'Physics Playground Engine', category: 'physics', patterns: ['simulate'], runtimeGlobal: '', sharedWidget: 'SimulationWidget.astro' },
-  // Date & Time: date/duration/timezone/timestamp/schedule tools. Reuses the platform experience
+  // Date and Time: date/duration/timezone/timestamp/schedule tools. Reuses the platform experience
   // renderer (ToyTools.experience) for output; runtimeGlobal runDateTime resolves the calculator.
-  { id: 'datetime', name: 'Date & Time Engine', category: 'date-time', patterns: ['datetime-calculate', 'datetime-convert', 'datetime-schedule'], runtimeGlobal: 'runDateTime', sharedWidget: 'DateTimeWidget.astro', globals: ['runDateTime', 'experience'] },
+  { id: 'datetime', name: 'Date and Time Engine', category: 'date-time', patterns: ['datetime-calculate', 'datetime-convert', 'datetime-schedule'], runtimeGlobal: 'runDateTime', sharedWidget: 'DateTimeWidget.astro', globals: ['runDateTime', 'experience'] },
   // Applied Math Lab: the second domain plugin on the generic simulation platform (see
   // src/lib/simulation/plugins/math/). Same runtime story as physics: no ToyTools global,
   // SimulationWidget lazy-loads exactly one simulation module per page.
@@ -146,13 +146,13 @@ const engineDefs: EngineDef[] = [
   // chart. Every tracker shares one TrackerWidget shell; a tracker is a declarative TrackerDef, and
   // the pure model/viz + streak logic live in src/lib/engines/tracker/ (attached as ToyTools.tracker).
   { id: 'tracker', name: 'Tracker Engine', category: 'health-fitness', patterns: ['health-track'], runtimeGlobal: 'tracker', sharedWidget: 'TrackerWidget.astro', globals: ['tracker', 'trackerCaveat', 'viz'] },
-  // Design & CSS: two deterministic client-side math engines with bespoke widgets (like the
+  // Design and CSS: two deterministic client-side math engines with bespoke widgets (like the
   // calculator engine — runtimeGlobal exposes a namespace object on ToyTools.*, no shared widget).
   // 'color' does parse/convert/contrast across HEX/RGB/HSL/HSV/OKLCH/CMYK; 'units' does CSS +
   // native unit math (px/rem/em/pt/dp/sp) and aspect-ratio solving.
   { id: 'color', name: 'Color Engine', category: 'design-tools', patterns: ['color-convert', 'color-contrast'], runtimeGlobal: 'color', globals: ['color'] },
   { id: 'units', name: 'CSS Unit Engine', category: 'design-tools', patterns: ['unit-convert', 'aspect-ratio'], runtimeGlobal: 'units', globals: ['units'] },
-  // Music & Audio: equalizer design. An EQ is a DEFINITION here (bands, presets, limits) resolved
+  // Music and Audio: equalizer design. An EQ is a DEFINITION here (bands, presets, limits) resolved
   // by processorId, so a second tool on a different band layout is a registry entry rather than a
   // second widget, and EqWidget stays the one place the curve and the controls are drawn.
   { id: 'audio', name: 'Audio Engine', category: 'music-audio', patterns: ['eq-design'], runtimeGlobal: 'eq', sharedWidget: 'EqWidget.astro', globals: ['eq'] },

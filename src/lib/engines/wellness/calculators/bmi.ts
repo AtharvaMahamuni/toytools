@@ -93,7 +93,7 @@ export const bmiCalculator: WellnessCalculator = {
     const delta = weightToHealthyKg(weightKg, heightM);
 
     const hero = card('bmi', 'Body Mass Index', num1(value), {
-      raw: Number(value.toFixed(2)),
+      raw: Number(value.toFixed(2)) || Number(value.toPrecision(2)),
       emphasis: 'hero',
       note: label,
     });
@@ -159,7 +159,7 @@ export const bmiCalculator: WellnessCalculator = {
       ],
       explanation:
         'BMI divides your weight in kilograms by the square of your height in metres. The result is compared against fixed adult bands set by the World Health Organization. Because it uses only height and weight, BMI cannot distinguish muscle from fat or account for frame size, so it works best as a population-level screen rather than an individual verdict.',
-      meta: { bmi: Number(value.toFixed(2)), category: cat },
+      meta: { bmi: Number(value.toFixed(2)) || Number(value.toPrecision(2)), category: cat },
     });
   },
 };

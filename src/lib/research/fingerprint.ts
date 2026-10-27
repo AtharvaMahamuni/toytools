@@ -2,7 +2,7 @@
 // report can say what it was generated FROM and a reader can tell whether it is still current.
 //
 // Why this exists: on 2026-08-31 the committed reports recommended a next build computed against a
-// catalog two tools out of date (they were generated at the chemistry commit; the Music & Audio
+// catalog two tools out of date (they were generated at the chemistry commit; the Music and Audio
 // category and equalizer-settings-generator shipped after). Nothing on disk said so, so
 // `next-build.md` read exactly as authoritative as a fresh one — the `alreadyExists` classification
 // was simply wrong and there was no way to notice. A report that is silently stale is worse than no

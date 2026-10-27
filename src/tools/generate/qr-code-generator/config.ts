@@ -3,7 +3,7 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'qr-code-generator',
   name: 'QR Code Generator',
-  seoTitle: 'QR Code Generator — Text, URL, Wi-Fi & vCard',
+  seoTitle: 'QR Code Generator — Text, URL, Wi-Fi and vCard',
   description:
     'Create QR codes in your browser from text, a URL, an email, a phone number, Wi-Fi credentials, or a contact card. Download PNG or SVG. Nothing is uploaded.',
   tagline: 'QR codes for a URL, Wi-Fi, contact or plain text. PNG or SVG.',

@@ -38,6 +38,11 @@ fast, static-first, mobile-first, engine-first, with no accounts and no backend.
    bump). The em dash ban covers every piece of text
    the tool ships and everything around it: name, title, tagline, description, FAQ, guide,
    knowledge, aliases, code comments, commit messages, the CHANGELOG and the PR body.
+   Tool and category names use "and", never "&" ("Date and Time", not "Date & Time"; Atharva,
+   26 Oct 2026). `scripts/scaffold-tool.ts` refuses a name with "&" and the registry check
+   fails on any "&" in a tool name, seoTitle or guide title, a category name, or a simulation
+   page title (`scripts/validate-registry.ts`, run by `npm run build`). There are no exemptions:
+   every older name was renamed on 26 Oct 2026, with slugs and URLs unchanged.
 
 ## Phase 2: Conceptualise
 

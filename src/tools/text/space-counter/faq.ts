@@ -17,7 +17,7 @@ export const items: FAQItem[] = [
     id: 'sc-faq-3',
     question: 'Do tabs count as spaces?',
     answer:
-      'No. Tabs and spaces are different characters. This tool counts only the literal space character. If you want to count tabs, use a text editor with find/replace or the Find & Replace tool on ToyTools.',
+      'No. Tabs and spaces are different characters. This tool counts only the literal space character. If you want to count tabs, use a text editor with find/replace or the Find and Replace tool on ToyTools.',
   },
   {
     id: 'sc-faq-4',

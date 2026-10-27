@@ -3,7 +3,7 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'json-tree-viewer',
   name: 'JSON Tree Viewer',
-  seoTitle: 'JSON Tree Viewer — Visualize & Explore JSON Online',
+  seoTitle: 'JSON Tree Viewer — Visualize and Explore JSON Online',
   description: 'Visualize JSON as a collapsible tree. Explore structure, search keys and values, and copy any node path or value. Fast, private, and free.',
   tagline: 'Explore JSON as a collapsible tree, and copy any path or value.',
   categorySlug: 'developer-utilities',

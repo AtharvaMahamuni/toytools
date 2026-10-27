@@ -3,7 +3,7 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'fraction-calculator',
   name: 'Fraction Calculator',
-  seoTitle: 'Fraction Calculator with Steps: Add & Simplify',
+  seoTitle: 'Fraction Calculator with Steps: Add and Simplify',
   description: 'Adding, subtracting, multiplying or dividing fractions and mixed numbers, every step shown, with the LCD, simplifying and fraction to decimal forms.',
   tagline: 'Add, subtract, multiply or divide fractions with every step shown.',
   categorySlug: 'applied-math',

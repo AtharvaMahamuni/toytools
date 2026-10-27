@@ -3,7 +3,7 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'body-weight-tracker',
   name: 'Body Weight Tracker',
-  seoTitle: 'Body Weight Tracker — Daily Weigh-In Log & Trend',
+  seoTitle: 'Body Weight Tracker — Daily Weigh-In Log and Trend',
   description: 'Log your weight each day and watch the trend line with a smoothed average and optional goal, all stored privately in your browser.',
   tagline: 'Log your weight daily and watch the smoothed trend line.',
   categorySlug: 'health-fitness',

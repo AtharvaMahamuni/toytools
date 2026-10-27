@@ -2,8 +2,8 @@ import type { ToolConfig } from '@data/types';
 
 export const config: ToolConfig = {
   slug: 'combinations-permutations-calculator',
-  name: 'Combinations & Permutations Calculator',
-  seoTitle: 'Combinations & Permutations Calculator: nCr, nPr',
+  name: 'Combinations and Permutations Calculator',
+  seoTitle: 'Combinations and Permutations Calculator: nCr, nPr',
   description: 'Compute nCr and nPr exactly, with or without repetition, with the formula expanded step by step and a plain-language reading of how many ways you can choose.',
   tagline: 'nCr and nPr with the formula expanded step by step.',
   categorySlug: 'applied-math',

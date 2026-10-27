@@ -4,7 +4,7 @@ import { searchAliases } from '../src/data/search-aliases';
 import { engineIds, knownPatterns, getEngine, engineRegistry, NON_DISPATCHING_PATTERNS } from '../src/data/engines';
 import { RUNTIME_ENGINE_IDS } from '../src/lib/runtime/loaders';
 import { ENGINE_GLOBALS } from '../src/data/engines';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { getToolMetadata } from '../src/data/metadata';
@@ -29,6 +29,7 @@ import { NETWORK_CALCULATORS } from '../src/lib/engines/network/registry';
 import { RULES as BOARD_RULES } from '../src/lib/engines/board-game/registry';
 import { DOMAINS, SIMULATIONS } from '../src/lib/simulation/simulations/registry';
 import { MANIFESTS } from '../src/lib/simulation/manifests';
+import { sectionsByPattern } from '../src/data/category-sections';
 import { SIMULATION_SCHEMA_VERSION } from '../src/lib/simulation/manifest';
 import { guideCategorySlugErrors } from '../src/lib/content/guide-category';
 import { nonGoalRatchetErrors } from '../src/lib/llms/nongoal';
@@ -407,6 +408,67 @@ for (const manifest of MANIFESTS) {
 // These were warnings while 94 of 119 tools still fell back to a long description. That backlog is
 // cleared, so they are errors: the whole catalog holds the one-line contract, and the cheapest way
 // to keep holding it is to stop the next tool shipping without one.
+// Names and titles use "and", never "&" (Atharva, 26 Oct 2026). No exemptions: every tool name,
+// seoTitle and guide title, and every category name, is held to it.
+function ampersandIn(label: string, value: unknown): void {
+  if (typeof value === 'string' && value.includes('&')) {
+    errors.push(`${label} "${value}" contains "&": write "and" instead`);
+  }
+}
+for (const tool of tools) {
+  const t = tool as { slug: string; name?: string; seoTitle?: string; title?: string; guide?: { title?: string } };
+  ampersandIn(`Tool "${t.slug}" name`, t.name);
+  ampersandIn(`Tool "${t.slug}" seoTitle`, t.seoTitle);
+  ampersandIn(`Tool "${t.slug}" title`, t.title);
+  ampersandIn(`Tool "${t.slug}" guide title`, t.guide?.title);
+}
+for (const manifest of MANIFESTS) {
+  ampersandIn(`Simulation "${manifest.metadata.slug}" seo.title`, (manifest as { seo?: { title?: string } }).seo?.title);
+}
+for (const category of categories) {
+  const c = category as { slug: string; name: string; seoTitle?: string; title?: string };
+  ampersandIn(`Category "${c.slug}" name`, c.name);
+  ampersandIn(`Category "${c.slug}" seoTitle`, c.seoTitle);
+  ampersandIn(`Category "${c.slug}" title`, c.title);
+}
+for (const [pattern, section] of Object.entries(sectionsByPattern)) {
+  ampersandIn(`Category section "${pattern}" title`, section.title);
+}
+
+// Every visible name source, not just the registry: Guide link texts and buttons, related links,
+// FAQs, knowledge pages and widgets all write names by hand. Any source file under src/ that spells
+// a tool, simulation, category or section name with "&" (or "&amp;") fails, so a hand-written link
+// label cannot drift from the registry name. Tests are skipped: they search with "&" on purpose.
+{
+  const visibleNames = new Set<string>();
+  for (const t of tools) visibleNames.add((t as { name: string }).name);
+  for (const c of categories) visibleNames.add(c.name);
+  for (const s of Object.values(sectionsByPattern)) visibleNames.add(s.title);
+  for (const m of MANIFESTS) {
+    const md = m.metadata as { name?: string; title?: string };
+    if (md.name) visibleNames.add(md.name);
+    if (md.title) visibleNames.add(md.title);
+  }
+  const variants: Array<[string, string]> = [];
+  for (const name of visibleNames) {
+    if (!/ and /.test(name)) continue;
+    for (const amp of [' & ', ' &amp; ']) variants.push([name.replace(/ and /g, amp), name]);
+  }
+  const srcRoot = join(dirname(fileURLToPath(import.meta.url)), '..', 'src');
+  const walk = (dir: string): string[] => readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+    const full = join(dir, e.name);
+    if (e.isDirectory()) return walk(full);
+    return /\.(astro|ts|tsx|js|mjs|md|mdx|json|html)$/.test(e.name) && !/\.(test|spec)\.[tj]s$/.test(e.name) ? [full] : [];
+  });
+  for (const file of walk(srcRoot)) {
+    const text = readFileSync(file, 'utf8');
+    if (!text.includes('&')) continue;
+    for (const [bad, good] of variants) {
+      if (text.includes(bad)) errors.push(`${file.slice(srcRoot.length - 3)} writes "${bad}": the name is "${good}"`);
+    }
+  }
+}
+
 const TAGLINE_MAX = 80;
 
 for (const tool of tools) {

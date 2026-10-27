@@ -3,7 +3,7 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'heart-rate-zone-calculator',
   name: 'Heart Rate Zone Calculator',
-  seoTitle: 'Heart Rate Zone Calculator — Max HR & Training Zones',
+  seoTitle: 'Heart Rate Zone Calculator — Max HR and Training Zones',
   description: 'Find your maximum heart rate and five training zones, including the cardio zone, from your age, with the Karvonen method when you add a resting rate.',
   tagline: 'Your max heart rate and five training zones, from your age.',
   categorySlug: 'health-fitness',

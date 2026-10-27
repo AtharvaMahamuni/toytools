@@ -2,6 +2,26 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.14] - 2026-10-26
+
+### Added
+
+- **Word Frequency: Ignore numbers.** A new option, off by default, leaves numbers such as 2026, 1,000, 3.14 and 10:30 out of the table while words like 1st and mp3 stay. A shared link can turn it on with `?numbers=ignore` (and `?common=hide` or `?sort=alpha` for the other options); the page reads these but never writes them to the address bar or stores them.
+- **Quantum Tic Tac Toe: deselect.** Tapping the first square of a move again deselects it, and screen readers hear "Row 2, column 2 deselected. Pick two different squares."
+
+### Changed
+
+- **Names use "and", not "&".** Every existing name with "&" was renamed. The categories are now Money and Finance, Date and Time, Health and Fitness, Design and CSS, and Music and Audio. Tool names, page titles, section headings and Guide links now say "and", for example URL Encoder and Decoder. Every URL and slug is unchanged. New names must spell out "and" too: the scaffold refuses a name with "&", and the build fails on "&" in any name, title or SEO title, or on a name written with "&" anywhere in the site source. The planned PDF category is now "PDF and Files". Search still matches "&" queries, so "Date & Time" finds Date and Time.
+
+### Fixed
+
+- **Decimal commas.** Typing "1,5" into any calculator now means 1.5, not 15. Complete thousands grouping such as 1,500, 12,345,678 or 1,50,000 still reads as a whole number, and an unclear mix such as "1,2,3" or "1.500,25" is refused instead of guessed.
+- **Tiny results.** A value that is not zero no longer displays as 0: a BMI of 0.0025 used to read "0, Underweight" and now reads 0.0025. Very small values use scientific notation (2.5e-7). Money still rounds to cents.
+- **"0,500" is 0.5.** A leading zero group is not thousands grouping, so "0,500" and "0,5" read as 0.5, and "0,500,000" is refused as ambiguous.
+- **One number parser for finance.** UPI MDR, UPI 1999 split, Split Bill, Shop UPI Tally and the shared finance number check all read typed amounts through the shared parser.
+- **UPI 1999 split field.** A paise amount such as 2.4 stays as typed next to the "whole rupees only" error instead of showing a rounded 2.
+- **Apostrophes.** Word counts treat every apostrophe form (don't, don’t and the left-quote and fullwidth variants) as the same word.
+
 ## [alpha-v13.13.2] - 2026-10-26
 
 ### Fixed

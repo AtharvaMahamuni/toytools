@@ -7,6 +7,7 @@ import { successResult, card, validationError } from '@lib/results/index';
 import type { InteractiveResult } from '@lib/results/types';
 import { moneyWhole } from '../format';
 import { insight, milestone, toolDecision } from '../story';
+import { parseAmount } from '../validation';
 
 export const UPI_THRESHOLD = 2000;
 export const UPI_CHUNK = 1999;
@@ -55,7 +56,7 @@ function readAmount(raw: unknown): { ok: true; value: number } | { ok: false; re
   if (raw === undefined || raw === null) return { ok: false, result: fail('Enter total rupees to pay.') };
   const text = typeof raw === 'number' ? String(raw) : String(raw).trim();
   if (text === '') return { ok: false, result: fail('Enter total rupees to pay.') };
-  const n = Number(text.replace(/,/g, '').replace(/\s/g, ''));
+  const n = parseAmount(text);
   if (!Number.isFinite(n)) return { ok: false, result: fail('Total rupees must be a number.') };
   if (n <= 0) return { ok: false, result: fail('Total rupees must be greater than zero.') };
   if (!Number.isInteger(n)) return { ok: false, result: fail('Enter whole rupees only. No paise.') };

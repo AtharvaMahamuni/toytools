@@ -86,7 +86,7 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Quadratic Equation Solver: Roots & Parabola',
+    title: 'Quadratic Equation Solver: Roots and Parabola',
     description:
       'Find the roots of a quadratic equation visually. Slide the coefficients and watch the roots, discriminant, vertex and axis of symmetry move on a parabola.',
     tagline: 'Slide the coefficients and watch the roots move on a live parabola.',

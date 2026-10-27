@@ -220,7 +220,7 @@
       "toolCount": 12
     },
     "datetime": {
-      "name": "Date & Time Engine",
+      "name": "Date and Time Engine",
       "category": "date-time",
       "patterns": [
         "datetime-calculate",
@@ -959,7 +959,7 @@
       "knowledgeRegistered": true
     },
     "base64-encoder-decoder": {
-      "name": "Base64 Encoder & Decoder",
+      "name": "Base64 Encoder and Decoder",
       "dir": "src/tools/developer-utilities/base64-encoder-decoder",
       "categorySlug": "developer-utilities",
       "url": "/tool/developer-utilities/base64-encoder-decoder/",
@@ -1442,7 +1442,7 @@
       "knowledgeRegistered": true
     },
     "combinations-permutations-calculator": {
-      "name": "Combinations & Permutations Calculator",
+      "name": "Combinations and Permutations Calculator",
       "dir": "src/tools/math/combinations-permutations-calculator",
       "categorySlug": "applied-math",
       "url": "/tool/math/combinations-permutations-calculator/",
@@ -2009,7 +2009,7 @@
       "knowledgeRegistered": true
     },
     "html-entity-encoder-decoder": {
-      "name": "HTML Entity Encoder & Decoder",
+      "name": "HTML Entity Encoder and Decoder",
       "dir": "src/tools/developer-utilities/html-entity-encoder-decoder",
       "categorySlug": "developer-utilities",
       "url": "/tool/developer-utilities/html-entity-encoder-decoder/",
@@ -4256,7 +4256,7 @@
       "knowledgeRegistered": true
     },
     "url-encoder-decoder": {
-      "name": "URL Encoder & Decoder",
+      "name": "URL Encoder and Decoder",
       "dir": "src/tools/developer-utilities/url-encoder-decoder",
       "categorySlug": "developer-utilities",
       "url": "/tool/developer-utilities/url-encoder-decoder/",

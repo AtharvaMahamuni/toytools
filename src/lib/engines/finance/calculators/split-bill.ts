@@ -6,6 +6,7 @@ import { successResult, card, validationError } from '@lib/results/index';
 import type { InteractiveResult } from '@lib/results/types';
 import { money } from '../format';
 import { insight, milestone, assumption, toolDecision } from '../story';
+import { parseAmount } from '../validation';
 
 export const PEOPLE_MIN = 2;
 export const PEOPLE_MAX = 30;
@@ -49,7 +50,7 @@ function readBill(raw: unknown): { ok: true; value: number } | { ok: false; resu
   if (raw === undefined || raw === null) return { ok: false, result: fail('Enter the bill total.') };
   const text = typeof raw === 'number' ? String(raw) : String(raw).trim();
   if (text === '') return { ok: false, result: fail('Enter the bill total.') };
-  const n = Number(text.replace(/,/g, '').replace(/\s/g, ''));
+  const n = parseAmount(text);
   if (!Number.isFinite(n)) return { ok: false, result: fail('Bill total must be a number.') };
   if (n <= 0) return { ok: false, result: fail('Bill total must be greater than zero.') };
   if (!atMostTwoDecimals(n)) return { ok: false, result: fail('Enter rupees with at most two decimal places.') };
@@ -59,7 +60,7 @@ function readBill(raw: unknown): { ok: true; value: number } | { ok: false; resu
 
 function readPeople(raw: unknown): { ok: true; value: number } | { ok: false; result: InteractiveResult } {
   if (raw === undefined || raw === null || raw === '') return { ok: false, result: fail('Enter how many people, from 2 to 30.') };
-  const n = typeof raw === 'number' ? raw : Number(String(raw).trim());
+  const n = parseAmount(raw);
   if (!Number.isFinite(n)) return { ok: false, result: fail('People must be a number.') };
   if (!Number.isInteger(n)) return { ok: false, result: fail('People must be a whole number.') };
   if (n < PEOPLE_MIN || n > PEOPLE_MAX) return { ok: false, result: fail('People must be from 2 to 30.') };
@@ -68,7 +69,7 @@ function readPeople(raw: unknown): { ok: true; value: number } | { ok: false; re
 
 function readTip(raw: unknown): { ok: true; value: number } | { ok: false; result: InteractiveResult } {
   if (raw === undefined || raw === null || raw === '') return { ok: true, value: 0 };
-  const n = typeof raw === 'number' ? raw : Number(String(raw).trim());
+  const n = parseAmount(raw);
   if (!Number.isFinite(n)) return { ok: false, result: fail('Tip percent must be a number.') };
   if (n < 0 || n > TIP_MAX) return { ok: false, result: fail('Tip percent must be from 0 to 30.') };
   if (!Number.isInteger(n)) return { ok: false, result: fail('Tip percent must be a whole number.') };

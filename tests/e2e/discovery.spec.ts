@@ -31,7 +31,7 @@ test.describe('homepage index', () => {
     await expect(text.locator('a[href*="install=1"]')).toHaveCount(0);
 
     // Highlights name tools the collapsed directory hides behind a group entry.
-    const health = shelves.locator('.shelf').filter({ hasText: 'Health & Fitness' });
+    const health = shelves.locator('.shelf').filter({ hasText: 'Health and Fitness' });
     await expect(health.locator('.app-tile-main[data-slug="bmi-calculator"]')).toBeVisible();
 
     // See all sits in the title cluster. A link parked at the far edge of the row fails this.
@@ -265,7 +265,7 @@ test.describe('category pages', () => {
   test('text-utilities groups into three titled sections', async ({ page }) => {
     await page.goto('/category/text-utilities/');
     const headings = page.locator('.cat-section-heading');
-    await expect(headings).toHaveText(['Counting & Analysis', 'Case Conversion', 'Cleanup', 'Find & Compare']);
+    await expect(headings).toHaveText(['Counting and Analysis', 'Case Conversion', 'Cleanup', 'Find and Compare']);
 
     // Grouped rows render mode chips: 7 case converters + 9 text-cleanup + 9 text counters.
     await expect(page.locator('.cat-chip')).toHaveCount(25);

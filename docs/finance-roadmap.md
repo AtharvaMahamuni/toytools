@@ -1,4 +1,4 @@
-# Money & Finance — Expansion Roadmap
+# Money and Finance — Expansion Roadmap
 
 Phase H1 shipped the Finance Engine and its first five tools (compound interest, rule of 72,
 inflation, savings goal, emergency fund) on top of a reusable, engine-agnostic platform layer (smart
@@ -73,6 +73,6 @@ the finance build proved that path, so these are incremental, not greenfield.
 
 Every tool above shares the finance concept graph (`src/lib/engines/finance/concepts.ts`) and links via
 curated knowledge relationships, so each addition increases internal linking and topic authority across
-the whole Money & Finance cluster rather than standing alone. Because all of them reuse the platform
+the whole Money and Finance cluster rather than standing alone. Because all of them reuse the platform
 input + experience layers, the marginal cost per tool stays low while the catalog scales toward the
 50-100+ tool ambition for the category.

@@ -42,6 +42,14 @@ describe('worked examples', () => {
 });
 
 describe('bmi calculator', () => {
+  it('a tiny BMI is shown, not rounded to 0 (BMI 0.0025 once read "0, Underweight")', () => {
+    const res = runWellness('bmi', { unit: 'metric', weight: 0.0025, height: 100 }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.value).toBe('0.0025');
+    expect(res.hero?.raw).toBe(0.0025);
+  });
+
+
   it('labels a healthy BMI and marks the milestone reached', () => {
     const res = runWellness('bmi', { unit: 'metric', weight: 70, height: 175 }, {});
     expect(res.uiState).toBe('success');

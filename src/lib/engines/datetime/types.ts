@@ -1,4 +1,4 @@
-// Date & Time engine types. Like finance, the datetime engine is a CONSUMER of the platform layers:
+// Date and Time engine types. Like finance, the datetime engine is a CONSUMER of the platform layers:
 // a tool's result IS an InteractiveResult and a field IS a platform SmartFieldDef. What differs from
 // finance is that inputs are commonly strings (ISO dates, cron expressions), not just numbers.
 

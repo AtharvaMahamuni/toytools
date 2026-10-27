@@ -77,7 +77,7 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Projectile Motion Calculator: Range, Height & Angle',
+    title: 'Projectile Motion Calculator: Range, Height and Angle',
     description:
       'Drag to aim a launch and watch the trajectory fly. Change speed, angle and gravity to see range, peak height and time of flight, horizontal or angled.',
     tagline: 'Aim a launch and watch the arc. Range, peak height and flight time, live.',

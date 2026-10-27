@@ -104,12 +104,22 @@ export function wordPieces(text: string): string[] {
 export function wordTokens(text: string): string[] {
   const out: string[] = [];
   for (const piece of wordPieces(text)) {
-    // A curly apostrophe (U+2019, also the typographic right single quote) or a modifier letter
-    // apostrophe (U+02BC) counts as a straight one, so don't and don’t are one word.
-    const token = trimEdges(piece).replace(/[\u2019\u02bc]/g, "'").toLowerCase();
+    // A curly apostrophe (U+2019, also the typographic right single quote; U+2018, which some
+    // keyboards autocorrect to inside a word), a modifier letter apostrophe (U+02BC) or a
+    // fullwidth one (U+FF07) counts as a straight one, so don't and don’t are one word.
+    const token = trimEdges(piece).replace(/[\u2018\u2019\u02bc\uff07]/g, "'").toLowerCase();
     if (token) out.push(token);
   }
   return out;
+}
+
+/**
+ * True when a word token is a number rather than a word: it has at least one digit and no letter.
+ * So 1,000, 3.14, 2026, 50% and 10:30 are numbers, while 1st, mp3 and covid-19 stay words.
+ * Used by Word Frequency's "Ignore numbers" option.
+ */
+export function isNumberToken(token: string): boolean {
+  return /\p{N}/u.test(token) && !/[\p{L}\p{M}]/u.test(token);
 }
 
 export function analyzeText(text: string): TextAnalysis {

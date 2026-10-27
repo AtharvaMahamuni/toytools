@@ -1,4 +1,4 @@
-// Timezone support for the Date & Time engine. Pure and deterministic: every offset is read from the
+// Timezone support for the Date and Time engine. Pure and deterministic: every offset is read from the
 // runtime's IANA database via Intl.DateTimeFormat, so daylight saving is always correct without a
 // bundled tz table. No module-top-level Date(); callers pass explicit instants. Intl runs in both the
 // browser and Node (vitest), so these are unit-testable.

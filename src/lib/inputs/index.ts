@@ -2,7 +2,7 @@
 // Engine-agnostic: the smart-input components and any future interactive engine reuse these.
 
 export { parseHumanNumber } from './parse';
-export { formatGrouped } from './format';
+export { formatGrouped, formatDecimal, tinyNonZero } from './format';
 export type { FormatOptions, GroupingStyle, NumberStyle } from './format';
 export { adaptiveStep } from './step';
 export { isNumericField } from './field';

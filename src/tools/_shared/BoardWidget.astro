@@ -680,6 +680,13 @@ const where = (index: number) => `Row ${Math.floor(index / columns) + 1}, column
             paint(api.view(state), lastReason);
             return;
           }
+          // Tapping the first square again takes it back, and the live note says so.
+          if (index === pairIndex) {
+            pairIndex = -1;
+            lastReason = 'Row ' + (Math.floor(index / columns) + 1) + ', column ' + ((index % columns) + 1) + ' deselected. Pick two different squares.';
+            paint(api.view(state), lastReason, true);
+            return;
+          }
           var marked = api.apply(state, { kind: 'mark', a: pairIndex, b: index });
           show(marked.state, marked.ok ? '' : marked.reason, !marked.ok, marked.ok);
           return;

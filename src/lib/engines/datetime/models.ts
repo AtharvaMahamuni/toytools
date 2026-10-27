@@ -1,4 +1,4 @@
-// Pure date math for the Date & Time engine. Everything here is deterministic and calendar-correct
+// Pure date math for the Date and Time engine. Everything here is deterministic and calendar-correct
 // (leap years, month lengths, weekday), computed in UTC so date-only arithmetic is never perturbed by
 // DST. No module-top-level `new Date()`; callers pass explicit reference dates so the logic is testable.
 

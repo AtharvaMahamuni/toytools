@@ -1,4 +1,4 @@
-// Deep suite for the Health & Fitness category (wellness + tracker engines). Generic render/a11y
+// Deep suite for the Health and Fitness category (wellness + tracker engines). Generic render/a11y
 // smoke is covered by smoke.spec.ts; this asserts the interactive behaviour build and unit tests
 // cannot see: that the platform visualization renders real SVG in the browser, that a calculator
 // recomputes live, and that the tracker's stored history survives a round trip.
@@ -130,7 +130,7 @@ test.describe('result layout', () => {
 
   test('the category reads as a journey, not a taxonomy', async ({ page }) => {
     await page.goto('/category/health-fitness/');
-    await expect(page.getByText('Measure & Plan')).toBeVisible();
+    await expect(page.getByText('Measure and Plan')).toBeVisible();
     await expect(page.getByText('Keep It Up')).toBeVisible();
   });
 });

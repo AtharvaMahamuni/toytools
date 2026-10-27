@@ -1,7 +1,7 @@
-# Date & Time Engine: Phase F1 Technical Design
+# Date and Time Engine: Phase F1 Technical Design
 
 > **Status:** design only. This document defines the Date Engine, its configuration model,
-> and the shared UI vocabulary for the upcoming Date & Time category. No engine, registry,
+> and the shared UI vocabulary for the upcoming Date and Time category. No engine, registry,
 > config, widget, or content code is written in Phase F1. The follow-on build phase
 > implements it in the order given in Section 10.
 
@@ -12,7 +12,7 @@ same way: a pure calculation library under `src/lib/`, a never-throwing registry
 engine, one generic widget per engine, and one config plus content file per tool. Tools are
 configuration; engines are behavior.
 
-Date & Time is the next strategic category, intended to eventually power 30 to 50 evergreen
+Date and Time is the next strategic category, intended to eventually power 30 to 50 evergreen
 utilities (age, date difference, business days, durations, plus later scheduling, health,
 finance, and education families). The goal of this phase is not to ship pages. It is to
 design a reusable Date Engine so future date tools are mostly data, not new code, exactly the

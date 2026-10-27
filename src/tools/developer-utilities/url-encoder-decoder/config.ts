@@ -2,7 +2,7 @@ import type { ToolConfig } from '@data/types';
 
 export const config: ToolConfig = {
   slug: 'url-encoder-decoder',
-  name: 'URL Encoder & Decoder',
+  name: 'URL Encoder and Decoder',
   seoTitle: 'URL Encode and Decode Online',
   description: 'Percent-encode or decode a URL online, with %20 vs + and encodeURIComponent explained. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Percent-encode and decode URL components.',

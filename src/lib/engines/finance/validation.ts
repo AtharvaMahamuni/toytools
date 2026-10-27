@@ -2,6 +2,8 @@
 // these; the first failure short-circuits to a validation-error InteractiveResult so the experience
 // layer can phrase it as "check your inputs" rather than crashing.
 
+import { parseHumanNumber } from '@lib/inputs/parse';
+
 import type { FinanceInput } from './types';
 import { validationError } from '@lib/results/index';
 import type { InteractiveResult } from '@lib/results/types';
@@ -17,6 +19,17 @@ function fail(message: string): Err {
   return { ok: false, result: validationError(message) };
 }
 
+/**
+ * A typed amount as a number through the shared parser (src/lib/inputs/parse.ts), so "1,5" is 1.5,
+ * "1,500" and "1,50,000" are grouped thousands, and "₹25,000" works. NaN when it cannot be read.
+ * Every finance calculator reads its numbers through this, never through Number() on raw text.
+ */
+export function parseAmount(raw: unknown): number {
+  if (typeof raw === 'number') return raw;
+  const n = parseHumanNumber(String(raw ?? ''));
+  return n === null ? NaN : n;
+}
+
 /** A finite number, or a validation error. Blank optional fields should be handled by the caller
  *  (pass `optional: true`) so they coerce to 0 instead of erroring. */
 export function number(
@@ -30,7 +43,7 @@ export function number(
     if (opts.optional) return ok(0);
     return fail(`Enter ${label} to calculate.`);
   }
-  const n = typeof raw === 'number' ? raw : Number(raw);
+  const n = parseAmount(raw);
   if (!Number.isFinite(n)) return fail(`${label} must be a number.`);
   const Label = label.charAt(0).toUpperCase() + label.slice(1);
   if (opts.min === 0 && n < 0) return fail(`${Label} cannot be negative. Enter 0 or more.`);

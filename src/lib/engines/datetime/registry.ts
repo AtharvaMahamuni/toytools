@@ -1,4 +1,4 @@
-// Date & Time engine registry — single source of truth. The shared DateTimeWidget never imports a tool
+// Date and Time engine registry — single source of truth. The shared DateTimeWidget never imports a tool
 // directly: it calls ToyTools.runDateTime(id, input, opts), which resolves through runDateTime() below.
 // The widget reads the build-time field schema via dateTimeFields().
 //

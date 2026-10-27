@@ -65,7 +65,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
   },
   {
     slug: 'money-finance',
-    name: 'Money & Finance',
+    name: 'Money and Finance',
     description: 'Calculate interest, savings, inflation, and plan smarter money decisions.',
     tagline: 'Interest, savings and growth, projected.',
     highlights: ['compound-interest-calculator', 'sip-calculator', 'savings-goal-calculator'],
@@ -136,7 +136,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
   },
   {
     slug: 'date-time',
-    name: 'Date & Time',
+    name: 'Date and Time',
     description: 'Calculate ages, durations and sleep cycle bedtimes, convert time zones and timestamps, and see when a date can be read two ways, all in your browser.',
     tagline: 'Ages, durations, bedtimes, time zones and timestamps.',
     highlights: ['age-calculator', 'timezone-converter', 'unix-timestamp-converter'],
@@ -150,7 +150,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
   },
   {
     slug: 'health-fitness',
-    name: 'Health & Fitness',
+    name: 'Health and Fitness',
     description: 'Calculate fitness metrics, track your health, and build habits that stick, all privately in your browser.',
     tagline: 'BMI, calories, macros and training numbers.',
     highlights: ['bmi-calculator', 'tdee-calculator', 'macro-calculator'],
@@ -164,7 +164,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
   },
   {
     slug: 'design-tools',
-    name: 'Design & CSS',
+    name: 'Design and CSS',
     description: 'Convert colors, check WCAG contrast, build OKLCH shade scales and modular type scales, and translate CSS units, all privately in your browser.',
     tagline: 'Colors, contrast, shade scales, type scales and CSS units.',
     highlights: ['color-format-converter', 'color-contrast-checker', 'px-to-rem-converter'],
@@ -178,7 +178,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
   },
   {
     slug: 'music-audio',
-    name: 'Music & Audio',
+    name: 'Music and Audio',
     description: 'Build, understand and share music equalizer settings, then apply them in your own player.',
     tagline: 'Equalizer settings you can actually use.',
     accent: '#5E5AA8',

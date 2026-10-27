@@ -3,7 +3,7 @@ import { KNOWLEDGE_SCHEMA_VERSION, type Knowledge } from '@lib/knowledge/types';
 export const knowledge: Knowledge = {
   schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
   slug: 'base64-encoder-decoder',
-  title: 'Base64 Encoder & Decoder',
+  title: 'Base64 Encoder and Decoder',
   category: 'developer-utilities',
   summary: 'Convert binary data to ASCII text and back. Encoding for transport, not encryption.',
   primaryConcepts: ['Base64'],

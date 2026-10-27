@@ -178,3 +178,17 @@ test('a new total clears ticks, and 2000 is one payment', async ({ page }) => {
   await expect(page.locator('a[href^="upi://"]')).toHaveCount(1);
   if (isWide(page)) await expect(page.locator(COPY)).toHaveText('Copy ₹2,000');
 });
+
+test('a paise amount stays as typed next to the whole rupees error (never rounded to 2)', async ({ page }) => {
+  await page.goto('/tool/finance/upi-1999-split/');
+  await expect(page.locator('#upi-1999-split-hero')).toHaveText('2 × ₹1,999, then ₹1,002', { timeout: 15000 });
+  const field = page.locator('#upi-1999-split-f-amount');
+  await field.fill('2.4');
+  await field.blur();
+  await expect(page.locator('#upi-1999-split-experience')).toContainText(/whole rupees/i);
+  await expect(field).toHaveValue('2.4');
+  await field.fill('2,5');
+  await field.blur();
+  await expect(page.locator('#upi-1999-split-experience')).toContainText(/whole rupees/i);
+  await expect(field).toHaveValue('2.5');
+});
