@@ -28,7 +28,7 @@ export const config: ToolConfig = {
   },
   toolGroup: 'health-trackers',
   processorId: 'sleep-hours',
-  relatedTools: ['body-weight-tracker', 'sleep-cycle-calculator'],
+  relatedTools: ['body-weight-tracker', 'sleep-cycle-calculator', 'heart-rate-zone-calculator'],
   citation: {
     problem: 'Use this when hours slept should be logged on this device, with the streak and the week-over-week change.',
     nonGoal: 'log a nap as a second entry, record sleep stages, or separate time in bed from time asleep.',

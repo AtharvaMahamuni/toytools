@@ -12,6 +12,7 @@ export const config: ToolConfig = {
   engine: 'encoding',
   pattern: 'encode-decode',
   family: 'binary-text',
+  relatedTools: ['ipv4-converter', 'binary-converter'],
   processorId: 'binary',
   toolGroup: 'encoders',
   guide: {

@@ -13,7 +13,7 @@ export const config: ToolConfig = {
   pattern: 'text-metric',
   family: 'text-counting',
   toolGroup: 'text-counters',
-  relatedTools: ['word-counter', 'character-counter', 'remove-duplicate-lines'],
+  relatedTools: ['word-counter', 'character-counter', 'remove-duplicate-lines', 'text-compare'],
   craft: {
     id: 'wf-stopwords',
     kind: 'orientation',

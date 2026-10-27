@@ -26,7 +26,7 @@ export const config: ToolConfig = {
   ],
   inputs: ['move'],
   outputs: ['board'],
-  relatedTools: ['tic-tac-toe', 'connect-4'],
+  relatedTools: ['tic-tac-toe', 'connect-4', 'coin-flipper', 'dice-roller'],
   craft: {
     id: 'illegal-reason',
     kind: 'guardrail',

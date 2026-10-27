@@ -25,7 +25,7 @@ export const config: ToolConfig = {
   },
   toolGroup: 'body-metrics',
   processorId: 'bmr',
-  relatedTools: ['tdee-calculator', 'calorie-deficit-calculator', 'macro-calculator', 'bmi-calculator'],
+  relatedTools: ['tdee-calculator', 'calorie-deficit-calculator', 'macro-calculator', 'bmi-calculator', 'body-weight-tracker', 'move-today-tracker'],
   methodology: {
     name: 'Mifflin-St Jeor equation',
     detail: 'The equation clinical practice moved to over Harris-Benedict, because it estimates resting energy use more closely across modern body compositions.',

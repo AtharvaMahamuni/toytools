@@ -25,7 +25,7 @@ export const config: ToolConfig = {
   },
   toolGroup: 'body-metrics',
   processorId: 'calorie-deficit',
-  relatedTools: ['tdee-calculator', 'bmr-calculator', 'macro-calculator', 'body-weight-tracker'],
+  relatedTools: ['tdee-calculator', 'bmr-calculator', 'macro-calculator', 'body-weight-tracker', 'move-today-tracker'],
   methodology: {
     name: '7,700 kcal per kilogram energy density',
     detail: 'The standard figure for the energy in a kilogram of body mass, so a 0.5 kg weekly change works out near a 550 kcal daily difference.',

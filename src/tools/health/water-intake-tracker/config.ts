@@ -20,7 +20,7 @@ export const config: ToolConfig = {
   family: 'habit',
   toolGroup: 'health-trackers',
   processorId: 'water-intake',
-  relatedTools: ['body-weight-tracker', 'move-today-tracker', 'tdee-calculator'],
+  relatedTools: ['body-weight-tracker', 'move-today-tracker', 'tdee-calculator', 'macro-calculator'],
   guide: {
     slug: 'how-to-track-water-intake',
     categorySlug: 'health-fitness',

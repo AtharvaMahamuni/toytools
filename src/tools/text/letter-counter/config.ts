@@ -31,7 +31,7 @@ export const config: ToolConfig = {
     readMinutes: 3,
     updatedAt: '2026-09-25',
   },
-  relatedTools: ['character-counter', 'word-counter', 'space-counter', 'sentence-counter'],
+  relatedTools: ['character-counter', 'word-counter', 'space-counter', 'sentence-counter', 'uppercase-converter', 'remove-accents'],
   keywords: ['alphabet count', 'alpha characters', 'count alphabetic characters'],
   inputs: ['text'],
   outputs: ['metric'],

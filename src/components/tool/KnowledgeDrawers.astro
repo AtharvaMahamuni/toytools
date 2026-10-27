@@ -68,9 +68,9 @@ const concept = knowledge?.primaryConcepts?.[0] || tool.name;
 
 const category = categories.find((c) => c.slug === tool.categorySlug);
 
-// Derived, never authored (src/lib/tools/related.ts): same-category tools only, ranked engine →
-// pattern → family, above a relevance floor, with one slot kept for an eligible different family.
-// No fallback: fewer good siblings means a shorter row, and none hides the row.
+// Derived (src/lib/tools/related.ts): same-category tools ranked engine → pattern → family above a
+// relevance floor, then the tool's own hand-picked relatedTools override, with one slot kept for an
+// eligible different family. Nothing leaves the category automatically; an empty row is hidden.
 // At most three named siblings, not a category dump.
 // Group members are dropped because GroupSwitcher renders them as pills at the top of the page.
 const RELATED_COUNT = 3;

@@ -1,6 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 
-// Related tools stay strictly in the category, above a relevance floor, with no padding
+// Related tools stay in the category above a relevance floor, or come from the tool's own
+// hand-picked relatedTools override; nothing leaves the category automatically
 // (src/lib/tools/related.ts). Runs on chromium and pixel5 against the built pages: the tool drawer
 // row, the guide's Related Tools list and the guide footer siblings (CategoryDiscovery).
 
@@ -12,7 +13,7 @@ const GUIDE_RELATED = '.kg-link';
 const FOOTER_SIBLINGS = '.cd-sibling';
 const TAX_OR_TIP = /tax-calculator|tip-calculator/;
 
-test.describe('related tools: strictly in-category, above the relevance floor', () => {
+test.describe('related tools: in-category floor plus hand-picked overrides', () => {
   test('Roman numeral converter: numeral siblings, never tax or tip', async ({ page }) => {
     await page.goto('/tool/number/roman-numeral-converter/');
     expect(await hrefs(page, DRAWER)).toEqual([
@@ -46,9 +47,11 @@ test.describe('related tools: strictly in-category, above the relevance floor', 
     }
   });
 
-  test('a tool with no eligible sibling shows no related row rather than a weak one', async ({ page }) => {
+  test('a thin tool shows its hand-picked links, at least two', async ({ page }) => {
     await page.goto('/tool/text/paragraph-counter/');
-    await expect(page.locator('.kd-related-nav')).toHaveCount(0);
+    const links = await hrefs(page, DRAWER);
+    expect(links.length).toBeGreaterThanOrEqual(2);
+    expect(links).toEqual(expect.arrayContaining(['/tool/text/remove-blank-lines/', '/tool/text/normalize-whitespace/']));
   });
 
   test('the related row is reachable on this viewport', async ({ page }) => {

@@ -18,7 +18,7 @@ export const config: ToolConfig = {
     solves: 'The output stops at an exact total like $100.30, and the next thing anyone does at a table is round it to a figure they can write on the slip. Working out what that rounded number actually tipped is arithmetic done in your head, badly, while a server waits.',
   },
   toolGroup: 'everyday-calculators',
-  relatedTools: ['percentage-calculator'],
+  relatedTools: ['percentage-calculator', 'split-bill'],
   guide: {
     slug: 'tip-calculator',
     categorySlug: 'number-utilities',

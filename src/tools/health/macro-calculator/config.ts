@@ -20,7 +20,7 @@ export const config: ToolConfig = {
   family: 'nutrition',
   toolGroup: 'body-metrics',
   processorId: 'macro',
-  relatedTools: ['tdee-calculator', 'bmi-calculator'],
+  relatedTools: ['tdee-calculator', 'bmi-calculator', 'body-weight-tracker', 'water-intake-tracker'],
   methodology: {
     name: 'Atwater energy factors',
     detail: 'Grams derived at 4 kcal per gram of protein and carbohydrate and 9 per gram of fat, the standard factors behind every nutrition label.',

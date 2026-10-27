@@ -337,13 +337,14 @@ and `dist/knowledge-graph.json`. Related tools, guides and FAQs are **derived** 
 `npm run intel`.
 
 **Related tools rule** (`src/lib/tools/related.ts`, tested over every tool in
-`related-floor.test.ts`): a related link stays strictly in the tool's category and must clear a
-relevance floor: same pattern and engine, same engine, same family, or a `relatedTools` link either
-way. Sharing only the category, or only a word, is below it. There is no fallback and no padding:
-a tool with fewer good siblings shows fewer links, even none (the row is then hidden). The one-slot
-door out of the family is taken only from eligible tools, and validate-knowledge's bubble check
-reads the same eligible set (`eligibleCandidates`). To add a link, set `relatedTools` or a shared
-family on a same-category tool, never a cross-category exception.
+`related-floor.test.ts`): a related link is either a same-category tool that clears a relevance
+floor (same pattern and engine, same engine, same family, or a `relatedTools` link either way), or a
+tool named in the tool's own hand-picked `relatedTools` override, which may sit in another category.
+Sharing only the category, or only a word, is below the floor, and there is no automatic
+cross-category fill and no padding. Every tool must show at least `MIN_RELATED` (2) links outside its
+group; when the floor gives fewer, add a sensible `relatedTools` override on that tool. The one-slot
+door out of the family is taken only from eligible tools, and validate-knowledge's bubble check reads
+the same eligible set (`eligibleCandidates`).
 
 The data layer (`src/data/`) holds `types.ts`, `categories.ts`, `engines.ts` (the engine/pattern
 single source of truth), `registry.ts`, `tool-groups.ts`, `category-sections.ts`, `metadata.ts`, the

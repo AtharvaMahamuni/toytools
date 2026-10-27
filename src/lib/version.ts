@@ -15,7 +15,7 @@ export const VERSION_CONFIG: VersionConfig = {
   patch: 2,
   status: 'alpha',
   releaseDate: '2026-10-27',
-  description: 'Related tools stay strictly in the category, above a relevance floor',
+  description: 'Related tools stay in the category unless hand-picked, at least two per tool',
 };
 
 export function formatVersion(config: VersionConfig): string {

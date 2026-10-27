@@ -215,19 +215,20 @@ describe('getRelatedTools — the guaranteed door out of the family', () => {
   });
 });
 
-describe('no cross-category fallback', () => {
-  // A tool alone in its category links nothing rather than leave the category, even when curated.
+describe('no automatic cross-category fallback', () => {
+  // A tool alone in its category leaves it only through its own hand-picked relatedTools.
   const lonely = tool({ slug: 'eq', categorySlug: 'music', engine: 'audio', family: 'equalizer', relatedTools: ['wave', 'freq'] });
   const wave = tool({ slug: 'wave', categorySlug: 'physics', engine: 'physics', family: 'waves' });
   const freq = tool({ slug: 'freq', categorySlug: 'physics', engine: 'physics', family: 'oscillations' });
 
-  it('a curated list into another category is not used', () => {
-    expect(getRelatedTools(lonely, [lonely, wave, freq], 5)).toEqual([]);
+  it('its own relatedTools override is used, and nothing automatic', () => {
+    expect(getRelatedTools(lonely, [lonely, wave, freq], 5).map(t => t.slug)).toEqual(['wave', 'freq']);
+    expect(getRelatedTools({ ...lonely, relatedTools: [] }, [lonely, wave, freq], 5)).toEqual([]);
   });
 
-  it('an eligible same-category sibling is used, and nothing is padded', () => {
+  it('the in-category floor ranks first, then the override', () => {
     const sibling = tool({ slug: 'eq-2', categorySlug: 'music', engine: 'audio', family: 'equalizer' });
-    expect(getRelatedTools(lonely, [lonely, sibling, wave, freq], 5).map(t => t.slug)).toEqual(['eq-2']);
+    expect(getRelatedTools(lonely, [lonely, sibling, wave, freq], 5).map(t => t.slug)).toEqual(['eq-2', 'wave', 'freq']);
   });
 });
 

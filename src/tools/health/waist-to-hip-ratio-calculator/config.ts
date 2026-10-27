@@ -28,7 +28,7 @@ export const config: ToolConfig = {
   },
   toolGroup: 'body-metrics',
   processorId: 'waist-to-hip-ratio',
-  relatedTools: ['bmi-calculator', 'body-fat-calculator', 'lean-body-mass-calculator'],
+  relatedTools: ['bmi-calculator', 'body-fat-calculator', 'lean-body-mass-calculator', 'body-weight-tracker', 'move-today-tracker'],
   methodology: {
     name: 'WHO expert consultation, 8 to 11 December 2008',
     detail:

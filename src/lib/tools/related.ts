@@ -134,16 +134,19 @@ export function getRelatedTools(
 }
 
 /**
- * The relevance floor (2026-10-27). Related tools stay STRICTLY in the current tool's category, and
+ * The relevance floor (2026-10-27). Automatic related tools stay in the current tool's category, and
  * a same-category tool must also be RELEVANT to be linked: it shares the pattern and engine, the
  * engine or the family (tiers 1 to 3), or the author linked the two in `relatedTools` (either
  * direction). Sharing only the category (tier 4) is below the floor: the Roman numeral converter and
  * the tax calculator are both "number utilities", but nobody converting MCMXCIX wants a tax.
  *
- * There is no fallback. A tool whose category holds fewer good matches shows fewer links, even one
- * or none: a weak or out-of-category link is worse than a short row. To add a link, set
- * `relatedTools` or a shared family on a same-category tool.
+ * No automatic fallback: a weak or automatic out-of-category link is worse than a short row. A tool
+ * whose category is thin gets its links from its own `relatedTools` override, hand-picked and
+ * explicit, which may name a tool in another category. Every tool has at least MIN_RELATED links
+ * outside its group, pinned by a test; a thin tool fixes that with an override, never in code.
  */
+export const MIN_RELATED = 2;
+
 export function clearsRelevanceFloor(current: ToolConfig, other: ToolConfig): boolean {
   if (other.slug === current.slug || other.categorySlug !== current.categorySlug) return false;
   const tier = relationTier(current, other);
@@ -151,9 +154,28 @@ export function clearsRelevanceFloor(current: ToolConfig, other: ToolConfig): bo
   return (current.relatedTools ?? []).includes(other.slug) || (other.relatedTools ?? []).includes(current.slug);
 }
 
-/** Same-category candidates above the relevance floor, in rank order. */
+/**
+ * Eligible candidates in rank order: same-category tools above the relevance floor, then the tool's
+ * own hand-picked `relatedTools` that are not already in (the explicit override, the ONLY way a
+ * link leaves the category). Nothing is ever filled in automatically from another category.
+ */
 function eligible(currentTool: ToolConfig, allTools: ToolConfig[], order: RegistryOrder): ToolConfig[] {
-  return rankCandidates(currentTool, allTools, order).filter(t => clearsRelevanceFloor(currentTool, t));
+  const floor = rankCandidates(currentTool, allTools, order).filter(t => clearsRelevanceFloor(currentTool, t));
+  const seen = new Set(floor.map(t => t.slug));
+  const bySlug = new Map(allTools.map(t => [t.slug, t]));
+  const overrides: ToolConfig[] = [];
+  for (const slug of currentTool.relatedTools ?? []) {
+    const t = bySlug.get(slug);
+    if (!t || t.slug === currentTool.slug || seen.has(slug)) continue;
+    seen.add(slug);
+    overrides.push(t);
+  }
+  return [...floor, ...overrides];
+}
+
+/** True when `other` is in `current`'s own hand-picked `relatedTools` override. */
+export function isOverride(current: ToolConfig, other: ToolConfig): boolean {
+  return other.slug !== current.slug && (current.relatedTools ?? []).includes(other.slug);
 }
 
 function relatedFrom(

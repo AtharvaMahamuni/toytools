@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getRelatedTools, getRelatedGuides, clearsRelevanceFloor, eligibleCandidates } from './related';
+import { getRelatedTools, getRelatedGuides, clearsRelevanceFloor, eligibleCandidates, MIN_RELATED } from './related';
 import type { ToolConfig } from '@data/types';
 import { tools } from '@data/registry';
 import { graph } from '@lib/knowledge/graph';
@@ -22,6 +22,10 @@ function independentFloor(a: ToolConfig, b: ToolConfig): boolean {
   const curated = (a.relatedTools ?? []).includes(b.slug) || (b.relatedTools ?? []).includes(a.slug);
   return pe || engine || family || curated;
 }
+/** The tool's own hand-picked override: the only way a link may leave the category. */
+const override = (a: ToolConfig, b: ToolConfig) => (a.relatedTools ?? []).includes(b.slug);
+const allowed = (a: ToolConfig, b: ToolConfig) => independentFloor(a, b) || override(a, b);
+const sameGroup = (a: ToolConfig, b: ToolConfig) => a.toolGroup !== undefined && a.toolGroup === b.toolGroup;
 
 describe('relevance floor (fixtures, mutation-sensitive)', () => {
   const roman = tool({ slug: 'roman', engine: 'encoding', pattern: 'encode', family: 'numeral', tags: ['roman numerals'] });
@@ -38,13 +42,20 @@ describe('relevance floor (fixtures, mutation-sensitive)', () => {
     expect(slugs(getRelatedTools(roman, [roman, tax, tip], 24))).toEqual([]);
   });
 
-  it('a tool in another category is never linked, however strong the match', () => {
+  it('a tool in another category is never linked automatically, however strong the match', () => {
     expect(clearsRelevanceFloor(roman, b64)).toBe(false);
     expect(slugs(getRelatedTools(roman, [roman, b64, binary], 24))).toEqual(['binary']);
-    expect(slugs(getRelatedTools({ ...roman, relatedTools: ['b64'] }, [roman, b64], 24))).toEqual([]);
   });
 
-  it('accepts fewer links rather than padding: one good sibling gives one link', () => {
+  it('the tool\'s own relatedTools override may name another category, after the in-category floor', () => {
+    expect(slugs(getRelatedTools({ ...roman, relatedTools: ['b64'] }, [roman, b64, binary], 24))).toEqual(['binary', 'b64']);
+    // the reverse link is not an override: b64 does not pick roman up because roman picked it
+    expect(slugs(getRelatedTools(b64, [{ ...roman, relatedTools: ['b64'] }, b64], 24))).toEqual([]);
+    // unresolved and self entries are dropped
+    expect(slugs(getRelatedTools({ ...roman, relatedTools: ['ghost', 'roman'] }, [roman], 24))).toEqual([]);
+  });
+
+  it('never pads automatically: one good sibling and no override gives one link', () => {
     expect(slugs(getRelatedTools(roman, [roman, binary, tax, tip, b64], 24))).toEqual(['binary']);
   });
 
@@ -76,7 +87,7 @@ describe(`related tools across all ${tools.length} live tools`, () => {
   });
 
   for (const max of [3, 5, 6, 24]) {
-    it(`getRelatedTools(max ${max}): zero out-of-category links, no self, no duplicates, floor held`, () => {
+    it(`getRelatedTools(max ${max}): zero automatic out-of-category links, no self, no duplicates, floor held`, () => {
       const out: string[] = [], weak: string[] = [];
       for (const t of tools) {
         const r = getRelatedTools(t, tools, max);
@@ -84,8 +95,8 @@ describe(`related tools across all ${tools.length} live tools`, () => {
         expect(r.some(x => x.slug === t.slug), t.slug).toBe(false);
         expect(new Set(slugs(r)).size, t.slug).toBe(r.length);
         for (const x of r) {
-          if (x.categorySlug !== t.categorySlug) out.push(`${t.slug}->${x.slug}`);
-          if (!independentFloor(t, x)) weak.push(`${t.slug}->${x.slug}`);
+          if (x.categorySlug !== t.categorySlug && !override(t, x)) out.push(`${t.slug}->${x.slug}`);
+          if (!allowed(t, x)) weak.push(`${t.slug}->${x.slug}`);
         }
       }
       expect(out).toEqual([]);
@@ -98,8 +109,8 @@ describe(`related tools across all ${tools.length} live tools`, () => {
       for (const x of getRelatedGuides(t, tools, 6)) {
         expect(x.slug, t.slug).not.toBe(t.slug);
         expect(x.guide, `${t.slug}->${x.slug}`).toBeDefined();
-        expect(x.categorySlug, `${t.slug}->${x.slug}`).toBe(t.categorySlug);
-        expect(independentFloor(t, x), `${t.slug}->${x.slug}`).toBe(true);
+        expect(allowed(t, x), `${t.slug}->${x.slug}`).toBe(true);
+        if (x.categorySlug !== t.categorySlug) expect(override(t, x), `${t.slug}->${x.slug}`).toBe(true);
       }
     }
   });
@@ -111,9 +122,23 @@ describe(`related tools across all ${tools.length} live tools`, () => {
     for (const e of edges) {
       const from = bySlug.get(e.from)!, to = bySlug.get(e.to)!;
       expect(from && to, `${e.from} -> ${e.to}`).toBeTruthy();
-      expect(to.categorySlug, `${e.from} -> ${e.to}`).toBe(from.categorySlug);
-      expect(independentFloor(from, to), `${e.from} -> ${e.to}`).toBe(true);
+      expect(allowed(from, to), `${e.from} -> ${e.to}`).toBe(true);
+      if (to.categorySlug !== from.categorySlug) expect(override(from, to), `${e.from} -> ${e.to}`).toBe(true);
     }
+  });
+
+  it(`every tool has at least ${MIN_RELATED} related links outside its group`, () => {
+    expect(MIN_RELATED).toBe(2);
+    const thin = tools
+      .map(t => ({ t, n: getRelatedTools(t, tools, 24).filter(x => !sameGroup(t, x)).length }))
+      .filter(x => x.n < MIN_RELATED)
+      .map(x => `${x.t.slug}(${x.n})`);
+    expect(thin).toEqual([]);
+  });
+
+  it('cross-category links exist only where an override names them', () => {
+    const cross = tools.flatMap(t => getRelatedTools(t, tools, 24).filter(x => x.categorySlug !== t.categorySlug).map(x => [t, x] as const));
+    for (const [t, x] of cross) expect(override(t, x), `${t.slug}->${x.slug}`).toBe(true);
   });
 
   for (const slug of ['number-to-words', 'binary-converter', 'roman-numeral-converter']) {

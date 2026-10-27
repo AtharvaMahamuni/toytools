@@ -25,6 +25,7 @@ export const config: ToolConfig = {
   },  pattern: 'text-metric',
   toolGroup: 'text-counters',
   family: 'text-counting',
+  relatedTools: ['word-counter', 'normalize-whitespace', 'text-compare'],
   primaryMetric: {
     metric: 'readingTime',
     label: 'Reading Time',

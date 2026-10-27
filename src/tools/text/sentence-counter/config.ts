@@ -34,5 +34,5 @@ export const config: ToolConfig = {
     label: 'Sentences',
     formatter: 'integer',
   },
-  relatedTools: ['word-counter', 'paragraph-counter', 'letter-counter'],
+  relatedTools: ['word-counter', 'paragraph-counter', 'letter-counter', 'sentence-case-converter', 'remove-line-breaks'],
 };
