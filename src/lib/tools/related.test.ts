@@ -65,21 +65,20 @@ describe('getRelatedTools', () => {
     expect(result[1].slug).toBe('c');
   });
 
-  it('fills from a family match in another category, never a category-only sibling', () => {
+  it('never links another category, even on a family match, nor a category-only sibling', () => {
     const current = tool({ slug: 'a', family: 'case', categorySlug: 'text' });
     const otherCategory = tool({ slug: 'b', family: 'case', categorySlug: 'other' });
     const sameCategory = tool({ slug: 'c', family: 'other', categorySlug: 'text' });
     const result = getRelatedTools(current, [current, sameCategory, otherCategory]);
-    expect(result.map(t => t.slug)).toEqual(['b']);
+    expect(result.map(t => t.slug)).toEqual([]);
   });
 
-  it('tier4 (category match) captures same-category tools with no other match', () => {
+  it('tier4 (category match only) is below the relevance floor and never linked', () => {
     const current = tool({ slug: 'a', categorySlug: 'text' });
     const sameCategory = tool({ slug: 'b', categorySlug: 'text' });
     const differentCategory = tool({ slug: 'c', categorySlug: 'number' });
     const result = getRelatedTools(current, [current, sameCategory, differentCategory]);
-    expect(result.map(t => t.slug)).toContain('b');
-    expect(result.map(t => t.slug)).not.toContain('c');
+    expect(result.map(t => t.slug)).toEqual([]);
   });
 
   it('tool with no shared attributes does not appear in results', () => {
@@ -172,13 +171,10 @@ describe('getRelatedTools — the guaranteed door out of the family', () => {
     expect(getRelatedTools(current, all, 5).map(t => t.slug)).toEqual(['sib-1', 'sib-2', 'sib-3', 'sib-4', 'sib-5']);
   });
 
-  it('a strong outsider in another category may be the door; a weak one never', () => {
+  it('never opens the door to another category, however strong the match', () => {
     const strong = tool({ ...outsider, slug: 'elsewhere', categorySlug: 'other' });
-    const weak = tool({ ...outsider, slug: 'weak', categorySlug: 'other', relatedTools: [] });
-    const all = [current, ...[1, 2, 3, 4, 5, 6, 7].map(sibling), weak, strong];
-    const r = getRelatedTools(current, all, 5).map(t => t.slug);
-    expect(r.at(-1)).toBe('elsewhere');
-    expect(r).not.toContain('weak');
+    const all = [current, ...[1, 2, 3, 4, 5, 6, 7].map(sibling), strong];
+    expect(getRelatedTools(current, all, 5).map(t => t.slug)).toEqual(['sib-1', 'sib-2', 'sib-3', 'sib-4', 'sib-5']);
   });
 
   it('gives up the weakest sibling for the nearest outsider', () => {
@@ -219,34 +215,19 @@ describe('getRelatedTools — the guaranteed door out of the family', () => {
   });
 });
 
-describe('the curated fallback', () => {
-  // The first tool in a brand-new category derives nothing, because every tier is scoped to its own
-  // engine, family or category. Without this its page is a dead end that no authoring could fix.
+describe('no cross-category fallback', () => {
+  // A tool alone in its category links nothing rather than leave the category, even when curated.
   const lonely = tool({ slug: 'eq', categorySlug: 'music', engine: 'audio', family: 'equalizer', relatedTools: ['wave', 'freq'] });
   const wave = tool({ slug: 'wave', categorySlug: 'physics', engine: 'physics', family: 'waves' });
   const freq = tool({ slug: 'freq', categorySlug: 'physics', engine: 'physics', family: 'oscillations' });
 
-  it('uses the config list when the four tiers find nothing at all', () => {
-    expect(getRelatedTools(lonely, [lonely, wave, freq], 5).map(t => t.slug)).toEqual(['wave', 'freq']);
+  it('a curated list into another category is not used', () => {
+    expect(getRelatedTools(lonely, [lonely, wave, freq], 5)).toEqual([]);
   });
 
-  it('ranks after any derived candidate, and only tops up to the minimum', () => {
+  it('an eligible same-category sibling is used, and nothing is padded', () => {
     const sibling = tool({ slug: 'eq-2', categorySlug: 'music', engine: 'audio', family: 'equalizer' });
-    expect(getRelatedTools(lonely, [lonely, sibling, wave, freq], 5).map(t => t.slug)).toEqual(['eq-2', 'wave', 'freq']);
-  });
-
-  it('drops slugs that do not resolve, and self', () => {
-    const bad = tool({ slug: 'eq', categorySlug: 'music', engine: 'audio', relatedTools: ['ghost', 'eq', 'wave'] });
-    expect(getRelatedTools(bad, [bad, wave], 5).map(t => t.slug)).toEqual(['wave']);
-  });
-
-  it('returns nothing when there is nothing curated either', () => {
-    const bare = tool({ slug: 'eq', categorySlug: 'music', engine: 'audio' });
-    expect(getRelatedTools(bare, [bare, wave])).toEqual([]);
-  });
-
-  it('respects max', () => {
-    expect(getRelatedTools(lonely, [lonely, wave, freq], 1)).toHaveLength(1);
+    expect(getRelatedTools(lonely, [lonely, sibling, wave, freq], 5).map(t => t.slug)).toEqual(['eq-2']);
   });
 });
 

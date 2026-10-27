@@ -337,17 +337,13 @@ and `dist/knowledge-graph.json`. Related tools, guides and FAQs are **derived** 
 `npm run intel`.
 
 **Related tools rule** (`src/lib/tools/related.ts`, tested over every tool in
-`related-floor.test.ts`): a same-category tool is linked only above a relevance floor: same pattern
-and engine, same engine, same family, or a `relatedTools` link either way. Sharing only the
-category, or only a word, is below it and never used. Every tool shows at least 3 links outside its
-group (MIN_RELATED). When the floor gives fewer, the list is filled from strong matches only, in
-order: the tool's `relatedTools`, a shared pattern, engine or family in another category, the strong
-matches of its group mates (and their `relatedTools`), then second-degree tools hand- or
-family-linked to two of its neighbours (one is enough in another category). The one-slot door out
-of the family (validate-knowledge fails a single-family bubble) is chosen from the same strong pool.
-A tool with no strong match at all names its nearest same-category sibling (never reached today).
-`linkReason()` explains any link. To fix a weak or missing link, set `relatedTools` or a shared
-family, never a special case in code.
+`related-floor.test.ts`): a related link stays strictly in the tool's category and must clear a
+relevance floor: same pattern and engine, same engine, same family, or a `relatedTools` link either
+way. Sharing only the category, or only a word, is below it. There is no fallback and no padding:
+a tool with fewer good siblings shows fewer links, even none (the row is then hidden). The one-slot
+door out of the family is taken only from eligible tools, and validate-knowledge's bubble check
+reads the same eligible set (`eligibleCandidates`). To add a link, set `relatedTools` or a shared
+family on a same-category tool, never a cross-category exception.
 
 The data layer (`src/data/`) holds `types.ts`, `categories.ts`, `engines.ts` (the engine/pattern
 single source of truth), `registry.ts`, `tool-groups.ts`, `category-sections.ts`, `metadata.ts`, the

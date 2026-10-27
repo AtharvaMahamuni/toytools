@@ -51,10 +51,16 @@ describe('getToolHealth', () => {
     expect(getToolHealth(t, [t], new Set()).hasFAQ).toBe(false);
   });
 
-  it('hasRelatedTools is true when another tool shares the same category', () => {
+  it('hasRelatedTools is true when a same-category tool clears the relevance floor', () => {
+    const a = tool({ slug: 'a', categorySlug: 'text', family: 'case' });
+    const b = tool({ slug: 'b', categorySlug: 'text', family: 'case' });
+    expect(getToolHealth(a, [a, b]).hasRelatedTools).toBe(true);
+  });
+
+  it('hasRelatedTools is false when the only sibling shares just the category', () => {
     const a = tool({ slug: 'a', categorySlug: 'text' });
     const b = tool({ slug: 'b', categorySlug: 'text' });
-    expect(getToolHealth(a, [a, b]).hasRelatedTools).toBe(true);
+    expect(getToolHealth(a, [a, b]).hasRelatedTools).toBe(false);
   });
 
   it('hasRelatedTools is false when no other tools match', () => {
@@ -102,7 +108,7 @@ describe('getToolHealth', () => {
       family: 'case',
       guide: { slug: 'a', categorySlug: 'text', title: 'G', description: 'd', readMinutes: 3, updatedAt: 'Jun 2026' },
     });
-    const b = tool({ slug: 'b', categorySlug: 'text' });
+    const b = tool({ slug: 'b', categorySlug: 'text', family: 'case' });
     const health = getToolHealth(a, [a, b], new Set(['a']));
     expect(health.hasTool).toBe(true);
     expect(health.hasGuide).toBe(true);
