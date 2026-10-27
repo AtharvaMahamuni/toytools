@@ -54,6 +54,18 @@ function findToolDir(slug: string): string | null {
   return null;
 }
 
+// A guideless tool with `sharedGuide: '<host>'` in its config is scored against the host's hub
+// Guide.astro plus its own faq.ts (GSC pilot, 27 Oct 2026). Thresholds are unchanged.
+function guideFileFor(toolDir: string): string {
+  const own = join(toolDir, 'Guide.astro');
+  if (existsSync(own)) return own;
+  const configPath = join(toolDir, 'config.ts');
+  if (!existsSync(configPath)) return own;
+  const host = readFileSync(configPath, 'utf-8').match(/sharedGuide:\s*'([a-z0-9-]+)'/)?.[1];
+  const hostDir = host ? findToolDir(host) : null;
+  return hostDir ? join(hostDir, 'Guide.astro') : own;
+}
+
 const RULES = JSON.parse(
   readFileSync(join(ROOT, 'config', 'content-intelligence-rules.json'), 'utf-8')
 ) as CIRules;
@@ -577,7 +589,7 @@ export function buildActions(
 
 export function calculateContentIntelligenceScore(slug: string): ContentIntelligenceScore {
   const toolDir = findToolDir(slug) ?? join(SRC_ROOT, slug);
-  const guidePath = join(toolDir, 'Guide.astro');
+  const guidePath = guideFileFor(toolDir);
   const faqPath = join(toolDir, 'faq.ts');
   const configPath = join(toolDir, 'config.ts');
 
@@ -878,7 +890,7 @@ async function main() {
 
   const score = calculateContentIntelligenceScore(slug);
   const combinedText = [
-    extractGuideText(existsSync(join(toolDir, 'Guide.astro')) ? readFileSync(join(toolDir, 'Guide.astro'), 'utf-8') : ''),
+    extractGuideText(existsSync(guideFileFor(toolDir)) ? readFileSync(guideFileFor(toolDir), 'utf-8') : ''),
     extractFaqText(existsSync(join(toolDir, 'faq.ts')) ? readFileSync(join(toolDir, 'faq.ts'), 'utf-8') : ''),
   ].join('\n\n');
   const fp = generateWritingFingerprint(combinedText);

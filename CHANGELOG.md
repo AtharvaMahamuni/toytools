@@ -2,7 +2,17 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [alpha-v13.14] - 2026-10-26
+## [alpha-v13.15] - 2026-10-27
+
+### Changed
+
+- **Whitespace guide hub (pilot).** The Normalize Whitespace guide is folded into the whitespace hub, now titled "Remove Blank Lines and Normalize Whitespace", with a cleanup chooser table, a normalize whitespace section with before and after examples, and the order of operations. The old guide URL redirects to the hub, and the Normalize Whitespace tool page links to the hub. The Trim Text and Remove Extra Spaces guides link to it too. Normalize Whitespace gains a worked address example in its FAQ. No other guides were merged.
+
+### Fixed
+
+- **Old URLs never 404.** A new build check confirms that all 22 old URLs Search Console reports as not found (renamed developer guides, the old plural tool and category paths, and the retired case converter guide) still build redirect pages. It also fails the build if a sitemap lists favicon.ico, an FAQ URL, a redirect page, a noindex page, or a page that does not exist.
+
+## [alpha-v13.14] - 2026-10-27
 
 ### Added
 

@@ -17,6 +17,7 @@ interface Props {
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
 const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+import { guidePathBySlug } from '@lib/tools/tool-link';
 ---
 
 <GuideLayout
@@ -51,7 +52,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <ReferenceBlock type="key-idea" heading="Spacing vs. whitespace tools">
       <p>
         This tool only touches spaces and tabs and keeps your line breaks. To also flatten line
-        breaks into single spaces, use Normalize Whitespace; to trim the ends of each line, use
+        breaks into single spaces, <a href={`${guidePathBySlug('remove-blank-lines')}#normalize-whitespace`}>normalize whitespace</a>; to trim the ends of each line, use
         Trim Text.
       </p>
     </ReferenceBlock>

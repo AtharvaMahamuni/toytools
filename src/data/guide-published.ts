@@ -117,7 +117,6 @@ export const guidePublishedAt: Record<string, string> = {
   'move-today-tracker': '2026-07-24',
   'newman-projection-calculator': '2026-08-29',
   'normal-distribution-visualizer': '2026-10-09',
-  'normalize-whitespace': '2026-06-07',
   'notepad': '2026-06-04',
   'nuclear-reactor-calculator': '2026-08-24',
   'number-to-words': '2026-08-22',

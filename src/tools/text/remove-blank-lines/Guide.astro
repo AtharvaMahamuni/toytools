@@ -3,7 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath, categoryPath } from '@lib/paths';
-import { guidePathBySlug } from '@lib/tools/tool-link';
+import { guidePathBySlug, toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -18,6 +18,7 @@ interface Props {
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
 const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const normalizeHref = toolPathBySlug('normalize-whitespace');
 ---
 
 <GuideLayout
@@ -98,6 +99,51 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     </ReferenceBlock>
   </section>
 
+  <section id="which-cleanup">
+    <h2>Which Cleanup Do You Need? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <table>
+      <thead><tr><th>You want</th><th>Use</th><th>Line breaks</th></tr></thead>
+      <tbody>
+        <tr><td>Drop empty and whitespace-only lines</td><td>Remove Blank Lines</td><td>Kept between lines with text</td></tr>
+        <tr><td>One line with single spaces</td><td>Normalize Whitespace</td><td>All removed</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="normalize-whitespace">
+    <h2>Normalize Whitespace To One Line <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Whitespace normalization is the more aggressive cleanup. It will collapse whitespace of every
+      kind: each run of spaces, tabs, carriage returns and newlines becomes one space, and the ends
+      are trimmed. The result is single line text with consistent spacing, which is what a CSV cell,
+      a search box, a single-line database column or a URL parameter expects.
+    </p>
+    <p>
+      <strong>Before and after.</strong> An address pasted as "12  Park Road", then "  Pune", then an
+      empty line normalizes to "12 Park Road Pune". A non-breaking space (U+00A0) copied from a web
+      page counts as whitespace too, so it collapses like any other space. Text that is only spaces
+      becomes empty, so check for an empty result before saving to a required field.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Normalizing text whose lines matter">
+      <p>
+        Because it removes every line break, separate paragraphs and list items merge. When the line
+        structure must survive, remove blank lines here instead, or use Remove Extra Spaces to fix
+        doubled spaces inside each line.
+      </p>
+    </ReferenceBlock>
+    <a href={normalizeHref} class="cta-link">Try Normalize Whitespace →</a>
+  </section>
+
+  <section id="order-of-operations">
+    <h2>Order Of Operations <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Trim first, then remove blank lines, so lines that held only stray spaces are already empty.
+      Normalize last, and only when one line is the goal, because it undoes every line break the
+      other steps kept. Windows files end lines with a carriage return, which counts as whitespace in
+      both tools, so a blank Windows line is removed and normalization folds the return into a space.
+    </p>
+  </section>
+
   <section id="remove-blank-lines-vs-alternatives">
     <h2>Remove Blank Lines vs Other Cleanup Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
@@ -107,7 +153,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       <strong>Trim Text</strong>, which strips leading and trailing whitespace from each line.
       Lines that hold only spaces are already removed here, so reach for Trim Text when lines keep
       their content but carry stray edges, and see how to <a href={guidePathBySlug('trim-text')}>trim whitespace</a> in Excel
-      and code. <strong>Normalize Whitespace</strong> is a more aggressive alternative that also
+      and code. <a href="#normalize-whitespace">Normalize Whitespace</a> is a more aggressive alternative that also
       removes all line breaks, merging the text into a single line. If joining every line is what
       you want, you are after <a href={guidePathBySlug('remove-line-breaks')}>removing line breaks instead</a>.
     </p>

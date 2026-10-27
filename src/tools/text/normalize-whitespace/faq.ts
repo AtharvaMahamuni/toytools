@@ -55,4 +55,10 @@ export const items: FAQItem[] = [
     answer:
       'Yes, this normalizer runs entirely in your browser, so the text you paste never leaves your device or reaches any server. The collapse of tabs, spaces, and line breaks happens locally in JavaScript the moment you type. That matters because normalization is a first pass over raw exports, logs, or customer records. For example, you can flatten a pasted database row into a single clean line without the contents ever being transmitted.',
   },
+  {
+    id: 'nw-faq-10',
+    question: 'What does normalizing whitespace do to a multi-line address?',
+    answer:
+      'It joins the lines and collapses every run of spaces, tabs and line breaks into one space, then trims both ends. "12  Park Road", "  Pune" and a trailing empty line become "12 Park Road Pune", the shape a single-line form field or CSV cell expects.',
+  },
 ];

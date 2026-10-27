@@ -46,9 +46,11 @@ interface Props {
   tool: Tool;
   faqItems: FAQItem[];
   guideHref: string | null;
+  /** The linked guide's title: the tool's own, or its sharedGuide host's. */
+  guideTitle?: string | null;
 }
 
-const { tool, faqItems, guideHref } = Astro.props;
+const { tool, faqItems, guideHref, guideTitle } = Astro.props;
 
 const knowledge = getKnowledge(tool.slug);
 
@@ -148,7 +150,7 @@ const hasFaq = faqItems.length > 0;
 
       {guideHref && (
         <a class="kd-link" href={guideHref}>
-          {tool.guide?.title ?? 'Guide'}
+          {guideTitle ?? tool.guide?.title ?? 'Guide'}
           <span class="kd-out" aria-hidden="true">↗</span>
         </a>
       )}

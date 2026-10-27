@@ -35,4 +35,6 @@ export const guideRedirects: GuideRedirect[] = [
   { oldPath: 'developer/what-is-sha256',              targetPath: guideRoute({ categorySlug: 'developer-utilities', slug: 'what-is-sha256' }) },
   { oldPath: 'developer/what-is-url-encoding',        targetPath: guideRoute({ categorySlug: 'developer-utilities', slug: 'what-is-url-encoding' }) },
   { oldPath: 'text/how-to-change-text-case',          targetPath: toolRoute({ segment: 'text', slug: 'title-case-converter' }) },
+  // 3. GSC pilot (27 Oct 2026): the normalize-whitespace guide folded into the whitespace hub.
+  { oldPath: 'text/how-to-normalize-whitespace',      targetPath: guideRoute({ categorySlug: 'text', slug: 'how-to-remove-blank-lines' }) },
 ];
