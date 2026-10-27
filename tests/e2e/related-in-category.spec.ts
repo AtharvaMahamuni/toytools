@@ -1,4 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
+import { config as binaryConverter } from '../../src/tools/number/binary-converter/config';
+import { config as numberToWords } from '../../src/tools/number/number-to-words/config';
 
 // Related tools stay in the category above a relevance floor, or come from the tool's own
 // hand-picked relatedTools override; nothing leaves the category automatically
@@ -23,14 +25,19 @@ test.describe('related tools: in-category floor plus hand-picked overrides', () 
     ]);
   });
 
-  for (const slug of ['binary-converter', 'number-to-words']) {
-    test(`${slug}: in number utilities, never tax or tip`, async ({ page }) => {
-      await page.goto(`/tool/number/${slug}/`);
+  // A link may leave number utilities only when the tool's own relatedTools hand-picks it;
+  // any other out-of-category link is an automatic leak and fails.
+  for (const tool of [binaryConverter, numberToWords]) {
+    test(`${tool.slug}: in number utilities or hand-picked, never tax or tip`, async ({ page }) => {
+      await page.goto(`/tool/number/${tool.slug}/`);
       const links = await hrefs(page, DRAWER);
-      expect(links.length).toBeGreaterThan(0);
+      expect(links.length).toBeGreaterThanOrEqual(2);
+      const picked = tool.relatedTools ?? [];
       for (const p of links) {
-        expect(p).toMatch(/^\/tool\/number\//);
         expect(p).not.toMatch(TAX_OR_TIP);
+        if (p.startsWith('/tool/number/')) continue;
+        const slug = p.split('/').filter(Boolean).pop()!;
+        expect(picked, `automatic out-of-category link ${p}`).toContain(slug);
       }
     });
   }

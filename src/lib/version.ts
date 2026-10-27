@@ -11,8 +11,8 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 15,
-  patch: 2,
+  minor: 16,
+  patch: 0,
   status: 'alpha',
   releaseDate: '2026-10-27',
   description: 'Related tools stay in the category unless hand-picked, at least two per tool',
