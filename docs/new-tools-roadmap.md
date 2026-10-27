@@ -9,19 +9,21 @@ Related: `docs/pdf-tools-roadmap.md` (PDF and Files), `docs/world-time-tools-roa
 - **[V]** verified in the repo at the commit above.
 - **[P]** proposed. Not in the repo.
 - **[TV]** to verify before the work package that depends on it starts.
+- **Library sizes** in this file are planning estimates (min + gzip), not measured here, unless a source is given. Each must be measured on the pinned npm version (min + gzip) before its work package starts [TV]. The pdf-lib figure (207 KB gz, 1.17.1 UMD) is the measured one from `docs/pdf-tools-roadmap.md` section 4.
 - **Extends** marks an idea that should improve an existing tool (the `improve-tool` skill) instead of adding a page.
 
 ---
 
 ## 1. Summary and ranking method
 
-35 tool ideas came out of a read-only review of browser tool sites on 27 Oct 2026. Each was put through the Phase 1 fit check of the `new-tool-skeleton` skill (job and substitution test, fit, overlap with the real catalog, category). The result:
+35 ranked tool ideas came out of a read-only review of browser tool sites on 27 Oct 2026. Each was put through the Phase 1 fit check of the `new-tool-skeleton` skill (job and substitution test, fit, overlap with the real catalog, category). The result:
 
 - **30 new tools** fit as proposed, counting CSS Minifier and Beautifier as one tool.
 - **1 idea is already planned:** the PDF Splitter, in `docs/pdf-tools-roadmap.md`.
 - **1 idea extends an existing tool:** Duplicate JSON Key Finder, a check in `json-validator`.
 - **3 ideas could go either way:** Add Line Numbers, Text Wrapper and Sort Lines are small pages or options on existing line tools (open decision 4).
 - **4 of the new tools are heavy** (a library over the 24 KB page JS budget) and fit only if the library is loaded on demand: ASCII Art (fonts), Code to Image (highlighter), Excel and CSV Viewer (SheetJS) and SQL to ER Diagram (Mermaid). The PDF Splitter's pdf-lib is covered by the PDF roadmap.
+- **1 new unranked item:** a standalone Countdown Timer (section 4).
 - **No idea needs a server, an account, an upload or a runtime CDN.** Every one runs in the tab and saves nothing. No user data is sent anywhere; the only requests are the site's own self-hosted code chunks, fetched on demand.
 
 **Ranking method.** The order is judgement, not search volume. No keyword volumes were pulled or measured for this file. An idea ranks higher when it has broad, evergreen everyday demand, a clear privacy edge (files and recordings stay on the device), small engineering cost, and a natural home in an existing category and engine. Effort (S, M, L) is a planning estimate, not a measurement.
@@ -37,8 +39,9 @@ Related: `docs/pdf-tools-roadmap.md` (PDF and Files), `docs/world-time-tools-roa
 | 2 | Text Cleaners and Generators | Add Line Numbers, Text Wrapper, Sort Lines and Numbers, Number Sequence Generator | 4 |
 | 2 | Audio and Device Tests | Speaker and Left Right Audio Test, Audio Trimmer, Reaction Time Test | 3 |
 | 2 | Money and Documents | Invoice Generator | 1 |
+| 2 | Productivity (new item, unranked) | Countdown Timer | 1 |
 | 3 | Games and Puzzles | Lights Out, 15 Puzzle, Simon Memory Game | 3 |
-| 3 | Images and Visual | Image Diff and Screenshot Compare, Code to Image, ASCII Art Text Generator | 3 |
+| 3 | Images and Visual | Image Diff and Screenshot Compare, ASCII Art Text Generator, Code to Image | 3 |
 | 3 | SEO and Web | On-page SEO Checker | 1 |
 | 3 | Heavy Data and Documents | Resume Builder, Excel and CSV Viewer, SQL to ER Diagram | 3 |
 
@@ -65,7 +68,7 @@ Size budget fit is against `BUDGETS.tool` in `scripts/check-budget.ts`: page JS 
 - Fit: passes. Overlaps PDF roadmap Phase 4 "Image compress, resize, convert"; this file promotes it to Phase 1 and the two must be one plan (open decision 3).
 
 **2. PDF Splitter** (planned)
-- Fully covered by `docs/pdf-tools-roadmap.md` (Phase 1 pilot, `pdf` engine on pdf-lib, about 207 KB gz loaded on file pick, and its open questions 1 to 7). Not repeated here.
+- Fully covered by `docs/pdf-tools-roadmap.md` (Phase 1 pilot, `pdf` engine on pdf-lib 1.17.1, 207 KB gz as measured there, loaded on file pick, and its open questions 1 to 8). Not repeated here.
 - Fit: passes there. Its rank here only says it belongs in the first wave.
 
 **3. SQL Formatter** `sql-formatter` [P]
@@ -84,7 +87,7 @@ Size budget fit is against `BUDGETS.tool` in `scripts/check-budget.ts`: page JS 
 - Purpose: write Markdown and see the rendered result as you type.
 - Category: Text Utilities (or Prep for a model, open decision 5).
 - Can do: live preview, headings, lists, links, code, tables; copy HTML; word count.
-- Engine and UI: `text-processor` with a tiny parser, or lazy-load `marked` (about 40 KB) on first keystroke; output HTML is sanitised before it is shown (no script, no event attributes).
+- Engine and UI: `text-processor` with a tiny parser, or lazy-load `marked` (about 40 KB, estimate) on first keystroke; output HTML is sanitised before it is shown (no script, no event attributes).
 - Size: fits with a tiny parser; `marked` only behind a dynamic import.
 - Heavy libs: `marked`, on demand only, if chosen.
 - Effort: M.
@@ -319,6 +322,18 @@ Size budget fit is against `BUDGETS.tool` in `scripts/check-budget.ts`: page JS 
 - FAQ and SEO: "free invoice generator no signup", "GST invoice format"; FAQ on what an invoice must show.
 - Fit: passes. Business details are entered each time, or kept only with opt-in `keepInput` on a private page. PDF roadmap lists GST and POS billing as off scope; this tool is a printable invoice, not billing software.
 
+### Phase 2: Productivity (new item, unranked)
+
+**New. Countdown Timer** `countdown-timer` [P]
+- Purpose: count down a duration or to a clock time, with an alarm at zero.
+- Category: Productivity.
+- Can do: minutes and seconds or a target time, start, pause, reset, sound and title flash at zero, full screen view for a room or stage.
+- Engine and UI: `productivity` engine timing helpers (pure remaining-time function, tested); widget is the display and controls.
+- Size: fits. Effort: S. Heavy libs: none.
+- Reuse: `pomodoro-timer` (timer and alarm), `keep-screen-awake` (wake lock).
+- FAQ and SEO: "countdown timer online", "5 minute timer"; FAQ on what happens when the tab is in the background.
+- Fit: passes. Not one of the 35 ranked ideas; added because no plan has a standalone timer. Overlap: the countdown mode of `event-time-converter` in the World and Travel roadmap counts to a shared event time; this tool counts a local duration, so the jobs differ.
+
 ### Phase 3: Games and Puzzles
 
 **27. Lights Out** `lights-out` [P]
@@ -363,18 +378,6 @@ Size budget fit is against `BUDGETS.tool` in `scripts/check-budget.ts`: page JS 
 - FAQ and SEO: "compare two images", "screenshot diff".
 - Fit: passes; depends on the `image` engine from Phase 1.
 
-**33. Code to Image** `code-to-image` [P]
-- Purpose: turn a code snippet into a shareable picture.
-- Category: Design and CSS (or Developer Utilities).
-- Can do: theme, padding, window frame, font size, PNG download.
-- Engine and UI: highlighter plus canvas or SVG export.
-- Size: does not fit statically. The syntax highlighter (and any web font) loads only on first input [TV size].
-- Heavy libs: highlighter and fonts, on demand only, self-hosted.
-- Effort: L.
-- Reuse: `css-gradient-generator` (background picker), `qr-code-generator` (image download).
-- FAQ and SEO: "code screenshot", "code to image".
-- Fit: passes only with lazy loading; ranked low because of weight.
-
 **30. ASCII Art Text Generator** `ascii-art-text` [P]
 - Purpose: render text in large FIGlet style letters.
 - Category: Text Utilities (or Generators).
@@ -386,6 +389,18 @@ Size budget fit is against `BUDGETS.tool` in `scripts/check-budget.ts`: page JS 
 - Reuse: `character-map`, `text-repeater`.
 - FAQ and SEO: "ascii art text", "big text for README".
 - Fit: passes with lazy fonts. Font licences must be checked [TV].
+
+**33. Code to Image** `code-to-image` [P]
+- Purpose: turn a code snippet into a shareable picture.
+- Category: Design and CSS (or Developer Utilities).
+- Can do: theme, padding, window frame, font size, PNG download.
+- Engine and UI: highlighter plus canvas or SVG export.
+- Size: does not fit statically. The syntax highlighter (and any web font) loads only on first input [TV size].
+- Heavy libs: highlighter and fonts, on demand only, self-hosted.
+- Effort: L.
+- Reuse: `css-gradient-generator` (background picker), `qr-code-generator` (image download).
+- FAQ and SEO: "code screenshot", "code to image".
+- Fit: passes only with lazy loading; ranked low because of weight.
 
 ### Phase 3: SEO and Web
 
@@ -416,7 +431,7 @@ Size budget fit is against `BUDGETS.tool` in `scripts/check-budget.ts`: page JS 
 - Category: Developer Utilities, or PDF and Files if approved.
 - Can do: sheet tabs, column filters, value counts, export a sheet as CSV.
 - Engine and UI: `csv` engine for CSV; SheetJS for .xlsx only.
-- Size: CSV fits; .xlsx does not fit statically. SheetJS (about 400 KB or more) loads only on picking an .xlsx file [TV size and licence].
+- Size: CSV fits; .xlsx does not fit statically. SheetJS (about 400 KB or more, estimate) loads only on picking an .xlsx file [TV size and licence].
 - Heavy libs: SheetJS, on demand only, self-hosted.
 - Effort: L.
 - Reuse: `csv-cleaner`, `csv-column-picker`, `csv-diff`.
@@ -428,7 +443,7 @@ Size budget fit is against `BUDGETS.tool` in `scripts/check-budget.ts`: page JS 
 - Category: Developer Utilities.
 - Can do: parse tables, columns, keys and foreign keys; draw a diagram; PNG or SVG download.
 - Engine and UI: a pure DDL parser (shared with tool 3's tokenizer); Mermaid renders.
-- Size: does not fit statically. Mermaid is over 1 MB and loads only on "Draw" [TV size].
+- Size: does not fit statically. Mermaid (over 1 MB, estimate) loads only on "Draw" [TV size].
 - Heavy libs: Mermaid, on demand only, self-hosted.
 - Effort: L.
 - Reuse: `sql-formatter` (tokenizer, once built).
@@ -453,7 +468,7 @@ Size budget fit is against `BUDGETS.tool` in `scripts/check-budget.ts`: page JS 
 - **CSS Minifier and Beautifier**: two ideas become one tool.
 - **Voice Recorder**: the screen and camera recorder ideas are left out of this page and are a later decision.
 
-**With other plans:** a countdown or stage timer idea was dropped here because the Countdown Timer step is already planned (`docs/world-time-tools-roadmap.md`).
+**With other plans:** `docs/world-time-tools-roadmap.md` has no standalone Countdown Timer. Its only countdown is a live countdown mode inside `event-time-converter` (Phase 2 there), which counts down to an event time shared as a link. A standalone Countdown Timer (set a duration or a time, alarm when it ends) is therefore a new item here (section 3, Phase 2, Productivity), and it must not duplicate that mode.
 
 **Rejected in the fit check:** a URL fetching SEO audit (needs a server), MP3 export in the Audio Trimmer (needs an encoder library), and any CDN loading of fonts, highlighters, SheetJS or Mermaid.
 
@@ -462,7 +477,7 @@ Size budget fit is against `BUDGETS.tool` in `scripts/check-budget.ts`: page JS 
 These are not decided here.
 
 1. **Search budget room.** Every tool needs search bytes and both search assets are nearly full. Is a trim or split of the search index a prerequisite PR before Phase 1 (the same question as PDF roadmap open question 6)?
-2. **On-demand downloads.** Are Mermaid (over 1 MB), SheetJS (about 400 KB) and a highlighter acceptable under "lightweight" if loaded only on user action, or should tools 33 to 35 be dropped?
+2. **On-demand downloads.** Are Mermaid (over 1 MB, estimate), SheetJS (about 400 KB, estimate) and a highlighter (size to measure) acceptable under "lightweight" if loaded only on user action, or should tools 33 to 35 be dropped?
 3. **The `image` engine.** Is a new `image` engine (a major bump) approved, does it ship with Phase 1 here instead of PDF roadmap Phase 4, and where does EXIF stripping live?
 4. **Extend or add.** Should Sort Lines, Add Line Numbers and Text Wrapper be options on existing tools or their own pages?
 5. **Markdown Editor home.** Text Utilities or Prep for a model?
