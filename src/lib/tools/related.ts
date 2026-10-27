@@ -253,11 +253,13 @@ function relatedFrom(
   if (natural.some(t => t.family !== currentTool.family)) return natural;
 
   // The door out of the family stays inside the category: the nearest outsider in the ranked list,
-  // else the below-floor same-category outsider sharing the most words (never one sharing none).
+  // else the below-floor same-category outsider sharing the most words, else the nearest one in
+  // tier order. The door outranks the floor on purpose: validate-knowledge fails the build on a
+  // single-family bubble, so a tax calculator whose siblings are all arithmetic keeps ONE numeral
+  // tool in its last slot. The floor still keeps every other slot.
   const outsider = (t: ToolConfig) => t.family !== undefined && t.family !== currentTool.family;
   const nearestOutsider = ranked.find(outsider) ?? byOverlap(currentTool, rankCandidates(currentTool, allTools, order)
-    .filter(t => t.categorySlug === currentTool.categorySlug && outsider(t) && !ranked.includes(t)))
-    .find(x => x.score > 0)?.t;
+    .filter(t => t.categorySlug === currentTool.categorySlug && outsider(t) && !ranked.includes(t)))[0]?.t;
   if (!nearestOutsider) return natural;
 
   // Give up the weakest sibling, not the strongest, so the closest neighbours all survive.

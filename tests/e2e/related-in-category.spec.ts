@@ -33,14 +33,14 @@ test.describe('related tools stay in the category', () => {
     }
   });
 
-  test('tax calculator: no numeral converter below the floor', async ({ page }) => {
+  test('tax calculator: at most one numeral tool, as the last-slot family door', async ({ page }) => {
     await page.goto('/tool/number/tax-calculator/');
     const links = await hrefs(page, DRAWER);
     expect(links.length).toBeGreaterThan(0);
-    for (const p of links) {
-      expect(p).toMatch(/^\/tool\/number\//);
-      expect(p).not.toMatch(/roman-numeral|binary-converter|number-to-words/);
-    }
+    for (const p of links) expect(p).toMatch(/^\/tool\/number\//);
+    const numeral = links.filter(p => /roman-numeral|binary-converter|number-to-words/.test(p));
+    expect(numeral.length).toBeLessThanOrEqual(1);
+    if (numeral.length) expect(links.at(-1)).toBe(numeral[0]);
   });
 
   test('a top-up tool still names an in-category sibling, and every link resolves', async ({ page, request }) => {

@@ -342,7 +342,8 @@ floor: same pattern and engine, same engine, same family, or a `relatedTools` li
 Sharing only the category is below it. If fewer than 3 tools outside the tool's group clear it, the
 list is topped up with same-category tools that share a name, tag or keyword word (most first); if
 none shares one and nothing outside the group cleared the floor, exactly one same-category tool is
-taken so every page names a sibling. Only a category with no tool outside the tool's group (today
+taken so every page names a sibling. The one-slot door out of the family (validate-knowledge fails a
+single-family bubble) may also use a below-floor same-category tool, word-sharing first, always last. Only a category with no tool outside the tool's group (today
 music-audio and the games hot-seat group) falls back to `relatedTools` in another category. To fix
 a weak or missing link, set `relatedTools` or a shared family, never a cross-category exception.
 

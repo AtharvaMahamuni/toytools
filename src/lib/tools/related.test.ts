@@ -166,10 +166,12 @@ describe('getRelatedTools — the guaranteed door out of the family', () => {
     tags: ['trim whitespace'],
   });
 
-  it('never opens the door to an outsider that shares no word', () => {
+  it('prefers a word-sharing outsider for the door, and only falls back to one sharing none', () => {
     const stranger = tool({ ...outsider, slug: 'stranger', tags: ['tax'] });
-    const all = [current, ...[1, 2, 3, 4, 5, 6, 7].map(sibling), stranger];
-    expect(getRelatedTools(current, all, 5).map(t => t.slug)).not.toContain('stranger');
+    const withBoth = [current, ...[1, 2, 3, 4, 5, 6, 7].map(sibling), stranger, outsider];
+    expect(getRelatedTools(current, withBoth, 5).map(t => t.slug).at(-1)).toBe('counter');
+    const strangerOnly = [current, ...[1, 2, 3, 4, 5, 6, 7].map(sibling), stranger];
+    expect(getRelatedTools(current, strangerOnly, 5).map(t => t.slug).at(-1)).toBe('stranger');
   });
 
   it('never opens the door to another category', () => {

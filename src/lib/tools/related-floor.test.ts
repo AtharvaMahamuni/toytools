@@ -27,8 +27,13 @@ describe('relevance floor and fallback (fixtures)', () => {
   });
 
   it('a tool with too few relevant siblings never gets a top-up that shares no word', () => {
+    const noFamily = { ...roman, family: undefined };
+    expect(getRelatedTools(noFamily, [noFamily, binary, words, tax, tip], 24).map(t => t.slug)).toEqual(['binary', 'words']);
+  });
+
+  it('the family door is the one exception: a single below-floor slot, last', () => {
     const r = getRelatedTools(roman, [roman, binary, words, tax, tip], 24).map(t => t.slug);
-    expect(r).toEqual(['binary', 'words']);
+    expect(r).toEqual(['binary', 'words', 'tax']);
   });
 
   it('the top-up prefers the below-floor sibling sharing the most words', () => {
