@@ -1,6 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 
-// Related tools stay in the category, above a relevance floor (src/lib/tools/related.ts). Runs on
+// Related tools: in-category above a relevance floor, at least three, filled from strong matches
+// only (src/lib/tools/related.ts). Runs on
 // chromium and pixel5. Reads the built pages: the tool drawer row, the guide's Related Tools list
 // and the guide footer siblings (CategoryDiscovery), all derived from the same ranking.
 
@@ -11,7 +12,7 @@ const DRAWER = '.kd-related-links a';
 const GUIDE_RELATED = '.kg-link';
 const FOOTER_SIBLINGS = '.cd-sibling';
 
-test.describe('related tools stay in the category', () => {
+test.describe('related tools: relevance floor, minimum three', () => {
   test('Roman numeral converter: numeral siblings, never tax or tip', async ({ page }) => {
     await page.goto('/tool/number/roman-numeral-converter/');
     expect(await hrefs(page, DRAWER)).toEqual([
@@ -33,25 +34,34 @@ test.describe('related tools stay in the category', () => {
     }
   });
 
-  test('tax calculator: at most one numeral tool, as the last-slot family door', async ({ page }) => {
-    await page.goto('/tool/number/tax-calculator/');
+  test('Binary Converter: numeral and encoding tools, never tax or tip', async ({ page }) => {
+    await page.goto('/tool/number/binary-converter/');
     const links = await hrefs(page, DRAWER);
-    expect(links.length).toBeGreaterThan(0);
-    for (const p of links) expect(p).toMatch(/^\/tool\/number\//);
-    const numeral = links.filter(p => /roman-numeral|binary-converter|number-to-words/.test(p));
-    expect(numeral.length).toBeLessThanOrEqual(1);
-    if (numeral.length) expect(links.at(-1)).toBe(numeral[0]);
+    expect(links.slice(0, 3)).toEqual([
+      '/tool/number/number-to-words/',
+      '/tool/number/roman-numeral-converter/',
+      expect.stringMatching(/\/binary-text-converter\/$/),
+    ]);
+    for (const p of links) expect(p).not.toMatch(/tax|tip|discount|margin|markup|percentage/);
   });
 
-  test('a top-up tool still names an in-category sibling, and every link resolves', async ({ page, request }) => {
-    await page.goto('/tool/health/vo2-max-calculator/');
-    const links = await hrefs(page, DRAWER);
-    expect(links.length).toBeGreaterThan(0);
-    for (const p of links) {
-      expect(p).toMatch(/^\/tool\/health\//);
-      expect((await request.get(p)).status()).toBe(200);
-    }
-  });
+  for (const path of [
+    '/tool/number/tax-calculator/',
+    '/tool/text/paragraph-counter/',
+    '/tool/developer-utilities/regex-tester/',
+    '/tool/health/vo2-max-calculator/',
+  ]) {
+    test(`${path}: at least three related tools, each resolving`, async ({ page, request }) => {
+      await page.goto(path);
+      const links = await hrefs(page, DRAWER);
+      expect(links.length).toBeGreaterThanOrEqual(3);
+      expect(new Set(links).size).toBe(links.length);
+      for (const p of links) {
+        expect(p).not.toBe(path);
+        expect((await request.get(p)).status()).toBe(200);
+      }
+    });
+  }
 
   test('the related row is reachable on this viewport', async ({ page }) => {
     await page.goto('/tool/number/roman-numeral-converter/');

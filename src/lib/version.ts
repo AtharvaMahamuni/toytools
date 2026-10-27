@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
   minor: 15,
-  patch: 1,
+  patch: 2,
   status: 'alpha',
   releaseDate: '2026-10-27',
-  description: 'Related tools stay in the category, above a relevance floor',
+  description: 'Related tools: relevance floor, at least three, strong matches only',
 };
 
 export function formatVersion(config: VersionConfig): string {

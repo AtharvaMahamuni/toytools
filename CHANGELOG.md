@@ -2,12 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [alpha-v13.15.1] - 2026-10-27
+## [alpha-v13.15.2] - 2026-10-27
 
 ### Changed
 
-- **Related tools stay in the category.** The related row on a tool page, the Related Tools list on a guide and the sibling links at the end of a guide now link only tools from the same category. A tool from another category that only shares the engine (an encoder offering a Roman numeral converter, a date tool offering a health calculator) is gone. The only exceptions are categories with no other tool outside the tool's own group (music and the hot-seat games), which keep their hand-picked links.
-- **A relevance floor inside the category.** Sharing a category is no longer enough: a related tool must share the engine, the pattern and engine, or the family, or be hand-linked in either direction. The Roman numeral converter now offers Binary Converter, Number to Words and Scientific Calculator, and no longer reaches the tax, tip or discount calculators. When fewer than three tools clear the floor, the list is topped up with same-category tools that share a word with the tool. If none does, exactly one sibling is kept so no tool page loses its related row. The last slot can still go to one tool from another family in the same category (the tax calculator keeps Binary Converter there), because a row of only one family fails the build.
+- **Related tools put the category first, above a relevance floor.** The related row on a tool page, the Related Tools list on a guide and the knowledge graph link a same-category tool only when it shares the engine, the pattern and engine, or the family, or is hand-linked in either direction. Sharing only the category, or only a word in the name or tags, is no longer enough. The Roman numeral converter offers Binary Converter, Number to Words and Scientific Calculator, and Binary Converter offers Number to Words, Roman Numeral Converter and Binary Text Converter: neither reaches the tax, tip or discount calculators. The sibling links at the end of a guide are unchanged.
+- **At least three related tools on every page.** When fewer than three same-category tools clear the floor, the row is filled from strong matches only, closest first: hand-picked links, then the same pattern, engine or family in a neighbouring category, then the strong matches of the tool's group mates, then tools hand-linked or family-linked to two of its neighbours (or one, in another category). The tax calculator now offers Scientific Calculator, Number to Words and Split Bill; the text counters, the regex tester and the health calculators no longer show a single link. The one-slot door out of the family is a strong match too.
 
 ## [alpha-v13.15] - 2026-10-27
 

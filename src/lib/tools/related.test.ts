@@ -65,12 +65,12 @@ describe('getRelatedTools', () => {
     expect(result[1].slug).toBe('c');
   });
 
-  it('drops a different category even when it shares the family', () => {
+  it('fills from a family match in another category, never a category-only sibling', () => {
     const current = tool({ slug: 'a', family: 'case', categorySlug: 'text' });
     const otherCategory = tool({ slug: 'b', family: 'case', categorySlug: 'other' });
     const sameCategory = tool({ slug: 'c', family: 'other', categorySlug: 'text' });
     const result = getRelatedTools(current, [current, sameCategory, otherCategory]);
-    expect(result.map(t => t.slug)).toEqual(['c']);
+    expect(result.map(t => t.slug)).toEqual(['b']);
   });
 
   it('tier4 (category match) captures same-category tools with no other match', () => {
@@ -156,28 +156,29 @@ describe('getRelatedGuides', () => {
 describe('getRelatedTools — the guaranteed door out of the family', () => {
   const sibling = (n: number) =>
     tool({ slug: `sib-${n}`, categorySlug: 'text', engine: 'text-processor', pattern: 'converter', family: 'cleanup' });
-  // The door is a same-category tool below the relevance floor, so it must share a word.
+  // The door must be a strong match too: here the author linked the counter to trim.
   const outsider = tool({
     slug: 'counter', categorySlug: 'text', engine: 'text-analysis', pattern: 'analyzer', family: 'text-counting',
-    tags: ['whitespace count'],
+    tags: ['whitespace count'], relatedTools: ['trim'],
   });
   const current = tool({
     slug: 'trim', categorySlug: 'text', engine: 'text-processor', pattern: 'converter', family: 'cleanup',
     tags: ['trim whitespace'],
   });
 
-  it('prefers a word-sharing outsider for the door, and only falls back to one sharing none', () => {
-    const stranger = tool({ ...outsider, slug: 'stranger', tags: ['tax'] });
-    const withBoth = [current, ...[1, 2, 3, 4, 5, 6, 7].map(sibling), stranger, outsider];
-    expect(getRelatedTools(current, withBoth, 5).map(t => t.slug).at(-1)).toBe('counter');
-    const strangerOnly = [current, ...[1, 2, 3, 4, 5, 6, 7].map(sibling), stranger];
-    expect(getRelatedTools(current, strangerOnly, 5).map(t => t.slug).at(-1)).toBe('stranger');
+  it('never opens the door with a weak match: a category-only outsider is not used', () => {
+    const stranger = tool({ ...outsider, slug: 'stranger', relatedTools: [], tags: ['whitespace'] });
+    const all = [current, ...[1, 2, 3, 4, 5, 6, 7].map(sibling), stranger];
+    expect(getRelatedTools(current, all, 5).map(t => t.slug)).toEqual(['sib-1', 'sib-2', 'sib-3', 'sib-4', 'sib-5']);
   });
 
-  it('never opens the door to another category', () => {
-    const elsewhere = tool({ ...outsider, slug: 'elsewhere', categorySlug: 'other' });
-    const all = [current, ...[1, 2, 3, 4, 5, 6, 7].map(sibling), elsewhere];
-    expect(getRelatedTools(current, all, 5).map(t => t.slug)).not.toContain('elsewhere');
+  it('a strong outsider in another category may be the door; a weak one never', () => {
+    const strong = tool({ ...outsider, slug: 'elsewhere', categorySlug: 'other' });
+    const weak = tool({ ...outsider, slug: 'weak', categorySlug: 'other', relatedTools: [] });
+    const all = [current, ...[1, 2, 3, 4, 5, 6, 7].map(sibling), weak, strong];
+    const r = getRelatedTools(current, all, 5).map(t => t.slug);
+    expect(r.at(-1)).toBe('elsewhere');
+    expect(r).not.toContain('weak');
   });
 
   it('gives up the weakest sibling for the nearest outsider', () => {
@@ -229,9 +230,9 @@ describe('the curated fallback', () => {
     expect(getRelatedTools(lonely, [lonely, wave, freq], 5).map(t => t.slug)).toEqual(['wave', 'freq']);
   });
 
-  it('is a last resort: any derived candidate still wins', () => {
+  it('ranks after any derived candidate, and only tops up to the minimum', () => {
     const sibling = tool({ slug: 'eq-2', categorySlug: 'music', engine: 'audio', family: 'equalizer' });
-    expect(getRelatedTools(lonely, [lonely, sibling, wave, freq], 5).map(t => t.slug)).toEqual(['eq-2']);
+    expect(getRelatedTools(lonely, [lonely, sibling, wave, freq], 5).map(t => t.slug)).toEqual(['eq-2', 'wave', 'freq']);
   });
 
   it('drops slugs that do not resolve, and self', () => {

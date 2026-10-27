@@ -337,15 +337,17 @@ and `dist/knowledge-graph.json`. Related tools, guides and FAQs are **derived** 
 `npm run intel`.
 
 **Related tools rule** (`src/lib/tools/related.ts`, tested over every tool in
-`related-floor.test.ts`): a related link stays in the tool's category and must clear a relevance
-floor: same pattern and engine, same engine, same family, or a `relatedTools` link either way.
-Sharing only the category is below it. If fewer than 3 tools outside the tool's group clear it, the
-list is topped up with same-category tools that share a name, tag or keyword word (most first); if
-none shares one and nothing outside the group cleared the floor, exactly one same-category tool is
-taken so every page names a sibling. The one-slot door out of the family (validate-knowledge fails a
-single-family bubble) may also use a below-floor same-category tool, word-sharing first, always last. Only a category with no tool outside the tool's group (today
-music-audio and the games hot-seat group) falls back to `relatedTools` in another category. To fix
-a weak or missing link, set `relatedTools` or a shared family, never a cross-category exception.
+`related-floor.test.ts`): a same-category tool is linked only above a relevance floor: same pattern
+and engine, same engine, same family, or a `relatedTools` link either way. Sharing only the
+category, or only a word, is below it and never used. Every tool shows at least 3 links outside its
+group (MIN_RELATED). When the floor gives fewer, the list is filled from strong matches only, in
+order: the tool's `relatedTools`, a shared pattern, engine or family in another category, the strong
+matches of its group mates (and their `relatedTools`), then second-degree tools hand- or
+family-linked to two of its neighbours (one is enough in another category). The one-slot door out
+of the family (validate-knowledge fails a single-family bubble) is chosen from the same strong pool.
+A tool with no strong match at all names its nearest same-category sibling (never reached today).
+`linkReason()` explains any link. To fix a weak or missing link, set `relatedTools` or a shared
+family, never a special case in code.
 
 The data layer (`src/data/`) holds `types.ts`, `categories.ts`, `engines.ts` (the engine/pattern
 single source of truth), `registry.ts`, `tool-groups.ts`, `category-sections.ts`, `metadata.ts`, the
