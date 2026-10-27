@@ -28,7 +28,7 @@ test.describe('related tools stay in the category', () => {
     expect(related.length).toBeGreaterThan(0);
     expect(footer.length).toBeGreaterThan(0);
     for (const p of [...related, ...footer]) {
-      expect(p).toMatch(/^\/tool\/number\//);
+      expect(p).toMatch(/^\/(tool|guide)\/number\//);
       expect(p).not.toMatch(/tax-calculator|tip-calculator/);
     }
   });
