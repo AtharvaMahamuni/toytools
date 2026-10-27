@@ -1,7 +1,8 @@
 // Tool Groups — declarative manifest for tools that form one unified workspace.
 //
 // A group is a set of sibling tools sharing one engine + experience (e.g. the seven
-// case converters): each member keeps its own URL/metadata/guide/FAQ for SEO, but the
+// case converters): each member keeps its own URL/metadata/FAQ for SEO and either its own
+// guide or, with `sharedGuide: '<sibling>'`, a link to a hub guide one sibling hosts. The
 // tool page renders a GroupSwitcher between them and TextProcessorWidget persists
 // input under a shared state key ("group:{id}") so text survives mode switches.
 //

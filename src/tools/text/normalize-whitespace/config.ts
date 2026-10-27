@@ -19,11 +19,8 @@ export const config: ToolConfig = {
   },
   processorId: 'normalizeWhitespace',
   toolGroup: 'text-cleanup',
-  guide: {
-    slug: 'how-to-normalize-whitespace',
-    categorySlug: 'text',
-    title: 'How To Normalize Whitespace In Text',
-    description: 'Learn what normalizing whitespace means, how it flattens messy spacing and line breaks, and when to use it.',
-    readMinutes: 3,
-    updatedAt: '2026-06-07',
-  },};
+  relatedTools: ['remove-extra-spaces', 'trim-text', 'remove-line-breaks'],
+  // Its guide was folded into the whitespace hub (GSC pilot, 27 Oct 2026); the old guide URL is a
+  // redirect stub in src/data/guide-redirects.ts.
+  sharedGuide: 'remove-blank-lines',
+};

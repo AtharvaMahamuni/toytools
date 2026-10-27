@@ -1,4 +1,5 @@
 import { tools } from '../src/data/registry';
+import { sharedGuideErrors } from '../src/lib/shared-guide';
 import { categories } from '../src/data/categories';
 import { searchAliases } from '../src/data/search-aliases';
 import { engineIds, knownPatterns, getEngine, engineRegistry, NON_DISPATCHING_PATTERNS } from '../src/data/engines';
@@ -136,6 +137,9 @@ for (const tool of tools) {
 
   // guide slug must be present when declared (resolution is by route at build)
   if (tool.guide && !m.guideSlug) errors.push(`Tool "${m.slug}" has a guide config without a slug`);
+
+  // sharedGuide: a guideless tool links to a hub guide hosted by a sibling in its tool group.
+  errors.push(...sharedGuideErrors({ ...tool, slug: m.slug }, tools));
 
   // A declared guide must actually be wired into its route — otherwise the tool page links to
   // a guide page that renders empty (no build error without this check).

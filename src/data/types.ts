@@ -207,6 +207,12 @@ export interface ToolConfig {
     detail: string;
   };
   guide?: GuideConfig;
+  /**
+   * A guideless tool whose topic lives in a sibling's guide (a hub). The slug of the host tool,
+   * which must have its own `guide`, sit in the same tool group, and not be this tool. The tool
+   * page links to the host's guide. Never set alongside `guide`. (GSC pilot, 27 Oct 2026.)
+   */
+  sharedGuide?: string;
   trustVariant?: 'private' | 'offline' | 'local' | 'lookup';
   /**
    * Work-in-progress tools on a `private` page (JSON, CSV, regex, find and replace, text compare)

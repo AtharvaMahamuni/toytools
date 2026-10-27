@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "npx tsx scripts/validate-registry.ts && npx tsx scripts/validate-knowledge.ts && npx tsx scripts/validate-architecture.ts && astro build && npx tsx scripts/knowledge-diagnostics.ts && npx tsx scripts/check-budget.ts",
+    "build": "npx tsx scripts/validate-registry.ts && npx tsx scripts/validate-knowledge.ts && npx tsx scripts/validate-architecture.ts && astro build && npx tsx scripts/knowledge-diagnostics.ts && npx tsx scripts/check-budget.ts && npx tsx scripts/check-crawl-hygiene.ts",
     "validate:architecture": "npx tsx scripts/validate-architecture.ts",
     "map:generate": "npx tsx scripts/export-code-map.ts",
     "registries:generate": "npx tsx scripts/generate-registries.ts",
@@ -18,6 +18,7 @@
     "x:cards": "npx tsx scripts/generate-x-cards.ts",
     "check:duplication": "npx tsx scripts/check-duplication.ts",
     "check:budget": "npx tsx scripts/check-budget.ts",
+    "check:crawl": "npx tsx scripts/check-crawl-hygiene.ts",
     "check:queries": "npx tsx scripts/check-query-coverage.ts",
     "check:craft": "npx tsx scripts/check-craft.ts",
     "check:engines": "npx tsx scripts/check-engines.ts",

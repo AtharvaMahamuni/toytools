@@ -17,6 +17,7 @@ interface Props {
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
 const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+import { guidePathBySlug } from '@lib/tools/tool-link';
 ---
 
 <GuideLayout
@@ -143,7 +144,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <ReferenceBlock type="common-mistake" heading="Lines that become empty after trimming stay in the output">
       <p>
         If a line contains only spaces, trimming it produces an empty line: it does not delete
-        the line. Follow up with Remove Blank Lines if you want those resulting empty lines removed.
+        the line. Follow up with <a href={guidePathBySlug('remove-blank-lines')}>Remove Blank Lines</a> if you want those resulting empty lines removed.
       </p>
     </ReferenceBlock>
   </section>

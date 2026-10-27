@@ -87,7 +87,6 @@ export const authoredGuideSlugs = [
   'matrix-calculator',
   'md5-hash-generator',
   'move-today-tracker',
-  'normalize-whitespace',
   'notepad',
   'number-to-words',
   'one-rep-max-calculator',

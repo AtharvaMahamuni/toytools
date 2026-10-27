@@ -143,6 +143,7 @@ describe('redirect stubs', () => {
       'developer/what-is-sha256',
       'developer/what-is-url-encoding',
       'text/how-to-change-text-case',
+      'text/how-to-normalize-whitespace',
     ]);
     for (const redirect of guideRedirects) {
       expect(liveGuides.has(`/guide/${redirect.oldPath}/`)).toBe(false);
@@ -151,6 +152,9 @@ describe('redirect stubs', () => {
     }
     const moved = guideRedirects.find(r => r.oldPath === 'text/how-to-change-text-case');
     expect(moved?.targetPath).toBe('/tool/text/title-case-converter/');
+    // GSC pilot: the one folded guide goes to the whitespace hub, and its tool links there.
+    const folded = guideRedirects.find(r => r.oldPath === 'text/how-to-normalize-whitespace');
+    expect(folded?.targetPath).toBe('/guide/text/how-to-remove-blank-lines/');
   });
 
   it('every redirect stub title says "has moved", with no em dash', () => {

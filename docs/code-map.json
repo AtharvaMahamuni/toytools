@@ -2712,13 +2712,12 @@
       "processorId": "normalizeWhitespace",
       "toolGroup": "text-cleanup",
       "files": [
-        "Guide.astro",
         "Widget.astro",
         "config.ts",
         "faq.ts",
         "knowledge.ts"
       ],
-      "guideRegistered": true,
+      "guideRegistered": false,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },

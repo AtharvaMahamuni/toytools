@@ -18,6 +18,8 @@ import ToolSignature from '@components/tool/ToolSignature.astro';
 import GroupSwitcher from '@components/tool/GroupSwitcher.astro';
 import { faqsByToolSlug } from '@data/faq-registry';
 import { guidePath } from '@lib/paths';
+import { getToolBySlug } from '@data/registry';
+import { resolveGuideHost } from '@lib/shared-guide';
 import type { Tool, Category } from '@data/types';
 
 interface Props {
@@ -30,9 +32,10 @@ interface Props {
 const { tool, category, extraSchemas = [] } = Astro.props;
 
 const faqItems = faqsByToolSlug[tool.slug] ?? [];
-const guideHref = tool.guide
-  ? guidePath(tool.guide)
-  : null;
+// A tool with its own guide links to it; a guideless tool with `sharedGuide` links to its hub.
+const guideHost = resolveGuideHost(tool, getToolBySlug);
+const guideHref = guideHost?.guide ? guidePath(guideHost.guide) : null;
+const guideTitle = guideHost?.guide?.title ?? null;
 
 const faqSchema = faqItems.length > 0 ? {
   '@context': 'https://schema.org',
@@ -59,7 +62,7 @@ const faqSchema = faqItems.length > 0 ? {
   {/* Zone C, entire: drawer triggers, the guide, and the category hub on one row. It replaced
       ToolNavRow, a second related-tools list and a duplicate feedback invite, which between them
       spent 682px repeating each other. */}
-  <KnowledgeDrawers tool={tool} faqItems={faqItems} guideHref={guideHref} />
+  <KnowledgeDrawers tool={tool} faqItems={faqItems} guideHref={guideHref} guideTitle={guideTitle} />
 </ToolLayout>
 
 {/* No styles: Zone C is KnowledgeDrawers' own, and it draws the section boundary itself. */}

@@ -22,8 +22,8 @@ export const config: ToolConfig = {
   guide: {
     slug: 'how-to-remove-blank-lines',
     categorySlug: 'text',
-    title: 'How To Remove Blank Lines From Text',
-    description: 'Learn where empty lines come from, when they get in the way, and how to strip them out without losing your real content.',
-    readMinutes: 3,
-    updatedAt: '2026-06-07',
+    title: 'Remove Blank Lines and Normalize Whitespace',
+    description: 'Delete blank and whitespace-only lines without losing content, or collapse every space, tab and line break onto one line. Worked before and after examples.',
+    readMinutes: 5,
+    updatedAt: '2026-10-27',
   },};

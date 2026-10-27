@@ -41,7 +41,7 @@ export const items: FAQItem[] = [
     id: 'nw-faq-7',
     question: 'How do I make spacing consistent before parsing text?',
     answer:
-      'Run the raw text through Normalize Whitespace first, so your parser only ever meets single spaces between tokens. Paste the input, copy the flattened output, and feed that to your script or import step. For example, a product list pasted from a spreadsheet arrives with tabs between columns and a newline after each row; after normalizing, it is one line of space-separated values that a simple split on spaces handles reliably.',
+      'Run the raw text through Normalize Whitespace first, so your parser only ever meets single spaces between tokens. Paste the input, copy the flattened output, and feed that to your script or import step. For example, a product name copied from a spreadsheet cell carries stray tabs, doubled spaces or a trailing line break; after normalizing, it is a clean single-spaced string ready to match or store. Keep whole tables out of it: normalizing turns the tabs between columns and the breaks between rows into plain spaces, so the table structure is lost.',
   },
   {
     id: 'nw-faq-8',
@@ -54,5 +54,11 @@ export const items: FAQItem[] = [
     question: 'Is it safe to paste private data into an online whitespace normalizer?',
     answer:
       'Yes, this normalizer runs entirely in your browser, so the text you paste never leaves your device or reaches any server. The collapse of tabs, spaces, and line breaks happens locally in JavaScript the moment you type. That matters because normalization is a first pass over raw exports, logs, or customer records. For example, you can flatten a pasted database row into a single clean line without the contents ever being transmitted.',
+  },
+  {
+    id: 'nw-faq-10',
+    question: 'What does normalizing whitespace do to a multi-line address?',
+    answer:
+      'It joins the lines and collapses every run of spaces, tabs and line breaks into one space, then trims both ends. "12  Park Road", "  Pune" and a trailing empty line become "12 Park Road Pune", the shape a single-line form field or CSV cell expects.',
   },
 ];
