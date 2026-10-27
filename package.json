@@ -63,6 +63,7 @@
     "seo:gate:sim": "npm run emit:sim-seo-content && npm run seo:graph && npm run seo:gate --",
     "seo:doctor": "npm --prefix seo-engine run seo:doctor",
     "seo:status": "npm --prefix seo-engine run seo:status --",
+    "growth:score": "npx tsx scripts/growth-score.ts",
     "seo:writing": "npm --prefix seo-engine run seo:writing --",
     "seo:writing-tool": "npm --prefix seo-engine run seo:writing-tool --",
     "seo:gate": "npm --prefix seo-engine run seo:writing-tool -- --gate",

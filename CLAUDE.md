@@ -13,6 +13,7 @@ the signal it belongs somewhere below instead.
 | shaping a new tool idea into a spec before coding | **`new-tool-skeleton` skill** |
 | adding a tool or an engine | **`add-tool` skill** |
 | deciding what to build next | **`next-tool` skill** |
+| scoring a tool or idea for growth, or rejecting a thin page | **`toytools-growth` skill** |
 | writing a guide, FAQ or knowledge file | **`seo-content` skill** |
 | writing an X post, thread or social card | **`x-content` skill** |
 | giving a tool its thoughtful touch | **`tool-craft` skill** |
@@ -298,6 +299,7 @@ npm run research:next   # the RIE headline recommendation (see the standing rule
 npm run research:craft  # craft debt: shipped tools whose thoughtful touch the evidence already names
 npm run research:signal # record an observed engagement signal (X probe, feedback) as evidence
 npm run seo:status -- <slug>   # ALWAYS start content work here: state + the exact next command
+npm run growth:score -- <slug>  # one growth row from research.json, the guide, the FAQ, and the widget
 npm run seo:gate -- <slug>     # the content done-condition
 npm run seo:doctor             # run when any seo:* command misbehaves
 npm run check:indexing         # which URLs Google has actually indexed (needs GSC creds)
