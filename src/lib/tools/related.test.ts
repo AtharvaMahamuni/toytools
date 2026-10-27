@@ -65,13 +65,12 @@ describe('getRelatedTools', () => {
     expect(result[1].slug).toBe('c');
   });
 
-  it('tier3 (family match) ranks before tier4 (category match)', () => {
+  it('drops a different category even when it shares the family', () => {
     const current = tool({ slug: 'a', family: 'case', categorySlug: 'text' });
-    const tier3Tool = tool({ slug: 'b', family: 'case', categorySlug: 'other' });
-    const tier4Tool = tool({ slug: 'c', family: 'other', categorySlug: 'text' });
-    const result = getRelatedTools(current, [current, tier4Tool, tier3Tool]);
-    expect(result[0].slug).toBe('b');
-    expect(result[1].slug).toBe('c');
+    const otherCategory = tool({ slug: 'b', family: 'case', categorySlug: 'other' });
+    const sameCategory = tool({ slug: 'c', family: 'other', categorySlug: 'text' });
+    const result = getRelatedTools(current, [current, sameCategory, otherCategory]);
+    expect(result.map(t => t.slug)).toEqual(['c']);
   });
 
   it('tier4 (category match) captures same-category tools with no other match', () => {
@@ -107,8 +106,8 @@ describe('getRelatedTools', () => {
   });
 
   it('returns all tools within max when fewer exist', () => {
-    const current = tool({ slug: 'a', categorySlug: 'text' });
-    const others = [tool({ slug: 'b', categorySlug: 'text' }), tool({ slug: 'c', categorySlug: 'text' })];
+    const current = tool({ slug: 'a', categorySlug: 'text', family: 'f' });
+    const others = [tool({ slug: 'b', categorySlug: 'text', family: 'f' }), tool({ slug: 'c', categorySlug: 'text', family: 'f' })];
     const result = getRelatedTools(current, [current, ...others], 10);
     expect(result.length).toBe(2);
   });
@@ -157,11 +156,26 @@ describe('getRelatedGuides', () => {
 describe('getRelatedTools — the guaranteed door out of the family', () => {
   const sibling = (n: number) =>
     tool({ slug: `sib-${n}`, categorySlug: 'text', engine: 'text-processor', pattern: 'converter', family: 'cleanup' });
+  // The door is a same-category tool below the relevance floor, so it must share a word.
   const outsider = tool({
     slug: 'counter', categorySlug: 'text', engine: 'text-analysis', pattern: 'analyzer', family: 'text-counting',
+    tags: ['whitespace count'],
   });
   const current = tool({
     slug: 'trim', categorySlug: 'text', engine: 'text-processor', pattern: 'converter', family: 'cleanup',
+    tags: ['trim whitespace'],
+  });
+
+  it('never opens the door to an outsider that shares no word', () => {
+    const stranger = tool({ ...outsider, slug: 'stranger', tags: ['tax'] });
+    const all = [current, ...[1, 2, 3, 4, 5, 6, 7].map(sibling), stranger];
+    expect(getRelatedTools(current, all, 5).map(t => t.slug)).not.toContain('stranger');
+  });
+
+  it('never opens the door to another category', () => {
+    const elsewhere = tool({ ...outsider, slug: 'elsewhere', categorySlug: 'other' });
+    const all = [current, ...[1, 2, 3, 4, 5, 6, 7].map(sibling), elsewhere];
+    expect(getRelatedTools(current, all, 5).map(t => t.slug)).not.toContain('elsewhere');
   });
 
   it('gives up the weakest sibling for the nearest outsider', () => {
