@@ -10,7 +10,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Fixed
 
-- **Old URLs never 404.** A new build check confirms that all 22 old URLs Search Console reports as not found (renamed developer guides, the old plural tool and category paths, and the retired case converter guide) still build redirect pages. It also fails the build if a sitemap lists favicon.ico, an FAQ URL, a redirect page, a noindex page, or a page that does not exist.
+- **Old URLs never 404.** A new build check confirms that all 22 old URLs Search Console reports as not found (renamed developer guides, the old plural tool and category paths, and the retired case converter guide) still build redirect pages. It also fails the build if a sitemap lists favicon.ico, an FAQ URL, a redirect page, a noindex page, or a page that does not exist, or if the whitespace hub guide drops out of the sitemap.
 
 ## [alpha-v13.14] - 2026-10-27
 

@@ -216,8 +216,15 @@ a validator fails — or, worse, drifts silently.
   and `map:generate`.
 - **Add a tool group** → declare it in `src/data/tool-groups.ts` **and** set `toolGroup: '<id>'` on
   every member. `validate-registry` enforces bidirectional membership and the same engine/pattern
-  across members. Members keep their own URL, metadata, guide, FAQ and sitemap entry; never merge
+  across members. Members keep their own URL, metadata, FAQ and sitemap entry; never merge
   URLs.
+- **Share a hub guide (`sharedGuide`)** → a group member with no guide of its own sets
+  `sharedGuide: '<host-slug>'` instead of `guide:`; its tool page links to the host's guide and
+  seo:gate scores it against that guide. `validate-registry` (via `src/lib/shared-guide.ts`) requires
+  no `guide` alongside it, a host that exists, has its own guide and is in the same tool group. When
+  folding a guide into a hub, delete its Guide.astro and guide-published entry, add a
+  `guide-redirects.ts` stub from the old URL, and list it in `FOLDED_GUIDES` in
+  `scripts/check-crawl-hygiene.ts` (the hub goes in `REQUIRED_IN_SITEMAP`).
 - **Change a widget's UI** → verify in a real browser with `npm run test:e2e` (chromium + pixel5).
   Build and unit tests do not catch widget JS errors.
 - **LLM files** (`/llms.txt`, `/llms-full.txt`, rendered by `src/lib/llms/render.ts`) → a PR that

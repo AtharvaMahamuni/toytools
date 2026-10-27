@@ -19,6 +19,7 @@ import GroupSwitcher from '@components/tool/GroupSwitcher.astro';
 import { faqsByToolSlug } from '@data/faq-registry';
 import { guidePath } from '@lib/paths';
 import { getToolBySlug } from '@data/registry';
+import { resolveGuideHost } from '@lib/shared-guide';
 import type { Tool, Category } from '@data/types';
 
 interface Props {
@@ -32,7 +33,7 @@ const { tool, category, extraSchemas = [] } = Astro.props;
 
 const faqItems = faqsByToolSlug[tool.slug] ?? [];
 // A tool with its own guide links to it; a guideless tool with `sharedGuide` links to its hub.
-const guideHost = tool.guide ? tool : (tool.sharedGuide ? getToolBySlug(tool.sharedGuide) : undefined);
+const guideHost = resolveGuideHost(tool, getToolBySlug);
 const guideHref = guideHost?.guide ? guidePath(guideHost.guide) : null;
 const guideTitle = guideHost?.guide?.title ?? null;
 

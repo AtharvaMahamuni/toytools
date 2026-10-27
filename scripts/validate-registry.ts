@@ -1,4 +1,5 @@
 import { tools } from '../src/data/registry';
+import { sharedGuideErrors } from '../src/lib/shared-guide';
 import { categories } from '../src/data/categories';
 import { searchAliases } from '../src/data/search-aliases';
 import { engineIds, knownPatterns, getEngine, engineRegistry, NON_DISPATCHING_PATTERNS } from '../src/data/engines';
@@ -138,16 +139,7 @@ for (const tool of tools) {
   if (tool.guide && !m.guideSlug) errors.push(`Tool "${m.slug}" has a guide config without a slug`);
 
   // sharedGuide: a guideless tool links to a hub guide hosted by a sibling in its tool group.
-  if (tool.sharedGuide !== undefined) {
-    const host = tools.find(t => t.slug === tool.sharedGuide);
-    if (tool.guide) errors.push(`Tool "${m.slug}" sets both guide and sharedGuide: keep one`);
-    if (tool.sharedGuide === m.slug) errors.push(`Tool "${m.slug}" sharedGuide points at itself`);
-    else if (!host) errors.push(`Tool "${m.slug}" sharedGuide "${tool.sharedGuide}" is not a tool`);
-    else if (!host.guide) errors.push(`Tool "${m.slug}" sharedGuide "${tool.sharedGuide}" has no guide of its own`);
-    else if (!tool.toolGroup || host.toolGroup !== tool.toolGroup) {
-      errors.push(`Tool "${m.slug}" sharedGuide "${tool.sharedGuide}" must be in the same tool group`);
-    }
-  }
+  errors.push(...sharedGuideErrors({ ...tool, slug: m.slug }, tools));
 
   // A declared guide must actually be wired into its route — otherwise the tool page links to
   // a guide page that renders empty (no build error without this check).
