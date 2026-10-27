@@ -37,9 +37,10 @@ function registryOrder(allTools: ToolConfig[]): RegistryOrder {
  * slots across the whole tier, and each tool links its nearest registry neighbours, so every tier
  * member is reached by the tools just before it.
  *
- * Same category first because a tier is defined by engine, pattern or family, and those cross
- * categories (the `encoding` engine holds developer encoders and number converters alike). Inside
- * one tier, a sibling from the same category is the closer neighbour.
+ * Same category first inside the tier, and again across tiers: a same-category tool in a lower
+ * tier outranks a different category that only shares the engine. The `encoding` engine holds
+ * developer encoders and number converters alike, and the `datetime` engine holds date tools and
+ * health calculators. Those are not the same job.
  *
  * Deterministic by construction: the only inputs are the registry order (a generated, slug-sorted
  * list after the static simulation manifest list) and the current tool, so the same commit always
@@ -115,7 +116,17 @@ function rankCandidates(
       !claimed.has(t.slug),
   ), order);
 
-  return [...tier1, ...tier2, ...tier3, ...tier4];
+  // Same category outranks a different category, even when the other category shares the engine.
+  // Tier 2 used to place that engine mate ahead of every same-category tool in a lower tier, so a
+  // date page linked to a health calculator and, once a tool group had taken the first slots, an
+  // encoder linked to a numeral converter. The job stays in the category. A cross-category tool
+  // remains available after the category is exhausted, which is how a one-tool category still
+  // reaches the config list.
+  const ranked = [...tier1, ...tier2, ...tier3, ...tier4];
+  return [
+    ...ranked.filter(t => t.categorySlug === currentTool.categorySlug),
+    ...ranked.filter(t => t.categorySlug !== currentTool.categorySlug),
+  ];
 }
 
 /**

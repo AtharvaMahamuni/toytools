@@ -13,6 +13,7 @@ the signal it belongs somewhere below instead.
 | shaping a new tool idea into a spec before coding | **`new-tool-skeleton` skill** |
 | adding a tool or an engine | **`add-tool` skill** |
 | deciding what to build next | **`next-tool` skill** |
+| scoring a tool or idea for growth, or rejecting a thin page | **`toytools-growth` skill** |
 | writing a guide, FAQ or knowledge file | **`seo-content` skill** |
 | writing an X post, thread or social card | **`x-content` skill** |
 | giving a tool its thoughtful touch | **`tool-craft` skill** |

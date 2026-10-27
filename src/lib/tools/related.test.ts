@@ -65,13 +65,13 @@ describe('getRelatedTools', () => {
     expect(result[1].slug).toBe('c');
   });
 
-  it('tier3 (family match) ranks before tier4 (category match)', () => {
+  it('a same-category tool ranks before the same family in another category', () => {
     const current = tool({ slug: 'a', family: 'case', categorySlug: 'text' });
-    const tier3Tool = tool({ slug: 'b', family: 'case', categorySlug: 'other' });
-    const tier4Tool = tool({ slug: 'c', family: 'other', categorySlug: 'text' });
-    const result = getRelatedTools(current, [current, tier4Tool, tier3Tool]);
-    expect(result[0].slug).toBe('b');
-    expect(result[1].slug).toBe('c');
+    const otherCategory = tool({ slug: 'b', family: 'case', categorySlug: 'other' });
+    const sameCategory = tool({ slug: 'c', family: 'other', categorySlug: 'text' });
+    const result = getRelatedTools(current, [current, sameCategory, otherCategory]);
+    expect(result[0].slug).toBe('c');
+    expect(result[1].slug).toBe('b');
   });
 
   it('tier4 (category match) captures same-category tools with no other match', () => {
@@ -262,6 +262,14 @@ describe('tier rotation (SEO GEO audit item 19)', () => {
     const mixed = [t('a', 'number'), t('b'), t('c', 'number'), t('d'), t('e'), t('f', 'number')];
     // current d (text): text half after d is e, then wraps to b; then the number half after d: f, a, c.
     expect(slugs(relatedCandidates(mixed[3], mixed))).toEqual(['e', 'b', 'f', 'a', 'c']);
+  });
+
+  it('ranks a same-category tool ahead of a different category that shares the engine', () => {
+    const cur = tool({ slug: 'age', categorySlug: 'date-time', engine: 'datetime', pattern: 'calc', family: 'age' });
+    const otherCategory = tool({ slug: 'ovulation', categorySlug: 'health', engine: 'datetime', pattern: 'calc', family: 'cycle' });
+    const sameCategory = tool({ slug: 'cron', categorySlug: 'date-time', engine: 'schedule', pattern: 'parse', family: 'cron' });
+    expect(slugs(relatedCandidates(cur, [otherCategory, cur, sameCategory]))).toEqual(['cron', 'ovulation']);
+    expect(slugs(getRelatedTools(cur, [otherCategory, cur, sameCategory], 1))).toEqual(['cron']);
   });
 
   it('keeps tier order: a lower tier never jumps above a higher one', () => {

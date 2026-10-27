@@ -1,11 +1,9 @@
 ---
-// Contextual cross-tool discovery — a subtle "more in this category" prompt rendered
-// near a tool's output (and at the end of guide/FAQ content). Fully data-driven from the
-// registry, so every category gets the right name, count, accent, and sibling links.
+// The category hub link at the end of a guide. Sibling tools are not repeated here: the guide
+// already lists them in RelatedContent, from the same ranking.
 import { tools } from '@data/registry';
 import { categories } from '@data/categories';
-import { getRelatedTools } from '@lib/tools/related';
-import { categoryPath, toolPath } from '@lib/paths';
+import { categoryPath } from '@lib/paths';
 
 interface Props {
   toolSlug: string;
@@ -17,11 +15,7 @@ const tool = tools.find(t => t.slug === toolSlug);
 const category = tool ? categories.find(c => c.slug === tool.categorySlug) : undefined;
 const count = category ? tools.filter(t => t.categorySlug === category.slug).length : 0;
 
-// Nearest siblings (already excludes the current tool); cap at 3 for an inline row.
-const siblings = tool ? getRelatedTools(tool, tools, 3) : [];
-
 const categoryHref = category ? categoryPath(category) : null;
-const segmentOf = (slug: string) => categories.find(c => c.slug === slug)?.segment ?? '';
 ---
 
 {category && count > 1 && (
@@ -31,16 +25,6 @@ const segmentOf = (slug: string) => categories.find(c => c.slug === slug)?.segme
       Looking for more?
       <a class="cd-link" href={categoryHref}>Browse all {`${count} ${category.name}`} →</a>
     </span>
-    {siblings.length > 0 && (
-      <span class="cd-siblings">
-        {siblings.map((s, i) => (
-          <>
-            {i > 0 && <span class="cd-sep" aria-hidden="true">·</span>}
-            <a class="cd-sibling" href={toolPath({ slug: s.slug, segment: segmentOf(s.categorySlug) })}>{s.name}</a>
-          </>
-        ))}
-      </span>
-    )}
   </aside>
 )}
 
@@ -75,27 +59,5 @@ const segmentOf = (slug: string) => categories.find(c => c.slug === slug)?.segme
 
   .cd-link:hover {
     text-decoration: underline;
-  }
-
-  .cd-siblings {
-    display: inline-flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-2);
-    color: var(--color-text-subtle);
-  }
-
-  .cd-sibling {
-    color: var(--color-text-muted);
-    text-decoration: none;
-  }
-
-  .cd-sibling:hover {
-    color: var(--color-text);
-    text-decoration: underline;
-  }
-
-  .cd-sep {
-    color: var(--color-text-subtle);
   }
 </style>

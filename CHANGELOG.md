@@ -2,6 +2,13 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.15.1] - 2026-10-27
+
+### Changed
+
+- **Related tools stay in the same category.** A tool from the same category now ranks ahead of one from another category that only shares the engine. A date tool no longer offers a health calculator first, and an encoder no longer offers a numeral converter first. Those links still appear after every same-category tool.
+- **Guide category line.** The line at the end of a guide no longer repeats sibling tools. It links to the category. The guide already lists those tools.
+
 ## [alpha-v13.15] - 2026-10-27
 
 ### Changed
