@@ -1,5 +1,5 @@
 // One growth row for one slug (`npm run growth:score -- <slug>`).
-// On demand only. Never part of `npm run build`. The count lives in src/lib/growth/score.ts.
+// On demand only. Never part of `npm run build`. The count lives in scripts/growth/score.ts.
 
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -9,7 +9,7 @@ import {
   scoreGrowth,
   type GrowthResearch,
   type GrowthSources,
-} from '../src/lib/growth/score';
+} from './growth/score';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
