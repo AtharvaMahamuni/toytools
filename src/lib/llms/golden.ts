@@ -14,6 +14,9 @@ import { GET as aiTxt } from '../../pages/ai.txt';
 import { GET as faqAiTxt } from '../../pages/faq-ai.txt';
 import { GET as aiJson } from '../../pages/ai.json';
 import { GET as identityJson } from '../../pages/identity.json';
+import { GET as llmTxt } from '../../pages/llm.txt';
+import { GET as llmsHtml } from '../../pages/llms.html';
+import { GET as robotsAiTxt } from '../../pages/robots-ai.txt';
 
 /** The site the goldens are rendered on: the production origin, as a build without ASTRO_SITE. */
 export const GOLDEN_SITE = siteUrl().href;
@@ -37,6 +40,9 @@ export const GOLDEN_ENDPOINTS = {
   'faq-ai.txt': faqAiTxt,
   'ai.json': aiJson,
   'identity.json': identityJson,
+  'llm.txt': llmTxt,
+  'llms.html': llmsHtml,
+  'robots-ai.txt': robotsAiTxt,
 } as const satisfies Readonly<Record<string, unknown>>;
 
 export type GoldenName = keyof typeof GOLDEN_ENDPOINTS;

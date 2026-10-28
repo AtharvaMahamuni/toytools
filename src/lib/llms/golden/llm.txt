@@ -1,0 +1,13 @@
+# ToyTools
+
+> ToyTools is the internet's little toolbox: free, browser-based tools for text, numbers, developer utilities, productivity, money, generators, physics, applied math, chemistry, dates, health, design, music, fidgets, prep, and games. The prep tools prepare text before a model (ToyTools does not run a model). The text, files and values you enter in tools are processed on your device and not uploaded. The site uses analytics, and the feedback form sends what you submit.
+
+- [llms.txt](https://toytoolsapp.com/llms.txt): Core tools, categories and pages.
+- [llms-full.txt](https://toytoolsapp.com/llms-full.txt): Every published tool.
+- [brand.txt](https://toytoolsapp.com/brand.txt): How to write the ToyTools name, and its domain and accounts.
+- [ai.txt](https://toytoolsapp.com/ai.txt): AI usage policy: crawling, training and citation allowed, attribution appreciated.
+- [faq-ai.txt](https://toytoolsapp.com/faq-ai.txt): Common questions about ToyTools, as plain question and answer pairs.
+- [ai.json](https://toytoolsapp.com/ai.json): The same identity and AI policy, as JSON.
+- [identity.json](https://toytoolsapp.com/identity.json): The Organization and Person JSON-LD every page carries.
+- [llms.html](https://toytoolsapp.com/llms.html): llms.txt rendered as an HTML page.
+- [robots-ai.txt](https://toytoolsapp.com/robots-ai.txt): The AI crawler rules from robots.txt, with links to these files.

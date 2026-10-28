@@ -9,6 +9,9 @@ test.describe('identity files', () => {
     ['/faq-ai.txt', 'text/plain'],
     ['/ai.json', 'application/json'],
     ['/identity.json', 'application/json'],
+    ['/llm.txt', 'text/plain'],
+    ['/llms.html', 'text/html'],
+    ['/robots-ai.txt', 'text/plain'],
   ] as const) {
     test(`${path} is served`, async ({ request }) => {
       const resp = await request.get(path);
@@ -24,5 +27,14 @@ test.describe('identity files', () => {
     const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
     const graphs = blocks.map(b => JSON.parse(b)).filter(j => Array.isArray(j['@graph']));
     expect(graphs).toContainEqual(served);
+  });
+
+  test('llms.html is noindex, canonical to home, and not in the sitemap', async ({ request }) => {
+    const html = await (await request.get('/llms.html')).text();
+    expect(html).toContain('<meta name="robots" content="noindex">');
+    expect(html).toMatch(/<link rel="canonical" href="[^"]+\/">/);
+    const sitemap = await (await request.get('/sitemap-0.xml')).text();
+    expect(sitemap).toContain('<loc>');
+    expect(sitemap).not.toContain('llms.html');
   });
 });

@@ -4,6 +4,10 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ## [alpha-v13.16.3] - 2026-10-28
 
+### Added
+
+- **llm.txt, llms.html and robots-ai.txt.** Three more generated AI files. /llm.txt is a short llms.txt: the summary and links to llms.txt, llms-full.txt and the identity files. /llms.html is llms.txt rendered as HTML, with noindex, a canonical to the home page, and no sitemap entry. /robots-ai.txt (ADF-010) allows the same AI crawlers robots.txt names, from the same list, gives the same sitemap and no Crawl-delay, and adds Discovery: lines for llms.txt, llms.html, ai.txt, ai.json, identity.json, brand.txt and faq-ai.txt. llms.txt and ai.json list all three.
+
 ### Fixed
 
 - **Privacy wording in the AI files.** llms.txt and llms-full.txt still said "Nothing is uploaded" in the Fidgets and Games category blurbs and in each tool's Privacy line. They now say "The text, files and values you enter in tools are processed on your device and not uploaded.", the same shared fact the site-wide privacy line opens with (the site uses analytics, and the feedback form sends what you submit, see /privacy/). The Fidgets and Games category pages use the new blurb too. A test fails the build if any generated AI file says "Nothing is uploaded".

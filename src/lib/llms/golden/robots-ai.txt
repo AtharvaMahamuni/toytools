@@ -1,0 +1,24 @@
+# robots-ai.txt for ToyTools
+# Supplementary AI crawler rules. robots.txt is authoritative and allows every crawler.
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://toytoolsapp.com/sitemap-index.xml
+
+Discovery: https://toytoolsapp.com/llms.txt
+Discovery: https://toytoolsapp.com/llms.html
+Discovery: https://toytoolsapp.com/ai.txt
+Discovery: https://toytoolsapp.com/ai.json
+Discovery: https://toytoolsapp.com/identity.json
+Discovery: https://toytoolsapp.com/brand.txt
+Discovery: https://toytoolsapp.com/faq-ai.txt

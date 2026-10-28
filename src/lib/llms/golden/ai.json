@@ -34,6 +34,18 @@
     {
       "url": "https://toytoolsapp.com/identity.json",
       "about": "The Organization and Person JSON-LD every page carries."
+    },
+    {
+      "url": "https://toytoolsapp.com/llm.txt",
+      "about": "A short version of llms.txt."
+    },
+    {
+      "url": "https://toytoolsapp.com/llms.html",
+      "about": "llms.txt rendered as an HTML page."
+    },
+    {
+      "url": "https://toytoolsapp.com/robots-ai.txt",
+      "about": "The AI crawler rules from robots.txt, with links to these files."
     }
   ],
   "llms": {
