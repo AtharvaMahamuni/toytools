@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.16.3] - 2026-10-28
+
+### Fixed
+
+- **Privacy wording in the AI files.** llms.txt and llms-full.txt still said "Nothing is uploaded" in the Fidgets and Games category blurbs and in each tool's Privacy line. They now say "The text, files and values you enter in tools are processed on your device and not uploaded.", the same shared fact the site-wide privacy line opens with (the site uses analytics, and the feedback form sends what you submit, see /privacy/). The Fidgets and Games category pages use the new blurb too. A test fails the build if any generated AI file says "Nothing is uploaded".
+
 ## [alpha-v13.16.2] - 2026-10-28
 
 ### Added

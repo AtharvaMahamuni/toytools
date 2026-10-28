@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
   minor: 16,
-  patch: 2,
+  patch: 3,
   status: 'alpha',
   releaseDate: '2026-10-28',
-  description: 'Identity files for AI: brand.txt, ai.txt, faq-ai.txt, ai.json and identity.json',
+  description: 'AI files state the tool-data privacy fact, not Nothing is uploaded',
 };
 
 export function formatVersion(config: VersionConfig): string {

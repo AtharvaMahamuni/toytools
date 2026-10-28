@@ -86,3 +86,15 @@ describe('firstDifference', () => {
     expect(firstDifference('a\nb\n', 'a\nb')).toEqual({ line: 3, expected: '', actual: undefined });
   });
 });
+
+// "Nothing is uploaded" reads as a claim about the whole site, which loads analytics and has a
+// feedback form. The AI files state the tool-data fact and the site fact instead (src/lib/privacy.ts).
+describe('no generated AI file says "Nothing is uploaded"', () => {
+  for (const name of Object.keys(GOLDEN_ENDPOINTS) as Array<keyof typeof GOLDEN_ENDPOINTS>) {
+    it(name, async () => {
+      const text = (await servedBytes(name)).toString('utf8');
+      expect(text).not.toMatch(/nothing is uploaded/i);
+      expect(readFileSync(join(ROOT, GOLDEN_DIR, name), 'utf8')).not.toMatch(/nothing is uploaded/i);
+    });
+  }
+});

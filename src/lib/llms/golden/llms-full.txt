@@ -6,14 +6,14 @@
 
 URL: https://toytoolsapp.com/tool/math/combinations-permutations-calculator/
 Use for: nCr and nPr with the formula expanded step by step.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Fraction Calculator
 
 URL: https://toytoolsapp.com/tool/math/fraction-calculator/
 Use for: Add, subtract, multiply or divide fractions with every step shown.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Linear Regression Playground
@@ -27,7 +27,7 @@ Does not: Run multiple regression or logistic regression.
 
 URL: https://toytoolsapp.com/tool/math/matrix-calculator/
 Use for: Add, multiply, transpose or invert matrices, with the first step shown.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Row-reduce to RREF, solve a linear system, or send the entries to an AI model.
 
 ## Normal Distribution Visualizer
@@ -41,7 +41,7 @@ Does not: Replace a statistics course or fit a distribution to a data set.
 
 URL: https://toytoolsapp.com/tool/math/prime-factorization-calculator/
 Use for: Factor a number into primes, with the divisions narrated.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Probability Calculator
@@ -62,14 +62,14 @@ Does not: Call an AI model.
 
 URL: https://toytoolsapp.com/tool/math/statistics-visualizer/
 Use for: Paste numbers.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Fit a regression or infer a population the paste does not contain, or send the numbers to an AI model.
 
 ## Triangle Solver
 
 URL: https://toytoolsapp.com/tool/math/triangle-solver/
 Use for: Enter any three parts and see the triangle drawn to scale.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Compute area or perimeter, take angles in radians, or send the measurements to an AI model.
 
 ## Interactive Unit Circle Calculator
@@ -125,203 +125,203 @@ Does not: Call an AI model.
 
 URL: https://toytoolsapp.com/tool/datetime/age-calculator/
 Use for: Your exact age in years, months and days, plus a birthday countdown.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Cron Expression Parser
 
 URL: https://toytoolsapp.com/tool/datetime/cron-expression-parser/
 Use for: Read a cron expression in plain English, with its next run times.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Date Difference Calculator
 
 URL: https://toytoolsapp.com/tool/datetime/date-difference-calculator/
 Use for: Exact time between two dates, including weekdays only.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Date Format Detector
 
 URL: https://toytoolsapp.com/tool/datetime/date-format-detector/
 Use for: Both readings when a date could be day first or month first.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Pick a locale, rewrite the column, or decide which reading a spreadsheet will store.
 
 ## Sleep Cycle Calculator
 
 URL: https://toytoolsapp.com/tool/datetime/sleep-cycle-calculator/
 Use for: Bedtimes in 90 minute cycles, plus time to fall asleep.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Prescribe a cycle length, diagnose a sleep disorder, or send your bedtimes to an AI model.
 
 ## Cron to systemd Timer Converter
 
 URL: https://toytoolsapp.com/tool/datetime/systemd-timer-converter/
 Use for: Translate a crontab line, then check it fires when cron did.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Timezone Converter
 
 URL: https://toytoolsapp.com/tool/datetime/timezone-converter/
 Use for: Convert a time between zones, daylight saving handled.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Unix Timestamp Converter
 
 URL: https://toytoolsapp.com/tool/datetime/unix-timestamp-converter/
 Use for: Unix timestamp to a date and back, in seconds or milliseconds.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Aspect Ratio Calculator
 
 URL: https://toytoolsapp.com/tool/design/aspect-ratio-calculator/
 Use for: Lock a ratio like 16:9 and solve the missing width or height.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## WCAG Color Contrast Checker
 
 URL: https://toytoolsapp.com/tool/design/color-contrast-checker/
 Use for: Check text and background against WCAG AA and AAA contrast.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Color Format Converter
 
 URL: https://toytoolsapp.com/tool/design/color-format-converter/
 Use for: HEX, RGB, HSL, HSV, OKLCH and CMYK, on your device.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Color Shades Generator
 
 URL: https://toytoolsapp.com/tool/design/color-shades-generator/
 Use for: A 50 to 950 OKLCH scale, copied as CSS variables.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Match a published Tailwind build byte for byte, score contrast on every background, or send the color to an AI model.
 
 ## Colorblind Simulator
 
 URL: https://toytoolsapp.com/tool/design/colorblind-simulator/
 Use for: Seven simulations of one palette, side by side.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Diagnose color vision, simulate blue cone monochromacy, upload an image, or send the palette to an AI model.
 
 ## Perceptual Gradient Generator
 
 URL: https://toytoolsapp.com/tool/design/css-gradient-generator/
 Use for: An OKLCH linear gradient, copied as CSS code.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Apply a vendor easing curve or upload the color stops.
 
 ## Image Palette Extractor
 
 URL: https://toytoolsapp.com/tool/design/image-palette-extractor/
 Use for: Dominant colors from a photo, each with its share of the pixels.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Upload the picture, fetch a remote image, or send the sample to a server.
 
 ## PX to DP Converter
 
 URL: https://toytoolsapp.com/tool/design/px-to-dp-converter/
 Use for: Convert px to dp and sp across Android buckets and iOS points.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## PX to REM Converter
 
 URL: https://toytoolsapp.com/tool/design/px-to-rem-converter/
 Use for: px to rem, em and pt, against your root font size.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Type Scale Generator
 
 URL: https://toytoolsapp.com/tool/design/type-scale-generator/
 Use for: Font sizes from a ratio, in rem and CSS variables.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Match a published design-system ramp, pick a font family, or send the sizes to an AI model.
 
 ## Base64 Encoder and Decoder
 
 URL: https://toytoolsapp.com/tool/developer-utilities/base64-encoder-decoder/
 Use for: Encode and decode Base64 in your browser.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Binary Text Converter
 
 URL: https://toytoolsapp.com/tool/developer-utilities/binary-text-converter/
 Use for: Convert text to binary and binary back to text.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## CIDR Calculator
 
 URL: https://toytoolsapp.com/tool/developer-utilities/cidr-calculator/
 Use for: Paste a CIDR.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Scan a network or write a firewall rule, or send the prefix to an AI model.
 
 ## CRC32 Hash Generator
 
 URL: https://toytoolsapp.com/tool/developer-utilities/crc32-hash-generator/
 Use for: A CRC32 checksum for error detection, not for security.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## CSV Cleaner
 
 URL: https://toytoolsapp.com/tool/developer-utilities/csv-cleaner/
 Use for: Fix empty rows, stray whitespace and ragged rows in one pass.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## CSV Column Picker
 
 URL: https://toytoolsapp.com/tool/developer-utilities/csv-column-picker/
 Use for: Keep named columns and drop the rest, even in a semicolon file.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Edit cell values or upload the file.
 
 ## CSV Diff
 
 URL: https://toytoolsapp.com/tool/developer-utilities/csv-diff/
 Use for: Compare two CSVs and see which rows changed, with column detail.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## CSV to JSON Converter
 
 URL: https://toytoolsapp.com/tool/developer-utilities/csv-to-json-converter/
 Use for: Turn CSV into a JSON array of objects, with type detection.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## CSV to TSV Converter
 
 URL: https://toytoolsapp.com/tool/developer-utilities/csv-to-tsv/
 Use for: Convert comma-separated values to tab-separated, quoting handled.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Encoding Detector
 
 URL: https://toytoolsapp.com/tool/developer-utilities/encoding-detector/
 Use for: Find out what a string is encoded with, and what it decodes to.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## File Hash Verifier
 
 URL: https://toytoolsapp.com/tool/developer-utilities/file-hash-verifier/
 Use for: Hash a local file and compare it with the published checksum.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Upload the file, verify a GPG or PGP signature, or send the bytes to an AI model.
 
 ## Hash Identifier
@@ -335,147 +335,147 @@ Does not: Crack a hash or reverse it, or send the digest to an AI model.
 
 URL: https://toytoolsapp.com/tool/developer-utilities/hex-encoder-decoder/
 Use for: Encode text to hex and decode hex back to text.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## HTML Entity Encoder and Decoder
 
 URL: https://toytoolsapp.com/tool/developer-utilities/html-entity-encoder-decoder/
 Use for: Encode and decode HTML entities in your browser.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## IPv4 Converter
 
 URL: https://toytoolsapp.com/tool/developer-utilities/ipv4-converter/
 Use for: Dotted, decimal, hex, and binary for one address.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Calculate a subnet or a wildcard mask, scan a host, or send the address to an AI model.
 
 ## JSON Diff
 
 URL: https://toytoolsapp.com/tool/developer-utilities/json-diff/
 Use for: See added, removed, and changed JSON paths.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Pretty-print JSON or treat 1 and 1.0 as a change, or send the documents to an AI model.
 
 ## JSON Escape / Unescape
 
 URL: https://toytoolsapp.com/tool/developer-utilities/json-escape/
 Use for: Escape text for a JSON string, or unescape one back to plain text.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## JSON Formatter
 
 URL: https://toytoolsapp.com/tool/developer-utilities/json-formatter/
 Use for: Pretty-print JSON with proper indentation.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model or interpret what the data means.
 
 ## JSON Minifier
 
 URL: https://toytoolsapp.com/tool/developer-utilities/json-minifier/
 Use for: Strip whitespace from JSON to make it smaller.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## JSON to CSV Converter
 
 URL: https://toytoolsapp.com/tool/developer-utilities/json-to-csv-converter/
 Use for: Turn JSON arrays into CSV, nested objects handled.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## JSON to YAML Converter
 
 URL: https://toytoolsapp.com/tool/developer-utilities/json-to-yaml-converter/
 Use for: Turn JSON into YAML for Kubernetes, Compose and CI configs.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## JSON Tree Viewer
 
 URL: https://toytoolsapp.com/tool/developer-utilities/json-tree-viewer/
 Use for: Explore JSON as a collapsible tree, and copy any path or value.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## JSON Validator
 
 URL: https://toytoolsapp.com/tool/developer-utilities/json-validator/
 Use for: Check JSON syntax and see exactly where it breaks.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## JWT Decoder
 
 URL: https://toytoolsapp.com/tool/developer-utilities/jwt-decoder/
 Use for: Read a JSON Web Token header, payload and claims.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Verify the signature or send the token to an AI model.
 
 ## MD5 Hash Generator
 
 URL: https://toytoolsapp.com/tool/developer-utilities/md5-hash-generator/
 Use for: Generate an MD5 hash from any text.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Reverse a hash or send the input to an AI model.
 
 ## Punycode Converter
 
 URL: https://toytoolsapp.com/tool/developer-utilities/punycode-converter/
 Use for: Convert domain names between Unicode and Punycode form.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Regex Tester
 
 URL: https://toytoolsapp.com/tool/developer-utilities/regex-tester/
 Use for: Live regex matcher with capture groups.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Run a pattern that can hang the tab, or send the test text to an AI model.
 
 ## ROT13 Encoder / Decoder
 
 URL: https://toytoolsapp.com/tool/developer-utilities/rot13-encoder-decoder/
 Use for: ROT13 text.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## SHA-1 Hash Generator
 
 URL: https://toytoolsapp.com/tool/developer-utilities/sha1-hash-generator/
 Use for: Generate a SHA-1 hash from any text.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Reverse a hash or send the input to an AI model.
 
 ## SHA-256 Hash Generator
 
 URL: https://toytoolsapp.com/tool/developer-utilities/sha256-hash-generator/
 Use for: Generate a SHA-256 hash from any text.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Reverse a hash or send the input to an AI model.
 
 ## SHA-512 Hash Generator
 
 URL: https://toytoolsapp.com/tool/developer-utilities/sha512-hash-generator/
 Use for: Generate a SHA-512 hash from any text.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Reverse a hash or send the input to an AI model.
 
 ## Shell Quote Escalator
 
 URL: https://toytoolsapp.com/tool/developer-utilities/shell-quote-escalator/
 Use for: Escape a command for every shell between you and the far end.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## URL Encoder and Decoder
 
 URL: https://toytoolsapp.com/tool/developer-utilities/url-encoder-decoder/
 Use for: Percent-encode and decode URL components.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## What Is My IP
@@ -489,56 +489,56 @@ Does not: Reveal a private LAN address or store the lookup, or send the address 
 
 URL: https://toytoolsapp.com/tool/developer-utilities/yaml-to-json-converter/
 Use for: Turn YAML into JSON, anchors and multi-line strings handled.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Breathing Circle
 
 URL: https://toytoolsapp.com/tool/fidget/breathing-circle/
 Use for: Breathe with a named pattern, not a vague calm.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Diagnose a breathing problem or coach a medical routine, or send the session to an AI model.
 
 ## Gears
 
 URL: https://toytoolsapp.com/tool/fidget/gears/
 Use for: Spin the pair.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Design a gearbox or size real teeth, or send the spin to an AI model.
 
 ## Kinetic Sand
 
 URL: https://toytoolsapp.com/tool/fidget/kinetic-sand/
 Use for: Drag or tilt the pile.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Model engineering soil or keep a packed pile without a reset, or send the session to an AI model.
 
 ## Pop It
 
 URL: https://toytoolsapp.com/tool/fidget/pop-it/
 Use for: Tap the bubbles.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Slime
 
 URL: https://toytoolsapp.com/tool/fidget/slime/
 Use for: Poke and pull.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Model real slime chemistry or leave a stuck pointer with no release, or send the session to an AI model.
 
 ## Fidget Spinner
 
 URL: https://toytoolsapp.com/tool/fidget/spinner/
 Use for: Flick it.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Keep spinning after the tab is in the background, or send the session to an AI model.
 
 ## Switch Board
 
 URL: https://toytoolsapp.com/tool/fidget/switch-board/
 Use for: Flip the switches.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Chess Tac Toe
@@ -573,98 +573,98 @@ Does not: Play against a computer opponent.
 
 URL: https://toytoolsapp.com/tool/generate/coin-flipper/
 Use for: Flip a coin once, or five hundred times, and see the split.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Dice Roller
 
 URL: https://toytoolsapp.com/tool/generate/dice-roller/
 Use for: Roll any dice by notation, and see how likely the result was.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Lorem Ipsum Generator
 
 URL: https://toytoolsapp.com/tool/generate/lorem-ipsum-generator/
 Use for: Placeholder text by paragraph, sentence or word.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Password Generator
 
 URL: https://toytoolsapp.com/tool/generate/password-generator/
 Use for: Strong random passwords, with a live strength estimate.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Store the password or send it to an AI model.
 
 ## QR Code Generator
 
 URL: https://toytoolsapp.com/tool/generate/qr-code-generator/
 Use for: QR codes for a URL, Wi-Fi, contact or plain text.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Random Choice Picker
 
 URL: https://toytoolsapp.com/tool/generate/random-choice-picker/
 Use for: Paste the options, let it choose, or shuffle them into an order.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Random Name Picker
 
 URL: https://toytoolsapp.com/tool/generate/random-name-picker/
 Use for: Draw names from a pasted list, with no accidental repeats.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Random String Generator
 
 URL: https://toytoolsapp.com/tool/generate/random-string-generator/
 Use for: Random strings and tokens with a custom alphabet.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## UUID Generator
 
 URL: https://toytoolsapp.com/tool/generate/uuid-generator/
 Use for: Random version 4 UUIDs, one or many at a time.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## UUID Inspector
 
 URL: https://toytoolsapp.com/tool/generate/uuid-inspector/
 Use for: Read the version, variant, and time inside a UUID.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Mint a new UUID or treat version 4 as version 7, or send the value to an AI model.
 
 ## BMI Calculator
 
 URL: https://toytoolsapp.com/tool/health/bmi-calculator/
 Use for: Your BMI from height and weight, with the healthy range for you.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## BMR Calculator
 
 URL: https://toytoolsapp.com/tool/health/bmr-calculator/
 Use for: Your basal metabolic rate, and what each activity level adds.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Body Fat Calculator
 
 URL: https://toytoolsapp.com/tool/health/body-fat-calculator/
 Use for: Body fat percentage by the Navy tape method, plus fat and lean mass.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Body Surface Area Calculator
 
 URL: https://toytoolsapp.com/tool/health/body-surface-area-calculator/
 Use for: Mosteller and Du Bois, with the square-metre spread.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Compute a chemotherapy dose, a cardiac index, or a paediatric dose.
 
 ## Body Weight Tracker
@@ -678,35 +678,35 @@ Does not: Call an AI model.
 
 URL: https://toytoolsapp.com/tool/health/calorie-deficit-calculator/
 Use for: What to eat daily for a chosen rate of loss, and how long it takes.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Heart Rate Zone Calculator
 
 URL: https://toytoolsapp.com/tool/health/heart-rate-zone-calculator/
 Use for: Your max heart rate and five training zones, from your age.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Ideal Weight Calculator
 
 URL: https://toytoolsapp.com/tool/health/ideal-weight-calculator/
 Use for: Ideal body weight by four formulas, plus the BMI healthy range.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Lean Body Mass Calculator
 
 URL: https://toytoolsapp.com/tool/health/lean-body-mass-calculator/
 Use for: Boer, James, and Hume side by side, with the kilogram spread.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Convert a lean mass estimate into a medication dose, measure body fat, or call an AI model.
 
 ## Macro Calculator
 
 URL: https://toytoolsapp.com/tool/health/macro-calculator/
 Use for: Split a calorie target into protein, carbs and fat.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Move Today Tracker
@@ -720,35 +720,35 @@ Does not: Call an AI model.
 
 URL: https://toytoolsapp.com/tool/health/one-rep-max-calculator/
 Use for: Your one rep max from a set you lifted, across four formulas.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Ovulation Calculator
 
 URL: https://toytoolsapp.com/tool/health/ovulation-calculator/
 Use for: Fertile window, ovulation date, and the next period.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Work as birth control (it is a calendar estimate, not contraception, and timing varies), confirm ovulation with a test, predict a pregnancy, keep a multi-cycle log, or upload these dates.
 
 ## Pregnancy Due Date Calculator
 
 URL: https://toytoolsapp.com/tool/health/pregnancy-due-date-calculator/
 Use for: Due date, weeks pregnant, and trimester dates.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Diagnose a pregnancy, replace a scan or a prenatal visit, or upload these dates.
 
 ## Protein Intake Calculator
 
 URL: https://toytoolsapp.com/tool/health/protein-intake-calculator/
 Use for: The protein range your weight and training goal support.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Running Pace Calculator
 
 URL: https://toytoolsapp.com/tool/health/running-pace-calculator/
 Use for: Pace per km and per mile, plus predicted race times.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Sleep Hours Tracker
@@ -762,21 +762,21 @@ Does not: Log a nap as a second entry, record sleep stages, or separate time in 
 
 URL: https://toytoolsapp.com/tool/health/tdee-calculator/
 Use for: Your daily energy expenditure, and calories to lose or gain.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## VO2 Max Calculator
 
 URL: https://toytoolsapp.com/tool/health/vo2-max-calculator/
 Use for: Cooper distance or a resting pulse, kept as two numbers.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Diagnose fitness, replace a laboratory cart, or compute fitness age.
 
 ## Waist to Hip Ratio Calculator
 
 URL: https://toytoolsapp.com/tool/health/waist-to-hip-ratio-calculator/
 Use for: Waist and hip in, with the sex-specific WHO band.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Diagnose central obesity or estimate body fat.
 
 ## Water Intake Tracker
@@ -790,56 +790,56 @@ Does not: Call an AI model.
 
 URL: https://toytoolsapp.com/tool/finance/cagr-calculator/
 Use for: Compound annual growth rate, total growth and doubling time.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Compound Interest Calculator
 
 URL: https://toytoolsapp.com/tool/finance/compound-interest-calculator/
 Use for: Watch savings grow, with optional monthly contributions.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Emergency Fund Calculator
 
 URL: https://toytoolsapp.com/tool/finance/emergency-fund-calculator/
 Use for: How much emergency savings you need, and how far along you are.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Inflation Calculator
 
 URL: https://toytoolsapp.com/tool/finance/inflation-calculator/
 Use for: What your money will be worth later, and what it will cost.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Loan Calculator
 
 URL: https://toytoolsapp.com/tool/finance/loan-calculator/
 Use for: Monthly payment, total interest, and what an extra payment saves.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Quote a lender rate, include taxes or insurance, or send the loan amount to a server.
 
 ## ROI Calculator
 
 URL: https://toytoolsapp.com/tool/finance/roi-calculator/
 Use for: Return on investment, including the annualized return.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Rule of 72 Calculator
 
 URL: https://toytoolsapp.com/tool/finance/rule-of-72-calculator/
 Use for: How long money takes to double at a given rate of return.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Savings Goal Calculator
 
 URL: https://toytoolsapp.com/tool/finance/savings-goal-calculator/
 Use for: How much to save each month to hit a goal by a target date.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Shop UPI Tally
@@ -853,105 +853,105 @@ Does not: Change bank or NPCI merchant status, or read a bank statement, or send
 
 URL: https://toytoolsapp.com/tool/finance/sip-calculator/
 Use for: Future value of a monthly SIP, and what returns add on top.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Split Bill
 
 URL: https://toytoolsapp.com/tool/finance/split-bill/
 Use for: Split a dinner bill so every share adds up.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Collect a payment or split the bill by item, or send the total to an AI model.
 
 ## UPI 1999 Split
 
 URL: https://toytoolsapp.com/tool/finance/upi-1999-split/
 Use for: A meme split into 1999 rupee chunks.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Send a payment or call an AI model. It is not tax or payments advice.
 
 ## UPI MDR Estimator
 
 URL: https://toytoolsapp.com/tool/finance/upi-mdr-estimator/
 Use for: Estimate merchant MDR in rupees.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call that charge a tax the customer owes or decide real small-merchant status, or send the amount to an AI model.
 
 ## Music Equalizer Settings
 
 URL: https://toytoolsapp.com/tool/music/equalizer-settings-generator/
 Use for: Find your sound, then copy the numbers into your own player.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Binary Converter
 
 URL: https://toytoolsapp.com/tool/number/binary-converter/
 Use for: Decimal to binary and back, with hex and octal alongside.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Discount Calculator
 
 URL: https://toytoolsapp.com/tool/number/discount-calculator/
 Use for: Sale price and how much you save, by percentage or amount.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Margin Calculator
 
 URL: https://toytoolsapp.com/tool/number/margin-calculator/
 Use for: Gross margin, gross profit and markup from cost and price.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Markup Calculator
 
 URL: https://toytoolsapp.com/tool/number/markup-calculator/
 Use for: Markup percentage from cost and price, or price from a markup.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Number to Words
 
 URL: https://toytoolsapp.com/tool/number/number-to-words/
 Use for: Spell a number out in English words, or read the words back.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Percentage Calculator
 
 URL: https://toytoolsapp.com/tool/number/percentage-calculator/
 Use for: Percent of a number, or the change between two.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Roman Numeral Converter
 
 URL: https://toytoolsapp.com/tool/number/roman-numeral-converter/
 Use for: Numbers to Roman numerals and back, from I to MMMCMXCIX.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Scientific Calculator
 
 URL: https://toytoolsapp.com/tool/number/scientific-calculator/
 Use for: Trigonometry, logarithms, powers and roots, with a visible history.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Tax Calculator
 
 URL: https://toytoolsapp.com/tool/number/tax-calculator/
 Use for: Add sales tax or VAT, or work backwards from the total.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Tip Calculator
 
 URL: https://toytoolsapp.com/tool/number/tip-calculator/
 Use for: The tip, the total, and the split between any number of people.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Doppler Effect Calculator
@@ -1042,42 +1042,42 @@ Does not: Call an AI model.
 
 URL: https://toytoolsapp.com/tool/prep/chat-export-cleaner/
 Use for: Clean a copied chat into plain text.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Rewrite what was said or send the transcript to an AI model.
 
 ## Context Fit Checker
 
 URL: https://toytoolsapp.com/tool/prep/context-fit-checker/
 Use for: An estimate of context use.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Count official tokens or recommend a model.
 
 ## JSON Schema Validator
 
 URL: https://toytoolsapp.com/tool/prep/json-schema-validator/
 Use for: Checks the keywords this page lists.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Check every JSON Schema keyword or send the JSON to an AI model.
 
 ## JSON to JSON Schema
 
 URL: https://toytoolsapp.com/tool/prep/json-to-schema/
 Use for: Types from this example.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Decide that a field is required or send the JSON to an AI model.
 
 ## llms.txt Generator
 
 URL: https://toytoolsapp.com/tool/prep/llms-txt-generator/
 Use for: A short site description.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Publish the file for you or claim the layout is an official standard.
 
 ## Prompt Packer
 
 URL: https://toytoolsapp.com/tool/prep/prompt-packer/
 Use for: Assembles a prompt from fields.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Write, score, or rewrite the prompt, or send the text to an AI model.
 
 ## Book Tracker
@@ -1126,222 +1126,222 @@ Does not: Call an AI model.
 
 URL: https://toytoolsapp.com/tool/text/camel-case-converter/
 Use for: camelCase for variable names.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Character Counter
 
 URL: https://toytoolsapp.com/tool/text/character-counter/
 Use for: Count characters, with and without spaces.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Count model tokens or send the text to an AI model.
 
 ## Character Map
 
 URL: https://toytoolsapp.com/tool/text/character-map/
 Use for: Search special characters by name and tap to copy any of them.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Find and Replace
 
 URL: https://toytoolsapp.com/tool/text/find-replace/
 Use for: Search and replace text, with regex and a live match count.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Invisible Character Detector
 
 URL: https://toytoolsapp.com/tool/text/invisible-character-detector/
 Use for: Find the character you cannot see that is breaking your text.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## kebab-case Converter
 
 URL: https://toytoolsapp.com/tool/text/kebab-case-converter/
 Use for: Convert text to kebab-case for slugs, classes and IDs.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Letter Counter
 
 URL: https://toytoolsapp.com/tool/text/letter-counter/
 Use for: Count only letters, ignoring digits, spaces and punctuation.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Line Counter
 
 URL: https://toytoolsapp.com/tool/text/line-counter/
 Use for: Count total lines, non-empty lines and paragraphs.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Lowercase Converter
 
 URL: https://toytoolsapp.com/tool/text/lowercase-converter/
 Use for: Convert any text to lowercase, then copy it.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Normalize Whitespace
 
 URL: https://toytoolsapp.com/tool/text/normalize-whitespace/
 Use for: Collapse every run of whitespace into single spaces.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Paragraph Counter
 
 URL: https://toytoolsapp.com/tool/text/paragraph-counter/
 Use for: Count paragraphs split by blank lines.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Reading Time Calculator
 
 URL: https://toytoolsapp.com/tool/text/reading-time-calculator/
 Use for: Minutes to read or speak a text.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Remove Accents
 
 URL: https://toytoolsapp.com/tool/text/remove-accents/
 Use for: Strip diacritics to plain ASCII.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Remove Blank Lines
 
 URL: https://toytoolsapp.com/tool/text/remove-blank-lines/
 Use for: Delete empty and whitespace-only lines from text.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Remove Duplicate Lines
 
 URL: https://toytoolsapp.com/tool/text/remove-duplicate-lines/
 Use for: Remove repeated lines, keeping the first of each.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Remove Emoji
 
 URL: https://toytoolsapp.com/tool/text/remove-emoji/
 Use for: Strip every emoji, leaving words and spacing intact.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Remove Extra Spaces
 
 URL: https://toytoolsapp.com/tool/text/remove-extra-spaces/
 Use for: Collapse extra spaces and tabs.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Remove Line Breaks
 
 URL: https://toytoolsapp.com/tool/text/remove-line-breaks/
 Use for: Join wrapped lines back into one paragraph.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Remove Tabs
 
 URL: https://toytoolsapp.com/tool/text/remove-tabs/
 Use for: Replace tab characters with spaces, then copy.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Reverse Text
 
 URL: https://toytoolsapp.com/tool/text/reverse-text/
 Use for: Reverse a string character by character.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Sentence Case Converter
 
 URL: https://toytoolsapp.com/tool/text/sentence-case-converter/
 Use for: Capitalize the first letter of each sentence.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Sentence Counter
 
 URL: https://toytoolsapp.com/tool/text/sentence-counter/
 Use for: Count sentences by their ending punctuation.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Rewrite sentences or send the text to an AI model.
 
 ## Slugify Text
 
 URL: https://toytoolsapp.com/tool/text/slugify-text/
 Use for: A clean, lowercase, hyphenated URL slug.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## snake_case Converter
 
 URL: https://toytoolsapp.com/tool/text/snake-case-converter/
 Use for: Convert text to snake_case for variables and columns.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Space Counter
 
 URL: https://toytoolsapp.com/tool/text/space-counter/
 Use for: Count space characters, and characters without them.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Text Compare
 
 URL: https://toytoolsapp.com/tool/text/text-compare/
 Use for: Compare two texts and see exactly which lines changed.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Text Repeater
 
 URL: https://toytoolsapp.com/tool/text/text-repeater/
 Use for: Repeat text as many times as you need, separated how you like.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Title Case Converter
 
 URL: https://toytoolsapp.com/tool/text/title-case-converter/
 Use for: Capitalize the first letter of each word.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Trim Text
 
 URL: https://toytoolsapp.com/tool/text/trim-text/
 Use for: Trim the whitespace at each end of every line.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Uppercase Converter
 
 URL: https://toytoolsapp.com/tool/text/uppercase-converter/
 Use for: Convert any text to UPPERCASE, then copy it.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
 ## Word Counter
 
 URL: https://toytoolsapp.com/tool/text/word-counter/
 Use for: Count words as you type, and set a goal to write to.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Rewrite the text or send it to an AI model.
 
 ## Word Frequency Counter
 
 URL: https://toytoolsapp.com/tool/text/word-frequency-counter/
 Use for: How many times each word appears, with percentages.
-Privacy: Runs entirely on your device. Nothing is uploaded.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.

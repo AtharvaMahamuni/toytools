@@ -10,9 +10,16 @@ export const PRIVACY_LINE = 'Runs entirely on your device. Nothing is uploaded.'
  * llms files and the identity files). PRIVACY_LINE is true of a tool's input; this one is true of
  * the site, which also loads analytics and has a feedback form that sends what you submit.
  */
+/**
+ * What is true of the data a person enters in a tool. The AI files (llms.txt, llms-full.txt and the
+ * identity files) and the category blurbs they quote use it instead of "Nothing is uploaded", which
+ * reads as a claim about the whole site.
+ */
+export const TOOL_DATA_LINE =
+  'The text, files and values you enter in tools are processed on your device and not uploaded.';
+
 export const SITE_PRIVACY_LINE =
-  'The text, files and values you enter in tools are processed on your device and not uploaded. ' +
-  'The site uses analytics, and the feedback form sends what you submit.';
+  `${TOOL_DATA_LINE} The site uses analytics, and the feedback form sends what you submit.`;
 
 /** Trust-badge short form. Same claim as PRIVACY_LINE, sized for Zone B. */
 export const PRIVACY_BADGE = 'Private ● Runs entirely on your device';

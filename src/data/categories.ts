@@ -1,6 +1,7 @@
 import type { Category } from './types';
 import { tools } from './registry';
 import { engineRegistry } from './engines';
+import { TOOL_DATA_LINE } from '@lib/privacy';
 
 // `tagline` and `highlights` drive the homepage shelves (CategoryIndex.astro): each category
 // gets a horizontal AppTile shelf capped at three tiles, so these highlight slugs are the
@@ -195,7 +196,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     name: 'Fidgets',
     headline: 'Online Virtual Fidget Toys',
     description:
-      'Online virtual fidget toys you tap, flick, or flip in the browser, with optional sound and haptics. Runs entirely on your device. Nothing is uploaded.',
+      `Online virtual fidget toys you tap, flick, or flip in the browser, with optional sound and haptics. ${TOOL_DATA_LINE}`,
     tagline: 'Virtual fidget toys online. No app install.',
     highlights: ['pop-it', 'gears', 'spinner'],
     accent: '#C45C7A',
@@ -226,7 +227,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     name: 'Games',
     headline: 'Two-Player Games on One Device',
     description:
-      'Hot-seat board games for two people on one phone. Pass the device, undo a mis-tap, and rematch without an account. Nothing is uploaded.',
+      `Hot-seat board games for two people on one phone. Pass the device, undo a mis-tap, and rematch without an account. ${TOOL_DATA_LINE}`,
     tagline: 'Two players, one device. No account.',
     highlights: ['tic-tac-toe'],
     accent: '#3E6B58',

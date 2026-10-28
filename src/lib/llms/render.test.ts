@@ -17,7 +17,7 @@ import { tools } from '@data/registry';
 import type { Tool } from '@data/types';
 import { allToolFacts } from './facts';
 import { categories as allCategories } from '@data/categories';
-import { PRIVACY_LINE, SITE_PRIVACY_LINE } from '@lib/privacy';
+import { PRIVACY_LINE, SITE_PRIVACY_LINE, TOOL_DATA_LINE } from '@lib/privacy';
 import type { ContentEntry } from '@lib/content/manifest';
 import { readFileSync } from 'node:fs';
 import { init, parse } from 'es-module-lexer';
@@ -188,7 +188,8 @@ describe('renderLlmsFull', () => {
       expect(block).toMatch(/^Privacy: \S/m);
       expect(block).toMatch(/^Does not: \S/m);
     }
-    expect(full).toContain(PRIVACY_LINE);
+    expect(full).toContain(`Privacy: ${TOOL_DATA_LINE}`);
+    expect(full).not.toContain(PRIVACY_LINE);
     expect(full).toContain(`> ${SITE_PRIVACY_LINE}`);
   });
 
@@ -262,7 +263,7 @@ const RENDER_IMPORTS: Readonly<Record<string, readonly string[] | null>> = {
   '@data/categories': null,
   '@data/types': null,
   '@lib/paths': ['withBase'],
-  '@lib/privacy': ['SITE_PRIVACY_LINE'],
+  '@lib/privacy': ['PRIVACY_LINE', 'SITE_PRIVACY_LINE', 'TOOL_DATA_LINE'],
   '@lib/identity/facts': ['CONTACT_LINE', 'IDENTITY_FILES', 'TERMS_LINE'],
   './facts': null,
 };
