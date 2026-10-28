@@ -6,6 +6,8 @@
 //    Pages never answers them with 404.html.
 // 2. No sitemap lists favicon.ico, an /faq/ URL, a redirect stub, a noindex page, or a URL that
 //    did not build.
+// 3. Every page in the sitemap has a footer that links About, Privacy, Terms and the contact route
+//    (/feedback/, labelled "Contact and feedback"), so trust pages are one click from anywhere.
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -39,7 +41,7 @@ export const GSC_404_URLS: readonly string[] = [
 ];
 const FOLDED_GUIDES = ['/guide/text/how-to-normalize-whitespace/'];
 // Hubs that absorbed a folded guide must stay indexable and listed in a sitemap.
-export const REQUIRED_IN_SITEMAP: readonly string[] = ['/guide/text/how-to-remove-blank-lines/'];
+export const REQUIRED_IN_SITEMAP: readonly string[] = ['/guide/text/how-to-remove-blank-lines/', '/terms/'];
 
 const page = (url: string) => join(DIST, url, 'index.html');
 const isStub = (html: string) => /http-equiv="refresh"/i.test(html);
@@ -60,6 +62,16 @@ for (const url of [...GSC_404_URLS, ...FOLDED_GUIDES]) {
 const sitemapDir = join(DIST, 'sitemaps');
 const sitemapFiles = readdirSync(sitemapDir).filter(f => f.endsWith('.xml')).map(f => join(sitemapDir, f));
 let locs = 0;
+let footers = 0;
+
+/** What the footer is missing, or null. The contact link may carry ?tool= on tool pages. */
+export function footerProblem(html: string): string | null {
+  const footer = html.match(/<footer[^>]*role="contentinfo"[\s\S]*?<\/footer>/)?.[0];
+  if (!footer) return 'is missing';
+  for (const p of ['/about/', '/privacy/', '/terms/']) if (!footer.includes(`${p}"`)) return `has no ${p} link`;
+  if (!/<a[^>]*href="[^"]*\/feedback\/(\?tool=[^"]*)?"[^>]*>\s*Contact and feedback\s*<\/a>/.test(footer)) return 'has no "Contact and feedback" link to /feedback/';
+  return null;
+}
 const listed = new Set<string>();
 for (const file of sitemapFiles) {
   const xml = readFileSync(file, 'utf8');
@@ -77,14 +89,16 @@ for (const file of sitemapFiles) {
     const html = readFileSync(target, 'utf8');
     if (isStub(html)) errors.push(`${name} lists redirect stub ${path}`);
     else if (isNoindex(html)) errors.push(`${name} lists noindex page ${path}`);
+    else { const f = footerProblem(html); if (f) errors.push(`${path}: footer ${f}`); else footers++; }
   }
 }
 if (locs === 0) errors.push('no sitemap URLs found');
-for (const url of REQUIRED_IN_SITEMAP) if (!listed.has(url)) errors.push(`hub ${url} is missing from the sitemap`);
+if (footers === 0) errors.push('no footer checked');
+for (const url of REQUIRED_IN_SITEMAP) if (!listed.has(url)) errors.push(`${url} is missing from the sitemap`);
 
 if (errors.length) {
   for (const e of errors) console.error(`  ✗ ${e}`);
   console.error(`\n[check-crawl-hygiene] ${errors.length} error(s).`);
   process.exit(1);
 }
-console.log(`[check-crawl-hygiene] OK: ${GSC_404_URLS.length} GSC 404 URLs and ${FOLDED_GUIDES.length} folded guide build as stubs; ${locs} sitemap URLs (hubs ${REQUIRED_IN_SITEMAP.length} listed), none favicon, FAQ, stub or noindex.`);
+console.log(`[check-crawl-hygiene] OK: ${GSC_404_URLS.length} GSC 404 URLs and ${FOLDED_GUIDES.length} folded guide build as stubs; ${locs} sitemap URLs (${REQUIRED_IN_SITEMAP.length} required pages listed), none favicon, FAQ, stub or noindex; ${footers} footers link About, Privacy, Terms and Contact and feedback.`);

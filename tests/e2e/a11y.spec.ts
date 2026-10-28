@@ -18,6 +18,7 @@ const PAGES: [string, string][] = [
   ['search', '/search/'],
   ['settings', '/settings/'],
   ['privacy', '/privacy/'],
+  ['terms', '/terms/'],
   ['404', '/tool/text/does-not-exist/'],
   // The six beta-v12.3 tools: two math-engine widgets, a date-time widget and three hand-built
   // widgets. Type scale failed scrollable-region-focusable (8 nodes) before beta-v12.4.0.

@@ -1,0 +1,80 @@
+---
+// Terms of use. Standard terms for a free, static, device-side toolbox: free, provided as is,
+// runs on your device, no warranty. Keep it in step with
+// /privacy/ (analytics, storage) and /about/ (what the site is).
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { generatePageTitle } from '@lib/titles';
+import { withBase } from '@lib/paths';
+
+const description =
+  'ToyTools is free to use, runs on your device and is provided as is, with no warranty. These are the terms that come with that.';
+
+const updated = '28 October 2026';
+---
+
+<BaseLayout title={generatePageTitle('terms')} description={description} maxWidth="tool">
+  <article class="page-doc">
+    <h1>Terms of use</h1>
+    <p class="lede">{description}</p>
+    <p class="updated">Last updated {updated}</p>
+
+    <h2>The short version</h2>
+    <ul>
+      <li>ToyTools is free. There is no account, no subscription and nothing to sign up for.</li>
+      <li>The tools run on your device. What you type or open stays in your browser, as the <a href={withBase('/privacy/')}>Privacy</a> page explains.</li>
+      <li>Everything is provided as is, with no warranty. Check results that matter before you rely on them.</li>
+    </ul>
+
+    <h2>Using the tools</h2>
+    <p>
+      You may use ToyTools for personal, educational or work purposes, free of charge. Please do
+      not use it to break the law, to harm other people, or to disrupt the site, for example by
+      overloading it with automated requests.
+    </p>
+
+    <h2>Runs on your device</h2>
+    <p>
+      ToyTools is a static site. Each tool's code is downloaded to your browser and the work
+      happens there. Anything a tool saves for you is kept in your browser's storage on that
+      device, and you can export or delete it from <a href={withBase('/settings/')}>Settings</a>.
+      You are responsible for keeping your own copies of anything you need.
+    </p>
+
+    <h2>No warranty</h2>
+    <p>
+      ToyTools is provided as is and as available, without warranties of any kind, express or
+      implied, including fitness for a particular purpose, accuracy and availability. Tools can have
+      bugs, rounding differences or outdated rules, and the site can change or go offline at any
+      time.
+    </p>
+    <p>
+      Calculators for money, health, dates and similar topics give estimates for information only.
+      They are not financial, medical, legal or other professional advice.
+    </p>
+
+    <h2>Limitation of liability</h2>
+    <p>
+      To the extent the law allows, ToyTools and its maker are not liable for any loss or damage
+      that comes from using, or being unable to use, the site or its results.
+    </p>
+
+    <h2>Content and links</h2>
+    <p>
+      The site's code, text and design belong to ToyTools unless a page or a credit says otherwise.
+      Third-party libraries are used under their own licences. Links to other sites are given for
+      convenience, and ToyTools is not responsible for their content.
+    </p>
+
+    <h2>Changes</h2>
+    <p>
+      These terms may be updated as the site changes. The date above shows the latest version, and
+      the <a href={withBase('/changelog/')}>Changelog</a> records notable changes.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions about these terms, or anything else, go through
+      <a href={withBase('/feedback/')}>Contact and feedback</a>.
+    </p>
+  </article>
+</BaseLayout>

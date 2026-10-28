@@ -85,6 +85,14 @@ describe('renderLlmsTxt', () => {
     expect(txt).toContain('/feedback/');
   });
 
+  it('names the contact route and the terms page', () => {
+    const terms: ContentEntry = { type: 'page', slug: 'terms', url: '/terms/', priority: 0.3, changefreq: 'yearly' };
+    const withTerms = renderLlmsTxt([], feedback, SITE, undefined, terms);
+    expect(withTerms).toContain('- [Contact and feedback](https://toytoolsapp.com/feedback/)');
+    expect(withTerms).toContain('- [Terms](https://toytoolsapp.com/terms/)');
+    expect(llmsTxtForSite(SITE)).toContain('/terms/');
+  });
+
   it('points at the full inventory without inlining it', () => {
     expect(txt).toContain('https://toytoolsapp.com/llms-full.txt');
     expect(txt.indexOf('llms-full.txt')).toBeLessThan(txt.indexOf('## Core tools'));

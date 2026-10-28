@@ -155,6 +155,7 @@ export function renderLlmsTxt(
   feedbackEntry: ContentEntry | undefined,
   site: string,
   platformEntry?: ContentEntry,
+  termsEntry?: ContentEntry,
 ): string {
   const categoryLines = categoryEntries
     .map(entry => {
@@ -173,7 +174,10 @@ export function renderLlmsTxt(
       ? `- [Platform](${absoluteUrl(platformEntry.url, site)}): The engines, shared runtime and guarantees every tool is built on.`
       : null,
     feedbackEntry
-      ? `- [Feedback](${absoluteUrl(feedbackEntry.url, site)}): Report a problem or suggest a tool.`
+      ? `- [Contact and feedback](${absoluteUrl(feedbackEntry.url, site)}): Contact ToyTools, report a problem or suggest a tool.`
+      : null,
+    termsEntry
+      ? `- [Terms](${absoluteUrl(termsEntry.url, site)}): Free to use, runs on your device, provided as is with no warranty.`
       : null,
   ].filter((line): line is string => line !== null);
 
@@ -249,7 +253,7 @@ ${blocks.join('\n\n')}
 }
 
 /**
- * What /llms.txt serves on `site`: the category entries and the Platform and Feedback pages from
+ * What /llms.txt serves on `site`: the category entries and the Platform, Contact and feedback, and Terms pages from
  * the content manifest, rendered by renderLlmsTxt. The endpoint and the golden test both call it.
  */
 export function llmsTxtForSite(site: string): string {
@@ -259,5 +263,6 @@ export function llmsTxtForSite(site: string): string {
     standalone.find(p => p.slug === 'feedback'),
     site,
     standalone.find(p => p.slug === 'platform'),
+    standalone.find(p => p.slug === 'terms'),
   );
 }

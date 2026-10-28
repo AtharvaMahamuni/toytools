@@ -6,7 +6,7 @@ const T = TITLE_SUFFIX;
 
 export type PageType =
   | 'home' | 'tool' | 'guide' | 'faq' | 'category' | 'search' | 'architecture' | 'platform'
-  | 'feedback' | 'privacy' | 'about' | 'changelog' | 'settings' | 'offline' | 'notFound';
+  | 'feedback' | 'privacy' | 'terms' | 'about' | 'changelog' | 'settings' | 'offline' | 'notFound';
 
 export function generatePageTitle(type: PageType, name?: string): string {
   switch (type) {
@@ -26,10 +26,10 @@ export function generatePageTitle(type: PageType, name?: string): string {
     // The page a tool page's "Powered by ToyTools" signature leads to, so the title has to
     // answer the question that click asks rather than name a section of the site.
     case 'platform': return `The Platform Behind the Tools${T}`;
-    // The page's H1 greets whoever is already here; this title has to answer the query that
-    // brought them, so it names the two things people actually search for.
-    case 'feedback': return `Suggest a Tool or Report an Issue${T}`;
+    // Named like the footer link that leads here: the one contact route on the site.
+    case 'feedback': return `Contact and feedback${T}`;
     case 'privacy':  return `Privacy${T}`;
+    case 'terms':    return `Terms of Use${T}`;
     case 'about':    return `About${T}`;
     case 'changelog': return `Changelog${T}`;
     case 'settings': return `Settings${T}`;

@@ -26,7 +26,7 @@ test.describe('the link on a tool page', () => {
   test('lives in the footer and still carries the tool with it', async ({ page }) => {
     await page.goto('/tool/text/word-counter/');
 
-    const link = page.getByRole('contentinfo').getByRole('link', { name: 'Report an issue' });
+    const link = page.getByRole('contentinfo').getByRole('link', { name: 'Contact and feedback' });
     await expect(link).toBeVisible();
     await expect(link).toHaveAttribute('href', /\/feedback\/\?tool=word-counter$/);
 
@@ -37,14 +37,14 @@ test.describe('the link on a tool page', () => {
 
   test('reads as a generic invitation away from a tool', async ({ page }) => {
     await page.goto('/');
-    const link = page.getByRole('contentinfo').getByRole('link', { name: 'Suggest a tool' });
+    const link = page.getByRole('contentinfo').getByRole('link', { name: 'Contact and feedback' });
     await expect(link).toBeVisible();
     await expect(link).toHaveAttribute('href', /\/feedback\/$/);
   });
 
   test('lands on the form with the tool already named', async ({ page }) => {
     await page.goto('/tool/text/word-counter/');
-    await page.getByRole('contentinfo').getByRole('link', { name: 'Report an issue' }).click();
+    await page.getByRole('contentinfo').getByRole('link', { name: 'Contact and feedback' }).click();
 
     await expect(page).toHaveURL(/\/feedback\/\?tool=word-counter/);
     // The slug becomes the readable name, because that is what ends up in the subject line.

@@ -41,10 +41,11 @@ const year = new Date().getFullYear();
       )}
     </div>
     <nav class="footer-links" aria-label="Site information">
-      <a class="footer-link" href={feedbackHref} data-feedback-link={feedbackTool ? '' : undefined}>{feedbackTool ? 'Report an issue' : 'Suggest a tool'}</a>
+      <a class="footer-link" href={feedbackHref} data-feedback-link={feedbackTool ? '' : undefined}>Contact and feedback</a>
       <a class="footer-link" href={withBase('/platform/')}>Platform</a>
       <a class="footer-link" href={withBase('/about/')}>About</a>
       <a class="footer-link" href={withBase('/privacy/')}>Privacy</a>
+      <a class="footer-link" href={withBase('/terms/')}>Terms</a>
       <a class="footer-link" href={withBase('/changelog/')}>Changelog</a>
       <a class="footer-link" href={withBase('/settings/')}>Settings</a>
       {/* Opens the same sheet as "?", because a shortcut whose only trigger is a shortcut

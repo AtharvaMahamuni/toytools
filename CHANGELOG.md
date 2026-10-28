@@ -2,6 +2,16 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.16.1] - 2026-10-28
+
+### Added
+
+- **Terms of use page.** A new /terms/ page sets out the standard terms: ToyTools is free, runs on your device, and is provided as is with no warranty. Calculators give estimates, not professional advice. The page is in the sitemap and in llms.txt.
+
+### Changed
+
+- **The footer links Contact and feedback, and Terms.** The footer's feedback link now reads "Contact and feedback" on every page (it still carries the tool on a tool page, and no email address is shown), and a Terms link sits next to Privacy. The /feedback/ page is titled "Contact and feedback" too, in its title, heading, page schema and breadcrumb, and its URL is unchanged. llms.txt names the same page. The build now fails if any page in the sitemap has a footer without About, Privacy, Terms and the contact link.
+
 ## [alpha-v13.16] - 2026-10-27
 
 ### Changed
