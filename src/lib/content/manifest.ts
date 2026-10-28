@@ -9,7 +9,7 @@ import { faqsByToolSlug } from '@data/faq-registry';
 import { withBase, toolPath, categoryPath, guidePath } from '@lib/paths';
 
 // 'page' covers standalone indexable pages that are not derived from the registry (feedback,
-// about, privacy, changelog). They are listed here rather than in each consumer so the sitemap,
+// about, privacy, terms, changelog). They are listed here rather than in each consumer so the sitemap,
 // IndexNow, and platform health all pick them up from the same place, exactly like a tool.
 export type ContentType = 'home' | 'tool' | 'guide' | 'category' | 'page';
 
@@ -21,6 +21,7 @@ const STANDALONE_PAGES: { slug: string; path: string; priority: number; changefr
   { slug: 'about', path: '/about/', priority: 0.5, changefreq: 'monthly' },
   { slug: 'platform', path: '/platform/', priority: 0.5, changefreq: 'monthly' },
   { slug: 'privacy', path: '/privacy/', priority: 0.4, changefreq: 'yearly' },
+  { slug: 'terms', path: '/terms/', priority: 0.3, changefreq: 'yearly' },
   { slug: 'changelog', path: '/changelog/', priority: 0.4, changefreq: 'monthly' },
 ];
 

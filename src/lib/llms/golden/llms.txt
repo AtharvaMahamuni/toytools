@@ -64,4 +64,5 @@ Prepare text before a model. ToyTools does not run a model.
 ## Optional
 
 - [Platform](https://toytoolsapp.com/platform/): The engines, shared runtime and guarantees every tool is built on.
-- [Feedback](https://toytoolsapp.com/feedback/): Report a problem or suggest a tool.
+- [Contact and feedback](https://toytoolsapp.com/feedback/): Contact ToyTools, report a problem or suggest a tool.
+- [Terms](https://toytoolsapp.com/terms/): Free to use, runs on your device, provided as is with no warranty.

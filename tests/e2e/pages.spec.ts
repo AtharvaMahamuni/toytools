@@ -1,4 +1,4 @@
-// The standalone pages: privacy, about, platform, changelog, settings.
+// The standalone pages: privacy, about, terms, platform, changelog, settings.
 //
 // Settings gets the real coverage, because it is the only page on the site that can destroy data
 // the user cannot get back.
@@ -8,6 +8,7 @@ test.describe('information pages', () => {
   for (const [path, heading] of [
     ['/privacy/', 'Privacy'],
     ['/about/', 'About ToyTools'],
+    ['/terms/', 'Terms of use'],
     ['/changelog/', 'Changelog'],
   ] as const) {
     test(`${path} renders and is reachable from the footer`, async ({ page }) => {

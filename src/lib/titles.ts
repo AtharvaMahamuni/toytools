@@ -6,7 +6,7 @@ const T = TITLE_SUFFIX;
 
 export type PageType =
   | 'home' | 'tool' | 'guide' | 'faq' | 'category' | 'search' | 'architecture' | 'platform'
-  | 'feedback' | 'privacy' | 'about' | 'changelog' | 'settings' | 'offline' | 'notFound';
+  | 'feedback' | 'privacy' | 'terms' | 'about' | 'changelog' | 'settings' | 'offline' | 'notFound';
 
 export function generatePageTitle(type: PageType, name?: string): string {
   switch (type) {
@@ -30,6 +30,7 @@ export function generatePageTitle(type: PageType, name?: string): string {
     // brought them, so it names the two things people actually search for.
     case 'feedback': return `Suggest a Tool or Report an Issue${T}`;
     case 'privacy':  return `Privacy${T}`;
+    case 'terms':    return `Terms of Use${T}`;
     case 'about':    return `About${T}`;
     case 'changelog': return `Changelog${T}`;
     case 'settings': return `Settings${T}`;
