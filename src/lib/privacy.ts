@@ -5,6 +5,15 @@
 
 export const PRIVACY_LINE = 'Runs entirely on your device. Nothing is uploaded.';
 
+/**
+ * The site-wide privacy fact, for files that speak for the whole site rather than one tool (the
+ * llms files and the identity files). PRIVACY_LINE is true of a tool's input; this one is true of
+ * the site, which also loads analytics and has a feedback form that sends what you submit.
+ */
+export const SITE_PRIVACY_LINE =
+  'The text, files and values you enter in tools are processed on your device and not uploaded. ' +
+  'The site uses analytics, and the feedback form sends what you submit.';
+
 /** Trust-badge short form. Same claim as PRIVACY_LINE, sized for Zone B. */
 export const PRIVACY_BADGE = 'Private ● Runs entirely on your device';
 

@@ -12,7 +12,7 @@ import { absoluteUrl } from '@lib/sitemap/render';
 import { categories } from '@data/categories';
 import type { Category, Tool } from '@data/types';
 import { withBase } from '@lib/paths';
-import { PRIVACY_LINE } from '@lib/privacy';
+import { SITE_PRIVACY_LINE } from '@lib/privacy';
 import { allToolFacts, type ToolFacts } from './facts';
 import { CONTACT_LINE, IDENTITY_FILES, TERMS_LINE } from '@lib/identity/facts';
 
@@ -68,7 +68,7 @@ function listPhrase(items: readonly string[]): string {
 export function renderSummary(list: readonly SummaryCategory[] = categories): string {
   return (
     `ToyTools is the internet's little toolbox: free, browser-based tools for ${listPhrase(categorySummaryTerms(list))}. ` +
-    `The prep tools prepare text before a model (ToyTools does not run a model). ${PRIVACY_LINE}`
+    `The prep tools prepare text before a model (ToyTools does not run a model). ${SITE_PRIVACY_LINE}`
   );
 }
 
@@ -251,7 +251,7 @@ export function renderLlmsFull(site: string, catalog?: Tool[]): string {
 
   return `# ToyTools tool inventory
 
-> ${PRIVACY_LINE} ToyTools does not run an AI model.
+> ${SITE_PRIVACY_LINE} ToyTools does not run an AI model.
 
 ${blocks.join('\n\n')}
 `;

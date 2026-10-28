@@ -1,13 +1,13 @@
 # ToyTools FAQ
 
 Q: What is ToyTools?
-A: ToyTools is the internet's little toolbox: free, browser-based tools for text, numbers, developer utilities, productivity, money, generators, physics, applied math, chemistry, dates, health, design, music, fidgets, prep, and games. The prep tools prepare text before a model (ToyTools does not run a model). Runs entirely on your device. Nothing is uploaded.
+A: ToyTools is the internet's little toolbox: free, browser-based tools for text, numbers, developer utilities, productivity, money, generators, physics, applied math, chemistry, dates, health, design, music, fidgets, prep, and games. The prep tools prepare text before a model (ToyTools does not run a model). The text, files and values you enter in tools are processed on your device and not uploaded. The site uses analytics, and the feedback form sends what you submit.
 
 Q: Is ToyTools free?
 A: Free to use, runs on your device, provided as is with no warranty. See https://toytoolsapp.com/terms/.
 
 Q: Is my data uploaded?
-A: No. Runs entirely on your device. Nothing is uploaded.
+A: The text, files and values you enter in tools are processed on your device and not uploaded. The site uses analytics, and the feedback form sends what you submit. See https://toytoolsapp.com/privacy/
 
 Q: How do I contact ToyTools?
 A: Contact ToyTools, report a problem or suggest a tool. Use the Contact and feedback page: https://toytoolsapp.com/feedback/

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { BRAND_NAME } from '@config/site';
 import { FEEDBACK_FAQ } from '@lib/feedback/faq';
+import { SITE_PRIVACY_LINE } from '@lib/privacy';
 import { llmsTxtForSite, renderSummary } from '@lib/llms/render';
 import { identityGraph, logoUrlFor, ORG_ID, PERSON_ID } from '@lib/schema/identity';
 import { AI_CRAWLERS, IDENTITY_FILES } from './facts';
@@ -85,6 +86,18 @@ describe('ai.txt agrees with robots.txt', () => {
     expect(renderAiTxt(SITE)).toMatch(/^Training: allowed$/m);
     expect(renderAiTxt(SITE)).toMatch(/^Citation: allowed$/m);
     expect(renderAiTxt(SITE)).toMatch(/^Attribution: appreciated\./m);
+  });
+});
+
+describe('site-wide privacy claims', () => {
+  it('say what is and is not sent, and link /privacy/, never a bare "Nothing is uploaded"', () => {
+    const texts = [renderBrandTxt(SITE), renderAiTxt(SITE), renderFaqAiTxt(SITE), JSON.stringify(aiJson(SITE)), llmsTxtForSite(SITE).split('\n')[2]!];
+    for (const text of texts) expect(text).not.toContain('Nothing is uploaded');
+    const answer = siteFaq(SITE).find(q => q.question === 'Is my data uploaded?')!.answer;
+    expect(answer).toBe(`${SITE_PRIVACY_LINE} See ${SITE}privacy/`);
+    expect(SITE_PRIVACY_LINE).toMatch(/analytics/);
+    expect(SITE_PRIVACY_LINE).toMatch(/feedback form sends what you submit/);
+    expect(aiJson(SITE).privacy).toEqual({ statement: SITE_PRIVACY_LINE, url: `${SITE}privacy/` });
   });
 });
 

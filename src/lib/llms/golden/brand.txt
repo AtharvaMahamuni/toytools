@@ -7,6 +7,7 @@ Website: https://toytoolsapp.com/
 X: https://x.com/ToytoolsApp
 Founder: Atharva (https://x.com/athmatwt, https://www.linkedin.com/in/atharvamahamuni)
 About: https://toytoolsapp.com/about/
+Privacy: https://toytoolsapp.com/privacy/
 Contact: https://toytoolsapp.com/feedback/
 
-> ToyTools is the internet's little toolbox: free, browser-based tools for text, numbers, developer utilities, productivity, money, generators, physics, applied math, chemistry, dates, health, design, music, fidgets, prep, and games. The prep tools prepare text before a model (ToyTools does not run a model). Runs entirely on your device. Nothing is uploaded.
+> ToyTools is the internet's little toolbox: free, browser-based tools for text, numbers, developer utilities, productivity, money, generators, physics, applied math, chemistry, dates, health, design, music, fidgets, prep, and games. The prep tools prepare text before a model (ToyTools does not run a model). The text, files and values you enter in tools are processed on your device and not uploaded. The site uses analytics, and the feedback form sends what you submit.

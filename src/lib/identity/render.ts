@@ -6,7 +6,7 @@ import { BRAND_NAME, BRAND_X_URL } from '@config/site';
 import { FEEDBACK_FAQ } from '@lib/feedback/faq';
 import { renderSummary } from '@lib/llms/render';
 import { withBase } from '@lib/paths';
-import { PRIVACY_LINE } from '@lib/privacy';
+import { SITE_PRIVACY_LINE } from '@lib/privacy';
 import { AUTHOR, identityGraph, logoUrlFor, organizationNode } from '@lib/schema/identity';
 import { absoluteUrl } from '@lib/sitemap/render';
 import { AI_CRAWLERS, AI_POLICY, CONTACT_LINE, IDENTITY_FILES, NOT_THE_NAME, TERMS_LINE } from './facts';
@@ -25,6 +25,7 @@ Website: ${url('/', site)}
 X: ${BRAND_X_URL}
 Founder: ${AUTHOR.name} (${AUTHOR.x}, ${AUTHOR.linkedin})
 About: ${url('/about/', site)}
+Privacy: ${url('/privacy/', site)}
 Contact: ${url('/feedback/', site)}
 
 > ${renderSummary()}
@@ -57,7 +58,7 @@ export function siteFaq(site: string): { question: string; answer: string }[] {
   return [
     { question: `What is ${BRAND_NAME}?`, answer: renderSummary() },
     { question: `Is ${BRAND_NAME} free?`, answer: `${TERMS_LINE} See ${url('/terms/', site)}.` },
-    { question: 'Is my data uploaded?', answer: `No. ${PRIVACY_LINE}` },
+    { question: 'Is my data uploaded?', answer: `${SITE_PRIVACY_LINE} See ${url('/privacy/', site)}` },
     { question: `How do I contact ${BRAND_NAME}?`, answer: `${CONTACT_LINE} Use the Contact and feedback page: ${url('/feedback/', site)}` },
     ...FEEDBACK_FAQ.map(({ question, answer }) => ({ question, answer })),
   ];
@@ -81,6 +82,7 @@ export function aiJson(site: string): Record<string, unknown> {
     policy: { ...AI_POLICY, crawlers: [...AI_CRAWLERS] },
     files: IDENTITY_FILES.map(f => ({ url: url(f.path, site), about: f.about })),
     llms: { summary: url('/llms.txt', site), inventory: url('/llms-full.txt', site) },
+    privacy: { statement: SITE_PRIVACY_LINE, url: url('/privacy/', site) },
     terms: url('/terms/', site),
     contact: url('/feedback/', site),
     organization: organizationNode(logoUrl(site)),

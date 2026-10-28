@@ -11,8 +11,8 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 17,
-  patch: 0,
+  minor: 16,
+  patch: 2,
   status: 'alpha',
   releaseDate: '2026-10-28',
   description: 'Identity files for AI: brand.txt, ai.txt, faq-ai.txt, ai.json and identity.json',
