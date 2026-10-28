@@ -18,6 +18,9 @@ export const PRIVACY_LINE = 'Runs entirely on your device. Nothing is uploaded.'
 export const TOOL_DATA_LINE =
   'The text, files and values you enter in tools are processed on your device and not uploaded.';
 
+/** TOOL_DATA_LINE sized for a category blurb, which doubles as a 160-character meta description. */
+export const TOOL_DATA_SHORT = 'What you enter stays on your device.';
+
 export const SITE_PRIVACY_LINE =
   `${TOOL_DATA_LINE} The site uses analytics, and the feedback form sends what you submit.`;
 

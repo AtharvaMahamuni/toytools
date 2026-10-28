@@ -57,9 +57,9 @@ Prepare text before a model. ToyTools does not run a model.
 - [Health and Fitness](https://toytoolsapp.com/category/health-fitness/): Calculate fitness metrics, track your health, and build habits that stick, all privately in your browser. (21 tools)
 - [Design and CSS](https://toytoolsapp.com/category/design-tools/): Convert colors, check WCAG contrast, build OKLCH shade scales and modular type scales, and translate CSS units, all privately in your browser. (10 tools)
 - [Music and Audio](https://toytoolsapp.com/category/music-audio/): Build, understand and share music equalizer settings, then apply them in your own player. (1 tool)
-- [Fidgets](https://toytoolsapp.com/category/fidgets/): Online virtual fidget toys you tap, flick, or flip in the browser, with optional sound and haptics. The text, files and values you enter in tools are processed on your device and not uploaded. (7 tools)
+- [Fidgets](https://toytoolsapp.com/category/fidgets/): Online virtual fidget toys you tap, flick, or flip in the browser, with optional sound and haptics. What you enter stays on your device. (7 tools)
 - [Prep for a model](https://toytoolsapp.com/category/prep/): Tools for preparing, cleaning, structuring, and checking text before you send it to an AI model. ToyTools does not run a model. (6 tools)
-- [Games](https://toytoolsapp.com/category/games/): Hot-seat board games for two people on one phone. Pass the device, undo a mis-tap, and rematch without an account. The text, files and values you enter in tools are processed on your device and not uploaded. (4 tools)
+- [Games](https://toytoolsapp.com/category/games/): Hot-seat board games for two people on one phone. Pass the device, undo a mis-tap, and rematch without an account. What you enter stays on your device. (4 tools)
 
 ## Optional
 

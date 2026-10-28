@@ -2,6 +2,7 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { parseHtml } from './html-parser.js';
 import type { CrawledPage, RouteManifest } from '../types/index.js';
+import { NON_PAGE_HTML } from '../config/index.js';
 
 function walkDir(dir: string, results: string[] = []): string[] {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -20,7 +21,7 @@ function filePathToUrlPath(filePath: string, distDir: string): string {
 }
 
 export async function crawlDist(distDir: string, siteUrl: string): Promise<CrawledPage[]> {
-  const htmlFiles = walkDir(distDir);
+  const htmlFiles = walkDir(distDir).filter(f => !NON_PAGE_HTML.has(filePathToUrlPath(f, distDir)));
   return htmlFiles.map(filePath => {
     const urlPath = filePathToUrlPath(filePath, distDir);
     return parseHtml(filePath, urlPath, siteUrl);

@@ -35,5 +35,11 @@ export const LIGHTHOUSE_THRESHOLDS = {
   seo: 100,
 } as const;
 
+// Generated AI files that happen to be HTML. They are not site pages: /llms.html is llms.txt as
+// HTML, noindex with a canonical to the home page, links straight to the .txt and .json files,
+// and is kept out of the sitemap on purpose. Its own unit and e2e tests cover it
+// (src/lib/identity/render.test.ts, tests/e2e/identity-files.spec.ts).
+export const NON_PAGE_HTML = new Set(['/llms.html']);
+
 // Pages always exempt from orphan detection
 export const ORPHAN_EXEMPT_PATHS = new Set(['/', '/404.html']);
