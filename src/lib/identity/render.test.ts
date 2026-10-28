@@ -4,8 +4,19 @@ import { FEEDBACK_FAQ } from '@lib/feedback/faq';
 import { SITE_PRIVACY_LINE } from '@lib/privacy';
 import { llmsTxtForSite, renderSummary } from '@lib/llms/render';
 import { identityGraph, logoUrlFor, ORG_ID, PERSON_ID } from '@lib/schema/identity';
-import { AI_CRAWLERS, IDENTITY_FILES } from './facts';
-import { aiJson, identityJson, renderAiTxt, renderBrandTxt, renderFaqAiTxt, siteFaq } from './render';
+import { AI_CRAWLERS, DISCOVERY_PATHS, IDENTITY_FILES } from './facts';
+import {
+  aiJson,
+  identityJson,
+  markdownToHtml,
+  renderAiTxt,
+  renderBrandTxt,
+  renderFaqAiTxt,
+  renderLlmTxt,
+  renderLlmsHtml,
+  renderRobotsAiTxt,
+  siteFaq,
+} from './render';
 import { GET as robotsGet } from '../../pages/robots.txt';
 
 const SITE = 'https://toytoolsapp.com/';
@@ -118,5 +129,65 @@ describe('identity files on another site', () => {
     );
     expect(urls.length).toBeGreaterThan(10);
     expect(off).toEqual([]);
+  });
+});
+
+describe('robots-ai.txt agrees with robots.txt', () => {
+  it('allows exactly the AI crawlers robots.txt names, with its sitemap, no Disallow and no Crawl-delay', async () => {
+    const res = await (robotsGet as (c: { url: URL }) => Response)({ url: new URL(`${SITE}robots.txt`) });
+    const robots = await res.text();
+    const text = renderRobotsAiTxt(SITE);
+    const agents = (t: string) => [...t.matchAll(/^User-agent: (.+)$/gm)].map(m => m[1]);
+    expect(agents(text)).toEqual(agents(robots).filter(a => a !== '*'));
+    expect(agents(text)).toEqual([...AI_CRAWLERS]);
+    expect(text.match(/^Allow: \/$/gm)!.length).toBe(AI_CRAWLERS.length);
+    expect(text).not.toMatch(/Disallow|Crawl-delay/i);
+    const sitemap = (t: string) => t.match(/^Sitemap: (.+)$/m)![1];
+    expect(sitemap(text)).toBe(sitemap(robots));
+  });
+
+  it('lists every Discovery file on the same host, in order', () => {
+    const lines = [...renderRobotsAiTxt(SITE).matchAll(/^Discovery: (.+)$/gm)].map(m => m[1]);
+    expect(lines).toEqual(DISCOVERY_PATHS.map(p => new URL(p, SITE).href));
+    expect(DISCOVERY_PATHS).toEqual(['/llms.txt', '/llms.html', '/ai.txt', '/ai.json', '/identity.json', '/brand.txt', '/faq-ai.txt']);
+    for (const line of [...renderRobotsAiTxt(OTHER).matchAll(/^Discovery: (.+)$/gm)]) expect(line[1]!.startsWith(OTHER)).toBe(true);
+  });
+});
+
+describe('llm.txt and llms.html come from llms.txt', () => {
+  it('llm.txt is shorter than llms.txt and opens with its heading and summary', () => {
+    const llm = renderLlmTxt(SITE);
+    const llms = llmsTxtForSite(SITE);
+    expect(llm.length).toBeLessThan(llms.length / 3);
+    expect(llm.startsWith(`# ${BRAND_NAME}\n\n> ${renderSummary()}\n`)).toBe(true);
+    expect(llms.startsWith(`# ${BRAND_NAME}\n\n> ${renderSummary()}\n`)).toBe(true);
+    expect(llm).toContain(`${SITE}llms.txt`);
+    expect(llm).toContain(`${SITE}llms-full.txt`);
+  });
+
+  it('llms.html renders every llms.txt link, is noindex and canonical to home', () => {
+    const html = renderLlmsHtml(SITE);
+    expect(html).toContain('<meta name="robots" content="noindex">');
+    expect(html).toContain(`<link rel="canonical" href="${SITE}">`);
+    const mdLinks = [...llmsTxtForSite(SITE).matchAll(/\]\(([^)\s]+)\)/g)].map(m => m[1]);
+    const htmlLinks = [...html.matchAll(/<a href="([^"]+)"/g)].map(m => m[1]);
+    expect(htmlLinks).toEqual(mdLinks);
+    expect(html.match(/<h2>/g)!.length).toBe(llmsTxtForSite(SITE).match(/^## /gm)!.length);
+  });
+
+  it('markdownToHtml escapes text', () => {
+    expect(markdownToHtml('- [a<b](https://x.test/): c & d')).toBe('<ul>\n<li><a href="https://x.test/">a&lt;b</a>: c &amp; d</li>\n</ul>');
+  });
+});
+
+describe('the new files are listed', () => {
+  it('in llms.txt and ai.json', () => {
+    const llms = llmsTxtForSite(SITE);
+    const files = (aiJson(SITE).files as { url: string }[]).map(f => f.url);
+    for (const path of ['/llm.txt', '/llms.html', '/robots-ai.txt']) {
+      expect(IDENTITY_FILES.map(f => f.path)).toContain(path);
+      expect(llms).toContain(`](${new URL(path, SITE).href})`);
+      expect(files).toContain(new URL(path, SITE).href);
+    }
   });
 });

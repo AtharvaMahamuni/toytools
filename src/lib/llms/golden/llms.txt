@@ -57,9 +57,9 @@ Prepare text before a model. ToyTools does not run a model.
 - [Health and Fitness](https://toytoolsapp.com/category/health-fitness/): Calculate fitness metrics, track your health, and build habits that stick, all privately in your browser. (21 tools)
 - [Design and CSS](https://toytoolsapp.com/category/design-tools/): Convert colors, check WCAG contrast, build OKLCH shade scales and modular type scales, and translate CSS units, all privately in your browser. (10 tools)
 - [Music and Audio](https://toytoolsapp.com/category/music-audio/): Build, understand and share music equalizer settings, then apply them in your own player. (1 tool)
-- [Fidgets](https://toytoolsapp.com/category/fidgets/): Online virtual fidget toys you tap, flick, or flip in the browser, with optional sound and haptics. Runs entirely on your device. Nothing is uploaded. (7 tools)
+- [Fidgets](https://toytoolsapp.com/category/fidgets/): Online virtual fidget toys you tap, flick, or flip in the browser, with optional sound and haptics. What you enter stays on your device. (7 tools)
 - [Prep for a model](https://toytoolsapp.com/category/prep/): Tools for preparing, cleaning, structuring, and checking text before you send it to an AI model. ToyTools does not run a model. (6 tools)
-- [Games](https://toytoolsapp.com/category/games/): Hot-seat board games for two people on one phone. Pass the device, undo a mis-tap, and rematch without an account. Nothing is uploaded. (4 tools)
+- [Games](https://toytoolsapp.com/category/games/): Hot-seat board games for two people on one phone. Pass the device, undo a mis-tap, and rematch without an account. What you enter stays on your device. (4 tools)
 
 ## Optional
 
@@ -71,3 +71,6 @@ Prepare text before a model. ToyTools does not run a model.
 - [faq-ai.txt](https://toytoolsapp.com/faq-ai.txt): Common questions about ToyTools, as plain question and answer pairs.
 - [ai.json](https://toytoolsapp.com/ai.json): The same identity and AI policy, as JSON.
 - [identity.json](https://toytoolsapp.com/identity.json): The Organization and Person JSON-LD every page carries.
+- [llm.txt](https://toytoolsapp.com/llm.txt): A short version of llms.txt.
+- [llms.html](https://toytoolsapp.com/llms.html): llms.txt rendered as an HTML page.
+- [robots-ai.txt](https://toytoolsapp.com/robots-ai.txt): The AI crawler rules from robots.txt, with links to these files.

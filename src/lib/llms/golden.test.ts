@@ -7,6 +7,9 @@ import { GET as aiTxtGet } from '../../pages/ai.txt';
 import { GET as faqAiTxtGet } from '../../pages/faq-ai.txt';
 import { GET as aiJsonGet } from '../../pages/ai.json';
 import { GET as identityJsonGet } from '../../pages/identity.json';
+import { GET as llmTxtGet } from '../../pages/llm.txt';
+import { GET as llmsHtmlGet } from '../../pages/llms.html';
+import { GET as robotsAiTxtGet } from '../../pages/robots-ai.txt';
 import { GET as llmsTxtGet } from '../../pages/llms.txt';
 import { GET as llmsFullGet } from '../../pages/llms-full.txt';
 
@@ -21,10 +24,17 @@ const ENDPOINTS = {
   'faq-ai.txt': faqAiTxtGet,
   'ai.json': aiJsonGet,
   'identity.json': identityJsonGet,
+  'llm.txt': llmTxtGet,
+  'llms.html': llmsHtmlGet,
+  'robots-ai.txt': robotsAiTxtGet,
 } as const;
 
 const contentType = (name: string) =>
-  name.endsWith('.json') ? 'application/json; charset=utf-8' : 'text/plain; charset=utf-8';
+  name.endsWith('.json')
+    ? 'application/json; charset=utf-8'
+    : name.endsWith('.html')
+      ? 'text/html; charset=utf-8'
+      : 'text/plain; charset=utf-8';
 
 // The llms files are pinned to a committed copy. Each endpoint's GET is called for the production
 // origin, as the build calls it, and the response bytes are compared to the copy. A change to either
@@ -85,4 +95,16 @@ describe('firstDifference', () => {
     expect(firstDifference('a\nb', 'a\nb\nc')).toEqual({ line: 3, expected: undefined, actual: 'c' });
     expect(firstDifference('a\nb\n', 'a\nb')).toEqual({ line: 3, expected: '', actual: undefined });
   });
+});
+
+// "Nothing is uploaded" reads as a claim about the whole site, which loads analytics and has a
+// feedback form. The AI files state the tool-data fact and the site fact instead (src/lib/privacy.ts).
+describe('no generated AI file says "Nothing is uploaded"', () => {
+  for (const name of Object.keys(GOLDEN_ENDPOINTS) as Array<keyof typeof GOLDEN_ENDPOINTS>) {
+    it(name, async () => {
+      const text = (await servedBytes(name)).toString('utf8');
+      expect(text).not.toMatch(/nothing is uploaded/i);
+      expect(readFileSync(join(ROOT, GOLDEN_DIR, name), 'utf8')).not.toMatch(/nothing is uploaded/i);
+    });
+  }
 });

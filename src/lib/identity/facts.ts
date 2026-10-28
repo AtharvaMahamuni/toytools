@@ -24,6 +24,17 @@ export const AI_POLICY = {
   attribution: 'appreciated',
 } as const;
 
+/** The files robots-ai.txt advertises with Discovery: lines, in that order. */
+export const DISCOVERY_PATHS = [
+  '/llms.txt',
+  '/llms.html',
+  '/ai.txt',
+  '/ai.json',
+  '/identity.json',
+  '/brand.txt',
+  '/faq-ai.txt',
+] as const;
+
 /** The identity files, in the order llms.txt lists them. */
 export const IDENTITY_FILES = [
   { path: '/brand.txt', about: 'How to write the ToyTools name, and its domain and accounts.' },
@@ -31,4 +42,7 @@ export const IDENTITY_FILES = [
   { path: '/faq-ai.txt', about: 'Common questions about ToyTools, as plain question and answer pairs.' },
   { path: '/ai.json', about: 'The same identity and AI policy, as JSON.' },
   { path: '/identity.json', about: 'The Organization and Person JSON-LD every page carries.' },
+  { path: '/llm.txt', about: 'A short version of llms.txt.' },
+  { path: '/llms.html', about: 'llms.txt rendered as an HTML page.' },
+  { path: '/robots-ai.txt', about: 'The AI crawler rules from robots.txt, with links to these files.' },
 ] as const;

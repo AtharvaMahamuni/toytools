@@ -12,7 +12,7 @@ import { absoluteUrl } from '@lib/sitemap/render';
 import { categories } from '@data/categories';
 import type { Category, Tool } from '@data/types';
 import { withBase } from '@lib/paths';
-import { SITE_PRIVACY_LINE } from '@lib/privacy';
+import { PRIVACY_LINE, SITE_PRIVACY_LINE, TOOL_DATA_LINE } from '@lib/privacy';
 import { allToolFacts, type ToolFacts } from './facts';
 import { CONTACT_LINE, IDENTITY_FILES, TERMS_LINE } from '@lib/identity/facts';
 
@@ -244,7 +244,8 @@ export function renderLlmsFull(site: string, catalog?: Tool[]): string {
       '',
       `URL: ${f.urls.tool}`,
       `Use for: ${useFor(f.tagline)}`,
-      `Privacy: ${f.privacy}`,
+      // The UI's PRIVACY_LINE ends "Nothing is uploaded"; the AI files state the tool-data fact.
+      `Privacy: ${f.privacy === PRIVACY_LINE ? TOOL_DATA_LINE : f.privacy}`,
       `Does not: ${doesNotLine(f.doesNot)}`,
     ].join('\n'),
   );
