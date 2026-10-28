@@ -9,6 +9,11 @@ import { join } from 'node:path';
 import { siteUrl } from '@config/site';
 import { GET as llmsTxt } from '../../pages/llms.txt';
 import { GET as llmsFull } from '../../pages/llms-full.txt';
+import { GET as brandTxt } from '../../pages/brand.txt';
+import { GET as aiTxt } from '../../pages/ai.txt';
+import { GET as faqAiTxt } from '../../pages/faq-ai.txt';
+import { GET as aiJson } from '../../pages/ai.json';
+import { GET as identityJson } from '../../pages/identity.json';
 
 /** The site the goldens are rendered on: the production origin, as a build without ASTRO_SITE. */
 export const GOLDEN_SITE = siteUrl().href;
@@ -24,13 +29,20 @@ async function serve(endpoint: unknown, site: string): Promise<Response> {
 }
 
 /** Each served file: the endpoint that serves it. */
-export const GOLDEN_ENDPOINTS: Readonly<Record<'llms.txt' | 'llms-full.txt', unknown>> = {
+export const GOLDEN_ENDPOINTS = {
   'llms.txt': llmsTxt,
   'llms-full.txt': llmsFull,
-};
+  'brand.txt': brandTxt,
+  'ai.txt': aiTxt,
+  'faq-ai.txt': faqAiTxt,
+  'ai.json': aiJson,
+  'identity.json': identityJson,
+} as const satisfies Readonly<Record<string, unknown>>;
+
+export type GoldenName = keyof typeof GOLDEN_ENDPOINTS;
 
 /** The bytes an endpoint serves for the production origin. */
-export async function servedBytes(name: keyof typeof GOLDEN_ENDPOINTS): Promise<Buffer> {
+export async function servedBytes(name: GoldenName): Promise<Buffer> {
   const res = await serve(GOLDEN_ENDPOINTS[name], GOLDEN_SITE);
   return Buffer.from(await res.arrayBuffer());
 }

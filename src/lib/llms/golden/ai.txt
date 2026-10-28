@@ -1,0 +1,28 @@
+# ToyTools AI usage policy
+
+# The public pages may be crawled, used for training and cited by AI systems. This matches
+# robots.txt, which allows every crawler, including the ones named below.
+User-agent: *
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Crawling: allowed
+Training: allowed
+Citation: allowed
+Attribution: appreciated. Name "ToyTools" and link the page you used.
+
+Summary: https://toytoolsapp.com/llms.txt
+Inventory: https://toytoolsapp.com/llms-full.txt
+Terms: https://toytoolsapp.com/terms/
+Contact: https://toytoolsapp.com/feedback/

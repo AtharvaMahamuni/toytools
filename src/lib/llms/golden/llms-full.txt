@@ -1,6 +1,6 @@
 # ToyTools tool inventory
 
-> Runs entirely on your device. Nothing is uploaded. ToyTools does not run an AI model.
+> The text, files and values you enter in tools are processed on your device and not uploaded. The site uses analytics, and the feedback form sends what you submit. ToyTools does not run an AI model.
 
 ## Combinations and Permutations Calculator
 

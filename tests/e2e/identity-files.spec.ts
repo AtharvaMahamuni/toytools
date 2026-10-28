@@ -1,0 +1,28 @@
+import { test, expect } from '@playwright/test';
+
+// The identity files ship in the build, and /identity.json is the Organization and Person graph the
+// built pages carry in their JSON-LD (the unit tests pin the source; this pins the output).
+test.describe('identity files', () => {
+  for (const [path, type] of [
+    ['/brand.txt', 'text/plain'],
+    ['/ai.txt', 'text/plain'],
+    ['/faq-ai.txt', 'text/plain'],
+    ['/ai.json', 'application/json'],
+    ['/identity.json', 'application/json'],
+  ] as const) {
+    test(`${path} is served`, async ({ request }) => {
+      const resp = await request.get(path);
+      expect(resp.status()).toBe(200);
+      expect(resp.headers()['content-type']).toContain(type);
+      expect(await resp.text()).toContain('ToyTools');
+    });
+  }
+
+  test('identity.json matches the home page JSON-LD', async ({ request, page }) => {
+    const served = await (await request.get('/identity.json')).json();
+    await page.goto('/');
+    const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
+    const graphs = blocks.map(b => JSON.parse(b)).filter(j => Array.isArray(j['@graph']));
+    expect(graphs).toContainEqual(served);
+  });
+});

@@ -17,7 +17,7 @@ import { tools } from '@data/registry';
 import type { Tool } from '@data/types';
 import { allToolFacts } from './facts';
 import { categories as allCategories } from '@data/categories';
-import { PRIVACY_LINE } from '@lib/privacy';
+import { PRIVACY_LINE, SITE_PRIVACY_LINE } from '@lib/privacy';
 import type { ContentEntry } from '@lib/content/manifest';
 import { readFileSync } from 'node:fs';
 import { init, parse } from 'es-module-lexer';
@@ -36,7 +36,7 @@ describe('renderLlmsTxt', () => {
 
   it('opens with the site name and the canonical privacy line', () => {
     expect(txt.startsWith('# ToyTools\n')).toBe(true);
-    expect(txt).toContain(PRIVACY_LINE);
+    expect(txt).toContain(SITE_PRIVACY_LINE);
   });
 
   it('lists every core tool as an absolute URL that exists in the registry', () => {
@@ -189,6 +189,7 @@ describe('renderLlmsFull', () => {
       expect(block).toMatch(/^Does not: \S/m);
     }
     expect(full).toContain(PRIVACY_LINE);
+    expect(full).toContain(`> ${SITE_PRIVACY_LINE}`);
   });
 
   it('uses a lookup tool\'s real privacy claim', () => {
@@ -261,7 +262,8 @@ const RENDER_IMPORTS: Readonly<Record<string, readonly string[] | null>> = {
   '@data/categories': null,
   '@data/types': null,
   '@lib/paths': ['withBase'],
-  '@lib/privacy': ['PRIVACY_LINE'],
+  '@lib/privacy': ['SITE_PRIVACY_LINE'],
+  '@lib/identity/facts': ['CONTACT_LINE', 'IDENTITY_FILES', 'TERMS_LINE'],
   './facts': null,
 };
 /** The content manifest also lists every tool and guide; the renderer may ask it only for these. */
