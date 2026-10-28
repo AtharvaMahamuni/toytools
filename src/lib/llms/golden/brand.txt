@@ -1,0 +1,12 @@
+# ToyTools brand
+
+Name: ToyTools
+Written: one word, capital T twice. Not Toy Tools, not Toytools, not ToyTools App, not ToyTools.com.
+In titles and names, write "and", never an ampersand.
+Website: https://toytoolsapp.com/
+X: https://x.com/ToytoolsApp
+Founder: Atharva (https://x.com/athmatwt, https://www.linkedin.com/in/atharvamahamuni)
+About: https://toytoolsapp.com/about/
+Contact: https://toytoolsapp.com/feedback/
+
+> ToyTools is the internet's little toolbox: free, browser-based tools for text, numbers, developer utilities, productivity, money, generators, physics, applied math, chemistry, dates, health, design, music, fidgets, prep, and games. The prep tools prepare text before a model (ToyTools does not run a model). Runs entirely on your device. Nothing is uploaded.

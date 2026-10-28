@@ -23,6 +23,11 @@ export const BRAND_X = {
   url: BRAND_X_URL,
 } as const;
 
+/** The logo the Organization node names, on `site`. BaseLayout and /identity.json both use it. */
+export function logoUrlFor(site: URL | string): string {
+  return new URL('/favicon-512.png', site).href;
+}
+
 export function personNode(): Record<string, unknown> {
   return {
     '@type': 'Person',

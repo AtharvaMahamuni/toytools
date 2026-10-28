@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { AI_CRAWLERS } from '@lib/identity/facts';
 
 export const GET: APIRoute = ({ url }) => {
   const base = url.pathname.replace('robots.txt', '');
@@ -10,18 +11,7 @@ export const GET: APIRoute = ({ url }) => {
     'User-agent: *',
     'Allow: /',
     '',
-    'User-agent: GPTBot',
-    'Allow: /',
-    '',
-    'User-agent: ClaudeBot',
-    'Allow: /',
-    '',
-    'User-agent: PerplexityBot',
-    'Allow: /',
-    '',
-    'User-agent: Google-Extended',
-    'Allow: /',
-    '',
+    ...AI_CRAWLERS.flatMap(bot => [`User-agent: ${bot}`, 'Allow: /', '']),
     `Sitemap: ${sitemap}`,
   ].join('\n');
   return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });

@@ -262,6 +262,7 @@ const RENDER_IMPORTS: Readonly<Record<string, readonly string[] | null>> = {
   '@data/types': null,
   '@lib/paths': ['withBase'],
   '@lib/privacy': ['PRIVACY_LINE'],
+  '@lib/identity/facts': ['CONTACT_LINE', 'IDENTITY_FILES', 'TERMS_LINE'],
   './facts': null,
 };
 /** The content manifest also lists every tool and guide; the renderer may ask it only for these. */

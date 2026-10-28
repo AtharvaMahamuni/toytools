@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.17] - 2026-10-28
+
+### Added
+
+- **Identity files for AI systems.** Five new files sit next to llms.txt: /brand.txt (how to write the ToyTools name, the domain and accounts), /ai.txt (crawling, training and citation are allowed and attribution is appreciated, the same policy as robots.txt), /faq-ai.txt (common questions as plain question and answer pairs, including the Contact and feedback page's FAQ), /ai.json (the same identity and policy as JSON) and /identity.json (the Organization and Person JSON-LD every page carries). All five are generated from the same facts as llms.txt and the page JSON-LD, and llms.txt lists them.
+
 ## [alpha-v13.16.1] - 2026-10-28
 
 ### Added

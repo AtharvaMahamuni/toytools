@@ -1,0 +1,28 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://toytoolsapp.com/#org",
+      "name": "ToyTools",
+      "url": "https://toytoolsapp.com/",
+      "logo": "https://toytoolsapp.com/favicon-512.png",
+      "founder": {
+        "@id": "https://toytoolsapp.com/#atharva"
+      },
+      "sameAs": [
+        "https://x.com/ToytoolsApp"
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://toytoolsapp.com/#atharva",
+      "name": "Atharva",
+      "url": "https://toytoolsapp.com/",
+      "sameAs": [
+        "https://x.com/athmatwt",
+        "https://www.linkedin.com/in/atharvamahamuni"
+      ]
+    }
+  ]
+}

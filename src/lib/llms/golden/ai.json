@@ -1,0 +1,58 @@
+{
+  "name": "ToyTools",
+  "url": "https://toytoolsapp.com/",
+  "description": "ToyTools is the internet's little toolbox: free, browser-based tools for text, numbers, developer utilities, productivity, money, generators, physics, applied math, chemistry, dates, health, design, music, fidgets, prep, and games. The prep tools prepare text before a model (ToyTools does not run a model). Runs entirely on your device. Nothing is uploaded.",
+  "policy": {
+    "crawling": "allowed",
+    "training": "allowed",
+    "citation": "allowed",
+    "attribution": "appreciated",
+    "crawlers": [
+      "GPTBot",
+      "ClaudeBot",
+      "PerplexityBot",
+      "Google-Extended"
+    ]
+  },
+  "files": [
+    {
+      "url": "https://toytoolsapp.com/brand.txt",
+      "about": "How to write the ToyTools name, and its domain and accounts."
+    },
+    {
+      "url": "https://toytoolsapp.com/ai.txt",
+      "about": "AI usage policy: crawling, training and citation allowed, attribution appreciated."
+    },
+    {
+      "url": "https://toytoolsapp.com/faq-ai.txt",
+      "about": "Common questions about ToyTools, as plain question and answer pairs."
+    },
+    {
+      "url": "https://toytoolsapp.com/ai.json",
+      "about": "The same identity and AI policy, as JSON."
+    },
+    {
+      "url": "https://toytoolsapp.com/identity.json",
+      "about": "The Organization and Person JSON-LD every page carries."
+    }
+  ],
+  "llms": {
+    "summary": "https://toytoolsapp.com/llms.txt",
+    "inventory": "https://toytoolsapp.com/llms-full.txt"
+  },
+  "terms": "https://toytoolsapp.com/terms/",
+  "contact": "https://toytoolsapp.com/feedback/",
+  "organization": {
+    "@type": "Organization",
+    "@id": "https://toytoolsapp.com/#org",
+    "name": "ToyTools",
+    "url": "https://toytoolsapp.com/",
+    "logo": "https://toytoolsapp.com/favicon-512.png",
+    "founder": {
+      "@id": "https://toytoolsapp.com/#atharva"
+    },
+    "sameAs": [
+      "https://x.com/ToytoolsApp"
+    ]
+  }
+}

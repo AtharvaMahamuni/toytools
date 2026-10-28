@@ -3,7 +3,7 @@ import Nav from '@components/Nav.astro';
 import Footer from '@components/Footer.astro';
 import ToyToolsRuntime from '@components/ToyToolsRuntime.astro';
 import { withBase } from '../lib/paths';
-import { BRAND_X, identityGraph } from '@lib/schema/identity';
+import { BRAND_X, identityGraph, logoUrlFor } from '@lib/schema/identity';
 import { SOCIAL_IMAGE_PATH, siteUrl } from '@config/site';
 import '../styles/global.css';
 
@@ -56,7 +56,7 @@ const {
 const pageTitle = title;
 const canonical = canonicalUrl ?? Astro.url.href;
 const site = siteUrl(Astro.site);
-const logoUrl = new URL('/favicon-512.png', site).href;
+const logoUrl = logoUrlFor(site);
 // The social card: an absolute URL, because most scrapers do not resolve a relative og:image and
 // none of the big ones accept the SVG favicon that used to sit here.
 const socialImageUrl = new URL(withBase(SOCIAL_IMAGE_PATH), site).href;

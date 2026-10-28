@@ -66,3 +66,8 @@ Prepare text before a model. ToyTools does not run a model.
 - [Platform](https://toytoolsapp.com/platform/): The engines, shared runtime and guarantees every tool is built on.
 - [Contact and feedback](https://toytoolsapp.com/feedback/): Contact ToyTools, report a problem or suggest a tool.
 - [Terms](https://toytoolsapp.com/terms/): Free to use, runs on your device, provided as is with no warranty.
+- [brand.txt](https://toytoolsapp.com/brand.txt): How to write the ToyTools name, and its domain and accounts.
+- [ai.txt](https://toytoolsapp.com/ai.txt): AI usage policy: crawling, training and citation allowed, attribution appreciated.
+- [faq-ai.txt](https://toytoolsapp.com/faq-ai.txt): Common questions about ToyTools, as plain question and answer pairs.
+- [ai.json](https://toytoolsapp.com/ai.json): The same identity and AI policy, as JSON.
+- [identity.json](https://toytoolsapp.com/identity.json): The Organization and Person JSON-LD every page carries.

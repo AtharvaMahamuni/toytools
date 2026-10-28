@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 16,
-  patch: 1,
+  minor: 17,
+  patch: 0,
   status: 'alpha',
   releaseDate: '2026-10-28',
-  description: 'Terms page, and the footer links Contact and feedback',
+  description: 'Identity files for AI: brand.txt, ai.txt, faq-ai.txt, ai.json and identity.json',
 };
 
 export function formatVersion(config: VersionConfig): string {

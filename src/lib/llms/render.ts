@@ -14,6 +14,7 @@ import type { Category, Tool } from '@data/types';
 import { withBase } from '@lib/paths';
 import { PRIVACY_LINE } from '@lib/privacy';
 import { allToolFacts, type ToolFacts } from './facts';
+import { CONTACT_LINE, IDENTITY_FILES, TERMS_LINE } from '@lib/identity/facts';
 
 /**
  * The short noun each category contributes to the SUMMARY sentence, keyed by category slug.
@@ -174,12 +175,16 @@ export function renderLlmsTxt(
       ? `- [Platform](${absoluteUrl(platformEntry.url, site)}): The engines, shared runtime and guarantees every tool is built on.`
       : null,
     feedbackEntry
-      ? `- [Contact and feedback](${absoluteUrl(feedbackEntry.url, site)}): Contact ToyTools, report a problem or suggest a tool.`
+      ? `- [Contact and feedback](${absoluteUrl(feedbackEntry.url, site)}): ${CONTACT_LINE}`
       : null,
     termsEntry
-      ? `- [Terms](${absoluteUrl(termsEntry.url, site)}): Free to use, runs on your device, provided as is with no warranty.`
+      ? `- [Terms](${absoluteUrl(termsEntry.url, site)}): ${TERMS_LINE}`
       : null,
   ].filter((line): line is string => line !== null);
+  // The identity files, each generated from the same facts as this file (src/lib/identity).
+  for (const file of IDENTITY_FILES) {
+    extras.push(`- [${file.path.slice(1)}](${absoluteUrl(withBase(file.path), site)}): ${file.about}`);
+  }
 
   const optionalLines = extras.length ? `\n\n## Optional\n\n${extras.join('\n')}` : '';
 
