@@ -33,8 +33,13 @@ test.describe('identity files', () => {
     const html = await (await request.get('/llms.html')).text();
     expect(html).toContain('<meta name="robots" content="noindex">');
     expect(html).toMatch(/<link rel="canonical" href="[^"]+\/">/);
-    const sitemap = await (await request.get('/sitemap-0.xml')).text();
-    expect(sitemap).toContain('<loc>');
-    expect(sitemap).not.toContain('llms.html');
+    const index = await (await request.get('/sitemap-index.xml')).text();
+    const children = [...index.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => new URL(m[1]!).pathname);
+    expect(children.length).toBeGreaterThan(3);
+    for (const child of children) {
+      const xml = await (await request.get(child)).text();
+      expect(xml).toContain('<loc>');
+      expect(xml).not.toContain('llms.html');
+    }
   });
 });
