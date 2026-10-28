@@ -111,7 +111,7 @@ describe('generatePageTitle: suffix from src/config/site.ts, text unchanged', ()
     ['search', undefined, 'Search ● ToyTools'],
     ['architecture', undefined, 'Architecture ● ToyTools'],
     ['platform', undefined, 'The Platform Behind the Tools ● ToyTools'],
-    ['feedback', undefined, 'Suggest a Tool or Report an Issue ● ToyTools'],
+    ['feedback', undefined, 'Contact and feedback ● ToyTools'],
     ['privacy', undefined, 'Privacy ● ToyTools'],
     ['about', undefined, 'About ● ToyTools'],
     ['changelog', undefined, 'Changelog ● ToyTools'],
