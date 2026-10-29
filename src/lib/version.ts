@@ -14,7 +14,7 @@ export const VERSION_CONFIG: VersionConfig = {
   minor: 17,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-10-28',
+  releaseDate: '2026-10-29',
   description: 'Height comparison chart in feet and inches',
 };
 

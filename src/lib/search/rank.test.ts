@@ -258,7 +258,8 @@ describe('buildClientIndex', () => {
     // 2026-10-21: 13_200 → 13_250. Ovulation Calculator is one more name-catalog entry.
     // Measured 13_221 raw. Terms stay in search-terms.json. Catalog growth, not alias bloat.
     // 2026-10-28: 13_250 → 13_350. Height Comparison is one name-catalog entry (slug plus
-    // the name). Measured 13_301 raw. The name cannot shrink without renaming the tool.
+    // the name). main measured 13_239 raw before it, 11 bytes under 13_250, and the entry adds
+    // 62, so this branch measures 13_301 raw. The name cannot shrink without renaming the tool.
     // Terms stay in search-terms.json. Catalog growth, not alias bloat.
     const wire = Buffer.byteLength(JSON.stringify(buildCatalogWire()), 'utf8');
     expect(wire).toBeLessThan(13_350);

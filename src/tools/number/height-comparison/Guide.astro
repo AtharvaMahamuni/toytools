@@ -31,7 +31,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       A height comparison chart is a picture of several heights on one scale.
     </p>
     <p>
-      The useful part is the gap, because a subtraction in your head does not show whether you clear a door frame. You starts at 170 cm. The door beside that mark is 80 inches, which is 203.2 cm. The door is 33.2 cm taller. In feet and inches that gap is 1 ft 1.1 in.
+      The useful part is the gap, because a subtraction in your head does not show whether you clear a door frame. You starts at 170 cm. The door beside that mark is 80 inches, which is 203.2 cm, a common door height. The door is 33.2 cm taller. In feet and inches that gap is 1 ft 1.1 in.
     </p>
     <p>
       For example, a person at 180 cm stands next to that same door and the gap shrinks to 23.2 cm, about 9.1 inches. Move the marks, switch the unit, and the picture follows. The chart holds six heights. One is the minimum, so the last mark stays put.
@@ -45,7 +45,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
   <section id="feet-and-inches">
     <h2>How do feet and inches become centimetres? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      One inch is 2.54 centimetres, and one foot is exactly 12 inches.
+      The international inch converts feet and inches to centimetres with one fixed number. One inch is 2.54 centimetres, and one foot is exactly 12 inches. Every height chart in feet and inches, this one included, rests on that pair, so a height chart feet inches label and its centimetre label always describe the same mark.
     </p>
     <p>
       The formula is centimetres = feet × 30.48 + inches × 2.54. A foot is 12 × 2.54, which is 30.48 cm, so the two forms agree. The chart uses that international inch for every mark, including the ones you type.
@@ -61,7 +61,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       <li><strong>A bare number</strong> follows the cm or ft toggle. <strong>5 ft 11 in</strong> is feet and inches in either mode.</li>
     </ul>
     <p>
-      Quotes work the same way. 5'11 and 5'11" both mean 5 feet and 11 inches. A trailing foot with no inches, such as 6 ft, means 6 feet and 0 inches. Inches stop at 11. 5 ft 12 in is an error, not a silent carry into the next foot, because the person who typed 12 almost certainly miscounted.
+      Quotes work the same way. 5'11 and 5'11" both mean 5 feet and 11 inches. A trailing foot with no inches, such as 6 ft, means 6 feet and 0 inches. Inches can carry a decimal below 12, so 5 ft 11.5 in is 181.6 cm. 5 ft 12 in is an error, not a silent carry into the next foot, because the person who typed 12 almost certainly miscounted.
     </p>
   </section>
 
@@ -94,7 +94,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
   <section id="five-eleven">
     <h2>Why does 5.11 not mean 5 feet 11 inches? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      The dot in 5.11 is a decimal point, so feet mode reads decimal feet.
+      The dot in 5.11 is a decimal point, so feet mode will read 5.11 as decimal feet. The offer under the field lets you correct it to 5 ft 11 in with one tap.
     </p>
     <p>
       Typing 5.11 to mean 5 feet 11 inches is the mistake this chart is built to catch. 5.11 × 30.48 is 155.8 cm, which is 5 ft 1.3 in. Five feet 11 inches is 180.3 cm. The difference is about 25 cm, close to 10 inches. Both numbers are ordinary human heights, so the short mark does not look broken. It looks like a shorter person.

@@ -71,7 +71,8 @@ export type ParseResult =
 const EMPTY = 'Enter a height.';
 const BAD = 'Enter a height like 180 or 5 ft 11 in.';
 const COMMA_MSG = 'Use a dot for the decimal, not a comma.';
-const INCH_MSG = 'Inches only go to 11.';
+const INCH_MSG = 'Inches stay under 12.';
+const CM_PAIR = 'In centimetres, enter one number, like 175.';
 const ZERO = 'Enter a height above zero.';
 const RANGE_LOW = 'Heights start at 10 cm.';
 const RANGE_HIGH = 'Heights stop at 100 m.';
@@ -92,12 +93,9 @@ export function formatCm(cm: number): string {
 /** Feet and inches. Whole feet drop the inches. Under a foot, the feet are dropped. */
 export function formatFeet(cm: number): string {
   const total = round1(cm / CM_PER_INCH);
-  let feet = Math.floor(total / 12);
-  let inches = round1(total - feet * 12);
-  if (inches >= 12) {
-    feet += 1;
-    inches = 0;
-  }
+  // total has one decimal, so total - feet * 12 rounds to at most 11.9 and never carries.
+  const feet = Math.floor(total / 12);
+  const inches = round1(total - feet * 12);
   return feetInchesLabel(feet, inches);
 }
 
@@ -153,12 +151,12 @@ function bounded(cm: number, note?: string): ParseResult {
 }
 
 function fromFeetInches(feet: number, inches: number): ParseResult {
-  if (inches < 0 || inches > 11) return { ok: false, error: INCH_MSG };
+  if (inches < 0 || inches >= 12) return { ok: false, error: INCH_MSG };
   return bounded(feet * CM_PER_FOOT + inches * CM_PER_INCH);
 }
 
 /** Explicit feet-and-inches, in either unit mode. Null when the text is not that shape. */
-function parseExplicit(text: string): ParseResult | null {
+function parseExplicit(text: string, unit: HeightUnit): ParseResult | null {
   let match = text.match(/^(\d+(?:\.\d+)?)'\s*(\d+(?:\.\d+)?)?\s*"?$/);
   if (match) return fromFeetInches(Number(match[1]), match[2] == null ? 0 : Number(match[2]));
 
@@ -166,6 +164,7 @@ function parseExplicit(text: string): ParseResult | null {
   if (match) return fromFeetInches(Number(match[1]), match[2] == null ? 0 : Number(match[2]));
 
   match = text.match(/^(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)$/);
+  if (match && unit === 'cm') return { ok: false, error: CM_PAIR };
   if (match) return fromFeetInches(Number(match[1]), Number(match[2]));
 
   match = text.match(/^(\d+(?:\.\d+)?)\s*(?:cm|centimetres|centimeters)$/i);
@@ -181,12 +180,12 @@ function parseExplicit(text: string): ParseResult | null {
  * the metre equivalent, in case they meant centimetres.
  */
 export function parseHeight(raw: string, unit: HeightUnit): ParseResult {
-  const text = raw.trim().replace(/\u2032/g, "'").replace(/\u2033/g, '"');
+  const text = raw.trim().replace(/[\u2032\u2018\u2019]/g, "'").replace(/[\u2033\u201c\u201d]/g, '"').replace(/''/g, '"');
   if (!text) return { ok: false, error: EMPTY };
   if (/[,，]/.test(text)) return { ok: false, error: COMMA_MSG };
   if (text.startsWith('-')) return { ok: false, error: ZERO };
 
-  const explicit = parseExplicit(text);
+  const explicit = parseExplicit(text, unit);
   if (explicit) return explicit;
 
   const bare = text.match(/^(\d+(?:\.\d+)?)$/);
@@ -228,6 +227,12 @@ export function gapLine(figures: readonly Figure[], unit: HeightUnit): string {
   if (maxCm === minCm) return `${joinNames(named.map((figure) => figure.name))} are the same height.`;
   const tall = named.find((figure) => figure.cm === maxCm)!;
   const short = named.find((figure) => figure.cm === minCm)!;
+  const gapCm = maxCm - minCm;
+  const shown = unit === 'ft' ? round1(gapCm / CM_PER_INCH) : round1(gapCm);
+  if (shown === 0) {
+    const floor = unit === 'ft' ? '0.1 in' : '0.1 cm';
+    return `${tall.name} and ${short.name} are about the same height, less than ${floor} apart.`;
+  }
   return `${tall.name} ${be(tall.name)} ${formatHeight(maxCm - minCm, unit)} taller than ${short.name}.`;
 }
 

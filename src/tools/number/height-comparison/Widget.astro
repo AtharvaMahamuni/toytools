@@ -109,7 +109,13 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       if (TT.state) TT.state.save('height-comparison', { unit: unit, figures: figures }, ['unit', 'figures']);
     }
 
+    // A phone decimal keypad has no ' key and no space, so feet mode opens the text keyboard.
+    function keypad() {
+      return unit === 'ft' ? 'text' : 'decimal';
+    }
+
     function paintUnit() {
+      if (addHeight) addHeight.inputMode = keypad();
       for (var i = 0; i < unitBtns.length; i++) {
         var on = unitBtns[i].getAttribute('data-unit') === unit;
         unitBtns[i].classList.toggle('is-active', on);
@@ -266,7 +272,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
           height.className = 'widget-input';
           height.id = 'height-comparison-height-' + figure.id;
           height.type = 'text';
-          height.inputMode = 'decimal';
+          height.inputMode = keypad();
           height.value = api.format(figure.cm, unit);
           height.setAttribute('autocapitalize', 'off');
           height.setAttribute('autocorrect', 'off');
@@ -515,7 +521,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
   })();
 </script>
 
-<style>
+<style is:global>
   .hc-hero {
     margin: 0 0 var(--space-3);
     font-size: var(--text-lg);

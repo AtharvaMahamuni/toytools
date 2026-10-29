@@ -50,6 +50,27 @@ test.describe('height comparison', () => {
     await expect(page.locator('#height-comparison-hero')).not.toContainText('Door');
   });
 
+  test('draws every bar with a real height', async ({ page }) => {
+    await ready(page);
+    const heights = await page.locator('.hc-mark').evaluateAll((els) =>
+      els.map((el) => el.getBoundingClientRect().height),
+    );
+    expect(heights).toHaveLength(2);
+    for (const h of heights) expect(h).toBeGreaterThan(20);
+    // The door (203.2 cm) stands taller than You (170 cm).
+    expect(heights[1]!).toBeGreaterThan(heights[0]!);
+  });
+
+  test('accepts 5 ft 11.5 in and curly quotes', async ({ page }) => {
+    await ready(page);
+    await page.locator('#height-comparison-unit-ft').click();
+    await expect(page.locator('#height-comparison-height-you')).toHaveAttribute('inputmode', 'text');
+    await page.locator('#height-comparison-height-you').fill('5 ft 11.5 in');
+    await expect(page.locator('#height-comparison-hero')).toHaveText('Door is 8.5 in taller than You.');
+    await page.locator('#height-comparison-height-you').fill('5\u201911');
+    await expect(page.locator('#height-comparison-hero')).toHaveText('Door is 9 in taller than You.');
+  });
+
   test('does not scroll the page sideways', async ({ page }) => {
     await ready(page);
     const overflow = await page.evaluate(

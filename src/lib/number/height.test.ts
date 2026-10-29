@@ -44,10 +44,28 @@ describe('parseHeight', () => {
       expect(parseHeight('5\'11"', unit)).toEqual({ ok: true, cm: 180.34 });
       expect(parseHeight('5 ft 11 in', unit)).toEqual({ ok: true, cm: 180.34 });
       expect(parseHeight('5ft11', unit)).toEqual({ ok: true, cm: 180.34 });
-      expect(parseHeight('5 11', unit)).toEqual({ ok: true, cm: 180.34 });
       expect(parseHeight("5'", unit)).toEqual({ ok: true, cm: 152.4 });
       expect(parseHeight('5\u203211\u2033', unit)).toEqual({ ok: true, cm: 180.34 });
+      expect(parseHeight('5\u201911\u201d', unit)).toEqual({ ok: true, cm: 180.34 });
+      expect(parseHeight('5\u201811\u201c', unit)).toEqual({ ok: true, cm: 180.34 });
+      expect(parseHeight("5'11''", unit)).toEqual({ ok: true, cm: 180.34 });
     }
+  });
+
+  it('accepts fractional inches below 12', () => {
+    const half = parseHeight('5 ft 11.5 in', 'ft');
+    expect(half.ok).toBe(true);
+    if (half.ok) expect(half.cm).toBeCloseTo(181.61, 5);
+    const prime = parseHeight("5'11.99", 'cm');
+    expect(prime.ok).toBe(true);
+    if (prime.ok) expect(prime.cm).toBeCloseTo(152.4 + 11.99 * 2.54, 5);
+    expect(parseHeight("5'12", 'ft')).toMatchObject({ error: 'Inches stay under 12.' });
+    expect(parseHeight('5 ft 12.0 in', 'cm')).toMatchObject({ error: 'Inches stay under 12.' });
+  });
+
+  it('reads a space pair as feet and inches only in feet mode', () => {
+    expect(parseHeight('5 11', 'ft')).toEqual({ ok: true, cm: 180.34 });
+    expect(parseHeight('170 5', 'cm')).toEqual({ ok: false, error: 'In centimetres, enter one number, like 175.' });
   });
 
   it('follows the toggle for a bare number, and notes a huge feet value', () => {
@@ -60,6 +78,8 @@ describe('parseHeight', () => {
       expect(tall.note).toBe('180 feet is 54.9 m. Switch to centimetres if you meant 180 cm.');
     }
     expect(parseHeight('15', 'ft')).toEqual({ ok: true, cm: 457.2 });
+    const over = parseHeight('15.1', 'ft');
+    expect(over.ok && over.note).toBe('15.1 feet is 4.6 m. Switch to centimetres if you meant 15.1 cm.');
   });
 
   it('rejects empty, comma, negative, letters, too many inches, and out of range', () => {
@@ -70,8 +90,8 @@ describe('parseHeight', () => {
     expect(parseHeight('-5', 'cm')).toMatchObject({ ok: false, error: 'Enter a height above zero.' });
     expect(parseHeight('0', 'cm')).toMatchObject({ ok: false });
     expect(parseHeight('abc', 'ft')).toMatchObject({ ok: false });
-    expect(parseHeight("5'12", 'ft')).toMatchObject({ error: 'Inches only go to 11.' });
-    expect(parseHeight('5 12', 'cm')).toMatchObject({ error: 'Inches only go to 11.' });
+    expect(parseHeight("5'12", 'ft')).toMatchObject({ error: 'Inches stay under 12.' });
+    expect(parseHeight('5 12', 'ft')).toMatchObject({ error: 'Inches stay under 12.' });
     expect(parseHeight('9', 'cm')).toMatchObject({ error: 'Heights start at 10 cm.' });
     expect(parseHeight('10001', 'cm')).toMatchObject({ error: 'Heights stop at 100 m.' });
     expect(parseHeight('10', 'cm')).toEqual({ ok: true, cm: 10 });
@@ -135,5 +155,26 @@ describe('calculator runtime', () => {
     expect(typeof chart.trap).toBe('function');
     expect(chart.trap('5.11', 'ft')).not.toBeNull();
     expect(typeof tt.pitfall).toBe('function');
+  });
+});
+
+describe('formatHeight near a foot boundary', () => {
+  it('rolls 11.96 in up to the next foot without printing 12 in', () => {
+    // 182.8 cm is 71.97 in, which rounds to 72.0 in: 6 ft, not 5 ft 12 in.
+    expect(formatHeight(182.8, 'ft')).toBe('6 ft');
+    // 182.7 cm is 71.93 in: 5 ft 11.9 in.
+    expect(formatHeight(182.7, 'ft')).toBe('5 ft 11.9 in');
+    for (let tenths = 0; tenths < 3000; tenths++) {
+      expect(formatHeight(10 + tenths / 10, 'ft')).not.toMatch(/\b12(\.0)? in/);
+    }
+  });
+});
+
+describe('gapLine for a tiny difference', () => {
+  it('says about the same when the gap rounds to zero in the unit shown', () => {
+    expect(gapLine([you(180), door(180.08)], 'ft')).toBe('Door and You are about the same height, less than 0.1 in apart.');
+    expect(gapLine([you(180), door(180.04)], 'cm')).toBe('Door and You are about the same height, less than 0.1 cm apart.');
+    expect(gapLine([you(180), door(180.08)], 'cm')).toBe('Door is 0.1 cm taller than You.');
+    expect(gapLine([you(180), door(180.3)], 'ft')).toBe('Door is 0.1 in taller than You.');
   });
 });

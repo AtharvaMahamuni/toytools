@@ -10,6 +10,7 @@ export const config: ToolConfig = {
   tags: ['chart', 'feet', 'inches'],
   updatedAt: '2026-10-28',
   addedOn: '2026-10-28',
+  relatedTools: ['bmi-calculator', 'percentage-calculator'],
   engine: 'calculator',
   pattern: 'calculate',
   family: 'arithmetic',
