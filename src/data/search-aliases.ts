@@ -180,7 +180,7 @@ export const searchAliases: Record<string, string[]> = {
 
   // Health and fitness
   'bmi-calculator': ['body mass index'],
-  'height-comparison': ['height chart', 'compare heights'],
+  'height-comparison': ['height chart'],
   'pregnancy-due-date-calculator': ['naegele rule', 'how many weeks pregnant am i', 'estimated delivery date'],
   'ovulation-calculator': ['fertile window calculator', 'when am i ovulating', 'conception date calculator'],
   'body-fat-calculator': ['bodyfat percentage'],
