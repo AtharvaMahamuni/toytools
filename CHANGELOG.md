@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.17] - 2026-10-28
+
+### Added
+
+- **Height Comparison.** `/tool/number/height-comparison/` draws several heights on one scale, in centimetres or feet and inches. The chart opens with You at 170 cm beside a common 80 inch interior door, and you can add a basketball rim (10 ft), a kitchen counter (36 inches), or the US adult averages from the 2015 to 2018 NCHS survey (men 175.3 cm, women 161.3 cm). Typing 5.11 in feet mode is decimal feet, about 5 ft 1.3 in, and the page offers one tap to use 5 ft 11 in instead. The lineup stays in this browser. Copy writes both units and the gap as text. The guide is at `/guide/number-utilities/height-comparison/`.
+
 ## [alpha-v13.16.3] - 2026-10-28
 
 ### Added

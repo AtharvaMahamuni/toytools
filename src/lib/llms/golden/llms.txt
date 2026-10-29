@@ -45,7 +45,7 @@ Prepare text before a model. ToyTools does not run a model.
 ## Categories
 
 - [Text Utilities](https://toytoolsapp.com/category/text-utilities/): Count, transform, clean, and analyze text strings. (32 tools)
-- [Number Utilities](https://toytoolsapp.com/category/number-utilities/): Convert, format, and calculate numeric values quickly. (10 tools)
+- [Number Utilities](https://toytoolsapp.com/category/number-utilities/): Convert, format, and calculate numeric values quickly. (11 tools)
 - [Developer Utilities](https://toytoolsapp.com/category/developer-utilities/): Encode, decode, format, and inspect data structures. (35 tools)
 - [Productivity](https://toytoolsapp.com/category/productivity/): Simple tools to help you focus, plan, and get things done. (6 tools)
 - [Money and Finance](https://toytoolsapp.com/category/money-finance/): Calculate interest, savings, inflation, and plan smarter money decisions. (13 tools)

@@ -53,6 +53,7 @@ import { knowledge as gears } from '@tools/fidget/gears/knowledge';
 import { knowledge as habitStreakTracker } from '@tools/productivity/habit-streak-tracker/knowledge';
 import { knowledge as hashIdentifier } from '@tools/developer-utilities/hash-identifier/knowledge';
 import { knowledge as heartRateZoneCalculator } from '@tools/health/heart-rate-zone-calculator/knowledge';
+import { knowledge as heightComparison } from '@tools/number/height-comparison/knowledge';
 import { knowledge as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/knowledge';
 import { knowledge as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/knowledge';
 import { knowledge as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/knowledge';
@@ -224,6 +225,7 @@ export const authoredKnowledge: Knowledge[] = [
   habitStreakTracker,
   hashIdentifier,
   heartRateZoneCalculator,
+  heightComparison,
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,
   idealWeightCalculator,

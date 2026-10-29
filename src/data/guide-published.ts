@@ -12,6 +12,7 @@
  * entry before the first commit. Never change an existing date.
  */
 export const guidePublishedAt: Record<string, string> = {
+  'height-comparison': '2026-10-28',
   'ovulation-calculator': '2026-10-21',
   'pregnancy-due-date-calculator': '2026-10-21',
   'loan-calculator': '2026-10-21',

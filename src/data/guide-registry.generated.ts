@@ -53,6 +53,7 @@ export const authoredGuideSlugs = [
   'habit-streak-tracker',
   'hash-identifier',
   'heart-rate-zone-calculator',
+  'height-comparison',
   'hex-encoder-decoder',
   'html-entity-encoder-decoder',
   'ideal-weight-calculator',

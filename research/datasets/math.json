@@ -531,6 +531,46 @@
       "difficulty": "medium",
       "localization": 80,
       "algorithmicFit": 100
+    },
+    {
+      "query": "height comparison chart",
+      "problem": "I want several heights drawn to one scale, including a height I type, so I can see the gap between a person and a door.",
+      "intent": "comparison",
+      "transformation": "Height Comparison",
+      "proposedTool": "height-comparison",
+      "proposedName": "Height Comparison",
+      "proposedEngine": "calculator",
+      "searchQueries": [
+        "height comparison",
+        "height comparison chart",
+        "height chart feet inches"
+      ],
+      "existingSolutions": [
+        "heightcomparison.com"
+      ],
+      "solutionWeaknesses": [
+        "account and live catalog required",
+        "celebrity and building database shrinks the people",
+        "a typed 5.11 is left as decimal feet with no recovery"
+      ],
+      "userFailures": [
+        "Typing 5.11 to mean 5 feet 11 inches is read as decimal feet, about 5 feet 1 inch, and the chart looks plausible enough that the mistake is not obvious."
+      ],
+      "relatedProblems": [
+        "feet and inches",
+        "centimetres to feet",
+        "door height",
+        "how tall is the rim"
+      ],
+      "relatedTools": [
+        "percentage-calculator"
+      ],
+      "demand": 72,
+      "competition": 58,
+      "evergreen": 90,
+      "difficulty": "low",
+      "localization": 84,
+      "algorithmicFit": 100
     }
   ]
 }

@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 16,
-  patch: 3,
+  minor: 17,
+  patch: 0,
   status: 'alpha',
   releaseDate: '2026-10-28',
-  description: 'AI files state the tool-data privacy fact, not Nothing is uploaded',
+  description: 'Height comparison chart in feet and inches',
 };
 
 export function formatVersion(config: VersionConfig): string {

@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-24T19:18:18.907Z",
+  "generatedAt": "2026-10-28T17:55:03.892Z",
   "clusters": [
     {
       "id": "quadratic-equations",
@@ -1015,6 +1015,34 @@
         "inflation-calculator",
         "loan-calculator",
         "savings-goal-calculator"
+      ]
+    },
+    {
+      "id": "height-comparison",
+      "transformation": "Height Comparison",
+      "engine": "calculator",
+      "members": [
+        "height-comparison"
+      ],
+      "existingMembers": [
+        "discount-calculator",
+        "height-comparison",
+        "margin-calculator",
+        "markup-calculator",
+        "percentage-calculator",
+        "scientific-calculator",
+        "tax-calculator",
+        "tip-calculator"
+      ],
+      "size": 1,
+      "meanScore": 79,
+      "internalLinks": [
+        "discount-calculator",
+        "height-comparison",
+        "margin-calculator",
+        "markup-calculator",
+        "percentage-calculator",
+        "scientific-calculator"
       ]
     },
     {

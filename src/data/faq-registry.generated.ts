@@ -53,6 +53,7 @@ import { items as gearsFaqs } from '@tools/fidget/gears/faq';
 import { items as habitStreakTrackerFaqs } from '@tools/productivity/habit-streak-tracker/faq';
 import { items as hashIdentifierFaqs } from '@tools/developer-utilities/hash-identifier/faq';
 import { items as heartRateZoneCalculatorFaqs } from '@tools/health/heart-rate-zone-calculator/faq';
+import { items as heightComparisonFaqs } from '@tools/number/height-comparison/faq';
 import { items as hexEncoderDecoderFaqs } from '@tools/developer-utilities/hex-encoder-decoder/faq';
 import { items as htmlEntityEncoderDecoderFaqs } from '@tools/developer-utilities/html-entity-encoder-decoder/faq';
 import { items as idealWeightCalculatorFaqs } from '@tools/health/ideal-weight-calculator/faq';
@@ -224,6 +225,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'habit-streak-tracker': habitStreakTrackerFaqs,
   'hash-identifier': hashIdentifierFaqs,
   'heart-rate-zone-calculator': heartRateZoneCalculatorFaqs,
+  'height-comparison': heightComparisonFaqs,
   'hex-encoder-decoder': hexEncoderDecoderFaqs,
   'html-entity-encoder-decoder': htmlEntityEncoderDecoderFaqs,
   'ideal-weight-calculator': idealWeightCalculatorFaqs,

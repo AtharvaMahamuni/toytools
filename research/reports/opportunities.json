@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-24T19:18:18.907Z",
+  "generatedAt": "2026-10-28T17:55:03.892Z",
   "opportunities": [
     {
       "id": "running-pace-calculator",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "runnersworld.com",
         "calculator.net",
@@ -102,7 +102,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "strengthlevel.com",
         "bodybuilding.com",
@@ -183,7 +183,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "symbolab.com",
         "calculator.net",
@@ -263,7 +263,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "mobile fidget apps",
         "ad-heavy web clones"
@@ -347,7 +347,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "calculator.net",
         "mathway.com",
@@ -431,7 +431,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "w3schools.com/colors",
         "rgbtohex.net"
@@ -510,7 +510,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "mathsisfun.com",
         "khanacademy.org",
@@ -589,7 +589,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -615,7 +615,6 @@
       ],
       "relatedGuides": [
         "remove-blank-lines",
-        "normalize-whitespace",
         "remove-extra-spaces",
         "camel-case-converter",
         "chat-export-cleaner",
@@ -668,7 +667,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "casual game sites with ads",
         "mobile apps",
@@ -753,7 +752,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "calculator.net",
         "calculatorsoup.com",
@@ -836,7 +835,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "nekocalc.com/px-to-rem",
         "pxtorem.com"
@@ -910,7 +909,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "ASMR videos",
         "mobile switch simulators"
@@ -994,7 +993,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -1072,7 +1071,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "calculatorsoup.com",
         "calculator.net",
@@ -1155,7 +1154,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "webaim.org/resources/contrastchecker",
         "coolors.co/contrast-checker"
@@ -1235,7 +1234,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "pixplicity.com/dp-px-converter",
         "angrytools px to dp"
@@ -1307,7 +1306,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -1385,7 +1384,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "andrew.hedges.name/experiments/aspect_ratio",
         "calculateaspectratio.com"
@@ -1457,7 +1456,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calculator.net"
@@ -1536,7 +1535,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -1618,7 +1617,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -1696,7 +1695,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -1777,7 +1776,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -1856,7 +1855,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "physics applets",
         "engineering textbooks",
@@ -1941,7 +1940,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -2023,7 +2022,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "jsoneditoronline.org",
         "diffchecker",
@@ -2111,7 +2110,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "Google's featured snippet",
         "whatismyipaddress.com",
@@ -2197,7 +2196,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "subnet-calculator.com",
         "whatismyip.com cidr calculator",
@@ -2283,7 +2282,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -2360,7 +2359,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -2437,7 +2436,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -2522,7 +2521,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -2604,7 +2603,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "app stores",
         "ad-supported browser games"
@@ -2683,7 +2682,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "periodictable.com",
         "omnicalculator.com",
@@ -2767,7 +2766,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -2851,7 +2850,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "uicolors.app",
         "smart-swatch"
@@ -2933,7 +2932,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "online md5 file hash sites",
         "shasum in a terminal",
@@ -3019,7 +3018,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "typescale.com",
         "type-scale.com"
@@ -3093,7 +3092,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -3170,7 +3169,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -3251,7 +3250,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "regex101.com",
         "regexr.com",
@@ -3334,7 +3333,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "groww.in",
         "moneycontrol.com"
@@ -3395,6 +3394,85 @@
       "craftRisk": false
     },
     {
+      "id": "height-comparison",
+      "title": "Height Comparison",
+      "problem": "I want several heights drawn to one scale, including a height I type, so I can see the gap between a person and a door.",
+      "userIntent": "comparison",
+      "workflow": "numbers → Height Comparison → a computed result",
+      "transformation": "Height Comparison",
+      "proposedTool": "height-comparison",
+      "proposedEngine": "calculator",
+      "searchQueries": [
+        "height comparison chart",
+        "height comparison",
+        "height chart feet inches"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
+      "existingSolutions": [
+        "heightcomparison.com"
+      ],
+      "solutionWeaknesses": [
+        "account and live catalog required",
+        "celebrity and building database shrinks the people",
+        "a typed 5.11 is left as decimal feet with no recovery"
+      ],
+      "userFailures": [
+        "Typing 5.11 to mean 5 feet 11 inches is read as decimal feet, about 5 feet 1 inch, and the chart looks plausible enough that the mistake is not obvious."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "feet and inches",
+        "centimetres to feet",
+        "door height",
+        "how tall is the rim"
+      ],
+      "relatedTools": [
+        "percentage-calculator",
+        "discount-calculator",
+        "height-comparison",
+        "margin-calculator",
+        "markup-calculator",
+        "scientific-calculator"
+      ],
+      "relatedGuides": [
+        "percentage-calculator",
+        "discount-calculator",
+        "height-comparison",
+        "margin-calculator",
+        "markup-calculator",
+        "scientific-calculator"
+      ],
+      "relatedFaqs": [
+        "percentage-calculator",
+        "discount-calculator",
+        "height-comparison",
+        "margin-calculator",
+        "markup-calculator",
+        "scientific-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.9,
+      "competitionScore": 0.6,
+      "searchDemand": 0.72,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.65,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.34,
+      "localizationPotential": 0.84,
+      "algorithmicFit": 1,
+      "authorityWinnability": 1,
+      "confidence": 0.8,
+      "finalScore": 79,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
       "id": "spinner",
       "title": "Fidget Spinner",
       "problem": "I want a physics-based fidget spinner in the browser I can flick with mouse or touch, with momentum that feels right and optional tick sounds.",
@@ -3414,7 +3492,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "novelty web toys",
         "mobile apps"
@@ -3499,7 +3577,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "meditation apps",
         "YouTube timers"
@@ -3583,7 +3661,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com",
@@ -3665,7 +3743,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "random.org",
         "calculator.net",
@@ -3746,7 +3824,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -3771,7 +3849,6 @@
       ],
       "relatedGuides": [
         "remove-extra-spaces",
-        "normalize-whitespace",
         "camel-case-converter",
         "chat-export-cleaner",
         "context-fit-checker",
@@ -3822,7 +3899,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
@@ -3899,7 +3976,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "rules blog posts",
         "one-off itch.io prototypes",
@@ -3976,7 +4053,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -4054,7 +4131,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "coblis (color-blindness.com)",
         "venngage colorblind simulator"
@@ -4136,7 +4213,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "omnicalculator.com",
         "chemicalaid.com",
@@ -4220,7 +4297,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "healthline.com",
         "bodybuilding.com",
@@ -4300,7 +4377,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
@@ -4378,7 +4455,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -4461,7 +4538,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -4538,7 +4615,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -4615,7 +4692,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "browser bits-and-bytes converters",
         "rapidtables",
@@ -4693,7 +4770,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "calculator.net",
         "onlinestatbook.com",
@@ -4776,7 +4853,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -4854,7 +4931,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calctool.org",
@@ -4935,7 +5012,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -5018,7 +5095,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calculator.net"
@@ -5101,7 +5178,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "academic demos",
         "PDF rule sheets",
@@ -5180,7 +5257,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "desmos.com",
         "socscistatistics.com",
@@ -5264,7 +5341,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -5343,7 +5420,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -5423,7 +5500,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -5503,7 +5580,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "hashes.com",
         "command-line shasum",
@@ -5598,7 +5675,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "mobile sand games",
         "heavy WebGL demos"
@@ -5681,7 +5758,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -5766,7 +5843,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "mobile slime apps",
         "flash-era toys"
@@ -5851,7 +5928,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "regex snippets on stack overflow",
         "language-specific UUID libraries"
@@ -5944,7 +6021,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "chemtube3d.com",
         "molview.org",
@@ -6026,7 +6103,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "a hex editor",
         "regex hunting in an IDE",
@@ -6059,7 +6136,6 @@
       ],
       "relatedGuides": [
         "remove-line-breaks",
-        "normalize-whitespace",
         "slugify-text",
         "text-compare",
         "invisible-character-detector",
@@ -6119,7 +6195,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -6200,7 +6276,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "libretexts.org",
         "chemistrylearner.com",
@@ -6281,7 +6357,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -6360,7 +6436,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "libretexts.org",
         "chemicalaid.com",
@@ -6443,7 +6519,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -6523,7 +6599,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -6599,7 +6675,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "Goodreads",
         "StoryGraph",
@@ -6685,7 +6761,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "cssgradient.io",
         "coolors gradient maker"
@@ -6766,7 +6842,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "calculator.net",
         "who.int",
@@ -6848,7 +6924,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -6926,7 +7002,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "babycenter.com",
         "clearblue.com",
@@ -7009,7 +7085,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "phone app stores",
         "wearable companion apps"
@@ -7086,7 +7162,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "spreadsheet locale settings",
         "language date parsing docs",
@@ -7178,7 +7254,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -7256,7 +7332,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -7335,7 +7411,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "mdcalc.com",
         "calculator.net"
@@ -7418,7 +7494,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "systemd-analyze calendar on a machine you already have",
         "the systemd.time man page",
@@ -7512,7 +7588,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "cyberchef",
         "stack overflow answers",
@@ -7605,7 +7681,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -7685,7 +7761,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "omnicalculator.com",
         "healthline.com"
@@ -7766,7 +7842,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -7843,7 +7919,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -7924,7 +8000,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "imagecolorpicker.com",
         "coolors image picker"
@@ -8006,7 +8082,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -8086,7 +8162,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -8165,7 +8241,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "crontab.guru"
       ],
@@ -8245,7 +8321,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "trial and error against the real server",
         "python shlex.quote in a REPL",
@@ -8337,7 +8413,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -8403,7 +8479,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "ilovepdf.com",
         "smallpdf.com",
@@ -8474,7 +8550,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "cloudconvert",
         "iloveimg",
@@ -8548,7 +8624,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "Google Calendar",
         "timeanddate.com",
@@ -8623,7 +8699,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -8687,7 +8763,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -8767,7 +8843,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "drikpanchang.com",
         "local print calendars",
@@ -8838,7 +8914,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -8908,7 +8984,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-28T17:55:03.892Z",
       "existingSolutions": [
         "eatthismuch.com",
         "myfitnesspal.com",

@@ -241,7 +241,9 @@ test.describe('homepage index', () => {
     // a mode of the color converters. 117 + 1 + 1 + 1 = 120 directory links.
     // Pregnancy Due Date Calculator (alpha-v13.9) is ungrouped. Ovulation Calculator
     // (alpha-v13.10) is ungrouped too: a fertile window is not a mode of the due date page.
-    await expect(directory.locator('.dir-link')).toHaveCount(122);
+    // Height Comparison (alpha-v13.17) is ungrouped: a chart of heights is not a mode of
+    // the percentage or tip calculators. 122 + 1 = 123 directory links.
+    await expect(directory.locator('.dir-link')).toHaveCount(123);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {
