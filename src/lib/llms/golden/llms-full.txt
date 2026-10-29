@@ -898,6 +898,13 @@ Use for: Sale price and how much you save, by percentage or amount.
 Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
+## Height Comparison
+
+URL: https://toytoolsapp.com/tool/number/height-comparison/
+Use for: See heights on one chart, in feet or centimetres.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
+Does not: Look up celebrity or athlete heights, keep an account, or call a server.
+
 ## Margin Calculator
 
 URL: https://toytoolsapp.com/tool/number/margin-calculator/

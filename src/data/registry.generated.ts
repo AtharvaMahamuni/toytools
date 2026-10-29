@@ -53,6 +53,7 @@ import { config as gears } from '@tools/fidget/gears/config';
 import { config as habitStreakTracker } from '@tools/productivity/habit-streak-tracker/config';
 import { config as hashIdentifier } from '@tools/developer-utilities/hash-identifier/config';
 import { config as heartRateZoneCalculator } from '@tools/health/heart-rate-zone-calculator/config';
+import { config as heightComparison } from '@tools/number/height-comparison/config';
 import { config as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/config';
 import { config as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/config';
 import { config as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/config';
@@ -224,6 +225,7 @@ export const toolConfigs: ToolConfig[] = [
   habitStreakTracker,
   hashIdentifier,
   heartRateZoneCalculator,
+  heightComparison,
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,
   idealWeightCalculator,

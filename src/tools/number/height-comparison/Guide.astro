@@ -1,0 +1,172 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="what-it-is">
+    <h2>What is a height comparison chart? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A height comparison chart is a picture of several heights on one scale.
+    </p>
+    <p>
+      The useful part is the gap, because a subtraction in your head does not show whether you clear a door frame. You starts at 170 cm. The door beside that mark is 80 inches, which is 203.2 cm, a common door height. The door is 33.2 cm taller. In feet and inches that gap is 1 ft 1.1 in.
+    </p>
+    <p>
+      For example, a person at 180 cm stands next to that same door and the gap shrinks to 23.2 cm, about 9.1 inches. Move the marks, switch the unit, and the picture follows. The chart holds six heights. One is the minimum, so the last mark stays put.
+    </p>
+    <p>
+      170 cm is a placeholder so the page is not empty. It is not an average, and it is not a guess at your height. Replace it.
+    </p>
+    <a href={toolHref} class="cta-link">Open the height comparison chart</a>
+  </section>
+
+  <section id="feet-and-inches">
+    <h2>How do feet and inches become centimetres? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The international inch converts feet and inches to centimetres with one fixed number. One inch is 2.54 centimetres, and one foot is exactly 12 inches. Every height chart in feet and inches, this one included, rests on that pair, so a height chart feet inches label and its centimetre label always describe the same mark.
+    </p>
+    <p>
+      The formula is centimetres = feet × 30.48 + inches × 2.54. A foot is 12 × 2.54, which is 30.48 cm, so the two forms agree. The chart uses that international inch for every mark, including the ones you type.
+    </p>
+    <p>
+      For example, 5 feet 11 inches is 5 × 30.48 + 11 × 2.54. That is 152.4 + 27.94, or 180.34 cm. The label rounds to 180.3 cm and still reads 5 ft 11 in, because 180.34 cm is 71 inches and 71 inches is 5 feet and 11 inches exactly.
+    </p>
+    <ul>
+      <li><strong>180 cm</strong> is 5 ft 10.9 in. It is a hair under 5 ft 11 in.</li>
+      <li><strong>170 cm</strong> is 5 ft 6.9 in. That is the opening mark labelled You.</li>
+      <li><strong>175.3 cm</strong> is 5 ft 9 in. That is the US adult male mean on this chart.</li>
+      <li><strong>161.3 cm</strong> is 5 ft 3.5 in. That is the US adult female mean.</li>
+      <li><strong>A bare number</strong> follows the cm or ft toggle. <strong>5 ft 11 in</strong> is feet and inches in either mode.</li>
+    </ul>
+    <p>
+      Quotes work the same way. 5'11 and 5'11" both mean 5 feet and 11 inches. A trailing foot with no inches, such as 6 ft, means 6 feet and 0 inches. Inches can carry a decimal below 12, so 5 ft 11.5 in is 181.6 cm. 5 ft 12 in is an error, not a silent carry into the next foot, because the person who typed 12 almost certainly miscounted.
+    </p>
+  </section>
+
+  <section id="reference-heights">
+    <h2>Which reference heights are on the chart? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Five presets sit under the fields, and each one has a source.
+    </p>
+    <p>
+      They are human-scale on purpose. A tower next to a person forces the person down to a speck, and the gap you opened the page to see is gone. Checking whether you clear a doorway stays readable here. So does seeing how you stand next to an average adult. So does reading the gap to a basketball rim or a kitchen counter. The tallest preset is a rim, not a tower.
+    </p>
+    <ul>
+      <li><strong>Door.</strong> 80 inches, 203.2 cm, 6 ft 8 in. A common finished height for a US interior door. Not a statute. Measure your own slab if the gap to that slab is the question.</li>
+      <li><strong>Basketball rim.</strong> 10 feet, 304.8 cm. That is the NBA height. FIBA sets the rim at 3.05 m, which is 305 cm, two millimetres higher. The chart stores 304.8 cm so the label is exactly 10 ft. The two millimetres do not move the pole.</li>
+      <li><strong>Counter.</strong> 36 inches, 91.44 cm, which formats as 91.4 cm and 3 ft. A common finished height for a US kitchen counter.</li>
+      <li><strong>Average man.</strong> 175.3 cm, about 5 ft 9 in.</li>
+      <li><strong>Average woman.</strong> 161.3 cm, about 5 ft 3.5 in.</li>
+    </ul>
+    <p>
+      The two averages are means for US adults aged 20 and over, all race and Hispanic-origin groups combined, from the 2015-2018 examination. Fryar, Carroll, Gu, Afful, and Ogden published them in NCHS Vital and Health Statistics, Series 3, Number 46 (2021). Men are Table 11, the row "20 and over". Women are Table 9, the same row. A later survey reports men at 175.1 cm. This chart keeps the pair that was published together, so the man and the woman come from one table set.
+    </p>
+    <p>
+      For example, the male mean beside the door leaves a gap of 27.9 cm. That is 203.2 minus 175.3. The female mean leaves 41.9 cm. Neither number says anything about a single person. Seeing how you stand next to an average adult is a picture of those published means, not a verdict on you.
+    </p>
+    <ReferenceBlock type="note" heading="You at 170 cm is not an average">
+      <p>The opening person is a round placeholder so the door has something to stand beside. The US male mean on this chart is 175.3 cm. The female mean is 161.3 cm. Type your own height over the 170.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="five-eleven">
+    <h2>Why does 5.11 not mean 5 feet 11 inches? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The dot in 5.11 is a decimal point, so feet mode will read 5.11 as decimal feet. The offer under the field lets you correct it to 5 ft 11 in with one tap.
+    </p>
+    <p>
+      Typing 5.11 to mean 5 feet 11 inches is the mistake this chart is built to catch. 5.11 × 30.48 is 155.8 cm, which is 5 ft 1.3 in. Five feet 11 inches is 180.3 cm. The difference is about 25 cm, close to 10 inches. Both numbers are ordinary human heights, so the short mark does not look broken. It looks like a shorter person.
+    </p>
+    <p>
+      For example, leave the unit on feet, replace You with 5.11, and the door's lead grows from 33.2 cm to about 47 cm. The offer under the field says what the decimal actually is, and one tap switches that mark to 5 ft 11 in. After the tap, the door is 9 inches taller than You, because 203.2 minus 180.34 is 22.86 cm and 22.86 cm is 9 inches.
+    </p>
+    <p>
+      The offer stays quiet the rest of the time. 5'11 and 5 ft 11 in are already explicit, so there is nothing to repair. 5.5 has one decimal place. 6.2 has one decimal place too, and 6.2 feet versus 6 ft 2 in is about a centimetre, not the two-digit trap. 5.12 has 12 in the inches place, which is not a legal inch count, so it stays decimal feet: 5.12 feet, not an offer to invent a 12th inch. 5.00 is five feet either way. Centimetre mode never treats 5.11 as feet.
+    </p>
+    <p>
+      Feet above 12 are left alone as well. 40.05 is a tall decimal, not a request for 40 feet and 5 inches. The offer is only for a feet part from 0 to 12 and an inches part from 00 to 11, and only when the two readings differ by at least a centimetre.
+    </p>
+  </section>
+
+  <section id="versus-a-catalog">
+    <h2>How is this different from a celebrity height site? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The difference between a catalog and a scale is who picks the marks.
+    </p>
+    <p>
+      A celebrity chart arrives with actors, athletes, and buildings already chosen. Reported heights in that kind of list are uneven: some were measured, some were rounded to a neat foot, and some are publicity. Photos and accounts come with the list. This chart does none of that. It plots the height you type, plus the five cited references above.
+    </p>
+    <p>
+      Versus a page that drops a skyscraper into the row, the tallest preset here is the rim at 10 feet. That choice is the whole product. For example, a 300 metre tower beside a 1.7 metre person leaves the person at about half a percent of the stage. The door, the counter, and the person become one smudge. Reading the gap to a basketball rim or a kitchen counter still shows a person-sized difference. A typed value can be tall, up to 100 m, and the other marks shrink to match it. That is honest scale. The presets simply refuse to start you there.
+    </p>
+    <p>
+      Nothing you type is sent away. There is no sign-in. Copy gives a text summary with both units and the gap in the unit on screen. It does not build a link, so a shared address bar is not how these numbers travel.
+    </p>
+  </section>
+
+  <section id="mistakes">
+    <h2>Which mistakes change the picture? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Three input mistakes move a mark while the chart still looks tidy.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Typing 5.11 to mean 5 feet 11 inches">
+      <p>Feet mode treats 5.11 as 5.11 feet, about 5 ft 1.3 in (155.8 cm). The inches reading is 5 ft 11 in (180.3 cm). Use the offer when the inches reading is the one you meant. The chart will not guess on 5.5, on 5'11, or while the unit is centimetres.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Reading a comma as a decimal point">
+      <p>1,80 is not 1.80 and it is not 180. The field asks for a dot. A comma is rejected so a thousands separator cannot silently become a decimal and land on a tiny mark. Type 180 or 1.80.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Leaving the unit on feet while typing a centimetre value">
+      <p>A bare 180 while the toggle says feet is 180 feet, which is 54.9 m. The chart plots it, because 180 feet is a real length, and it adds a note with the metre equivalent. Switch to centimetres if you meant 180 cm. The note starts only above 15 feet. Fifteen feet is 4.6 m and stays quiet.</p>
+    </ReferenceBlock>
+    <p>
+      For example, an empty name becomes Person on the chart. A height under 10 cm, or over 100 m, is rejected rather than drawn as a hairline or a column that flattens everyone else by accident. Zero and a minus sign are rejected too.
+    </p>
+    <p>
+      Reorder with Left and Right. There is no drag handle, because a thumb dragging a column fights the page scroll. Remove deletes one mark and stops at the last one. Clear asks twice, then restores You at 170 cm and the door. The unit you picked stays.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

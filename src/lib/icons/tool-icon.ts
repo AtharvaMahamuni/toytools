@@ -191,6 +191,7 @@ const SLUG_GLYPH: Record<string, string> = {
   'margin-calculator': 'chartUp',
   'markup-calculator': 'markup',
   'scientific-calculator': 'calculator',
+  'height-comparison': 'heightBars',
 
   // money — specifics beyond the family default
   'sip-calculator': 'recurring',

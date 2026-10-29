@@ -125,7 +125,7 @@
       "supportedFamilies": [
         "arithmetic"
       ],
-      "toolCount": 7
+      "toolCount": 8
     },
     "productivity": {
       "name": "Productivity Engine",
@@ -1976,6 +1976,27 @@
       "family": "cardio",
       "processorId": "heart-rate-zones",
       "toolGroup": "body-metrics",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "height-comparison": {
+      "name": "Height Comparison",
+      "dir": "src/tools/number/height-comparison",
+      "categorySlug": "number-utilities",
+      "url": "/tool/number/height-comparison/",
+      "engine": "calculator",
+      "pattern": "calculate",
+      "family": "arithmetic",
+      "processorId": "",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

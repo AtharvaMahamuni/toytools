@@ -103,6 +103,8 @@ export const GLYPHS: Record<string, string> = {
   chartUp: S + '<path d="M3 17 9 11l4 3 8-8"/><path d="M15 6h6v6"/>' + E,
   chartBar: S + '<path d="M3 21h18"/><rect x="5" y="11" width="3.5" height="8" rx=".6"/><rect x="10.2" y="7" width="3.5" height="12" rx=".6"/><rect x="15.4" y="13" width="3.5" height="6" rx=".6"/>' + E,
   calculator: S + '<rect x="4.5" y="3" width="15" height="18" rx="2.5"/><path d="M8 7h8"/><path d="M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>' + E,
+  // Two standing figures on a ground line. The shorter one is the point of the chart.
+  heightBars: S + '<path d="M3 20.5h18"/><circle cx="8" cy="8.2" r="1.7"/><path d="M8 10v10.5"/><circle cx="16" cy="4.6" r="1.7"/><path d="M16 6.4V20.5"/>' + E,
 
   // ── money & finance ───────────────────────────────────────────────────
   coins: '<g fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><ellipse cx="9" cy="7" rx="5.2" ry="2.4"/><path d="M3.8 7v3.6c0 1.3 2.3 2.4 5.2 2.4"/><ellipse cx="15" cy="14.5" rx="5.2" ry="2.4"/><path d="M9.8 14.6v2.9c0 1.3 2.3 2.4 5.2 2.4s5.2-1.1 5.2-2.4v-2.9"/></g>',

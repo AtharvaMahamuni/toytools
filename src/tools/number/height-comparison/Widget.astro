@@ -1,0 +1,726 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
+---
+
+<div class="calc-ledger" data-tool="height-comparison">
+  <ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
+    <IoPanel slot="output" label="Chart" variant="prose" result bare>
+      <p class="hc-hero" id="height-comparison-hero">Door is 33.2 cm taller than You.</p>
+      <div class="hc-chart" id="height-comparison-stage" role="img" aria-labelledby="height-comparison-hero">
+        <div class="hc-sheet" id="height-comparison-sheet" aria-hidden="true"></div>
+      </div>
+    </IoPanel>
+
+    <IoPanel slot="input" label="Heights" variant="prose" bare>
+      <div class="io-body">
+        <span class="widget-label" id="height-comparison-unit-label">Unit</span>
+        <div class="hc-units" role="group" aria-labelledby="height-comparison-unit-label">
+          <button type="button" class="hc-btn is-active" id="height-comparison-unit-cm" data-unit="cm" aria-pressed="true">cm</button>
+          <button type="button" class="hc-btn" id="height-comparison-unit-ft" data-unit="ft" aria-pressed="false">ft</button>
+        </div>
+
+        <div class="hc-rows" id="height-comparison-rows"></div>
+
+        <div class="hc-add">
+          <span class="widget-label" id="height-comparison-add-label">Add a height</span>
+          <input id="height-comparison-add-name" class="widget-input" type="text" maxlength="24" placeholder="Name" autocomplete="name" autocapitalize="words" aria-label="Name to add" />
+          <input id="height-comparison-add-height" class="widget-input" type="text" inputmode="decimal" enterkeyhint="done" placeholder="180 or 5 ft 11 in" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Height to add" />
+          <p class="hc-error" id="height-comparison-error" role="alert" hidden></p>
+          <p class="hc-warn" id="height-comparison-warn" role="status" hidden></p>
+          <CraftNote id="height-comparison-note" craftId="feet-inches-dot" action={true} />
+          <button type="button" class="hc-btn hc-btn--add" id="height-comparison-add">Add</button>
+        </div>
+
+        <span class="widget-label" id="height-comparison-ref-label">References</span>
+        <div class="hc-presets" role="group" aria-labelledby="height-comparison-ref-label">
+          <button type="button" class="hc-btn" data-ref="door">Door</button>
+          <button type="button" class="hc-btn" data-ref="rim">Basketball rim</button>
+          <button type="button" class="hc-btn" data-ref="counter">Counter</button>
+          <button type="button" class="hc-btn" data-ref="man">Average man</button>
+          <button type="button" class="hc-btn" data-ref="woman">Average woman</button>
+        </div>
+      </div>
+    </IoPanel>
+  </ToolSplit>
+</div>
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id="height-comparison-copy" type="button">Copy</button>
+  <button class="action-btn action-btn--clear" id="height-comparison-clear" type="button">Clear</button>
+</div>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-tool="height-comparison"]');
+    if (!root || !window.ToyTools || !window.ToyTools.onReady) return;
+    var TT = window.ToyTools;
+
+    var hero = document.getElementById('height-comparison-hero');
+    var stage = document.getElementById('height-comparison-stage');
+    var sheet = document.getElementById('height-comparison-sheet');
+    var rowsEl = document.getElementById('height-comparison-rows');
+    var errEl = document.getElementById('height-comparison-error');
+    var warnEl = document.getElementById('height-comparison-warn');
+    var noteEl = document.getElementById('height-comparison-note');
+    var noteTxt = document.getElementById('height-comparison-note-text');
+    var noteBtn = document.getElementById('height-comparison-note-action');
+    var addName = document.getElementById('height-comparison-add-name');
+    var addHeight = document.getElementById('height-comparison-add-height');
+    var addBtn = document.getElementById('height-comparison-add');
+    var copyBtn = document.getElementById('height-comparison-copy');
+    var clearBtn = document.getElementById('height-comparison-clear');
+    var unitBtns = root.querySelectorAll('[data-unit]');
+    var presetBtns = root.querySelectorAll('[data-ref]');
+
+    var api = null;
+    var unit = 'cm';
+    var figures = [];
+    var seq = 1;
+    var trapTarget = null;
+    var KINDS = { person: 1, door: 1, counter: 1, rim: 1 };
+
+    function show(el, text) {
+      if (!el) return;
+      el.textContent = text || '';
+      el.hidden = !text;
+    }
+
+    function displayName(name) {
+      var trimmed = String(name || '').trim();
+      return trimmed ? trimmed.slice(0, 24) : 'Person';
+    }
+
+    function namedFigures() {
+      var out = [];
+      for (var i = 0; i < figures.length; i++) {
+        out.push({
+          id: figures[i].id,
+          name: displayName(figures[i].name),
+          cm: figures[i].cm,
+          kind: figures[i].kind,
+        });
+      }
+      return out;
+    }
+
+    function persist() {
+      if (TT.state) TT.state.save('height-comparison', { unit: unit, figures: figures }, ['unit', 'figures']);
+    }
+
+    // A phone decimal keypad has no ' key and no space, so feet mode opens the text keyboard.
+    function keypad() {
+      return unit === 'ft' ? 'text' : 'decimal';
+    }
+
+    function paintUnit() {
+      if (addHeight) addHeight.inputMode = keypad();
+      for (var i = 0; i < unitBtns.length; i++) {
+        var on = unitBtns[i].getAttribute('data-unit') === unit;
+        unitBtns[i].classList.toggle('is-active', on);
+        unitBtns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+      }
+    }
+
+    function fieldOf(id) {
+      if (id === 'add') return addHeight;
+      return document.getElementById('height-comparison-height-' + id);
+    }
+
+    function trapFor(raw) {
+      if (!api || unit !== 'ft' || !raw) return null;
+      return api.trap(raw, 'ft');
+    }
+
+    function syncMessages(prefer) {
+      var order = [];
+      for (var i = 0; i < figures.length; i++) order.push(figures[i].id);
+      order.push('add');
+      var chosen = null;
+      function consider(id) {
+        var input = fieldOf(id);
+        if (!input) return null;
+        return trapFor(input.value);
+      }
+      if (prefer) {
+        var preferred = consider(prefer);
+        if (preferred) chosen = { id: prefer, trap: preferred };
+      }
+      if (!chosen) {
+        for (var j = 0; j < order.length; j++) {
+          var found = consider(order[j]);
+          if (found) { chosen = { id: order[j], trap: found }; break; }
+        }
+      }
+      if (chosen && noteEl && noteTxt && noteBtn) {
+        trapTarget = chosen.id;
+        noteTxt.textContent = chosen.trap.text;
+        noteBtn.textContent = 'Use ' + chosen.trap.label;
+        noteBtn.hidden = false;
+        noteEl.hidden = false;
+      } else if (noteEl && noteTxt && noteBtn) {
+        trapTarget = null;
+        noteTxt.textContent = '';
+        noteBtn.hidden = true;
+        noteEl.hidden = true;
+      }
+
+      var err = '';
+      var warn = '';
+      if (prefer) {
+        var input = fieldOf(prefer);
+        var raw = input ? input.value : '';
+        if (raw.trim() && api) {
+          var parsed = api.parse(raw, unit);
+          if (!parsed.ok) err = parsed.error;
+          else if (parsed.note && !trapFor(raw)) warn = parsed.note;
+          if (input) {
+            if (err) input.setAttribute('aria-invalid', 'true');
+            else input.removeAttribute('aria-invalid');
+          }
+        } else if (input) {
+          input.removeAttribute('aria-invalid');
+        }
+      }
+      show(errEl, err);
+      show(warnEl, warn);
+    }
+
+    function draw() {
+      if (!api) return;
+      var max = 1;
+      for (var i = 0; i < figures.length; i++) if (figures[i].cm > max) max = figures[i].cm;
+      var named = namedFigures();
+      var line = api.gap(named, unit);
+      if (hero) hero.textContent = line;
+      if (stage) stage.setAttribute('aria-label', line);
+      if (!sheet) return;
+      sheet.textContent = '';
+
+      var cols = document.createElement('div');
+      cols.className = 'hc-cols';
+      var caps = document.createElement('div');
+      caps.className = 'hc-caps';
+      for (var c = 0; c < named.length; c++) {
+        var fig = named[c];
+        var col = document.createElement('div');
+        col.className = 'hc-col';
+        var mark = document.createElement('div');
+        mark.className = 'hc-mark hc-mark--' + fig.kind;
+        mark.style.height = (Math.round((fig.cm / max) * 1000) / 10) + '%';
+        col.appendChild(mark);
+        cols.appendChild(col);
+
+        var cap = document.createElement('p');
+        cap.className = 'hc-cap';
+        var nameEl = document.createElement('span');
+        nameEl.className = 'hc-name';
+        nameEl.textContent = fig.name;
+        var numEl = document.createElement('span');
+        numEl.className = 'hc-num';
+        numEl.textContent = api.format(fig.cm, unit);
+        cap.appendChild(nameEl);
+        cap.appendChild(numEl);
+        caps.appendChild(cap);
+      }
+      var ground = document.createElement('div');
+      ground.className = 'hc-ground';
+      sheet.appendChild(cols);
+      sheet.appendChild(ground);
+      sheet.appendChild(caps);
+    }
+
+    function onHeightInput(id, input, figure) {
+      if (!api) return;
+      var parsed = api.parse(input.value, unit);
+      if (parsed.ok && figure) figure.cm = parsed.cm;
+      if (figure) draw();
+      syncMessages(id);
+      if (figure && parsed.ok) persist();
+    }
+
+    function onHeightBlur(input, figure) {
+      if (!api || !figure || trapFor(input.value)) return;
+      var parsed = api.parse(input.value, unit);
+      if (parsed.ok) input.value = api.format(figure.cm, unit);
+    }
+
+    function renderRows() {
+      if (!rowsEl || !api) return;
+      rowsEl.textContent = '';
+      for (var index = 0; index < figures.length; index++) {
+        (function (figure, index) {
+          var row = document.createElement('div');
+          row.className = 'hc-row';
+
+          var name = document.createElement('input');
+          name.className = 'widget-input';
+          name.id = 'height-comparison-name-' + figure.id;
+          name.type = 'text';
+          name.maxLength = 24;
+          name.value = figure.name;
+          name.autocomplete = 'off';
+          name.setAttribute('aria-label', 'Name');
+          name.addEventListener('input', function () {
+            figure.name = name.value.slice(0, 24);
+            draw();
+            persist();
+          });
+
+          var height = document.createElement('input');
+          height.className = 'widget-input';
+          height.id = 'height-comparison-height-' + figure.id;
+          height.type = 'text';
+          height.inputMode = keypad();
+          height.value = api.format(figure.cm, unit);
+          height.setAttribute('autocapitalize', 'off');
+          height.setAttribute('autocorrect', 'off');
+          height.spellCheck = false;
+          height.autocomplete = 'off';
+          height.setAttribute('aria-label', 'Height for ' + displayName(figure.name));
+          height.addEventListener('input', function () { onHeightInput(figure.id, height, figure); });
+          height.addEventListener('blur', function () { onHeightBlur(height, figure); });
+
+          var actions = document.createElement('div');
+          actions.className = 'hc-row-actions';
+          function button(label, disabled, fn) {
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'hc-btn';
+            b.textContent = label;
+            b.disabled = disabled;
+            b.addEventListener('click', fn);
+            return b;
+          }
+          actions.appendChild(button('Left', index === 0, function () { move(index, -1); }));
+          actions.appendChild(button('Right', index === figures.length - 1, function () { move(index, 1); }));
+          var remove = button('Remove', figures.length === 1, function () { removeAt(index); });
+          remove.id = 'height-comparison-remove-' + figure.id;
+          actions.appendChild(remove);
+
+          row.appendChild(name);
+          row.appendChild(height);
+          row.appendChild(actions);
+          rowsEl.appendChild(row);
+        })(figures[index], index);
+      }
+    }
+
+    function move(index, dir) {
+      var next = index + dir;
+      if (next < 0 || next >= figures.length) return;
+      var tmp = figures[index];
+      figures[index] = figures[next];
+      figures[next] = tmp;
+      renderRows();
+      draw();
+      syncMessages(null);
+      persist();
+    }
+
+    function removeAt(index) {
+      if (figures.length <= 1) return;
+      figures.splice(index, 1);
+      renderRows();
+      draw();
+      syncMessages(null);
+      persist();
+    }
+
+    function addFigure() {
+      if (!api) return;
+      if (figures.length >= api.maxFigures) {
+        if (TT.toast) TT.toast('The chart holds six heights.');
+        return;
+      }
+      var raw = addHeight ? addHeight.value : '';
+      if (trapFor(raw)) {
+        syncMessages('add');
+        return;
+      }
+      var parsed = api.parse(raw, unit);
+      if (!parsed.ok) {
+        syncMessages('add');
+        return;
+      }
+      var name = addName ? addName.value.trim().slice(0, 24) : '';
+      figures.push({ id: 'p' + (seq++), name: name, cm: parsed.cm, kind: 'person' });
+      if (addName) addName.value = '';
+      if (addHeight) addHeight.value = '';
+      renderRows();
+      draw();
+      syncMessages(null);
+      persist();
+    }
+
+    function addPreset(id) {
+      if (!api) return;
+      var ref = null;
+      for (var i = 0; i < api.references.length; i++) {
+        if (api.references[i].id === id) ref = api.references[i];
+      }
+      if (!ref) return;
+      for (var j = 0; j < figures.length; j++) {
+        if (figures[j].id === ref.id) {
+          if (TT.toast) TT.toast(ref.label + ' is already on the chart.');
+          return;
+        }
+      }
+      if (figures.length >= api.maxFigures) {
+        if (TT.toast) TT.toast('The chart holds six heights.');
+        return;
+      }
+      figures.push({ id: ref.id, name: ref.name, cm: ref.cm, kind: ref.kind });
+      renderRows();
+      draw();
+      syncMessages(null);
+      persist();
+    }
+
+    function applyTrap() {
+      if (!api || !trapTarget) return;
+      var input = fieldOf(trapTarget);
+      var trap = input ? trapFor(input.value) : null;
+      if (!trap) return;
+      if (trapTarget === 'add') {
+        if (addHeight) addHeight.value = trap.label;
+        syncMessages('add');
+        return;
+      }
+      for (var i = 0; i < figures.length; i++) {
+        if (figures[i].id === trapTarget) {
+          figures[i].cm = trap.inchesCm;
+          if (input) input.value = api.format(trap.inchesCm, unit);
+          break;
+        }
+      }
+      draw();
+      syncMessages(trapTarget);
+      persist();
+    }
+
+    function setUnit(next) {
+      unit = next === 'ft' ? 'ft' : 'cm';
+      paintUnit();
+      if (addName) addName.value = '';
+      if (addHeight) addHeight.value = '';
+      renderRows();
+      draw();
+      syncMessages(null);
+      persist();
+    }
+
+    function resetLineup() {
+      figures = api.opening().map(function (f) {
+        return { id: f.id, name: f.name, cm: f.cm, kind: f.kind };
+      });
+      if (addName) addName.value = '';
+      if (addHeight) addHeight.value = '';
+      renderRows();
+      draw();
+      syncMessages(null);
+      persist();
+    }
+
+    function load() {
+      figures = api.opening().map(function (f) {
+        return { id: f.id, name: f.name, cm: f.cm, kind: f.kind };
+      });
+      try {
+        var saved = TT.state && TT.state.load('height-comparison');
+        if (saved && (saved.unit === 'cm' || saved.unit === 'ft') && Array.isArray(saved.figures)) {
+          var ok = saved.figures.length >= 1 && saved.figures.length <= api.maxFigures;
+          for (var i = 0; ok && i < saved.figures.length; i++) {
+            var f = saved.figures[i];
+            if (!f || typeof f.id !== 'string' || typeof f.name !== 'string' || typeof f.cm !== 'number') ok = false;
+            else if (f.cm < 10 || f.cm > 10000 || !KINDS[f.kind]) ok = false;
+          }
+          if (ok) {
+            unit = saved.unit;
+            figures = [];
+            for (var j = 0; j < saved.figures.length; j++) {
+              var item = saved.figures[j];
+              figures.push({ id: item.id, name: String(item.name).slice(0, 24), cm: item.cm, kind: item.kind });
+              var m = /^p(\d+)$/.exec(item.id);
+              if (m) seq = Math.max(seq, Number(m[1]) + 1);
+            }
+          }
+        }
+      } catch (e) {}
+    }
+
+    TT.onReady(function () {
+      api = TT.heightChart;
+      if (!api || !api.parse) return;
+      load();
+      paintUnit();
+      renderRows();
+      draw();
+      syncMessages(null);
+
+      for (var i = 0; i < unitBtns.length; i++) {
+        unitBtns[i].addEventListener('click', function () {
+          setUnit(this.getAttribute('data-unit'));
+        });
+      }
+      for (var p = 0; p < presetBtns.length; p++) {
+        presetBtns[p].addEventListener('click', function () {
+          addPreset(this.getAttribute('data-ref'));
+        });
+      }
+      if (addBtn) addBtn.addEventListener('click', addFigure);
+      if (addHeight) {
+        addHeight.addEventListener('input', function () { syncMessages('add'); });
+        addHeight.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') { e.preventDefault(); addFigure(); }
+        });
+        addHeight.addEventListener('blur', function () {
+          if (!api || trapFor(addHeight.value)) return;
+          var parsed = api.parse(addHeight.value, unit);
+          if (parsed.ok) addHeight.value = api.format(parsed.cm, unit);
+        });
+      }
+      if (noteBtn) noteBtn.addEventListener('click', applyTrap);
+
+      var copyTimer;
+      if (copyBtn) copyBtn.addEventListener('click', function () {
+        if (!api) return;
+        var text = api.share(namedFigures(), unit);
+        if (!text) { if (TT.toast) TT.toast('Nothing to copy.'); return; }
+        if (TT.copy) TT.copy(text);
+        copyBtn.classList.add('is-success');
+        copyBtn.textContent = 'Copied';
+        clearTimeout(copyTimer);
+        copyTimer = setTimeout(function () {
+          copyBtn.classList.remove('is-success');
+          copyBtn.textContent = 'Copy';
+        }, 2000);
+      });
+
+      var clearTimer;
+      function resetClear() {
+        clearTimeout(clearTimer);
+        if (clearBtn) { clearBtn.classList.remove('is-confirming'); clearBtn.textContent = 'Clear'; }
+      }
+      if (clearBtn) clearBtn.addEventListener('click', function () {
+        if (!clearBtn.classList.contains('is-confirming')) {
+          clearBtn.classList.add('is-confirming');
+          clearBtn.textContent = 'Confirm Clear';
+          clearTimeout(clearTimer);
+          clearTimer = setTimeout(resetClear, 3000);
+          return;
+        }
+        resetClear();
+        resetLineup();
+      });
+      document.addEventListener('click', function (e) {
+        if (clearBtn && clearBtn.classList.contains('is-confirming') && !e.target.closest('#height-comparison-clear')) resetClear();
+      });
+    });
+  })();
+</script>
+
+<style is:global>
+  .hc-hero {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.35;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hc-chart {
+    overflow-x: auto;
+    min-height: calc(var(--space-16) * 4);
+    padding: var(--space-3);
+    background: var(--color-surface-hover);
+    border-radius: var(--radius-md);
+  }
+
+  .hc-sheet {
+    min-width: 100%;
+    width: max-content;
+  }
+
+  .hc-cols,
+  .hc-caps {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .hc-cols {
+    height: calc(var(--space-16) * 3);
+    align-items: flex-end;
+  }
+
+  .hc-col,
+  .hc-cap {
+    flex: 1 0 calc(var(--space-16) * 2);
+    min-width: calc(var(--space-16) * 2);
+  }
+
+  .hc-col {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .hc-ground {
+    height: var(--space-1);
+    margin-top: var(--space-2);
+    background: var(--color-border-strong);
+  }
+
+  .hc-cap {
+    margin: var(--space-2) 0 0;
+    text-align: center;
+  }
+
+  .hc-name,
+  .hc-num {
+    display: block;
+    font-size: var(--text-sm);
+    line-height: 1.3;
+  }
+
+  .hc-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hc-num {
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hc-mark--person {
+    width: var(--space-10);
+    background: var(--color-accent);
+    border-radius: var(--space-20);
+  }
+
+  .hc-mark--door {
+    width: var(--space-12);
+    background: var(--color-accent-strong);
+    border-radius: var(--radius-sm);
+  }
+
+  .hc-mark--counter {
+    width: var(--space-12);
+    background: var(--color-text-muted);
+    border-radius: var(--radius-sm);
+  }
+
+  .hc-mark--rim {
+    position: relative;
+    width: var(--space-1);
+    background: var(--color-accent-strong);
+  }
+
+  .hc-mark--rim::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: var(--space-8);
+    height: var(--space-1);
+    transform: translateX(-50%);
+    background: var(--color-accent-strong);
+    border-radius: var(--radius-sm);
+  }
+
+  .hc-error[hidden],
+  .hc-warn[hidden] {
+    display: none;
+  }
+
+  .hc-error,
+  .hc-warn {
+    margin: var(--space-2) 0 0;
+    font-size: var(--text-sm);
+  }
+
+  .hc-error {
+    color: var(--color-danger-strong);
+  }
+
+  .hc-warn {
+    color: var(--color-text-muted);
+  }
+
+  .hc-rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  .hc-row,
+  .hc-add {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .hc-add,
+  .hc-presets {
+    margin-top: var(--space-8);
+  }
+
+  .hc-units,
+  .hc-presets,
+  .hc-row-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .hc-btn {
+    flex: 1 1 auto;
+    min-width: var(--touch-target);
+    min-height: var(--touch-target);
+    padding-inline: var(--space-3);
+    border: var(--border);
+    border-color: transparent;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-text);
+    font: inherit;
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+  }
+
+  .hc-btn:hover,
+  .hc-btn:active:not(:disabled) {
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-strong);
+  }
+
+  .hc-btn.is-active {
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-strong);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .hc-btn:disabled,
+  .hc-btn:disabled:hover,
+  .hc-btn:disabled:active {
+    color: var(--color-text-muted);
+    cursor: default;
+    background: transparent;
+  }
+
+  .hc-btn--add {
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+  }
+
+  .hc-btn--add:hover,
+  .hc-btn--add:active {
+    background: var(--color-accent-strong);
+    color: var(--color-text-inverse);
+  }
+</style>
