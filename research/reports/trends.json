@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-28T17:55:03.892Z",
+  "generatedAt": "2026-10-24T19:18:18.907Z",
   "trends": [
     {
       "transformation": "Fidget Interaction",
@@ -235,12 +235,6 @@
       "count": 1,
       "meanDemand": 0.92,
       "meanScore": 79.1
-    },
-    {
-      "transformation": "Height Comparison",
-      "count": 1,
-      "meanDemand": 0.72,
-      "meanScore": 79
     },
     {
       "transformation": "Breathing Guide",

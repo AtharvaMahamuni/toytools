@@ -41,7 +41,6 @@ unix-timestamp-converter,unix-timestamp-converter,Unix Timestamp Converter,Times
 bmr-calculator,bmr-calculator,BMR Calculator,Energy And Nutrition Planning,wellness,true,needs-improvement,already-exists,low,0.8,0.46,0.95,1,1,0.92,0.5,0.9,0.8,79.1
 regex-tester,regex-tester,Regex Tester,Regex Testing,text-interactive,true,needs-improvement,already-exists,medium,0.86,0.46,0.94,0.7,1,0.94,0,0.92,0.8,79.1
 sip-calculator,sip-calculator,SIP Calculator,Systematic Investment Plan,finance,true,needs-improvement,already-exists,low,0.92,0.6,0.9,1,1,0.73,0,0.95,0.8,79.1
-height-comparison,height-comparison,Height Comparison,Height Comparison,calculator,true,needs-improvement,already-exists,low,0.72,0.6,0.9,1,1,0.65,0,0.84,0.8,79
 spinner,spinner,Fidget Spinner,Fidget Interaction,feel,true,needs-improvement,already-exists,medium,0.66,0.63,0.62,0.7,1,0.86,1,0.96,0.64,79
 breathing-circle,breathing-circle,Breathing Circle,Breathing Guide,feel,true,needs-improvement,already-exists,low,0.7,0.56,0.84,1,1,0.88,0,0.9,0.8,78.8
 projectile-motion-calculator,projectile-motion-calculator,Projectile Motion Simulator,Projectile Motion,physics,true,needs-improvement,already-exists,medium,0.9,0.69,0.96,0.7,1,0.96,0,0.82,0.8,78.8

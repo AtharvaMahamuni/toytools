@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-28T17:55:03.892Z",
+  "generatedAt": "2026-10-24T19:18:18.907Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -60,7 +60,7 @@
     },
     {
       "id": "base64-encoder-decoder",
-      "title": "Base64 Encoder and Decoder",
+      "title": "Base64 Encoder & Decoder",
       "transformation": "binary-text",
       "engine": "encoding",
       "existing": true,
@@ -1015,16 +1015,6 @@
       "relatedFaqs": []
     },
     {
-      "id": "discount-calculator",
-      "title": "Discount Calculator",
-      "transformation": "arithmetic",
-      "engine": "calculator",
-      "existing": true,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
-    },
-    {
       "id": "doppler-effect-calculator",
       "title": "Doppler Effect Simulator",
       "transformation": "Doppler Effect",
@@ -1394,37 +1384,6 @@
       ]
     },
     {
-      "id": "height-comparison",
-      "title": "Height Comparison",
-      "transformation": "Height Comparison",
-      "engine": "calculator",
-      "existing": false,
-      "relatedTools": [
-        "percentage-calculator",
-        "discount-calculator",
-        "height-comparison",
-        "margin-calculator",
-        "markup-calculator",
-        "scientific-calculator"
-      ],
-      "relatedGuides": [
-        "percentage-calculator",
-        "discount-calculator",
-        "height-comparison",
-        "margin-calculator",
-        "markup-calculator",
-        "scientific-calculator"
-      ],
-      "relatedFaqs": [
-        "percentage-calculator",
-        "discount-calculator",
-        "height-comparison",
-        "margin-calculator",
-        "markup-calculator",
-        "scientific-calculator"
-      ]
-    },
-    {
       "id": "hex-encoder-decoder",
       "title": "Hex Encoder and Decoder",
       "transformation": "binary-text",
@@ -1436,7 +1395,7 @@
     },
     {
       "id": "html-entity-encoder-decoder",
-      "title": "HTML Entity Encoder and Decoder",
+      "title": "HTML Entity Encoder & Decoder",
       "transformation": "web",
       "engine": "encoding",
       "existing": true,
@@ -1592,6 +1551,7 @@
       ],
       "relatedGuides": [
         "remove-line-breaks",
+        "normalize-whitespace",
         "slugify-text",
         "text-compare",
         "invisible-character-detector",
@@ -1948,26 +1908,6 @@
         "timezone-converter",
         "date-difference-calculator"
       ]
-    },
-    {
-      "id": "margin-calculator",
-      "title": "Margin Calculator",
-      "transformation": "arithmetic",
-      "engine": "calculator",
-      "existing": true,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
-    },
-    {
-      "id": "markup-calculator",
-      "title": "Markup Calculator",
-      "transformation": "arithmetic",
-      "engine": "calculator",
-      "existing": true,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
     },
     {
       "id": "matrix-calculator",
@@ -2879,6 +2819,7 @@
       ],
       "relatedGuides": [
         "remove-extra-spaces",
+        "normalize-whitespace",
         "camel-case-converter",
         "chat-export-cleaner",
         "context-fit-checker",
@@ -2919,6 +2860,7 @@
       ],
       "relatedGuides": [
         "remove-blank-lines",
+        "normalize-whitespace",
         "remove-extra-spaces",
         "camel-case-converter",
         "chat-export-cleaner",
@@ -3110,16 +3052,6 @@
       "title": "Savings Goal Calculator",
       "transformation": "savings",
       "engine": "finance",
-      "existing": true,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
-    },
-    {
-      "id": "scientific-calculator",
-      "title": "Scientific Calculator",
-      "transformation": "arithmetic",
-      "engine": "calculator",
       "existing": true,
       "relatedTools": [],
       "relatedGuides": [],
@@ -3709,7 +3641,7 @@
     },
     {
       "id": "url-encoder-decoder",
-      "title": "URL Encoder and Decoder",
+      "title": "URL Encoder & Decoder",
       "transformation": "web",
       "engine": "encoding",
       "existing": true,
@@ -4786,31 +4718,6 @@
       "from": "heat-transfer-calculator",
       "to": "nuclear-reactor-calculator",
       "kind": "shares-engine"
-    },
-    {
-      "from": "height-comparison",
-      "to": "discount-calculator",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "height-comparison",
-      "to": "margin-calculator",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "height-comparison",
-      "to": "markup-calculator",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "height-comparison",
-      "to": "percentage-calculator",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "height-comparison",
-      "to": "scientific-calculator",
-      "kind": "links-to-tool"
     },
     {
       "from": "ideal-gas-law-calculator",

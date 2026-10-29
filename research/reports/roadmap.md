@@ -1,8 +1,8 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-10-28T17:55:03.892Z
+Generated: 2026-10-24T19:18:18.907Z
 
-Discovered 112 signals -> 112 unique opportunities (8 recommended, 102 already shipped). Top score 85.9. Missing-engine candidates: 0.
+Discovered 111 signals -> 111 unique opportunities (8 recommended, 101 already shipped). Top score 85.9. Missing-engine candidates: 0.
 
 ## Immediate builds (top tier)
 _None above the immediate bar._
@@ -78,7 +78,6 @@ _None above the immediate bar._
 - **Type Scale** (units) - 1 tool(s), mean score 79.2.
 - **Regex Testing** (text-interactive) - 1 tool(s), mean score 79.1.
 - **Systematic Investment Plan** (finance) - 1 tool(s), mean score 79.1.
-- **Height Comparison** (calculator) - 1 tool(s), mean score 79.
 - **Breathing Guide** (feel) - 1 tool(s), mean score 78.8.
 - **Energy And Nutrition Planning** (wellness) - 3 tool(s), mean score 78.8.
 - **Projectile Motion** (physics) - 1 tool(s), mean score 78.8.
@@ -207,4 +206,4 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 
 ---
 
-_Inputs fingerprint: `b9f958b1`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `ad49869c`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
