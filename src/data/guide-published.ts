@@ -123,6 +123,7 @@ export const guidePublishedAt: Record<string, string> = {
   'normal-distribution-visualizer': '2026-10-09',
   'notepad': '2026-06-04',
   'nuclear-reactor-calculator': '2026-08-24',
+  'radioactive-decay-calculator': '2026-10-31',
   'number-to-words': '2026-08-22',
   'ohms-law-calculator': '2026-07-12',
   'one-rep-max-calculator': '2026-08-04',

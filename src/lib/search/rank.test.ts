@@ -264,8 +264,12 @@ describe('buildClientIndex', () => {
     // 2026-10-31: 13_350 → 13_400. Infinity Cube is one name-catalog entry.
     // Measured 13_355 raw. The name cannot shrink without renaming the tool.
     // Terms stay in search-terms.json. Catalog growth, not alias bloat.
+    // 2026-10-31: 13_400 → 13_650. Cyclohexane Chair, Fraction Bars, and
+    // Radioactive Decay Calculator are three more name-catalog entries.
+    // Measured 13_599 raw. The names cannot shrink without renaming the tools.
+    // Terms stay in search-terms.json. Catalog growth, not alias bloat.
     const wire = Buffer.byteLength(JSON.stringify(buildCatalogWire()), 'utf8');
-    expect(wire).toBeLessThan(13_400);
+    expect(wire).toBeLessThan(13_650);
     expect(JSON.stringify(buildCatalogWire())).not.toContain('"k"');
   });
 

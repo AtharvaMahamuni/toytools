@@ -217,7 +217,7 @@
         "electricity",
         "nuclear-physics"
       ],
-      "toolCount": 12
+      "toolCount": 13
     },
     "datetime": {
       "name": "Date and Time Engine",
@@ -941,6 +941,21 @@
       "pattern": "simulate",
       "family": "fractions",
       "processorId": "fraction-bars",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "radioactive-decay-calculator": {
+      "name": "Radioactive Decay Calculator",
+      "dir": "src/tools/physics/radioactive-decay-calculator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/radioactive-decay-calculator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "nuclear-physics",
+      "processorId": "radioactive-decay",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,

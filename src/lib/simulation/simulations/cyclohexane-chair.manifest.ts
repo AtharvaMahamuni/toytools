@@ -42,12 +42,12 @@ export const manifest: SimulationManifest = {
     secondary: ['chair flip', 'axial vs equatorial', '1,3-diaxial strain', 'A-value'],
     related: ['newman projection', 'methylcyclohexane'],
     aliases: [
+      'cyclohexane chair',
       'cyclohexane chair flip',
       'chair conformation calculator',
       'axial vs equatorial',
       '1,3-diaxial strain',
       'methylcyclohexane conformer',
-      'A-value',
     ],
   },
   equations: [
@@ -91,8 +91,8 @@ export const manifest: SimulationManifest = {
       'Cyclohexane chair flip. Conformation, axial vs equatorial, 1,3-diaxial strain, methylcyclohexane conformer. Runs entirely on your device. Nothing is uploaded.',
     tagline: 'Flip the chair. Up stays up, and the population follows.',
     keywords: [
-      'cyclohexane chair flip',
-      'chair conformation calculator',
+      'flip',
+      'conformation',
       'axial vs equatorial',
       '1,3-diaxial strain',
       'methylcyclohexane conformer',
@@ -100,13 +100,11 @@ export const manifest: SimulationManifest = {
   },
   presentation: {
     tags: [
-      'cyclohexane chair',
-      'cyclohexane chair flip',
-      'chair conformation calculator',
+      'flip',
+      'conformation',
       'axial vs equatorial',
       '1,3-diaxial strain',
       'methylcyclohexane conformer',
-      'A-value',
     ],
     updatedAt: '2026-10-31',
     trustVariant: 'offline',

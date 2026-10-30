@@ -17,6 +17,7 @@ import momentumCollision from '../../simulations/momentum-collision';
 import inclinedPlane from '../../simulations/inclined-plane';
 import dopplerEffect from '../../simulations/doppler-effect';
 import nuclearReactor from '../../simulations/nuclear-reactor';
+import radioactiveDecay from '../../simulations/radioactive-decay';
 
 export const physicsDomain: SimulationDomain = {
   id: 'physics',
@@ -34,5 +35,6 @@ export const physicsDomain: SimulationDomain = {
     'inclined-plane': inclinedPlane,
     'doppler-effect': dopplerEffect,
     'nuclear-reactor': nuclearReactor,
+    'radioactive-decay': radioactiveDecay,
   },
 };

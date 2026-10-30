@@ -229,6 +229,52 @@
       "localization": 70,
       "authorityRequired": 45,
       "algorithmicFit": 95
+    },
+    {
+      "query": "radioactive decay half life calculator",
+      "problem": "I want to watch a sample of nuclei decay and see the expected half-life curve beside the count this run actually lands on.",
+      "intent": "informational",
+      "transformation": "Radioactive Decay",
+      "proposedTool": "radioactive-decay-calculator",
+      "proposedName": "Radioactive Decay Calculator",
+      "proposedEngine": "physics",
+      "searchQueries": [
+        "half life calculator",
+        "radioactive decay calculator",
+        "radioactive decay curve",
+        "exponential decay nuclei",
+        "parent daughter decay"
+      ],
+      "existingSolutions": [
+        "omnicalculator.com",
+        "calculator forms that print N from N0 and t",
+        "phet.colorado.edu"
+      ],
+      "solutionWeaknesses": [
+        "a form prints one number and hides the miss",
+        "the animation is labeled as real time",
+        "dating games and alpha-decay sims answer a different job"
+      ],
+      "userFailures": [
+        "The live count is forced to equal exactly half at one half-life, so the grid hides how far this run missed the curve.",
+        "The on-screen animation is labeled with the real half-life, so carbon-14 appears to finish in a few seconds."
+      ],
+      "relatedProblems": [
+        "half-life",
+        "exponential decay",
+        "nuclear reactor kinetics"
+      ],
+      "relatedTools": [
+        "nuclear-reactor-calculator",
+        "pendulum-period-calculator"
+      ],
+      "demand": 58,
+      "competition": 46,
+      "evergreen": 94,
+      "difficulty": "medium",
+      "localization": 75,
+      "algorithmicFit": 96,
+      "authorityRequired": 35
     }
   ]
 }

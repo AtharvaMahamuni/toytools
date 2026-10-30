@@ -50,7 +50,7 @@ Prepare text before a model. ToyTools does not run a model.
 - [Productivity](https://toytoolsapp.com/category/productivity/): Simple tools to help you focus, plan, and get things done. (6 tools)
 - [Money and Finance](https://toytoolsapp.com/category/money-finance/): Calculate interest, savings, inflation, and plan smarter money decisions. (13 tools)
 - [Generators](https://toytoolsapp.com/category/generate/): Generate passwords, UUIDs, random strings, placeholder text, and QR codes in your browser. (10 tools)
-- [Physics](https://toytoolsapp.com/category/physics/): Interactive physics simulations you can see, touch, and experiment with. Explore waves, oscillations, and heat right in your browser. (12 tools)
+- [Physics](https://toytoolsapp.com/category/physics/): Interactive physics simulations you can see, touch, and experiment with. Explore waves, oscillations, and heat right in your browser. (13 tools)
 - [Applied Math](https://toytoolsapp.com/category/applied-math/): Solve triangles, multiply matrices, work fractions and factor primes, or drag the unit circle and a parabola to see the math move, all in your browser. (12 tools)
 - [Chemistry](https://toytoolsapp.com/category/chemistry/): Interactive chemistry simulations you can turn, tune, and run. Conformers, bonds, molecular shape, crystal field, and reaction rates. (7 tools)
 - [Date and Time](https://toytoolsapp.com/category/date-time/): Calculate ages, durations and sleep cycle bedtimes, convert time zones and timestamps, and see when a date can be read two ways, all in your browser. (8 tools)

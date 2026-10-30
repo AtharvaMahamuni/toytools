@@ -1052,6 +1052,13 @@ Use for: Aim a launch and watch the arc.
 Privacy: Works offline after the first page load.
 Does not: Call an AI model.
 
+## Radioactive Decay Calculator
+
+URL: https://toytoolsapp.com/tool/physics/radioactive-decay-calculator/
+Use for: Watch the sample thin out.
+Privacy: Works offline after the first page load.
+Does not: Compute a radiation dose, a weapon yield, or the age of an object from one count.
+
 ## Simple Harmonic Motion Calculator
 
 URL: https://toytoolsapp.com/tool/physics/simple-harmonic-motion-calculator/
