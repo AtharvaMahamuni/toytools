@@ -222,6 +222,12 @@ export const searchAliases: Record<string, string[]> = {
     'popit',
     'fidget pop it',
   ],
+  'infinity-cube': [
+    'infinity cube fidget',
+    'infinity cube online',
+    'fold a fidget cube',
+    'hinged cube fidget',
+  ],
   gears: ['meshing gears'],
   spinner: ['virtual spinner'],
   'kinetic-sand': ['virtual sand'],

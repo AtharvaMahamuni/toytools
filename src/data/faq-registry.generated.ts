@@ -58,6 +58,7 @@ import { items as hexEncoderDecoderFaqs } from '@tools/developer-utilities/hex-e
 import { items as htmlEntityEncoderDecoderFaqs } from '@tools/developer-utilities/html-entity-encoder-decoder/faq';
 import { items as idealWeightCalculatorFaqs } from '@tools/health/ideal-weight-calculator/faq';
 import { items as imagePaletteExtractorFaqs } from '@tools/design/image-palette-extractor/faq';
+import { items as infinityCubeFaqs } from '@tools/fidget/infinity-cube/faq';
 import { items as inflationCalculatorFaqs } from '@tools/finance/inflation-calculator/faq';
 import { items as invisibleCharacterDetectorFaqs } from '@tools/text/invisible-character-detector/faq';
 import { items as ipv4ConverterFaqs } from '@tools/developer-utilities/ipv4-converter/faq';
@@ -230,6 +231,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'html-entity-encoder-decoder': htmlEntityEncoderDecoderFaqs,
   'ideal-weight-calculator': idealWeightCalculatorFaqs,
   'image-palette-extractor': imagePaletteExtractorFaqs,
+  'infinity-cube': infinityCubeFaqs,
   'inflation-calculator': inflationCalculatorFaqs,
   'invisible-character-detector': invisibleCharacterDetectorFaqs,
   'ipv4-converter': ipv4ConverterFaqs,

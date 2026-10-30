@@ -1,0 +1,136 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const toolHref = toolPathBySlug('infinity-cube');
+const spinnerHref = toolPathBySlug('spinner');
+const popHref = toolPathBySlug('pop-it');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      An infinity cube is eight small cubes on hinges. You fold the open hinge a quarter turn, the
+      next hinge opens, and the chain comes back to one cube. This page does that fold. It will not
+      turn a hinge that would drive a block through another block.
+    </p>
+    <p>
+      For example: Fold once from the closed cube. The session count reads 1, and a second swipe
+      before the fold finishes leaves the count at 1.
+    </p>
+    <p>
+      A common mistake is expecting a second swipe during a fold to queue another turn. The page
+      ignores that swipe. Do not reload to fix a fold that is still moving.
+    </p>
+    <p>
+      Input: one tap on the free half of a closed cube. Output: that half swings out, and the line
+      reads Open with 1 fold.
+    </p>
+  </section>
+
+  <section id="what-is">
+    <h2>What is an infinity cube? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      An infinity cube is eight small cubes on a repeating hinge pattern. Both ends of the chain
+      are one closed cube. It is a hand toy people use while they think.
+    </p>
+    <p>
+      This page makes no medical claim about ADHD or anxiety. An infinity cube fidget here is a
+      virtual infinity cube you can fold, and an infinity cube toy you can leave in a bag.
+    </p>
+    <p>A hinged cube fidget turns one hinge, then the next. That is the whole mechanism.</p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How does this infinity cube online work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      You tap or swipe the free half. One fold is 90 degrees. Only the open hinge moves. You fold infinity cube blocks by that rule, and by no other.
+    </p>
+    <ul>
+      <li>Tap or swipe the free half.</li>
+      <li>One fold is 90 degrees.</li>
+      <li>A second swipe during a fold does nothing.</li>
+      <li>At 90 degrees the next hinge opens.</li>
+      <li>Reset returns to the closed cube and clears the count.</li>
+    </ul>
+    <p>
+      At the end of the quarter turn the next hinge becomes the free one. Keep going and the chain
+      closes into one cube again. Five quarter turns from the start do a full pass.
+    </p>
+    <p>
+      Reset drops the chain back to the closed cube and clears the session count. Reloading the
+      page to clear the session fold count is unnecessary, because Reset does that.
+    </p>
+    <p>
+      Sound is one soft click at the end of a fold. It stays quiet while the shared Sound control
+      is Off. Keeping hands busy while reading, without a sound until Feel sound is on, is the
+      quiet setting.
+    </p>
+  </section>
+
+  <section id="no-clip">
+    <h2>Why must the blocks not pass through each other? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A clip is a broken hinge graph. The page refuses that move and the cube stays put. The blocks
+      must not pass through each other, so a locked face never starts a swing.
+    </p>
+    <p>
+      Tapping a locked hinge and thinking the cube is stuck is the miss. The free half is the only
+      one that turns. A pointer on any other block does nothing.
+    </p>
+    <p>
+      Therefore the chain cannot skip a hinge. Showing a child how the open hinge is the only one
+      that moves takes one tap on the free half.
+    </p>
+  </section>
+
+  <section id="compare">
+    <h2>How is this different from a fidget spinner and a Pop It? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A <a href={spinnerHref}>fidget spinner</a> is a flick that coasts. <a href={popHref}>Pop It</a>
+      is a tap that inverts a bubble. This cube is a fold with a next legal hinge.
+    </p>
+    <p>
+      Unlike the spinner, nothing here keeps spinning after you let go. Unlike Pop It, one tap
+      moves a whole half, then the legal hinge changes.
+    </p>
+  </section>
+
+  <section id="when">
+    <h2>When does a browser cube help? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Folding through a long call when a physical cube is not on the desk is the case for this
+      page. The physical toy still has weight this page does not pretend to have.
+    </p>
+    <p>
+      A desk without the toy is enough reason to open the fold. The hinge still has to be the open
+      one.
+    </p>
+  </section>
+
+  <section id="try">
+    <h2>Where do I try the cube? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Open the cube and fold the open hinge. The session count climbs by one each time a quarter
+      turn finishes.
+    </p>
+    <a href={toolHref} class="cta-link">Try the cube</a>
+  </section>
+</GuideLayout>

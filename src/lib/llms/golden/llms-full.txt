@@ -506,6 +506,13 @@ Use for: Spin the pair.
 Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Design a gearbox or size real teeth, or send the spin to an AI model.
 
+## Infinity Cube
+
+URL: https://toytoolsapp.com/tool/fidget/infinity-cube/
+Use for: Fold the open hinge.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
+Does not: Diagnose restlessness, or replace a physical cube's weight.
+
 ## Kinetic Sand
 
 URL: https://toytoolsapp.com/tool/fidget/kinetic-sand/

@@ -241,7 +241,10 @@ const THRESHOLDS = {
   // 2026-10-28: 0.747 (127/170), truncated from 0.747058. Height Comparison ships
   //   recovery craft feet-inches-dot. Typing 5.11 in feet mode offers 5 ft 11 in.
   //   A real 5'11, a one-decimal foot, and centimetre mode keep that note hidden.
-  coverage: 0.747,
+  // 2026-10-31: 0.748 (128/171), truncated from 0.748538. Infinity Cube ships
+  //   guardrail craft infinity-cube-hinge. A second swipe during a fold is ignored,
+  //   so the chain cannot skip a hinge.
+  coverage: 0.748,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

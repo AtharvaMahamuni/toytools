@@ -243,6 +243,7 @@ const SLUG_GLYPH: Record<string, string> = {
   'kinetic-sand': 'sand',
   slime: 'slime',
   'breathing-circle': 'breath',
+  'infinity-cube': 'cubeHinge',
 
   // network
   'cidr-calculator': 'cidr',

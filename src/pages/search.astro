@@ -73,7 +73,7 @@ function searchVocabulary(tool: (typeof tools)[number], categoryName: string): s
               substring, so matching is unchanged. */}
           data-search={searchVocabulary(tool, getCategoryName(tool.categorySlug))}
         >
-          <ToolCard tool={tool} categoryName={getCategoryName(tool.categorySlug)} />
+          <ToolCard tool={tool} categoryName={getCategoryName(tool.categorySlug)} withSlug={false} />
         </article>
       ))}
     </div>
@@ -235,8 +235,7 @@ function searchVocabulary(tool: (typeof tools)[number], categoryName: string): s
   const suggest = document.getElementById('empty-suggest');
 
   if (input && grid && count) {
-    // [data-search-item] and not [data-slug]: ToolCard's inner <a> carries data-slug too, so the
-    // looser selector matches the anchor as well and ends up hiding that instead of the card.
+    // data-slug lives on [data-search-item]. The card anchor is only the link.
     const cards = new Map<string, HTMLElement>();
     for (const el of grid.querySelectorAll<HTMLElement>('[data-search-item]')) {
       cards.set(el.dataset.slug!, el);

@@ -211,6 +211,8 @@ export const GLYPHS: Record<string, string> = {
   slime: S + '<path d="M7.2 8.2c0-2.8 2-4.8 4.8-4.8s4.8 2 4.8 4.8c2 .5 3.6 2.6 3.6 5.2 0 3.6-3.6 6.6-8.4 6.6S3.6 17 3.6 13.4c0-2.6 1.6-4.7 3.6-5.2Z"/>' + E,
   // Expanding rings: a named breathing pattern, not a spinner.
   breath: S + '<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="6.2"/><circle cx="12" cy="12" r="9.4"/>' + E,
+  // Two blocks on one hinge: the open fold of an infinity cube.
+  cubeHinge: S + '<path d="M3 8h8v8H3Z"/><path d="M13 8h8v8h-8Z"/><path d="M11 6v12"/>' + E,
 
   // ── network ───────────────────────────────────────────────────────────
   // Four octets on a line: an IPv4 address, which is what CIDR is about.

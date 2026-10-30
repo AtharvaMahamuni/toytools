@@ -58,6 +58,7 @@ export const authoredGuideSlugs = [
   'html-entity-encoder-decoder',
   'ideal-weight-calculator',
   'image-palette-extractor',
+  'infinity-cube',
   'inflation-calculator',
   'invisible-character-detector',
   'ipv4-converter',

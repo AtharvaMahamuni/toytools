@@ -346,6 +346,56 @@
       "localization": 94,
       "algorithmicFit": 95,
       "authorityRequired": 0
+    },
+    {
+      "query": "infinity cube fidget online",
+      "problem": "I want to fold an infinity cube in the browser, one hinge at a time, without the blocks passing through each other.",
+      "intent": "transactional",
+      "transformation": "Fidget Interaction",
+      "proposedTool": "infinity-cube",
+      "proposedName": "Infinity Cube",
+      "proposedEngine": "feel",
+      "searchQueries": [
+        "infinity cube fidget",
+        "infinity cube online",
+        "virtual infinity cube",
+        "fold infinity cube",
+        "infinity cube toy"
+      ],
+      "existingSolutions": [
+        "ad-heavy web clones",
+        "mobile fidget packs",
+        "product videos of the physical toy"
+      ],
+      "solutionWeaknesses": [
+        "the fold is a spinning texture",
+        "blocks clip through each other",
+        "sound cannot be muted",
+        "reduced motion is ignored"
+      ],
+      "userFailures": [
+        "A second swipe during a fold queues another turn, so the chain skips a hinge and a block passes through its neighbour.",
+        "A tap on a closed face starts a fold that clips one cube through another.",
+        "Reduced motion still plays a spinning fold, with no jump to the finished pose."
+      ],
+      "relatedProblems": [
+        "fidget spinner",
+        "pop it",
+        "switch board"
+      ],
+      "relatedTools": [
+        "spinner",
+        "pop-it",
+        "gears",
+        "switch-board"
+      ],
+      "demand": 66,
+      "competition": 50,
+      "evergreen": 72,
+      "difficulty": "medium",
+      "localization": 96,
+      "algorithmicFit": 90,
+      "authorityRequired": 0
     }
   ]
 }
