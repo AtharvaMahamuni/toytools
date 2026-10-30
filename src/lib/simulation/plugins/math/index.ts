@@ -10,6 +10,7 @@ import quadratic from '../../simulations/quadratic';
 import probability from '../../simulations/probability';
 import linearRegression from '../../simulations/linear-regression';
 import normalDistribution from '../../simulations/normal-distribution';
+import fractionBars from '../../simulations/fraction-bars';
 
 export const mathDomain: SimulationDomain = {
   id: 'math-lab',
@@ -20,5 +21,6 @@ export const mathDomain: SimulationDomain = {
     probability,
     'linear-regression': linearRegression,
     'normal-distribution': normalDistribution,
+    'fraction-bars': fractionBars,
   },
 };

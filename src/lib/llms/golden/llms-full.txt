@@ -9,6 +9,13 @@ Use for: nCr and nPr with the formula expanded step by step.
 Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
+## Fraction Bars Calculator
+
+URL: https://toytoolsapp.com/tool/math/fraction-bars-calculator/
+Use for: Drag the shaded edge.
+Privacy: Works offline after the first page load.
+Does not: Multiply or divide fractions, or take a typed mixed number.
+
 ## Fraction Calculator
 
 URL: https://toytoolsapp.com/tool/math/fraction-calculator/

@@ -571,6 +571,55 @@
       "difficulty": "low",
       "localization": 84,
       "algorithmicFit": 100
+    },
+    {
+      "query": "fraction bars visual model",
+      "problem": "I want to drag equal parts of one whole and see two fractions, and their sum, take up the same length.",
+      "intent": "transactional",
+      "transformation": "Fraction Model",
+      "proposedTool": "fraction-bars-calculator",
+      "proposedName": "Fraction Bars",
+      "proposedEngine": "math-lab",
+      "searchQueries": [
+        "fraction bars",
+        "fraction strips",
+        "visual fraction model",
+        "fraction circles",
+        "equivalent fractions model"
+      ],
+      "existingSolutions": [
+        "phet.colorado.edu",
+        "mathlearningcenter.org",
+        "toytheater.com"
+      ],
+      "solutionWeaknesses": [
+        "the manipulative and the arithmetic sit on different sites",
+        "equivalent fractions are drawn to different lengths",
+        "a sum is a number with no shared whole",
+        "the toys are not laid out for a phone"
+      ],
+      "userFailures": [
+        "1/2 and 2/4 are drawn as different shaded lengths, so the equivalent fractions look unequal.",
+        "1/2 + 1/3 is drawn by adding the denominators, and the result bar is shorter than the two parts.",
+        "A drag between equal parts leaves an unequal slice, so the picture is no longer a fraction of one whole."
+      ],
+      "relatedProblems": [
+        "equivalent fractions",
+        "adding fractions with unlike denominators",
+        "fraction circles"
+      ],
+      "relatedTools": [
+        "fraction-calculator",
+        "unit-circle-calculator",
+        "percentage-calculator"
+      ],
+      "demand": 68,
+      "competition": 68,
+      "evergreen": 96,
+      "difficulty": "medium",
+      "localization": 90,
+      "algorithmicFit": 100,
+      "authorityRequired": 8
     }
   ]
 }

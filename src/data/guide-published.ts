@@ -76,6 +76,7 @@ export const guidePublishedAt: Record<string, string> = {
   'file-hash-verifier': '2026-10-04',
   'find-replace': '2026-06-25',
   'fraction-calculator': '2026-07-19',
+  'fraction-bars-calculator': '2026-10-31',
   'frequency-period-calculator': '2026-07-12',
   'gears': '2026-09-09',
   'habit-streak-tracker': '2026-09-16',

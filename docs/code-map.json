@@ -254,9 +254,10 @@
         "trigonometry",
         "algebra",
         "probability",
-        "statistics"
+        "statistics",
+        "fractions"
       ],
-      "toolCount": 5
+      "toolCount": 6
     },
     "math": {
       "name": "Math Calculator Engine",
@@ -925,6 +926,21 @@
       "pattern": "simulate",
       "family": "organic-chemistry",
       "processorId": "cyclohexane-chair",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "fraction-bars-calculator": {
+      "name": "Fraction Bars Calculator",
+      "dir": "src/tools/math/fraction-bars-calculator",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/fraction-bars-calculator/",
+      "engine": "math-lab",
+      "pattern": "simulate",
+      "family": "fractions",
+      "processorId": "fraction-bars",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,

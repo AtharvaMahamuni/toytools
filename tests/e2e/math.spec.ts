@@ -16,7 +16,7 @@ function guardConsole(page: Page): string[] {
 }
 
 test.describe('every math tool', () => {
-  for (const slug of ['unit-circle-calculator', 'quadratic-equation-solver', 'probability-calculator', 'linear-regression-playground', 'normal-distribution-visualizer']) {
+  for (const slug of ['unit-circle-calculator', 'quadratic-equation-solver', 'probability-calculator', 'linear-regression-playground', 'normal-distribution-visualizer', 'fraction-bars-calculator']) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);
       await page.goto(`/tool/math/${slug}/`);
@@ -175,6 +175,20 @@ test.describe('statistics visualizer (math engine)', () => {
     await page.locator('[data-field-id="stdevMode"]').selectOption('population');
     await expect(hero).toHaveText('5');
     await expect(page.locator('#statistics-visualizer-experience')).toContainText('2');
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+});
+
+test.describe('fraction bars', () => {
+  test('half plus a third shades 5/6 of the same whole', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto('/tool/math/fraction-bars-calculator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await page.getByRole('button', { name: 'Half plus a third' }).click();
+    await expect(page.locator('[data-sim-observations]')).toContainText('1/2 + 1/3 = 5/6. The shaded length matches.');
+    await expect(page.locator('[data-measurement="lengthResult"]')).toHaveText(/0\.833 wholes/);
+    await page.getByRole('button', { name: 'Two quarters' }).click();
+    await expect(page.locator('[data-sim-observations]')).toContainText('2/4 and 1/2 shade the same length.');
     expect(errors, errors.join('\n')).toEqual([]);
   });
 });
