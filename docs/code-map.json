@@ -291,7 +291,7 @@
         "atomic-structure",
         "chemical-bonding"
       ],
-      "toolCount": 6
+      "toolCount": 7
     },
     "wellness": {
       "name": "Wellness Engine",
@@ -910,6 +910,21 @@
       "pattern": "simulate",
       "family": "statistics",
       "processorId": "normal-distribution",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "cyclohexane-chair-calculator": {
+      "name": "Cyclohexane Chair Calculator",
+      "dir": "src/tools/chemistry/cyclohexane-chair-calculator",
+      "categorySlug": "chemistry",
+      "url": "/tool/chemistry/cyclohexane-chair-calculator/",
+      "engine": "chemistry-lab",
+      "pattern": "simulate",
+      "family": "organic-chemistry",
+      "processorId": "cyclohexane-chair",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,

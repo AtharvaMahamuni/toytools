@@ -16,6 +16,7 @@ import reactionKinetics from '../../simulations/reaction-kinetics';
 import electronConfiguration from '../../simulations/electron-configuration';
 import chemicalBond from '../../simulations/chemical-bond';
 import molecularGeometry from '../../simulations/molecular-geometry';
+import cyclohexaneChair from '../../simulations/cyclohexane-chair';
 
 export const chemistryDomain: SimulationDomain = {
   id: 'chemistry-lab',
@@ -27,5 +28,6 @@ export const chemistryDomain: SimulationDomain = {
     'electron-configuration': electronConfiguration,
     'chemical-bond': chemicalBond,
     'molecular-geometry': molecularGeometry,
+    'cyclohexane-chair': cyclohexaneChair,
   },
 };

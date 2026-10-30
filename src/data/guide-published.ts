@@ -58,6 +58,7 @@ export const guidePublishedAt: Record<string, string> = {
   'crc32-hash-generator': '2026-06-28',
   'cron-expression-parser': '2026-07-10',
   'crystal-field-splitting-calculator': '2026-08-29',
+  'cyclohexane-chair-calculator': '2026-10-31',
   'csv-cleaner': '2026-07-09',
   'csv-column-picker': '2026-10-09',
   'csv-diff': '2026-07-04',

@@ -93,6 +93,13 @@ Use for: Watch the electrons pick high spin or low spin for themselves.
 Privacy: Works offline after the first page load.
 Does not: Call an AI model.
 
+## Cyclohexane Chair Calculator
+
+URL: https://toytoolsapp.com/tool/chemistry/cyclohexane-chair-calculator/
+Use for: Flip the chair.
+Privacy: Works offline after the first page load.
+Does not: Draw an arbitrary substituted ring from a name you type, or assign R and S.
+
 ## Electron Configuration Calculator
 
 URL: https://toytoolsapp.com/tool/chemistry/electron-configuration-calculator/

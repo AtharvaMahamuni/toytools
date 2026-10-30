@@ -10,6 +10,7 @@ const REACTION = '/tool/chemistry/reaction-rate-calculator/';
 const CONFIGURATION = '/tool/chemistry/electron-configuration-calculator/';
 const BOND = '/tool/chemistry/chemical-bond-calculator/';
 const GEOMETRY = '/tool/chemistry/molecular-geometry-calculator/';
+const CHAIR = '/tool/chemistry/cyclohexane-chair-calculator/';
 
 function guardConsole(page: Page): string[] {
   const errors: string[] = [];
@@ -28,6 +29,7 @@ test.describe('every chemistry tool', () => {
     'electron-configuration-calculator',
     'chemical-bond-calculator',
     'molecular-geometry-calculator',
+    'cyclohexane-chair-calculator',
   ]) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);
@@ -260,5 +262,26 @@ test.describe('molecular geometry simulator', () => {
     await expect(page.locator('[data-measurement="stericNumber"]')).toHaveText(/^2$/);
     await expect(page.locator('[data-measurement="compressedAngle"]')).toHaveText(/180/);
     await expect(page.locator('[data-sim-observations]')).toContainText(/both linear/i);
+  });
+});
+
+test.describe('cyclohexane chair', () => {
+  test('a flip keeps the methyl up and the equatorial share near 95.5 percent', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto(CHAIR);
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await page.getByRole('button', { name: 'Methyl, equatorial' }).click();
+
+    await expect(page.locator('[data-sim-observations]')).toContainText('up, now equatorial');
+    await expect(page.locator('[data-measurement="equatorialPopulation"]')).toHaveText(/95\.[0-9]/);
+    await expect(page.locator('[data-measurement="gap"]')).toHaveText(/7\.6 kJ\/mol/);
+
+    const flip = page.getByLabel('Chair flip in %');
+    await flip.fill('100');
+    await flip.dispatchEvent('input');
+    await expect(page.locator('[data-sim-observations]')).toContainText('up, now axial');
+    await expect(page.locator('[data-sim-observations]')).not.toContainText('down');
+
+    expect(errors, errors.join('\n')).toEqual([]);
   });
 });
