@@ -2,6 +2,15 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.18] - 2026-10-30
+
+### Added
+
+- **Infinity Cube.** `/tool/fidget/infinity-cube/` folds one hinge at a time. A second swipe during a fold is ignored, and five folds return to one cube. Reduced motion jumps to the end pose. The guide is at `/guide/fidget/how-an-infinity-cube-folds/`.
+- **Cyclohexane Chair.** `/tool/chemistry/cyclohexane-chair-calculator/` flips a chair and keeps up as up while axial and equatorial trade places. A methyl group prefers the equatorial chair by 7.6 kJ/mol, about 95.5 percent of the population at 298 K. The guide is at `/guide/chemistry/how-cyclohexane-chairs-work/`.
+- **Fraction Bars.** `/tool/math/fraction-bars-calculator/` drags equal parts of one shared whole, as bars or circles. 2/4 and 1/2 shade the same length, and 1/2 + 1/3 is drawn as 5/6. The fraction calculator links here. The guide is at `/guide/applied-math/how-fraction-bars-work/`.
+- **Radioactive Decay.** `/tool/physics/radioactive-decay-calculator/` watches 400 nuclei of fluorine-18, iodine-131, cobalt-60, or carbon-14. The curve is the expected count, and this run can miss it: at one half-life the expectation is 200. The screen clock is a compressed scale, not the real half-life (carbon-14 is 5730 years). The guide is at `/guide/physics/how-radioactive-decay-works/`.
+
 ## [alpha-v13.17] - 2026-10-29
 
 ### Added

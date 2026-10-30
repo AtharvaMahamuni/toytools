@@ -1,8 +1,8 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-10-24T19:18:18.907Z
+Generated: 2026-10-30T23:09:33.735Z
 
-Discovered 111 signals -> 111 unique opportunities (8 recommended, 101 already shipped). Top score 85.9. Missing-engine candidates: 0.
+Discovered 116 signals -> 116 unique opportunities (8 recommended, 106 already shipped). Top score 85.9. Missing-engine candidates: 0.
 
 ## Immediate builds (top tier)
 _None above the immediate bar._
@@ -64,10 +64,10 @@ _None above the immediate bar._
 - **Fitness Performance Calculation** (wellness) - 3 tool(s), mean score 81.2.
 - **CSV Diff** (csv) - 1 tool(s), mean score 80.9.
 - **JSON Diff** (structured-data) - 1 tool(s), mean score 80.6.
+- **Fidget Interaction** (feel) - 7 tool(s), mean score 80.1.
 - **Public Address Lookup** (network) - 1 tool(s), mean score 80.1.
 - **IPv4 Subnet Math** (network) - 1 tool(s), mean score 80.
 - **ROT13** (encoding) - 1 tool(s), mean score 80.
-- **Fidget Interaction** (feel) - 6 tool(s), mean score 79.9.
 - **Diacritic Removal** (text-processor) - 1 tool(s), mean score 79.8.
 - **Triangles** (math) - 1 tool(s), mean score 79.8.
 - **Electron Configuration** (chemistry-lab) - 1 tool(s), mean score 79.6.
@@ -78,6 +78,7 @@ _None above the immediate bar._
 - **Type Scale** (units) - 1 tool(s), mean score 79.2.
 - **Regex Testing** (text-interactive) - 1 tool(s), mean score 79.1.
 - **Systematic Investment Plan** (finance) - 1 tool(s), mean score 79.1.
+- **Height Comparison** (calculator) - 1 tool(s), mean score 79.
 - **Breathing Guide** (feel) - 1 tool(s), mean score 78.8.
 - **Energy And Nutrition Planning** (wellness) - 3 tool(s), mean score 78.8.
 - **Projectile Motion** (physics) - 1 tool(s), mean score 78.8.
@@ -89,6 +90,7 @@ _None above the immediate bar._
 - **Bond Character** (chemistry-lab) - 1 tool(s), mean score 77.6.
 - **CSV Cleaning** (csv) - 1 tool(s), mean score 77.4.
 - **Matrices** (math) - 1 tool(s), mean score 77.3.
+- **Chair Conformation** (chemistry-lab) - 1 tool(s), mean score 77.2.
 - **Compound Annual Growth Rate** (finance) - 1 tool(s), mean score 77.2.
 - **Age Calculation** (datetime) - 1 tool(s), mean score 77.1.
 - **IPv4 Representation** (network) - 1 tool(s), mean score 77.1.
@@ -96,6 +98,7 @@ _None above the immediate bar._
 - **Date Difference** (datetime) - 1 tool(s), mean score 77.
 - **Chemical Kinetics** (chemistry-lab) - 1 tool(s), mean score 76.7.
 - **Health Date Calculation** (datetime) - 3 tool(s), mean score 76.6.
+- **Fraction Model** (math-lab) - 1 tool(s), mean score 76.4.
 - **Linear Regression** (math-lab) - 1 tool(s), mean score 76.3.
 - **Checksum (CRC32)** (hashing) - 1 tool(s), mean score 76.1.
 - **Simple Harmonic Motion** (physics) - 1 tool(s), mean score 76.1.
@@ -120,6 +123,7 @@ _None above the immediate bar._
 - **Word Frequency Analysis** (text-analysis) - 1 tool(s), mean score 73.
 - **Schedule Expression Translation** (datetime) - 1 tool(s), mean score 72.9.
 - **Encoding Detection** (encoding) - 1 tool(s), mean score 72.8.
+- **Radioactive Decay** (physics) - 1 tool(s), mean score 72.3.
 - **Momentum and Collisions** (physics) - 1 tool(s), mean score 72.2.
 - **Pendulum Period** (physics) - 1 tool(s), mean score 71.9.
 - **Timezone Conversion** (datetime) - 1 tool(s), mean score 71.9.
@@ -139,7 +143,7 @@ _None above the immediate bar._
 - **Nutrition Authoring** (meal-planning) - 1 tool(s), mean score 45.5.
 
 ## Craft debt (shipped tools with no thoughtful touch)
-### Ready to polish - 10 tool(s) whose craft the evidence already names
+### Ready to polish - 13 tool(s) whose craft the evidence already names
 - **electron-configuration-calculator** (chemistry-lab) - Writes the configuration correctly but cannot say which electrons are the valence ones that bond. / Follows the aufbau order blindly and misses the chromium and copper exceptions.
 - **csv-diff** (csv) - A semicolon-delimited European export parses as a single column and every row reads as changed. / Two files that differ only in row order are reported as wholly different.
 - **timezone-converter** (datetime) - The converted time is correct but nothing says whether it is a reasonable hour to call. / The date rolls over across the conversion and the day change goes unnoticed.
@@ -149,7 +153,10 @@ _None above the immediate bar._
 - **chemical-bond-calculator** (chemistry-lab) - Gets the electronegativity difference right, then applies a hard cutoff and calls a polar covalent bond ionic. / Reads a bond dipole without noticing that molecular geometry can cancel it to zero.
 - **csv-cleaner** (csv) - A semicolon-delimited European export parses as one column, silently, so the cleanup applies to nothing. / A trailing empty column from a spreadsheet export survives the clean because it looks like real data.
 - **linear-regression-playground** (math-lab) - Dragging one point tilts the whole line, and nothing names which point did it. / Two points always give an R squared of 1, which looks like a strong fit when it is only a line through two dots.
+- **fraction-bars-calculator** (math-lab) - 1/2 and 2/4 are drawn as different shaded lengths, so the equivalent fractions look unequal. / 1/2 + 1/3 is drawn by adding the denominators, and the result bar is shorter than the two parts. / A drag between equal parts leaves an unequal slice, so the picture is no longer a fraction of one whole.
+- **cyclohexane-chair-calculator** (chemistry-lab) - A flip animation turns an axial-up methyl into an axial-down methyl, so the up and down labels swap. / Methylcyclohexane is shown as a 50 percent split at room temperature because the A-value never enters the population.
 - **csv-to-tsv** (csv) - The source uses semicolons rather than commas, so the whole file converts into one column per row. / A field containing a tab breaks the output silently, since TSV has no quoting convention to fall back on.
+- **radioactive-decay-calculator** (physics) - The live count is forced to equal exactly half at one half-life, so the grid hides how far this run missed the curve. / The on-screen animation is labeled with the real half-life, so carbon-14 appears to finish in a few seconds.
 
 ### Needs evidence - 30 shipped tool(s) with no craft and no recorded failure
 Add `userFailures` to the seed record before a craft can be honest. Never invent one.
@@ -193,7 +200,7 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 - meal-plan-generator (score 45.5, meal-planning)
 
 ## Emerging trends (by transformation)
-- Fidget Interaction: 6 signal(s), mean demand 0.63, mean score 79.9.
+- Fidget Interaction: 7 signal(s), mean demand 0.63, mean score 80.1.
 - Hot-Seat Board Game: 4 signal(s), mean demand 0.57, mean score 79.5.
 - Fitness Performance Calculation: 3 signal(s), mean demand 0.78, mean score 81.2.
 - Energy And Nutrition Planning: 3 signal(s), mean demand 0.77, mean score 78.8.
@@ -206,4 +213,4 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 
 ---
 
-_Inputs fingerprint: `ad49869c`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `8ab24141`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._

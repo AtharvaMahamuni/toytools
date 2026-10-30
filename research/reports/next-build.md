@@ -1,6 +1,6 @@
 # Recommended Next Build
 
-Generated: 2026-10-24T19:18:18.907Z
+Generated: 2026-10-30T23:09:33.735Z
 
 ## Function Grapher  (`function-grapher`)
 
@@ -9,7 +9,7 @@ Generated: 2026-10-24T19:18:18.907Z
 ### Why build it
 - High search demand
 - Reuses the existing math-lab engine
-- Creates 5 internal links
+- Creates 6 internal links
 - Deterministic algorithm solves this exactly (AI adds nothing)
 - CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch
 
@@ -31,7 +31,7 @@ No task-level failure recorded for this tool, so there is no craft candidate fro
 
 ### Engine
 - Reuses existing engine: `math-lab`
-- Future tools this unlocks: quadratic-equation-solver, unit-circle-calculator, probability-calculator, normal-distribution-visualizer, linear-regression-playground
+- Future tools this unlocks: quadratic-equation-solver, unit-circle-calculator, probability-calculator, normal-distribution-visualizer, fraction-bars-calculator, linear-regression-playground
 
 ### Estimates
 - Implementation effort: **high**
@@ -41,9 +41,9 @@ No task-level failure recorded for this tool, so there is no craft candidate fro
 ### Suggested supporting content
 - Guides: What is Function Graphing?; How to function graphing online; Function Grapher vs the alternatives
 - FAQs: How do I function graphing?; Is Function Grapher free and private?; Does Function Grapher avoid "heavy apps pushing accounts and classes"?
-- Internal links / related tools: quadratic-equation-solver, linear-regression-playground, normal-distribution-visualizer, probability-calculator, unit-circle-calculator
+- Internal links / related tools: quadratic-equation-solver, fraction-bars-calculator, linear-regression-playground, normal-distribution-visualizer, probability-calculator, unit-circle-calculator
 - Schema: SoftwareApplication, FAQPage
 
 ---
 
-_Inputs fingerprint: `ad49869c`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `8ab24141`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._

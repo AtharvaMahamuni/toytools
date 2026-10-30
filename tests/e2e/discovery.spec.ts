@@ -243,7 +243,12 @@ test.describe('homepage index', () => {
     // (alpha-v13.10) is ungrouped too: a fertile window is not a mode of the due date page.
     // Height Comparison (alpha-v13.17) is ungrouped: a chart of heights is not a mode of
     // the percentage or tip calculators. 122 + 1 = 123 directory links.
-    await expect(directory.locator('.dir-link')).toHaveCount(123);
+    // Infinity Cube, Cyclohexane Chair, Fraction Bars, and Radioactive Decay
+    // (alpha-v13.18) are ungrouped. The cube is another fidget, not a mode of Pop It.
+    // The chair flip is not a mode of the Newman projection. Fraction bars draw one
+    // whole, and they are not a mode of the fraction form. A decay sample is not a
+    // mode of the reactor. 123 + 4 = 127 directory links.
+    await expect(directory.locator('.dir-link')).toHaveCount(127);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

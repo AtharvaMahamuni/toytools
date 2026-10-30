@@ -50,6 +50,13 @@ export function lengthOf(n: number, d: number): number {
   return d === 0 ? 0 : n / d;
 }
 
+/**
+ * Last animation step's wall clock. Kept off `vars` so two identical states
+ * step to identical vars. Draw snaps to the target when this stamp is stale,
+ * which is what a paused reduced-motion frame needs: the loop never calls step.
+ */
+let frameWall = 0;
+
 /** How many whole bars a length needs. 5/4 uses two. A full single whole stays one. */
 export function wholesUsed(length: number): number {
   if (length <= 1) return 1;
@@ -116,9 +123,8 @@ function targetLength(s: SimState, which: 'A' | 'B'): number {
 export function shownLength(s: SimState, which: 'A' | 'B'): number {
   const target = targetLength(s, which);
   if (prefersReducedMotion()) return target;
-  const wall = s.vars.wall ?? 0;
   const now = typeof performance !== 'undefined' ? performance.now() : 0;
-  if (!wall || now - wall > 100) return target;
+  if (!frameWall || now - frameWall > 100) return target;
   return which === 'A' ? s.vars.shownA : s.vars.shownB;
 }
 
@@ -173,12 +179,11 @@ const fractionBarsSim: SimulationDef = {
       tweenToB: b,
       tweenStartB: 0,
       holding: 0,
-      wall: 0,
     };
   },
   step(s, dt) {
     s.t += dt;
-    s.vars.wall = typeof performance !== 'undefined' ? performance.now() : 0;
+    frameWall = typeof performance !== 'undefined' ? performance.now() : 0;
     if (s.vars.holding === 1) return;
     ease(s, 'A', targetLength(s, 'A'), dt);
     ease(s, 'B', targetLength(s, 'B'), dt);

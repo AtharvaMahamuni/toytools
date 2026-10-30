@@ -1,7 +1,7 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-24T19:18:18.907Z",
-  "fingerprint": "ad49869c",
+  "generatedAt": "2026-10-30T23:09:33.735Z",
+  "fingerprint": "8ab24141",
   "readyToPolish": [
     {
       "slug": "electron-configuration-calculator",
@@ -94,6 +94,27 @@
       "demand": 70
     },
     {
+      "slug": "fraction-bars-calculator",
+      "kind": "ready-to-polish",
+      "userFailures": [
+        "1/2 and 2/4 are drawn as different shaded lengths, so the equivalent fractions look unequal.",
+        "1/2 + 1/3 is drawn by adding the denominators, and the result bar is shorter than the two parts.",
+        "A drag between equal parts leaves an unequal slice, so the picture is no longer a fraction of one whole."
+      ],
+      "engine": "math-lab",
+      "demand": 68
+    },
+    {
+      "slug": "cyclohexane-chair-calculator",
+      "kind": "ready-to-polish",
+      "userFailures": [
+        "A flip animation turns an axial-up methyl into an axial-down methyl, so the up and down labels swap.",
+        "Methylcyclohexane is shown as a 50 percent split at room temperature because the A-value never enters the population."
+      ],
+      "engine": "chemistry-lab",
+      "demand": 64
+    },
+    {
       "slug": "csv-to-tsv",
       "kind": "ready-to-polish",
       "userFailures": [
@@ -101,6 +122,16 @@
         "A field containing a tab breaks the output silently, since TSV has no quoting convention to fall back on."
       ],
       "engine": "csv",
+      "demand": 58
+    },
+    {
+      "slug": "radioactive-decay-calculator",
+      "kind": "ready-to-polish",
+      "userFailures": [
+        "The live count is forced to equal exactly half at one half-life, so the grid hides how far this run missed the curve.",
+        "The on-screen animation is labeled with the real half-life, so carbon-14 appears to finish in a few seconds."
+      ],
+      "engine": "physics",
       "demand": 58
     }
   ],
@@ -355,8 +386,8 @@
     }
   ],
   "summary": {
-    "shippedCovered": 101,
-    "readyToPolish": 10,
+    "shippedCovered": 106,
+    "readyToPolish": 13,
     "needsEvidence": 30,
     "atRisk": 6
   }
