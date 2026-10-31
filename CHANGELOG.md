@@ -13,7 +13,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Fixed
 
-- **Infinity Cube.** Face colours stay on the blocks after the fold script repaints them, and a face pressed against a neighbour is not drawn, so the closed shape reads as eight blocks.
+- **Infinity Cube.** Face colours stay on the blocks after the fold script repaints them, and a face pressed against a neighbour is not drawn, so the closed shape reads as eight blocks. The half on the open hinge is marked, and the word Fold sits on that half.
 
 ## [alpha-v13.17] - 2026-10-29
 

@@ -22,8 +22,21 @@ test.describe('infinity cube', () => {
     await expect(page.locator('[data-craft="infinity-cube-hinge"]')).toBeVisible();
     await expect(count(page)).toContainText('Closed');
     await expect(count(page)).toContainText('0 folds');
+    await expect(page.locator('#infinity-cube-stage .infinity-cue')).toHaveText('Fold');
 
-    await page.locator('[data-infinity-cube][data-free="0"]').first().click({ force: true });
+    // The first locked face's box overlaps the free half. Tap one whose pixels are actually gray.
+    await page.evaluate(() => {
+      const svg = document.querySelector('#infinity-cube-stage');
+      if (!svg) throw new Error('missing stage');
+      const locked = [...svg.querySelectorAll('[data-infinity-cube][data-free="0"]')];
+      const exposed = locked.find((poly) => {
+        const box = poly.getBoundingClientRect();
+        const top = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
+        return top === poly;
+      });
+      if (!exposed) throw new Error('missing locked face');
+      exposed.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
+    });
     await expect(count(page)).toContainText('0 folds');
 
     await page.evaluate(() => {

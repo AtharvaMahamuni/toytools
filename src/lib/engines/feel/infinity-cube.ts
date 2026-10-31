@@ -84,6 +84,8 @@ export interface DrawModel {
   viewBox: string;
   faces: DrawFace[];
   free: number[];
+  /** Centre of the half that can fold, where the word Fold is drawn. */
+  cue: { x: number; y: number } | null;
 }
 
 function normHinge(hinge: number): number {
@@ -427,7 +429,40 @@ export function drawModel(hinge: number, angle: number): DrawModel {
     }
   }
   faces.sort((p, q) => p.depth - q.depth || p.cube - q.cube);
-  return { viewBox: viewBox(), faces, free: [...movers] };
+  return { viewBox: viewBox(), faces, free: [...movers], cue: cuePoint(faces) };
+}
+
+function parsePoints(points: string): [number, number][] {
+  return points.split(' ').map((pair) => {
+    const [x, y] = pair.split(',').map(Number);
+    return [x!, y!] as [number, number];
+  });
+}
+
+function meanPoint(faces: readonly DrawFace[]): [number, number] | null {
+  let x = 0;
+  let y = 0;
+  let n = 0;
+  for (const face of faces) {
+    for (const [px, py] of parsePoints(face.points)) {
+      x += px;
+      y += py;
+      n += 1;
+    }
+  }
+  if (n === 0) return null;
+  return [x / n, y / n];
+}
+
+/**
+ * Centre of the half that can fold. The word sits on that half, so a tap on
+ * the word hits the faces under it. A point out in the margin looks tappable
+ * and does nothing.
+ */
+function cuePoint(faces: readonly DrawFace[]): { x: number; y: number } | null {
+  const moving = meanPoint(faces.filter((face) => face.free));
+  if (!moving) return null;
+  return { x: Number(moving[0].toFixed(2)), y: Number(moving[1].toFixed(2)) };
 }
 
 export const infinityCubeApi = {
