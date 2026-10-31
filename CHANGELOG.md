@@ -11,6 +11,10 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 - **Fraction Bars.** `/tool/math/fraction-bars-calculator/` drags equal parts of one shared whole, as bars or circles. 2/4 and 1/2 shade the same length, and 1/2 + 1/3 is drawn as 5/6. The fraction calculator links here. The guide is at `/guide/applied-math/how-fraction-bars-work/`.
 - **Radioactive Decay.** `/tool/physics/radioactive-decay-calculator/` watches 400 nuclei of fluorine-18, iodine-131, cobalt-60, or carbon-14. The curve is the expected count, and this run can miss it: at one half-life the expectation is 200. The screen clock is a compressed scale, not the real half-life (carbon-14 is 5730 years). The guide is at `/guide/physics/how-radioactive-decay-works/`.
 
+### Fixed
+
+- **Infinity Cube.** Face colours stay on the blocks after the fold script repaints them, and a face pressed against a neighbour is not drawn, so the closed shape reads as eight blocks.
+
 ## [alpha-v13.17] - 2026-10-29
 
 ### Added

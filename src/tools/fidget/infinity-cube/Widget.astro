@@ -78,30 +78,36 @@ const label = countLabel(closed);
     touch-action: none;
   }
 
-  .infinity-svg polygon[data-tone='light'] {
-    fill: color-mix(in srgb, var(--color-accent) 46%, var(--color-surface));
+  /*
+   * The fold script replaces these polygons, so they never receive Astro's scope
+   * attribute. Anchor the paint under the svg, which does.
+   */
+  .infinity-svg :global(polygon[data-tone='light']) {
+    fill: color-mix(in srgb, var(--color-accent) 62%, var(--color-surface));
   }
 
-  .infinity-svg polygon[data-tone='mid'] {
-    fill: color-mix(in srgb, var(--color-accent) 26%, var(--color-surface));
+  .infinity-svg :global(polygon[data-tone='mid']) {
+    fill: color-mix(in srgb, var(--color-accent) 38%, var(--color-surface));
   }
 
-  .infinity-svg polygon[data-tone='dark'] {
-    fill: color-mix(in srgb, var(--color-text) 16%, var(--color-surface));
+  .infinity-svg :global(polygon[data-tone='dark']) {
+    fill: color-mix(in srgb, var(--color-text) 28%, var(--color-surface));
   }
 
-  .infinity-svg polygon {
-    stroke: color-mix(in srgb, var(--color-text) 28%, var(--color-surface));
-    stroke-width: 0.035;
+  .infinity-svg :global(polygon) {
+    stroke: color-mix(in srgb, var(--color-text) 55%, var(--color-surface));
+    /* CSS lengths are pixels. non-scaling-stroke keeps the edge at that width in the view box. */
+    stroke-width: 1.5px;
     stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
   }
 
-  .infinity-svg polygon[data-free='1'] {
+  .infinity-svg :global(polygon[data-free='1']) {
     cursor: pointer;
   }
 
-  .infinity-svg polygon[data-free='1']:active {
-    fill: color-mix(in srgb, var(--color-accent) 64%, var(--color-surface));
+  .infinity-svg :global(polygon[data-free='1']:active) {
+    fill: color-mix(in srgb, var(--color-accent) 78%, var(--color-surface));
   }
 
   .infinity-svg:focus-visible,

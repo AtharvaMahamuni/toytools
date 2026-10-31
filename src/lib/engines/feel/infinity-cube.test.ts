@@ -116,7 +116,27 @@ describe('infinity cube hinges', () => {
     const closed = drawModel(0, 0);
     const free = new Set(closed.faces.filter((f) => f.free).map((f) => f.cube));
     expect([...free].sort((a, b) => a - b)).toEqual([1, 3, 5, 7]);
-    expect(closed.faces.length).toBeGreaterThan(8);
+    // Three outer faces of the 2×2×2, four blocks each. The back corner is covered.
+    expect(closed.faces).toHaveLength(12);
+    expect(closed.faces.filter((f) => f.cube === 0)).toHaveLength(0);
+    expect(closed.faces.filter((f) => f.cube === 7)).toHaveLength(3);
+    expect(drawModel(1, 0).faces.length).toBeGreaterThan(12);
+    const edgeOn = drawModel(0, 45).faces.map((f) => f.points);
+    expect(edgeOn.length).toBeGreaterThan(8);
+    for (const points of edgeOn) {
+      const pts = points.split(' ').map((pair) => pair.split(',').map(Number) as [number, number]);
+      let minX = Infinity;
+      let minY = Infinity;
+      let maxX = -Infinity;
+      let maxY = -Infinity;
+      for (const [x, y] of pts) {
+        minX = Math.min(minX, x);
+        minY = Math.min(minY, y);
+        maxX = Math.max(maxX, x);
+        maxY = Math.max(maxY, y);
+      }
+      expect(Math.hypot(maxX - minX, maxY - minY)).toBeGreaterThan(0.5);
+    }
     expect(drawModel(2, 40).viewBox).toBe(closed.viewBox);
     const mid = drawModel(0, 40);
     expect(mid.faces.length).toBeGreaterThan(8);

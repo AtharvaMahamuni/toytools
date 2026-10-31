@@ -67,6 +67,8 @@ const SIN30 = Math.sin(Math.PI / 6);
 const VIEW: Cell = [1, 1, 1];
 const INSET = 0.9;
 const SWEEP_EPS = 0.06;
+/** Projected area of a unit face is about 0.7. Below this, the face is edge-on. */
+const MIN_FACE_AREA = 0.08;
 
 export type FaceTone = 'light' | 'mid' | 'dark';
 
@@ -156,6 +158,51 @@ function worldSpin(cube: number, local: Cell, hinge: number, angle: number, dire
     q = spin(q, { ...active, pivot }, a);
   }
   return q;
+}
+
+function undoSpin(p: Cell, fold: FoldSpec, angle: number): Cell {
+  if (angle >= FOLD_DEGREES - 1e-6) {
+    const back: 1 | -1 = fold.dir === 1 ? -1 : 1;
+    return rotExact(p, fold.axis, fold.pivot, back);
+  }
+  if (angle <= 1e-6) return p;
+  return rotPartial(p, fold.axis, fold.pivot, fold.dir, -angle);
+}
+
+/** Inverse of `worldCorner` for one cube, so a world point can be tested against its box. */
+function localOf(cube: number, world: Cell, hinge: number, angle: number): Cell {
+  const h = normHinge(hinge);
+  const a = clampAngle(angle);
+  let q = world;
+  const active = FOLDS[h]!;
+  if (a > 0 && active.movers.includes(cube)) q = undoSpin(q, active, a);
+  for (let i = h - 1; i >= 0; i--) {
+    const fold = FOLDS[i]!;
+    if (!fold.movers.includes(cube)) continue;
+    const back: 1 | -1 = fold.dir === 1 ? -1 : 1;
+    q = rotExact(q, fold.axis, fold.pivot, back);
+  }
+  return q;
+}
+
+/** True when the point just outside a face sits inside another block. */
+function faceBuried(probe: Cell, self: number, hinge: number, angle: number): boolean {
+  for (let other = 0; other < START.length; other++) {
+    if (other === self) continue;
+    const local = localOf(other, probe, hinge, angle);
+    const base = START[other]!;
+    if (
+      local[0] > base[0] + 0.04 &&
+      local[0] < base[0] + 0.96 &&
+      local[1] > base[1] + 0.04 &&
+      local[1] < base[1] + 0.96 &&
+      local[2] > base[2] + 0.04 &&
+      local[2] < base[2] + 0.96
+    ) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function originOf(cube: number, hinge: number, angle: number): Cell {
@@ -277,6 +324,16 @@ export function project(x: number, y: number, z: number): [number, number] {
   return [(x - z) * COS30, -(y + (x + z) * SIN30)];
 }
 
+function projectedArea(pts: readonly [number, number][]): number {
+  let sum = 0;
+  for (let i = 0; i < pts.length; i++) {
+    const a = pts[i]!;
+    const b = pts[(i + 1) % pts.length]!;
+    sum += a[0] * b[1] - b[0] * a[1];
+  }
+  return Math.abs(sum) / 2;
+}
+
 function toneOf(normal: Cell): FaceTone {
   const ax = Math.abs(normal[0]);
   const ay = Math.abs(normal[1]);
@@ -335,8 +392,18 @@ export function drawModel(hinge: number, angle: number): DrawModel {
       const normal = worldVector(cube, face.normal, h, a);
       const dot = normal[0] * VIEW[0] + normal[1] * VIEW[1] + normal[2] * VIEW[2];
       if (dot <= 0.04) continue;
-      const pts = face.corners.map((d) => {
-        const world = worldCorner(cube, add(base, d), h, a);
+      const corners = face.corners.map((d) => worldCorner(cube, add(base, d), h, a));
+      const mid = corners.reduce(
+        (sum, p) => [sum[0] + p[0], sum[1] + p[1], sum[2] + p[2]] as Cell,
+        [0, 0, 0] as Cell,
+      );
+      const probe: Cell = [
+        mid[0] / 4 + normal[0] * 0.22,
+        mid[1] / 4 + normal[1] * 0.22,
+        mid[2] / 4 + normal[2] * 0.22,
+      ];
+      if (faceBuried(probe, cube, h, a)) continue;
+      const pts = corners.map((world) => {
         const inset: Cell = [
           center[0] + (world[0] - center[0]) * INSET,
           center[1] + (world[1] - center[1]) * INSET,
@@ -344,6 +411,7 @@ export function drawModel(hinge: number, angle: number): DrawModel {
         ];
         return project(inset[0], inset[1], inset[2]);
       });
+      if (projectedArea(pts) < MIN_FACE_AREA) continue;
       const depth =
         face.corners.reduce((sum, d) => {
           const p = worldCorner(cube, add(base, d), h, a);
