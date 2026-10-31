@@ -217,7 +217,7 @@
         "electricity",
         "nuclear-physics"
       ],
-      "toolCount": 12
+      "toolCount": 13
     },
     "datetime": {
       "name": "Date and Time Engine",
@@ -254,9 +254,10 @@
         "trigonometry",
         "algebra",
         "probability",
-        "statistics"
+        "statistics",
+        "fractions"
       ],
-      "toolCount": 5
+      "toolCount": 6
     },
     "math": {
       "name": "Math Calculator Engine",
@@ -291,7 +292,7 @@
         "atomic-structure",
         "chemical-bonding"
       ],
-      "toolCount": 6
+      "toolCount": 7
     },
     "wellness": {
       "name": "Wellness Engine",
@@ -383,7 +384,7 @@
       "supportedFamilies": [
         "fidget"
       ],
-      "toolCount": 7
+      "toolCount": 8
     },
     "network": {
       "name": "Network Engine",
@@ -910,6 +911,51 @@
       "pattern": "simulate",
       "family": "statistics",
       "processorId": "normal-distribution",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "cyclohexane-chair-calculator": {
+      "name": "Cyclohexane Chair Calculator",
+      "dir": "src/tools/chemistry/cyclohexane-chair-calculator",
+      "categorySlug": "chemistry",
+      "url": "/tool/chemistry/cyclohexane-chair-calculator/",
+      "engine": "chemistry-lab",
+      "pattern": "simulate",
+      "family": "organic-chemistry",
+      "processorId": "cyclohexane-chair",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "fraction-bars-calculator": {
+      "name": "Fraction Bars Calculator",
+      "dir": "src/tools/math/fraction-bars-calculator",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/fraction-bars-calculator/",
+      "engine": "math-lab",
+      "pattern": "simulate",
+      "family": "fractions",
+      "processorId": "fraction-bars",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "radioactive-decay-calculator": {
+      "name": "Radioactive Decay Calculator",
+      "dir": "src/tools/physics/radioactive-decay-calculator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/radioactive-decay-calculator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "nuclear-physics",
+      "processorId": "radioactive-decay",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,
@@ -2079,6 +2125,27 @@
       "engine": "color",
       "pattern": "color-convert",
       "family": "image-palette",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "infinity-cube": {
+      "name": "Infinity Cube",
+      "dir": "src/tools/fidget/infinity-cube",
+      "categorySlug": "fidgets",
+      "url": "/tool/fidget/infinity-cube/",
+      "engine": "feel",
+      "pattern": "fidget-interact",
+      "family": "fidget",
       "processorId": "",
       "toolGroup": "",
       "files": [

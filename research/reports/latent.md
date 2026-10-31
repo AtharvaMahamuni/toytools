@@ -1,6 +1,6 @@
 # Latent Demand: what nobody is searching for
 
-Generated: 2026-10-24T19:18:18.907Z
+Generated: 2026-10-30T23:09:33.735Z
 
 The roadmap ranks needs by how loudly they are already being asked for. This report ranks needs that produce no query at all, because the person does not yet have a word for the thing or does not yet know the failure is possible. The two scores are not comparable and are never merged.
 

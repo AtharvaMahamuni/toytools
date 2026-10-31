@@ -1,16 +1,16 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-24T19:18:18.907Z",
-  "fingerprint": "ad49869c",
-  "discovered": 111,
-  "deduped": 111,
-  "alreadyExists": 101,
+  "generatedAt": "2026-10-30T23:09:33.735Z",
+  "fingerprint": "8ab24141",
+  "discovered": 116,
+  "deduped": 116,
+  "alreadyExists": 106,
   "recommended": 8,
   "missingEngines": 0,
   "topScore": 85.9,
   "latentSignals": 7,
   "latentCandidates": 0,
-  "craftReadyToPolish": 10,
+  "craftReadyToPolish": 13,
   "craftAtRisk": 6,
   "nextBuild": "function-grapher"
 }

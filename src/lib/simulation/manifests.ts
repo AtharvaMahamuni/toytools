@@ -27,8 +27,11 @@ import { manifest as chemicalBond } from './simulations/chemical-bond.manifest';
 import { manifest as molecularGeometry } from './simulations/molecular-geometry.manifest';
 import { manifest as linearRegression } from './simulations/linear-regression.manifest';
 import { manifest as normalDistribution } from './simulations/normal-distribution.manifest';
+import { manifest as cyclohexaneChair } from './simulations/cyclohexane-chair.manifest';
+import { manifest as fractionBars } from './simulations/fraction-bars.manifest';
+import { manifest as radioactiveDecay } from './simulations/radioactive-decay.manifest';
 
-export const MANIFESTS: SimulationManifest[] = [projectileMotion, waveSpeed, frequencyPeriod, pendulum, heatTransfer, ohmsLaw, shmSpring, idealGasLaw, momentumCollision, inclinedPlane, dopplerEffect, unitCircle, quadratic, probability, nuclearReactor, newmanProjection, crystalField, reactionKinetics, electronConfiguration, chemicalBond, molecularGeometry, linearRegression, normalDistribution];
+export const MANIFESTS: SimulationManifest[] = [projectileMotion, waveSpeed, frequencyPeriod, pendulum, heatTransfer, ohmsLaw, shmSpring, idealGasLaw, momentumCollision, inclinedPlane, dopplerEffect, unitCircle, quadratic, probability, nuclearReactor, newmanProjection, crystalField, reactionKinetics, electronConfiguration, chemicalBond, molecularGeometry, linearRegression, normalDistribution, cyclohexaneChair, fractionBars, radioactiveDecay];
 
 export const manifestBySlug = new Map(MANIFESTS.map((m) => [m.metadata.slug, m]));
 export const manifestByProcessorId = new Map(MANIFESTS.map((m) => [m.metadata.processorId, m]));

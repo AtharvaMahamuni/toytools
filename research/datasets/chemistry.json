@@ -256,6 +256,53 @@
       "evergreen": 95,
       "difficulty": "medium",
       "localization": 68
+    },
+    {
+      "query": "cyclohexane chair flip",
+      "problem": "I need to flip a cyclohexane chair and see that up stays up while axial and equatorial trade places, and what that costs in strain.",
+      "intent": "informational",
+      "transformation": "Chair Conformation",
+      "proposedTool": "cyclohexane-chair-calculator",
+      "proposedName": "Cyclohexane Chair Calculator",
+      "proposedEngine": "chemistry-lab",
+      "searchQueries": [
+        "cyclohexane chair flip",
+        "chair conformation calculator",
+        "axial vs equatorial",
+        "1,3-diaxial strain",
+        "methylcyclohexane conformer"
+      ],
+      "existingSolutions": [
+        "masterorganicchemistry.com",
+        "leah4sci.com",
+        "static textbook drawings"
+      ],
+      "solutionWeaknesses": [
+        "the flip is a still image or a video",
+        "up and down get inverted in the drawing",
+        "the energy number sits in a separate figure",
+        "nothing is laid out for a phone"
+      ],
+      "userFailures": [
+        "A flip animation turns an axial-up methyl into an axial-down methyl, so the up and down labels swap.",
+        "Methylcyclohexane is shown as a 50 percent split at room temperature because the A-value never enters the population."
+      ],
+      "relatedProblems": [
+        "newman projection",
+        "axial vs equatorial",
+        "1,3-diaxial strain"
+      ],
+      "relatedTools": [
+        "newman-projection-calculator",
+        "molecular-geometry-calculator"
+      ],
+      "demand": 64,
+      "competition": 36,
+      "evergreen": 95,
+      "difficulty": "medium",
+      "localization": 70,
+      "algorithmicFit": 96,
+      "authorityRequired": 20
     }
   ]
 }

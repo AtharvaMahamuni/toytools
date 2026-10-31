@@ -58,6 +58,7 @@ import { knowledge as hexEncoderDecoder } from '@tools/developer-utilities/hex-e
 import { knowledge as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/knowledge';
 import { knowledge as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/knowledge';
 import { knowledge as imagePaletteExtractor } from '@tools/design/image-palette-extractor/knowledge';
+import { knowledge as infinityCube } from '@tools/fidget/infinity-cube/knowledge';
 import { knowledge as inflationCalculator } from '@tools/finance/inflation-calculator/knowledge';
 import { knowledge as invisibleCharacterDetector } from '@tools/text/invisible-character-detector/knowledge';
 import { knowledge as ipv4Converter } from '@tools/developer-utilities/ipv4-converter/knowledge';
@@ -230,6 +231,7 @@ export const authoredKnowledge: Knowledge[] = [
   htmlEntityEncoderDecoder,
   idealWeightCalculator,
   imagePaletteExtractor,
+  infinityCube,
   inflationCalculator,
   invisibleCharacterDetector,
   ipv4Converter,

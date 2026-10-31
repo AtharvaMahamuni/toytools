@@ -58,6 +58,7 @@ import { config as hexEncoderDecoder } from '@tools/developer-utilities/hex-enco
 import { config as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/config';
 import { config as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/config';
 import { config as imagePaletteExtractor } from '@tools/design/image-palette-extractor/config';
+import { config as infinityCube } from '@tools/fidget/infinity-cube/config';
 import { config as inflationCalculator } from '@tools/finance/inflation-calculator/config';
 import { config as invisibleCharacterDetector } from '@tools/text/invisible-character-detector/config';
 import { config as ipv4Converter } from '@tools/developer-utilities/ipv4-converter/config';
@@ -230,6 +231,7 @@ export const toolConfigs: ToolConfig[] = [
   htmlEntityEncoderDecoder,
   idealWeightCalculator,
   imagePaletteExtractor,
+  infinityCube,
   inflationCalculator,
   invisibleCharacterDetector,
   ipv4Converter,

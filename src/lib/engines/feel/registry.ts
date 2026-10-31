@@ -39,6 +39,7 @@ import {
 } from './types';
 import { breathingApi } from './breathing';
 import { gearsApi } from './gears';
+import { infinityCubeApi } from './infinity-cube';
 import { spinnerApi } from './spinner';
 import { createTilt } from './tilt';
 
@@ -180,6 +181,7 @@ export function createFeelApi(host: { prefs?: PrefsBag }) {
       };
     },
     gears: gearsApi,
+    infinityCube: infinityCubeApi,
     spinner: spinnerApi,
     breathing: breathingApi,
     /** Phone tilt. Kinetic Sand pours with it. No-op on desktop. */
@@ -202,4 +204,5 @@ export const FEEL_TOOLS: Record<string, { id: string }> = {
   'kinetic-sand': { id: 'kinetic-sand' },
   slime: { id: 'slime' },
   'breathing-circle': { id: 'breathing-circle' },
+  'infinity-cube': { id: 'infinity-cube' },
 };

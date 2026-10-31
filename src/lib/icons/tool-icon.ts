@@ -243,6 +243,7 @@ const SLUG_GLYPH: Record<string, string> = {
   'kinetic-sand': 'sand',
   slime: 'slime',
   'breathing-circle': 'breath',
+  'infinity-cube': 'cubeHinge',
 
   // network
   'cidr-calculator': 'cidr',
@@ -259,6 +260,7 @@ const SLUG_GLYPH: Record<string, string> = {
 
   // math — specifics
   'fraction-calculator': 'frac',
+  'fraction-bars-calculator': 'fractionStrips',
   'prime-factorization-calculator': 'primeX',
   'combinations-permutations-calculator': 'ncr',
 
@@ -269,6 +271,8 @@ const SLUG_GLYPH: Record<string, string> = {
 
   // chemistry — VSEPR shares the bonding family with chemical-bond, so it needs its own sketch.
   'molecular-geometry-calculator': 'tetrahedron',
+  // Newman keeps the benzene ring; the chair is the puckered flip.
+  'cyclohexane-chair-calculator': 'chairFlip',
 
   // games — each board has its own mark so the family default cannot collide
   'tic-tac-toe': 'noughts',
@@ -326,6 +330,9 @@ const SLUG_GLYPH: Record<string, string> = {
 
   // fitness / ROI already set above; one-rep-max
   'one-rep-max-calculator': 'barbell',
+
+  // nuclear physics (the reactor keeps the atom)
+  'radioactive-decay-calculator': 'decayCurve',
 
   // waves / thermo
   'doppler-effect-calculator': 'doppler',

@@ -9,6 +9,13 @@ Use for: nCr and nPr with the formula expanded step by step.
 Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
+## Fraction Bars Calculator
+
+URL: https://toytoolsapp.com/tool/math/fraction-bars-calculator/
+Use for: Drag the shaded edge.
+Privacy: Works offline after the first page load.
+Does not: Multiply or divide fractions, or take a typed mixed number.
+
 ## Fraction Calculator
 
 URL: https://toytoolsapp.com/tool/math/fraction-calculator/
@@ -92,6 +99,13 @@ URL: https://toytoolsapp.com/tool/chemistry/crystal-field-splitting-calculator/
 Use for: Watch the electrons pick high spin or low spin for themselves.
 Privacy: Works offline after the first page load.
 Does not: Call an AI model.
+
+## Cyclohexane Chair Calculator
+
+URL: https://toytoolsapp.com/tool/chemistry/cyclohexane-chair-calculator/
+Use for: Flip the chair.
+Privacy: Works offline after the first page load.
+Does not: Draw an arbitrary substituted ring from a name you type, or assign R and S.
 
 ## Electron Configuration Calculator
 
@@ -505,6 +519,13 @@ URL: https://toytoolsapp.com/tool/fidget/gears/
 Use for: Spin the pair.
 Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Design a gearbox or size real teeth, or send the spin to an AI model.
+
+## Infinity Cube
+
+URL: https://toytoolsapp.com/tool/fidget/infinity-cube/
+Use for: Fold the open hinge.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
+Does not: Diagnose restlessness, or replace a physical cube's weight.
 
 ## Kinetic Sand
 
@@ -1030,6 +1051,13 @@ URL: https://toytoolsapp.com/tool/physics/projectile-motion-calculator/
 Use for: Aim a launch and watch the arc.
 Privacy: Works offline after the first page load.
 Does not: Call an AI model.
+
+## Radioactive Decay Calculator
+
+URL: https://toytoolsapp.com/tool/physics/radioactive-decay-calculator/
+Use for: Watch the sample thin out.
+Privacy: Works offline after the first page load.
+Does not: Compute a radiation dose, a weapon yield, or the age of an object from one count.
 
 ## Simple Harmonic Motion Calculator
 

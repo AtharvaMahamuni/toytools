@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-24T19:18:18.907Z",
+  "generatedAt": "2026-10-30T23:09:33.735Z",
   "top": [
     {
       "id": "function-grapher",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-30T23:09:33.735Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -43,6 +43,7 @@
       ],
       "relatedTools": [
         "quadratic-equation-solver",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "normal-distribution-visualizer",
         "probability-calculator",
@@ -50,6 +51,7 @@
       ],
       "relatedGuides": [
         "quadratic-equation-solver",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "normal-distribution-visualizer",
         "probability-calculator",
@@ -57,6 +59,7 @@
       ],
       "relatedFaqs": [
         "quadratic-equation-solver",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "normal-distribution-visualizer",
         "probability-calculator",
@@ -100,7 +103,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-30T23:09:33.735Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -173,7 +176,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-30T23:09:33.735Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -239,7 +242,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-30T23:09:33.735Z",
       "existingSolutions": [
         "ilovepdf.com",
         "smallpdf.com",
@@ -310,7 +313,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-30T23:09:33.735Z",
       "existingSolutions": [
         "cloudconvert",
         "iloveimg",
@@ -384,7 +387,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-30T23:09:33.735Z",
       "existingSolutions": [
         "Google Calendar",
         "timeanddate.com",
@@ -459,7 +462,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-30T23:09:33.735Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -524,7 +527,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-30T23:09:33.735Z",
       "existingSolutions": [
         "drikpanchang.com",
         "local print calendars",
@@ -595,7 +598,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-30T23:09:33.735Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -665,7 +668,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-24T19:18:18.907Z",
+      "discoveredAt": "2026-10-30T23:09:33.735Z",
       "existingSolutions": [
         "eatthismuch.com",
         "myfitnesspal.com",

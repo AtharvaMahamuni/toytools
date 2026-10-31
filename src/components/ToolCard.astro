@@ -8,9 +8,14 @@ interface Props {
   tool: Tool;
   categoryName?: string;
   categorySegment?: string;
+  /**
+   * /search/ already stamps data-slug on the article. Repeating it on the anchor
+   * copies every slug into the heaviest HTML document on the site.
+   */
+  withSlug?: boolean;
 }
 
-const { tool, categoryName, categorySegment: segmentProp } = Astro.props;
+const { tool, categoryName, categorySegment: segmentProp, withSlug = true } = Astro.props;
 const segment = segmentProp ?? categories.find(c => c.slug === tool.categorySlug)?.segment ?? tool.categorySlug;
 const toolHref = toolPath({ slug: tool.slug, segment });
 // Tagline is the short on-page line; description is the SEO meta (up to 160 chars). Cards
@@ -19,7 +24,7 @@ const blurb = tool.tagline || tool.description;
 const newUntil = freshUntil(tool.addedOn);
 ---
 
-<a href={toolHref} class="tool-card" data-slug={tool.slug}>
+<a href={toolHref} class="tool-card" data-slug={withSlug ? tool.slug : undefined}>
   <div class="tool-header">
     <span class="tool-name">{tool.name}</span>
     {newUntil && <span class="tool-badge" data-new-until={newUntil}>New</span>}

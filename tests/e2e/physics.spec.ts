@@ -126,6 +126,7 @@ test.describe('every physics tool', () => {
     'inclined-plane-calculator',
     'doppler-effect-calculator',
     'nuclear-reactor-calculator',
+    'radioactive-decay-calculator',
   ]) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);
@@ -262,5 +263,23 @@ test.describe('formula calculator', () => {
     await page.goto('/tool/physics/heat-transfer-calculator/'); // Q = m × c × ΔT (both terms computed)
     await expect(page.locator('.phys-formula')).toBeVisible();
     await expect(page.locator('[data-formula-input]')).toHaveCount(0);
+  });
+});
+
+test.describe('radioactive decay', () => {
+  test('one screen half-life can miss 200, and carbon-14 is not that clock', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto('/tool/physics/radioactive-decay-calculator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await pointerDrag(page.locator('[data-sim-canvas]'), [0.08, 0.5], [0.22, 0.5]);
+    await expect(page.locator('[data-sim-observations]')).toContainText('Expected 200. This run has 186.');
+    await expect(page.locator('[data-sim-observations]')).toContainText('This screen is not that clock.');
+    await expect(page.locator('[data-measurement="expected"]')).toHaveText(/200\.0 nuclei/);
+    await expect(page.locator('[data-measurement="parent"]')).toHaveText('186 nuclei');
+    await page.getByRole('button', { name: 'Carbon-14' }).click();
+    await expect(page.locator('[data-sim-observations]')).toContainText('5730 years');
+    await expect(page.locator('[data-sim-observations]')).toContainText('This screen is not that clock.');
+    await expect(page.locator('[data-sim-observations]')).toContainText('Expected 200. This run has 186.');
+    expect(errors, errors.join('\n')).toEqual([]);
   });
 });

@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-24T19:18:18.907Z",
+  "generatedAt": "2026-10-30T23:09:33.735Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -60,7 +60,7 @@
     },
     {
       "id": "base64-encoder-decoder",
-      "title": "Base64 Encoder & Decoder",
+      "title": "Base64 Encoder and Decoder",
       "transformation": "binary-text",
       "engine": "encoding",
       "existing": true,
@@ -400,25 +400,25 @@
         "electron-configuration-calculator",
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
         "molecular-geometry-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
+        "newman-projection-calculator"
       ],
       "relatedGuides": [
         "electron-configuration-calculator",
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
         "molecular-geometry-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
+        "newman-projection-calculator"
       ],
       "relatedFaqs": [
         "electron-configuration-calculator",
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
         "molecular-geometry-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
+        "newman-projection-calculator"
       ]
     },
     {
@@ -759,25 +759,25 @@
         "newman-projection-calculator",
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
         "electron-configuration-calculator",
-        "molecular-geometry-calculator",
-        "reaction-rate-calculator"
+        "molecular-geometry-calculator"
       ],
       "relatedGuides": [
         "newman-projection-calculator",
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
         "electron-configuration-calculator",
-        "molecular-geometry-calculator",
-        "reaction-rate-calculator"
+        "molecular-geometry-calculator"
       ],
       "relatedFaqs": [
         "newman-projection-calculator",
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
         "electron-configuration-calculator",
-        "molecular-geometry-calculator",
-        "reaction-rate-calculator"
+        "molecular-geometry-calculator"
       ]
     },
     {
@@ -943,6 +943,37 @@
       ]
     },
     {
+      "id": "cyclohexane-chair-calculator",
+      "title": "Cyclohexane Chair Calculator",
+      "transformation": "Chair Conformation",
+      "engine": "chemistry-lab",
+      "existing": false,
+      "relatedTools": [
+        "newman-projection-calculator",
+        "molecular-geometry-calculator",
+        "chemical-bond-calculator",
+        "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
+        "electron-configuration-calculator"
+      ],
+      "relatedGuides": [
+        "newman-projection-calculator",
+        "molecular-geometry-calculator",
+        "chemical-bond-calculator",
+        "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
+        "electron-configuration-calculator"
+      ],
+      "relatedFaqs": [
+        "newman-projection-calculator",
+        "molecular-geometry-calculator",
+        "chemical-bond-calculator",
+        "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
+        "electron-configuration-calculator"
+      ]
+    },
+    {
       "id": "date-difference-calculator",
       "title": "Date Difference Calculator",
       "transformation": "Date Difference",
@@ -1015,6 +1046,16 @@
       "relatedFaqs": []
     },
     {
+      "id": "discount-calculator",
+      "title": "Discount Calculator",
+      "transformation": "arithmetic",
+      "engine": "calculator",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "doppler-effect-calculator",
       "title": "Doppler Effect Simulator",
       "transformation": "Doppler Effect",
@@ -1024,25 +1065,25 @@
         "wave-speed-calculator",
         "frequency-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
-        "heat-transfer-calculator",
-        "ideal-gas-law-calculator"
+        "heat-transfer-calculator"
       ],
       "relatedGuides": [
         "wave-speed-calculator",
         "frequency-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
-        "heat-transfer-calculator",
-        "ideal-gas-law-calculator"
+        "heat-transfer-calculator"
       ],
       "relatedFaqs": [
         "wave-speed-calculator",
         "frequency-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
-        "heat-transfer-calculator",
-        "ideal-gas-law-calculator"
+        "heat-transfer-calculator"
       ]
     },
     {
@@ -1054,26 +1095,26 @@
       "relatedTools": [
         "crystal-field-splitting-calculator",
         "chemical-bond-calculator",
+        "cyclohexane-chair-calculator",
         "electron-configuration-calculator",
         "molecular-geometry-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
+        "newman-projection-calculator"
       ],
       "relatedGuides": [
         "crystal-field-splitting-calculator",
         "chemical-bond-calculator",
+        "cyclohexane-chair-calculator",
         "electron-configuration-calculator",
         "molecular-geometry-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
+        "newman-projection-calculator"
       ],
       "relatedFaqs": [
         "crystal-field-splitting-calculator",
         "chemical-bond-calculator",
+        "cyclohexane-chair-calculator",
         "electron-configuration-calculator",
         "molecular-geometry-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
+        "newman-projection-calculator"
       ]
     },
     {
@@ -1159,6 +1200,37 @@
       "relatedFaqs": []
     },
     {
+      "id": "fraction-bars-calculator",
+      "title": "Fraction Bars",
+      "transformation": "Fraction Model",
+      "engine": "math-lab",
+      "existing": false,
+      "relatedTools": [
+        "fraction-calculator",
+        "unit-circle-calculator",
+        "percentage-calculator",
+        "fraction-bars-calculator",
+        "linear-regression-playground",
+        "normal-distribution-visualizer"
+      ],
+      "relatedGuides": [
+        "fraction-calculator",
+        "unit-circle-calculator",
+        "percentage-calculator",
+        "fraction-bars-calculator",
+        "linear-regression-playground",
+        "normal-distribution-visualizer"
+      ],
+      "relatedFaqs": [
+        "fraction-calculator",
+        "unit-circle-calculator",
+        "percentage-calculator",
+        "fraction-bars-calculator",
+        "linear-regression-playground",
+        "normal-distribution-visualizer"
+      ]
+    },
+    {
       "id": "fraction-calculator",
       "title": "Fraction Calculator",
       "transformation": "Fractions",
@@ -1201,7 +1273,7 @@
         "doppler-effect-calculator",
         "ohms-law-calculator",
         "nuclear-reactor-calculator",
-        "frequency-period-calculator"
+        "radioactive-decay-calculator"
       ],
       "relatedGuides": [
         "wave-speed-calculator",
@@ -1209,7 +1281,7 @@
         "doppler-effect-calculator",
         "ohms-law-calculator",
         "nuclear-reactor-calculator",
-        "frequency-period-calculator"
+        "radioactive-decay-calculator"
       ],
       "relatedFaqs": [
         "wave-speed-calculator",
@@ -1217,7 +1289,7 @@
         "doppler-effect-calculator",
         "ohms-law-calculator",
         "nuclear-reactor-calculator",
-        "frequency-period-calculator"
+        "radioactive-decay-calculator"
       ]
     },
     {
@@ -1228,6 +1300,7 @@
       "existing": false,
       "relatedTools": [
         "quadratic-equation-solver",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "normal-distribution-visualizer",
         "probability-calculator",
@@ -1235,6 +1308,7 @@
       ],
       "relatedGuides": [
         "quadratic-equation-solver",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "normal-distribution-visualizer",
         "probability-calculator",
@@ -1242,6 +1316,7 @@
       ],
       "relatedFaqs": [
         "quadratic-equation-solver",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "normal-distribution-visualizer",
         "probability-calculator",
@@ -1361,26 +1436,57 @@
       "relatedTools": [
         "ideal-gas-law-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
-        "heat-transfer-calculator",
-        "inclined-plane-calculator"
+        "heat-transfer-calculator"
       ],
       "relatedGuides": [
         "ideal-gas-law-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
-        "heat-transfer-calculator",
-        "inclined-plane-calculator"
+        "heat-transfer-calculator"
       ],
       "relatedFaqs": [
         "ideal-gas-law-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
-        "heat-transfer-calculator",
-        "inclined-plane-calculator"
+        "heat-transfer-calculator"
+      ]
+    },
+    {
+      "id": "height-comparison",
+      "title": "Height Comparison",
+      "transformation": "Height Comparison",
+      "engine": "calculator",
+      "existing": false,
+      "relatedTools": [
+        "percentage-calculator",
+        "discount-calculator",
+        "height-comparison",
+        "margin-calculator",
+        "markup-calculator",
+        "scientific-calculator"
+      ],
+      "relatedGuides": [
+        "percentage-calculator",
+        "discount-calculator",
+        "height-comparison",
+        "margin-calculator",
+        "markup-calculator",
+        "scientific-calculator"
+      ],
+      "relatedFaqs": [
+        "percentage-calculator",
+        "discount-calculator",
+        "height-comparison",
+        "margin-calculator",
+        "markup-calculator",
+        "scientific-calculator"
       ]
     },
     {
@@ -1395,7 +1501,7 @@
     },
     {
       "id": "html-entity-encoder-decoder",
-      "title": "HTML Entity Encoder & Decoder",
+      "title": "HTML Entity Encoder and Decoder",
       "transformation": "web",
       "engine": "encoding",
       "existing": true,
@@ -1412,26 +1518,26 @@
       "relatedTools": [
         "heat-transfer-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "relatedGuides": [
         "heat-transfer-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "relatedFaqs": [
         "heat-transfer-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ]
     },
     {
@@ -1503,26 +1609,57 @@
       "relatedTools": [
         "pendulum-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
-        "heat-transfer-calculator",
-        "ideal-gas-law-calculator"
+        "heat-transfer-calculator"
       ],
       "relatedGuides": [
         "pendulum-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
-        "heat-transfer-calculator",
-        "ideal-gas-law-calculator"
+        "heat-transfer-calculator"
       ],
       "relatedFaqs": [
         "pendulum-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
-        "heat-transfer-calculator",
-        "ideal-gas-law-calculator"
+        "heat-transfer-calculator"
+      ]
+    },
+    {
+      "id": "infinity-cube",
+      "title": "Infinity Cube",
+      "transformation": "Fidget Interaction",
+      "engine": "feel",
+      "existing": false,
+      "relatedTools": [
+        "spinner",
+        "pop-it",
+        "gears",
+        "switch-board",
+        "breathing-circle",
+        "infinity-cube"
+      ],
+      "relatedGuides": [
+        "spinner",
+        "pop-it",
+        "gears",
+        "switch-board",
+        "breathing-circle",
+        "infinity-cube"
+      ],
+      "relatedFaqs": [
+        "spinner",
+        "pop-it",
+        "gears",
+        "switch-board",
+        "breathing-circle",
+        "infinity-cube"
       ]
     },
     {
@@ -1551,7 +1688,6 @@
       ],
       "relatedGuides": [
         "remove-line-breaks",
-        "normalize-whitespace",
         "slugify-text",
         "text-compare",
         "invisible-character-detector",
@@ -1738,7 +1874,7 @@
         "pop-it",
         "spinner",
         "breathing-circle",
-        "kinetic-sand"
+        "infinity-cube"
       ],
       "relatedGuides": [
         "slime",
@@ -1746,7 +1882,7 @@
         "pop-it",
         "spinner",
         "breathing-circle",
-        "kinetic-sand"
+        "infinity-cube"
       ],
       "relatedFaqs": [
         "slime",
@@ -1754,7 +1890,7 @@
         "pop-it",
         "spinner",
         "breathing-circle",
-        "kinetic-sand"
+        "infinity-cube"
       ]
     },
     {
@@ -1817,26 +1953,26 @@
       "relatedTools": [
         "statistics-visualizer",
         "normal-distribution-visualizer",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "probability-calculator",
-        "quadratic-equation-solver",
-        "unit-circle-calculator"
+        "quadratic-equation-solver"
       ],
       "relatedGuides": [
         "statistics-visualizer",
         "normal-distribution-visualizer",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "probability-calculator",
-        "quadratic-equation-solver",
-        "unit-circle-calculator"
+        "quadratic-equation-solver"
       ],
       "relatedFaqs": [
         "statistics-visualizer",
         "normal-distribution-visualizer",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "probability-calculator",
-        "quadratic-equation-solver",
-        "unit-circle-calculator"
+        "quadratic-equation-solver"
       ]
     },
     {
@@ -1910,6 +2046,26 @@
       ]
     },
     {
+      "id": "margin-calculator",
+      "title": "Margin Calculator",
+      "transformation": "arithmetic",
+      "engine": "calculator",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "markup-calculator",
+      "title": "Markup Calculator",
+      "transformation": "arithmetic",
+      "engine": "calculator",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "matrix-calculator",
       "title": "Matrix Calculator",
       "transformation": "Matrices",
@@ -1975,26 +2131,26 @@
       "relatedTools": [
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
         "electron-configuration-calculator",
         "molecular-geometry-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
+        "newman-projection-calculator"
       ],
       "relatedGuides": [
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
         "electron-configuration-calculator",
         "molecular-geometry-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
+        "newman-projection-calculator"
       ],
       "relatedFaqs": [
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
         "electron-configuration-calculator",
         "molecular-geometry-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
+        "newman-projection-calculator"
       ]
     },
     {
@@ -2006,26 +2162,26 @@
       "relatedTools": [
         "pendulum-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
-        "heat-transfer-calculator",
-        "ideal-gas-law-calculator"
+        "heat-transfer-calculator"
       ],
       "relatedGuides": [
         "pendulum-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
-        "heat-transfer-calculator",
-        "ideal-gas-law-calculator"
+        "heat-transfer-calculator"
       ],
       "relatedFaqs": [
         "pendulum-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
-        "heat-transfer-calculator",
-        "ideal-gas-law-calculator"
+        "heat-transfer-calculator"
       ]
     },
     {
@@ -2098,25 +2254,25 @@
         "reaction-rate-calculator",
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
         "electron-configuration-calculator",
-        "molecular-geometry-calculator",
-        "newman-projection-calculator"
+        "molecular-geometry-calculator"
       ],
       "relatedGuides": [
         "reaction-rate-calculator",
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
         "electron-configuration-calculator",
-        "molecular-geometry-calculator",
-        "newman-projection-calculator"
+        "molecular-geometry-calculator"
       ],
       "relatedFaqs": [
         "reaction-rate-calculator",
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
         "electron-configuration-calculator",
-        "molecular-geometry-calculator",
-        "newman-projection-calculator"
+        "molecular-geometry-calculator"
       ]
     },
     {
@@ -2128,26 +2284,26 @@
       "relatedTools": [
         "statistics-visualizer",
         "probability-calculator",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "normal-distribution-visualizer",
-        "quadratic-equation-solver",
-        "unit-circle-calculator"
+        "quadratic-equation-solver"
       ],
       "relatedGuides": [
         "statistics-visualizer",
         "probability-calculator",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "normal-distribution-visualizer",
-        "quadratic-equation-solver",
-        "unit-circle-calculator"
+        "quadratic-equation-solver"
       ],
       "relatedFaqs": [
         "statistics-visualizer",
         "probability-calculator",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "normal-distribution-visualizer",
-        "quadratic-equation-solver",
-        "unit-circle-calculator"
+        "quadratic-equation-solver"
       ]
     },
     {
@@ -2178,27 +2334,27 @@
       "existing": false,
       "relatedTools": [
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "relatedGuides": [
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "relatedFaqs": [
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ]
     },
     {
@@ -2210,26 +2366,26 @@
       "relatedTools": [
         "frequency-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "relatedGuides": [
         "frequency-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "relatedFaqs": [
         "frequency-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ]
     },
     {
@@ -2341,24 +2497,24 @@
         "projectile-motion-calculator",
         "inclined-plane-calculator",
         "nuclear-reactor-calculator",
-        "doppler-effect-calculator",
-        "frequency-period-calculator"
+        "radioactive-decay-calculator",
+        "doppler-effect-calculator"
       ],
       "relatedGuides": [
         "simple-harmonic-motion-calculator",
         "projectile-motion-calculator",
         "inclined-plane-calculator",
         "nuclear-reactor-calculator",
-        "doppler-effect-calculator",
-        "frequency-period-calculator"
+        "radioactive-decay-calculator",
+        "doppler-effect-calculator"
       ],
       "relatedFaqs": [
         "simple-harmonic-motion-calculator",
         "projectile-motion-calculator",
         "inclined-plane-calculator",
         "nuclear-reactor-calculator",
-        "doppler-effect-calculator",
-        "frequency-period-calculator"
+        "radioactive-decay-calculator",
+        "doppler-effect-calculator"
       ]
     },
     {
@@ -2484,25 +2640,25 @@
         "normal-distribution-visualizer",
         "statistics-visualizer",
         "probability-calculator",
+        "fraction-bars-calculator",
         "linear-regression-playground",
-        "quadratic-equation-solver",
-        "unit-circle-calculator"
+        "quadratic-equation-solver"
       ],
       "relatedGuides": [
         "normal-distribution-visualizer",
         "statistics-visualizer",
         "probability-calculator",
+        "fraction-bars-calculator",
         "linear-regression-playground",
-        "quadratic-equation-solver",
-        "unit-circle-calculator"
+        "quadratic-equation-solver"
       ],
       "relatedFaqs": [
         "normal-distribution-visualizer",
         "statistics-visualizer",
         "probability-calculator",
+        "fraction-bars-calculator",
         "linear-regression-playground",
-        "quadratic-equation-solver",
-        "unit-circle-calculator"
+        "quadratic-equation-solver"
       ]
     },
     {
@@ -2514,26 +2670,26 @@
       "relatedTools": [
         "pendulum-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
-        "heat-transfer-calculator",
-        "ideal-gas-law-calculator"
+        "heat-transfer-calculator"
       ],
       "relatedGuides": [
         "pendulum-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
-        "heat-transfer-calculator",
-        "ideal-gas-law-calculator"
+        "heat-transfer-calculator"
       ],
       "relatedFaqs": [
         "pendulum-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
-        "heat-transfer-calculator",
-        "ideal-gas-law-calculator"
+        "heat-transfer-calculator"
       ]
     },
     {
@@ -2635,6 +2791,7 @@
       "existing": false,
       "relatedTools": [
         "unit-circle-calculator",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "normal-distribution-visualizer",
         "probability-calculator",
@@ -2642,6 +2799,7 @@
       ],
       "relatedGuides": [
         "unit-circle-calculator",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "normal-distribution-visualizer",
         "probability-calculator",
@@ -2649,6 +2807,7 @@
       ],
       "relatedFaqs": [
         "unit-circle-calculator",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "normal-distribution-visualizer",
         "probability-calculator",
@@ -2681,6 +2840,37 @@
       ]
     },
     {
+      "id": "radioactive-decay-calculator",
+      "title": "Radioactive Decay Calculator",
+      "transformation": "Radioactive Decay",
+      "engine": "physics",
+      "existing": false,
+      "relatedTools": [
+        "nuclear-reactor-calculator",
+        "pendulum-period-calculator",
+        "radioactive-decay-calculator",
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator"
+      ],
+      "relatedGuides": [
+        "nuclear-reactor-calculator",
+        "pendulum-period-calculator",
+        "radioactive-decay-calculator",
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator"
+      ],
+      "relatedFaqs": [
+        "nuclear-reactor-calculator",
+        "pendulum-period-calculator",
+        "radioactive-decay-calculator",
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator"
+      ]
+    },
+    {
       "id": "random-string-generator",
       "title": "Random String Generator",
       "transformation": "credential",
@@ -2700,25 +2890,25 @@
         "ideal-gas-law-calculator",
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
         "electron-configuration-calculator",
-        "molecular-geometry-calculator",
-        "newman-projection-calculator"
+        "molecular-geometry-calculator"
       ],
       "relatedGuides": [
         "ideal-gas-law-calculator",
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
         "electron-configuration-calculator",
-        "molecular-geometry-calculator",
-        "newman-projection-calculator"
+        "molecular-geometry-calculator"
       ],
       "relatedFaqs": [
         "ideal-gas-law-calculator",
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "cyclohexane-chair-calculator",
         "electron-configuration-calculator",
-        "molecular-geometry-calculator",
-        "newman-projection-calculator"
+        "molecular-geometry-calculator"
       ]
     },
     {
@@ -2819,7 +3009,6 @@
       ],
       "relatedGuides": [
         "remove-extra-spaces",
-        "normalize-whitespace",
         "camel-case-converter",
         "chat-export-cleaner",
         "context-fit-checker",
@@ -2860,7 +3049,6 @@
       ],
       "relatedGuides": [
         "remove-blank-lines",
-        "normalize-whitespace",
         "remove-extra-spaces",
         "camel-case-converter",
         "chat-export-cleaner",
@@ -3058,6 +3246,16 @@
       "relatedFaqs": []
     },
     {
+      "id": "scientific-calculator",
+      "title": "Scientific Calculator",
+      "transformation": "arithmetic",
+      "engine": "calculator",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "sha1-hash-generator",
       "title": "SHA-1 Hash Generator",
       "transformation": "cryptographic",
@@ -3128,25 +3326,25 @@
         "pendulum-period-calculator",
         "frequency-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
-        "heat-transfer-calculator",
-        "ideal-gas-law-calculator"
+        "heat-transfer-calculator"
       ],
       "relatedGuides": [
         "pendulum-period-calculator",
         "frequency-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
-        "heat-transfer-calculator",
-        "ideal-gas-law-calculator"
+        "heat-transfer-calculator"
       ],
       "relatedFaqs": [
         "pendulum-period-calculator",
         "frequency-period-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "doppler-effect-calculator",
-        "heat-transfer-calculator",
-        "ideal-gas-law-calculator"
+        "heat-transfer-calculator"
       ]
     },
     {
@@ -3248,7 +3446,7 @@
         "gears",
         "spinner",
         "breathing-circle",
-        "slime"
+        "infinity-cube"
       ],
       "relatedGuides": [
         "kinetic-sand",
@@ -3256,7 +3454,7 @@
         "gears",
         "spinner",
         "breathing-circle",
-        "slime"
+        "infinity-cube"
       ],
       "relatedFaqs": [
         "kinetic-sand",
@@ -3264,7 +3462,7 @@
         "gears",
         "spinner",
         "breathing-circle",
-        "slime"
+        "infinity-cube"
       ]
     },
     {
@@ -3310,7 +3508,7 @@
         "kinetic-sand",
         "switch-board",
         "breathing-circle",
-        "slime"
+        "infinity-cube"
       ],
       "relatedGuides": [
         "pop-it",
@@ -3318,7 +3516,7 @@
         "kinetic-sand",
         "switch-board",
         "breathing-circle",
-        "slime"
+        "infinity-cube"
       ],
       "relatedFaqs": [
         "pop-it",
@@ -3326,7 +3524,7 @@
         "kinetic-sand",
         "switch-board",
         "breathing-circle",
-        "slime"
+        "infinity-cube"
       ]
     },
     {
@@ -3371,24 +3569,24 @@
         "spinner",
         "gears",
         "breathing-circle",
-        "kinetic-sand",
-        "slime"
+        "infinity-cube",
+        "kinetic-sand"
       ],
       "relatedGuides": [
         "pop-it",
         "spinner",
         "gears",
         "breathing-circle",
-        "kinetic-sand",
-        "slime"
+        "infinity-cube",
+        "kinetic-sand"
       ],
       "relatedFaqs": [
         "pop-it",
         "spinner",
         "gears",
         "breathing-circle",
-        "kinetic-sand",
-        "slime"
+        "infinity-cube",
+        "kinetic-sand"
       ]
     },
     {
@@ -3578,6 +3776,7 @@
       "existing": false,
       "relatedTools": [
         "quadratic-equation-solver",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "normal-distribution-visualizer",
         "probability-calculator",
@@ -3585,6 +3784,7 @@
       ],
       "relatedGuides": [
         "quadratic-equation-solver",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "normal-distribution-visualizer",
         "probability-calculator",
@@ -3592,6 +3792,7 @@
       ],
       "relatedFaqs": [
         "quadratic-equation-solver",
+        "fraction-bars-calculator",
         "linear-regression-playground",
         "normal-distribution-visualizer",
         "probability-calculator",
@@ -3641,7 +3842,7 @@
     },
     {
       "id": "url-encoder-decoder",
-      "title": "URL Encoder & Decoder",
+      "title": "URL Encoder and Decoder",
       "transformation": "web",
       "engine": "encoding",
       "existing": true,
@@ -3772,25 +3973,25 @@
         "frequency-period-calculator",
         "doppler-effect-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "relatedGuides": [
         "frequency-period-calculator",
         "doppler-effect-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "relatedFaqs": [
         "frequency-period-calculator",
         "doppler-effect-calculator",
         "nuclear-reactor-calculator",
+        "radioactive-decay-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ]
     },
     {
@@ -4151,6 +4352,11 @@
     },
     {
       "from": "chemical-bond-calculator",
+      "to": "cyclohexane-chair-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "chemical-bond-calculator",
       "to": "molecular-geometry-calculator",
       "kind": "shares-engine"
     },
@@ -4425,6 +4631,26 @@
       "kind": "links-to-tool"
     },
     {
+      "from": "cyclohexane-chair-calculator",
+      "to": "crystal-field-splitting-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "cyclohexane-chair-calculator",
+      "to": "molecular-geometry-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "cyclohexane-chair-calculator",
+      "to": "newman-projection-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "cyclohexane-chair-calculator",
+      "to": "reaction-rate-calculator",
+      "kind": "shares-engine"
+    },
+    {
       "from": "date-difference-calculator",
       "to": "cron-expression-parser",
       "kind": "shares-engine"
@@ -4495,6 +4721,11 @@
       "kind": "shares-engine"
     },
     {
+      "from": "doppler-effect-calculator",
+      "to": "radioactive-decay-calculator",
+      "kind": "shares-engine"
+    },
+    {
       "from": "electron-configuration-calculator",
       "to": "chemical-bond-calculator",
       "kind": "shares-engine"
@@ -4502,6 +4733,11 @@
     {
       "from": "electron-configuration-calculator",
       "to": "crystal-field-splitting-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "electron-configuration-calculator",
+      "to": "cyclohexane-chair-calculator",
       "kind": "shares-engine"
     },
     {
@@ -4575,6 +4811,21 @@
       "kind": "links-to-tool"
     },
     {
+      "from": "fraction-bars-calculator",
+      "to": "function-grapher",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "fraction-bars-calculator",
+      "to": "linear-regression-playground",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "fraction-bars-calculator",
+      "to": "percentage-calculator",
+      "kind": "links-to-tool"
+    },
+    {
       "from": "fraction-calculator",
       "to": "combinations-permutations-calculator",
       "kind": "shares-engine"
@@ -4642,6 +4893,11 @@
     {
       "from": "frequency-period-calculator",
       "to": "projectile-motion-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "frequency-period-calculator",
+      "to": "radioactive-decay-calculator",
       "kind": "shares-engine"
     },
     {
@@ -4720,6 +4976,31 @@
       "kind": "shares-engine"
     },
     {
+      "from": "height-comparison",
+      "to": "discount-calculator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "height-comparison",
+      "to": "margin-calculator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "height-comparison",
+      "to": "markup-calculator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "height-comparison",
+      "to": "percentage-calculator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "height-comparison",
+      "to": "scientific-calculator",
+      "kind": "links-to-tool"
+    },
+    {
       "from": "ideal-gas-law-calculator",
       "to": "doppler-effect-calculator",
       "kind": "shares-engine"
@@ -4750,6 +5031,11 @@
       "kind": "shares-engine"
     },
     {
+      "from": "ideal-gas-law-calculator",
+      "to": "radioactive-decay-calculator",
+      "kind": "shares-engine"
+    },
+    {
       "from": "image-convert-compress",
       "to": "image-palette-extractor",
       "kind": "related-problem"
@@ -4763,6 +5049,31 @@
       "from": "inclined-plane-calculator",
       "to": "nuclear-reactor-calculator",
       "kind": "shares-engine"
+    },
+    {
+      "from": "infinity-cube",
+      "to": "breathing-circle",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "infinity-cube",
+      "to": "gears",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "infinity-cube",
+      "to": "kinetic-sand",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "infinity-cube",
+      "to": "slime",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "infinity-cube",
+      "to": "spinner",
+      "kind": "same-transformation"
     },
     {
       "from": "invisible-character-detector",
@@ -4976,6 +5287,11 @@
     },
     {
       "from": "normal-distribution-visualizer",
+      "to": "fraction-bars-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "normal-distribution-visualizer",
       "to": "function-grapher",
       "kind": "shares-engine"
     },
@@ -5022,6 +5338,11 @@
     {
       "from": "ohms-law-calculator",
       "to": "projectile-motion-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "ohms-law-calculator",
+      "to": "radioactive-decay-calculator",
       "kind": "shares-engine"
     },
     {
@@ -5126,6 +5447,11 @@
     },
     {
       "from": "pop-it",
+      "to": "infinity-cube",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "pop-it",
       "to": "kinetic-sand",
       "kind": "same-transformation"
     },
@@ -5186,6 +5512,11 @@
     },
     {
       "from": "probability-calculator",
+      "to": "fraction-bars-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "probability-calculator",
       "to": "function-grapher",
       "kind": "shares-engine"
     },
@@ -5232,6 +5563,11 @@
     {
       "from": "projectile-motion-calculator",
       "to": "pendulum-period-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "projectile-motion-calculator",
+      "to": "radioactive-decay-calculator",
       "kind": "shares-engine"
     },
     {
@@ -5316,6 +5652,11 @@
     },
     {
       "from": "quadratic-equation-solver",
+      "to": "fraction-bars-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "quadratic-equation-solver",
       "to": "function-grapher",
       "kind": "shares-engine"
     },
@@ -5337,6 +5678,36 @@
     {
       "from": "quadratic-equation-solver",
       "to": "unit-circle-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "radioactive-decay-calculator",
+      "to": "heat-transfer-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "radioactive-decay-calculator",
+      "to": "inclined-plane-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "radioactive-decay-calculator",
+      "to": "momentum-collision-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "radioactive-decay-calculator",
+      "to": "nuclear-reactor-calculator",
+      "kind": "related-problem"
+    },
+    {
+      "from": "radioactive-decay-calculator",
+      "to": "nuclear-reactor-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "radioactive-decay-calculator",
+      "to": "pendulum-period-calculator",
       "kind": "shares-engine"
     },
     {
@@ -5731,6 +6102,11 @@
     },
     {
       "from": "simple-harmonic-motion-calculator",
+      "to": "radioactive-decay-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "simple-harmonic-motion-calculator",
       "to": "wave-speed-calculator",
       "kind": "shares-engine"
     },
@@ -5916,6 +6292,11 @@
     },
     {
       "from": "switch-board",
+      "to": "infinity-cube",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "switch-board",
       "to": "kinetic-sand",
       "kind": "same-transformation"
     },
@@ -5983,6 +6364,11 @@
       "from": "type-scale-generator",
       "to": "aspect-ratio-calculator",
       "kind": "related-problem"
+    },
+    {
+      "from": "unit-circle-calculator",
+      "to": "fraction-bars-calculator",
+      "kind": "shares-engine"
     },
     {
       "from": "unit-circle-calculator",
@@ -6147,6 +6533,11 @@
     {
       "from": "wave-speed-calculator",
       "to": "pendulum-period-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "wave-speed-calculator",
+      "to": "radioactive-decay-calculator",
       "kind": "shares-engine"
     },
     {

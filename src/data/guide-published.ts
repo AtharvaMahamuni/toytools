@@ -12,6 +12,7 @@
  * entry before the first commit. Never change an existing date.
  */
 export const guidePublishedAt: Record<string, string> = {
+  'infinity-cube': '2026-10-31',
   'height-comparison': '2026-10-28',
   'ovulation-calculator': '2026-10-21',
   'pregnancy-due-date-calculator': '2026-10-21',
@@ -57,6 +58,7 @@ export const guidePublishedAt: Record<string, string> = {
   'crc32-hash-generator': '2026-06-28',
   'cron-expression-parser': '2026-07-10',
   'crystal-field-splitting-calculator': '2026-08-29',
+  'cyclohexane-chair-calculator': '2026-10-31',
   'csv-cleaner': '2026-07-09',
   'csv-column-picker': '2026-10-09',
   'csv-diff': '2026-07-04',
@@ -74,6 +76,7 @@ export const guidePublishedAt: Record<string, string> = {
   'file-hash-verifier': '2026-10-04',
   'find-replace': '2026-06-25',
   'fraction-calculator': '2026-07-19',
+  'fraction-bars-calculator': '2026-10-31',
   'frequency-period-calculator': '2026-07-12',
   'gears': '2026-09-09',
   'habit-streak-tracker': '2026-09-16',
@@ -120,6 +123,7 @@ export const guidePublishedAt: Record<string, string> = {
   'normal-distribution-visualizer': '2026-10-09',
   'notepad': '2026-06-04',
   'nuclear-reactor-calculator': '2026-08-24',
+  'radioactive-decay-calculator': '2026-10-31',
   'number-to-words': '2026-08-22',
   'ohms-law-calculator': '2026-07-12',
   'one-rep-max-calculator': '2026-08-04',

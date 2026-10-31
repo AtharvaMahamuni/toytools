@@ -14,7 +14,7 @@ export const config: ToolConfig = {
   pattern: 'math-calculate',
   family: 'fractions',
   processorId: 'fraction',
-  relatedTools: ['percentage-calculator', 'quadratic-equation-solver', 'unit-circle-calculator'],
+  relatedTools: ['fraction-bars-calculator', 'percentage-calculator', 'quadratic-equation-solver', 'unit-circle-calculator'],
   guide: {
     slug: 'fraction-calculator',
     categorySlug: 'applied-math',

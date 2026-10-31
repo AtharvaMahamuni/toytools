@@ -87,6 +87,7 @@ describe('tool install icons', () => {
     expect(resolveGlyphId({ slug: 'kinetic-sand', family: 'fidget' })).toBe('sand');
     expect(resolveGlyphId({ slug: 'slime', family: 'fidget' })).toBe('slime');
     expect(resolveGlyphId({ slug: 'breathing-circle', family: 'fidget' })).toBe('breath');
+    expect(resolveGlyphId({ slug: 'infinity-cube', family: 'fidget' })).toBe('cubeHinge');
   });
 
   it('falls back to the spark glyph for an unknown family', () => {

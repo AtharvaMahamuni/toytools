@@ -16,7 +16,7 @@ function guardConsole(page: Page): string[] {
 }
 
 test.describe('every math tool', () => {
-  for (const slug of ['unit-circle-calculator', 'quadratic-equation-solver', 'probability-calculator', 'linear-regression-playground', 'normal-distribution-visualizer']) {
+  for (const slug of ['unit-circle-calculator', 'quadratic-equation-solver', 'probability-calculator', 'linear-regression-playground', 'normal-distribution-visualizer', 'fraction-bars-calculator']) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);
       await page.goto(`/tool/math/${slug}/`);
@@ -176,5 +176,66 @@ test.describe('statistics visualizer (math engine)', () => {
     await expect(hero).toHaveText('5');
     await expect(page.locator('#statistics-visualizer-experience')).toContainText('2');
     expect(errors, errors.join('\n')).toEqual([]);
+  });
+});
+
+
+async function canvasPixels(page: import('@playwright/test').Page) {
+  return page.locator('[data-sim-canvas]').evaluate((el) => {
+    const c = el as HTMLCanvasElement;
+    const ctx = c.getContext('2d')!;
+    return { w: c.width, h: c.height, data: Array.from(ctx.getImageData(0, 0, c.width, c.height).data) };
+  });
+}
+
+function pixelAt(img: { w: number; h: number; data: number[] }, fx: number, fy: number): number[] {
+  const x = Math.min(img.w - 1, Math.round(fx * img.w));
+  const y = Math.min(img.h - 1, Math.round(fy * img.h));
+  const i = (y * img.w + x) * 4;
+  return img.data.slice(i, i + 3);
+}
+
+async function setParam(page: import('@playwright/test').Page, id: string, value: string) {
+  const slider = page.locator(`[data-param="${id}"]`);
+  await slider.fill(value);
+  await slider.dispatchEvent('input');
+}
+
+test.describe('fraction bars', () => {
+  test('half plus a third shades 5/6 of the same whole', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto('/tool/math/fraction-bars-calculator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await page.getByRole('button', { name: 'Half plus a third' }).click();
+    await expect(page.locator('[data-sim-observations]')).toContainText('1/2 + 1/3 = 5/6. The shaded length matches.');
+    await expect(page.locator('[data-measurement="lengthResult"]')).toHaveText(/0\.833 wholes/);
+    await page.getByRole('button', { name: 'Two quarters' }).click();
+    await expect(page.locator('[data-sim-observations]')).toContainText('2/4 and 1/2 shade the same length.');
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+
+  test('3/2 + 3/2 reads 3 and shades three wholes on the canvas', async ({ page }) => {
+    await page.goto('/tool/math/fraction-bars-calculator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await page.getByRole('button', { name: 'Half plus a third' }).click();
+    await setParam(page, 'numA', '3');
+    await setParam(page, 'denA', '2');
+    await setParam(page, 'numB', '3');
+    await setParam(page, 'denB', '2');
+    await expect(page.locator('[data-sim-observations]')).toContainText('3/2 + 3/2 = 3. The shaded length matches.');
+    await expect(page.locator('[data-measurement="lengthResult"]')).toHaveText(/3\.000 wholes/);
+    await page.waitForTimeout(200);
+    const img = await canvasPixels(page);
+    const rowH = Math.max(18 / (img.h / (await page.evaluate(() => devicePixelRatio))), 0.12);
+    // Shaded colour, sampled off the tick lines.
+    const shaded = pixelAt(img, 0.17, 0.24 + rowH / 2); // first row, left of the 1/2 tick
+    const background = pixelAt(img, 0.5, 0.24 + rowH / 2);
+    expect(shaded).not.toEqual(background);
+    // Result row: three wholes. x = 0.5 is inside the middle whole, which a two-whole layout leaves as a gap.
+    const resultY = 0.24 + (2 * 0.7) / 3 + rowH / 2;
+    for (const fx of [0.2, 0.5, 0.79]) {
+      const px = pixelAt(img, fx, resultY);
+      for (let k = 0; k < 3; k++) expect(Math.abs(px[k]! - shaded[k]!)).toBeLessThanOrEqual(8);
+    }
   });
 });

@@ -21,6 +21,7 @@ frequency-period-calculator,frequency-period-calculator,Frequency and Period Cal
 statistics-visualizer,statistics-visualizer,Statistics Visualizer,Descriptive Statistics,math,true,needs-improvement,already-exists,medium,0.92,0.52,0.96,0.7,1,0.97,0,0.84,0.8,81.7
 binary-text-converter,binary-text-converter,Binary Text Converter,Binary Encoding,encoding,true,needs-improvement,already-exists,low,0.74,0.68,0.86,1,1,0.9,0,0.9,0.8,81.6
 ohms-law-calculator,ohms-law-calculator,Ohm's Law Simulator,Ohm's Law,physics,true,needs-improvement,already-exists,medium,0.95,0.52,0.96,0.7,1,0.98,0,0.85,0.8,81.4
+infinity-cube,infinity-cube,Infinity Cube,Fidget Interaction,feel,true,needs-improvement,already-exists,medium,0.66,0.74,0.72,0.7,1,0.86,1,0.96,0.64,81.3
 json-escape,json-escape,JSON Escape / Unescape,JSON String Escaping,structured-data,true,needs-improvement,already-exists,low,0.76,0.63,0.88,1,1,0.9,0,0.92,0.8,81.3
 gears,gears,Gears,Fidget Interaction,feel,true,needs-improvement,already-exists,medium,0.55,0.83,0.8,0.7,1,0.82,1,0.94,0.64,81.1
 csv-diff,csv-diff,CSV Diff,CSV Diff,csv,true,needs-improvement,already-exists,medium,0.82,0.78,0.84,0.7,1,0.93,0,0.88,0.8,80.9
@@ -41,6 +42,7 @@ unix-timestamp-converter,unix-timestamp-converter,Unix Timestamp Converter,Times
 bmr-calculator,bmr-calculator,BMR Calculator,Energy And Nutrition Planning,wellness,true,needs-improvement,already-exists,low,0.8,0.46,0.95,1,1,0.92,0.5,0.9,0.8,79.1
 regex-tester,regex-tester,Regex Tester,Regex Testing,text-interactive,true,needs-improvement,already-exists,medium,0.86,0.46,0.94,0.7,1,0.94,0,0.92,0.8,79.1
 sip-calculator,sip-calculator,SIP Calculator,Systematic Investment Plan,finance,true,needs-improvement,already-exists,low,0.92,0.6,0.9,1,1,0.73,0,0.95,0.8,79.1
+height-comparison,height-comparison,Height Comparison,Height Comparison,calculator,true,needs-improvement,already-exists,low,0.72,0.6,0.9,1,1,0.65,0,0.84,0.8,79
 spinner,spinner,Fidget Spinner,Fidget Interaction,feel,true,needs-improvement,already-exists,medium,0.66,0.63,0.62,0.7,1,0.86,1,0.96,0.64,79
 breathing-circle,breathing-circle,Breathing Circle,Breathing Guide,feel,true,needs-improvement,already-exists,low,0.7,0.56,0.84,1,1,0.88,0,0.9,0.8,78.8
 projectile-motion-calculator,projectile-motion-calculator,Projectile Motion Simulator,Projectile Motion,physics,true,needs-improvement,already-exists,medium,0.9,0.69,0.96,0.7,1,0.96,0,0.82,0.8,78.8
@@ -55,6 +57,7 @@ protein-intake-calculator,protein-intake-calculator,Protein Intake Calculator,En
 csv-cleaner,csv-cleaner,CSV Cleaner,CSV Cleaning,csv,true,needs-improvement,already-exists,medium,0.7,0.76,0.82,0.7,1,0.88,0,0.86,0.8,77.4
 matrix-calculator,matrix-calculator,Matrix Calculator,Matrices,math,true,needs-improvement,already-exists,medium,0.88,0.46,0.95,0.7,1,0.83,0,0.85,0.8,77.3
 cagr-calculator,cagr-calculator,CAGR Calculator,Compound Annual Growth Rate,finance,true,needs-improvement,already-exists,low,0.82,0.6,0.88,1,1,0.69,0,0.8,0.8,77.2
+cyclohexane-chair-calculator,cyclohexane-chair-calculator,Cyclohexane Chair Calculator,Chair Conformation,chemistry-lab,true,needs-improvement,already-exists,medium,0.64,0.88,0.95,0.7,1,0.86,0,0.7,0.8,77.2
 age-calculator,age-calculator,Age Calculator,Age Calculation,datetime,true,needs-improvement,already-exists,medium,0.88,0.46,0.88,0.7,1,0.83,0,0.78,0.8,77.1
 ipv4-converter,ipv4-converter,IPv4 Converter,IPv4 Representation,network,true,needs-improvement,already-exists,low,0.42,0.76,0.94,1,1,0.77,0,0.98,0.64,77.1
 normal-distribution-visualizer,normal-distribution-visualizer,Normal Distribution Visualizer,Normal Distribution,math-lab,true,needs-improvement,already-exists,medium,0.76,0.61,0.94,0.7,1,0.9,0,0.8,0.8,77.1
@@ -62,6 +65,7 @@ date-difference-calculator,date-difference-calculator,Date Difference Calculator
 reaction-rate-calculator,reaction-rate-calculator,Reaction Rate Calculator,Chemical Kinetics,chemistry-lab,true,needs-improvement,already-exists,medium,0.74,0.66,0.95,0.7,1,0.9,0,0.78,0.8,76.7
 pregnancy-due-date-calculator,pregnancy-due-date-calculator,Pregnancy Due Date Calculator,Health Date Calculation,datetime,true,needs-improvement,already-exists,low,0.88,0.46,0.95,1,1,0.95,0.5,0.88,0.8,76.6
 lean-body-mass-calculator,lean-body-mass-calculator,Lean Body Mass Calculator,Body Composition Calculation,wellness,true,needs-improvement,already-exists,low,0.55,0.7,0.92,1,1,0.82,0.5,0.92,0.64,76.5
+fraction-bars-calculator,fraction-bars-calculator,Fraction Bars,Fraction Model,math-lab,true,needs-improvement,already-exists,medium,0.68,0.56,0.96,0.7,1,0.87,0,0.9,0.8,76.4
 quantum-tic-tac-toe,quantum-tic-tac-toe,Quantum Tic Tac Toe,Hot-Seat Board Game,board-game,true,needs-improvement,already-exists,high,0.48,0.96,0.78,0.4,1,0.79,0.75,0.94,0.64,76.4
 linear-regression-playground,linear-regression-playground,Linear Regression Playground,Linear Regression,math-lab,true,needs-improvement,already-exists,medium,0.7,0.66,0.93,0.7,1,0.88,0,0.78,0.8,76.3
 crc32-hash-generator,crc32-hash-generator,CRC32 Hash Generator,Checksum (CRC32),hashing,true,needs-improvement,already-exists,low,0.56,0.68,0.8,1,1,0.7,0,0.92,0.64,76.1
@@ -92,6 +96,7 @@ word-frequency-counter,word-frequency-counter,Word Frequency Counter,Word Freque
 body-surface-area-calculator,body-surface-area-calculator,Body Surface Area Calculator,Body Composition Calculation,wellness,true,needs-improvement,already-exists,low,0.48,0.76,0.95,1,1,0.79,0.5,0.96,0.64,72.9
 systemd-timer-converter,systemd-timer-converter,Cron to systemd Timer Converter,Schedule Expression Translation,datetime,true,needs-improvement,already-exists,medium,0.29,0.94,0.92,0.7,1,0.72,0,0.95,0.64,72.9
 encoding-detector,encoding-detector,Encoding Detector,Encoding Detection,encoding,true,needs-improvement,already-exists,medium,0.34,0.88,0.9,0.7,1,0.74,0,0.95,0.64,72.8
+radioactive-decay-calculator,radioactive-decay-calculator,Radioactive Decay Calculator,Radioactive Decay,physics,true,needs-improvement,already-exists,medium,0.58,0.72,0.94,0.7,1,0.83,0,0.75,0.64,72.3
 momentum-collision-calculator,momentum-collision-calculator,Momentum & Collision Simulator,Momentum and Collisions,physics,true,needs-improvement,already-exists,medium,0.72,0.7,0.95,0.7,1,0.77,0,0.8,0.8,72.2
 vo2-max-calculator,vo2-max-calculator,VO2 Max Calculator,Fitness Performance Calculation,wellness,true,needs-improvement,already-exists,medium,0.58,0.68,0.9,0.7,1,0.83,0.5,0.85,0.64,72.2
 pendulum-period-calculator,pendulum-period-calculator,Pendulum Period Calculator,Pendulum Period,physics,true,needs-improvement,already-exists,medium,0.7,0.72,0.94,0.7,1,0.76,0,0.8,0.8,71.9

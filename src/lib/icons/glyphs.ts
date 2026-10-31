@@ -161,6 +161,8 @@ export const GLYPHS: Record<string, string> = {
   zap: '<path d="M13 2 4 13.5h6.2L9.5 22 20 10.5h-6.3L13 2Z" fill="#fff"/>',
   spring: S + '<path d="M12 3v2"/><path d="M8 6h8l-8 3h8l-8 3h8"/><rect x="8.5" y="14.5" width="7" height="5" rx="1"/>' + E,
   atom: S + '<ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/>' + E + '<circle cx="12" cy="12" r="1.6" fill="#fff" stroke="none"/>',
+  // A falling count beside the expected curve. The reactor keeps the atom.
+  decayCurve: S + '<path d="M3 19h18"/><path d="M4 5c3.5.4 5.5 4 8 8.2 2 3.4 3.4 5.3 8.5 5.3"/>' + E + '<g fill="#fff"><circle cx="6.2" cy="7.2" r="1.35"/><circle cx="11.2" cy="12.4" r="1.15" fill-opacity=".65"/><circle cx="16.4" cy="16.6" r="0.95" fill-opacity=".4"/></g>',
 
   // ── chemistry (simulations) ───────────────────────────────────────────
   // The ring is the whole visual shorthand for organic chemistry, so it names the family the way
@@ -176,12 +178,16 @@ export const GLYPHS: Record<string, string> = {
   bond: S + '<circle cx="5.5" cy="12" r="3"/><circle cx="18.5" cy="12" r="3"/><path d="M8.5 12h7"/>' + E + '<g fill="#fff"><circle cx="12" cy="9.6" r="1.3"/><circle cx="12" cy="14.4" r="1.3"/></g>',
   // A tetrahedral centre: the VSEPR sketch, four sites around one atom.
   tetrahedron: S + '<path d="M12 3 20 18H4Z"/><path d="M12 3v15"/><path d="M4 18l8-6 8 6"/>' + E + '<g fill="#fff"><circle cx="12" cy="3" r="1.5"/><circle cx="20" cy="18" r="1.5"/><circle cx="4" cy="18" r="1.5"/><circle cx="12" cy="12" r="1.8"/></g>',
+  // A puckered chair with one axial bond. Newman keeps the flat benzene ring.
+  chairFlip: S + '<path d="M8 15h8l4-5-4-4H8L4 10Z"/><path d="M8 15v5"/>' + E,
 
   // ── applied math ──────────────────────────────────────────────────────
   parabola: S + '<path d="M4 4v16.5h16"/><path d="M6 8Q12 22 18.5 8"/>' + E,
   unitCircle: S + '<circle cx="12" cy="12" r="8"/><path d="M12 12h8"/><path d="M12 12 18 8"/><path d="M16 12a4 4 0 0 0-1.2-2.9"/>' + E,
   dice: '<g fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3.5"/></g><g fill="#fff"><circle cx="8.2" cy="8.2" r="1.3"/><circle cx="15.8" cy="8.2" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="8.2" cy="15.8" r="1.3"/><circle cx="15.8" cy="15.8" r="1.3"/></g>',
   frac: t('&#8239;a&#8260;b&#8239;', 9),
+  // Two strips of one whole: the picture, not the a/b numeral.
+  fractionStrips: '<g fill="#fff"><rect x="3" y="6" width="8" height="4" rx="1"/><rect x="12.5" y="6" width="3.5" height="4" rx="0.8" fill-opacity=".35"/><rect x="17.5" y="6" width="3.5" height="4" rx="0.8" fill-opacity=".35"/><rect x="3" y="14" width="18" height="4" rx="1" fill-opacity=".35"/><rect x="3" y="14" width="6" height="4" rx="1"/></g>',
   roman: t('IV', 12),
   // The word for the digit: exactly what the tool turns one into.
   numWords: t('one', 8),
@@ -211,6 +217,8 @@ export const GLYPHS: Record<string, string> = {
   slime: S + '<path d="M7.2 8.2c0-2.8 2-4.8 4.8-4.8s4.8 2 4.8 4.8c2 .5 3.6 2.6 3.6 5.2 0 3.6-3.6 6.6-8.4 6.6S3.6 17 3.6 13.4c0-2.6 1.6-4.7 3.6-5.2Z"/>' + E,
   // Expanding rings: a named breathing pattern, not a spinner.
   breath: S + '<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="6.2"/><circle cx="12" cy="12" r="9.4"/>' + E,
+  // Two blocks on one hinge: the open fold of an infinity cube.
+  cubeHinge: S + '<path d="M3 8h8v8H3Z"/><path d="M13 8h8v8h-8Z"/><path d="M11 6v12"/>' + E,
 
   // ── network ───────────────────────────────────────────────────────────
   // Four octets on a line: an IPv4 address, which is what CIDR is about.
