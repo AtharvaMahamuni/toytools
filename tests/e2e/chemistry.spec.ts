@@ -265,6 +265,28 @@ test.describe('molecular geometry simulator', () => {
   });
 });
 
+
+async function canvasPixels(page: import('@playwright/test').Page) {
+  return page.locator('[data-sim-canvas]').evaluate((el) => {
+    const c = el as HTMLCanvasElement;
+    const ctx = c.getContext('2d')!;
+    return { w: c.width, h: c.height, data: Array.from(ctx.getImageData(0, 0, c.width, c.height).data) };
+  });
+}
+
+function pixelAt(img: { w: number; h: number; data: number[] }, fx: number, fy: number): number[] {
+  const x = Math.min(img.w - 1, Math.round(fx * img.w));
+  const y = Math.min(img.h - 1, Math.round(fy * img.h));
+  const i = (y * img.w + x) * 4;
+  return img.data.slice(i, i + 3);
+}
+
+async function setParam(page: import('@playwright/test').Page, id: string, value: string) {
+  const slider = page.locator(`[data-param="${id}"]`);
+  await slider.fill(value);
+  await slider.dispatchEvent('input');
+}
+
 test.describe('cyclohexane chair', () => {
   test('a flip keeps the methyl up and the equatorial share near 95.5 percent', async ({ page }) => {
     const errors = guardConsole(page);
@@ -284,4 +306,30 @@ test.describe('cyclohexane chair', () => {
 
     expect(errors, errors.join('\n')).toEqual([]);
   });
+
+  test('draws a chair, and the flip visibly moves the bonds', async ({ page }) => {
+    await page.goto(CHAIR);
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await page.getByRole('button', { name: 'Methyl, equatorial' }).click();
+    await page.waitForTimeout(200);
+    const before = await canvasPixels(page);
+    const bg = pixelAt(before, 0.02, 0.5);
+    let inked = 0;
+    for (let i = 0; i < before.data.length; i += 4) {
+      if (Math.abs(before.data[i]! - bg[0]!) + Math.abs(before.data[i + 1]! - bg[1]!) + Math.abs(before.data[i + 2]! - bg[2]!) > 60) inked++;
+    }
+    expect(inked).toBeGreaterThan(1500);
+    await expect(page.locator('[data-measurement="k"]')).toHaveText(/^0\.04[67]/);
+
+    await setParam(page, 'flip', '100');
+    await expect(page.locator('[data-sim-observations]')).toContainText('up, now axial');
+    await page.waitForTimeout(200);
+    const after = await canvasPixels(page);
+    let changed = 0;
+    for (let i = 0; i < before.data.length; i += 4) {
+      if (Math.abs(before.data[i]! - after.data[i]!) + Math.abs(before.data[i + 1]! - after.data[i + 1]!) > 60) changed++;
+    }
+    expect(changed).toBeGreaterThan(800);
+  });
 });
+

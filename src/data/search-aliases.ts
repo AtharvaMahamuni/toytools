@@ -223,8 +223,6 @@ export const searchAliases: Record<string, string[]> = {
     'fidget pop it',
   ],
   'infinity-cube': [
-    'infinity cube fidget',
-    'infinity cube online',
     'fold a fidget cube',
     'hinged cube fidget',
   ],

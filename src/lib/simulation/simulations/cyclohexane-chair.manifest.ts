@@ -91,7 +91,6 @@ export const manifest: SimulationManifest = {
       'Cyclohexane chair flip. Conformation, axial vs equatorial, 1,3-diaxial strain, methylcyclohexane conformer. Runs entirely on your device. Nothing is uploaded.',
     tagline: 'Flip the chair. Up stays up, and the population follows.',
     keywords: [
-      'flip',
       'conformation',
       'axial vs equatorial',
       '1,3-diaxial strain',
@@ -100,7 +99,6 @@ export const manifest: SimulationManifest = {
   },
   presentation: {
     tags: [
-      'flip',
       'conformation',
       'axial vs equatorial',
       '1,3-diaxial strain',

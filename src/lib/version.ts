@@ -14,7 +14,7 @@ export const VERSION_CONFIG: VersionConfig = {
   minor: 18,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-10-30',
+  releaseDate: '2026-10-31',
   description: 'Infinity cube, cyclohexane chair, fraction bars, and radioactive decay',
 };
 

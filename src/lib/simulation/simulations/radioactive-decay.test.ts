@@ -80,3 +80,22 @@ describe('radioactive decay', () => {
     expect(decay.pointer?.isHolding?.(s)).toBe(false);
   });
 });
+
+describe('elapsed time input', async () => {
+  const { leftAfter, realHalves, elapsedLine, ISOTOPES, N0: start } = await import('./radioactive-decay');
+  it('halves the expected count once per real half-life', () => {
+    const f18 = ISOTOPES[0]!;
+    expect(realHalves(109.77, f18)).toBeCloseTo(1, 9);
+    expect(leftAfter(109.77, f18)).toBeCloseTo(start / 2, 9);
+    const c14 = ISOTOPES[3]!;
+    expect(leftAfter(11460, c14)).toBeCloseTo(start / 4, 9);
+    expect(leftAfter(-5, c14)).toBe(start);
+  });
+
+  it('states the answer in the isotope unit', () => {
+    expect(elapsedLine(5730, ISOTOPES[3]!)).toBe(
+      'After 5730 years of carbon-14, 1.00 half-lives pass and 200.0 of 400 nuclei are expected to remain (50.0%).',
+    );
+  });
+});
+

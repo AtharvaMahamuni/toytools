@@ -1,64 +1,65 @@
-// Chair silhouette. The substituent marker stays above its carbon for the whole flip.
-// Excluded from unit coverage; the model tests pin the labels.
+// Chair conformation drawn from a 3D model (see chairGeometry). Axial bonds are accent,
+// equatorial bonds muted, so the flip visibly trades the two sets.
+// Excluded from unit coverage; the model tests pin the geometry and the labels.
 
 import type { SimState, Viewport } from '../types';
 import { clear, drawLabel } from '../canvas';
-import { isMethyl, readout } from './cyclohexane-chair';
-
-const CHAIR: Array<[number, number]> = [
-  [0.22, 0.62],
-  [0.46, 0.74],
-  [0.7, 0.56],
-  [0.74, 0.34],
-  [0.5, 0.24],
-  [0.26, 0.4],
-];
+import { chairGeometry, isMethyl, project, readout, type Point3 } from './cyclohexane-chair';
 
 export function drawCyclohexaneChair(ctx: CanvasRenderingContext2D, s: SimState, vp: Viewport): void {
   clear(ctx, vp);
   const p = vp.palette;
-  const t = Math.min(1, Math.max(0, s.params.flip / 100));
-  const ox = vp.width * 0.08;
-  const oy = vp.height * 0.12;
-  const w = vp.width * 0.84;
-  const h = vp.height * 0.7;
+  const g = chairGeometry(s.params.flip);
+  const scale = Math.min(vp.width * 0.3, vp.height * 0.36);
+  const cx = vp.width * 0.5;
+  const cy = vp.height * 0.52;
+  const at = (q: Point3) => {
+    const v = project(q);
+    return { x: cx + v.x * scale, y: cy + v.y * scale };
+  };
 
   ctx.save();
-  ctx.strokeStyle = p.ink;
-  ctx.lineWidth = 3;
+  ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
-  ctx.beginPath();
-  CHAIR.forEach(([x, y], i) => {
-    const px = ox + x * w;
-    const py = oy + y * h;
-    if (i === 0) ctx.moveTo(px, py);
-    else ctx.lineTo(px, py);
-  });
-  ctx.closePath();
-  ctx.stroke();
 
-  const carbon = CHAIR[0];
-  const cx = ox + carbon[0] * w;
-  const cy = oy + carbon[1] * h;
-  const equatorial = { x: cx - w * 0.12, y: cy + h * 0.08 };
-  const axial = { x: cx, y: cy - h * 0.22 };
-  const mx = equatorial.x + (axial.x - equatorial.x) * t;
-  const my = equatorial.y + (axial.y - equatorial.y) * t;
-
-  ctx.strokeStyle = p.accent;
-  ctx.beginPath();
-  ctx.moveTo(cx, cy);
-  ctx.lineTo(mx, my);
-  ctx.stroke();
-
-  if (isMethyl(s.params.substituent)) {
-    ctx.fillStyle = p.accent;
+  // Back ring bonds first, thinner; front bonds over them. Depth is the ring's y.
+  const order = [0, 1, 2, 3, 4, 5].map((i) => {
+    const a = g.carbons[i]!;
+    const b = g.carbons[(i + 1) % 6]!;
+    return { a, b, depth: (a.y + b.y) / 2 };
+  }).sort((m, n) => n.depth - m.depth);
+  for (const edge of order) {
+    const a = at(edge.a);
+    const b = at(edge.b);
+    ctx.strokeStyle = p.ink;
+    ctx.lineWidth = edge.depth < 0 ? 4 : 2.5;
     ctx.beginPath();
-    ctx.arc(mx, my, Math.max(10, vp.width * 0.018), 0, Math.PI * 2);
-    ctx.fill();
-    drawLabel(ctx, 'Me', mx, my - 16, p.ink);
+    ctx.moveTo(a.x, a.y);
+    ctx.lineTo(b.x, b.y);
+    ctx.stroke();
   }
 
+  const methyl = isMethyl(s.params.substituent);
+  for (const bond of g.bonds) {
+    const a = at(bond.from);
+    const b = at(bond.to);
+    ctx.strokeStyle = bond.kind === 'axial' ? p.accent : p.muted;
+    ctx.lineWidth = bond.methyl && methyl ? 3.5 : 2;
+    ctx.beginPath();
+    ctx.moveTo(a.x, a.y);
+    ctx.lineTo(b.x, b.y);
+    ctx.stroke();
+    if (bond.methyl && methyl) {
+      ctx.fillStyle = p.accent;
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, Math.max(9, vp.width * 0.016), 0, Math.PI * 2);
+      ctx.fill();
+      drawLabel(ctx, 'Me', b.x, b.y - 18, p.ink);
+    }
+  }
   ctx.restore();
+
   drawLabel(ctx, readout(s.params.flip), vp.width * 0.5, vp.height * 0.08, p.ink);
+  drawLabel(ctx, 'axial', vp.width * 0.1, vp.height * 0.92, p.accent);
+  drawLabel(ctx, 'equatorial', vp.width * 0.26, vp.height * 0.92, p.muted);
 }

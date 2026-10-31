@@ -57,6 +57,68 @@ export function readout(flipPercent: number): string {
   return `up, now ${position}`;
 }
 
+/** Puckering of the chair: carbons sit this far above or below the mean plane, ring radius 1. */
+export const PUCKER = 0.25;
+/** Bond length for the axial and equatorial stubs, ring radius 1. */
+export const STUB = 0.42;
+/** View tilt: how much of the ring's depth shows on screen. */
+const DEPTH = 0.32;
+
+export interface Point3 { x: number; y: number; z: number }
+export type BondKind = 'axial' | 'equatorial';
+export interface ChairBond { carbon: number; from: Point3; to: Point3; kind: BondKind; methyl: boolean }
+export interface ChairGeometry { carbons: Point3[]; bonds: ChairBond[] }
+
+function lerp3(a: Point3, b: Point3, u: number): Point3 {
+  return { x: a.x + (b.x - a.x) * u, y: a.y + (b.y - a.y) * u, z: a.z + (b.z - a.z) * u };
+}
+
+/** Carbon i's height. Carbon 0 starts down, so its equatorial bond tilts up. */
+function sideOf(i: number, flipped: boolean): number {
+  const down = i % 2 === 0;
+  return (down !== flipped ? -1 : 1);
+}
+
+function stubs(i: number, flipped: boolean): { axial: Point3; equatorial: Point3 } {
+  const ang = (i * Math.PI) / 3;
+  const side = sideOf(i, flipped);
+  return {
+    axial: { x: 0, y: 0, z: side * STUB },
+    equatorial: { x: Math.cos(ang) * STUB * 0.94, y: Math.sin(ang) * STUB * 0.94, z: -side * STUB * 0.33 },
+  };
+}
+
+/**
+ * A real chair in 3D (z up), flipped by t from 0 to 1. Every carbon moves from one face of the
+ * ring to the other, so every axial bond becomes equatorial and every equatorial bond axial.
+ * Carbon 0 carries the methyl: equatorial at t = 0 and axial at t = 1, pointing up both times.
+ */
+export function chairGeometry(flipPercent: number): ChairGeometry {
+  const t = Math.min(1, Math.max(0, flipPercent / 100));
+  const carbons: Point3[] = [];
+  const bonds: ChairBond[] = [];
+  for (let i = 0; i < 6; i++) {
+    const ang = (i * Math.PI) / 3;
+    const z = sideOf(i, false) * PUCKER * (1 - 2 * t);
+    const c = { x: Math.cos(ang), y: Math.sin(ang), z };
+    carbons.push(c);
+    const before = stubs(i, false);
+    const after = stubs(i, true);
+    // Bond one is axial before the flip and equatorial after it. Bond two the reverse.
+    const one = lerp3(before.axial, after.equatorial, t);
+    const two = lerp3(before.equatorial, after.axial, t);
+    const early = t < 0.5;
+    bonds.push({ carbon: i, from: c, to: lerp3(c, { x: c.x + one.x, y: c.y + one.y, z: c.z + one.z }, 1), kind: early ? 'axial' : 'equatorial', methyl: false });
+    bonds.push({ carbon: i, from: c, to: { x: c.x + two.x, y: c.y + two.y, z: c.z + two.z }, kind: early ? 'equatorial' : 'axial', methyl: i === 0 });
+  }
+  return { carbons, bonds };
+}
+
+/** Screen projection, viewed slightly from above: x across, ring depth and z both on screen y (down positive). */
+export function project(p: Point3): { x: number; y: number } {
+  return { x: p.x, y: p.y * DEPTH - p.z };
+}
+
 const cyclohexaneChairSim: SimulationDef = {
   id: 'cyclohexane-chair',
   aspect: 16 / 9,
@@ -92,6 +154,13 @@ const cyclohexaneChairSim: SimulationDef = {
       compute: (s) => populations(s.params.substituent, s.params.temperature).equatorial * 100,
     },
     {
+      id: 'k',
+      label: 'K (axial over equatorial)',
+      unit: '',
+      decimals: 3,
+      compute: (s) => axialOverEquatorial(s.params.substituent, s.params.temperature),
+    },
+    {
       id: 'axialPopulation',
       label: 'Axial share',
       unit: '%',
@@ -102,7 +171,7 @@ const cyclohexaneChairSim: SimulationDef = {
   formula: {
     expression: 'K = e^(-dE / RT)',
     terms: [
-      { symbol: 'K', label: 'Axial over equatorial', measurementId: 'axialPopulation' },
+      { symbol: 'K', label: 'Axial over equatorial', measurementId: 'k' },
       { symbol: 'dE', label: 'Chair gap', measurementId: 'gap' },
       { symbol: 'T', label: 'Temperature', paramId: 'temperature' },
     ],

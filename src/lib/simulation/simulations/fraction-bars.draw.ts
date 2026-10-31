@@ -3,10 +3,6 @@
 import type { SimState, Viewport } from '../types';
 import { clear, drawLabel } from '../canvas';
 import {
-  TRACK2_X0,
-  TRACK2_X1,
-  TRACK_X0,
-  TRACK_X1,
   caption,
   circleView,
   clampedParts,
@@ -19,6 +15,8 @@ import {
   sumOf,
   diffOf,
   wholesUsed,
+  wholeSlots,
+  fillOfWhole,
 } from './fraction-bars';
 
 interface Row {
@@ -113,21 +111,21 @@ export function drawFractionBars(ctx: CanvasRenderingContext2D, s: SimState, vp:
     const y = vp.height * (0.24 + i * (0.7 / Math.max(rows.length, 1)));
     const label = row.label;
     if (circles) {
-      const r = Math.min(vp.width, vp.height) * 0.12;
+      const slots = wholeSlots(wholesUsed(row.length));
+      const span = (slots[0]!.x1 - slots[0]!.x0) * vp.width;
+      const r = Math.min(Math.min(vp.width, vp.height) * 0.12, span / 2);
       const cy = y + r * 0.2;
-      const showSecond = wholesUsed(row.length) === 2 || row.length > 1;
-      drawPie(ctx, vp.width * 0.27, cy, r, row.den, Math.min(1, row.length), vp);
-      if (showSecond) drawPie(ctx, vp.width * 0.73, cy, r, row.den, Math.max(0, row.length - 1), vp);
-      drawLabel(ctx, label, vp.width * (showSecond ? 0.5 : 0.27), cy + r + 14, vp.palette.muted);
+      slots.forEach((slot, k) => {
+        drawPie(ctx, vp.width * (slot.x0 + slot.x1) / 2, cy, r, row.den, fillOfWhole(row.length, k), vp);
+      });
+      const mid = slots.length === 1 ? (slots[0]!.x0 + slots[0]!.x1) / 2 : 0.5;
+      drawLabel(ctx, label, vp.width * mid, cy + r + 14, vp.palette.muted);
       return;
     }
     const h = Math.max(18, vp.height * 0.12);
-    const x = vp.width * TRACK_X0;
-    const w = vp.width * (TRACK_X1 - TRACK_X0);
-    drawWhole(ctx, x, y, w, h, row.den, Math.min(1, row.length), vp);
-    if (wholesUsed(row.length) === 2) {
-      drawWhole(ctx, vp.width * TRACK2_X0, y, vp.width * (TRACK2_X1 - TRACK2_X0), h, row.den, Math.max(0, row.length - 1), vp);
-    }
+    wholeSlots(wholesUsed(row.length)).forEach((slot, k) => {
+      drawWhole(ctx, vp.width * slot.x0, y, vp.width * (slot.x1 - slot.x0), h, row.den, fillOfWhole(row.length, k), vp);
+    });
     drawLabel(ctx, label, vp.width * 0.5, y + h + 12, vp.palette.muted);
   });
 }

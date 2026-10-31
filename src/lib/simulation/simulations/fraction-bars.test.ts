@@ -8,6 +8,8 @@ import fractionBars, {
   numeratorFromTrack,
   sumOf,
   wholesUsed,
+  wholeSlots,
+  fillOfWhole,
 } from './fraction-bars';
 
 const defaults = { mode: 2, view: 0, numA: 1, denA: 2, numB: 1, denB: 3 };
@@ -39,7 +41,7 @@ describe('fraction bars', () => {
     expect(fmtFraction(diffOf({ n: 1, d: 2 }, { n: 1, d: 3 }).fraction)).toBe('1/6');
     const blocked = diffOf({ n: 1, d: 3 }, { n: 1, d: 2 });
     expect(blocked.blocked).toBe(true);
-    expect(fmtFraction(blocked.fraction)).toBe('0/1');
+    expect(fmtFraction(blocked.fraction)).toBe('0');
   });
 
   it('snaps a drag to an equal part', () => {
@@ -59,5 +61,31 @@ describe('fraction bars', () => {
     expect(s.vars.shownA).toBeLessThan(1);
     fractionBars.step(s, 0.4);
     expect(s.vars.shownA).toBeCloseTo(1, 2);
+  });
+});
+
+describe('sums above two wholes', () => {
+  it('draws three wholes for 3/2 + 3/2 and prints 3, not 3/1', () => {
+    const sum = sumOf({ n: 3, d: 2 }, { n: 3, d: 2 });
+    expect(fmtFraction(sum)).toBe('3');
+    const length = Number(sum.n) / Number(sum.d);
+    expect(wholesUsed(length)).toBe(3);
+    expect([0, 1, 2].map((i) => fillOfWhole(length, i))).toEqual([1, 1, 1]);
+  });
+
+  it('draws four wholes for the largest sum, 2 + 2, and shades a partial last whole', () => {
+    expect(wholesUsed(4)).toBe(4);
+    expect(wholesUsed(2.5)).toBe(3);
+    expect(fillOfWhole(2.5, 2)).toBe(0.5);
+    expect(wholesUsed(2)).toBe(2);
+  });
+
+  it('lays out non-overlapping wholes inside the bar span', () => {
+    for (const n of [1, 2, 3, 4]) {
+      const slots = wholeSlots(n);
+      expect(slots).toHaveLength(n);
+      for (let i = 1; i < n; i++) expect(slots[i]!.x0).toBeGreaterThan(slots[i - 1]!.x1);
+      expect(slots[n - 1]!.x1).toBeLessThanOrEqual(0.92 + 1e-9);
+    }
   });
 });

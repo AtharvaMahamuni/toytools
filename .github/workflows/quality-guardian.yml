@@ -92,7 +92,8 @@ jobs:
   # same-commit rule in CLAUDE.md.
   e2e:
     name: E2E (${{ matrix.project }})
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest moved to 26.04, which Playwright's Install Chromium step does not support.
+    runs-on: ubuntu-24.04
     if: github.event_name != 'schedule'
     strategy:
       fail-fast: false        # a desktop failure must not hide a phone failure

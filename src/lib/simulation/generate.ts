@@ -44,7 +44,10 @@ export function simulatorLabel(title: string): string {
  */
 export function simulatorTags(manifest: SimulationManifest): string[] {
   const subject = simulationSubject(manifest);
-  const derived = [`${subject} simulator`, `${subject} simulation`, `interactive ${subject}`];
+  // 2026-10-31: `${subject} simulation` dropped. search-terms.json sat at 10,230 of 10,240 B gz,
+  // and check:queries retrieval stayed at 1500/1686 without it: the "X simulation" queries
+  // still reach the sim through the name and the simulator term. It saved about 110 B gz.
+  const derived = [`${subject} simulator`, `interactive ${subject}`];
 
   // The shortest concept alias is usually the bare noun people actually type ("pendulum" rather
   // than "pendulum period"), which is a different and often better query head than the tool name.

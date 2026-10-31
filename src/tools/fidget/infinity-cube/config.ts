@@ -9,11 +9,8 @@ export const config: ToolConfig = {
   tagline: 'Fold the open hinge. It closes back into one cube.',
   categorySlug: 'fidgets',
   tags: [
-    'infinity cube fidget',
-    'infinity cube online',
     'virtual infinity cube',
     'fold infinity cube',
-    'infinity cube toy',
     'hinged cube fidget',
   ],
   updatedAt: '2026-10-31',

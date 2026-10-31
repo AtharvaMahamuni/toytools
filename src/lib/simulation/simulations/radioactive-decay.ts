@@ -76,6 +76,23 @@ export function parentCount(seed: number, halves: number): number {
   return n;
 }
 
+/** Half-lives passed after `elapsed` of real time, in the isotope's own unit. */
+export function realHalves(elapsed: number, iso: Isotope): number {
+  return Math.max(0, elapsed) / iso.halfLife;
+}
+
+/** Expected parent nuclei left from N0 after `elapsed` real time, in the isotope's unit. */
+export function leftAfter(elapsed: number, iso: Isotope): number {
+  return expectedParent(realHalves(elapsed, iso));
+}
+
+/** The typed-time answer in words. */
+export function elapsedLine(elapsed: number, iso: Isotope): string {
+  const t = Math.max(0, elapsed);
+  const left = leftAfter(t, iso);
+  return `After ${t} ${iso.unit} of ${iso.name}, ${realHalves(t, iso).toFixed(2)} half-lives pass and ${left.toFixed(1)} of ${N0} nuclei are expected to remain (${((left / N0) * 100).toFixed(1)}%).`;
+}
+
 export function daughterCount(parent: number): number {
   return N0 - parent;
 }
@@ -125,6 +142,9 @@ const radioactiveDecaySim: SimulationDef = {
   params: [
     { id: 'isotope', label: 'Isotope', unit: '', min: 0, max: 3, step: 1, default: 0, decimals: 0 },
     { id: 'pace', label: 'Screen pace', unit: 'half-lives/s', min: 0.05, max: 1, step: 0.05, default: 0.25, decimals: 2 },
+    // Real elapsed time in the chosen isotope's own unit (minutes for F-18, days for I-131, years
+    // for Co-60 and C-14). This is the calculator input. It does not drive the screen clock.
+    { id: 'elapsed', label: 'Elapsed time (isotope unit)', unit: '', min: 0, max: 50000, step: 0.1, default: 0, decimals: 1 },
   ],
   presets: [
     { id: 'f18', label: 'Fluorine-18', values: { isotope: 0, pace: 0.25 } },
@@ -135,6 +155,20 @@ const radioactiveDecaySim: SimulationDef = {
   init: initDecay,
   step: stepDecay,
   measurements: [
+    {
+      id: 'leftAfter',
+      label: 'Expected left after elapsed time',
+      unit: 'nuclei',
+      decimals: 1,
+      compute: (s) => leftAfter(s.params.elapsed ?? 0, isotopeOf(s.params.isotope)),
+    },
+    {
+      id: 'halfLife',
+      label: 'Half-life (isotope unit)',
+      unit: '',
+      decimals: 2,
+      compute: (s) => isotopeOf(s.params.isotope).halfLife,
+    },
     { id: 'expected', label: 'Expected parent', unit: 'nuclei', decimals: 1, compute: (s) => expectedParent(s.vars.halves) },
     { id: 'parent', label: 'This run', unit: 'nuclei', decimals: 0, compute: (s) => parentCount(s.vars.seed, s.vars.halves) },
     {
@@ -154,10 +188,11 @@ const radioactiveDecaySim: SimulationDef = {
     },
   ],
   formula: {
-    expression: 'N = N0 * 2^(-h)',
+    expression: 'N = N0 * 2^(-t / T)',
     terms: [
-      { symbol: 'N', label: 'Expected parent', measurementId: 'expected' },
-      { symbol: 'h', label: 'Screen half-lives', measurementId: 'halves' },
+      { symbol: 'N', label: 'Expected left after t', measurementId: 'leftAfter' },
+      { symbol: 't', label: 'Elapsed time (isotope unit)', paramId: 'elapsed' },
+      { symbol: 'T', label: 'Half-life (isotope unit)', measurementId: 'halfLife' },
     ],
   },
   graph: snapshotGraph({
@@ -189,6 +224,7 @@ const radioactiveDecaySim: SimulationDef = {
   },
   observations: [
     (s) => caption(s),
+    (s) => ((s.params.elapsed ?? 0) > 0 ? elapsedLine(s.params.elapsed, isotopeOf(s.params.isotope)) : null),
     (s) => clockLine(s),
     (s) => {
       if (s.vars.halves < 0.05) return null;

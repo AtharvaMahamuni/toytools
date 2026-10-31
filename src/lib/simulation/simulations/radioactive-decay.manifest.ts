@@ -89,10 +89,10 @@ export const manifest: SimulationManifest = {
     description:
       'Exponential decay of nuclei. Half life curve, parent and daughter. Runs entirely on your device. Nothing is uploaded.',
     tagline: 'Watch the sample thin out. The curve says what the count should do.',
-    keywords: ['half life', 'curve', 'exponential', 'nuclei', 'parent', 'daughter'],
+    keywords: ['half life', 'exponential'],
   },
   presentation: {
-    tags: ['half life', 'curve', 'exponential', 'nuclei', 'parent', 'daughter'],
+    tags: ['half life', 'exponential'],
     updatedAt: '2026-10-31',
     trustVariant: 'offline',
   },

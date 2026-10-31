@@ -42,7 +42,9 @@ export function fmtParts(n: number, d: number): string {
   return `${n}/${d}`;
 }
 
+/** A simplified fraction. A denominator of 1 prints as the whole number: 3/1 is 3. */
 export function fmtFraction(f: Fraction): string {
+  if (f.d === 1n) return f.n.toString();
   return `${f.n.toString()}/${f.d.toString()}`;
 }
 
@@ -57,10 +59,30 @@ export function lengthOf(n: number, d: number): number {
  */
 let frameWall = 0;
 
-/** How many whole bars a length needs. 5/4 uses two. A full single whole stays one. */
+/**
+ * How many whole bars a length needs. 5/4 uses two, 3/2 + 3/2 uses three. A full whole stays one.
+ * Each input is at most 2 (numerators cap at twice the denominator), so a sum needs at most 4.
+ */
 export function wholesUsed(length: number): number {
   if (length <= 1) return 1;
-  return 2;
+  return Math.ceil(length - 1e-9);
+}
+
+/** Left and right x of each whole in a row. Two or fewer wholes use the draggable tracks. */
+export function wholeSlots(count: number): Array<{ x0: number; x1: number }> {
+  if (count <= 1) return [{ x0: TRACK_X0, x1: TRACK_X1 }];
+  if (count === 2) return [{ x0: TRACK_X0, x1: TRACK_X1 }, { x0: TRACK2_X0, x1: TRACK2_X1 }];
+  const gap = 0.02;
+  const w = (TRACK2_X1 - TRACK_X0 - gap * (count - 1)) / count;
+  return Array.from({ length: count }, (_, i) => {
+    const x0 = TRACK_X0 + i * (w + gap);
+    return { x0, x1: x0 + w };
+  });
+}
+
+/** Shaded share of whole i (0-based) for a length. */
+export function fillOfWhole(length: number, i: number): number {
+  return Math.min(1, Math.max(0, length - i));
 }
 
 export function partsOf(params: Record<string, number>, which: 'A' | 'B'): { n: number; d: number } {
