@@ -120,25 +120,6 @@ describe('infinity cube hinges', () => {
     expect(closed.faces).toHaveLength(12);
     expect(closed.faces.filter((f) => f.cube === 0)).toHaveLength(0);
     expect(closed.faces.filter((f) => f.cube === 7)).toHaveLength(3);
-    expect(closed.cue).not.toBeNull();
-    const moving = closed.faces.filter((f) => f.free);
-    const still = closed.faces.filter((f) => !f.free);
-    const near = (faces: typeof closed.faces) => {
-      let x = 0;
-      let y = 0;
-      let n = 0;
-      for (const face of faces) {
-        for (const pair of face.points.split(' ')) {
-          const [px, py] = pair.split(',').map(Number);
-          x += px!;
-          y += py!;
-          n += 1;
-        }
-      }
-      return Math.hypot(closed.cue!.x - x / n, closed.cue!.y - y / n);
-    };
-    expect(near(moving)).toBeLessThan(0.05);
-    expect(near(moving)).toBeLessThan(near(still));
     expect(drawModel(1, 0).faces.length).toBeGreaterThan(12);
     const edgeOn = drawModel(0, 45).faces.map((f) => f.points);
     expect(edgeOn.length).toBeGreaterThan(8);

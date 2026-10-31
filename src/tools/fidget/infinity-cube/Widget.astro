@@ -27,7 +27,7 @@ const label = countLabel(closed);
       data-infinity-svg
       viewBox={model.viewBox}
       role="group"
-      aria-label={`Fold the marked half. ${label}`}
+      aria-label={label}
       tabindex="0"
     >
       {
@@ -39,13 +39,6 @@ const label = countLabel(closed);
             data-tone={face.tone}
           />
         ))
-      }
-      {
-        model.cue && (
-          <text class="infinity-cue" x={model.cue.x} y={model.cue.y}>
-            Fold
-          </text>
-        )
       }
     </svg>
   </div>
@@ -89,69 +82,34 @@ const label = countLabel(closed);
    * The fold script replaces these polygons, so they never receive Astro's scope
    * attribute. Anchor the paint under the svg, which does.
    */
+  .infinity-svg :global(polygon[data-tone='light']) {
+    fill: color-mix(in srgb, var(--color-accent) 62%, var(--color-surface));
+  }
+
+  .infinity-svg :global(polygon[data-tone='mid']) {
+    fill: color-mix(in srgb, var(--color-accent) 38%, var(--color-surface));
+  }
+
+  .infinity-svg :global(polygon[data-tone='dark']) {
+    fill: color-mix(in srgb, var(--color-text) 28%, var(--color-surface));
+  }
+
   .infinity-svg :global(polygon) {
+    stroke: color-mix(in srgb, var(--color-text) 55%, var(--color-surface));
+    /* CSS lengths are pixels. non-scaling-stroke keeps the edge at that width in the view box. */
+    stroke-width: 1.5px;
     stroke-linejoin: round;
     vector-effect: non-scaling-stroke;
   }
 
-  /* The half that stays is quiet. Tone still separates the three sides of a block. */
-  .infinity-svg :global(polygon[data-free='0']) {
-    stroke: color-mix(in srgb, var(--color-text) 35%, var(--color-surface));
-    stroke-width: 1.5px;
-  }
-
-  .infinity-svg :global(polygon[data-free='0'][data-tone='light']) {
-    fill: color-mix(in srgb, var(--color-text) 22%, var(--color-surface));
-  }
-
-  .infinity-svg :global(polygon[data-free='0'][data-tone='mid']) {
-    fill: color-mix(in srgb, var(--color-text) 14%, var(--color-surface));
-  }
-
-  .infinity-svg :global(polygon[data-free='0'][data-tone='dark']) {
-    fill: color-mix(in srgb, var(--color-text) 8%, var(--color-surface));
-  }
-
-  /* The half on the open hinge is the control. The word Fold sits on it. */
+  /* Same blocks. The loose half is the one with the accent edge. */
   .infinity-svg :global(polygon[data-free='1']) {
     cursor: pointer;
     stroke: var(--color-accent);
-    stroke-width: 2.5px;
-  }
-
-  .infinity-svg :global(polygon[data-free='1'][data-tone='light']) {
-    fill: color-mix(in srgb, var(--color-accent) 78%, var(--color-surface));
-  }
-
-  .infinity-svg :global(polygon[data-free='1'][data-tone='mid']) {
-    fill: color-mix(in srgb, var(--color-accent) 58%, var(--color-surface));
-  }
-
-  .infinity-svg :global(polygon[data-free='1'][data-tone='dark']) {
-    fill: color-mix(in srgb, var(--color-accent) 42%, var(--color-surface));
   }
 
   .infinity-svg :global(polygon[data-free='1']:active) {
-    fill: var(--color-accent);
-  }
-
-  /*
-   * SVG treats 1px as one user unit, and the view box then scales it onto the
-   * stage. 15px painted Fold larger than the cube. 0.5px is about one line of
-   * type on this picture. The halo stays in screen pixels.
-   */
-  .infinity-svg :global(.infinity-cue) {
-    fill: var(--color-text);
-    stroke: var(--color-surface);
-    stroke-width: 4px;
-    vector-effect: non-scaling-stroke;
-    paint-order: stroke fill;
-    font-size: 0.5px;
-    font-weight: var(--font-weight-semibold);
-    font-family: inherit;
-    text-anchor: middle;
-    dominant-baseline: central;
-    pointer-events: none;
+    fill: color-mix(in srgb, var(--color-accent) 78%, var(--color-surface));
   }
 
   .infinity-svg:focus-visible,
@@ -246,14 +204,6 @@ const label = countLabel(closed);
             face.tone +
             '" />';
         }
-        if (!state.folding && model.cue) {
-          html +=
-            '<text class="infinity-cue" x="' +
-            model.cue.x +
-            '" y="' +
-            model.cue.y +
-            '">Fold</text>';
-        }
         if (svg) svg.innerHTML = html;
       }
       if (countEl) {
@@ -261,7 +211,7 @@ const label = countLabel(closed);
         countEl.setAttribute('data-infinity-folds', String(state.folds));
       }
       if (stage) stage.setAttribute('data-infinity-phase', phase);
-      if (svg) svg.setAttribute('aria-label', state.folding ? text : 'Fold the marked half. ' + text);
+      if (svg) svg.setAttribute('aria-label', text);
     }
 
     function begin() {

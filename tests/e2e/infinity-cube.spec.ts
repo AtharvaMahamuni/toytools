@@ -22,7 +22,7 @@ test.describe('infinity cube', () => {
     await expect(page.locator('[data-craft="infinity-cube-hinge"]')).toBeVisible();
     await expect(count(page)).toContainText('Closed');
     await expect(count(page)).toContainText('0 folds');
-    await expect(page.locator('#infinity-cube-stage .infinity-cue')).toHaveText('Fold');
+    await expect(page.locator('#infinity-cube-stage .infinity-cue')).toHaveCount(0);
 
     // The first locked face's box overlaps the free half. Tap one whose pixels are actually gray.
     await page.evaluate(() => {
