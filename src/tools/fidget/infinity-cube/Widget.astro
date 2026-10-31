@@ -102,10 +102,12 @@ const label = countLabel(closed);
     vector-effect: non-scaling-stroke;
   }
 
-  /* Same blocks. The loose half is the one with the accent edge. */
+  /* Same blocks. The loose half is the one with the gold edge.
+     Plain gold is the bronze text colour; the highlight is the metal. */
   .infinity-svg :global(polygon[data-free='1']) {
     cursor: pointer;
-    stroke: var(--color-accent);
+    stroke: var(--color-gold-highlight);
+    stroke-width: 2.5px;
   }
 
   .infinity-svg :global(polygon[data-free='1']:active) {
