@@ -110,7 +110,7 @@ function searchVocabulary(tool: (typeof tools)[number], categoryName: string): s
   input,
   button {
     min-height: 52px;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     font: inherit;
   }
 
@@ -118,17 +118,24 @@ function searchVocabulary(tool: (typeof tools)[number], categoryName: string): s
     width: 100%;
     padding: 0 var(--space-4);
     border: var(--border);
-    background: var(--color-bg);
+    background: var(--color-surface);
     color: var(--color-text);
+    box-shadow: var(--shadow-card);
   }
 
   button {
-    border: var(--border-strong);
+    border: 1px solid var(--color-accent);
     background: var(--color-accent);
     color: var(--color-text-inverse);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
     cursor: pointer;
+    box-shadow: var(--shadow-card);
     transition: var(--transition-color);
+  }
+
+  button:hover {
+    background: var(--color-accent-strong);
+    border-color: var(--color-accent-strong);
   }
 
   .result-count {

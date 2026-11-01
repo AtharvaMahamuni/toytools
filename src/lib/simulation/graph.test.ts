@@ -9,14 +9,14 @@ const vp: Viewport = {
   height: 240,
   dpr: 1,
   palette: {
-    ink: '#111',
-    muted: '#666',
-    accent: '#2F6B4F',
-    accentSubtle: '#DFEBE4',
-    bg: '#fff',
-    surface: '#f4f2ee',
-    border: '#e5e1da',
-    danger: '#dc2626',
+    ink: '#26251e',
+    muted: '#5a5852',
+    accent: '#f54e00',
+    accentSubtle: 'rgba(245, 78, 0, 0.12)',
+    bg: '#f7f7f4',
+    surface: '#ffffff',
+    border: '#e6e5e0',
+    danger: '#cf2d56',
   },
 };
 

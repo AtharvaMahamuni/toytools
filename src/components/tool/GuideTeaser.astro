@@ -29,16 +29,20 @@ const updatedDisplay = formatMonthYear(updatedAt);
 <style>
   .guide-teaser {
     display: block;
+    background: var(--color-surface);
     border: var(--border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
     padding: var(--space-6);
     text-decoration: none;
     color: inherit;
-    transition: var(--transition-color);
+    transition: var(--transition-color), transform var(--duration-fast) ease;
   }
 
   .guide-teaser:hover {
-    border-color: var(--color-text-accent);
+    border-color: var(--color-border-strong);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-hover);
   }
 
   .guide-teaser-label {

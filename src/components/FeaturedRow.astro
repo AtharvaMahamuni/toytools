@@ -49,10 +49,6 @@ const featured = tools
         <button type="button" class="featured-btn" data-featured-next aria-label="Next new tool">
           <span aria-hidden="true">›</span>
         </button>
-        <button type="button" class="featured-btn featured-toggle" data-featured-toggle data-paused="false">
-          <span class="featured-toggle-icon" aria-hidden="true" data-featured-toggle-icon>❚❚</span>
-          <span data-featured-toggle-label>Pause</span>
-        </button>
       </div>
     </div>
     <ul class="featured-track" data-featured-track>
@@ -99,15 +95,6 @@ const featured = tools
         }
 
         var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        var toggle = root.querySelector('[data-featured-toggle]');
-        var toggleIcon = root.querySelector('[data-featured-toggle-icon]');
-        var toggleLabel = root.querySelector('[data-featured-toggle-label]');
-        var hover = false;
-        var focus = false;
-        var paused = false;
-        var timer = 0;
-        var autoUntil = 0;
-        if (reduce && toggle) toggle.setAttribute('hidden', '');
 
         function gap() {
           var styles = window.getComputedStyle(track);
@@ -122,74 +109,13 @@ const featured = tools
           var left = track.scrollLeft + dir * delta;
           if (dir > 0 && track.scrollLeft >= max) left = 0;
           if (dir < 0 && track.scrollLeft <= 1) left = max;
-          autoUntil = Date.now() + 1200;
           track.scrollTo({ left: left, behavior: reduce ? 'auto' : 'smooth' });
         }
 
-        function stop() {
-          if (timer) window.clearInterval(timer);
-          timer = 0;
-        }
-
-        function setPaused(value) {
-          paused = value;
-          if (toggle) toggle.setAttribute('data-paused', paused ? 'true' : 'false');
-          if (toggleIcon) toggleIcon.textContent = paused ? '▶' : '❚❚';
-          if (toggleLabel) toggleLabel.textContent = paused ? 'Play' : 'Pause';
-          sync();
-        }
-
-        function sync() {
-          if (reduce || paused || hover || focus) stop();
-          else {
-            stop();
-            timer = window.setInterval(function () { step(1); }, 5000);
-          }
-        }
-
-        root.addEventListener('pointerenter', function (event) {
-          if (event.pointerType !== 'mouse') return;
-          hover = true;
-          sync();
-        });
-        root.addEventListener('pointerleave', function (event) {
-          if (event.pointerType !== 'mouse') return;
-          hover = false;
-          sync();
-        });
-        function takeOver(event) {
-          if (toggle && toggle.contains(event.target)) return;
-          if (!paused) setPaused(true);
-        }
-        root.addEventListener('pointerdown', takeOver, { passive: true });
-        root.addEventListener('touchstart', takeOver, { passive: true });
-        root.addEventListener('wheel', takeOver, { passive: true });
-        root.addEventListener('keydown', function (event) {
-          if (event.key === 'Tab' || event.key === 'Shift') return;
-          takeOver(event);
-        });
-        track.addEventListener('scroll', function (event) {
-          if (Date.now() > autoUntil) takeOver(event);
-        }, { passive: true });
-        if (toggle) toggle.addEventListener('click', function () { setPaused(!paused); });
-
-        root.addEventListener('focusin', function (event) {
-          if (toggle && toggle.contains(event.target)) return;
-          focus = true;
-          sync();
-        });
-        root.addEventListener('focusout', function (event) {
-          if (root.contains(event.relatedTarget)) return;
-          focus = false;
-          sync();
-        });
-
         var prev = root.querySelector('[data-featured-prev]');
         var next = root.querySelector('[data-featured-next]');
-        if (prev) prev.addEventListener('click', function () { step(-1); sync(); });
-        if (next) next.addEventListener('click', function () { step(1); sync(); });
-
-        sync();
+        if (prev) prev.addEventListener('click', function () { step(-1); });
+        if (next) next.addEventListener('click', function () { step(1); });
       })();
     </script>
   </section>
@@ -221,25 +147,8 @@ const featured = tools
     gap: var(--space-2);
   }
 
-  .featured-nav[hidden],
-  .featured-toggle[hidden] {
+  .featured-nav[hidden] {
     display: none;
-  }
-
-  .featured-toggle {
-    gap: var(--space-2);
-    padding: 0 var(--space-3);
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-medium);
-  }
-
-  .featured-toggle[data-paused='true'] {
-    background-color: var(--color-accent-subtle);
-    border-color: var(--color-border-strong);
-  }
-
-  .featured-toggle-icon {
-    font-size: var(--text-xs);
   }
 
   .featured-btn {
@@ -250,19 +159,24 @@ const featured = tools
     min-height: var(--touch-target);
     padding: 0;
     border: var(--border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-pill);
     background: var(--color-surface);
     color: var(--color-text);
     font-size: var(--text-xl);
     line-height: 1;
     cursor: pointer;
-    transition: var(--transition-color);
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-color), transform var(--duration-fast) ease;
   }
 
-  .featured-btn:hover,
-  .featured-btn:active {
-    background-color: var(--color-surface-hover);
+  .featured-btn:hover {
+    background-color: var(--color-surface);
     border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .featured-btn:active {
+    transform: scale(0.95);
   }
 
   .featured-track {
@@ -291,17 +205,20 @@ const featured = tools
     min-height: var(--touch-target);
     padding: var(--space-5);
     border: var(--border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     background: var(--color-surface);
+    box-shadow: var(--shadow-card);
     text-decoration: none;
     color: var(--color-text);
-    transition: var(--transition-color);
+    transition: var(--transition-color), transform var(--duration-fast) ease;
   }
 
   .featured-card:hover,
   .featured-card:active {
-    background-color: var(--color-surface-hover);
+    background-color: var(--color-surface);
     border-color: var(--color-border-strong);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-hover);
     text-decoration: none;
     color: var(--color-text);
   }
@@ -334,7 +251,7 @@ const featured = tools
     font-size: var(--text-xs);
     font-weight: var(--font-weight-medium);
     padding: 2px var(--space-2);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-pill);
     background: var(--color-accent-subtle);
     color: var(--color-accent-strong);
   }

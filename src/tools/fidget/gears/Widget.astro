@@ -175,8 +175,10 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
   html.tt-play-mode [data-gears] {
     display: flex;
     flex-direction: column;
-    max-width: none;
-    height: 100%;
+    max-width: min(90vw, 72vh, 32rem);
+    width: 100%;
+    height: auto;
+    margin: auto;
     min-height: 0;
   }
 
@@ -185,7 +187,7 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
     min-height: 0;
     height: auto;
     width: 100%;
-    max-height: none;
+    max-height: 72vh;
   }
 </style>
 

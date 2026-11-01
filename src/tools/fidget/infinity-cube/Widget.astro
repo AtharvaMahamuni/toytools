@@ -149,7 +149,10 @@ const label = countLabel(closed);
 
 <style is:global>
   html.tt-play-mode [data-infinity] {
-    --infinity-max: 100%;
+    --infinity-max: min(85vw, 68vh, 26rem);
+    width: min(100%, var(--infinity-max));
+    max-height: 68vh;
+    margin: auto;
   }
 </style>
 

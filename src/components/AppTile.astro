@@ -39,14 +39,16 @@ const iconSrc = withBase(`/icons/tool/${slug}.svg`);
     height: 100%;
     padding: var(--space-4);
     border: var(--border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     background: var(--color-surface);
-    transition: var(--transition-color);
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-color), transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
   }
 
   .app-tile:hover {
-    background-color: var(--color-surface-hover);
     border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
   }
 
   .app-tile-main {
@@ -64,12 +66,17 @@ const iconSrc = withBase(`/icons/tool/${slug}.svg`);
     color: var(--color-text);
   }
 
+  .app-tile:hover .app-tile-name {
+    color: var(--color-accent);
+  }
+
   .app-tile-icon {
     display: block;
     width: 56px;
     height: 56px;
     border-radius: var(--radius-md);
     flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(38, 37, 30, 0.08);
   }
 
   .app-tile-name {
@@ -80,13 +87,14 @@ const iconSrc = withBase(`/icons/tool/${slug}.svg`);
     font-weight: var(--font-weight-semibold);
     font-size: var(--text-sm);
     line-height: var(--leading-tight);
+    transition: color var(--duration-fast) ease;
   }
 
   .app-tile-badge {
     font-size: var(--text-xs);
     font-weight: var(--font-weight-medium);
     padding: 2px var(--space-2);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-pill);
     background: var(--color-accent-subtle);
     color: var(--color-accent-strong);
   }

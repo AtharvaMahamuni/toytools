@@ -83,8 +83,9 @@ const projectileMotionSim: SimulationDef = {
     { id: 'flat-shot', label: 'Flat shot (15°)', values: { angle: 15, speed: 40 } },
     { id: 'moon', label: 'On the Moon', values: { gravity: 1.62 } },
   ],
-  init: () => ({}),
+  init: () => ({ aiming: 0 }),
   step(s: SimState, dt: number) {
+    if (s.vars.aiming === 1) return;
     s.t += dt;
   },
   measurements: [
@@ -136,8 +137,15 @@ const projectileMotionSim: SimulationDef = {
   ],
   pointer: {
     hint: 'Drag from the launcher to aim and set speed',
-    handle(_s, ev) {
-      if (ev.type === 'tap' || ev.type === 'up') return null;
+    handle(s, ev) {
+      if (ev.type === 'up') {
+        s.vars.aiming = 0;
+        s.t = 0;
+        return null;
+      }
+      if (ev.type === 'tap') return null;
+      s.vars.aiming = 1;
+      s.t = 0;
       // The launcher sits near the bottom-left of the canvas. The drag vector from it sets both
       // the angle (its direction) and the speed (its length), like pulling back a slingshot.
       const originX = 0.1;
@@ -154,6 +162,7 @@ const projectileMotionSim: SimulationDef = {
         speed: Math.min(Math.max(speed, 5), 60),
       };
     },
+    isHolding: (s) => s.vars.aiming === 1,
   },
   explanation(s: SimState) {
     const R = range(s.params);

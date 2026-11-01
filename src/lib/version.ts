@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 18,
+  minor: 19,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-10-31',
-  description: 'Infinity cube, cyclohexane chair, fraction bars, and radioactive decay',
+  releaseDate: '2026-11-01',
+  description: 'Modern UI/UX redesign per DESIGN.md: Cursor Orange palette, sleek simulation workstation canvas, upgraded cards and controls',
 };
 
 export function formatVersion(config: VersionConfig): string {

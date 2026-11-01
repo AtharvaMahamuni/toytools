@@ -2,8 +2,11 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   clear,
+  drawAffordanceHalo,
+  drawAngleArc,
   drawArrow,
   drawGrid,
+  drawGripRidges,
   drawLabel,
   observeResize,
   readPalette,
@@ -17,14 +20,14 @@ const viewport = (): Viewport => ({
   height: 360,
   dpr: 2,
   palette: {
-    ink: '#111',
-    muted: '#666',
-    accent: '#2F6B4F',
-    accentSubtle: '#DFEBE4',
-    bg: '#fff',
-    surface: '#f4f2ee',
-    border: '#e5e1da',
-    danger: '#dc2626',
+    ink: '#26251e',
+    muted: '#5a5852',
+    accent: '#f54e00',
+    accentSubtle: 'rgba(245, 78, 0, 0.12)',
+    bg: '#f7f7f4',
+    surface: '#ffffff',
+    border: '#e6e5e0',
+    danger: '#cf2d56',
   },
 });
 
@@ -37,9 +40,9 @@ describe('readPalette', () => {
   it('falls back to the built-in colours when custom properties are unset', () => {
     // happy-dom's getComputedStyle returns empty strings for our --color-* vars.
     const palette = readPalette();
-    expect(palette.accent).toBe('#2F6B4F');
-    expect(palette.ink).toBe('#1F1D1A');
-    expect(palette.danger).toBe('#dc2626');
+    expect(palette.accent).toBe('#f54e00');
+    expect(palette.ink).toBe('#26251e');
+    expect(palette.danger).toBe('#cf2d56');
   });
 });
 
@@ -131,7 +134,7 @@ describe('observeResize', () => {
 });
 
 describe('primitive draws run against a mock context', () => {
-  it('clear, grid, arrow, and label complete without throwing', () => {
+  it('clear, grid, arrow, label, halo, arc, and grip complete without throwing', () => {
     const ctx = makeMockCtx();
     const vp = viewport();
     expect(() => clear(ctx, vp)).not.toThrow();
@@ -141,5 +144,12 @@ describe('primitive draws run against a mock context', () => {
     expect(() => drawArrow(ctx, 0, 0, 40, 0, '#000', 3)).not.toThrow();
     // Degenerate (zero-length) arrow is skipped early — still no throw.
     expect(() => drawArrow(ctx, 5, 5, 5, 5, '#000')).not.toThrow();
+    // Affordance halo (idle and held)
+    expect(() => drawAffordanceHalo(ctx, 100, 100, 15, '#f54e00', false)).not.toThrow();
+    expect(() => drawAffordanceHalo(ctx, 100, 100, 15, '#f54e00', true)).not.toThrow();
+    // Angle arc
+    expect(() => drawAngleArc(ctx, 100, 100, 30, 0, Math.PI / 4, '45°', '#f54e00')).not.toThrow();
+    // Grip ridges
+    expect(() => drawGripRidges(ctx, 100, 100, 20, '#f54e00')).not.toThrow();
   });
 });

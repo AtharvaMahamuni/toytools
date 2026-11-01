@@ -54,7 +54,7 @@ const waveSpeedSim: SimulationDef = {
     { id: 'rope', label: 'Shaken rope', values: { frequency: 1, wavelength: 2, amplitude: 0.5 } },
     { id: 'fast', label: 'Fast & tight', values: { frequency: 3, wavelength: 0.8, amplitude: 0.3 } },
   ],
-  init: () => ({}),
+  init: () => ({ dragging: 0 }),
   step(s: SimState, dt: number) {
     s.t += dt;
   },
@@ -101,8 +101,13 @@ const waveSpeedSim: SimulationDef = {
   ],
   pointer: {
     hint: 'Drag the wave taller or flatter',
-    handle(_s, ev) {
-      if (ev.type === 'tap' || ev.type === 'up') return null;
+    handle(s, ev) {
+      if (ev.type === 'up') {
+        s.vars.dragging = 0;
+        return null;
+      }
+      if (ev.type === 'tap') return null;
+      s.vars.dragging = 1;
       // Vertical distance from the mid-line maps to amplitude; the wave follows your finger.
       // The canvas draws ±1 m across 38% of the half-height, so invert that mapping.
       const fromMid = Math.abs(ev.y - 0.5);

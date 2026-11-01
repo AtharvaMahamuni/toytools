@@ -27,22 +27,24 @@ import { withBase } from '../lib/paths';
 <style>
   .hero-search {
     width: 100%;
-    max-width: 560px;
+    max-width: 580px;
   }
 
   .hero-search-inner {
     display: flex;
     align-items: center;
-    background: var(--color-bg);
-    border: 1.5px solid var(--color-border);
-    border-radius: var(--radius-md);
-    transition: border-color 150ms ease, box-shadow 150ms ease;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-color);
     overflow: hidden;
+    padding-right: 6px;
   }
 
   .hero-search-inner:focus-within {
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 12%, transparent);
+    box-shadow: 0 0 0 3px var(--color-accent-subtle), var(--shadow-hover);
   }
 
   .hero-search-icon {
@@ -71,24 +73,24 @@ import { withBase } from '../lib/paths';
   }
 
   .hero-search-btn {
-    height: 52px;
-    padding: 0 var(--space-5);
-    border: none;
-    border-left: 1px solid var(--color-border);
-    background: transparent;
-    color: var(--color-text-muted);
+    height: 40px;
+    padding: 0 var(--space-4);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
     font-size: var(--text-sm);
     font-family: var(--font-sans);
-    font-weight: var(--font-weight-medium);
+    font-weight: 500;
     cursor: pointer;
     white-space: nowrap;
-    transition: background-color 150ms ease, color 150ms ease;
+    transition: var(--transition-color);
     flex-shrink: 0;
   }
 
   .hero-search-btn:hover {
-    background: var(--color-surface-hover);
-    color: var(--color-text);
+    background: var(--color-accent-strong);
+    border-color: var(--color-accent-strong);
   }
 
   @media (max-width: 480px) {

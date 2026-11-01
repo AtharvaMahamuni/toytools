@@ -34,7 +34,7 @@ const idealGasLawSim: SimulationDef = {
     { id: 'compressed', label: 'Compressed', values: { temperature: 300, volume: 8, amount: 1 } },
     { id: 'sparse', label: 'Few particles', values: { temperature: 300, volume: 30, amount: 0.3 } },
   ],
-  init: () => ({}),
+  init: () => ({ dragging: 0 }),
   step(s: SimState, dt: number) {
     s.t += dt;
   },
@@ -76,13 +76,19 @@ const idealGasLawSim: SimulationDef = {
         : null,
   ],
   pointer: {
-    hint: 'Drag the piston to change the volume',
-    handle(_s, ev) {
-      if (ev.type === 'tap' || ev.type === 'up') return null;
+    hint: 'Drag the piston handle to compress or expand',
+    handle(s, ev) {
+      if (ev.type === 'up') {
+        s.vars.dragging = 0;
+        return null;
+      }
+      if (ev.type === 'tap') return null;
+      s.vars.dragging = 1;
       // The piston face spans the right portion of the box; map its x to the 5..40 L range.
       const frac = Math.min(Math.max((ev.x - 0.12) / 0.76, 0), 1);
       return { volume: 5 + frac * 35 };
     },
+    isHolding: (s) => s.vars.dragging === 1,
   },
   explanation(s: SimState) {
     const p = pressureKpa(s.params);

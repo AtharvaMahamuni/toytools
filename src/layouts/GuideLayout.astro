@@ -168,6 +168,8 @@ const articleSchema = {
 
   h1 {
     font-size: var(--text-4xl);
+    font-weight: var(--font-weight-normal);
+    letter-spacing: -0.025em;
     margin-top: var(--space-2);
     margin-bottom: var(--space-4);
   }
@@ -234,7 +236,9 @@ const articleSchema = {
   .toc-mobile {
     display: none;
     border: var(--border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    background: var(--color-surface);
     margin-bottom: var(--space-8);
     overflow: hidden;
   }
@@ -290,7 +294,7 @@ const articleSchema = {
   }
 
   :global(.toc-list li:has(a[aria-current])) {
-    border-left-color: var(--color-gold);
+    border-left-color: var(--color-accent);
   }
 
   :global(.toc-list a) {
@@ -309,7 +313,7 @@ const articleSchema = {
   }
 
   :global(.toc-list a[aria-current]) {
-    color: var(--color-text);
+    color: var(--color-accent);
     font-weight: var(--font-weight-medium);
   }
 
@@ -380,9 +384,10 @@ const articleSchema = {
     font-size: var(--text-sm);
     color: var(--color-text-muted);
     padding: var(--space-5) var(--space-6);
-    background: var(--color-bg-tertiary);
+    background: var(--color-surface);
     border: var(--border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
     margin-top: var(--space-5);
     display: flex;
     align-items: center;

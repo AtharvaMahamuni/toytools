@@ -5,14 +5,14 @@
 import type { Palette, Viewport } from './types';
 
 const PALETTE_VARS: Record<keyof Palette, [name: string, fallback: string]> = {
-  ink: ['--color-text', '#1F1D1A'],
-  muted: ['--color-text-muted', '#6E6961'],
-  accent: ['--color-accent', '#2F6B4F'],
-  accentSubtle: ['--color-accent-subtle', '#DFEBE4'],
-  bg: ['--color-bg', '#FAF9F7'],
-  surface: ['--color-surface', '#F4F2EE'],
-  border: ['--color-border', '#E5E1DA'],
-  danger: ['--color-danger', '#dc2626'],
+  ink: ['--color-text', '#26251e'],
+  muted: ['--color-text-muted', '#5a5852'],
+  accent: ['--color-accent', '#f54e00'],
+  accentSubtle: ['--color-accent-subtle', 'rgba(245, 78, 0, 0.12)'],
+  bg: ['--color-bg', '#f7f7f4'],
+  surface: ['--color-surface', '#ffffff'],
+  border: ['--color-border', '#e6e5e0'],
+  danger: ['--color-danger', '#cf2d56'],
 };
 
 /** Resolve the active theme's colors from the CSS custom properties (canvas can't use var()). */
@@ -136,5 +136,84 @@ export function drawLabel(
   ctx.textAlign = align;
   ctx.textBaseline = 'middle';
   ctx.fillText(text, x, y);
+  ctx.restore();
+}
+
+/** Interactive affordance halo ring around a draggable target (e.g. bob, mass block, handle). */
+export function drawAffordanceHalo(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  radius: number,
+  color: string,
+  isHeld = false,
+): void {
+  ctx.save();
+  if (isHeld) {
+    ctx.fillStyle = color;
+    ctx.globalAlpha = 0.18;
+    ctx.beginPath();
+    ctx.arc(x, y, radius + 8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.arc(x, y, radius + 6, 0, Math.PI * 2);
+    ctx.stroke();
+  } else {
+    ctx.strokeStyle = color;
+    ctx.globalAlpha = 0.45;
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.arc(x, y, radius + 5, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+/** Angle sector arc with degrees annotation label. */
+export function drawAngleArc(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  radius: number,
+  startAngle: number,
+  endAngle: number,
+  label: string,
+  color: string,
+): void {
+  ctx.save();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, startAngle, endAngle, startAngle > endAngle);
+  ctx.stroke();
+  const midAngle = (startAngle + endAngle) / 2;
+  const lx = cx + (radius + 12) * Math.cos(midAngle);
+  const ly = cy + (radius + 12) * Math.sin(midAngle);
+  drawLabel(ctx, label, lx, ly, color);
+  ctx.restore();
+}
+
+/** Tactile grip ridges for draggable handles (e.g. gas pistons, slider blocks). */
+export function drawGripRidges(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  height: number,
+  color: string,
+): void {
+  ctx.save();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.5;
+  ctx.lineCap = 'round';
+  for (const dx of [-3, 0, 3]) {
+    ctx.beginPath();
+    ctx.moveTo(x + dx, y - height / 2);
+    ctx.lineTo(x + dx, y + height / 2);
+    ctx.stroke();
+  }
   ctx.restore();
 }

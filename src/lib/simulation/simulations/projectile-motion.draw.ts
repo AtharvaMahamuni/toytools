@@ -5,7 +5,7 @@
 // Excluded from unit coverage (browser drawing); a stub-context smoke test asserts no-throw.
 
 import type { SimState, Viewport } from '../types';
-import { clear, drawArrow, drawGrid, drawLabel } from '../canvas';
+import { clear, drawAffordanceHalo, drawAngleArc, drawArrow, drawGrid, drawLabel } from '../canvas';
 import { flightTau, flightTime, maxHeight, posX, posY, range } from './projectile-motion';
 
 const PAD = { left: 44, right: 20, top: 20, bottom: 34 };
@@ -42,7 +42,17 @@ export function drawProjectileMotion(ctx: CanvasRenderingContext2D, s: SimState,
 
   // Launcher barrel, tilted to the launch angle.
   const th = (s.params.angle * Math.PI) / 180;
-  const barrel = 26;
+  const barrel = 28;
+  const isAiming = s.vars.aiming === 1;
+
+  // Aiming arc at the barrel base
+  if (s.params.angle > 10) {
+    drawAngleArc(ctx, ox, oy, 30, 0, -th, `${Math.round(s.params.angle)}°`, vp.palette.accent);
+  }
+
+  // Interactive launcher affordance halo
+  drawAffordanceHalo(ctx, ox, oy, 14, vp.palette.accent, isAiming);
+
   ctx.save();
   ctx.strokeStyle = vp.palette.ink;
   ctx.lineWidth = 5;
@@ -51,11 +61,29 @@ export function drawProjectileMotion(ctx: CanvasRenderingContext2D, s: SimState,
   ctx.moveTo(ox, oy);
   ctx.lineTo(ox + barrel * Math.cos(th), oy - barrel * Math.sin(th));
   ctx.stroke();
-  ctx.fillStyle = vp.palette.ink;
+
+  ctx.fillStyle = vp.palette.accent;
   ctx.beginPath();
-  ctx.arc(ox, oy, 6, 0, Math.PI * 2);
+  ctx.arc(ox, oy, 7, 0, Math.PI * 2);
   ctx.fill();
+  ctx.stroke();
   ctx.restore();
+
+  // If aiming, draw slingshot aiming guide line & speed badge
+  if (isAiming) {
+    const tipX = ox + barrel * Math.cos(th) * 2;
+    const tipY = oy - barrel * Math.sin(th) * 2;
+    ctx.save();
+    ctx.strokeStyle = vp.palette.accent;
+    ctx.setLineDash([3, 3]);
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(ox, oy);
+    ctx.lineTo(tipX, tipY);
+    ctx.stroke();
+    ctx.restore();
+    drawLabel(ctx, `${s.params.speed.toFixed(0)} m/s`, tipX + 16, tipY - 8, vp.palette.accent);
+  }
 
   // Full flight path (dashed), sampled across the whole flight time.
   const steps = 80;
@@ -121,14 +149,18 @@ export function drawProjectileMotion(ctx: CanvasRenderingContext2D, s: SimState,
   ctx.restore();
   drawLabel(ctx, `R = ${R.toFixed(1)} m`, rx, oy + 14, vp.palette.muted);
 
-  // The projectile.
+  // The projectile with subtle motion halo.
   const bx = toX(posX(s.params, tauNow));
   const by = toY(posY(s.params, tauNow));
+  drawAffordanceHalo(ctx, bx, by, 7, vp.palette.danger, false);
   ctx.save();
   ctx.fillStyle = vp.palette.danger;
+  ctx.strokeStyle = vp.palette.ink;
+  ctx.lineWidth = 1.5;
   ctx.beginPath();
   ctx.arc(bx, by, 7, 0, Math.PI * 2);
   ctx.fill();
+  ctx.stroke();
   ctx.restore();
 
   // Velocity arrow at the projectile: horizontal component is constant, vertical shrinks to zero
