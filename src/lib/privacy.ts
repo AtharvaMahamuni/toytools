@@ -3,7 +3,11 @@
 // Models and humans were reading five different wordings of the same fact (browser / device /
 // never leaves / no upload / local-only). One string, imported everywhere, is the whole fix.
 
-export const PRIVACY_LINE = 'Runs entirely on your device. Nothing is uploaded.';
+/**
+ * Short form of TOOL_DATA_LINE (below). It replaced "Nothing is uploaded" on 1 Nov 2026: the site
+ * loads analytics and has a feedback form, so a bare "nothing is uploaded" overclaimed.
+ */
+export const PRIVACY_LINE = 'What you enter stays on your device.';
 
 /**
  * The site-wide privacy fact, for files that speak for the whole site rather than one tool (the
@@ -33,7 +37,7 @@ export type TrustVariant = 'private' | 'offline' | 'local' | 'lookup';
  * The privacy sentence a tool may actually claim, keyed by its trust variant.
  *
  * `private` is the default and matches PRIVACY_LINE. Lookup is the exception: the browser
- * does ask an echo, so the "nothing is uploaded" line would be false there.
+ * does ask an echo, so the "stays on your device" line would be false there.
  */
 export function privacyStatement(variant?: TrustVariant): string {
   switch (variant) {
@@ -49,7 +53,7 @@ export function privacyStatement(variant?: TrustVariant): string {
 }
 
 const ALREADY_STATED =
-  /on your device|in your browser|nothing is uploaded|never (uploaded|sent)|no uploads?/i;
+  /on your device|in your browser|not uploaded|never (uploaded|sent)|no uploads?/i;
 
 /** Append PRIVACY_LINE when the text has not already made the claim. */
 export function withPrivacy(text: string): string {

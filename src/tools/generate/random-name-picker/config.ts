@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'random-name-picker',
   name: 'Random Name Picker',
   seoTitle: 'Random Name Picker: Draw From a List',
-  description: 'Draw names with a classroom picker or raffle draw; a quieter wheel of names, without repeats. Runs entirely on your device. Nothing is uploaded.',
+  description: 'Draw names with a classroom picker or raffle draw; a quieter wheel of names, without repeats. What you enter stays on your device.',
   tagline: 'Draw names from a pasted list, with no accidental repeats.',
   categorySlug: 'generate',
   tags: ['random name picker', 'name picker', 'random name generator from list', 'raffle picker', 'wheel of names alternative', 'pick a random name', 'classroom name picker'],

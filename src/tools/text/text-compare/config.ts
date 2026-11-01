@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'text-compare',
   name: 'Text Compare',
   seoTitle: 'Text Compare: Side-by-Side Diff Online',
-  description: 'Compare two texts side by side and see which lines were added or removed. Runs entirely on your device. Nothing is uploaded.',
+  description: 'Compare two texts side by side and see which lines were added or removed. What you enter stays on your device.',
   tagline: 'Compare two texts and see exactly which lines changed.',
   categorySlug: 'text-utilities',
   keepInput: true,

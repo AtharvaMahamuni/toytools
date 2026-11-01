@@ -86,7 +86,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Visual Fraction Bars, Strips and Circles',
     description:
-      'Equivalent fractions model on one shared whole. Runs entirely on your device. Nothing is uploaded.',
+      'Equivalent fractions model on one shared whole. What you enter stays on your device.',
     tagline: 'Drag the shaded edge. Both fractions share one whole.',
     keywords: [
       'strips',
@@ -159,7 +159,7 @@ export const manifest: SimulationManifest = {
     },
     {
       question: 'Does this page upload the fractions?',
-      answer: 'No. The bars, the circles, and the sum are computed in the browser. Nothing is uploaded.',
+      answer: 'No. The bars, the circles, and the sum are computed in the browser. What you enter stays on your device.',
     },
   ],
   guide: {

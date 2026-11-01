@@ -18,7 +18,7 @@ test('JSON Diff removes its old saved panes and saves nothing new (item 11)', as
   await panes.nth(1).fill('{"a":2}');
   await page.waitForTimeout(400);
   expect(await page.evaluate(() => Object.keys(localStorage).filter((k) => k.includes('json-diff')))).toEqual([]);
-  await expect(page.getByText('Runs entirely on your device. Nothing is uploaded.').first()).toBeAttached();
+  await expect(page.getByText('What you enter stays on your device.').first()).toBeAttached();
 });
 
 test('slugify transliterates and explains a non-Latin line (item 3)', async ({ page }) => {

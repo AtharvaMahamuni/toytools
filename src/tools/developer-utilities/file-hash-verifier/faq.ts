@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'file-hash-verifier-faq-1',
     question: 'How do I hash a file in the browser?',
     answer:
-      'Choose the file with the file control. Leave SHA-256 selected unless the download page names another algorithm. The digest appears under the file name, with the size in bytes. Copy takes the hex. Paste the published line into Expected digest. The page says match, mismatch, or wrong length. The bytes stay on your device. Nothing is uploaded.',
+      'Choose the file with the file control. Leave SHA-256 selected unless the download page names another algorithm. The digest appears under the file name, with the size in bytes. Copy takes the hex. Paste the published line into Expected digest. The page says match, mismatch, or wrong length. The bytes stay on your device. What you enter stays on your device.',
   },
   {
     id: 'file-hash-verifier-faq-2',
@@ -41,7 +41,7 @@ export const items: FAQItem[] = [
     id: 'file-hash-verifier-faq-7',
     question: 'Does this upload my file?',
     answer:
-      'No. The hash runs in the browser on the bytes you chose. There is no form post and no hash server, and closing the tab drops the file from memory. Only the algorithm you picked is remembered, in this browser. The expected digest is not saved, so the next file is never judged against an old checksum. Sending the file to a chat model would be an upload. Runs entirely on your device. Nothing is uploaded.',
+      'No. The hash runs in the browser on the bytes you chose. There is no form post and no hash server, and closing the tab drops the file from memory. Only the algorithm you picked is remembered, in this browser. The expected digest is not saved, so the next file is never judged against an old checksum. Sending the file to a chat model would be an upload. What you enter stays on your device.',
   },
   {
     id: 'file-hash-verifier-faq-8',

@@ -49,7 +49,7 @@ const sha1Href = toolPathBySlug('sha1-hash-generator');
       length fits. The result is a match or a mismatch. Case does not count as a difference.
     </p>
     <p>
-      The paste stays on your device. Runs entirely on your device. Nothing is uploaded. There
+      The paste stays on your device. What you enter stays on your device. There
       is no account. A file is read with the browser file reader, hashed in this tab, and then
       dropped. Use it when a download page, a terminal, or a ticket handed you a hash and you
       need to know what it is before you trust the file.
@@ -147,7 +147,7 @@ const sha1Href = toolPathBySlug('sha1-hash-generator');
       32 MB are refused so the tab does not lock up. That refusal happens before the read
       finishes the hash, and it is still local. Once the length names the algorithm, check the
       downloaded file itself in the <a href={toolPathBySlug('file-hash-verifier')}>file hash
-      verifier</a>. Nothing is uploaded.
+      verifier</a>. What you enter stays on your device.
     </p>
     <p>
       The algorithm is the one you pick, or the one inferred when the digest matches exactly

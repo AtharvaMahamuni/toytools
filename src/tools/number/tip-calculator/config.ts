@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'tip-calculator',
   name: 'Tip Calculator',
   seoTitle: 'Tip Calculator: Split the Bill and Tip',
-  description: 'Tip = bill times rate. A $60 bill at 20% is a $12 tip and $72 total, or $24 each split three ways. Nothing is uploaded.',
+  description: 'Tip = bill times rate. A $60 bill at 20% is a $12 tip and $72 total, or $24 each split three ways. What you enter stays on your device.',
   tagline: 'The tip, the total, and the split between any number of people.',
   categorySlug: 'number-utilities',
   tags: ['tip calculator', 'gratuity calculator', 'how much to tip', 'split the bill', 'restaurant tip', 'tip percentage', 'bill splitter', 'calculate tip', 'numbers', 'math'],

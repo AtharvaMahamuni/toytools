@@ -29,7 +29,7 @@ export const items: FAQItem[] = [
     id: 'spin-faq-5',
     question: 'Do I need to download an app for this fidget spinner?',
     answer:
-      'No. It is a virtual fidget spinner online: open the tab, flick, and leave. No install, no account, and no paywall. Runs entirely on your device. Nothing is uploaded.',
+      'No. It is a virtual fidget spinner online: open the tab, flick, and leave. No install, no account, and no paywall. What you enter stays on your device.',
   },
   {
     id: 'spin-faq-6',

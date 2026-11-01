@@ -8,7 +8,7 @@ export const config: ToolConfig = {
   // the old one-clause version reached in body copy only and therefore scored 0 on targeting. It
   // is also simply more accurate now: the tool has a word goal, so saying so is description, not
   // keyword stuffing.
-  description: 'Count how many words, characters, sentences, and paragraphs; check an essay length as you type. Runs entirely on your device. Nothing is uploaded.',
+  description: 'Count how many words, characters, sentences, and paragraphs; check an essay length as you type. What you enter stays on your device.',
   tagline: 'Count words as you type, and set a goal to write to.',
   categorySlug: 'text-utilities',
   tags: ['text', 'count', 'words', 'characters', 'count words online', 'word count checker', 'character counter', 'words in text', 'online word counter free', 'word count tool', 'word counter online', 'reading time calculator'],
@@ -36,7 +36,7 @@ export const config: ToolConfig = {
     slug: 'how-to-count-words-in-your-writing',
     categorySlug: 'text',
     title: 'How to Count Words in Your Writing',
-    description: 'How word count works, why tools disagree, and how to write to a limit. Runs entirely on your device. Nothing is uploaded.',
+    description: 'How word count works, why tools disagree, and how to write to a limit. What you enter stays on your device.',
     readMinutes: 4,
     updatedAt: '2026-06-05',
   },};

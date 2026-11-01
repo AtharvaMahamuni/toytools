@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Kinetic Sand',
   seoTitle: 'Kinetic Sand Online: Virtual Sand Fidget',
   description:
-    'Drag, squish, or tilt virtual kinetic sand. Play with sand in the browser. Reset when packed. Runs entirely on your device. Nothing is uploaded.',
+    'Drag, squish, or tilt virtual kinetic sand. Play with sand in the browser. Reset when packed. What you enter stays on your device.',
   tagline: 'Drag or tilt the pile. Reset when it packs.',
   categorySlug: 'fidgets',
   tags: ['kinetic sand', 'virtual sand', 'sand fidget', 'squish sand', 'sand pile'],

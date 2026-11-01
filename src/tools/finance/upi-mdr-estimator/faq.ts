@@ -66,7 +66,7 @@ export const items: FAQItem[] = [
     id: 'mdr-faq-11',
     question: 'Are my numbers uploaded?',
     answer:
-      'No. Runs entirely on your device. Nothing is uploaded.\nThe amount stays in this tab. Close the tab and the number is gone. There is no account on this page.',
+      'No. What you enter stays on your device.\nThe amount stays in this tab. Close the tab and the number is gone. There is no account on this page.',
   },
   {
     id: 'mdr-faq-12',

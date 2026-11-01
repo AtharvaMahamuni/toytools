@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'gears-faq-1',
     question: 'What are interactive gears in a browser?',
     answer:
-      'Two meshing gears you can spin with a drag. Tooth count sets radius, so the pair always meshes. The live ratio (default 1 : 2) updates if you change teeth. Optional click sound and haptics live under the board and Settings → Feel. Nothing is uploaded.',
+      'Two meshing gears you can spin with a drag. Tooth count sets radius, so the pair always meshes. The live ratio (default 1 : 2) updates if you change teeth. Optional click sound and haptics live under the board and Settings → Feel. What you enter stays on your device.',
   },
   {
     id: 'gears-faq-2',
@@ -29,7 +29,7 @@ export const items: FAQItem[] = [
     id: 'gears-faq-5',
     question: 'Is anything uploaded from this gears fidget?',
     answer:
-      'No. The layout is not saved. Feel preferences for sound, haptics, and motion live in your browser under Settings → Feel so other fidgets can read them. Runs entirely on your device. Nothing is uploaded.',
+      'No. The layout is not saved. Feel preferences for sound, haptics, and motion live in your browser under Settings → Feel so other fidgets can read them. What you enter stays on your device.',
   },
   {
     id: 'gears-faq-6',

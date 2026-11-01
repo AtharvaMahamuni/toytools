@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'IPv4 Converter',
   seoTitle: 'IPv4 Converter: Decimal, Hex and Binary',
   description:
-    'Convert an IP address to an integer. Dotted decimal, hex, and binary. Runs entirely on your device. Nothing is uploaded.',
+    'Convert an IP address to an integer. Dotted decimal, hex, and binary. What you enter stays on your device.',
   tagline: 'Dotted, decimal, hex, and binary for one address.',
   categorySlug: 'developer-utilities',
   tags: ['ip to decimal', 'ipv4 to decimal', 'ip to hex', 'dotted decimal to binary', 'convert ip address to integer'],

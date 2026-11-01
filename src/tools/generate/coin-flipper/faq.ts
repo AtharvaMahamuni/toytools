@@ -35,6 +35,6 @@ export const items: FAQItem[] = [
     id: 'coin-faq-6',
     question: 'How many flips can I run at once?',
     answer:
-      'Up to five hundred in a single press, printed ten to a line with a running tally of each side. That is enough to show a class what a fair coin looks like at scale, and enough to watch the percentage settle while the raw gap between heads and tails keeps widening. Nothing is uploaded and no run is stored, so refreshing the page clears it.',
+      'Up to five hundred in a single press, printed ten to a line with a running tally of each side. That is enough to show a class what a fair coin looks like at scale, and enough to watch the percentage settle while the raw gap between heads and tails keeps widening. What you enter is not uploaded and no run is stored, so refreshing the page clears it.',
   },
 ];

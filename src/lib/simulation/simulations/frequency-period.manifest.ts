@@ -85,7 +85,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Frequency and Period Calculator Online',
     description:
-      'Convert hertz to seconds with T = 1 / f. See cycles per second, period, and angular frequency live. Runs entirely on your device. Nothing is uploaded.',
+      'Convert hertz to seconds with T = 1 / f. See cycles per second, period, and angular frequency live. What you enter stays on your device.',
     tagline: 'Convert frequency to period online: tap a beat or drag the slider.',
     keywords: ['frequency', 'period', 'T = 1/f', 'angular frequency', 'oscillation', 'hertz', 'frequency to period calculator'],
   },
@@ -131,7 +131,7 @@ export const manifest: SimulationManifest = {
     slug: 'how-frequency-and-period-relate',
     title: 'Frequency and Period: T = 1 / f',
     description:
-      'Convert frequency to period with T = 1 / f, then read angular frequency. Practice on the calculator. Runs entirely on your device. Nothing is uploaded.',
+      'Convert frequency to period with T = 1 / f, then read angular frequency. Practice on the calculator. What you enter stays on your device.',
     readMinutes: 5,
     updatedAt: '2026-09-24',
     quickAnswer:

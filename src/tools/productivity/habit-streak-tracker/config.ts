@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Habit Streak Tracker',
   seoTitle: 'Habit Streak Tracker: Daily Checks On Your Device',
   description:
-    'Track up to eight daily habits with honest streaks, a 12-week heat grid, and encouraging recovery copy. Runs entirely on your device. Nothing is uploaded.',
+    'Track up to eight daily habits with honest streaks, a 12-week heat grid, and encouraging recovery copy. What you enter stays on your device.',
   tagline: 'Check habits, keep honest streaks, start again without guilt.',
   categorySlug: 'productivity',
   tags: [

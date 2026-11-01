@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'ef-faq-4',
     question: 'Are my numbers uploaded?',
     answer:
-      'No. Every calculation runs in your browser, so your expenses, months, and savings figures stay with you. Runs entirely on your device. Nothing is uploaded.',
+      'No. Every calculation runs in your browser, so your expenses, months, and savings figures stay with you. What you enter stays on your device.',
   },
   {
     id: 'ef-faq-5',

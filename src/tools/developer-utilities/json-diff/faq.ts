@@ -11,7 +11,7 @@ export const items: FAQItem[] = [
     id: 'jd-faq-2',
     question: 'Does the paste stay on my device?',
     answer:
-      'Yes. Both panes are parsed in this tab. Runs entirely on your device. Nothing is uploaded. There is no account and no request when you paste. Open the network panel and compare: the result does not wait on a server. Close the tab and the documents are gone. That matters because JSON handoffs often hold tokens, customer records, or config that should not leave the machine.',
+      'Yes. Both panes are parsed in this tab. What you enter stays on your device. There is no account and no request when you paste. Open the network panel and compare: the result does not wait on a server. Close the tab and the documents are gone. That matters because JSON handoffs often hold tokens, customer records, or config that should not leave the machine.',
   },
   {
     id: 'jd-faq-3',

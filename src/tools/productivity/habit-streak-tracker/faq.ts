@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'hst-faq-4',
     question: 'Is my habit data private?',
     answer:
-      'Yes. Runs entirely on your device. Nothing is uploaded. Habit names, cues, identity lines, and day checks live in browser localStorage under a tool-specific key, and no account is required. For example, a habit named Meditate 2 min never leaves the browser profile you are using right now.',
+      'Yes. What you enter stays on your device. Habit names, cues, identity lines, and day checks live in browser localStorage under a tool-specific key, and no account is required. For example, a habit named Meditate 2 min never leaves the browser profile you are using right now.',
   },
   {
     id: 'hst-faq-5',

@@ -53,7 +53,7 @@ export const items: FAQItem[] = [
     id: 'bill-faq-9',
     question: 'Are my numbers uploaded?',
     answer:
-      'No. Runs entirely on your device. Nothing is uploaded.\nThe bill stays in this tab. There is no signup and no sync. Export is not even a button here, because nothing is stored.',
+      'No. What you enter stays on your device.\nThe bill stays in this tab. There is no signup and no sync. Export is not even a button here, because nothing is stored.',
   },
   {
     id: 'bill-faq-10',

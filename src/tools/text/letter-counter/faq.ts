@@ -65,6 +65,6 @@ export const items: FAQItem[] = [
     id: 'lc-faq-11',
     question: 'Is my text uploaded?',
     answer:
-      'No. Letters are counted in your browser as you type or paste, with no server and no account required. Runs entirely on your device. Nothing is uploaded.',
+      'No. Letters are counted in your browser as you type or paste, with no server and no account required. What you enter stays on your device.',
   },
 ];

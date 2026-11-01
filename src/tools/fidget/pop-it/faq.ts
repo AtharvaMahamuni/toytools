@@ -29,7 +29,7 @@ export const items: FAQItem[] = [
     id: 'pop-faq-5',
     question: 'Is anything stored or uploaded when I use this?',
     answer:
-      'No. The board itself is not saved. Feel preferences (sound, haptics, motion) live in your browser under the shared Settings page so other fidgets can read the same choices. Runs entirely on your device. Nothing is uploaded.',
+      'No. The board itself is not saved. Feel preferences (sound, haptics, motion) live in your browser under the shared Settings page so other fidgets can read the same choices. What you enter stays on your device.',
   },
   {
     id: 'pop-faq-6',

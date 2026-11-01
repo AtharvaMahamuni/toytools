@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Ovulation Calculator',
   seoTitle: 'Ovulation Calculator: When Am I Ovulating?',
   description:
-    'Estimate ovulation, conception date, fertile window and next period from a last period. Not birth control. Runs entirely on your device. Nothing is uploaded.',
+    'Estimate ovulation, conception date, fertile window and next period from a last period. Not birth control. What you enter stays on your device.',
   tagline: 'Fertile window, ovulation date, and the next period.',
   categorySlug: 'health-fitness',
   tags: [

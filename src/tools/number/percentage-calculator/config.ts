@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'percentage-calculator',
   name: 'Percentage Calculator',
   seoTitle: 'Percentage Calculator — Free Online Tool',
-  description: 'What is 15% of 80? That is 12. Also percentage change, and what percent X is of Y. Nothing is uploaded.',
+  description: 'What is 15% of 80? That is 12. Also percentage change, and what percent X is of Y. What you enter stays on your device.',
   tagline: 'Percent of a number, or the change between two. On your device.',
   categorySlug: 'number-utilities',
   tags: ['numbers', 'percentage', 'math', 'calculate', 'calculate percentage online', 'percent calculator', 'percentage of a number', 'percentage increase calculator', 'how to calculate percentage', 'online percent calculator', 'percentage change', 'discount calculator'],

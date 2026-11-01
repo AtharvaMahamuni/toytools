@@ -47,7 +47,7 @@ export const items: FAQItem[] = [
     id: 'shop-faq-8',
     question: 'Are my numbers uploaded?',
     answer:
-      'No. Runs entirely on your device. Nothing is uploaded.\nAdding a receipt, exporting JSON, and importing a file you already have all stay in the browser. There is no account and no sync.',
+      'No. What you enter stays on your device.\nAdding a receipt, exporting JSON, and importing a file you already have all stay in the browser. There is no account and no sync.',
   },
   {
     id: 'shop-faq-9',

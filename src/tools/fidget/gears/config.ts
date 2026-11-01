@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Gears',
   seoTitle: 'Gears Fidget Online: Spin Meshing Gears',
   description:
-    'Spin interactive meshing gears as a virtual fidget. Gear ratio simulator, gear toy browser. Runs entirely on your device. Nothing is uploaded.',
+    'Spin interactive meshing gears as a virtual fidget. Gear ratio simulator, gear toy browser. What you enter stays on your device.',
   tagline: 'Spin the pair. The ratio stays honest.',
   categorySlug: 'fidgets',
   tags: ['gear ratio', 'meshing gears', 'spin gears', 'gear toy', 'interactive gears'],

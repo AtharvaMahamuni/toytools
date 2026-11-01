@@ -202,7 +202,7 @@ export const manifest: SimulationManifest = {
         heading: 'Sigma cannot be zero',
         body: [
           'A zero width was refused, so sigma stops at 0.2.',
-          'Nothing is uploaded, and the math runs on your device.',
+          'What you enter is not uploaded, and the math runs on your device.',
         ].join('\n\n'),
       },
     ],

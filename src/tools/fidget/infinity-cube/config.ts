@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Infinity Cube',
   seoTitle: 'Infinity Cube: Fold a Hinged Fidget',
   description:
-    'Fold an infinity cube fidget online. A virtual hinged cube toy. Runs entirely on your device. Nothing is uploaded.',
+    'Fold an infinity cube fidget online. A virtual hinged cube toy. What you enter stays on your device.',
   tagline: 'Fold the open hinge. It closes back into one cube.',
   categorySlug: 'fidgets',
   tags: [

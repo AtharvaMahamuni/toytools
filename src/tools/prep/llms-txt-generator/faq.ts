@@ -23,6 +23,6 @@ export const items: FAQItem[] = [
     id: 'llms-faq-4',
     question: 'Does ToyTools upload the description or call a model?',
     answer:
-      'No. The file is built in your browser. Runs entirely on your device. Nothing is uploaded. It does not call an AI model. You copy or download the result yourself.',
+      'No. The file is built in your browser. What you enter stays on your device. It does not call an AI model. You copy or download the result yourself.',
   },
 ];

@@ -87,7 +87,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'The Half Life Curve for Exponential Decay',
     description:
-      'Exponential decay of nuclei. Half life curve, parent and daughter. Runs entirely on your device. Nothing is uploaded.',
+      'Exponential decay of nuclei. Half life curve, parent and daughter. What you enter stays on your device.',
     tagline: 'Watch the sample thin out. The curve says what the count should do.',
     keywords: ['half life', 'exponential'],
   },
@@ -148,7 +148,7 @@ export const manifest: SimulationManifest = {
     },
     {
       question: 'Does this page upload the sample?',
-      answer: 'No. The sample, the curve, and the half-life label are computed in the browser. Nothing is uploaded.',
+      answer: 'No. The sample, the curve, and the half-life label are computed in the browser. What you enter stays on your device.',
     },
   ],
   guide: {

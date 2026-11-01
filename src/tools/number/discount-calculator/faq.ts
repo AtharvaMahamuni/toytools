@@ -53,6 +53,6 @@ export const items: FAQItem[] = [
     id: 'disc-faq-9',
     question: 'Are my prices uploaded?',
     answer:
-      'No. Every calculation runs in your browser, so the prices and discounts you enter stay with you. Runs entirely on your device. Nothing is uploaded.',
+      'No. Every calculation runs in your browser, so the prices and discounts you enter stay with you. What you enter stays on your device.',
   },
 ];

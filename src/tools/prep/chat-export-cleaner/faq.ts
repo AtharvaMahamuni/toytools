@@ -29,6 +29,6 @@ export const items: FAQItem[] = [
     id: 'cc-faq-5',
     question: 'Is the transcript uploaded?',
     answer:
-      'No. Cleaning runs in your browser. Runs entirely on your device. Nothing is uploaded. Reloading the page clears the text.',
+      'No. Cleaning runs in your browser. What you enter stays on your device. Reloading the page clears the text.',
   },
 ];

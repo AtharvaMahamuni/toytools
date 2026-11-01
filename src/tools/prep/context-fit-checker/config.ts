@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Context Fit Checker',
   seoTitle: 'Estimate Prompt Context Usage',
   description:
-    'Estimate context use as characters divided by 4 against a published window. Not a tokenizer count. Runs entirely on your device. Nothing is uploaded.',
+    'Estimate context use as characters divided by 4 against a published window. Not a tokenizer count. What you enter stays on your device.',
   tagline: 'An estimate of context use. Not a tokenizer.',
   categorySlug: 'prep',
   tags: ['context window', 'token estimate', 'prompt length', 'context fit'],
@@ -22,7 +22,7 @@ export const config: ToolConfig = {
     slug: 'what-is-a-context-window',
     categorySlug: 'prep',
     title: 'What Is a Context Window?',
-    description: 'A context window is a published token capacity. This page estimates it as characters divided by 4. Runs entirely on your device. Nothing is uploaded.',
+    description: 'A context window is a published token capacity. This page estimates it as characters divided by 4. What you enter stays on your device.',
     readMinutes: 4,
     updatedAt: '2026-09-25',
   },

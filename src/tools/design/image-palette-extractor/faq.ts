@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'palette-faq-1',
     question: 'How do I extract colors from an image?',
     answer:
-      'Choose an image file. The page samples it in this tab and lists the dominant colors. Copy CSS writes one custom property per stop. Runs entirely on your device. Nothing is uploaded.',
+      'Choose an image file. The page samples it in this tab and lists the dominant colors. Copy CSS writes one custom property per stop. What you enter stays on your device.',
   },
   {
     id: 'palette-faq-2',
@@ -29,7 +29,7 @@ export const items: FAQItem[] = [
     id: 'palette-faq-5',
     question: 'Does this page upload the picture?',
     answer:
-      'No. There is no address field and no request. The file is read in the tab. Runs entirely on your device. Nothing is uploaded.',
+      'No. There is no address field and no request. The file is read in the tab. What you enter stays on your device.',
   },
   {
     id: 'palette-faq-6',

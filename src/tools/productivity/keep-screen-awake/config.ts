@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'keep-screen-awake',
   name: 'Keep Screen Awake',
   seoTitle: 'Keep Screen Awake Online',
-  description: 'Keep your screen awake online to prevent sleep while this tab stays open. Works in Chrome, Safari, and Edge. Runs entirely on your device. Nothing is uploaded.',
+  description: 'Keep your screen awake online to prevent sleep while this tab stays open. Works in Chrome, Safari, and Edge. What you enter stays on your device.',
   tagline: 'Keep the display on in your browser while this tab stays open.',
   categorySlug: 'productivity',
   tags: [
@@ -28,7 +28,7 @@ export const config: ToolConfig = {
     slug: 'how-to-keep-your-screen-awake',
     categorySlug: 'productivity',
     title: 'How to Keep Your Screen Awake',
-    description: 'Keep your screen awake online with wake locks, browser support, and battery tips. Runs entirely on your device. Nothing is uploaded.',
+    description: 'Keep your screen awake online with wake locks, browser support, and battery tips. What you enter stays on your device.',
     readMinutes: 6,
     updatedAt: '2026-09-23',
   },

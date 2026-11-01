@@ -65,6 +65,6 @@ export const items: FAQItem[] = [
     id: 'hed-faq-11',
     question: 'Is my text uploaded?',
     answer:
-      'No. Encoding and decoding both run in your browser with JavaScript, with no server and no account required. Runs entirely on your device. Nothing is uploaded.',
+      'No. Encoding and decoding both run in your browser with JavaScript, with no server and no account required. What you enter stays on your device.',
   },
 ];

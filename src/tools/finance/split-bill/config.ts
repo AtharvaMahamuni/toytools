@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Split Bill',
   seoTitle: 'Split Bill: equal shares that add up',
   description:
-    'Split a dinner bill so leftover paise land on the last person. Runs entirely on your device. Nothing is uploaded.',
+    'Split a dinner bill so leftover paise land on the last person. What you enter stays on your device.',
   tagline: 'Split a dinner bill so every share adds up.',
   categorySlug: 'money-finance',
   tags: ['bill'],

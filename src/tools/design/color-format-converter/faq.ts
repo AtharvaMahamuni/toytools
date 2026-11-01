@@ -24,6 +24,6 @@ export const items: FAQItem[] = [
   {
     id: 'color-format-converter-faq-5',
     question: 'Is my color data sent anywhere?',
-    answer: 'No. Every conversion runs entirely in your browser with JavaScript. Nothing is uploaded, logged, or stored on a server, and the tool keeps working offline once the page has loaded.',
+    answer: 'No. Every conversion runs entirely in your browser with JavaScript. What you enter is not uploaded, logged, or stored on a server, and the tool keeps working offline once the page has loaded.',
   },
 ];

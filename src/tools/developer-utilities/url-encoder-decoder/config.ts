@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'url-encoder-decoder',
   name: 'URL Encoder and Decoder',
   seoTitle: 'URL Encode and Decode Online',
-  description: 'Percent-encode or decode a URL online, with %20 vs + and encodeURIComponent explained. Runs entirely on your device. Nothing is uploaded.',
+  description: 'Percent-encode or decode a URL online, with %20 vs + and encodeURIComponent explained. What you enter stays on your device.',
   tagline: 'Percent-encode and decode URL components.',
   categorySlug: 'developer-utilities',
   tags: ['url encode', 'url decode', 'percent encoding', 'uri encode', 'uri decode', 'url encoder', 'url decoder', 'encode url online', 'decode url online', 'developer'],

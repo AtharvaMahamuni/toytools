@@ -35,6 +35,6 @@ export const items: FAQItem[] = [
     id: 'date-format-detector-faq-6',
     question: 'Is the list uploaded?',
     answer:
-      'No. The check runs in the browser. Nothing is uploaded. A column of dates from a spreadsheet can still be personal, which is why the page does not write it into the address on its own. Copy link builds a link only when you ask.',
+      'No. The check runs in the browser. What you enter stays on your device. A column of dates from a spreadsheet can still be personal, which is why the page does not write it into the address on its own. Copy link builds a link only when you ask.',
   },
 ];

@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'uppercase-converter',
   name: 'Uppercase Converter',
   seoTitle: 'Convert Text to Uppercase Online',
-  description: 'Convert any pasted text to UPPERCASE (all caps) in one click, then copy it. Runs entirely on your device. Nothing is uploaded.',
+  description: 'Convert any pasted text to UPPERCASE (all caps) in one click, then copy it. What you enter stays on your device.',
   tagline: 'Convert any text to UPPERCASE, then copy it.',
   categorySlug: 'text-utilities',
   tags: ['uppercase', 'uppercase converter', 'convert to uppercase', 'all caps', 'capital letters', 'text to uppercase', 'uppercase text generator', 'make text uppercase'],

@@ -1,5 +1,5 @@
 // Statistics Visualizer calculator: paste a list of numbers, get mean/median/mode/quartiles/
-// standard deviation with a combined histogram + box plot. Client-side only; nothing is uploaded.
+// standard deviation with a combined histogram + box plot. Client-side only; what you enter is not uploaded.
 
 import type { MathCalculator } from '../types';
 import { successResult, card, validationError } from '@lib/results/index';
@@ -166,7 +166,7 @@ export const statisticsCalculator: MathCalculator = {
         ),
       ],
       assumptions: [
-        assumption('Privacy', 'numbers stay in this browser tab; nothing is uploaded'),
+        assumption('Privacy', 'numbers stay in this browser tab; what you enter is not uploaded'),
         assumption(
           'Standard deviation',
           mode === 'sample' ? 'sample (divide by n − 1)' : 'population (divide by n)',

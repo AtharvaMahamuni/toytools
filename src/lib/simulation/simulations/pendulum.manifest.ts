@@ -168,7 +168,7 @@ export const manifest: SimulationManifest = {
         type: 'note',
         heading: 'How to change the release angle',
         body:
-          'Drag the bob to the side and let go: the point where you release it sets the starting angle, or use the angle control for an exact value. Everything runs in your browser, nothing is uploaded, and it works offline. To relate the pendulum period to frequency, carry it into the frequency and period simulator.',
+          'Drag the bob to the side and let go: the point where you release it sets the starting angle, or use the angle control for an exact value. Everything runs in your browser, what you enter is not uploaded, and it works offline. To relate the pendulum period to frequency, carry it into the frequency and period simulator.',
       },
     ],
   },

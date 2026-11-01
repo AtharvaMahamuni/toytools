@@ -41,7 +41,7 @@ export const items: FAQItem[] = [
     id: 'sb-faq-7',
     question: 'Is anything uploaded when I use this switch board?',
     answer:
-      'No. The latches themselves are not saved. Feel preferences for sound, haptics, and motion live in your browser under Settings → Feel so other fidgets can read the same choices. Runs entirely on your device. Nothing is uploaded.',
+      'No. The latches themselves are not saved. Feel preferences for sound, haptics, and motion live in your browser under Settings → Feel so other fidgets can read the same choices. What you enter stays on your device.',
   },
   {
     id: 'sb-faq-8',

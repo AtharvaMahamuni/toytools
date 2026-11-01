@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Slime',
   seoTitle: 'Slime Online: Virtual Slime Fidget',
   description:
-    'Stretch and poke virtual slime. Slime simulator you play with in the browser. No download. Runs entirely on your device. Nothing is uploaded.',
+    'Stretch and poke virtual slime. Slime simulator you play with in the browser. No download. What you enter stays on your device.',
   tagline: 'Poke and pull. Release if it sticks.',
   categorySlug: 'fidgets',
   tags: ['virtual slime', 'slime fidget', 'stretch slime', 'slime toy', 'goo fidget'],
