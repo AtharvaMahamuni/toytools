@@ -28,8 +28,11 @@ export const TOOL_DATA_SHORT = 'What you enter stays on your device.';
 export const SITE_PRIVACY_LINE =
   `${TOOL_DATA_LINE} The site uses analytics, and the feedback form sends what you submit.`;
 
-/** Trust-badge short form. Same claim as PRIVACY_LINE, sized for Zone B. */
-export const PRIVACY_BADGE = 'Private ● Runs entirely on your device';
+/**
+ * Trust-badge short form: PRIVACY_LINE itself, so the badge, the tooltip and the schema say one
+ * thing. It replaced "Runs entirely on your device" on 1 Nov 2026 (audit PR 2).
+ */
+export const PRIVACY_BADGE = `Private ● ${PRIVACY_LINE.replace(/\.$/, '')}`;
 
 export type TrustVariant = 'private' | 'offline' | 'local' | 'lookup';
 
