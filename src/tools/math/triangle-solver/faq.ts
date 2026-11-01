@@ -47,7 +47,7 @@ export const items: FAQItem[] = [
     id: 'triangle-solver-faq-8',
     question: 'Does this triangle calculator upload my numbers?',
     answer:
-      'No. The sides, the angles, and the drawing are computed in the browser after the page loads. There is no account, and a class worksheet can stay on the device. Once the page is open, it keeps working offline. Runs entirely on your device. Nothing is uploaded.',
+      'No. The sides, the angles, and the drawing are computed in the browser after the page loads. There is no account, and a class worksheet can stay on the device. Once the page is open, it keeps working offline. What you enter stays on your device.',
   },
   {
     id: 'triangle-solver-faq-9',

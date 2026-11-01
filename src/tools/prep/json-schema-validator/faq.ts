@@ -23,6 +23,6 @@ export const items: FAQItem[] = [
     id: 'jsv-faq-4',
     question: 'Is the schema or the JSON uploaded?',
     answer:
-      'No. Both panes are checked in your browser. Runs entirely on your device. Nothing is uploaded.',
+      'No. Both panes are checked in your browser. What you enter stays on your device.',
   },
 ];

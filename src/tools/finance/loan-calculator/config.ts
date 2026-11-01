@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Loan Calculator',
   seoTitle: 'Loan Calculator: EMI, Mortgage and Amortization',
   description:
-    'Work out the monthly payment or EMI on a home loan, the total interest, and what an extra payment saves. Runs entirely on your device. Nothing is uploaded.',
+    'Work out the monthly payment or EMI on a home loan, the total interest, and what an extra payment saves. What you enter stays on your device.',
   tagline: 'Monthly payment, total interest, and what an extra payment saves.',
   categorySlug: 'money-finance',
   tags: [

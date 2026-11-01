@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Prompt Packer',
   seoTitle: 'Assemble a Structured Prompt',
   description:
-    'A prompt builder for role, task, context, and constraints. Does not write the prompt. Runs entirely on your device. Nothing is uploaded.',
+    'A prompt builder for role, task, context, and constraints. Does not write the prompt. What you enter stays on your device.',
   tagline: 'Assembles a prompt from fields. Does not write it.',
   categorySlug: 'prep',
   tags: ['prompt', 'prompt packer', 'structured prompt', 'prompt template', 'prompt fields'],
@@ -22,7 +22,7 @@ export const config: ToolConfig = {
     slug: 'how-to-structure-a-prompt',
     categorySlug: 'prep',
     title: 'How to Structure a Prompt',
-    description: 'Join role, task, context, and constraints into one prompt. The page does not write it. Runs entirely on your device. Nothing is uploaded.',
+    description: 'Join role, task, context, and constraints into one prompt. The page does not write it. What you enter stays on your device.',
     readMinutes: 4,
     updatedAt: '2026-09-25',
   },

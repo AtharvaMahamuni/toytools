@@ -88,7 +88,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Cyclohexane Chair Flip: Axial vs Equatorial',
     description:
-      'Cyclohexane chair flip. Conformation, axial vs equatorial, 1,3-diaxial strain, methylcyclohexane conformer. Runs entirely on your device. Nothing is uploaded.',
+      'Cyclohexane chair flip. Conformation, axial vs equatorial, 1,3-diaxial strain, methylcyclohexane conformer. What you enter stays on your device.',
     tagline: 'Flip the chair. Up stays up, and the population follows.',
     keywords: [
       'conformation',
@@ -169,7 +169,7 @@ export const manifest: SimulationManifest = {
     },
     {
       question: 'Does this page upload the molecule?',
-      answer: 'No. The flip, the gap, and the population are computed in the browser. Nothing is uploaded.',
+      answer: 'No. The flip, the gap, and the population are computed in the browser. What you enter stays on your device.',
     },
   ],
   guide: {

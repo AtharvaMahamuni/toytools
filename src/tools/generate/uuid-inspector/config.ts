@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'UUID Inspector',
   seoTitle: 'UUID Inspector: Version and Variant',
   description:
-    'Is this UUID valid, and what version is this UUID? UUID validator for v4 vs v7. Decode a UUID timestamp. Runs entirely on your device. Nothing is uploaded.',
+    'Is this UUID valid, and what version is this UUID? UUID validator for v4 vs v7. Decode a UUID timestamp. What you enter stays on your device.',
   tagline: 'Read the version, variant, and time inside a UUID.',
   categorySlug: 'generate',
   tags: [

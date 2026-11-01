@@ -47,6 +47,6 @@ export const items: FAQItem[] = [
     id: 'ovulation-calculator-faq-8',
     question: 'Are these dates uploaded?',
     answer:
-      'No. The last period, the cycle length, the luteal phase, and the count date stay in the browser. Runs entirely on your device. Nothing is uploaded.',
+      'No. The last period, the cycle length, the luteal phase, and the count date stay in the browser. What you enter stays on your device.',
   },
 ];

@@ -35,7 +35,7 @@ export const items: FAQItem[] = [
     id: 'json-fmt-faq-6',
     question: 'Is the JSON Formatter private?',
     answer:
-      'Yes. Formatting runs in your browser. Your JSON is not sent to a server for processing. Runs entirely on your device. Nothing is uploaded.',
+      'Yes. Formatting runs in your browser. Your JSON is not sent to a server for processing. What you enter stays on your device.',
   },
   {
     id: 'json-fmt-faq-7',

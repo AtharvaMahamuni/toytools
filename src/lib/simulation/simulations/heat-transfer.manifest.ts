@@ -168,7 +168,7 @@ export const manifest: SimulationManifest = {
         type: 'note',
         heading: 'Everything runs on your device',
         body:
-          'The simulation runs entirely in your browser: nothing is uploaded, logged, or shared, and it works offline once loaded. To explore energy conservation in a mechanical setting instead, try the pendulum simulator.',
+          'The simulation runs entirely in your browser: what you enter is not uploaded, logged, or shared, and it works offline once loaded. To explore energy conservation in a mechanical setting instead, try the pendulum simulator.',
       },
     ],
   },

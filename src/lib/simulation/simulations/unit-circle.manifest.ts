@@ -98,7 +98,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Unit Circle Calculator: Interactive Explorer',
     description:
-      'Interactive unit circle: drag the trig circle, read sin cos tan values, and convert radians and degrees live. Runs entirely on your device. Nothing is uploaded.',
+      'Interactive unit circle: drag the trig circle, read sin cos tan values, and convert radians and degrees live. What you enter stays on your device.',
     tagline: 'Interactive unit circle: drag the point and read sin, cos, and tan.',
     keywords: ['unit circle', 'sin cos tan', 'unit circle calculator', 'radians and degrees', 'reference angle', 'special angles', 'interactive unit circle'],
   },
@@ -164,7 +164,7 @@ export const manifest: SimulationManifest = {
     slug: 'how-the-unit-circle-works',
     title: 'How the Unit Circle Works',
     description:
-      'See how sin, cos, and tan come from a point on the unit circle. Runs entirely on your device. Nothing is uploaded.',
+      'See how sin, cos, and tan come from a point on the unit circle. What you enter stays on your device.',
     readMinutes: 6,
     updatedAt: '2026-09-24',
     quickAnswer:

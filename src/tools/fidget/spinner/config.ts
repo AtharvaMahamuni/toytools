@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Fidget Spinner',
   seoTitle: 'Fidget Spinner Online: Virtual Spinner',
   description:
-    'Flick a virtual fidget spinner. Browser spin fidget web toy, real momentum that stops, optional ticks. Runs entirely on your device. Nothing is uploaded.',
+    'Flick a virtual fidget spinner. Browser spin fidget web toy, real momentum that stops, optional ticks. What you enter stays on your device.',
   tagline: 'Flick it. It spins, then it stops.',
   categorySlug: 'fidgets',
   tags: ['spinner online', 'virtual spinner', 'spin fidget', 'spinner toy', 'browser spinner'],

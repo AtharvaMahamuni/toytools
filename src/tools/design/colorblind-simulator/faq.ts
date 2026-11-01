@@ -35,6 +35,6 @@ export const items: FAQItem[] = [
     id: 'colorblind-simulator-faq-6',
     question: 'Is the palette uploaded?',
     answer:
-      'No. The arithmetic runs in the browser. Nothing is uploaded, and the colors you type are not stored for the next visit. A screenshot you would otherwise send to a server stays on the machine.',
+      'No. The arithmetic runs in the browser. What you enter is not uploaded, and the colors you type are not stored for the next visit. A screenshot you would otherwise send to a server stays on the machine.',
   },
 ];

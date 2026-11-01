@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'JSON to JSON Schema',
   seoTitle: 'Schema from a JSON Example',
   description:
-    'Build a JSON Schema from the types in one example. Does not mark fields required. Runs entirely on your device. Nothing is uploaded.',
+    'Build a JSON Schema from the types in one example. Does not mark fields required. What you enter stays on your device.',
   tagline: 'Types from this example. Not a required-field list.',
   categorySlug: 'prep',
   tags: ['json schema', 'json to schema', 'schema from json', 'infer schema'],
@@ -24,7 +24,7 @@ export const config: ToolConfig = {
     slug: 'what-is-json-schema-from-an-example',
     categorySlug: 'prep',
     title: 'What a JSON Example Can Tell a Schema',
-    description: 'Draft a schema from the types in one JSON example. Required fields are not inferred. Runs entirely on your device. Nothing is uploaded.',
+    description: 'Draft a schema from the types in one JSON example. Required fields are not inferred. What you enter stays on your device.',
     readMinutes: 4,
     updatedAt: '2026-09-25',
   },

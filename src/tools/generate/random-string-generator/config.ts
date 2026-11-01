@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'random-string-generator',
   name: 'Random String Generator',
   seoTitle: 'Random String Generator for Tokens',
-  description: 'Generate random strings, tokens, and keys with a custom alphabet. Runs entirely on your device. Nothing is uploaded.',
+  description: 'Generate random strings, tokens, and keys with a custom alphabet. What you enter stays on your device.',
   tagline: 'Random strings and tokens with a custom alphabet.',
   categorySlug: 'generate',
   tags: [
@@ -30,7 +30,7 @@ export const config: ToolConfig = {
     categorySlug: 'generate',
     title: 'How to Generate a Random String',
     description:
-      'What random strings are used for, and how length and alphabet set the entropy. Runs entirely on your device. Nothing is uploaded.',
+      'What random strings are used for, and how length and alphabet set the entropy. What you enter stays on your device.',
     readMinutes: 8,
     updatedAt: '2026-09-25',
   },

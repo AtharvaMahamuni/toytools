@@ -5,7 +5,7 @@ test('5000 ordinary shows 20 rupees and says it is not a customer fee', async ({
   const note = page.locator('[data-craft="upi-mdr-estimate"]');
   await expect(note).toBeVisible();
   await expect(note).toContainText('Not a customer fee. Not a tax.');
-  await expect(note).toContainText('Nothing is uploaded');
+  await expect(note).toContainText('What you enter stays on your device.');
   await expect(page.locator('#upi-mdr-estimator-hero')).toHaveText('₹20.00', { timeout: 15000 });
   await expect(page.locator('#upi-mdr-estimator-experience')).toContainText('Not a customer fee. Not a tax.');
   await expect(page.locator('#upi-mdr-estimator-experience')).not.toContainText('Person 1');
@@ -57,7 +57,7 @@ test('a new shop receipt counts in this month and stays under 1,00,000', async (
   const note = page.locator('[data-craft="shop-upi-tally"]');
   await expect(note).toBeVisible();
   await expect(note).toContainText('does not change your merchant status');
-  await expect(note).toContainText('Nothing is uploaded');
+  await expect(note).toContainText('What you enter stays on your device.');
   await page.locator('#shop-amount').fill('500');
   await page.locator('#shop-form').locator('button[type="submit"]').click();
   await expect(page.locator('#shop-total')).toHaveText('₹500.00', { timeout: 15000 });

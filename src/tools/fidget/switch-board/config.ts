@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Switch Board',
   seoTitle: 'Switch Board Online: Virtual Toggle Fidget',
   description:
-    'Flip satisfying switches on a virtual toggle switch board. Mechanical switch simulator, button fidget web. Runs entirely on your device. Nothing is uploaded.',
+    'Flip satisfying switches on a virtual toggle switch board. Mechanical switch simulator, button fidget web. What you enter stays on your device.',
   tagline: 'Flip the switches. All off when you want a clean board.',
   categorySlug: 'fidgets',
   tags: [

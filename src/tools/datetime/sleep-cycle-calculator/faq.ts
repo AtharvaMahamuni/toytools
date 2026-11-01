@@ -41,7 +41,7 @@ export const items: FAQItem[] = [
     id: 'sleep-cycle-calculator-faq-7',
     question: 'Does this sleep calculator upload my schedule?',
     answer:
-      'No. The wake time, the bedtime, and the cycle length are handled in the browser after the page loads. There is no account, and a work alarm can stay on the device. Once the page is open, it keeps working offline, like the other date and time tools here. Runs entirely on your device. Nothing is uploaded.',
+      'No. The wake time, the bedtime, and the cycle length are handled in the browser after the page loads. There is no account, and a work alarm can stay on the device. Once the page is open, it keeps working offline, like the other date and time tools here. What you enter stays on your device.',
   },
   {
     id: 'sleep-cycle-calculator-faq-8',

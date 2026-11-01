@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Chat Export Cleaner',
   seoTitle: 'Clean a Copied Chat',
   description:
-    'A conversation cleaner for a copied chat. Strips timestamps and labels. Does not rewrite the words. Runs entirely on your device. Nothing is uploaded.',
+    'A conversation cleaner for a copied chat. Strips timestamps and labels. Does not rewrite the words. What you enter stays on your device.',
   tagline: 'Clean a copied chat into plain text.',
   categorySlug: 'prep',
   tags: ['chat export', 'transcript cleaner', 'conversation cleaner', 'remove timestamps'],
@@ -22,7 +22,7 @@ export const config: ToolConfig = {
     slug: 'how-to-clean-a-chat-export',
     categorySlug: 'prep',
     title: 'How to Clean a Chat Export',
-    description: 'Strip timestamps and speaker labels from a copied chat. The page does not rewrite it. Runs entirely on your device. Nothing is uploaded.',
+    description: 'Strip timestamps and speaker labels from a copied chat. The page does not rewrite it. What you enter stays on your device.',
     readMinutes: 4,
     updatedAt: '2026-09-25',
   },

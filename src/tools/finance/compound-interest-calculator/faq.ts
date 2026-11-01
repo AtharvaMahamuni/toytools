@@ -53,6 +53,6 @@ export const items: FAQItem[] = [
     id: 'ci-faq-9',
     question: 'Are my numbers uploaded?',
     answer:
-      'No. Every calculation runs in your browser, so your principal, rate, and contribution figures stay with you. Runs entirely on your device. Nothing is uploaded.',
+      'No. Every calculation runs in your browser, so your principal, rate, and contribution figures stay with you. What you enter stays on your device.',
   },
 ];

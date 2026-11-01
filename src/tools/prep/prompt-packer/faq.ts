@@ -17,7 +17,7 @@ export const items: FAQItem[] = [
     id: 'pp-faq-3',
     question: 'Does ToyTools send my prompt to a server?',
     answer:
-      'No. The assembled text is built in your browser. Runs entirely on your device. Nothing is uploaded. Reloading the page clears the fields.',
+      'No. The assembled text is built in your browser. What you enter stays on your device. Reloading the page clears the fields.',
   },
   {
     id: 'pp-faq-4',

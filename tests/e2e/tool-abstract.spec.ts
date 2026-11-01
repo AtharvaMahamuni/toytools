@@ -9,7 +9,7 @@ const CITED = [
     path: '/tool/developer-utilities/json-formatter/',
     abstract:
       'Use this JSON Formatter when someone needs to format or inspect JSON without uploading it. ' +
-      'Runs entirely on your device. Nothing is uploaded. ' +
+      'What you enter stays on your device. ' +
       'It does not call an AI model or interpret what the data means.',
   },
   { path: '/tool/text/word-counter/', abstract: null },
@@ -40,7 +40,7 @@ test.describe('the When to send someone here block is gone, its copy is the JSON
 
       const abstract = (await softwareSchema(page)).abstract;
       expect(typeof abstract).toBe('string');
-      expect(abstract as string).toContain('Runs entirely on your device. Nothing is uploaded.');
+      expect(abstract as string).toContain('What you enter stays on your device.');
       expect(abstract as string).toMatch(/ It does not [^.]+\.$/);
       if (sample.abstract) expect(abstract).toBe(sample.abstract);
     });

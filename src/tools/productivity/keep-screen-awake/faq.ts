@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'wl-faq-4',
     question: 'Is Keep Screen Awake private?',
     answer:
-      'Yes. It only requests that your display stay on. It does not read your files, camera, microphone, or personal data. Runs entirely on your device. Nothing is uploaded.',
+      'Yes. It only requests that your display stay on. It does not read your files, camera, microphone, or personal data. What you enter stays on your device.',
   },
   {
     id: 'wl-faq-5',

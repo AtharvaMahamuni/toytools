@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'csv-column-picker-faq-1',
     question: 'What is a csv column picker?',
     answer:
-      'A csv column picker keeps the columns you name and drops every other field. Paste the table in the first box and the headers to keep in the second. The smaller file follows the order you typed, and a quoted comma stays inside its cell. Nothing is uploaded, so a customer list stays on this device.',
+      'A csv column picker keeps the columns you name and drops every other field. Paste the table in the first box and the headers to keep in the second. The smaller file follows the order you typed, and a quoted comma stays inside its cell. What you enter is not uploaded, so a customer list stays on this device.',
   },
   {
     id: 'csv-column-picker-faq-2',

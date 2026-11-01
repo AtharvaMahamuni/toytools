@@ -41,7 +41,7 @@ export const items: FAQItem[] = [
     id: 'sc-faq-7',
     question: 'Does this sentence counter upload my text?',
     answer:
-      'No. All counting runs in your browser using JavaScript. The tool is free, with no account required. Runs entirely on your device. Nothing is uploaded.',
+      'No. All counting runs in your browser using JavaScript. The tool is free, with no account required. What you enter stays on your device.',
   },
   {
     id: 'sc-faq-8',

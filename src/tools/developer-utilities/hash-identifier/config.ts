@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Hash Identifier',
   seoTitle: 'Identify hash type: which algorithm produced this digest',
   description:
-    'What hash is this? Compare sha256 vs sha1 length, then verify why a checksum does not match. Runs entirely on your device. Nothing is uploaded.',
+    'What hash is this? Compare sha256 vs sha1 length, then verify why a checksum does not match. What you enter stays on your device.',
   tagline: 'Identify a digest and verify the checksum.',
   categorySlug: 'developer-utilities',
   tags: ['hash identifier', 'identify hash', 'checksum verifier', 'digest length'],

@@ -49,6 +49,6 @@ export const items: FAQItem[] = [
   {
     id: 'equalizer-settings-generator-faq-9',
     question: 'Do my settings get uploaded anywhere?',
-    answer: 'No. Everything runs in your browser, and the settings are kept in your browser\'s own storage so the page remembers them next time. When you copy a link, the seven values travel inside the link itself, which is why the numbers are readable in the address bar. Runs entirely on your device. Nothing is uploaded.',
+    answer: 'No. Everything runs in your browser, and the settings are kept in your browser\'s own storage so the page remembers them next time. When you copy a link, the seven values travel inside the link itself, which is why the numbers are readable in the address bar. What you enter stays on your device.',
   },
 ];

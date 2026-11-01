@@ -92,7 +92,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Newman Projection Calculator: Practice Online',
     description:
-      'Practice Newman projection: dihedral angle, anti vs gauche butane, torsional strain, conformational analysis. Runs entirely on your device. Nothing is uploaded.',
+      'Practice Newman projection: dihedral angle, anti vs gauche butane, torsional strain, conformational analysis. What you enter stays on your device.',
     tagline: 'Rotate the bond and watch the strain energy curve draw itself.',
     keywords: ['newman projection simulator', 'newman projection', 'dihedral angle', 'conformational analysis', 'anti vs gauche', 'torsional strain', 'butane conformers'],
   },
@@ -260,7 +260,7 @@ export const manifest: SimulationManifest = {
         type: 'note',
         heading: 'Everything Runs On Your Device',
         body:
-          'The simulation runs entirely in your browser. Nothing is uploaded, logged, or shared, and it works offline once the page has loaded. To see a related energy landscape in a different setting, open the reaction rate simulator and compare an activation barrier with a rotation barrier.',
+          'The simulation runs entirely in your browser. What you enter is not uploaded, logged, or shared, and it works offline once the page has loaded. To see a related energy landscape in a different setting, open the reaction rate simulator and compare an activation barrier with a rotation barrier.',
       },
     ],
   },

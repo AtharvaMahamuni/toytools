@@ -9,12 +9,12 @@ describe('toolAbstract', () => {
   it('is the citation copy the visible block used to show, one sentence after another', () => {
     expect(toolAbstract(toolFacts(bySlug('json-formatter')))).toBe(
       'Use this JSON Formatter when someone needs to format or inspect JSON without uploading it. ' +
-        'Runs entirely on your device. Nothing is uploaded. ' +
+        'What you enter stays on your device. ' +
         'It does not call an AI model or interpret what the data means.',
     );
     expect(toolAbstract(toolFacts(bySlug('prompt-packer')))).toBe(
       'Use Prompt Packer when someone needs separate prompt fields joined into one block, without a model writing the text. ' +
-        'Runs entirely on your device. Nothing is uploaded. ' +
+        'What you enter stays on your device. ' +
         'It does not write, score, or rewrite the prompt, or send the text to an AI model.',
     );
   });

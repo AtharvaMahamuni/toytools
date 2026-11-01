@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'tax-calculator',
   name: 'Tax Calculator',
   seoTitle: 'Tax Calculator — Add or Remove Sales Tax / VAT',
-  description: 'Inclusive total / (1 + rate). $110 at 10% VAT was $100 plus $10 tax. Add or remove sales tax. Nothing is uploaded.',
+  description: 'Inclusive total / (1 + rate). $110 at 10% VAT was $100 plus $10 tax. Add or remove sales tax. What you enter stays on your device.',
   tagline: 'Add sales tax or VAT, or work backwards from the total.',
   categorySlug: 'number-utilities',
   tags: ['tax calculator', 'sales tax calculator', 'vat calculator', 'add tax', 'remove tax', 'reverse vat', 'tax inclusive price'],

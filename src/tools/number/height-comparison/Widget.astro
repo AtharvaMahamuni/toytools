@@ -79,7 +79,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     var figures = [];
     var seq = 1;
     var trapTarget = null;
-    var KINDS = { person: 1, door: 1, counter: 1, rim: 1 };
 
     function show(el, text) {
       if (!el) return;
@@ -105,9 +104,9 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       return out;
     }
 
-    function persist() {
-      if (TT.state) TT.state.save('height-comparison', { unit: unit, figures: figures }, ['unit', 'figures']);
-    }
+    // Audit H-1 (1 Nov 2026): this page is private (data-ephemeral, Phase B no-persist policy).
+    // Typed names and heights are never written to storage, and a record an older build left
+    // behind is removed on load. Reload always starts from the defaults.
 
     // A phone decimal keypad has no ' key and no space, so feet mode opens the text keyboard.
     function keypad() {
@@ -237,7 +236,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       if (parsed.ok && figure) figure.cm = parsed.cm;
       if (figure) draw();
       syncMessages(id);
-      if (figure && parsed.ok) persist();
+      
     }
 
     function onHeightBlur(input, figure) {
@@ -265,7 +264,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
           name.addEventListener('input', function () {
             figure.name = name.value.slice(0, 24);
             draw();
-            persist();
           });
 
           var height = document.createElement('input');
@@ -316,7 +314,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       renderRows();
       draw();
       syncMessages(null);
-      persist();
     }
 
     function removeAt(index) {
@@ -325,7 +322,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       renderRows();
       draw();
       syncMessages(null);
-      persist();
     }
 
     function addFigure() {
@@ -351,7 +347,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       renderRows();
       draw();
       syncMessages(null);
-      persist();
     }
 
     function addPreset(id) {
@@ -375,7 +370,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       renderRows();
       draw();
       syncMessages(null);
-      persist();
     }
 
     function applyTrap() {
@@ -397,7 +391,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       }
       draw();
       syncMessages(trapTarget);
-      persist();
     }
 
     function setUnit(next) {
@@ -408,7 +401,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       renderRows();
       draw();
       syncMessages(null);
-      persist();
     }
 
     function resetLineup() {
@@ -420,34 +412,13 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       renderRows();
       draw();
       syncMessages(null);
-      persist();
     }
 
     function load() {
       figures = api.opening().map(function (f) {
         return { id: f.id, name: f.name, cm: f.cm, kind: f.kind };
       });
-      try {
-        var saved = TT.state && TT.state.load('height-comparison');
-        if (saved && (saved.unit === 'cm' || saved.unit === 'ft') && Array.isArray(saved.figures)) {
-          var ok = saved.figures.length >= 1 && saved.figures.length <= api.maxFigures;
-          for (var i = 0; ok && i < saved.figures.length; i++) {
-            var f = saved.figures[i];
-            if (!f || typeof f.id !== 'string' || typeof f.name !== 'string' || typeof f.cm !== 'number') ok = false;
-            else if (f.cm < 10 || f.cm > 10000 || !KINDS[f.kind]) ok = false;
-          }
-          if (ok) {
-            unit = saved.unit;
-            figures = [];
-            for (var j = 0; j < saved.figures.length; j++) {
-              var item = saved.figures[j];
-              figures.push({ id: item.id, name: String(item.name).slice(0, 24), cm: item.cm, kind: item.kind });
-              var m = /^p(\d+)$/.exec(item.id);
-              if (m) seq = Math.max(seq, Number(m[1]) + 1);
-            }
-          }
-        }
-      } catch (e) {}
+      if (TT.state) TT.state.clear('height-comparison');
     }
 
     TT.onReady(function () {

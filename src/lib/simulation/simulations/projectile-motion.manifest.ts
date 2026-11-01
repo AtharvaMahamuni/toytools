@@ -176,7 +176,7 @@ export const manifest: SimulationManifest = {
         type: 'note',
         heading: 'How to aim the launch by dragging',
         body:
-          'Aim the launch by dragging from the launcher in the bottom-left of the canvas: the direction sets the angle and the length sets the speed, like pulling back a slingshot. You can also use the sliders for exact values. Everything runs in your browser, nothing is uploaded, and it works offline. To see gravity shape a different kind of motion, carry on to the pendulum simulator.',
+          'Aim the launch by dragging from the launcher in the bottom-left of the canvas: the direction sets the angle and the length sets the speed, like pulling back a slingshot. You can also use the sliders for exact values. Everything runs in your browser, what you enter is not uploaded, and it works offline. To see gravity shape a different kind of motion, carry on to the pendulum simulator.',
       },
     ],
   },

@@ -47,6 +47,6 @@ export const items: FAQItem[] = [
     id: 'pregnancy-due-date-calculator-faq-8',
     question: 'Are these dates uploaded?',
     answer:
-      'No. The last period, the cycle length, and the count date stay in the browser. Runs entirely on your device. Nothing is uploaded.',
+      'No. The last period, the cycle length, and the count date stay in the browser. What you enter stays on your device.',
   },
 ];

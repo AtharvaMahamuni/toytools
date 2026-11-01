@@ -39,7 +39,7 @@ test('old saved typed values are stripped on the next visit (item 2)', async ({ 
   await expect.poll(() => page.evaluate(() => localStorage.getItem('toytools:split-bill') ?? '')).not.toContain('4321');
   await page.goto('/tool/generate/uuid-inspector/');
   await expect.poll(() => page.evaluate(() => localStorage.getItem('toytools:uuid-inspector') ?? '')).not.toContain('123e4567');
-  await expect(page.getByText('Runs entirely on your device. Nothing is uploaded.').first()).toBeAttached();
+  await expect(page.getByText('What you enter stays on your device.').first()).toBeAttached();
 });
 
 test('a negative rate shows a clear error instead of becoming 0% (item 3)', async ({ page }) => {

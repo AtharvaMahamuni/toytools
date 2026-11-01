@@ -29,7 +29,7 @@ export const items: FAQItem[] = [
     id: 'slime-faq-5',
     question: 'Is this a virtual slime fidget online, and do I need an app?',
     answer:
-      'Yes, it is virtual slime online, and no app is required. Stretch and poke in the tab, then leave. Runs entirely on your device. Nothing is uploaded.',
+      'Yes, it is virtual slime online, and no app is required. Stretch and poke in the tab, then leave. What you enter stays on your device.',
   },
   {
     id: 'slime-faq-6',

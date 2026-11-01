@@ -5,13 +5,13 @@ export const items: FAQItem[] = [
     id: 'bt-faq-1',
     question: 'What is a book tracker?',
     answer:
-      'A book tracker is a private shelf of titles you want to read, are reading, or have finished. This page stores title, author, status, progress while reading, an optional rating from 1 to 5, and an optional note. For example, add The Left Hand of Darkness, set status to reading, and set progress to 30. The shelf holds 200 books. Runs entirely on your device. Nothing is uploaded.',
+      'A book tracker is a private shelf of titles you want to read, are reading, or have finished. This page stores title, author, status, progress while reading, an optional rating from 1 to 5, and an optional note. For example, add The Left Hand of Darkness, set status to reading, and set progress to 30. The shelf holds 200 books. What you enter stays on your device.',
   },
   {
     id: 'bt-faq-2',
     question: 'Do books sync across devices?',
     answer:
-      'No. There is no cloud sync in v1. A shelf on your laptop stays in that browser profile, and your phone keeps its own store. Expecting the shelf to sync across phones and laptops is the usual miss. For example, a title added in Chrome on a desk does not appear in Safari on a phone. Export JSON if you want a copy elsewhere. Runs entirely on your device. Nothing is uploaded.',
+      'No. There is no cloud sync in v1. A shelf on your laptop stays in that browser profile, and your phone keeps its own store. Expecting the shelf to sync across phones and laptops is the usual miss. For example, a title added in Chrome on a desk does not appear in Safari on a phone. Export JSON if you want a copy elsewhere. What you enter stays on your device.',
   },
   {
     id: 'bt-faq-3',
@@ -59,7 +59,7 @@ export const items: FAQItem[] = [
     id: 'bt-faq-10',
     question: 'Is my reading list private?',
     answer:
-      'Yes. Runs entirely on your device. Nothing is uploaded. Titles, authors, notes, ratings, and progress stay in this browser under a tool-specific key, and no account is required. Keeping a private reading list without a Goodreads account is the point of the page. For example, a note about a half-read novel never leaves the browser profile you have open right now.',
+      'Yes. What you enter stays on your device. Titles, authors, notes, ratings, and progress stay in this browser under a tool-specific key, and no account is required. Keeping a private reading list without a Goodreads account is the point of the page. For example, a note about a half-read novel never leaves the browser profile you have open right now.',
   },
   {
     id: 'bt-faq-11',

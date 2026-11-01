@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Pregnancy Due Date Calculator',
   seoTitle: 'Pregnancy Due Date Calculator: Naegele Rule',
   description:
-    'How many weeks pregnant am I? Find your estimated delivery date and trimester dates from your last period. Runs entirely on your device. Nothing is uploaded.',
+    'How many weeks pregnant am I? Find your estimated delivery date and trimester dates from your last period. What you enter stays on your device.',
   tagline: 'Due date, weeks pregnant, and trimester dates.',
   categorySlug: 'health-fitness',
   tags: [
