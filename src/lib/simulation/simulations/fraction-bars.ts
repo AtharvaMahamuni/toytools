@@ -195,8 +195,8 @@ const fractionBarsSim: SimulationDef = {
   aspect: 3 / 2,
   paramBehavior: 'continuous',
   params: [
-    { id: 'mode', label: 'Mode', unit: '', min: 0, max: 3, step: 1, default: 2, decimals: 0 },
-    { id: 'view', label: 'Circles', unit: '', min: 0, max: 1, step: 1, default: 0, decimals: 0 },
+    { id: 'mode', label: 'Mode', unit: '', min: 0, max: 3, step: 1, default: 2, decimals: 0, options: ['Show one', 'Compare', 'Add', 'Subtract'] },
+    { id: 'view', label: 'View', unit: '', min: 0, max: 1, step: 1, default: 0, decimals: 0, options: ['Bars', 'Circles'] },
     { id: 'numA', label: 'First numerator', unit: '', min: 0, max: 24, step: 1, default: 1, decimals: 0 },
     { id: 'denA', label: 'First denominator', unit: '', min: 1, max: 12, step: 1, default: 2, decimals: 0 },
     { id: 'numB', label: 'Second numerator', unit: '', min: 0, max: 24, step: 1, default: 1, decimals: 0 },

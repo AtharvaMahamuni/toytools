@@ -52,7 +52,8 @@ function wire(root: HTMLElement, def: SimulationDef): void {
   const resetBtn = root.querySelector<HTMLButtonElement>('[data-sim-reset]');
   const speedBtns = [...root.querySelectorAll<HTMLButtonElement>('[data-sim-speed]')];
   const presetBtns = [...root.querySelectorAll<HTMLButtonElement>('[data-sim-preset]')];
-  const sliders = [...root.querySelectorAll<HTMLInputElement>('input[data-param]')];
+  // A param with named options renders as a <select> (audit D-3 and F-2); it shares the slider path.
+  const sliders = [...root.querySelectorAll<HTMLInputElement | HTMLSelectElement>('input[data-param], select[data-param]')];
   const observationsEl = root.querySelector<HTMLElement>('[data-sim-observations]');
   const explanationEl = root.querySelector<HTMLElement>('[data-sim-explanation]');
   const liveEl = root.querySelector<HTMLElement>('[data-sim-live]');
@@ -137,8 +138,11 @@ function wire(root: HTMLElement, def: SimulationDef): void {
     if (message) box.setAttribute('aria-invalid', 'true');
     else box.removeAttribute('aria-invalid');
     if (!err) return;
+    const wasHidden = err.hidden;
     err.textContent = message ?? '';
     err.hidden = !message;
+    // On a phone the keyboard covers half the screen: bring a new message into view next to its box.
+    if (message && wasHidden && typeof err.scrollIntoView === 'function') err.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   }
 
   // Audit follow-up (1 Nov 2026): every value change (slider, preset, mode, canvas drag, re-clamp)
@@ -166,9 +170,11 @@ function wire(root: HTMLElement, def: SimulationDef): void {
       const p = paramDefs.get(pid);
       if (!p) continue;
       const b = boundsOf(def, p, state.params);
-      slider.min = String(b.min);
-      slider.max = String(b.max);
-      slider.step = String(b.step);
+      if (slider instanceof HTMLInputElement) {
+        slider.min = String(b.min);
+        slider.max = String(b.max);
+        slider.step = String(b.step);
+      }
       slider.value = String(state.params[pid]);
       const out = root.querySelector<HTMLElement>(`[data-param-value="${pid}"]`);
       if (out) out.textContent = formatWithUnit(state.params[pid], b.unit, p.decimals ?? 2);
@@ -294,13 +300,14 @@ function wire(root: HTMLElement, def: SimulationDef): void {
       if (out) out.textContent = formatWithUnit(state.params[pid], boundsOf(def, p, state.params).unit, p.decimals ?? 2);
     };
     reflect();
-    slider.addEventListener('input', () => {
+    const onSlide = () => {
       const v = Number(slider.value);
       if (!Number.isFinite(v)) return;
       state.params[pid] = clampTo(boundsOf(def, p, state.params), v, state.params[pid]);
       reflect();
       onParamsChanged();
-    });
+    };
+    slider.addEventListener('input', onSlide);
   }
 
   // Formula number boxes drive the same params as the sliders. Typing recomputes the answer and the

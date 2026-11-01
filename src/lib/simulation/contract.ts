@@ -69,6 +69,13 @@ export function expectSimulation(def: SimulationDef): void {
 
   it('labels every param and measurement (accessibility)', () => {
     for (const p of def.params) expect(p.label.trim().length, p.id).toBeGreaterThan(0);
+    // A param with named options (rendered as a select) names every value from min to max.
+    for (const p of def.params) {
+      if (!p.options) continue;
+      expect(p.step, p.id).toBe(1);
+      expect(p.options.length, p.id).toBe(p.max - p.min + 1);
+      for (const o of p.options) expect(o.trim().length, p.id).toBeGreaterThan(0);
+    }
     for (const m of def.measurements) expect(m.label.trim().length, m.id).toBeGreaterThan(0);
   });
 

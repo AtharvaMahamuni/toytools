@@ -107,19 +107,24 @@ export function drawFractionBars(ctx: CanvasRenderingContext2D, s: SimState, vp:
   drawLabel(ctx, caption(s), vp.width / 2, vp.height * 0.08, vp.palette.ink);
 
   const circles = circleView(s.params.view);
+  // Circle view (audit F-3): each row gets its own band, the radius fits the band minus the label
+  // line so circles never touch the next row, and the group is centred on the canvas.
+  const top = vp.height * 0.16;
+  const band = (vp.height * 0.82) / Math.max(rows.length, 1);
+  const labelSpace = 22;
   rows.forEach((row, i) => {
     const y = vp.height * (0.24 + i * (0.7 / Math.max(rows.length, 1)));
     const label = row.label;
     if (circles) {
       const slots = wholeSlots(wholesUsed(row.length));
       const span = (slots[0]!.x1 - slots[0]!.x0) * vp.width;
-      const r = Math.min(Math.min(vp.width, vp.height) * 0.12, span / 2);
-      const cy = y + r * 0.2;
+      const r = Math.max(4, Math.min(Math.min(vp.width, vp.height) * 0.2, span * 0.45, (band - labelSpace) / 2 - 2));
+      const cy = top + i * band + r + 2;
+      const shift = 0.5 - (slots[0]!.x0 + slots[slots.length - 1]!.x1) / 2;
       slots.forEach((slot, k) => {
-        drawPie(ctx, vp.width * (slot.x0 + slot.x1) / 2, cy, r, row.den, fillOfWhole(row.length, k), vp);
+        drawPie(ctx, vp.width * ((slot.x0 + slot.x1) / 2 + shift), cy, r, row.den, fillOfWhole(row.length, k), vp);
       });
-      const mid = slots.length === 1 ? (slots[0]!.x0 + slots[0]!.x1) / 2 : 0.5;
-      drawLabel(ctx, label, vp.width * mid, cy + r + 14, vp.palette.muted);
+      drawLabel(ctx, label, vp.width * 0.5, cy + r + 12, vp.palette.muted);
       return;
     }
     const h = Math.max(18, vp.height * 0.12);

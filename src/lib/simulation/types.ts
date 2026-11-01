@@ -22,6 +22,12 @@ export interface ParamDef {
   default: number;
   /** Decimal places for the live value readout (default 2). */
   decimals?: number;
+  /**
+   * Named choices for a discrete param (audit D-3 and F-2, 1 Nov 2026). options[i] names the value
+   * min + i, so the length is max - min + 1 and the step is 1. A param with options renders as a
+   * labelled select, so a screen reader hears "Fluorine-18", not "0".
+   */
+  options?: readonly string[];
 }
 
 /** A named parameter combination ("Moon", "Boiling water") applied as one click. */

@@ -312,3 +312,35 @@ test.describe('fraction bars boxes follow every change (review of #288)', () => 
     await expect(page.locator('[data-formula-error="numA"]')).toHaveText('Use a whole number from 0 to 4. Using 4.');
   });
 });
+
+// Audit D-3, F-2 and F-3 (1 Nov 2026): Mode and View are named choices, not number sliders.
+test.describe('fraction bars choices are labelled selects', () => {
+  test('Mode and View read as words and drive the sum', async ({ page }) => {
+    await page.goto('/tool/math/fraction-bars-calculator/');
+    const mode = page.getByRole('combobox', { name: 'Mode' });
+    await expect(mode.locator('option:checked')).toHaveText('Add');
+    await mode.selectOption({ label: 'Subtract' });
+    await expect(page.locator('[data-sim-observations]')).toContainText(/1\/2 [−-] 1\/3 = 1\/6/);
+    const view = page.getByRole('combobox', { name: 'View' });
+    await view.selectOption({ label: 'Circles' });
+    await expect(page.locator('[data-sim-observations]')).toContainText('Circle view');
+  });
+});
+
+// Leftover from #288: on a phone, a box's error message is on screen next to its box.
+test.describe('fraction box message on a phone', () => {
+  test('an out-of-range entry shows its message in view', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'pixel5', 'phone layout only');
+    await page.goto('/tool/math/fraction-bars-calculator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    const num = page.locator('[data-formula-input="numA"]');
+    await num.fill('99');
+    const err = page.locator('[data-formula-error="numA"]');
+    await expect(err).toBeVisible();
+    await expect(err).toBeInViewport({ ratio: 1 });
+    const box = (await num.boundingBox())!;
+    const msg = (await err.boundingBox())!;
+    expect(msg.y - (box.y + box.height)).toBeLessThan(40);
+    expect(msg.x + msg.width).toBeLessThanOrEqual(page.viewportSize()!.width);
+  });
+});
