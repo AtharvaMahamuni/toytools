@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
   minor: 18,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
-  releaseDate: '2026-10-31',
-  description: 'Infinity cube, cyclohexane chair, fraction bars, and radioactive decay',
+  releaseDate: '2026-11-01',
+  description: 'Correctness and privacy fixes from the 1 Nov audit',
 };
 
 export function formatVersion(config: VersionConfig): string {
