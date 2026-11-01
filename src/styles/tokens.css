@@ -1,60 +1,52 @@
 :root {
   /* Accent — single token family, retheme entire platform here.
-     Forest green: "library hardcover" pairing with the paper surfaces + gold brand. */
-  --color-accent:         #2F6B4F;
-  --color-accent-subtle:  #DFEBE4;
-  --color-accent-strong:  #245540;  /* accent text on accent-subtle — AA (~7:1) */
+     Cursor Orange (#f54e00) is the visual source of truth per DESIGN.md. */
+  --color-accent:         #f54e00;
+  --color-accent-subtle:  rgba(245,78,0,.1);
+  --color-accent-strong:  #b23400;  /* text-accessible orange text/active — AA (5.4:1 on subtle) */
 
-  /* Gold brand tokens */
-  --color-gold:           #906620;
-  --color-gold-highlight: #E6C15A;
-  --color-gold-subtle:    rgba(200, 155, 60, 0.15);
-  --color-gold-strong:    #7D5A1C;  /* gold TEXT on gold-subtle — AA (5.3:1); plain gold is 4.3:1 */
+  /* Brand tokens */
+  --color-gold:           var(--color-accent);
+  --color-gold-highlight: #ff6a26;
+  --color-gold-subtle:    rgba(245,78,0,.14);
+  --color-gold-strong:    var(--color-accent-strong);
 
-  /* Semantic status — success stays brighter/cooler than the forest accent;
-     it tints transient state only (copy/valid), never links or focus. */
-  --color-success:        #16a34a;
-  --color-success-bg:     rgba(34, 197, 94, 0.10);
-  --color-danger:         #dc2626;   /* fills, borders, icons */
-  --color-danger-bg:      rgba(220, 38, 38, 0.10);
-  --color-danger-strong:  #B91C1C;   /* danger TEXT on a surface — AA (5.8:1); plain danger is 4.3:1 */
-  /* The two middle steps of a five-step meter (password strength). The palette had only
-     danger/accent/success, so the widget carried them as raw hex and they went uncounted while
-     the craft gate ignored shared widgets. Colour is never the only signal: the meter is
-     labelled in words too. */
+  /* Semantic status — DESIGN.md semantic colors */
+  --color-success:        #1f8a65;
+  --color-success-bg:     rgba(31,138,101,.1);
+  --color-danger:         #cf2d56;   /* fills, borders, icons */
+  --color-danger-bg:      rgba(207,45,86,.1);
+  --color-danger-strong:  #b51a42;   /* danger TEXT on a surface */
   --color-warning:        #D97706;
   --color-caution:        #CA8A04;
-  /* Theme-invariant white. A QR quiet zone has to be true white in both themes or scanners
-     misread it, so it cannot follow the surface tokens. */
   --color-scan-surface:   #ffffff;
 
-  /* Surfaces — "Warm Paper": warm off-whites instead of stark #fff */
-  --color-bg:             #FAF9F7;
-  --color-surface:        #F4F2EE;
-  --color-surface-hover:  #EEEBE6;
-  --color-bg-tertiary:    #EEEBE6;
-  --color-border:         #E5E1DA;
-  --color-border-strong:  #CFC9BF;
+  /* Surfaces — DESIGN.md: warm cream canvas (#f7f7f4), pure white cards, canvas-soft */
+  --color-bg:             #f7f7f4;
+  --color-surface:        #ffffff;
+  --color-surface-hover:  #efeee8;
+  --color-bg-tertiary:    #fafaf7;
+  --color-border:         #e6e5e0;
+  --color-border-strong:  #cfcdc4;
 
-  /* Text — soft ink, not #111 */
-  --color-text:           #1F1D1A;
-  --color-text-muted:     #6E6961;  /* ~5.2:1 on bg */
-  --color-text-subtle:    #736E66;  /* ~4.8:1 on bg — keep ≥4.5:1 */
-  --color-text-inverse:   #FAF9F7;
-  --color-text-accent:    var(--color-accent);
+  /* Text — DESIGN.md: near-black warm ink (#26251e), body (#5a5852), subtle warm ink (#6c6961) */
+  --color-text:           #26251e;
+  --color-text-muted:     #5a5852;
+  --color-text-subtle:    #6c6961;
+  --color-text-inverse:   #ffffff;
+  --color-text-accent:    var(--color-accent-strong);
 
-  /* Immersive fullscreen overlays (keep-awake, pomodoro) — deliberately
-     theme-invariant: always-dark focus surfaces, never overridden by dark mode. */
+  /* Overlays */
   --color-overlay-bg:     #0F1115;
   --color-overlay-text:   #F4F4F4;
   --color-overlay-muted:  #9AA1AB;
   --color-overlay-border: #3a3f4a;
 
-  /* Focus — one ring everywhere (applied via :focus-visible in global.css) */
+  /* Focus */
   --focus-ring:        2px solid var(--color-accent);
   --focus-ring-offset: 2px;
 
-  /* Spacing (4px base) */
+  /* Spacing */
   --space-1:  4px;
   --space-2:  8px;
   --space-3:  12px;
@@ -62,10 +54,6 @@
   --space-5:  20px;
   --space-6:  24px;
   --space-8:  32px;
-  /* 40px. Ten declarations across four standalone pages and four tool widgets already ask
-     for this; it was never defined, so every one of them was invalid and dropped. In
-     `padding: var(--space-10) 0 var(--space-12)` one bad value voids the whole shorthand,
-     which is why /about/, /privacy/, /changelog/ and /settings/ had no block padding. */
   --space-10: 40px;
   --space-12: 48px;
   --space-16: 64px;
@@ -94,11 +82,17 @@
   --font-weight-semibold: 600;
   --font-weight-bold:     700;
 
-  /* Borders */
+  /* Borders & Radius (DESIGN.md tokens) */
   --border:        1px solid var(--color-border);
   --border-strong: 1px solid var(--color-border-strong);
   --radius-sm:     4px;
   --radius-md:     6px;
+  --radius-lg:     10px;
+  --radius-pill:   9999px;
+
+  /* Shadows (DESIGN.md hairline philosophy: minimal elevation) */
+  --shadow-card:  0 1px 2px rgba(0,0,0,.04);
+  --shadow-hover: 0 2px 8px rgba(0,0,0,.06);
 
   /* Motion — fade/opacity/color only */
   --duration-fast:   150ms;
@@ -115,8 +109,7 @@
   --width-prose:    72ch;    /* guide/FAQ/marketing reading measure */
   --width-tool:     820px;   /* single-column tools + narrow forms */
   --width-control:  28rem;   /* desktop cap for numeric/amount fields; phone stays 100% */
-  --width-category: var(--width-shell);  /* alias — existing refs keep working */
-  --width-nav:      var(--width-shell);  /* alias — nav/footer chrome */
+  --width-nav:      var(--width-shell);
 
   /* Touch targets */
   --touch-target: 48px;
@@ -134,67 +127,52 @@
   50%       { opacity: 0.72; }
 }
 
-/* System dark preference, no explicit user override.
-   "Warm graphite" — keep mirrored with the [data-theme="dark"] block below. */
+/* System dark preference */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --color-accent:        #84C2A3;
-    --color-accent-subtle: #1E3A2D;
-    --color-accent-strong: #A8D8BF;
-
-    --color-gold:           #D4A017;
-    --color-gold-highlight: #F2C94C;
-    --color-gold-subtle:    rgba(212, 160, 23, 0.18);
-    --color-gold-strong:    #D4A017;  /* already 6:1 on the dark tint; no darkening needed */
-
+    --color-accent:        #ff6a26;
+    --color-accent-subtle: rgba(255,106,38,.16);
+    --color-accent-strong: #ff854d;
+    --color-gold-subtle:   rgba(255,106,38,.18);
     --color-success:       #34d399;
-    --color-success-bg:    rgba(52, 211, 153, 0.14);
-    --color-danger:        #ef4444;
-    --color-danger-bg:     rgba(239, 68, 68, 0.14);
-    --color-danger-strong: #F45C5C;  /* #ef4444 as text is 4.47:1 on dark surface, just under AA */
-
-    --color-bg:             #181614;
-    --color-surface:        #1F1D1A;
-    --color-surface-hover:  #262320;
-    --color-bg-tertiary:    #262320;
-    --color-border:         #383430;
-    --color-border-strong:  #4A453F;
-
-    --color-text:          #EDEAE4;
-    --color-text-muted:    #A8A299;
-    --color-text-subtle:   #969087;
-    --color-text-inverse:  #181614;
+    --color-success-bg:    rgba(52,211,153,.14);
+    --color-danger:        #f87171;
+    --color-danger-bg:     rgba(248,113,113,.14);
+    --color-danger-strong: #fca5a5;
+    --color-bg:             #181816;
+    --color-surface:        #22211c;
+    --color-surface-hover:  #2c2b25;
+    --color-bg-tertiary:    #1f1e1a;
+    --color-border:         #36342e;
+    --color-border-strong:  #48453d;
+    --color-text:          #f7f7f4;
+    --color-text-muted:    #cfcdc4;
+    --color-text-subtle:   #a09c92;
+    --color-text-inverse:  #181816;
   }
 }
 
-/* User explicitly chose dark (overrides a light system preference) */
+/* User explicitly chose dark */
 :root[data-theme="dark"] {
-  --color-accent:        #84C2A3;
-  --color-accent-subtle: #1E3A2D;
-  --color-accent-strong: #A8D8BF;
-
-  --color-gold:           #D4A017;
-  --color-gold-highlight: #F2C94C;
-  --color-gold-subtle:    rgba(212, 160, 23, 0.18);
-  --color-gold-strong:    #D4A017;
-
+  --color-accent:        #ff6a26;
+  --color-accent-subtle: rgba(255,106,38,.16);
+  --color-accent-strong: #ff854d;
+  --color-gold-subtle:   rgba(255,106,38,.18);
   --color-success:       #34d399;
-  --color-success-bg:    rgba(52, 211, 153, 0.14);
-  --color-danger:        #ef4444;
-  --color-danger-bg:     rgba(239, 68, 68, 0.14);
-  --color-danger-strong: #F45C5C;
-
-  --color-bg:             #181614;
-  --color-surface:        #1F1D1A;
-  --color-surface-hover:  #262320;
-  --color-bg-tertiary:    #262320;
-  --color-border:         #383430;
-  --color-border-strong:  #4A453F;
-
-  --color-text:          #EDEAE4;
-  --color-text-muted:    #A8A299;
-  --color-text-subtle:   #969087;
-  --color-text-inverse:  #181614;
+  --color-success-bg:    rgba(52,211,153,.14);
+  --color-danger:        #f87171;
+  --color-danger-bg:     rgba(248,113,113,.14);
+  --color-danger-strong: #fca5a5;
+  --color-bg:             #181816;
+  --color-surface:        #22211c;
+  --color-surface-hover:  #2c2b25;
+  --color-bg-tertiary:    #1f1e1a;
+  --color-border:         #36342e;
+  --color-border-strong:  #48453d;
+  --color-text:          #f7f7f4;
+  --color-text-muted:    #cfcdc4;
+  --color-text-subtle:   #a09c92;
+  --color-text-inverse:  #181816;
 }
 
 /* Override fontsource default font-display: swap → optional */

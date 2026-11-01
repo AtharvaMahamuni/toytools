@@ -304,7 +304,7 @@ const description = 'How ToyTools is put together: categories, engines, tools, a
 
 <style is:global>
   .arch-head { margin-bottom: var(--space-6); }
-  .arch-head h1 { margin: 0 0 var(--space-2); }
+  .arch-head h1 { margin: 0 0 var(--space-2); font-weight: var(--font-weight-normal); letter-spacing: -0.025em; }
   .arch-head p { color: var(--color-text-muted); max-width: var(--width-prose); }
 
   .arch-grid {
@@ -332,7 +332,10 @@ const description = 'How ToyTools is put together: categories, engines, tools, a
   .arch-block,
   .arch-cat {
     background: var(--color-surface);
-    border-radius: var(--radius-md);
+    border: var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
   }
   .arch-cat {
     margin-top: var(--space-8);
@@ -387,7 +390,9 @@ const description = 'How ToyTools is put together: categories, engines, tools, a
 
   .arch-panel {
     background: var(--color-surface);
-    border-radius: var(--radius-md);
+    border: var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
     padding: var(--space-5);
     scroll-margin-top: calc(var(--touch-target) + var(--space-6));
   }

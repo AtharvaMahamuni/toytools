@@ -50,6 +50,11 @@ const { items } = Astro.props;
     gap: var(--space-3);
     list-style: none;
     color: var(--color-text);
+    transition: var(--transition-color);
+  }
+
+  .faq-question:hover {
+    color: var(--color-accent);
   }
 
   .faq-question::-webkit-details-marker {
@@ -64,9 +69,13 @@ const { items } = Astro.props;
     transition: transform 200ms ease, color 150ms ease;
   }
 
+  .faq-question:hover .faq-chevron {
+    color: var(--color-accent);
+  }
+
   details[open] .faq-chevron {
     transform: rotate(90deg);
-    color: var(--color-text-muted);
+    color: var(--color-accent);
   }
 
   .faq-answer {

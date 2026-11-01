@@ -3,7 +3,7 @@
 // equilibrium line is marked. Excluded from unit coverage (browser drawing); smoke-tested no-throw.
 
 import type { SimState, Viewport } from '../types';
-import { clear, drawLabel } from '../canvas';
+import { clear, drawAffordanceHalo, drawGripRidges, drawLabel } from '../canvas';
 import { displacement, currentEnergies, totalEnergy } from './shm-spring';
 
 const COILS = 10;
@@ -61,13 +61,19 @@ export function drawShmSpring(ctx: CanvasRenderingContext2D, s: SimState, vp: Vi
   ctx.stroke();
   ctx.restore();
 
-  // The mass block.
+  // The mass block with interactive affordance.
+  const isHeld = s.vars.holding === 1;
+  drawAffordanceHalo(ctx, blockX, midY, blockW / 2 + 2, vp.palette.accent, isHeld);
+
   ctx.save();
   ctx.fillStyle = vp.palette.accent;
   ctx.strokeStyle = vp.palette.ink;
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 2.5;
   ctx.fillRect(blockX - blockW / 2, midY - blockH / 2, blockW, blockH);
   ctx.strokeRect(blockX - blockW / 2, midY - blockH / 2, blockW, blockH);
+
+  // Tactile grip ridges in centre of block
+  drawGripRidges(ctx, blockX, midY, 20, vp.palette.ink);
   ctx.restore();
   drawLabel(ctx, `${s.params.mass.toFixed(1)} kg`, blockX, midY - blockH / 2 - 12, vp.palette.muted);
 
@@ -83,11 +89,15 @@ export function drawShmSpring(ctx: CanvasRenderingContext2D, s: SimState, vp: Vi
   const drawBar = (bx: number, frac: number, color: string, label: string) => {
     const h = Math.max(0, Math.min(1, frac)) * barMaxH;
     ctx.save();
-    ctx.fillStyle = color;
-    ctx.fillRect(bx, barBase - h, barW, h);
+    // Background track
+    ctx.fillStyle = vp.palette.bg;
+    ctx.fillRect(bx, barBase - barMaxH, barW, barMaxH);
     ctx.strokeStyle = vp.palette.border;
     ctx.lineWidth = 1;
     ctx.strokeRect(bx, barBase - barMaxH, barW, barMaxH);
+    // Fill
+    ctx.fillStyle = color;
+    ctx.fillRect(bx, barBase - h, barW, h);
     ctx.restore();
     drawLabel(ctx, label, bx + barW / 2, barBase + 14, vp.palette.muted);
   };

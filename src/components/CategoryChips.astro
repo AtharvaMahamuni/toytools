@@ -48,18 +48,30 @@ const chips = categories
     gap: var(--space-2);
     min-height: var(--touch-target);
     padding: 0 var(--space-4);
-    border: 1px solid var(--color-text-muted);
-    border-radius: 99px;
+    border: var(--border);
+    border-radius: var(--radius-pill);
     background: var(--color-surface);
-    color: var(--color-text);
+    color: var(--color-text-muted);
     font: inherit;
+    font-size: var(--text-sm);
+    font-weight: 500;
     white-space: nowrap;
     cursor: pointer;
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-color);
+  }
+
+  .cat-chip:hover {
+    color: var(--color-text);
+    border-color: var(--color-border-strong);
+    background: var(--color-surface-hover);
   }
 
   .cat-chip[aria-pressed='true'] {
-    background: var(--color-accent);
-    color: var(--color-text-inverse);
+    background: var(--color-text);
+    border-color: var(--color-text);
+    color: var(--color-bg);
+    font-weight: 600;
   }
 </style>
 

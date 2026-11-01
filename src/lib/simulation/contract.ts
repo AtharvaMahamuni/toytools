@@ -23,14 +23,14 @@ export function stubContext(): CanvasRenderingContext2D {
 }
 
 const STUB_PALETTE: Palette = {
-  ink: '#000',
-  muted: '#666',
-  accent: '#2F6B4F',
-  accentSubtle: '#DFEBE4',
-  bg: '#fff',
-  surface: '#f4f2ee',
-  border: '#e5e1da',
-  danger: '#dc2626',
+  ink: '#26251e',
+  muted: '#5a5852',
+  accent: '#f54e00',
+  accentSubtle: 'rgba(245, 78, 0, 0.12)',
+  bg: '#f7f7f4',
+  surface: '#ffffff',
+  border: '#e6e5e0',
+  danger: '#cf2d56',
 };
 
 export const stubViewport: Viewport = { width: 800, height: 450, dpr: 1, palette: STUB_PALETTE };

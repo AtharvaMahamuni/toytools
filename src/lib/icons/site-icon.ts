@@ -37,49 +37,27 @@
 // The SVG here is the source of truth; public/favicon.svg is generated from it.
 
 /**
- * The field: an ink green, deliberately NOT `--color-accent`.
+ * The field: near-black warm ink, matching DESIGN.md (#141412 to #26251e).
  *
- * It was the forest accent (#2F6B4F) until 2026-08-15, on the reasonable-sounding
- * principle that the site mark should be made of brand tokens. Measuring it
- * killed that: the forest accent sits 8.2 (CIE76) from the Productivity category
- * accent and 11.5 from Money and Finance, and anything under ~15 reads as the same
- * colour at icon size. Every tool icon is coloured by its category accent, so the
- * parent of the family was indistinguishable from two of its own children — on a
- * home screen the site icon read as one more productivity tool.
- *
- * The fix is not another hue in the same range, which would only move the
- * collision. The parent stops competing on the children's axis: they are the
- * coloured things, it is the dark ground they sit on. This ink is 28.7 from its
- * nearest accent, which also leaves margin for the category palette to be
- * retoned again — the 2026-08-09 retoning is what created the collision in the
- * first place, silently, because nothing measured it. `colorDistance` below is
- * exported so the unit test now measures it on every build.
- *
- * `--color-accent` itself is untouched: links, focus rings and the UI stay
- * forest. This is the icon's field, which has a different job (survive at 16px
- * on a foreign background, next to its own children) than a text colour on paper.
+ * It is deliberately darker than any category accent to serve as the stable ground
+ * the catalog sits on. Contrast against the mark is over 5.2:1 (exceeding the 3:1 non-text
+ * contrast floor), and perceptual distance is well above 30 from all category accents.
  */
-export const FIELD_DARK = '#16302A';
+export const FIELD_DARK = '#141412';
 
 /** The lighter stop of the field gradient. The mark is measured against
  *  FIELD_DARK, the darker of the two, because that is the worst case. */
-const FIELD_LIGHT = '#24463A';
+const FIELD_LIGHT = '#26251e';
 
 /**
- * Gold, brightened from --color-gold (#906620) so the mark separates from the
- * forest field at 16px. The plain token is a text colour on paper and goes muddy
- * on a dark green ground.
- *
- * Brightened a second time on 2026-08-14, from #F0CE72/#D2A945, after actually
- * measuring it: the old pair was 2.85:1 against the field, under the 3:1 floor
- * for non-text contrast — and a favicon is the most demanding non-text case
- * there is, since it is rendered at 16px, antialiased, and often rescaled by the
- * browser. These are 9.03:1 against the ink field. `contrastRatio` below is
- * exported so the unit test holds that floor: a retheme that dims the mark now
- * fails the build instead of shipping an icon nobody can read in a tab strip.
+ * Brand mark: Cursor Orange (#F54E00) with a warm radiant highlight (#FF7A38),
+ * aligning the site icon with DESIGN.md and our warm editorial aesthetic.
+ * Non-text contrast against the warm-ink field is over 5.2:1.
  */
-const GOLD_CORE = '#FBE6A8';
-export const GOLD_EDGE = '#EFCB74';
+const GOLD_CORE = '#FF7A38';
+export const GOLD_EDGE = '#F54E00';
+export const MARK_CORE = GOLD_CORE;
+export const MARK_EDGE = GOLD_EDGE;
 
 /**
  * WCAG contrast between two hex colours. Pure, and here rather than in the test

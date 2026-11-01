@@ -3,8 +3,8 @@
 // Excluded from unit coverage (browser drawing); a stub-context smoke test asserts no-throw.
 
 import type { SimState, Viewport } from '../types';
-import { clear, drawGrid, drawLabel } from '../canvas';
-import { crestX, displacement, WAVE_DOMAIN_M } from './wave-speed';
+import { clear, drawAffordanceHalo, drawArrow, drawGrid, drawLabel } from '../canvas';
+import { crestX, displacement, waveSpeed, WAVE_DOMAIN_M } from './wave-speed';
 
 const PARTICLES = 12;
 
@@ -56,15 +56,43 @@ export function drawWaveSpeed(ctx: CanvasRenderingContext2D, s: SimState, vp: Vi
   }
   ctx.restore();
 
-  // Tracked crest: rides the peak at speed v, wrapping across the domain.
+  // Tracked crest: rides the peak at speed v with interactive amplitude handle.
   const cx = crestX(s.params, s.t);
+  const crestPxX = toX(cx);
+  const crestPxY = toY(s.params.amplitude);
+  const isDragging = s.vars.dragging === 1;
+
+  // Amplitude indicator line from equilibrium to crest
+  ctx.save();
+  ctx.strokeStyle = vp.palette.border;
+  ctx.setLineDash([2, 3]);
+  ctx.beginPath();
+  ctx.moveTo(crestPxX, midY);
+  ctx.lineTo(crestPxX, crestPxY);
+  ctx.stroke();
+  ctx.restore();
+  drawLabel(ctx, `A = ${s.params.amplitude.toFixed(2)} m`, crestPxX + 44, (midY + crestPxY) / 2, vp.palette.muted, 'left');
+
+  // Interactive crest affordance halo
+  drawAffordanceHalo(ctx, crestPxX, crestPxY, 8, vp.palette.danger, isDragging);
+
   ctx.save();
   ctx.fillStyle = vp.palette.danger;
+  ctx.strokeStyle = vp.palette.ink;
+  ctx.lineWidth = 1.5;
   ctx.beginPath();
-  ctx.arc(toX(cx), toY(s.params.amplitude), 6, 0, Math.PI * 2);
+  ctx.arc(crestPxX, crestPxY, 7, 0, Math.PI * 2);
   ctx.fill();
+  ctx.stroke();
   ctx.restore();
-  drawLabel(ctx, 'crest', toX(cx), toY(s.params.amplitude) - 14, vp.palette.muted);
+  drawLabel(ctx, isDragging ? '▲ Drag ▼' : 'crest', crestPxX, crestPxY - 14, vp.palette.danger);
+
+  // Wave speed vector arrow at the top right indicating wave propagation
+  const v = waveSpeed(s.params);
+  const vArrowX = vp.width - 90;
+  const vArrowY = 24;
+  drawArrow(ctx, vArrowX, vArrowY, vArrowX + 50, vArrowY, vp.palette.accent, 2);
+  drawLabel(ctx, `v = ${v.toFixed(2)} m/s →`, vArrowX + 25, vArrowY - 12, vp.palette.accent);
 
   // Wavelength bracket between two adjacent crests, drawn near the bottom edge.
   const lam = s.params.wavelength;

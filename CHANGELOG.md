@@ -2,6 +2,25 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.21] - 2026-11-01
+
+### Changed
+
+- **Modern Design & Brand Mark Retheme.** Replaced legacy palettes with the Cursor-inspired design language per `DESIGN.md`: Cursor Orange (`#f54e00`), warm cream canvas (`#f7f7f4`), near-black warm ink (`#141412` / `#26251e`), and refined hairline borders (`#e6e5e0`). Rethemed the ToyTools site mark (`siteIconSvg()`) to a near-black warm-ink ground with radiant Cursor Orange monogram and subtle tool engine rails, maintaining >5.2:1 non-text WCAG contrast and safe perceptual distance (>33) from all 16 category accents across `favicon.svg`, raster PNGs, touch icons, and social banner cards.
+- **Desktop Full-Screen & Play-Mode Sizing Fix.**
+  - **Fidget & Canvas Tools:** Resolved unbounded desktop scaling in Play Mode where the infinite cube, kinetic sand, slime, spinner, gears, pop-it, switch-board, and breathing-circle stretched across large monitors (1080p, 1440p, 4K) into unwieldy, distorted proportions.
+  - **Tactile Desktop Dimensions:** Capped desktop play stages (`[data-feel-board]`) at `max-width: min(92vw, 36rem)` and `max-height: min(80vh, 560px)` with centered margin auto, while preserving edge-to-edge responsiveness on mobile viewports. Individual tools now retain natural, comfortable tactile dimensions (`--infinity-max: min(85vw, 68vh, 26rem)` for 3D cube, 4:3 sand tray ratio, 1:1 slime and spinner proportions).
+- **Simulator Canvas Physics & Direct Manipulation Overhaul.**
+  - **Direct Manipulation Affordances:** Added interactive tactile affordance halos, grip ridges, angle arcs, and drag guides across simulators so draggable objects (pendulum bob, cannon aiming, spring mass, gas piston, wave crest, ramp angle) are instantly recognizable and responsive.
+  - **Physics Fidelity:** Fixed SHM spring direct manipulation to suspend numerical integration while holding the mass block and release cleanly from rest with $v = 0$ at $t = 0$. In projectile motion, added live elastic aiming vector with speed badge and trajectory preview. In pendulum, added pivot angle arc $\theta$ in degrees and glowing capture ring. In ideal gas law, added a tactile piston handle with horizontal drag arrows and grip ridges. In inclined plane, added interactive ramp angle arc, top adjustment knob, and complete free-body force vectors ($F_{\parallel}$, $f$, $N$).
+  - **Workstation Simulation Canvas UI:** Elevated stage canvas with active grab states (`cursor: grab` / `cursor: grabbing`), refined playback controls with speed selector pills, custom orange range sliders, live measurement stat cards, and dynamic theme switching across 2D/graph canvases.
+- **Removed Landing Page Carousel Auto-Scroll & Pause/Play.** Replaced the distracting auto-advancing timer and play/pause button on the homepage "New tools" carousel with clean manual previous/next navigation and fluid horizontal touch-swipe.
+- **Complete Design Revamp Across Tools, Guides, FAQs & Articles.**
+  - **Tool Pages:** Enhanced tool navigation bar, result panels, category discovery pills, guide teaser cards, and knowledge drawers with hairline elevation.
+  - **Guides & Articles:** Refined editorial typography with negative tracking on headings, active table-of-contents indicator in Cursor Orange, elevated code and callout blocks, and polished related content cards.
+  - **FAQs:** Upgraded question accordions with animated rotating chevrons, Cursor Orange interactive hover states, and comfortable reading measure.
+  - **Search & Navigation:** Upgraded search inputs, pill triggers, category chips, and directory link grids.
+
 ## [alpha-v13.20] - 2026-11-01
 
 ### Fixed

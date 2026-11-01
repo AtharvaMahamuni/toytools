@@ -84,16 +84,20 @@ import { config } from './config';
   html.tt-play-mode [data-spinner] {
     display: flex;
     flex-direction: column;
-    max-width: none;
-    height: 100%;
+    max-width: min(85vw, 68vh, 26rem);
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    margin: auto;
     min-height: 0;
   }
 
   html.tt-play-mode [data-spin-stage] {
     flex: 1 1 auto;
     min-height: 0;
-    height: auto;
-    aspect-ratio: auto;
+    height: 100%;
+    width: 100%;
+    aspect-ratio: 1;
   }
 </style>
 

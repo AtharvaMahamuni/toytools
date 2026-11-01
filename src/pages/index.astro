@@ -234,11 +234,13 @@ const siteHref = siteUrl(Astro.site).href;
   /* Sized down from the old clamp(3xl, 5vw, 5xl): that ceiling was set for the single
      word "ToyTools" and turns a sentence into three lines of shouting on a phone. */
   .hero h1 {
-    font-size: clamp(var(--text-2xl), 4.5vw, var(--text-4xl));
-    font-weight: var(--font-weight-bold);
+    font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
+    font-weight: 400;
+    letter-spacing: -0.72px;
     margin: 0;
     line-height: var(--leading-tight);
-    max-width: 20ch;
+    max-width: 22ch;
+    color: var(--color-text);
   }
 
   /* Phones wrap the sentence wherever it falls; above 640px the break is placed so the
@@ -309,7 +311,7 @@ const siteHref = siteUrl(Astro.site).href;
   }
 
   .recent-row :global(.recent-chip:hover) {
-    color: var(--color-text);
+    color: var(--color-accent);
   }
 
   .recent-row :global(.recent-sep) {

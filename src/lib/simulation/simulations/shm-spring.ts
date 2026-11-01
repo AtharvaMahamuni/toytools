@@ -54,8 +54,9 @@ const shmSpringSim: SimulationDef = {
     { id: 'default', label: 'Balanced', values: { mass: 1, springConstant: 20, amplitude: 0.8 } },
     { id: 'wide', label: 'Wide swing', values: { mass: 1.5, springConstant: 12, amplitude: 1.4 } },
   ],
-  init: () => ({}),
+  init: () => ({ holding: 0 }),
   step(s: SimState, dt: number) {
+    if (s.vars.holding === 1) return;
     s.t += dt;
   },
   measurements: [
@@ -94,14 +95,22 @@ const shmSpringSim: SimulationDef = {
         : null,
   ],
   pointer: {
-    hint: 'Drag the mass to set the amplitude',
-    handle(_s, ev) {
-      if (ev.type === 'tap' || ev.type === 'up') return null;
-      // Horizontal distance from centre maps to amplitude across 40% of the half-width.
-      const fromCentre = Math.abs(ev.x - 0.5);
-      const amplitude = (fromCentre / 0.5) * 1.5;
-      return { amplitude: Math.min(Math.max(amplitude, 0.1), 1.5) };
+    hint: 'Drag the mass to stretch the spring and let go',
+    handle(s, ev) {
+      if (ev.type === 'up') {
+        s.vars.holding = 0;
+        s.t = 0;
+        return null;
+      }
+      if (ev.type === 'tap') return null;
+      s.vars.holding = 1;
+      s.t = 0;
+      // Centre is at x = 0.55. Distance from centre maps to amplitude in [0.1, 1.5] m.
+      const fromCentre = Math.abs(ev.x - 0.55);
+      const amplitude = Math.min(Math.max((fromCentre / 0.34) * 1.5, 0.1), 1.5);
+      return { amplitude };
     },
+    isHolding: (s) => s.vars.holding === 1,
   },
   explanation(s: SimState) {
     const T = period(s.params);

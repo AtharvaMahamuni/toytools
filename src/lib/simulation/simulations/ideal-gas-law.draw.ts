@@ -4,7 +4,7 @@
 // reproducible and needs no stored state. Excluded from unit coverage (browser drawing).
 
 import type { SimState, Viewport } from '../types';
-import { clear, drawLabel } from '../canvas';
+import { clear, drawAffordanceHalo, drawGripRidges, drawLabel } from '../canvas';
 import { thermalSpeed, pressureKpa } from './ideal-gas-law';
 
 const MAX_PARTICLES = 40;
@@ -45,15 +45,35 @@ export function drawIdealGasLaw(ctx: CanvasRenderingContext2D, s: SimState, vp: 
   ctx.stroke();
   ctx.restore();
 
-  // Piston.
+  // Piston with shaft, grip ridges, and interactive affordance.
+  const isDragging = s.vars.dragging === 1;
+  const pistonMidY = boxY + boxH / 2;
+
+  // Piston shaft to the right
   ctx.save();
+  ctx.fillStyle = vp.palette.border;
+  ctx.fillRect(pistonX + 12, pistonMidY - 6, 24, 12);
+  ctx.strokeRect(pistonX + 12, pistonMidY - 6, 24, 12);
+
+  // Handle bar at end of shaft
   ctx.fillStyle = vp.palette.surface;
   ctx.strokeStyle = vp.palette.ink;
+  ctx.lineWidth = 2.5;
+  ctx.fillRect(pistonX + 36, pistonMidY - 24, 10, 48);
+  ctx.strokeRect(pistonX + 36, pistonMidY - 24, 10, 48);
+  drawGripRidges(ctx, pistonX + 41, pistonMidY, 20, vp.palette.ink);
+  drawAffordanceHalo(ctx, pistonX + 41, pistonMidY, 18, vp.palette.accent, isDragging);
+
+  // Piston plate
+  ctx.fillStyle = isDragging ? vp.palette.accentSubtle : vp.palette.surface;
+  ctx.strokeStyle = isDragging ? vp.palette.accent : vp.palette.ink;
   ctx.lineWidth = 3;
   ctx.fillRect(pistonX, boxY - 4, 12, boxH + 8);
   ctx.strokeRect(pistonX, boxY - 4, 12, boxH + 8);
   ctx.restore();
+
   drawLabel(ctx, `${s.params.volume.toFixed(1)} L`, pistonX + 6, boxY - 14, vp.palette.muted);
+  drawLabel(ctx, isDragging ? '◄ Squeeze ►' : '◄ Drag ►', pistonX + 41, pistonMidY + 36, vp.palette.accent);
 
   // Particles: count from amount, speed from temperature. Each bounces inside the current box.
   const count = Math.round((s.params.amount / 2) * MAX_PARTICLES);

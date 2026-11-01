@@ -73,64 +73,18 @@ test.describe('homepage index', () => {
     await expect(page.locator(`[data-new-until="${until}"]`)).toHaveCount(0);
   });
 
-  test('the featured row stops advancing once a person touches it, and has a Pause button', async ({ page }) => {
+  test('the featured row has Previous and Next buttons to navigate cards', async ({ page }) => {
     await page.clock.install({ time: inWindowMs });
     await page.goto('/');
     const featured = page.locator('[data-featured]');
     await expect(featured).toHaveCount(1);
 
-    const toggle = featured.locator('[data-featured-toggle]');
-    await expect(toggle).toBeVisible();
-    await expect(toggle).toHaveAccessibleName('Pause');
-    await expect(toggle).toHaveAttribute('data-paused', 'false');
-    const box = await toggle.boundingBox();
-    expect(box?.height ?? 0).toBeGreaterThanOrEqual(48);
-
-    const track = featured.locator('[data-featured-track]');
-    await track.dispatchEvent('wheel');
-    await expect(toggle).toHaveAttribute('data-paused', 'true');
-    // The label names what the button does next.
-    await expect(toggle).toHaveAccessibleName('Play');
-    const left = await track.evaluate((el) => el.scrollLeft);
-    await page.clock.runFor(16_000);
-    expect(await track.evaluate((el) => el.scrollLeft)).toBe(left);
-
-    // Play hands control back to the timer.
-    await toggle.click();
-    await expect(toggle).toHaveAttribute('data-paused', 'false');
-    await expect(toggle).toHaveAccessibleName('Pause');
-  });
-
-  // On a phone a tap fires mouseenter and never mouseleave. Counting that as hover kept the row
-  // paused for good after Play (PR #243 review), so this taps Pause, then Play, then waits.
-  test('on a phone, Play after Pause starts the row advancing again', async ({ page, isMobile }) => {
-    test.skip(!isMobile, 'Touch only: the Pixel 5 project runs this.');
-    await page.clock.install({ time: inWindowMs });
-    await page.goto('/');
-    const featured = page.locator('[data-featured]');
-    const toggle = featured.locator('[data-featured-toggle]');
-    const track = featured.locator('[data-featured-track]');
-    await expect(toggle).toHaveAccessibleName('Pause');
-
-    await toggle.tap();
-    await expect(toggle).toHaveAccessibleName('Play');
-    await expect(toggle).toHaveAttribute('data-paused', 'true');
-    const left = await track.evaluate((el) => el.scrollLeft);
-
-    await toggle.tap();
-    await expect(toggle).toHaveAccessibleName('Pause');
-    await expect(toggle).toHaveAttribute('data-paused', 'false');
-    await page.clock.runFor(5_100);
-    await expect.poll(() => track.evaluate((el) => el.scrollLeft)).toBeGreaterThan(left);
-  });
-
-  test('reduced motion hides the Pause button because nothing moves', async ({ page }) => {
-    await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.clock.setFixedTime(inWindowMs);
-    await page.goto('/');
-    const featured = page.locator('[data-featured]');
-    await expect(featured).toHaveCount(1);
-    await expect(featured.locator('[data-featured-toggle]')).toBeHidden();
+    const prev = featured.locator('[data-featured-prev]');
+    const next = featured.locator('[data-featured-next]');
+    await expect(prev).toBeVisible();
+    await expect(next).toBeVisible();
+    await expect(prev).toHaveAccessibleName('Previous new tool');
+    await expect(next).toHaveAccessibleName('Next new tool');
   });
 
   test('the full directory ships closed but present', async ({ page }) => {

@@ -453,6 +453,7 @@ function wire(root: HTMLElement, def: SimulationDef): void {
         /* ignore */
       }
       hintEl?.setAttribute('hidden', '');
+      canvas.dataset.interacting = 'true';
       dragging = true;
       moved = false;
       const c = coords(ev);
@@ -470,6 +471,7 @@ function wire(root: HTMLElement, def: SimulationDef): void {
     const endDrag = (ev: globalThis.PointerEvent): void => {
       if (!dragging) return;
       dragging = false;
+      delete canvas.dataset.interacting;
       const c = coords(ev);
       // A quick, still press is a tap (distinct gesture, e.g. tempo tap / +5 °C bump).
       if (!moved && performance.now() - downTime < TAP_MS) dispatch('tap', c.x, c.y);

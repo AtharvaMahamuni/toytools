@@ -51,14 +51,16 @@ main {
 
 h1 {
   font-size: var(--text-3xl);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-normal);
   line-height: var(--leading-tight);
+  letter-spacing: -0.025em;
 }
 
 h2 {
   font-size: var(--text-2xl);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-medium);
   line-height: var(--leading-tight);
+  letter-spacing: -0.015em;
 }
 
 h3 {

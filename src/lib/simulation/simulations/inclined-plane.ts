@@ -86,7 +86,7 @@ const inclinedPlaneSim: SimulationDef = {
     { id: 'steep', label: 'Steep and slippery', values: { angle: 50, friction: 0.1 } },
     { id: 'gentle', label: 'Gentle grippy ramp', values: { angle: 15, friction: 0.3 } },
   ],
-  init: () => ({}),
+  init: () => ({ dragging: 0 }),
   step(s: SimState, dt: number) {
     s.t += dt;
   },
@@ -132,8 +132,13 @@ const inclinedPlaneSim: SimulationDef = {
   ],
   pointer: {
     hint: 'Drag up or down to change the ramp angle',
-    handle(_s, ev) {
-      if (ev.type === 'tap' || ev.type === 'up') return null;
+    handle(s, ev) {
+      if (ev.type === 'up') {
+        s.vars.dragging = 0;
+        return null;
+      }
+      if (ev.type === 'tap') return null;
+      s.vars.dragging = 1;
       // Higher on the canvas means a steeper ramp; map y in [0.1, 0.9] to 60..5 degrees.
       const frac = Math.min(Math.max((ev.y - 0.1) / 0.8, 0), 1);
       return { angle: 60 - frac * 55 };

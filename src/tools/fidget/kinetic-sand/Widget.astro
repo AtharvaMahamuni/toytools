@@ -33,8 +33,9 @@ import { config } from './config';
     width: 100%;
     max-width: 28rem;
     background: var(--color-surface);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     border: var(--border);
+    box-shadow: var(--shadow-card);
     overflow: hidden;
   }
 
@@ -97,17 +98,19 @@ import { config } from './config';
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    max-width: none;
-    height: 100%;
+    max-width: min(92vw, 75vh, 34rem);
+    width: 100%;
+    height: auto;
+    margin: auto;
     min-height: 0;
   }
 
   html.tt-play-mode [data-kinetic-sand] .sand-stage {
-    flex: 1 1 auto;
-    min-height: 0;
-    max-width: none;
-    height: auto;
-    aspect-ratio: auto;
+    width: 100%;
+    height: min(60vh, 420px);
+    aspect-ratio: 4 / 3;
+    min-height: 240px;
+    max-width: 100%;
   }
 </style>
 

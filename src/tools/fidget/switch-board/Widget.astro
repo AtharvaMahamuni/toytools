@@ -149,8 +149,10 @@ const switches = Array.from({ length: COUNT }, (_, i) => i);
   html.tt-play-mode [data-switch-board] {
     display: flex;
     flex-direction: column;
-    max-width: none;
-    height: 100%;
+    max-width: min(90vw, 72vh, 26rem);
+    width: 100%;
+    height: auto;
+    margin: auto;
     min-height: 0;
   }
 

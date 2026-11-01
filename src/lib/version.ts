@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 20,
+  minor: 21,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-11-01',
-  description: 'Accessibility and layout fixes from the 1 Nov audit',
+  description: 'Modern UI/UX redesign, simulator direct manipulation & physics fidelity, brand mark retheme, and desktop play-mode sizing',
 };
 
 export function formatVersion(config: VersionConfig): string {

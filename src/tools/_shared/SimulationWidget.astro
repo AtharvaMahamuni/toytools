@@ -316,13 +316,18 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
   .phys-stage {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: var(--space-3);
   }
 
   .phys-canvas-wrap {
     position: relative;
     width: 100%;
     max-width: var(--sim-stage-max);
+    border: var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
   }
 
   .phys-canvas {
@@ -331,13 +336,17 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     /* Reserves the right height before the simulation module loads. boot.ts then sets the same
        height in px from the same aspect, so there is nothing to reflow. */
     aspect-ratio: var(--sim-aspect);
-    border-radius: var(--radius-md);
+    border-radius: calc(var(--radius-lg) - 1px);
     background: var(--color-surface);
     /* Prevent mobile drags on the canvas from scrolling the page. */
     touch-action: none;
     cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: cursor var(--duration-fast) ease;
   }
 
+  .phys-canvas[data-interacting='true'],
   .phys-canvas:active { cursor: grabbing; }
 
   /* Audit X-1: the hint sits under the canvas, not on it, so it never covers the equation line
@@ -384,14 +393,19 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     align-items: center;
     gap: var(--space-2);
     max-width: var(--sim-stage-max);
+    padding: var(--space-2);
+    background: var(--color-surface);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
   }
 
   .phys-btn {
     min-height: var(--touch-target);
     padding-inline: var(--space-4);
     border: var(--border);
-    border-radius: var(--radius-md);
-    background: var(--color-surface);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-tertiary);
     color: var(--color-text);
     font-size: var(--text-sm);
     font-weight: 500;
@@ -399,11 +413,22 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     transition: var(--transition-color);
   }
 
-  .phys-btn:hover { background: var(--color-surface-hover); }
+  .phys-btn:hover {
+    background: var(--color-surface-hover);
+    border-color: var(--color-border-strong);
+  }
 
   /* A phone never fires :hover, so the press itself has to show. */
-  .phys-btn:active { background: var(--color-surface-hover); border-color: var(--color-border-strong); }
+  .phys-btn:active {
+    background: var(--color-surface-hover);
+    border-color: var(--color-border-strong);
+    transform: scale(0.98);
+  }
   .phys-speed:active { background: var(--color-accent-subtle); }
+
+  .phys-btn--primary {
+    font-weight: 600;
+  }
 
   .phys-btn--primary[aria-pressed='false'] {
     background: var(--color-accent);
@@ -411,26 +436,55 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     color: var(--color-text-inverse);
   }
 
+  .phys-btn--primary[aria-pressed='false']:hover {
+    background: var(--color-accent-strong);
+    border-color: var(--color-accent-strong);
+  }
+
+  .phys-btn--primary[aria-pressed='true'] {
+    background: var(--color-bg-tertiary);
+    border-color: var(--color-border-strong);
+    color: var(--color-text);
+  }
+
+  .phys-btn--primary[aria-pressed='true']:hover {
+    background: var(--color-surface-hover);
+  }
+
   .phys-speeds {
     display: flex;
     align-items: center;
-    gap: var(--space-1);
+    gap: 2px;
     margin-left: auto;
+    padding: 2px;
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-sm);
+    border: var(--border);
   }
 
   /* Speed is a secondary control, so it reads as quiet text rather than four more buttons
      beside Play. The touch target stays 48px via .phys-btn; only the paint shrinks. */
   .phys-speed {
+    min-height: 28px;
     padding-inline: var(--space-2);
-    border-color: transparent;
-    background: none;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
     color: var(--color-text-subtle);
     font-size: var(--text-xs);
+    font-weight: 500;
+    transition: var(--transition-color);
+  }
+
+  .phys-speed:hover {
+    color: var(--color-text);
   }
 
   .phys-speed[aria-pressed='true'] {
-    background: var(--color-accent-subtle);
-    color: var(--color-accent-strong);
+    background: var(--color-surface);
+    color: var(--color-accent);
+    font-weight: 600;
+    box-shadow: var(--shadow-card);
   }
 
   /* Tight: a label belongs to the content under it. The tile gap above is four times this. */
@@ -463,10 +517,10 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
   .phys-controls {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: var(--space-2) var(--space-4);
+    gap: var(--space-3) var(--space-4);
   }
 
-  .phys-control { display: flex; flex-direction: column; gap: var(--space-1); }
+  .phys-control { display: flex; flex-direction: column; gap: var(--space-2); }
 
   .phys-control-head {
     display: flex;
@@ -475,51 +529,103 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     gap: var(--space-2);
   }
 
-  .phys-control-head label { font-size: var(--text-sm); font-weight: 500; }
+  .phys-control-head label { font-size: var(--text-sm); font-weight: 500; color: var(--color-text); }
 
   .phys-value {
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
     color: var(--color-accent-strong);
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    background: var(--color-accent-subtle);
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
   }
 
   .phys-control input[type='range'] {
     width: 100%;
-    min-height: var(--touch-target);
+    height: 6px;
     accent-color: var(--color-accent);
     cursor: pointer;
+    background: var(--color-border);
+    border-radius: var(--radius-pill);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
   }
 
-  /* Now that the readings carry no edges, the gap is what separates them, so it has to be
-     wider than the gap inside one reading (label over value). */
+  .phys-control input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+    cursor: pointer;
+    border: 2px solid var(--color-surface);
+    box-shadow: 0 1px 3px rgba(38, 37, 30, 0.2);
+    transition: transform var(--duration-fast) ease;
+  }
+
+  .phys-control input[type='range']::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+
+  .phys-control input[type='range']::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+    cursor: pointer;
+    border: 2px solid var(--color-surface);
+    box-shadow: 0 1px 3px rgba(38, 37, 30, 0.2);
+  }
+
   .phys-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: var(--space-3) var(--space-5);
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: var(--space-3);
   }
 
-  /* No card. The tile holding these draws no edge of its own, so a bordered rectangle per
-     reading was a box inside a box; the muted label over a mono value already separates one
-     reading from the next. */
   .phys-card {
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-surface);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-color);
   }
 
-  .phys-card-label { color: var(--color-text-muted); font-size: var(--text-sm); }
+  .phys-card:hover {
+    border-color: var(--color-border-strong);
+  }
+
+  .phys-card--lead {
+    border-color: var(--color-border-strong);
+    background: var(--color-surface);
+  }
+
+  .phys-card-label {
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+    font-weight: 500;
+  }
 
   .phys-card-value {
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
     font-size: var(--text-base);
     font-weight: 600;
+    color: var(--color-text);
   }
 
-  /* The first measurement is the quantity the tool is named for, so it carries the weight and
-     the rest read as support. Four numbers at one size gave the page no answer to land on. */
-  .phys-card--lead .phys-card-value { font-size: var(--text-2xl); }
+  .phys-card--lead .phys-card-value {
+    font-size: var(--text-2xl);
+    color: var(--color-accent);
+  }
 
   /* Both formula lines are centred display maths, not prose, so they opt out of the global
      p { max-width: 65ch }. It applied to the worked line and not the expression above it (65ch
@@ -633,13 +739,15 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     text-align: center;
   }
 
-  /* Matches .phys-canvas: a plotting surface reads as a surface, not as an outlined box. */
+  /* Matches .phys-canvas: a sleek, high-precision plotting surface with modern border and shadow. */
   .phys-graph {
     display: block;
     width: 100%;
     max-width: var(--sim-stage-max);
     border-radius: var(--radius-md);
     background: var(--color-surface);
+    border: var(--border);
+    box-shadow: var(--shadow-card);
   }
 
   /* No padding-left: the global reset takes list markers off every ul, so the indent was
