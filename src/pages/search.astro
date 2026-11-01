@@ -107,14 +107,14 @@ function searchVocabulary(tool: (typeof tools)[number], categoryName: string): s
     max-width: var(--width-tool);
   }
 
-  input,
-  button {
+  .search-page-form input,
+  .search-page-form button {
     min-height: 52px;
     border-radius: var(--radius-lg);
     font: inherit;
   }
 
-  input {
+  .search-page-form input {
     width: 100%;
     padding: 0 var(--space-4);
     border: var(--border);
@@ -123,19 +123,19 @@ function searchVocabulary(tool: (typeof tools)[number], categoryName: string): s
     box-shadow: var(--shadow-card);
   }
 
-  button {
-    border: 1px solid var(--color-accent);
-    background: var(--color-accent);
-    color: var(--color-text-inverse);
+  .search-page-form button {
+    border: 1px solid var(--color-text);
+    background: var(--color-text);
+    color: var(--color-bg);
     font-weight: var(--font-weight-medium);
     cursor: pointer;
     box-shadow: var(--shadow-card);
     transition: var(--transition-color);
   }
 
-  button:hover {
-    background: var(--color-accent-strong);
-    border-color: var(--color-accent-strong);
+  .search-page-form button:hover {
+    background: #141412;
+    border-color: #141412;
   }
 
   .result-count {

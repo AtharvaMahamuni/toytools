@@ -3,7 +3,7 @@
      Cursor Orange (#f54e00) is the visual source of truth per DESIGN.md. */
   --color-accent:         #f54e00;
   --color-accent-subtle:  rgba(245,78,0,.1);
-  --color-accent-strong:  #d04200;  /* primary-active */
+  --color-accent-strong:  #b23400;  /* text-accessible orange text/active — AA (5.4:1 on subtle) */
 
   /* Brand tokens */
   --color-gold:           var(--color-accent);
@@ -29,12 +29,12 @@
   --color-border:         #e6e5e0;
   --color-border-strong:  #cfcdc4;
 
-  /* Text — DESIGN.md: near-black warm ink (#26251e), body (#5a5852), muted (#807d72) */
+  /* Text — DESIGN.md: near-black warm ink (#26251e), body (#5a5852), subtle warm ink (#6c6961) */
   --color-text:           #26251e;
   --color-text-muted:     #5a5852;
-  --color-text-subtle:    #807d72;
+  --color-text-subtle:    #6c6961;
   --color-text-inverse:   #ffffff;
-  --color-text-accent:    var(--color-accent);
+  --color-text-accent:    var(--color-accent-strong);
 
   /* Overlays */
   --color-overlay-bg:     #0F1115;

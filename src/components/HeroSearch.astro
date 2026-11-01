@@ -75,10 +75,10 @@ import { withBase } from '../lib/paths';
   .hero-search-btn {
     height: 40px;
     padding: 0 var(--space-4);
-    border: 1px solid var(--color-accent);
+    border: 1px solid var(--color-border-strong);
     border-radius: var(--radius-md);
-    background: var(--color-accent);
-    color: var(--color-text-inverse);
+    background: var(--color-surface);
+    color: var(--color-text);
     font-size: var(--text-sm);
     font-family: var(--font-sans);
     font-weight: 500;
@@ -89,8 +89,9 @@ import { withBase } from '../lib/paths';
   }
 
   .hero-search-btn:hover {
-    background: var(--color-accent-strong);
-    border-color: var(--color-accent-strong);
+    background: var(--color-surface-hover);
+    border-color: var(--color-accent);
+    color: var(--color-accent-strong);
   }
 
   @media (max-width: 480px) {
