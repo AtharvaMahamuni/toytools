@@ -2,6 +2,18 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.20] - 2026-11-01
+
+### Fixed
+
+- **Height chart fits six marks.** Narrower columns fit all six bars in the chart on a phone and on a desktop, with no hidden sideways scroll. Long names wrap instead of being cut off. The chart is a named region you can reach with Tab, and a list read by screen readers gives every name and height. Axe passes with six marks.
+- **Height chart styles load only on its page.** The chart's styles were bundled into every number tool page (about 525 B gzip). They now ship only with Height Comparison.
+- **Named choices on simulators.** Isotope (Radioactive Decay), Mode and View (Fraction Bars) are labelled selects, so a screen reader hears "Fluorine-18", "Add" or "Circles", not 0, 2 or 1. View replaces the 0 or 1 Circles slider.
+- **Fraction circles no longer overlap.** Each row of circles has its own band, sized to leave room for its label, and the group is centred.
+- **Drag hints sit under the canvas.** On Fraction Bars and Radioactive Decay the drag hint no longer covers the equation line or a caption.
+- **Box messages stay in view on a phone.** A number box message sits right under its box and scrolls into view when it appears.
+- **One privacy line on the trust badge.** The badge on private tools now says what you enter stays on your device, the same line as the tooltip and the schema. Offline, local and lookup tools keep their own badges.
+
 ## [alpha-v13.19] - 2026-11-01
 
 ### Fixed
