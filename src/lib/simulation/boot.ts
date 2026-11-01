@@ -11,7 +11,7 @@ import { createLoop, type SimulationLoop } from './loop';
 import { observeResize, readPalette, sizeCanvas } from './canvas';
 import { createGraphRenderer, type GraphRenderer } from './graph';
 import { formatQuantity, formatWithUnit } from './format';
-import { boundsOf, clampTo, readBox, reclampAll, unitOf } from './live-params';
+import { boundsOf, boxMessage, clampTo, isWhole, readBox, reclampAll, unitOf } from './live-params';
 import type { MeasurementDef, ParamDef, SimState, SimulationDef, Viewport } from './types';
 
 /** Frames between measurement/formula readout refreshes (~10 Hz at 60 fps). */
@@ -129,6 +129,21 @@ function wire(root: HTMLElement, def: SimulationDef): void {
   }
 
   /** Sync the formula number boxes to the current params (skipping one the user is editing). */
+  /** The box whose own input event is being applied; only it keeps its typed text. */
+  let typingIn: HTMLInputElement | null = null;
+
+  function showBoxError(box: HTMLInputElement, message: string | null): void {
+    const err = root.querySelector<HTMLElement>(`[data-formula-error="${box.getAttribute('data-formula-input')}"]`);
+    if (message) box.setAttribute('aria-invalid', 'true');
+    else box.removeAttribute('aria-invalid');
+    if (!err) return;
+    err.textContent = message ?? '';
+    err.hidden = !message;
+  }
+
+  // Audit follow-up (1 Nov 2026): every value change (slider, preset, mode, canvas drag, re-clamp)
+  // rewrites every box except the one being typed in right now, focused or not, so a box never says
+  // 8 while 2/1 is drawn.
   function reflectFormulaInputs(): void {
     for (const box of formulaInputs) {
       const pid = box.getAttribute('data-formula-input');
@@ -138,9 +153,9 @@ function wire(root: HTMLElement, def: SimulationDef): void {
       box.min = String(b.min);
       box.max = String(b.max);
       box.step = String(b.step);
-      if (document.activeElement === box) continue;
-      box.value = String(state.params[pid]);
-      box.removeAttribute('aria-invalid');
+      if (box === typingIn) continue;
+      if (box.value !== String(state.params[pid])) box.value = String(state.params[pid]);
+      showBoxError(box, null);
     }
   }
 
@@ -297,17 +312,25 @@ function wire(root: HTMLElement, def: SimulationDef): void {
     // Audit C-1 (1 Nov 2026): an empty, garbled or out-of-range entry is marked aria-invalid while
     // typing, and the value actually used is written back on change (Enter) and on blur, so the box
     // never keeps showing 1000 while the result uses 600.
+    // A whole-number param (decimals 0, integer step) rounds a typed 1.5 and says so.
+    const whole = isWhole(p);
     box.addEventListener('input', () => {
-      const r = readBox(box.value, boundsOf(def, p, state.params), state.params[pid]);
-      if (r.invalid) box.setAttribute('aria-invalid', 'true');
-      else box.removeAttribute('aria-invalid');
-      if (r.value === state.params[pid]) return;
-      state.params[pid] = r.value;
-      onParamsChanged();
+      const b = boundsOf(def, p, state.params);
+      const r = readBox(box.value, b, state.params[pid], whole);
+      if (r.value !== state.params[pid]) {
+        state.params[pid] = r.value;
+        typingIn = box;
+        try {
+          onParamsChanged();
+        } finally {
+          typingIn = null;
+        }
+      }
+      showBoxError(box, r.problem ? boxMessage(r.problem, boundsOf(def, p, state.params), state.params[pid], whole) : null);
     });
     const writeBack = () => {
       box.value = String(state.params[pid]);
-      box.removeAttribute('aria-invalid');
+      showBoxError(box, null);
     };
     box.addEventListener('change', writeBack);
     box.addEventListener('blur', writeBack);

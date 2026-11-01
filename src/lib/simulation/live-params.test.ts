@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { boundsOf, clampTo, niceStep, readBox, reclampAll, unitOf } from './live-params';
+import { boundsOf, boxMessage, clampTo, isWhole, niceStep, readBox, reclampAll, unitOf } from './live-params';
 import type { ParamDef } from './types';
 import fractionBars, { capNote, liveFractionParam } from './simulations/fraction-bars';
 import decay, { elapsedBounds, ISOTOPES } from './simulations/radioactive-decay';
@@ -23,11 +23,28 @@ describe('live-params helpers', () => {
 
   it('reads a number box: out of range or empty is invalid, and the used value is in range', () => {
     const b = { min: 200, max: 600 };
-    expect(readBox('1000', b, 298)).toEqual({ value: 600, invalid: true });
-    expect(readBox('-5', b, 298)).toEqual({ value: 200, invalid: true });
-    expect(readBox('', b, 298)).toEqual({ value: 298, invalid: true });
-    expect(readBox('abc', b, 298)).toEqual({ value: 298, invalid: true });
-    expect(readBox(' 350 ', b, 298)).toEqual({ value: 350, invalid: false });
+    expect(readBox('1000', b, 298)).toEqual({ value: 600, invalid: true, problem: 'range' });
+    expect(readBox('-5', b, 298)).toEqual({ value: 200, invalid: true, problem: 'range' });
+    expect(readBox('', b, 298)).toEqual({ value: 298, invalid: true, problem: 'empty' });
+    expect(readBox('abc', b, 298)).toEqual({ value: 298, invalid: true, problem: 'nan' });
+    expect(readBox(' 350 ', b, 298)).toEqual({ value: 350, invalid: false, problem: null });
+  });
+
+  it('a whole-number box rounds 1.5 to 2 and flags it; a decimal box keeps 1.5', () => {
+    const b = { min: 0, max: 24 };
+    expect(readBox('1.5', b, 1, true)).toEqual({ value: 2, invalid: true, problem: 'whole' });
+    expect(readBox('30.4', b, 1, true)).toEqual({ value: 24, invalid: true, problem: 'range' });
+    expect(readBox('1.5', b, 1, false)).toEqual({ value: 1.5, invalid: false, problem: null });
+    expect(isWhole(param(fractionBars, 'numA'))).toBe(true);
+    expect(isWhole(param(decay, 'elapsed'))).toBe(false);
+  });
+
+  it('error messages name the value in use', () => {
+    const b = { min: 200, max: 600, unit: 'K' };
+    expect(boxMessage('range', b, 600, true)).toBe('Use a whole number from 200 to 600 K. Using 600 K.');
+    expect(boxMessage('whole', { min: 0, max: 2, unit: '' }, 2, true)).toBe('Use a whole number. Using 2.');
+    expect(boxMessage('empty', b, 298, false)).toBe('Enter a number. Using 298 K.');
+    expect(boxMessage('nan', b, 298, true)).toBe('Enter a whole number. Using 298 K.');
   });
 
   it('picks round steps', () => {
@@ -103,7 +120,7 @@ describe('Decay elapsed time follows the isotope (audit D-1, D-2)', () => {
 describe('Chair temperature box clamps (audit C-1)', () => {
   it('uses 600 K for 1000 and 200 K for -5, and marks both invalid', () => {
     const b = boundsOf(chair, param(chair, 'temperature'), {});
-    expect(readBox('1000', b, 298)).toEqual({ value: 600, invalid: true });
-    expect(readBox('-5', b, 298)).toEqual({ value: 200, invalid: true });
+    expect(readBox('1000', b, 298)).toEqual({ value: 600, invalid: true, problem: 'range' });
+    expect(readBox('-5', b, 298)).toEqual({ value: 200, invalid: true, problem: 'range' });
   });
 });

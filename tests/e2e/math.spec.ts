@@ -264,3 +264,51 @@ test.describe('fraction bars inputs match the drawing (audit F-1)', () => {
     await expect(page.locator('[data-sim-observations]')).toContainText('at most 2 wholes');
   });
 });
+
+test.describe('fraction bars boxes follow every change (review of #288)', () => {
+  test('typed 8/4, then the denominator slider to 1: the box says 2 and 2/1 is drawn', async ({ page }) => {
+    await page.goto('/tool/math/fraction-bars-calculator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await page.getByRole('button', { name: 'Half plus a third' }).click();
+    const num = page.locator('[data-formula-input="numA"]');
+    const den = page.locator('[data-formula-input="denA"]');
+    await den.fill('4');
+    await num.fill('8');
+    await expect(page.locator('[data-sim-observations]')).toContainText(/8\/4 \+ 1\/3/);
+    // Focus stays in the numerator box, as on a phone where a slider drag does not take focus.
+    await page.locator('[data-param="denA"]').evaluate((el: HTMLInputElement) => {
+      el.value = '1';
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    await expect(num).toHaveValue('2');
+    await expect(den).toHaveValue('1');
+    await expect(page.locator('[data-param="numA"]')).toHaveValue('2');
+    await expect(page.locator('[data-sim-observations]')).toContainText(/2(\/1)? \+ 1\/3 = 7\/3/);
+  });
+
+  test('a decimal numerator is rounded and flagged, never drawn as something else silently', async ({ page }) => {
+    await page.goto('/tool/math/fraction-bars-calculator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await page.getByRole('button', { name: 'Half plus a third' }).click();
+    await page.locator('[data-formula-input="denA"]').fill('2');
+    const num = page.locator('[data-formula-input="numA"]');
+    await num.fill('1.5');
+    await expect(num).toHaveAttribute('aria-invalid', 'true');
+    await expect(page.locator('[data-formula-error="numA"]')).toHaveText('Use a whole number. Using 2.');
+    await num.blur();
+    await expect(num).toHaveValue('2');
+    await expect(num).not.toHaveAttribute('aria-invalid', 'true');
+    await expect(page.locator('[data-formula-error="numA"]')).toBeHidden();
+    await expect(page.locator('[data-sim-observations]')).toContainText(/2\/2 \+ 1\/3/);
+  });
+
+  test('an out-of-range entry shows a message, not only a silent clamp', async ({ page }) => {
+    await page.goto('/tool/math/fraction-bars-calculator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await page.getByRole('button', { name: 'Half plus a third' }).click();
+    const num = page.locator('[data-formula-input="numA"]');
+    await num.fill('9');
+    await expect(num).toHaveAttribute('aria-invalid', 'true');
+    await expect(page.locator('[data-formula-error="numA"]')).toHaveText('Use a whole number from 0 to 4. Using 4.');
+  });
+});

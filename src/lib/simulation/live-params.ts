@@ -44,16 +44,41 @@ export function unitOf(def: Pick<SimulationDef, 'liveUnit'>, m: { id: string; un
   return def.liveUnit?.(m.id, params) ?? m.unit;
 }
 
+export type BoxProblem = 'empty' | 'nan' | 'range' | 'whole';
+
 /**
- * Read a typed number box. Returns the value the model will use and whether the text differs from it
- * (empty, not a number, or out of range), so the box can be marked invalid and written back.
+ * Read a typed number box. Returns the value the model will use and, when the text differs from it,
+ * why (empty, not a number, out of range, or not a whole number on a whole-number param), so the box
+ * can show an error and be written back. A whole-number param rounds before it clamps.
  */
-export function readBox(text: string, b: Pick<Bounds, 'min' | 'max'>, current: number): { value: number; invalid: boolean } {
+export function readBox(
+  text: string,
+  b: Pick<Bounds, 'min' | 'max'>,
+  current: number,
+  whole = false,
+): { value: number; invalid: boolean; problem: BoxProblem | null } {
   const trimmed = text.trim();
-  const n = trimmed === '' ? NaN : Number(trimmed);
-  if (!Number.isFinite(n)) return { value: current, invalid: true };
-  const value = clampTo(b, n, current);
-  return { value, invalid: value !== n };
+  if (trimmed === '') return { value: current, invalid: true, problem: 'empty' };
+  const n = Number(trimmed);
+  if (!Number.isFinite(n)) return { value: current, invalid: true, problem: 'nan' };
+  const rounded = whole ? Math.round(n) : n;
+  const value = clampTo(b, rounded, current);
+  const problem: BoxProblem | null = value !== rounded ? 'range' : rounded !== n ? 'whole' : null;
+  return { value, invalid: problem !== null, problem };
+}
+
+/** A param whose box takes whole numbers only (no decimals shown, integer step). */
+export function isWhole(p: Pick<ParamDef, 'decimals' | 'step'>): boolean {
+  return p.decimals === 0 && Number.isInteger(p.step);
+}
+
+/** The visible message for a box problem. It always names the value the page is using. */
+export function boxMessage(problem: BoxProblem, b: Pick<Bounds, 'min' | 'max' | 'unit'>, used: number, whole: boolean): string {
+  const u = b.unit ? ` ${b.unit}` : '';
+  const kind = whole ? 'a whole number' : 'a number';
+  if (problem === 'range') return `Use ${kind} from ${b.min} to ${b.max}${u}. Using ${used}${u}.`;
+  if (problem === 'whole') return `Use a whole number. Using ${used}${u}.`;
+  return `Enter ${kind}. Using ${used}${u}.`;
 }
 
 /** A round step near span/100: 1, 2 or 5 times a power of ten. */

@@ -200,11 +200,13 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
                       max={p.max}
                       step={p.step ?? 'any'}
                       value={p.default}
-                      inputmode="decimal"
+                      inputmode={p.decimals === 0 && Number.isInteger(p.step) ? 'numeric' : 'decimal'}
                       aria-label={`${term.label} value${p.unit ? ` in ${p.unit}` : ''}`}
+                      aria-describedby={`${slug}-fx-${term.paramId}-error`}
                     />
                     {p.unit && <span class="phys-formula-unit" aria-hidden="true">{p.unit}</span>}
                   </span>
+                  <span class="phys-formula-error" id={`${slug}-fx-${term.paramId}-error`} data-formula-error={term.paramId} role="status" hidden></span>
                 </dd>
               </div>
             ) : (
@@ -584,6 +586,16 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     color: var(--color-text-muted);
     font-size: var(--text-sm);
   }
+
+  /* A typed value the page cannot use: the message names the value it is using instead. */
+  .phys-formula-error {
+    display: block;
+    margin-top: 0.25rem;
+    color: var(--color-danger-strong);
+    font-size: var(--text-sm);
+  }
+  .phys-formula-error[hidden] { display: none; }
+  .phys-formula-input[aria-invalid='true'] { border-color: var(--color-danger); }
 
   /* The computed answer stands out from the editable inputs. */
   .phys-formula-answer { color: var(--color-accent-strong); }
