@@ -89,7 +89,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Crystal Field Splitting Calculator Online',
     description:
-      'Crystal field theory: d orbital splitting diagram, high spin vs low spin, CFSE, spin only magnetic moment. Runs entirely on your device. Nothing is uploaded.',
+      'Crystal field theory: d orbital splitting diagram, high spin vs low spin, CFSE, spin only magnetic moment. What you enter stays on your device.',
     tagline: 'Watch the electrons pick high spin or low spin for themselves.',
     keywords: ['crystal field splitting calculator', 'CFSE calculator', 'high spin vs low spin', 'crystal field theory', 'spin only magnetic moment', 'd orbital splitting', 'octahedral vs tetrahedral'],
   },
@@ -154,7 +154,7 @@ export const manifest: SimulationManifest = {
     slug: 'how-crystal-field-splitting-works',
     title: 'How Crystal Field Splitting Works',
     description:
-      'What crystal field splitting is, high spin vs low spin, and CFSE. Open the calculator. Runs entirely on your device. Nothing is uploaded.',
+      'What crystal field splitting is, high spin vs low spin, and CFSE. Open the calculator. What you enter stays on your device.',
     readMinutes: 8,
     updatedAt: '2026-09-24',
     quickAnswer:
@@ -249,7 +249,7 @@ export const manifest: SimulationManifest = {
         type: 'note',
         heading: 'Everything Runs On Your Device',
         body:
-          'Field strengths and pairing energies are the tabulated values you look up, so treat the sliders as a way to explore them rather than as a source for them. Runs entirely on your device. Nothing is uploaded.',
+          'Field strengths and pairing energies are the tabulated values you look up, so treat the sliders as a way to explore them rather than as a source for them. What you enter stays on your device.',
       },
     ],
   },

@@ -283,3 +283,56 @@ test.describe('radioactive decay', () => {
     expect(errors, errors.join('\n')).toEqual([]);
   });
 });
+
+test.describe('radioactive decay elapsed time (audit D-1, D-2, C-1)', () => {
+  test('elapsed time and half-life carry the isotope unit, and the range follows the isotope', async ({ page }) => {
+    await page.goto('/tool/physics/radioactive-decay-calculator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    const slider = page.locator('[data-param="elapsed"]');
+    await page.getByRole('button', { name: 'Carbon-14' }).click();
+    await expect(slider).toHaveAttribute('max', '57300');
+    await expect(slider).toHaveAttribute('step', '50');
+    await expect(page.locator('[data-measurement="halfLife"]')).toContainText('years');
+    const box = page.locator('[data-formula-input="elapsed"]');
+    await box.fill('11460');
+    await box.press('Enter');
+    await expect(page.locator('[data-param-value="elapsed"]')).toContainText('years');
+    await expect(page.locator('[data-measurement="leftAfter"]')).toHaveText(/100\.0 nuclei/);
+    await expect(page.getByText('isotope unit')).toHaveCount(0);
+
+    await box.fill('1000000000');
+    await expect(box).toHaveAttribute('aria-invalid', 'true');
+    await box.press('Enter');
+    await expect(box).toHaveValue('57300');
+    await expect(box).not.toHaveAttribute('aria-invalid', 'true');
+    await box.fill('-3');
+    await box.blur();
+    await expect(box).toHaveValue('0');
+  });
+});
+
+// Audit D-3 (1 Nov 2026): the isotope is a named select, and its box message stays on a phone screen.
+test.describe('radioactive decay isotope select and box message', () => {
+  test('the Isotope select names each isotope and switches the half-life', async ({ page }) => {
+    await page.goto('/tool/physics/radioactive-decay-calculator/');
+    const iso = page.getByRole('combobox', { name: 'Isotope' });
+    await expect(iso.locator('option:checked')).toHaveText('Fluorine-18');
+    await iso.selectOption({ label: 'Carbon-14' });
+    await expect(page.locator('[data-sim-observations]')).toContainText('5730 years');
+  });
+
+  test('on a phone, an out-of-range elapsed time shows its message in view', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'pixel5', 'phone layout only');
+    await page.goto('/tool/physics/radioactive-decay-calculator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    const box = page.locator('[data-formula-input="elapsed"]');
+    await box.fill('1000000000');
+    const err = page.locator('[data-formula-error="elapsed"]');
+    await expect(err).toBeVisible();
+    await expect(err).toBeInViewport({ ratio: 1 });
+    const b = (await box.boundingBox())!;
+    const m = (await err.boundingBox())!;
+    expect(m.y - (b.y + b.height)).toBeLessThan(40);
+    expect(m.x + m.width).toBeLessThanOrEqual(page.viewportSize()!.width);
+  });
+});

@@ -11,7 +11,7 @@ export const items: FAQItem[] = [
     id: "uuid-inspector-faq-2",
     question: "Does the paste stay on my device?",
     answer:
-      "Yes. The paste stays on your device. Runs entirely on your device. Nothing is uploaded. There is no account, and the page does not send the value to a UUID service. Open the network panel while you paste: inspecting makes no request. The reading exists only in this tab. Close it when you are done, and nothing was stored on a server.",
+      "Yes. The paste stays on your device. What you enter stays on your device. There is no account, and the page does not send the value to a UUID service. Open the network panel while you paste: inspecting makes no request. The reading exists only in this tab. Close it when you are done, and nothing was stored on a server.",
   },
   {
     id: "uuid-inspector-faq-3",

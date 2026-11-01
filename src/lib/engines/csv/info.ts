@@ -61,7 +61,7 @@ const CSV_INFO: Record<string, CsvInfo> = {
       { term: 'Key mode', detail: 'First column as row key when unique on both sides' },
       { term: 'Fallback', detail: 'Whole-row comparison when keys repeat or are missing' },
       { term: 'Report', detail: '+ added, − removed, ~ changed (column: old → new)' },
-      { term: 'Privacy', detail: 'Nothing is uploaded; both files are compared locally' },
+      { term: 'Privacy', detail: 'What you enter is not uploaded; both files are compared locally' },
     ],
     sample: SAMPLE_CSV,
     sampleSecond: 'id,name,email\n1,Ada,ada@example.com\n3,Carol,carol@new-domain.com\n4,Dave,dave@example.com',

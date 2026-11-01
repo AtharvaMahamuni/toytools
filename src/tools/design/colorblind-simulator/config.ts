@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Colorblind Simulator',
   seoTitle: 'Colorblind Simulator: Protanopia, Deuteranopia, Tritanopia',
   description:
-    'Color blindness simulator and palette check for protanopia and deuteranopia. Runs entirely on your device. Nothing is uploaded.',
+    'Color blindness simulator and palette check for protanopia and deuteranopia. What you enter stays on your device.',
   tagline: 'Seven simulations of one palette, side by side.',
   categorySlug: 'design-tools',
   tags: ['colorblind simulator', 'color blindness simulator', 'deuteranopia simulator', 'protanopia color check', 'colorblind palette checker'],

@@ -239,3 +239,108 @@ test.describe('fraction bars', () => {
     }
   });
 });
+
+test.describe('fraction bars inputs match the drawing (audit F-1)', () => {
+  test('24/1 cannot sit in the inputs while 2/1 is drawn', async ({ page }) => {
+    await page.goto('/tool/math/fraction-bars-calculator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await page.getByRole('button', { name: 'Half plus a third' }).click();
+    await setParam(page, 'denA', '1');
+    // A range input sanitises an out-of-range value to its max, as a drag or keyboard would.
+    await page.locator('[data-param="numA"]').evaluate((el: HTMLInputElement) => {
+      el.value = '24';
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    const slider = page.locator('[data-param="numA"]');
+    await expect(slider).toHaveAttribute('max', '2');
+    await expect(slider).toHaveValue('2');
+    await expect(page.locator('[data-param-value="numA"]')).toHaveText('2');
+    const box = page.locator('[data-formula-input="numA"]');
+    await box.fill('24');
+    await box.press('Enter');
+    await expect(box).toHaveValue('2');
+    await expect(box).not.toHaveValue('24');
+    await expect(page.locator('[data-sim-observations]')).toContainText(/2(\/1)? \+ 1\/3 = 7\/3/);
+    await expect(page.locator('[data-sim-observations]')).toContainText('at most 2 wholes');
+  });
+});
+
+test.describe('fraction bars boxes follow every change (review of #288)', () => {
+  test('typed 8/4, then the denominator slider to 1: the box says 2 and 2/1 is drawn', async ({ page }) => {
+    await page.goto('/tool/math/fraction-bars-calculator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await page.getByRole('button', { name: 'Half plus a third' }).click();
+    const num = page.locator('[data-formula-input="numA"]');
+    const den = page.locator('[data-formula-input="denA"]');
+    await den.fill('4');
+    await num.fill('8');
+    await expect(page.locator('[data-sim-observations]')).toContainText(/8\/4 \+ 1\/3/);
+    // Focus stays in the numerator box, as on a phone where a slider drag does not take focus.
+    await page.locator('[data-param="denA"]').evaluate((el: HTMLInputElement) => {
+      el.value = '1';
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    await expect(num).toHaveValue('2');
+    await expect(den).toHaveValue('1');
+    await expect(page.locator('[data-param="numA"]')).toHaveValue('2');
+    await expect(page.locator('[data-sim-observations]')).toContainText(/2(\/1)? \+ 1\/3 = 7\/3/);
+  });
+
+  test('a decimal numerator is rounded and flagged, never drawn as something else silently', async ({ page }) => {
+    await page.goto('/tool/math/fraction-bars-calculator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await page.getByRole('button', { name: 'Half plus a third' }).click();
+    await page.locator('[data-formula-input="denA"]').fill('2');
+    const num = page.locator('[data-formula-input="numA"]');
+    await num.fill('1.5');
+    await expect(num).toHaveAttribute('aria-invalid', 'true');
+    await expect(page.locator('[data-formula-error="numA"]')).toHaveText('Use a whole number. Using 2.');
+    await num.blur();
+    await expect(num).toHaveValue('2');
+    await expect(num).not.toHaveAttribute('aria-invalid', 'true');
+    await expect(page.locator('[data-formula-error="numA"]')).toBeHidden();
+    await expect(page.locator('[data-sim-observations]')).toContainText(/2\/2 \+ 1\/3/);
+  });
+
+  test('an out-of-range entry shows a message, not only a silent clamp', async ({ page }) => {
+    await page.goto('/tool/math/fraction-bars-calculator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await page.getByRole('button', { name: 'Half plus a third' }).click();
+    const num = page.locator('[data-formula-input="numA"]');
+    await num.fill('9');
+    await expect(num).toHaveAttribute('aria-invalid', 'true');
+    await expect(page.locator('[data-formula-error="numA"]')).toHaveText('Use a whole number from 0 to 4. Using 4.');
+  });
+});
+
+// Audit D-3, F-2 and F-3 (1 Nov 2026): Mode and View are named choices, not number sliders.
+test.describe('fraction bars choices are labelled selects', () => {
+  test('Mode and View read as words and drive the sum', async ({ page }) => {
+    await page.goto('/tool/math/fraction-bars-calculator/');
+    const mode = page.getByRole('combobox', { name: 'Mode' });
+    await expect(mode.locator('option:checked')).toHaveText('Add');
+    await mode.selectOption({ label: 'Subtract' });
+    await expect(page.locator('[data-sim-observations]')).toContainText(/1\/2 [−-] 1\/3 = 1\/6/);
+    const view = page.getByRole('combobox', { name: 'View' });
+    await view.selectOption({ label: 'Circles' });
+    await expect(page.locator('[data-sim-observations]')).toContainText('Circle view');
+  });
+});
+
+// Leftover from #288: on a phone, a box's error message is on screen next to its box.
+test.describe('fraction box message on a phone', () => {
+  test('an out-of-range entry shows its message in view', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'pixel5', 'phone layout only');
+    await page.goto('/tool/math/fraction-bars-calculator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    const num = page.locator('[data-formula-input="numA"]');
+    await num.fill('99');
+    const err = page.locator('[data-formula-error="numA"]');
+    await expect(err).toBeVisible();
+    await expect(err).toBeInViewport({ ratio: 1 });
+    const box = (await num.boundingBox())!;
+    const msg = (await err.boundingBox())!;
+    expect(msg.y - (box.y + box.height)).toBeLessThan(40);
+    expect(msg.x + msg.width).toBeLessThanOrEqual(page.viewportSize()!.width);
+  });
+});

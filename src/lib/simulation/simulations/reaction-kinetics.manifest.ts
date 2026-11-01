@@ -237,7 +237,7 @@ export const manifest: SimulationManifest = {
         type: 'note',
         heading: 'Everything Runs On Your Device',
         body:
-          'The simulation runs entirely in your browser. Nothing is uploaded, logged, or shared, and it works offline once the page has loaded. The time lapse slider speeds up the chemical clock rather than the chemistry, so the half-life readout stays the real one.',
+          'The simulation runs entirely in your browser. What you enter is not uploaded, logged, or shared, and it works offline once the page has loaded. The time lapse slider speeds up the chemical clock rather than the chemistry, so the half-life readout stays the real one.',
       },
     ],
   },

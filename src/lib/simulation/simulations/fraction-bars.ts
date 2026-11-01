@@ -38,6 +38,26 @@ export function clampedParts(num: number, den: number): { n: number; d: number }
   return { n, d };
 }
 
+/** Most wholes one fraction may hold. The drawn bars, the stated result and the inputs share it. */
+export const WHOLES_PER_FRACTION = 2;
+
+/**
+ * Live numerator bound (audit F-1, 1 Nov 2026): at most WHOLES_PER_FRACTION times the denominator,
+ * so 24/1 cannot be typed and then silently drawn as 2/1. Boot writes the clamped value back.
+ */
+export function liveFractionParam(id: string, params: Record<string, number>): { max: number } | null {
+  if (id !== 'numA' && id !== 'numB') return null;
+  const den = id === 'numA' ? params.denA : params.denB;
+  return { max: clampedParts(0, den).d * WHOLES_PER_FRACTION };
+}
+
+/** The note shown when a numerator sits at its bound. */
+export function capNote(params: Record<string, number>): string | null {
+  const at = (n: number, d: number) => Math.round(n) >= clampedParts(0, d).d * WHOLES_PER_FRACTION;
+  if (!at(params.numA, params.denA) && !at(params.numB, params.denB)) return null;
+  return `Each fraction holds at most ${WHOLES_PER_FRACTION} wholes, so a numerator stops at ${WHOLES_PER_FRACTION} times its denominator.`;
+}
+
 export function fmtParts(n: number, d: number): string {
   return `${n}/${d}`;
 }
@@ -175,8 +195,8 @@ const fractionBarsSim: SimulationDef = {
   aspect: 3 / 2,
   paramBehavior: 'continuous',
   params: [
-    { id: 'mode', label: 'Mode', unit: '', min: 0, max: 3, step: 1, default: 2, decimals: 0 },
-    { id: 'view', label: 'Circles', unit: '', min: 0, max: 1, step: 1, default: 0, decimals: 0 },
+    { id: 'mode', label: 'Mode', unit: '', min: 0, max: 3, step: 1, default: 2, decimals: 0, options: ['Show one', 'Compare', 'Add', 'Subtract'] },
+    { id: 'view', label: 'View', unit: '', min: 0, max: 1, step: 1, default: 0, decimals: 0, options: ['Bars', 'Circles'] },
     { id: 'numA', label: 'First numerator', unit: '', min: 0, max: 24, step: 1, default: 1, decimals: 0 },
     { id: 'denA', label: 'First denominator', unit: '', min: 1, max: 12, step: 1, default: 2, decimals: 0 },
     { id: 'numB', label: 'Second numerator', unit: '', min: 0, max: 24, step: 1, default: 1, decimals: 0 },
@@ -268,8 +288,10 @@ const fractionBarsSim: SimulationDef = {
     },
     isHolding: (s) => s.vars.holding === 1,
   },
+  liveParam: liveFractionParam,
   observations: [
     (s) => caption(s),
+    (s) => capNote(s.params),
     (s) => (circleView(s.params.view) ? 'Circle view splits the same whole into equal slices.' : null),
     (s) => {
       const a = partsOf(s.params, 'A');

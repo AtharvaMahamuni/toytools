@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Password Generator',
   seoTitle: 'Password Generator Online',
   description:
-    'Create strong random passwords with length, character sets, and a live entropy estimate. Runs entirely on your device. Nothing is uploaded.',
+    'Create strong random passwords with length, character sets, and a live entropy estimate. What you enter stays on your device.',
   tagline: 'Strong random passwords, with a live strength estimate.',
   categorySlug: 'generate',
   tags: [
@@ -41,7 +41,7 @@ export const config: ToolConfig = {
     categorySlug: 'generate',
     title: 'How to Generate a Strong Password',
     description:
-      'What makes a password strong, and how to use a generator safely. Runs entirely on your device. Nothing is uploaded.',
+      'What makes a password strong, and how to use a generator safely. What you enter stays on your device.',
     readMinutes: 8,
     updatedAt: '2026-09-25',
   },

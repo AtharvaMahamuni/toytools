@@ -7,7 +7,7 @@ export const items: FAQItem[] = [
     answer: `One number of hours for each calendar day, on this device.
 
 A 7.5 hour night is a normal entry, and the streak counts a day you logged.
-Nothing is uploaded.`,
+What you enter stays on your device.`,
   },
   {
     id: 'sleep-hours-tracker-faq-2',

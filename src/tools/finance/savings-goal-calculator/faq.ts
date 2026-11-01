@@ -47,6 +47,6 @@ export const items: FAQItem[] = [
     id: 'sg-faq-8',
     question: 'Are my numbers uploaded?',
     answer:
-      'No. Every calculation runs in your browser, so your goal, savings, and return figures stay with you. Runs entirely on your device. Nothing is uploaded.',
+      'No. Every calculation runs in your browser, so your goal, savings, and return figures stay with you. What you enter stays on your device.',
   },
 ];

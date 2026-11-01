@@ -41,6 +41,6 @@ export const items: FAQItem[] = [
     id: 'loan-faq-privacy',
     question: 'Are my loan amount and rate uploaded?',
     answer:
-      'No. The amount, the rate, the term, and the extra payment stay in the browser, and the page does not fetch a rate. Runs entirely on your device. Nothing is uploaded.',
+      'No. The amount, the rate, the term, and the extra payment stay in the browser, and the page does not fetch a rate. What you enter stays on your device.',
   },
 ];

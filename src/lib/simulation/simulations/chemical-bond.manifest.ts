@@ -241,7 +241,7 @@ export const manifest: SimulationManifest = {
         type: 'note',
         heading: 'Everything Runs On Your Device',
         body:
-          'The simulation runs entirely in your browser. Nothing is uploaded, logged, or shared, and it works offline once the page has loaded. To see where the valence electrons doing this bonding came from, open the electron configuration simulator.',
+          'The simulation runs entirely in your browser. What you enter is not uploaded, logged, or shared, and it works offline once the page has loaded. To see where the valence electrons doing this bonding came from, open the electron configuration simulator.',
       },
     ],
   },

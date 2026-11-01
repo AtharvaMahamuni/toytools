@@ -244,7 +244,7 @@ export function renderLlmsFull(site: string, catalog?: Tool[]): string {
       '',
       `URL: ${f.urls.tool}`,
       `Use for: ${useFor(f.tagline)}`,
-      // The UI's PRIVACY_LINE ends "Nothing is uploaded"; the AI files state the tool-data fact.
+      // The UI uses the short PRIVACY_LINE; the AI files state the full tool-data fact.
       `Privacy: ${f.privacy === PRIVACY_LINE ? TOOL_DATA_LINE : f.privacy}`,
       `Does not: ${doesNotLine(f.doesNot)}`,
     ].join('\n'),

@@ -77,6 +77,6 @@ export const items: FAQItem[] = [
     id: 'todo-faq-13',
     question: 'Where are my tasks stored?',
     answer:
-      'Your tasks are stored in localStorage, a small storage area your browser keeps on this device. Nothing is uploaded, no server ever sees your checklist, and no account is needed; the page reads the saved tasks back each time it loads. For example, a task list written on your work laptop lives only in that browser on that machine. One honest caveat: clearing site data for this page erases the saved list along with it.',
+      'Your tasks are stored in localStorage, a small storage area your browser keeps on this device. What you enter is not uploaded, no server ever sees your checklist, and no account is needed; the page reads the saved tasks back each time it loads. For example, a task list written on your work laptop lives only in that browser on that machine. One honest caveat: clearing site data for this page erases the saved list along with it.',
   },
 ];

@@ -11,7 +11,7 @@ export const items: FAQItem[] = [
     id: 'hi-faq-2',
     question: 'Does the paste stay on my device?',
     answer:
-      'Yes. The paste stays on your device. Runs entirely on your device. Nothing is uploaded. A file you pick is read with the browser file reader and hashed in this tab. There is no account and no upload request. Open the network panel while you paste: identifying makes no request. Close the tab when you are done, and nothing was stored on a server.',
+      'Yes. The paste stays on your device. What you enter stays on your device. A file you pick is read with the browser file reader and hashed in this tab. There is no account and no upload request. Open the network panel while you paste: identifying makes no request. Close the tab when you are done, and nothing was stored on a server.',
   },
   {
     id: 'hi-faq-3',
@@ -47,7 +47,7 @@ export const items: FAQItem[] = [
     id: 'hi-faq-8',
     question: 'How do I verify a file without uploading it?',
     answer:
-      'Pick the file with the file control. The browser reads the bytes locally and hashes them with the algorithm you picked, or with the one inferred from the digest. The bytes stay on this device. Runs entirely on your device. Nothing is uploaded. Files over 32 MB are refused so the tab does not freeze, and that refusal is local too. Text in the other box is ignored while a file is selected.',
+      'Pick the file with the file control. The browser reads the bytes locally and hashes them with the algorithm you picked, or with the one inferred from the digest. The bytes stay on this device. What you enter stays on your device. Files over 32 MB are refused so the tab does not freeze, and that refusal is local too. Text in the other box is ignored while a file is selected.',
   },
   {
     id: 'hi-faq-9',

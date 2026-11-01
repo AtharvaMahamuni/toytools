@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Book Tracker',
   seoTitle: 'Book Tracker: Local Reading List',
   description:
-    'Track books on a private bookshelf, offline, with export. A Goodreads alternative with no account. Runs entirely on your device. Nothing is uploaded.',
+    'Track books on a private bookshelf, offline, with export. A Goodreads alternative with no account. What you enter stays on your device.',
   tagline: 'A private shelf for books you want, are reading, or finished.',
   categorySlug: 'productivity',
   tags: [

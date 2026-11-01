@@ -20,7 +20,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     intro: [
       'Text tools fall into three jobs that are easy to confuse. Counting answers how much is here: words, characters, lines, or the reading time an editor asked for. Transforming rewrites the same text into another shape, which is where case conversion and slugs live. Cleaning removes what you cannot see, and that is usually the one you actually need: stray tabs, double spaces, blank lines pasted in from somewhere else, or a zero-width character that is breaking a search you swear should match.',
       'The counters disagree with each other on purpose. A word counter and a character counter give different numbers for the same paragraph, and a character count with spaces is not the count a Twitter field or a meta description limit means. Each tool says which rule it applied, because the honest answer to "how long is this" depends on who is asking.',
-      'Everything here runs on the text in your browser. Nothing is uploaded, which matters more than it sounds: the text you most want to clean up is often the text you least want to paste into a stranger\'s server.',
+      'Everything here runs on the text in your browser. What you enter is not uploaded, which matters more than it sounds: the text you most want to clean up is often the text you least want to paste into a stranger\'s server.',
     ],
   },
   {
@@ -132,7 +132,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     intro: [
       'Simulations from the branches a first chemistry course splits into. Organic gets a Newman projection you rotate with your finger, so the strain energy curve is drawn by your own dragging rather than copied off a lecture slide. Inorganic gets a crystal field diagram where the electrons rearrange themselves the moment the ligand field beats the pairing energy. Physical gets a reaction you actually have to wait for, at whatever rate the Arrhenius equation says. Bonding gets two pages that belong together: a bond sliding from covalent to ionic, then a VSEPR shape whose electron geometry and molecular shape are labelled as two facts.',
       'They exist because chemistry hides its mechanism behind a static picture more than most subjects do. A Newman projection in a textbook is one frozen angle out of 360, and the energy diagram sits on the facing page as if the two were separate facts. Here they are the same object: the molecule turns, the marker slides along the curve, and the anti and gauche populations recompute as you raise the temperature. Water on the geometry page is the same kind of split: tetrahedral in its electrons, bent in its atoms.',
-      'Every simulation shows its live measurements, its equation with the current numbers substituted in, and a sentence about what the scene is doing right now. Nothing is uploaded and everything runs offline once the page has loaded.',
+      'Every simulation shows its live measurements, its equation with the current numbers substituted in, and a sentence about what the scene is doing right now. What you enter is not uploaded and everything runs offline once the page has loaded.',
     ],
   },
   {
@@ -218,7 +218,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     segment: 'prep',
     intro: [
       'These tools prepare text you are about to paste into a model. Prompt Packer assembles fields. Chat Export Cleaner turns a copied transcript into plain text. JSON to Schema and JSON Schema Validator record and check types in an example. Context Fit Checker estimates whether a draft fits a published window. The llms.txt Generator writes a short site description. None of them writes the words for you, and none of them calls a model.',
-      'ToyTools does not run a model. There is no API key, no account, and no request that sends your draft to a provider. The work is deterministic and happens in your browser. Runs entirely on your device. Nothing is uploaded.',
+      'ToyTools does not run a model. There is no API key, no account, and no request that sends your draft to a provider. The work is deterministic and happens in your browser. What you enter stays on your device.',
       'The model stays wherever you already use it. ChatGPT, Claude, Gemini, and Grok are not built in, and this category is not affiliated with them. A format here is a way to organize fields. It is not a claim that one layout is better for one model.',
     ],
   },

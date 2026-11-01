@@ -12,7 +12,8 @@ import type { EcosystemEntry } from '@data/types';
 import { categories } from '@data/categories';
 import { formatMonthYear } from '@lib/dates';
 import { withBase, canonicalFor, categoryPath } from '../lib/paths';
-import { withPrivacy } from '@lib/privacy';
+import { privacyStatement, withPrivacy } from '@lib/privacy';
+import { tools } from '@data/registry';
 import { orgRef, personRef } from '@lib/schema/identity';
 import { guidePublishedAt } from '@data/guide-published';
 
@@ -60,12 +61,14 @@ const updatedDisplay = formatMonthYear(updatedAt);
 // `updatedAt`, so every rewrite claimed the article was brand new. validate-registry keeps every
 // guide in that map and never later than `updatedAt`; the fallback only covers a scaffold mid-edit.
 const publishedAt = guidePublishedAt[toolSlug] ?? updatedAt;
+// The guide speaks for its tool, so a lookup tool's guide carries the lookup privacy statement.
+const guideVariant = tools.find((t) => t.slug === toolSlug)?.trustVariant;
 
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: title,
-  description: withPrivacy(description),
+  description: withPrivacy(description, guideVariant),
   datePublished: publishedAt <= updatedAt ? publishedAt : updatedAt,
   dateModified: updatedAt,
   url: Astro.url.href,
@@ -79,6 +82,7 @@ const articleSchema = {
   title={generatePageTitle('guide', title)}
   description={description}
   maxWidth="content"
+  privacyLine={privacyStatement(guideVariant)}
 >
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />

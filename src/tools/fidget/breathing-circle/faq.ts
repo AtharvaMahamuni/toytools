@@ -35,7 +35,7 @@ export const items: FAQItem[] = [
     id: 'br-faq-6',
     question: 'Do I need to download an app for Breathing Circle?',
     answer:
-      'No. Follow Box, 4-7-8, or Coherent in the browser with no account and no download. Runs entirely on your device. Nothing is uploaded.',
+      'No. Follow Box, 4-7-8, or Coherent in the browser with no account and no download. What you enter stays on your device.',
   },
   {
     id: 'br-faq-7',

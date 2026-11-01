@@ -52,7 +52,7 @@ export const items: FAQItem[] = [
   {
     id: 'infinity-cube-faq-9',
     question: 'Is anything uploaded?',
-    answer: 'No. Runs entirely on your device. Nothing is uploaded.',
+    answer: 'No. What you enter stays on your device.',
   },
   {
     id: 'infinity-cube-faq-10',

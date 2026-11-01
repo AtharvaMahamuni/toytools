@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Breathing Circle',
   seoTitle: 'Breathing Circle Online: Box and 4-7-8',
   description:
-    'Box, 4-7-8 breathing timer or Coherent with a calm breathing visual and breathing exercise animation. Runs entirely on your device. Nothing is uploaded.',
+    'Box, 4-7-8 breathing timer or Coherent with a calm breathing visual and breathing exercise animation. What you enter stays on your device.',
   tagline: 'Breathe with a named pattern, not a vague calm.',
   categorySlug: 'fidgets',
   tags: ['box breathing', '4-7-8', 'coherent breathing', 'breathing timer', 'breathing visual'],

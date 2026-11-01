@@ -8,8 +8,9 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
   <ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
     <IoPanel slot="output" label="Chart" variant="prose" result bare>
       <p class="hc-hero" id="height-comparison-hero">Door is 33.2 cm taller than You.</p>
-      <div class="hc-chart" id="height-comparison-stage" role="img" aria-labelledby="height-comparison-hero">
+      <div class="hc-chart" id="height-comparison-stage" role="region" tabindex="0" aria-label="Height chart" aria-describedby="height-comparison-list">
         <div class="hc-sheet" id="height-comparison-sheet" aria-hidden="true"></div>
+        <ul class="sr-only" id="height-comparison-list"></ul>
       </div>
     </IoPanel>
 
@@ -79,7 +80,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     var figures = [];
     var seq = 1;
     var trapTarget = null;
-    var KINDS = { person: 1, door: 1, counter: 1, rim: 1 };
 
     function show(el, text) {
       if (!el) return;
@@ -105,9 +105,9 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       return out;
     }
 
-    function persist() {
-      if (TT.state) TT.state.save('height-comparison', { unit: unit, figures: figures }, ['unit', 'figures']);
-    }
+    // Audit H-1 (1 Nov 2026): this page is private (data-ephemeral, Phase B no-persist policy).
+    // Typed names and heights are never written to storage, and a record an older build left
+    // behind is removed on load. Reload always starts from the defaults.
 
     // A phone decimal keypad has no ' key and no space, so feet mode opens the text keyboard.
     function keypad() {
@@ -194,9 +194,10 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       var named = namedFigures();
       var line = api.gap(named, unit);
       if (hero) hero.textContent = line;
-      if (stage) stage.setAttribute('aria-label', line);
       if (!sheet) return;
       sheet.textContent = '';
+      var list = document.getElementById('height-comparison-list');
+      if (list) list.textContent = '';
 
       var cols = document.createElement('div');
       cols.className = 'hc-cols';
@@ -223,6 +224,12 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
         cap.appendChild(nameEl);
         cap.appendChild(numEl);
         caps.appendChild(cap);
+        nameEl.title = fig.name;
+        if (list) {
+          var li = document.createElement('li');
+          li.textContent = fig.name + ': ' + api.format(fig.cm, unit);
+          list.appendChild(li);
+        }
       }
       var ground = document.createElement('div');
       ground.className = 'hc-ground';
@@ -237,7 +244,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       if (parsed.ok && figure) figure.cm = parsed.cm;
       if (figure) draw();
       syncMessages(id);
-      if (figure && parsed.ok) persist();
+      
     }
 
     function onHeightBlur(input, figure) {
@@ -265,7 +272,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
           name.addEventListener('input', function () {
             figure.name = name.value.slice(0, 24);
             draw();
-            persist();
           });
 
           var height = document.createElement('input');
@@ -316,7 +322,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       renderRows();
       draw();
       syncMessages(null);
-      persist();
     }
 
     function removeAt(index) {
@@ -325,7 +330,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       renderRows();
       draw();
       syncMessages(null);
-      persist();
     }
 
     function addFigure() {
@@ -351,7 +355,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       renderRows();
       draw();
       syncMessages(null);
-      persist();
     }
 
     function addPreset(id) {
@@ -375,7 +378,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       renderRows();
       draw();
       syncMessages(null);
-      persist();
     }
 
     function applyTrap() {
@@ -397,7 +399,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       }
       draw();
       syncMessages(trapTarget);
-      persist();
     }
 
     function setUnit(next) {
@@ -408,7 +409,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       renderRows();
       draw();
       syncMessages(null);
-      persist();
     }
 
     function resetLineup() {
@@ -420,34 +420,13 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       renderRows();
       draw();
       syncMessages(null);
-      persist();
     }
 
     function load() {
       figures = api.opening().map(function (f) {
         return { id: f.id, name: f.name, cm: f.cm, kind: f.kind };
       });
-      try {
-        var saved = TT.state && TT.state.load('height-comparison');
-        if (saved && (saved.unit === 'cm' || saved.unit === 'ft') && Array.isArray(saved.figures)) {
-          var ok = saved.figures.length >= 1 && saved.figures.length <= api.maxFigures;
-          for (var i = 0; ok && i < saved.figures.length; i++) {
-            var f = saved.figures[i];
-            if (!f || typeof f.id !== 'string' || typeof f.name !== 'string' || typeof f.cm !== 'number') ok = false;
-            else if (f.cm < 10 || f.cm > 10000 || !KINDS[f.kind]) ok = false;
-          }
-          if (ok) {
-            unit = saved.unit;
-            figures = [];
-            for (var j = 0; j < saved.figures.length; j++) {
-              var item = saved.figures[j];
-              figures.push({ id: item.id, name: String(item.name).slice(0, 24), cm: item.cm, kind: item.kind });
-              var m = /^p(\d+)$/.exec(item.id);
-              if (m) seq = Math.max(seq, Number(m[1]) + 1);
-            }
-          }
-        }
-      } catch (e) {}
+      if (TT.state) TT.state.clear('height-comparison');
     }
 
     TT.onReady(function () {
@@ -521,7 +500,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
   })();
 </script>
 
-<style is:global>
+<style is:inline>
   .hc-hero {
     margin: 0 0 var(--space-3);
     font-size: var(--text-lg);
@@ -532,6 +511,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
 
   .hc-chart {
     overflow-x: auto;
+    position: relative;
     min-height: calc(var(--space-16) * 4);
     padding: var(--space-3);
     background: var(--color-surface-hover);
@@ -539,14 +519,13 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
   }
 
   .hc-sheet {
-    min-width: 100%;
-    width: max-content;
+    width: 100%;
   }
 
   .hc-cols,
   .hc-caps {
     display: flex;
-    gap: var(--space-3);
+    gap: var(--space-1);
   }
 
   .hc-cols {
@@ -556,8 +535,14 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
 
   .hc-col,
   .hc-cap {
-    flex: 1 0 calc(var(--space-16) * 2);
-    min-width: calc(var(--space-16) * 2);
+    flex: 1 1 0;
+    min-width: var(--space-10);
+  }
+
+  .hc-mark--person,
+  .hc-mark--door,
+  .hc-mark--counter {
+    max-width: 100%;
   }
 
   .hc-col {
@@ -586,9 +571,9 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
   }
 
   .hc-name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: var(--text-xs);
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
 
   .hc-num {

@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'UPI 1999 Split',
   seoTitle: 'UPI 1999 Split: a meme calculator, not advice',
   description:
-    'Meme calculator for the viral 1999 rupee split. Not tax, legal, or payments advice. Runs entirely on your device. Nothing is uploaded.',
+    'Meme calculator for the viral 1999 rupee split. Not tax, legal, or payments advice. What you enter stays on your device.',
   tagline: 'A meme split into 1999 rupee chunks. Not advice.',
   categorySlug: 'money-finance',
   tags: ['meme calculator'],

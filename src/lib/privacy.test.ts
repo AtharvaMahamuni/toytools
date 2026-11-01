@@ -11,7 +11,7 @@ describe('withPrivacy', () => {
   it('does not double the claim when the text already says it', () => {
     expect(withPrivacy('Decode a token in your browser.')).toBe('Decode a token in your browser.');
     expect(withPrivacy(PRIVACY_LINE)).toBe(PRIVACY_LINE);
-    expect(withPrivacy('Paste text. Nothing is uploaded.')).toBe('Paste text. Nothing is uploaded.');
+    expect(withPrivacy('Paste text. What you enter is not uploaded.')).toBe('Paste text. What you enter is not uploaded.');
   });
 });
 

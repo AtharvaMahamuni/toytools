@@ -23,6 +23,6 @@ export const items: FAQItem[] = [
     id: 'jts-faq-4',
     question: 'Does this send my JSON to a server or a model?',
     answer:
-      'No. The schema is built in your browser. Runs entirely on your device. Nothing is uploaded. It does not call an AI model.',
+      'No. The schema is built in your browser. What you enter stays on your device. It does not call an AI model.',
   },
 ];

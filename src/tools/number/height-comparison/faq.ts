@@ -39,6 +39,6 @@ export const items: FAQItem[] = [
   {
     id: 'hc-faq-8',
     question: 'Does the chart upload my height?',
-    answer: 'No. The marks are drawn in the browser from the numbers on the page. The page does not send them to a server, and there is no account to sign in to. The lineup stays in this browser so a refresh can restore it. Copy places a text summary on the clipboard, with both units and the gap. It does not build a link, so the heights are not written into the address bar for someone else to open.',
+    answer: 'No. The marks are drawn in the browser from the numbers on the page. The page does not send them to a server, and there is no account to sign in to. Nothing you type is saved, not even in this browser, so a refresh starts again from You and the door. Copy places a text summary on the clipboard, with both units and the gap. It does not build a link, so the heights are not written into the address bar for someone else to open.',
   },
 ];

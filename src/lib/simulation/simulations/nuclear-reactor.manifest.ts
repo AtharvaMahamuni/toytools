@@ -221,7 +221,7 @@ export const manifest: SimulationManifest = {
         type: 'note',
         heading: 'Everything Runs on Your Device',
         body:
-          'The simulation runs entirely in your browser. Nothing is uploaded, logged, or shared, and it works offline once loaded. To explore exponential growth in a simpler setting first, try the ideal gas law simulator.',
+          'The simulation runs entirely in your browser. What you enter is not uploaded, logged, or shared, and it works offline once loaded. To explore exponential growth in a simpler setting first, try the ideal gas law simulator.',
       },
     ],
   },

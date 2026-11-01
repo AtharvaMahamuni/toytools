@@ -65,6 +65,6 @@ export const items: FAQItem[] = [
     id: 'pc-faq-7',
     question: 'Does this paragraph counter upload my text?',
     answer:
-      'No. All counting runs in your browser. The tool is free to use, with no account or sign-up required. Runs entirely on your device. Nothing is uploaded.',
+      'No. All counting runs in your browser. The tool is free to use, with no account or sign-up required. What you enter stays on your device.',
   },
 ];

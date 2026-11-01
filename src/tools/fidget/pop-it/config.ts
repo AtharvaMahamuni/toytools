@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Pop It',
   seoTitle: 'Pop It Online: Virtual Fidget Toy',
   description:
-    'Pop bubbles on a free virtual Pop It. Sensory bubble fidget game, optional sound and haptics. Runs entirely on your device. Nothing is uploaded.',
+    'Pop bubbles on a free virtual Pop It. Sensory bubble fidget game, optional sound and haptics. What you enter stays on your device.',
   tagline: 'Tap the bubbles. Infinite mode when you want more.',
   categorySlug: 'fidgets',
   tags: [

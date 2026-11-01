@@ -29,7 +29,7 @@ export const items: FAQItem[] = [
     id: 'sand-faq-5',
     question: 'Do I need to download an app for kinetic sand online?',
     answer:
-      'No. This is virtual kinetic sand online in the browser. Open the tab, drag or tilt, and leave. Runs entirely on your device. Nothing is uploaded.',
+      'No. This is virtual kinetic sand online in the browser. Open the tab, drag or tilt, and leave. What you enter stays on your device.',
   },
   {
     id: 'sand-faq-6',

@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'JSON Diff',
   seoTitle: 'JSON Diff: compare two JSON objects',
   description:
-    'Structural diff of two JSON objects. Ignore key order. Runs entirely on your device. Nothing is uploaded.',
+    'Structural diff of two JSON objects. Ignore key order. What you enter stays on your device.',
   tagline: 'See added, removed, and changed JSON paths.',
   categorySlug: 'developer-utilities',
   tags: ['compare json'],

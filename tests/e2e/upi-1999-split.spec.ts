@@ -54,7 +54,7 @@ test('empty or invalid UPI ID builds no link', async ({ page }) => {
   await page.locator(VPA).fill('');
   await expect(page.locator('#upi-1999-split-vpa-msg')).toBeHidden();
   await expect(page.locator('a[href^="upi://"]')).toHaveCount(0);
-  await expect(page.locator('main')).toContainText('Runs entirely on your device. Nothing is uploaded.');
+  await expect(page.locator('main')).toContainText('What you enter stays on your device.');
   await expect(page.locator('#upi-1999-split-experience')).toContainText('does not owe a 2000 rupee UPI tax');
 });
 

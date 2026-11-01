@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'JSON Schema Validator',
   seoTitle: 'Validate JSON Against a Schema',
   description:
-    'Check JSON against type, required, properties, and bounds. Other keywords are named as not checked. Runs entirely on your device. Nothing is uploaded.',
+    'Check JSON against type, required, properties, and bounds. Other keywords are named as not checked. What you enter stays on your device.',
   tagline: 'Checks the keywords this page lists.',
   categorySlug: 'prep',
   tags: ['json schema validator', 'validate json schema', 'schema check'],
@@ -23,7 +23,7 @@ export const config: ToolConfig = {
     slug: 'how-to-validate-json-against-a-schema',
     categorySlug: 'prep',
     title: 'How to Validate JSON Against a Schema',
-    description: 'Check JSON against the schema keywords this page lists. Other keywords are named, not applied. Runs entirely on your device. Nothing is uploaded.',
+    description: 'Check JSON against the schema keywords this page lists. Other keywords are named, not applied. What you enter stays on your device.',
     readMinutes: 4,
     updatedAt: '2026-09-25',
   },

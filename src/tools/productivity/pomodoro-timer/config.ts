@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'pomodoro-timer',
   name: 'Pomodoro Timer',
   seoTitle: 'Pomodoro Timer Online: 25 Minute Focus Timer',
-  description: 'A free Pomodoro Technique timer: 25 minutes of focus, then a 5 minute break, with 50/10 and custom lengths. Runs entirely on your device. Nothing is uploaded.',
+  description: 'A free Pomodoro Technique timer: 25 minutes of focus, then a 5 minute break, with 50/10 and custom lengths. What you enter stays on your device.',
   tagline: 'Stay focused with timed work sessions and breaks.',
   categorySlug: 'productivity',
   tags: [

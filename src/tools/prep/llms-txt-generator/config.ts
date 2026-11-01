@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'llms.txt Generator',
   seoTitle: 'Generate an llms.txt File',
   description:
-    'Write a short llms.txt site description. Empty sections are left out. Not an official standard. Runs entirely on your device. Nothing is uploaded.',
+    'Write a short llms.txt site description. Empty sections are left out. Not an official standard. What you enter stays on your device.',
   tagline: 'A short site description. Empty sections left out.',
   categorySlug: 'prep',
   tags: ['llms.txt', 'llms txt', 'site description', 'crawler file'],
@@ -22,7 +22,7 @@ export const config: ToolConfig = {
     slug: 'what-is-llms-txt',
     categorySlug: 'prep',
     title: 'What Is llms.txt?',
-    description: 'A short site description in the layout ToyTools publishes. Not an official standard. Runs entirely on your device. Nothing is uploaded.',
+    description: 'A short site description in the layout ToyTools publishes. Not an official standard. What you enter stays on your device.',
     readMinutes: 4,
     updatedAt: '2026-09-25',
   },

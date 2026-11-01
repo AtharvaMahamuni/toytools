@@ -59,6 +59,6 @@ export const items: FAQItem[] = [
     id: 'type-scale-generator-faq-10',
     question: 'Is the arithmetic done on my device?',
     answer:
-      'Yes. The base and the ratio never leave the browser. There is no account and no upload. The CSS you copy is the whole output. A chat can print a similar list, and this page is the list you can change and copy while you look at the samples. Runs entirely on your device. Nothing is uploaded.',
+      'Yes. The base and the ratio never leave the browser. There is no account and no upload. The CSS you copy is the whole output. A chat can print a similar list, and this page is the list you can change and copy while you look at the samples. What you enter stays on your device.',
   },
 ];

@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'sha1-hash-generator',
   name: 'SHA-1 Hash Generator',
   seoTitle: 'SHA-1 Hash Generator Online',
-  description: 'Generate a SHA-1 hash of any text online as a 40-character hex digest, and see where SHA-1 is still safe. Runs entirely on your device. Nothing is uploaded.',
+  description: 'Generate a SHA-1 hash of any text online as a 40-character hex digest, and see where SHA-1 is still safe. What you enter stays on your device.',
   tagline: 'Generate a SHA-1 hash from any text.',
   categorySlug: 'developer-utilities',
   tags: ['sha1', 'sha-1', 'sha1 hash', 'sha1 generator', 'hash generator', 'checksum', 'sha1 online', 'generate sha1', 'developer'],

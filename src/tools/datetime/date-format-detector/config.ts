@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Date Format Detector',
   seoTitle: 'Date Format Detector: DD/MM, MM/DD, ISO 8601',
   description:
-    'Is this date day first or month first, DD/MM vs MM/DD? See how it will be parsed when an Excel locale guess is wrong. Nothing is uploaded.',
+    'Is this date day first or month first, DD/MM vs MM/DD? See how it will be parsed when an Excel locale guess is wrong. What you enter stays on your device.',
   tagline: 'Both readings when a date could be day first or month first.',
   categorySlug: 'date-time',
   tags: ['dd/mm', 'mm/dd'],

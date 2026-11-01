@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'UPI MDR Estimator',
   seoTitle: 'UPI MDR Estimator: a merchant charge, not a tax',
   description:
-    'Estimate merchant MDR from the 15 Sep 2026 PIB note. Not a tax you owe. Runs entirely on your device. Nothing is uploaded.',
+    'Estimate merchant MDR from the 15 Sep 2026 PIB note. Not a tax you owe. What you enter stays on your device.',
   tagline: 'Estimate merchant MDR in rupees. Not a tax you owe.',
   categorySlug: 'money-finance',
   tags: ['mdr'],

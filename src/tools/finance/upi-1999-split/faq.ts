@@ -59,7 +59,7 @@ export const items: FAQItem[] = [
     id: 'upi-faq-10',
     question: 'Are my numbers uploaded?',
     answer:
-      'No. Runs entirely on your device. Nothing is uploaded.\nThe total stays in this tab. Close the tab and the number is gone. There is no account on this page.',
+      'No. What you enter stays on your device.\nThe total stays in this tab. Close the tab and the number is gone. There is no account on this page.',
   },
   {
     id: 'upi-faq-11',

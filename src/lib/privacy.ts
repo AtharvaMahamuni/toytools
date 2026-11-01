@@ -3,7 +3,11 @@
 // Models and humans were reading five different wordings of the same fact (browser / device /
 // never leaves / no upload / local-only). One string, imported everywhere, is the whole fix.
 
-export const PRIVACY_LINE = 'Runs entirely on your device. Nothing is uploaded.';
+/**
+ * Short form of TOOL_DATA_LINE (below). It replaced "Nothing is uploaded" on 1 Nov 2026: the site
+ * loads analytics and has a feedback form, so a bare "nothing is uploaded" overclaimed.
+ */
+export const PRIVACY_LINE = 'What you enter stays on your device.';
 
 /**
  * The site-wide privacy fact, for files that speak for the whole site rather than one tool (the
@@ -24,8 +28,11 @@ export const TOOL_DATA_SHORT = 'What you enter stays on your device.';
 export const SITE_PRIVACY_LINE =
   `${TOOL_DATA_LINE} The site uses analytics, and the feedback form sends what you submit.`;
 
-/** Trust-badge short form. Same claim as PRIVACY_LINE, sized for Zone B. */
-export const PRIVACY_BADGE = 'Private ● Runs entirely on your device';
+/**
+ * Trust-badge short form: PRIVACY_LINE itself, so the badge, the tooltip and the schema say one
+ * thing. It replaced "Runs entirely on your device" on 1 Nov 2026 (audit PR 2).
+ */
+export const PRIVACY_BADGE = `Private ● ${PRIVACY_LINE.replace(/\.$/, '')}`;
 
 export type TrustVariant = 'private' | 'offline' | 'local' | 'lookup';
 
@@ -33,7 +40,7 @@ export type TrustVariant = 'private' | 'offline' | 'local' | 'lookup';
  * The privacy sentence a tool may actually claim, keyed by its trust variant.
  *
  * `private` is the default and matches PRIVACY_LINE. Lookup is the exception: the browser
- * does ask an echo, so the "nothing is uploaded" line would be false there.
+ * does ask an echo, so the "stays on your device" line would be false there.
  */
 export function privacyStatement(variant?: TrustVariant): string {
   switch (variant) {
@@ -49,14 +56,20 @@ export function privacyStatement(variant?: TrustVariant): string {
 }
 
 const ALREADY_STATED =
-  /on your device|in your browser|nothing is uploaded|never (uploaded|sent)|no uploads?/i;
+  /on your device|in your browser|not uploaded|never (uploaded|sent)|no uploads?/i;
 
-/** Append PRIVACY_LINE when the text has not already made the claim. */
-export function withPrivacy(text: string): string {
+/**
+ * Append the tool's privacy statement when the text has not already made the claim. The statement
+ * follows the trust variant, so a lookup tool (What Is My IP asks an IP echo) never gets the
+ * "stays on your device" line.
+ */
+export function withPrivacy(text: string, variant?: TrustVariant): string {
+  const line = privacyStatement(variant);
   const trimmed = text.trim();
-  if (!trimmed) return PRIVACY_LINE;
-  if (ALREADY_STATED.test(trimmed)) return trimmed;
-  return `${trimmed} ${PRIVACY_LINE}`;
+  if (!trimmed) return line;
+  if (variant !== 'lookup' && ALREADY_STATED.test(trimmed)) return trimmed;
+  if (trimmed.includes(line)) return trimmed;
+  return `${trimmed} ${line}`;
 }
 
 /**
@@ -66,12 +79,12 @@ export function withPrivacy(text: string): string {
  * This is the 40-60 word "opening answer" for JSON-LD. The visible tagline stays one line so the
  * fold ratchet does not move; schema is where the longer answer lives.
  */
-export function openingAnswer(tool: { tagline?: string; description: string }): string {
+export function openingAnswer(tool: { tagline?: string; description: string; trustVariant?: TrustVariant }): string {
   const tagline = tool.tagline?.trim() ?? '';
   const description = tool.description.trim();
   const lead =
     tagline && !description.toLowerCase().includes(tagline.toLowerCase())
       ? `${tagline} ${description}`
       : description;
-  return withPrivacy(lead);
+  return withPrivacy(lead, tool.trustVariant);
 }

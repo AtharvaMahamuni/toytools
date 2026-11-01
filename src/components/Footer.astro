@@ -11,9 +11,11 @@ interface Props {
   /** Author credit. Off on noindex pages: /search/ is already at the HTML budget, and models do
    *  not quote those pages. */
   credit?: boolean;
+  /** Private tooltip text. A lookup tool's page passes privacyStatement('lookup'). */
+  privacy?: string;
 }
 
-const { feedbackTool, credit = true } = Astro.props;
+const { feedbackTool, credit = true, privacy = PRIVACY_LINE } = Astro.props;
 const feedbackHref = withBase(feedbackTool ? `/feedback/?tool=${feedbackTool}` : '/feedback/');
 const year = new Date().getFullYear();
 ---
@@ -31,8 +33,8 @@ const year = new Date().getFullYear();
       <span class="gold-dot" aria-hidden="true"></span>
       <span
         class="footer-hint"
-        data-tooltip={PRIVACY_LINE}
-        data-toast={PRIVACY_LINE}
+        data-tooltip={privacy}
+        data-toast={privacy}
       >Private</span>
       {credit && (
         <span class="footer-author" hidden>

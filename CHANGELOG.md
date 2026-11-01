@@ -2,7 +2,7 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [alpha-v13.19] - 2026-11-01
+## [alpha-v13.21] - 2026-11-01
 
 ### Changed
 
@@ -20,6 +20,29 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   - **Guides & Articles:** Refined editorial typography with negative tracking on headings, active table-of-contents indicator in Cursor Orange, elevated code and callout blocks, and polished related content cards.
   - **FAQs:** Upgraded question accordions with animated rotating chevrons, Cursor Orange interactive hover states, and comfortable reading measure.
   - **Search & Navigation:** Upgraded search inputs, pill triggers, category chips, and directory link grids.
+
+## [alpha-v13.20] - 2026-11-01
+
+### Fixed
+
+- **Height chart fits six marks.** Narrower columns fit all six bars in the chart on a phone and on a desktop, with no hidden sideways scroll. Long names wrap instead of being cut off. The chart is a named region you can reach with Tab, and a list read by screen readers gives every name and height. Axe passes with six marks.
+- **Height chart styles load only on its page.** The chart's styles were bundled into every number tool page (about 525 B gzip). They now ship only with Height Comparison.
+- **Named choices on simulators.** Isotope (Radioactive Decay), Mode and View (Fraction Bars) are labelled selects, so a screen reader hears "Fluorine-18", "Add" or "Circles", not 0, 2 or 1. View replaces the 0 or 1 Circles slider.
+- **Fraction circles no longer overlap.** Each row of circles has its own band, sized to leave room for its label, and the group is centred.
+- **Drag hints sit under the canvas.** On Fraction Bars and Radioactive Decay the drag hint no longer covers the equation line or a caption.
+- **Box messages stay in view on a phone.** A number box message sits right under its box and scrolls into view when it appears.
+- **One privacy line on the trust badge.** The badge on private tools now says what you enter stays on your device, the same line as the tooltip and the schema. Offline, local and lookup tools keep their own badges.
+
+## [alpha-v13.19] - 2026-11-01
+
+### Fixed
+
+- **Fraction Bars inputs match the drawing.** Each numerator now stops at twice its denominator, the most one fraction can draw. Typing 24 with a denominator of 1 writes 2 back into the slider and the number box, and a note says each fraction holds at most 2 wholes. Before, the inputs said 24 while the page drew and stated 2/1.
+- **Height Comparison stores nothing.** The page is private, but it wrote every typed name and height to this browser and never read them back. It now writes nothing, removes a record an older build left, and a reload starts from You and the door. The FAQ says so.
+- **Accurate privacy wording on every page.** The old no-upload sentence overclaimed, because the site loads analytics and has a feedback form. Meta descriptions, FAQ answers, JSON-LD, the trust chip and the footer now use the line the AI files use: what you enter stays on your device. A build check fails if the old sentence reappears anywhere in the built site, including this changelog, so older entries now paraphrase it.
+- **Radioactive Decay controls.** Elapsed time and the half-life card show the isotope's unit (minutes, days or years). The elapsed slider spans ten half-lives of the chosen isotope, with a step near a hundredth of a half-life, and re-clamps when the isotope changes.
+- **Number boxes show the value used.** On every simulator, a number box follows every change, from a slider, a preset, a mode switch or a re-clamp, so typing 8/4 and then dragging the denominator to 1 shows 2 in the box while 2/1 is drawn. An empty, garbled, out-of-range or (on a whole-number input) decimal entry shows a message under the box that names the value in use, for example "Use a whole number from 200 to 600 K. Using 600 K.", and is marked invalid. The value in use is written back on Enter or when the box loses focus; a blank box goes back to the value it held. The chair's Temperature box no longer shows 1000 while the result uses 600 K, and a Fraction Bars box no longer keeps 1.5 while 2/2 is drawn.
+- **What Is My IP privacy line.** The page asks an IP echo, so its JSON-LD, its guide and the footer tooltip no longer say what you enter stays on your device. They use the lookup statement instead, and the build check fails if a network-lookup tool's page or guide makes a device claim.
 
 ## [alpha-v13.18] - 2026-10-31
 
@@ -48,7 +71,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Fixed
 
-- **Privacy wording in the AI files.** llms.txt and llms-full.txt still said "Nothing is uploaded" in the Fidgets and Games category blurbs and in each tool's Privacy line. The category blurbs now end "What you enter stays on your device." (short enough for their meta descriptions), and each Privacy line says "The text, files and values you enter in tools are processed on your device and not uploaded.", the same shared fact the site-wide privacy line opens with (the site uses analytics, and the feedback form sends what you submit, see /privacy/). The Fidgets and Games category pages use the new blurb too. A test fails the build if any generated AI file says "Nothing is uploaded".
+- **Privacy wording in the AI files.** llms.txt and llms-full.txt still said the no-upload sentence in the Fidgets and Games category blurbs and in each tool's Privacy line. The category blurbs now end "What you enter stays on your device." (short enough for their meta descriptions), and each Privacy line says "The text, files and values you enter in tools are processed on your device and not uploaded.", the same shared fact the site-wide privacy line opens with (the site uses analytics, and the feedback form sends what you submit, see /privacy/). The Fidgets and Games category pages use the new blurb too. A test fails the build if any generated AI file says the no-upload sentence.
 
 ## [alpha-v13.16.2] - 2026-10-28
 
@@ -58,7 +81,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Fixed
 
-- **Site-wide privacy wording.** llms.txt, llms-full.txt and the identity files said "Nothing is uploaded" about the whole site. They now say what is true of the site: the text, files and values you enter in tools are processed on your device and not uploaded, the site uses analytics, and the feedback form sends what you submit. The FAQ answer and ai.json link /privacy/. Per-tool privacy lines are unchanged.
+- **Site-wide privacy wording.** llms.txt, llms-full.txt and the identity files said the no-upload sentence about the whole site. They now say what is true of the site: the text, files and values you enter in tools are processed on your device and not uploaded, the site uses analytics, and the feedback form sends what you submit. The FAQ answer and ai.json link /privacy/. Per-tool privacy lines are unchanged.
 
 ## [alpha-v13.16.1] - 2026-10-28
 
@@ -197,7 +220,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Added
 
-- **Image Palette Extractor.** `/tool/design/image-palette-extractor/` reads a picture on this device and returns a short dominant-color row. Each stop shows its share of the samples, so a large background is one wall and the subject color keeps a seat. A display-p3 sample that falls outside sRGB is copied as the clamped hex, and the page says so. Copy CSS writes custom properties. Nothing is uploaded. On a phone the colors sit above the file and the preview.
+- **Image Palette Extractor.** `/tool/design/image-palette-extractor/` reads a picture on this device and returns a short dominant-color row. Each stop shows its share of the samples, so a large background is one wall and the subject color keeps a seat. A display-p3 sample that falls outside sRGB is copied as the clamped hex, and the page says so. Copy CSS writes custom properties. What you enter stays on your device. On a phone the colors sit above the file and the preview.
 
 ### Fixed
 
@@ -382,7 +405,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 - **HTML Entity Encoder and Decoder.** Decodes every HTML5 named reference, such as &eacute;, &euro; and &frac34;, using the browser's own list, so the page carries no extra table.
 - **CSV to JSON.** Repeated column names keep every column: the second "x" becomes "x_2".
 - **JWT Decoder.** A token whose expiry has passed shows as Expired in the summary even when its not-before time is in the future, matching the claims table.
-- **JSON Diff.** No longer saves what you paste. Panes saved by older builds are removed the next time the page opens, and its privacy line now matches: "Runs entirely on your device. Nothing is uploaded."
+- **JSON Diff.** No longer saves what you paste. Panes saved by older builds are removed the next time the page opens, and its privacy line now matches: "Runs entirely on your device" plus a no-upload sentence
 
 ## [beta-v12.8] - 2026-10-14
 
@@ -391,7 +414,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 - **Normal Distribution Visualizer** (`/tool/math/normal-distribution-visualizer/`). Drag the mean, the standard deviation, and a bound on the bell curve. The page shows z, the left-tail area, and the right-tail area, and those two areas add to 1. Sigma stops at 0.2 so the curve cannot collapse into a spike. The 68, 95, and 99.7 bands update as you move the bound.
 - **Linear Regression Playground** (`/tool/math/linear-regression-playground/`). Place and drag points and read the least-squares line, its equation, and R squared. The five default points give y = 0.91x + 1.11 and R² of 0.880. Two points always report R² of 1. One far point is named when it dominates the slope.
 - **Lean Body Mass Calculator** (`/tool/health/lean-body-mass-calculator/`). Boer, James, and Hume from height, weight, and sex, shown together. Boer is the labeled default. A man of 80 kg and 180 cm stays quiet, because the formulas sit within 5 kg. A heavier body that splits Boer and Hume by 5 kg or more gets the gap named. The figure is not a medication dose.
-- **CSV Column Picker** (`/tool/developer-utilities/csv-column-picker/`). Keep named columns and drop the rest. A semicolon file that a comma split would smash into one column is reread, and the page says so. A pick by column number says an inserted column will move the field. A named comma file stays quiet. Nothing is uploaded.
+- **CSV Column Picker** (`/tool/developer-utilities/csv-column-picker/`). Keep named columns and drop the rest. A semicolon file that a comma split would smash into one column is reread, and the page says so. A pick by column number says an inserted column will move the field. A named comma file stays quiet. What you enter stays on your device.
 
 ### Changed
 
@@ -458,7 +481,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Added
 
-- **Colorblind Simulator** (`/tool/design/colorblind-simulator/`). A palette under protanopia, deuteranopia, tritanopia, the three anomaly types, and achromatopsia, all on one screen. The simulation is Machado, Oliveira, and Fernandes (2009) in linear sRGB. When two colors that started apart land together, the note names the cone type and both hex values. Pure red and pure green stay apart, because they differ in lightness. Blue cone monochromacy is not simulated. Nothing is uploaded.
+- **Colorblind Simulator** (`/tool/design/colorblind-simulator/`). A palette under protanopia, deuteranopia, tritanopia, the three anomaly types, and achromatopsia, all on one screen. The simulation is Machado, Oliveira, and Fernandes (2009) in linear sRGB. When two colors that started apart land together, the note names the cone type and both hex values. Pure red and pure green stay apart, because they differ in lightness. Blue cone monochromacy is not simulated. What you enter stays on your device.
 - **IPv4 Converter** (`/tool/developer-utilities/ipv4-converter/`). One address as dotted decimal, a 32-bit integer, eight-digit hex, and binary. 192.168.0.1 is 3232235521 and 0xC0A80001. An octet above 255 is rejected. An IPv6 paste is not cut down. An IPv4-mapped address offers the embedded IPv4 host. The integer 8888 offers 8.8.8.8, and 19216811 is left ambiguous.
 
 ## [beta-v12.4.4] - 2026-10-06
@@ -620,7 +643,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Changed
 
-- **Shorter titles and fuller descriptions for the new tools.** Matrix, Type Scale, File Hash and Color Shades titles fit 60 characters, the matrix and file hash guide titles are shorter, and the six new tools and Pomodoro Timer end their descriptions with "Runs entirely on your device. Nothing is uploaded."
+- **Shorter titles and fuller descriptions for the new tools.** Matrix, Type Scale, File Hash and Color Shades titles fit 60 characters, the matrix and file hash guide titles are shorter, and the six new tools and Pomodoro Timer end their descriptions with "Runs entirely on your device" plus a no-upload sentence
 - **Applied Math is titled Math Calculators and Simulations.** The Applied Math, Design and Date and Time descriptions now name the triangle, matrix, shade scale, type scale and sleep tools.
 - **The six new guides lost their keyword lists.** Each keeps one worked example, the sleep guide hedges its one sleep-stage claim, and a competitor name is gone. The type scale guide no longer calls the golden ratio a musical interval.
 - **More guides link where readers go next.** 22 guides now link back to a tool whose guide links them, 8 guides that no other page linked get a link, and the scientific calculator guide points to the triangle solver.
@@ -650,7 +673,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 - **Triangle Solver** (`/tool/math/triangle-solver/`). Enter any three parts and see the other sides and angles, including both SSA answers, drawn to scale.
 - **Sleep Cycle Calculator** (`/tool/datetime/sleep-cycle-calculator/`). Bedtimes and wake times in 90 minute cycles, counting the minutes it takes to fall asleep.
 - **Color Shades Generator** (`/tool/design/color-shades-generator/`). A 50 to 950 tint and shade scale from one color, in OKLCH, copied as CSS, with a note when a step fails contrast on white.
-- **File Hash Verifier** (`/tool/developer-utilities/file-hash-verifier/`). A local file hash, compared with a published digest. Large files are sliced. Nothing is uploaded.
+- **File Hash Verifier** (`/tool/developer-utilities/file-hash-verifier/`). A local file hash, compared with a published digest. Large files are sliced. What you enter stays on your device.
 - **Type Scale Generator** (`/tool/design/type-scale-generator/`). A modular type scale from a base size and a ratio, as rem values and CSS variables, with a warning when a step falls outside a readable band.
 - **Matrix Calculator** (`/tool/math/matrix-calculator/`). Add, subtract, multiply, transpose, or invert a matrix. A product of mismatched shapes names both sizes, and the first legal product shows its first step.
 
@@ -896,13 +919,13 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Added
 
-- **Regex Tester**, at `/tool/developer-utilities/regex-tester/`. Pattern, flags, and test text in; every match out with indices and capture groups explained. Optional replace preview with `$1` or named groups. Known-expensive shapes are refused, and any run that takes too long is stopped so the tab cannot hang. Test text is capped near 20,000 characters. Runs entirely on your device. Nothing is uploaded.
+- **Regex Tester**, at `/tool/developer-utilities/regex-tester/`. Pattern, flags, and test text in; every match out with indices and capture groups explained. Optional replace preview with `$1` or named groups. Known-expensive shapes are refused, and any run that takes too long is stopped so the tab cannot hang. Test text is capped near 20,000 characters. What you enter stays on your device.
 
 ## [beta-v11.15] - 2026-09-25
 
 ### Added
 
-- **Molecular Geometry Calculator**, at `/tool/chemistry/molecular-geometry-calculator/`. Bonding pairs and lone pairs in, VSEPR shape out. Steric number picks the electron geometry. Molecular shape ignores the lone pairs, so water is tetrahedral in its electrons and bent in its atoms at 104.5°. Both names stay on the canvas. The page only talks when they disagree. Drag turns the molecule. Methane, ammonia, CO2, SF4, XeF4, and SF6 are presets. Runs entirely on your device. Nothing is uploaded.
+- **Molecular Geometry Calculator**, at `/tool/chemistry/molecular-geometry-calculator/`. Bonding pairs and lone pairs in, VSEPR shape out. Steric number picks the electron geometry. Molecular shape ignores the lone pairs, so water is tetrahedral in its electrons and bent in its atoms at 104.5°. Both names stay on the canvas. The page only talks when they disagree. Drag turns the molecule. Methane, ammonia, CO2, SF4, XeF4, and SF6 are presets. What you enter stays on your device.
 
 ## [beta-v11.14.17] - 2026-09-25
 
@@ -1146,9 +1169,9 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Added
 
-- **UPI MDR Estimator** (`/tool/finance/upi-mdr-estimator/`). Amount and kind, then one result: MDR rupees, not a customer fee, and not a tax. At 2000 or less the MDR is zero for every kind. Ordinary above 2000 is 0.4 percent, and from 75000 the MDR is 300 rupees. Essential above 2000 is a flat 5 rupees. Capital market above 2000 is 0.02 percent, capped at 300 rupees. Small merchant is zero at any amount in this toy, and the page says real status depends on the bank. The guide carries the 15 Sep 2026 PIB note. Runs entirely on your device. Nothing is uploaded.
-- **Split Bill** (`/tool/finance/split-bill/`). A dinner split. Bill total, 2 to 30 people, optional tip 0 to 30 percent. Shows the total with tip, the people count, and one line for what each person pays. The last person is stated once when leftover paise remain. No accounts and no name list. Not a UPI fee tool. Runs entirely on your device. Nothing is uploaded.
-- **Shop UPI Tally** (`/tool/finance/shop-upi-tally/`). Add a receipt and see this local calendar month total, and how far it sits from 1,00,000 rupees. Storage key `toytools.shop-upi-tally.v1`. Export and import JSON. The month rolls on the local calendar month. Recent receipts stay collapsed: a count, plus the latest few. The caution stays visible: this is your own tally, not your bank or NPCI category. Crossing or staying under 1,00,000 here does not change merchant status. Clearing site data deletes it. Runs entirely on your device. Nothing is uploaded.
+- **UPI MDR Estimator** (`/tool/finance/upi-mdr-estimator/`). Amount and kind, then one result: MDR rupees, not a customer fee, and not a tax. At 2000 or less the MDR is zero for every kind. Ordinary above 2000 is 0.4 percent, and from 75000 the MDR is 300 rupees. Essential above 2000 is a flat 5 rupees. Capital market above 2000 is 0.02 percent, capped at 300 rupees. Small merchant is zero at any amount in this toy, and the page says real status depends on the bank. The guide carries the 15 Sep 2026 PIB note. What you enter stays on your device.
+- **Split Bill** (`/tool/finance/split-bill/`). A dinner split. Bill total, 2 to 30 people, optional tip 0 to 30 percent. Shows the total with tip, the people count, and one line for what each person pays. The last person is stated once when leftover paise remain. No accounts and no name list. Not a UPI fee tool. What you enter stays on your device.
+- **Shop UPI Tally** (`/tool/finance/shop-upi-tally/`). Add a receipt and see this local calendar month total, and how far it sits from 1,00,000 rupees. Storage key `toytools.shop-upi-tally.v1`. Export and import JSON. The month rolls on the local calendar month. Recent receipts stay collapsed: a count, plus the latest few. The caution stays visible: this is your own tally, not your bank or NPCI category. Crossing or staying under 1,00,000 here does not change merchant status. Clearing site data deletes it. What you enter stays on your device.
 - **Craft (orientation):** `upi-mdr-estimate`. A merchant quote can look like a tax the customer must pay. The line names the charge and stays a merchant-side figure, not a tax.
 - **Craft (verification):** `bill-split-fair`. Shares that round on their own stop adding up. The last person takes the leftover paise, and the line stays quiet when the total already divides evenly.
 - **Craft (orientation):** `shop-upi-tally`. A month total near 1,00,000 looks like a status switch. The page says the line does not change bank or NPCI status.
@@ -1161,7 +1184,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Added
 
-- **UPI 1999 Split** (`/tool/finance/upi-1999-split/`). A meme calculator, not a payment app and not advice. Type whole rupees. At 2000 or less the page says one payment and nothing to split. Above 2000 it lists locked chunks of 1999 plus a remainder that sums to the input, for example 1999 + 1999 + 1002 = 5000. Totals above 10,00,000 are refused. Runs entirely on your device. Nothing is uploaded.
+- **UPI 1999 Split** (`/tool/finance/upi-1999-split/`). A meme calculator, not a payment app and not advice. Type whole rupees. At 2000 or less the page says one payment and nothing to split. Above 2000 it lists locked chunks of 1999 plus a remainder that sums to the input, for example 1999 + 1999 + 1002 = 5000. Totals above 10,00,000 are refused. What you enter stays on your device.
 - **Craft (orientation):** `upi-split-meme`. A viral claim says a UPI payment above 2000 rupees is taxed, so a chunk list looks like a way to dodge a fee. The page says that claim is false, says a customer does not owe the tax, and shows the chunks still add up to the same total. It does not help anyone evade a rule.
 
 ## [beta-v11.6] - 2026-09-18
@@ -1173,7 +1196,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   parse error, and it does not invent a diff. If both are valid, the page lists added, removed,
   and changed paths. Object key order does not count. Array order does. Numbers compare
   numerically, so 1 and 1.0 are equal. Strings, booleans, and null compare strictly. Both panes
-  empty is a quiet empty state, not an error. Runs entirely on your device. Nothing is uploaded.
+  empty is a quiet empty state, not an error. What you enter stays on your device.
 - **Craft (verification):** `json-structural-diff`. Reordered keys, 1 versus 1.0, or spacing all
   look like a change in a line diff. The result says the text differs and the values match, and
   stays quiet when the paste is already identical, empty, invalid, or a real path change.
@@ -1190,7 +1213,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   pasted text or a local file in the browser, with the algorithm you pick or the one inferred
   from the digest. A case-only difference is still a match. A SHA-1 length checked as SHA-256
   is named as a length problem, not a corrupt file. File bytes are read with FileReader and
-  never uploaded. Runs entirely on your device. Nothing is uploaded.
+  never uploaded. What you enter stays on your device.
 - **Craft (verification):** `hash-identify-verify`. A filename glued to a digest, a SHA-1
   length checked as SHA-256, or a case-only difference all read as a broken file. The result
   line names the one that happened and stays quiet when the paste is already clean.
@@ -1205,7 +1228,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   one-line reason when it is not a UUID. Hyphenated and 32-hex forms are both accepted. Version
   1, 6, and 7 show the encoded timestamp in UTC. Version 4 does not get a timestamp. Nil and max
   are called out as special values, not as a normal version 4. Runs entirely on your device.
-  Nothing is uploaded.
+  What you enter stays on your device.
 - **Craft (verification):** `uuid-version-check`. A version 4 UUID looks fine to a human even
   when a system wants version 7. Expected version flags that mismatch and stays quiet otherwise.
 
@@ -1219,7 +1242,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   Reading filter. Up to 200 books, with filters and search. Export and import JSON. Import
   merges on title plus author (case-insensitive) so the same file does not duplicate rows, and
   header aliases keep ratings. Confirm before a full replace. Runs entirely on your device.
-  Nothing is uploaded.
+  What you enter stays on your device.
 - **Craft (orientation):** `book-shelf-local` - a private shelf against Goodreads and StoryGraph
   account walls, with no signup and no sync.
 
@@ -1252,7 +1275,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 - **Habit Streak Tracker** (`/tool/productivity/habit-streak-tracker/`). Track up to eight daily
   habits with binary local-date checks, honest current/longest streaks, a 12-week heat grid,
   soft archive, and export/import JSON. Optional cue, identity, and stack notes. Starter chips
-  and encouraging recovery copy after a miss. Runs entirely on your device. Nothing is uploaded.
+  and encouraging recovery copy after a miss. What you enter stays on your device.
 - **Craft (orientation):** `habit-loop-encourage` - cue→response→reward loop, honest streaks, and
   never-miss-twice recovery on-device, against signup/cloud/guilt-dashboard incumbents.
 
@@ -1421,7 +1444,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Changed
 
-- **One privacy sentence.** Banners, the footer "Private" tooltip, generator and JWT footers, the privacy page lede, `llms.txt`, and schema descriptions now share "Runs entirely on your device. Nothing is uploaded."
+- **One privacy sentence.** Banners, the footer "Private" tooltip, generator and JWT footers, the privacy page lede, `llms.txt`, and schema descriptions now share "Runs entirely on your device" plus a no-upload sentence
 - **Related tools are three named links.** Zone C shows the three nearest siblings in the open, not a closed drawer and not a category dump. GroupSwitcher members stay out of that list because they already have pills.
 - **Thicker calculator metas.** Percentage, discount, tip, tax, margin, compound interest and Rule of 72 descriptions now carry the formula, one worked example, and the privacy line, inside the 160-character cap. Tools that had no tagline got a one-line job statement so the fold stays a single line. Tool cards paint that tagline rather than the meta, so `/search/` stays inside its HTML budget.
 

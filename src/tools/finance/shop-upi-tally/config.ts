@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Shop UPI Tally',
   seoTitle: 'Shop UPI Tally: a local monthly receipt total',
   description:
-    'A local monthly tally of shop UPI receipts, not a bank status. Runs entirely on your device. Nothing is uploaded.',
+    'A local monthly tally of shop UPI receipts, not a bank status. What you enter stays on your device.',
   tagline: 'A local monthly tally of your shop UPI receipts.',
   categorySlug: 'money-finance',
   tags: ['tally'],

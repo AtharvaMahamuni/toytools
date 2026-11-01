@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'find-replace',
   name: 'Find and Replace',
   seoTitle: 'Find and Replace Text Online',
-  description: 'Find text in a document: search and replace every match, with optional regex. Runs entirely on your device. Nothing is uploaded.',
+  description: 'Find text in a document: search and replace every match, with optional regex. What you enter stays on your device.',
   tagline: 'Search and replace text, with regex and a live match count.',
   categorySlug: 'text-utilities',
   keepInput: true,

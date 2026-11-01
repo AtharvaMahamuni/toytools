@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Statistics Visualizer',
   seoTitle: 'Statistics Visualizer: Mean, Median, SD, Histogram',
   description:
-    'Paste a list of numbers for mean, median, mode, quartiles, and standard deviation with a live histogram and box plot. Runs in your browser; nothing is uploaded.',
+    'Paste a list of numbers for mean, median, mode, quartiles, and standard deviation with a live histogram and box plot. What you enter stays on your device.',
   tagline: 'Paste numbers. See mean, spread, histogram, and box plot.',
   categorySlug: 'applied-math',
   tags: [
