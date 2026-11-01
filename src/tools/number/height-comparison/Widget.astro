@@ -8,8 +8,9 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
   <ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
     <IoPanel slot="output" label="Chart" variant="prose" result bare>
       <p class="hc-hero" id="height-comparison-hero">Door is 33.2 cm taller than You.</p>
-      <div class="hc-chart" id="height-comparison-stage" role="img" aria-labelledby="height-comparison-hero">
+      <div class="hc-chart" id="height-comparison-stage" role="region" tabindex="0" aria-label="Height chart" aria-describedby="height-comparison-list">
         <div class="hc-sheet" id="height-comparison-sheet" aria-hidden="true"></div>
+        <ul class="sr-only" id="height-comparison-list"></ul>
       </div>
     </IoPanel>
 
@@ -193,9 +194,10 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       var named = namedFigures();
       var line = api.gap(named, unit);
       if (hero) hero.textContent = line;
-      if (stage) stage.setAttribute('aria-label', line);
       if (!sheet) return;
       sheet.textContent = '';
+      var list = document.getElementById('height-comparison-list');
+      if (list) list.textContent = '';
 
       var cols = document.createElement('div');
       cols.className = 'hc-cols';
@@ -222,6 +224,12 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
         cap.appendChild(nameEl);
         cap.appendChild(numEl);
         caps.appendChild(cap);
+        nameEl.title = fig.name;
+        if (list) {
+          var li = document.createElement('li');
+          li.textContent = fig.name + ': ' + api.format(fig.cm, unit);
+          list.appendChild(li);
+        }
       }
       var ground = document.createElement('div');
       ground.className = 'hc-ground';
@@ -492,7 +500,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
   })();
 </script>
 
-<style is:global>
+<style is:inline>
   .hc-hero {
     margin: 0 0 var(--space-3);
     font-size: var(--text-lg);
@@ -503,6 +511,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
 
   .hc-chart {
     overflow-x: auto;
+    position: relative;
     min-height: calc(var(--space-16) * 4);
     padding: var(--space-3);
     background: var(--color-surface-hover);
@@ -510,14 +519,13 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
   }
 
   .hc-sheet {
-    min-width: 100%;
-    width: max-content;
+    width: 100%;
   }
 
   .hc-cols,
   .hc-caps {
     display: flex;
-    gap: var(--space-3);
+    gap: var(--space-1);
   }
 
   .hc-cols {
@@ -527,8 +535,14 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
 
   .hc-col,
   .hc-cap {
-    flex: 1 0 calc(var(--space-16) * 2);
-    min-width: calc(var(--space-16) * 2);
+    flex: 1 1 0;
+    min-width: var(--space-10);
+  }
+
+  .hc-mark--person,
+  .hc-mark--door,
+  .hc-mark--counter {
+    max-width: 100%;
   }
 
   .hc-col {
@@ -557,9 +571,9 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
   }
 
   .hc-name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: var(--text-xs);
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
 
   .hc-num {

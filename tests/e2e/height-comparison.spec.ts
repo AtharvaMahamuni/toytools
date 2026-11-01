@@ -107,3 +107,42 @@ test.describe('height comparison stores nothing (audit H-1)', () => {
     expect(await page.evaluate(() => localStorage.getItem('toytools:height-comparison'))).toBeNull();
   });
 });
+
+// Audit H-2 and H-3 (1 Nov 2026): six marks fit without a hidden sideways scroll, the chart is
+// keyboard reachable with a name, every height is listed for a screen reader, and axe passes.
+test.describe('height chart with six marks', () => {
+  async function sixMarks(page: import('@playwright/test').Page) {
+    await ready(page);
+    for (const ref of ['rim', 'counter', 'man', 'woman']) await page.locator(`[data-ref="${ref}"]`).click();
+    await expect(page.locator('.hc-mark')).toHaveCount(6);
+  }
+
+  test('all six bars fit in the chart, with no sideways scroll', async ({ page }) => {
+    await sixMarks(page);
+    const chart = page.locator('#height-comparison-stage');
+    const { scroll, client } = await chart.evaluate((el) => ({ scroll: el.scrollWidth, client: el.clientWidth }));
+    expect(scroll).toBeLessThanOrEqual(client + 1);
+    const c = (await chart.boundingBox())!;
+    for (const mark of await page.locator('.hc-mark').all()) {
+      const m = (await mark.boundingBox())!;
+      expect(m.x).toBeGreaterThanOrEqual(c.x);
+      expect(m.x + m.width).toBeLessThanOrEqual(c.x + c.width + 0.5);
+    }
+  });
+
+  test('the chart is a named, focusable region that lists every height', async ({ page }) => {
+    await sixMarks(page);
+    const chart = page.getByRole('region', { name: 'Height chart' });
+    await chart.focus();
+    await expect(chart).toBeFocused();
+    await expect(page.locator('#height-comparison-list li')).toHaveCount(6);
+    await expect(page.locator('#height-comparison-list')).toContainText('Basketball rim: 304.8 cm');
+  });
+
+  test('axe finds no violations in the six-mark state', async ({ page }) => {
+    await sixMarks(page);
+    const { default: AxeBuilder } = await import('@axe-core/playwright');
+    const results = await new AxeBuilder({ page }).include('.calc-ledger[data-tool="height-comparison"]').analyze();
+    expect(results.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`)).toEqual([]);
+  });
+});
