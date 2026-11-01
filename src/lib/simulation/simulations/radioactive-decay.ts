@@ -151,7 +151,7 @@ const radioactiveDecaySim: SimulationDef = {
   // Isotope and pace are labels and speed. The sample and the screen clock stay.
   paramBehavior: 'continuous',
   params: [
-    { id: 'isotope', label: 'Isotope', unit: '', min: 0, max: 3, step: 1, default: 0, decimals: 0 },
+    { id: 'isotope', label: 'Isotope', unit: '', min: 0, max: 3, step: 1, default: 0, decimals: 0, options: ['Fluorine-18', 'Iodine-131', 'Cobalt-60', 'Carbon-14'] },
     { id: 'pace', label: 'Screen pace', unit: 'half-lives/s', min: 0.05, max: 1, step: 0.05, default: 0.25, decimals: 2 },
     // Real elapsed time in the chosen isotope's own unit (minutes for F-18, days for I-131, years
     // for Co-60 and C-14). This is the calculator input. It does not drive the screen clock.

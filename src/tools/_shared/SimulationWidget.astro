@@ -117,6 +117,18 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     <h2 class="phys-h">Controls</h2>
     <div class="phys-controls">
       {sim.params.map((p) => (
+        p.options ? (
+        <div class="phys-control">
+          <div class="phys-control-head">
+            <label for={`${slug}-${p.id}`}>{p.label}</label>
+          </div>
+          <select class="widget-input phys-select" id={`${slug}-${p.id}`} data-param={p.id}>
+            {p.options.map((name, i) => (
+              <option value={p.min + i} selected={p.min + i === p.default}>{name}</option>
+            ))}
+          </select>
+        </div>
+        ) : (
         <div class="phys-control">
           <div class="phys-control-head">
             <label for={`${slug}-${p.id}`}>{p.label}</label>
@@ -133,6 +145,7 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
             aria-label={p.unit ? `${p.label} in ${p.unit}` : p.label}
           />
         </div>
+        )
       ))}
     </div>
     {sim.presets.length > 0 && (
@@ -327,15 +340,14 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
 
   .phys-canvas:active { cursor: grabbing; }
 
+  /* Audit X-1: the hint sits under the canvas, not on it, so it never covers the equation line
+     or a caption. When it hides it keeps its line, so nothing below it jumps. */
   .phys-hint {
-    position: absolute;
-    top: var(--space-3);
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
+    display: block;
+    width: fit-content;
+    margin: var(--space-2) auto 0;
     padding: var(--space-1) var(--space-3);
-    background: var(--color-overlay-bg);
-    color: var(--color-overlay-text);
+    color: var(--color-text-muted);
     border-radius: var(--radius-sm);
     font-size: var(--text-sm);
     pointer-events: none;
@@ -343,6 +355,11 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     max-width: calc(100% - var(--space-6));
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .phys-hint[hidden] {
+    display: block;
+    visibility: hidden;
   }
 
   .phys-fallback {
@@ -591,6 +608,8 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
   .phys-formula-error {
     display: block;
     margin-top: 0.25rem;
+    max-width: 100%;
+    overflow-wrap: anywhere;
     color: var(--color-danger-strong);
     font-size: var(--text-sm);
   }
