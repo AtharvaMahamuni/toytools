@@ -239,3 +239,28 @@ test.describe('fraction bars', () => {
     }
   });
 });
+
+test.describe('fraction bars inputs match the drawing (audit F-1)', () => {
+  test('24/1 cannot sit in the inputs while 2/1 is drawn', async ({ page }) => {
+    await page.goto('/tool/math/fraction-bars-calculator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await page.getByRole('button', { name: 'Half plus a third' }).click();
+    await setParam(page, 'denA', '1');
+    // A range input sanitises an out-of-range value to its max, as a drag or keyboard would.
+    await page.locator('[data-param="numA"]').evaluate((el: HTMLInputElement) => {
+      el.value = '24';
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    const slider = page.locator('[data-param="numA"]');
+    await expect(slider).toHaveAttribute('max', '2');
+    await expect(slider).toHaveValue('2');
+    await expect(page.locator('[data-param-value="numA"]')).toHaveText('2');
+    const box = page.locator('[data-formula-input="numA"]');
+    await box.fill('24');
+    await box.press('Enter');
+    await expect(box).toHaveValue('2');
+    await expect(box).not.toHaveValue('24');
+    await expect(page.locator('[data-sim-observations]')).toContainText(/2(\/1)? \+ 1\/3 = 7\/3/);
+    await expect(page.locator('[data-sim-observations]')).toContainText('at most 2 wholes');
+  });
+});

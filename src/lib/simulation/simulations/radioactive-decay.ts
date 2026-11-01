@@ -7,6 +7,7 @@
 // radioactive-decay.draw.ts.
 
 import type { SimState, SimulationDef } from '../types';
+import { niceStep } from '../live-params';
 import { snapshotGraph } from '../graphs';
 import { drawRadioactiveDecay } from './radioactive-decay.draw';
 
@@ -74,6 +75,16 @@ export function parentCount(seed: number, halves: number): number {
   let n = 0;
   for (let i = 0; i < N0; i++) if (unitFor(seed, i) < limit) n++;
   return n;
+}
+
+/**
+ * Elapsed-time control for an isotope (audit D-1 and D-2, 1 Nov 2026): its own unit, a range of
+ * ten half-lives and a round step near a hundredth of one half-life, so arrow keys move in useful amounts.
+ */
+export function elapsedBounds(iso: Isotope): { min: number; max: number; step: number; unit: string } {
+  const step = niceStep(iso.halfLife);
+  const max = Number((Math.ceil((iso.halfLife * 10) / step) * step).toPrecision(8));
+  return { min: 0, max, step, unit: iso.unit };
 }
 
 /** Half-lives passed after `elapsed` of real time, in the isotope's own unit. */
@@ -144,7 +155,7 @@ const radioactiveDecaySim: SimulationDef = {
     { id: 'pace', label: 'Screen pace', unit: 'half-lives/s', min: 0.05, max: 1, step: 0.05, default: 0.25, decimals: 2 },
     // Real elapsed time in the chosen isotope's own unit (minutes for F-18, days for I-131, years
     // for Co-60 and C-14). This is the calculator input. It does not drive the screen clock.
-    { id: 'elapsed', label: 'Elapsed time (isotope unit)', unit: '', min: 0, max: 50000, step: 0.1, default: 0, decimals: 1 },
+    { id: 'elapsed', label: 'Elapsed time', unit: '', min: 0, max: 60000, step: 0.01, default: 0, decimals: 2 },
   ],
   presets: [
     { id: 'f18', label: 'Fluorine-18', values: { isotope: 0, pace: 0.25 } },
@@ -164,7 +175,7 @@ const radioactiveDecaySim: SimulationDef = {
     },
     {
       id: 'halfLife',
-      label: 'Half-life (isotope unit)',
+      label: 'Half-life',
       unit: '',
       decimals: 2,
       compute: (s) => isotopeOf(s.params.isotope).halfLife,
@@ -191,8 +202,8 @@ const radioactiveDecaySim: SimulationDef = {
     expression: 'N = N0 * 2^(-t / T)',
     terms: [
       { symbol: 'N', label: 'Expected left after t', measurementId: 'leftAfter' },
-      { symbol: 't', label: 'Elapsed time (isotope unit)', paramId: 'elapsed' },
-      { symbol: 'T', label: 'Half-life (isotope unit)', measurementId: 'halfLife' },
+      { symbol: 't', label: 'Elapsed time', paramId: 'elapsed' },
+      { symbol: 'T', label: 'Half-life', measurementId: 'halfLife' },
     ],
   },
   graph: snapshotGraph({
@@ -222,6 +233,8 @@ const radioactiveDecaySim: SimulationDef = {
     },
     isHolding: (s) => s.vars.holding === 1,
   },
+  liveParam: (id, params) => (id === 'elapsed' ? elapsedBounds(isotopeOf(params.isotope)) : null),
+  liveUnit: (id, params) => (id === 'halfLife' ? isotopeOf(params.isotope).unit : null),
   observations: [
     (s) => caption(s),
     (s) => ((s.params.elapsed ?? 0) > 0 ? elapsedLine(s.params.elapsed, isotopeOf(s.params.isotope)) : null),

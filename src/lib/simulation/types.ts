@@ -150,6 +150,14 @@ export interface PointsEditor {
   apply(s: SimState, text: string): string | null;
 }
 
+/** Live overrides for one param. Each field narrows or replaces the static ParamDef value. */
+export interface LiveBounds {
+  min?: number;
+  max?: number;
+  step?: number;
+  unit?: string;
+}
+
 export interface SimulationDef {
   /** Must equal the module filename and the tool's processorId. */
   id: string;
@@ -178,6 +186,15 @@ export interface SimulationDef {
    * error sentence, or null after it has set state.vars.
    */
   pointsEditor?: PointsEditor;
+  /**
+   * Optional bounds and unit for a param that depend on the other params, inside the static
+   * ParamDef range (audit D-2 and F-1, 1 Nov 2026). Decay's elapsed time follows the isotope;
+   * a fraction's numerator follows its denominator. Boot re-clamps and writes the value back to the
+   * slider and the number box, so what is shown is always what is used. See live-params.ts.
+   */
+  liveParam?: (id: string, params: Record<string, number>) => LiveBounds | null;
+  /** Optional unit for a measurement that depends on the params (decay's half-life unit). */
+  liveUnit?: (id: string, params: Record<string, number>) => string | null;
   /** Ordered rules; each returns a sentence for the current state or null to stay silent. */
   observations: ((s: SimState) => string | null)[];
   /** A short contextual paragraph explaining what the current state shows. */

@@ -11,6 +11,7 @@ import { createLoop, type SimulationLoop } from './loop';
 import { observeResize, readPalette, sizeCanvas } from './canvas';
 import { createGraphRenderer, type GraphRenderer } from './graph';
 import { formatQuantity, formatWithUnit } from './format';
+import { boundsOf, clampTo, readBox, reclampAll, unitOf } from './live-params';
 import type { MeasurementDef, ParamDef, SimState, SimulationDef, Viewport } from './types';
 
 /** Frames between measurement/formula readout refreshes (~10 Hz at 60 fps). */
@@ -70,6 +71,7 @@ function wire(root: HTMLElement, def: SimulationDef): void {
       if (Number.isFinite(v)) params[p.id] = Math.min(Math.max(v, p.min), p.max);
     }
   }
+  reclampAll(def, params);
   const state: SimState = { t: 0, params, vars: def.init(params) };
 
   // ── Canvases ──────────────────────────────────────────────────────────────────────────────
@@ -109,7 +111,7 @@ function wire(root: HTMLElement, def: SimulationDef): void {
   function updateReadouts(): void {
     for (const m of def.measurements) {
       const el = root.querySelector<HTMLElement>(`[data-measurement="${m.id}"]`);
-      if (el) el.textContent = formatWithUnit(m.compute(state), m.unit, m.decimals ?? 2);
+      if (el) el.textContent = formatWithUnit(m.compute(state), unitOf(def, m, state.params), m.decimals ?? 2);
     }
     if (def.formula) {
       for (const term of def.formula.terms) {
@@ -117,10 +119,10 @@ function wire(root: HTMLElement, def: SimulationDef): void {
         if (!el) continue;
         if (term.paramId) {
           const p = paramDefs.get(term.paramId);
-          if (p) el.textContent = formatWithUnit(state.params[p.id], p.unit, p.decimals ?? 2);
+          if (p) el.textContent = formatWithUnit(state.params[p.id], boundsOf(def, p, state.params).unit, p.decimals ?? 2);
         } else if (term.measurementId) {
           const m = measurementDefs.get(term.measurementId);
-          if (m) el.textContent = formatWithUnit(m.compute(state), m.unit, m.decimals ?? 2);
+          if (m) el.textContent = formatWithUnit(m.compute(state), unitOf(def, m, state.params), m.decimals ?? 2);
         }
       }
     }
@@ -130,8 +132,31 @@ function wire(root: HTMLElement, def: SimulationDef): void {
   function reflectFormulaInputs(): void {
     for (const box of formulaInputs) {
       const pid = box.getAttribute('data-formula-input');
-      if (!pid || document.activeElement === box) continue;
+      const p = pid ? paramDefs.get(pid) : undefined;
+      if (!pid || !p) continue;
+      const b = boundsOf(def, p, state.params);
+      box.min = String(b.min);
+      box.max = String(b.max);
+      box.step = String(b.step);
+      if (document.activeElement === box) continue;
       box.value = String(state.params[pid]);
+      box.removeAttribute('aria-invalid');
+    }
+  }
+
+  /** Live bounds (live-params.ts): each slider's range, step, value and readout follow the params. */
+  function reflectSliders(): void {
+    for (const slider of sliders) {
+      const pid = slider.getAttribute('data-param') ?? '';
+      const p = paramDefs.get(pid);
+      if (!p) continue;
+      const b = boundsOf(def, p, state.params);
+      slider.min = String(b.min);
+      slider.max = String(b.max);
+      slider.step = String(b.step);
+      slider.value = String(state.params[pid]);
+      const out = root.querySelector<HTMLElement>(`[data-param-value="${pid}"]`);
+      if (out) out.textContent = formatWithUnit(state.params[pid], b.unit, p.decimals ?? 2);
     }
   }
 
@@ -143,7 +168,7 @@ function wire(root: HTMLElement, def: SimulationDef): void {
       const v = state.params[pid];
       return Number.isFinite(v) ? v.toFixed(p?.decimals ?? 2) : '?';
     });
-    const answer = formatWithUnit(outMeas.compute(state), outMeas.unit, outMeas.decimals ?? 2);
+    const answer = formatWithUnit(outMeas.compute(state), unitOf(def, outMeas, state.params), outMeas.decimals ?? 2);
     workedEl.textContent = `${outTerm.symbol} = ${rhs} = ${answer}`;
   }
 
@@ -175,7 +200,7 @@ function wire(root: HTMLElement, def: SimulationDef): void {
       liveTimer = 0;
       const parts = def.measurements
         .filter((m) => !m.hidden)
-        .map((m) => `${m.label} ${formatWithUnit(m.compute(state), m.unit, m.decimals ?? 2)}`);
+        .map((m) => `${m.label} ${formatWithUnit(m.compute(state), unitOf(def, m, state.params), m.decimals ?? 2)}`);
       const text = liveMessage || parts.join(', ') + '.';
       liveMessage = '';
       if (liveEl.textContent !== text) liveEl.textContent = text;
@@ -221,6 +246,8 @@ function wire(root: HTMLElement, def: SimulationDef): void {
   }
 
   function refreshAll(): void {
+    reclampAll(def, state.params);
+    reflectSliders();
     syncPointsText();
     render();
     updateReadouts();
@@ -249,13 +276,13 @@ function wire(root: HTMLElement, def: SimulationDef): void {
     slider.value = String(state.params[pid]);
     const out = root.querySelector<HTMLElement>(`[data-param-value="${pid}"]`);
     const reflect = () => {
-      if (out) out.textContent = formatWithUnit(state.params[pid], p.unit, p.decimals ?? 2);
+      if (out) out.textContent = formatWithUnit(state.params[pid], boundsOf(def, p, state.params).unit, p.decimals ?? 2);
     };
     reflect();
     slider.addEventListener('input', () => {
       const v = Number(slider.value);
       if (!Number.isFinite(v)) return;
-      state.params[pid] = Math.min(Math.max(v, p.min), p.max);
+      state.params[pid] = clampTo(boundsOf(def, p, state.params), v, state.params[pid]);
       reflect();
       onParamsChanged();
     });
@@ -267,29 +294,33 @@ function wire(root: HTMLElement, def: SimulationDef): void {
     const pid = box.getAttribute('data-formula-input') ?? '';
     const p = paramDefs.get(pid);
     if (!p) continue;
+    // Audit C-1 (1 Nov 2026): an empty, garbled or out-of-range entry is marked aria-invalid while
+    // typing, and the value actually used is written back on change (Enter) and on blur, so the box
+    // never keeps showing 1000 while the result uses 600.
     box.addEventListener('input', () => {
-      const v = Number(box.value);
-      if (!Number.isFinite(v)) return;
-      state.params[pid] = Math.min(Math.max(v, p.min), p.max);
-      // Sync the matching slider + its readout, but leave this box's text as typed (keep the caret).
-      const slider = sliders.find((s) => s.getAttribute('data-param') === pid);
-      if (slider) slider.value = String(state.params[pid]);
-      const out = root.querySelector<HTMLElement>(`[data-param-value="${pid}"]`);
-      if (out) out.textContent = formatWithUnit(state.params[pid], p.unit, p.decimals ?? 2);
+      const r = readBox(box.value, boundsOf(def, p, state.params), state.params[pid]);
+      if (r.invalid) box.setAttribute('aria-invalid', 'true');
+      else box.removeAttribute('aria-invalid');
+      if (r.value === state.params[pid]) return;
+      state.params[pid] = r.value;
       onParamsChanged();
     });
-    // Normalise (clamp/echo) the display when the field loses focus.
-    box.addEventListener('blur', () => { box.value = String(state.params[pid]); });
+    const writeBack = () => {
+      box.value = String(state.params[pid]);
+      box.removeAttribute('aria-invalid');
+    };
+    box.addEventListener('change', writeBack);
+    box.addEventListener('blur', writeBack);
   }
 
   function setSliderTo(pid: string, value: number): void {
     const p = paramDefs.get(pid);
     if (!p) return;
-    state.params[pid] = Math.min(Math.max(value, p.min), p.max);
+    state.params[pid] = clampTo(boundsOf(def, p, state.params), value, state.params[pid]);
     const slider = sliders.find((s) => s.getAttribute('data-param') === pid);
     if (slider) slider.value = String(state.params[pid]);
     const out = root.querySelector<HTMLElement>(`[data-param-value="${pid}"]`);
-    if (out) out.textContent = formatWithUnit(state.params[pid], p.unit, p.decimals ?? 2);
+    if (out) out.textContent = formatWithUnit(state.params[pid], boundsOf(def, p, state.params).unit, p.decimals ?? 2);
   }
 
   for (const btn of presetBtns) {

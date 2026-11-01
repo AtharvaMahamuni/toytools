@@ -333,3 +333,25 @@ test.describe('cyclohexane chair', () => {
   });
 });
 
+
+test.describe('cyclohexane chair temperature box (audit C-1)', () => {
+  test('1000, -5 and blank write back the temperature actually used', async ({ page }) => {
+    await page.goto(CHAIR);
+    await page.getByRole('button', { name: 'Pause' }).click();
+    const box = page.locator('[data-formula-input="temperature"]');
+    await box.fill('1000');
+    await expect(box).toHaveAttribute('aria-invalid', 'true');
+    await box.press('Enter');
+    await expect(box).toHaveValue('600');
+    await expect(page.locator('[data-measurement="k"]')).toHaveText(/^0\.218/);
+    await box.fill('-5');
+    await box.blur();
+    await expect(box).toHaveValue('200');
+    await expect(page.locator('[data-measurement="k"]')).toHaveText(/^0\.010/);
+    await box.fill('');
+    await expect(box).toHaveAttribute('aria-invalid', 'true');
+    await box.blur();
+    await expect(box).toHaveValue('200');
+    await expect(box).not.toHaveAttribute('aria-invalid', 'true');
+  });
+});
