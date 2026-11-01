@@ -79,3 +79,31 @@ test.describe('height comparison', () => {
     expect(overflow).toBeLessThanOrEqual(1);
   });
 });
+
+test.describe('height comparison stores nothing (audit H-1)', () => {
+  test('typed names and heights never reach storage, and reload shows the defaults', async ({ page }) => {
+    await ready(page);
+    await page.locator('#height-comparison-unit-ft').click();
+    await page.locator('#height-comparison-height-you').fill("6'2");
+    await page.locator('#height-comparison-height-you').blur();
+    const stored = await page.evaluate(() => Object.keys(localStorage).filter((k) => k.includes('height-comparison')));
+    expect(stored).toEqual([]);
+    await page.reload();
+    await expect(page.locator('.hc-mark')).toHaveCount(2);
+    await expect(page.locator('#height-comparison-hero')).toHaveText('Door is 33.2 cm taller than You.');
+  });
+
+  test('a record an older build left behind is removed, not restored', async ({ page }) => {
+    await page.goto(PATH);
+    await page.evaluate(() =>
+      localStorage.setItem(
+        'toytools:height-comparison',
+        JSON.stringify({ v: 1, data: { unit: 'ft', figures: [{ id: 'p1', name: 'Secret', cm: 150, kind: 'person' }] } }),
+      ),
+    );
+    await page.reload();
+    await expect(page.locator('.hc-mark')).toHaveCount(2);
+    await expect(page.getByText('Secret')).toHaveCount(0);
+    expect(await page.evaluate(() => localStorage.getItem('toytools:height-comparison'))).toBeNull();
+  });
+});
