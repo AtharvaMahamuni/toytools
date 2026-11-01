@@ -11,8 +11,8 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 18,
-  patch: 1,
+  minor: 19,
+  patch: 0,
   status: 'alpha',
   releaseDate: '2026-11-01',
   description: 'Correctness and privacy fixes from the 1 Nov audit',

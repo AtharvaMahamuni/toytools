@@ -2,7 +2,7 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [alpha-v13.18.1] - 2026-11-01
+## [alpha-v13.19] - 2026-11-01
 
 ### Fixed
 
@@ -10,7 +10,8 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 - **Height Comparison stores nothing.** The page is private, but it wrote every typed name and height to this browser and never read them back. It now writes nothing, removes a record an older build left, and a reload starts from You and the door. The FAQ says so.
 - **Accurate privacy wording on every page.** The old no-upload sentence overclaimed, because the site loads analytics and has a feedback form. Meta descriptions, FAQ answers, JSON-LD, the trust chip and the footer now use the line the AI files use: what you enter stays on your device. A build check fails if the old sentence reappears anywhere in the built site, including this changelog, so older entries now paraphrase it.
 - **Radioactive Decay controls.** Elapsed time and the half-life card show the isotope's unit (minutes, days or years). The elapsed slider spans ten half-lives of the chosen isotope, with a step near a hundredth of a half-life, and re-clamps when the isotope changes.
-- **Number boxes show the value used.** On every simulator, an empty, garbled or out-of-range number box is marked invalid while typing, and the value actually used is written back on Enter or when the box loses focus. The chair's Temperature box no longer shows 1000 while the result uses 600 K.
+- **Number boxes show the value used.** On every simulator, a number box follows every change, from a slider, a preset, a mode switch or a re-clamp, so typing 8/4 and then dragging the denominator to 1 shows 2 in the box while 2/1 is drawn. An empty, garbled, out-of-range or (on a whole-number input) decimal entry shows a message under the box that names the value in use, for example "Use a whole number from 200 to 600 K. Using 600 K.", and is marked invalid. The value in use is written back on Enter or when the box loses focus; a blank box goes back to the value it held. The chair's Temperature box no longer shows 1000 while the result uses 600 K, and a Fraction Bars box no longer keeps 1.5 while 2/2 is drawn.
+- **What Is My IP privacy line.** The page asks an IP echo, so its JSON-LD, its guide and the footer tooltip no longer say what you enter stays on your device. They use the lookup statement instead, and the build check fails if a network-lookup tool's page or guide makes a device claim.
 
 ## [alpha-v13.18] - 2026-10-31
 
