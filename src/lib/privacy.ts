@@ -55,12 +55,18 @@ export function privacyStatement(variant?: TrustVariant): string {
 const ALREADY_STATED =
   /on your device|in your browser|not uploaded|never (uploaded|sent)|no uploads?/i;
 
-/** Append PRIVACY_LINE when the text has not already made the claim. */
-export function withPrivacy(text: string): string {
+/**
+ * Append the tool's privacy statement when the text has not already made the claim. The statement
+ * follows the trust variant, so a lookup tool (What Is My IP asks an IP echo) never gets the
+ * "stays on your device" line.
+ */
+export function withPrivacy(text: string, variant?: TrustVariant): string {
+  const line = privacyStatement(variant);
   const trimmed = text.trim();
-  if (!trimmed) return PRIVACY_LINE;
-  if (ALREADY_STATED.test(trimmed)) return trimmed;
-  return `${trimmed} ${PRIVACY_LINE}`;
+  if (!trimmed) return line;
+  if (variant !== 'lookup' && ALREADY_STATED.test(trimmed)) return trimmed;
+  if (trimmed.includes(line)) return trimmed;
+  return `${trimmed} ${line}`;
 }
 
 /**
@@ -70,12 +76,12 @@ export function withPrivacy(text: string): string {
  * This is the 40-60 word "opening answer" for JSON-LD. The visible tagline stays one line so the
  * fold ratchet does not move; schema is where the longer answer lives.
  */
-export function openingAnswer(tool: { tagline?: string; description: string }): string {
+export function openingAnswer(tool: { tagline?: string; description: string; trustVariant?: TrustVariant }): string {
   const tagline = tool.tagline?.trim() ?? '';
   const description = tool.description.trim();
   const lead =
     tagline && !description.toLowerCase().includes(tagline.toLowerCase())
       ? `${tagline} ${description}`
       : description;
-  return withPrivacy(lead);
+  return withPrivacy(lead, tool.trustVariant);
 }

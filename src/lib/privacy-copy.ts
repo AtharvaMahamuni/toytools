@@ -21,3 +21,27 @@ export function filesWithBannedPrivacy(dir: string): string[] {
   walk(dir);
   return hits.sort();
 }
+
+/**
+ * A claim that the user's data stays on the device. False on a tool that makes a network request
+ * (trustVariant 'lookup': What Is My IP asks an IP echo), so its pages must never carry one.
+ */
+export const DEVICE_CLAIM = /stays on (your|this) device|runs entirely on your device|not uploaded/i;
+
+/** The built pages that speak for a tool: its tool page and, if it has one, its guide. */
+export function pagesForTool(t: { slug: string; categorySlug: string; guide?: { slug: string; categorySlug: string } }): string[] {
+  const pages = [join('tool', t.categorySlug, t.slug, 'index.html')];
+  if (t.guide) pages.push(join('guide', t.guide.categorySlug, t.guide.slug, 'index.html'));
+  return pages;
+}
+
+/** Of the given pages (relative to dir), those that exist and make a device claim. */
+export function pagesWithDeviceClaim(dir: string, pages: string[]): string[] {
+  return pages.filter((rel) => {
+    try {
+      return DEVICE_CLAIM.test(readFileSync(join(dir, rel), 'utf8'));
+    } catch {
+      return false;
+    }
+  });
+}
