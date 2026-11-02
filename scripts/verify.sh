@@ -87,7 +87,7 @@ if git rev-parse --verify --quiet origin/main >/dev/null; then
   # extracts the slug "converter" and gates a tool that does not exist, which fails on every tool
   # in the catalog's worth of missing content. Shared widgets are platform code and carry no
   # per-tool content to gate.
-  SLUGS=$(git diff --name-only origin/main...HEAD -- 'src/tools/' 2>/dev/null \
+  SLUGS=$(git diff --diff-filter=d --name-only origin/main...HEAD -- 'src/tools/' 2>/dev/null \
     | grep -E '^src/tools/[^/]+/[^/]+/' \
     | grep -v '^src/tools/_shared/' \
     | sed -E 's#^src/tools/[^/]+/([^/]+)/.*#\1#' | sort -u)
