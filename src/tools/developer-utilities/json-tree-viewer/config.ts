@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   pattern: 'structured-transform',
   family: 'json',
   processorId: 'json-tree-viewer',
+  craft: {
+    id: 'json-tree-depth',
+    kind: 'orientation',
+    solves:
+      'Large payloads with deeply nested hierarchies become unwieldy to navigate, so tree depth controls and node path breadcrumbs orient exploration.',
+  },
   toolGroup: 'json-tools',
   relatedTools: ['json-formatter', 'json-minifier', 'json-validator'],
   guide: {

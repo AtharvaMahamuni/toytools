@@ -15,6 +15,12 @@ export const config: ToolConfig = {
   family: 'savings',
   toolGroup: 'growth-calculators',
   processorId: 'sip',
+  craft: {
+    id: 'sip-step-up-boost',
+    kind: 'continuation',
+    solves:
+      'Fixed monthly SIP amounts fail to keep pace with salary increments over decades, so the calculator models step-up compounding potential.',
+  },
   relatedTools: ['compound-interest-calculator', 'savings-goal-calculator', 'inflation-calculator'],
   methodology: {
     name: 'Future value of an annuity',

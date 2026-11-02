@@ -250,7 +250,12 @@ const THRESHOLDS = {
   // 2026-11-02: 0.877 (150/171), truncated from 0.877192. Eleven more backlog tools ship craft:
   //   scientific-calculator, binary-text, hex, json-escape, combinations, prime-factorization,
   //   fraction, macro, body-fat, timezone, and age calculator.
-  coverage: 0.877,
+  // 2026-11-02: 1.000 (171/171). 100% craft coverage across all non-simulation tools in the catalog.
+  //   Final 21 backlog tools ship craft: unix-timestamp, rot13, punycode, json-tree,
+  //   csv-cleaner, csv-diff, csv-to-tsv, csv-to-json, yaml-to-json, roi, rule-of-72,
+  //   savings-goal, sip, find-replace, uppercase, lorem-ipsum, random-string, uuid,
+  //   body-weight, move-today, and water-intake.
+  coverage: 1.0,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

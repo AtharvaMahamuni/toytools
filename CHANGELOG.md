@@ -2,6 +2,40 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.24] - 2026-11-02
+
+### Added
+
+- **100% Catalog Tool Craft Coverage (171 of 171 Non-Simulation Tools Declared & Verified).**
+  - Completed craft affordances and static DOM wiring across the final 21 backlog tools, achieving complete 100.0% coverage across the entire tool catalog:
+    - `unix-timestamp-converter`: `ts-epoch-millis` (orientation craft guiding users on 10-digit second vs 13-digit millisecond Unix timestamp scale).
+    - `rot13-encoder-decoder`: `rot13-self-inverse` (orientation craft explaining ROT13 self-inverse involution symmetry where re-running the cipher decrypts).
+    - `punycode-converter`: `punycode-ace-prefix` (recovery craft automatically stripping or attaching the `xn--` ASCII Compatible Encoding prefix for IDN domains).
+    - `json-tree-viewer`: `json-tree-depth` (orientation craft providing quick visual structure orientation on deeply nested JSON hierarchies).
+    - `csv-cleaner`: `csv-cleaner-delimiter` (guardrail craft catching mixed commas, semicolons, and tabs in raw CSV inputs).
+    - `csv-diff`: `csv-diff-key-col` (orientation craft establishing unique identifier column keys for structured row comparison).
+    - `csv-to-tsv`: `csv-tsv-raw-tabs` (guardrail craft detecting unescaped raw tab literals within CSV quoted values).
+    - `csv-to-json-converter`: `csv-json-types` (orientation craft handling automatic type coercion between strings, numbers, and booleans).
+    - `yaml-to-json-converter`: `yaml-tabs-disallowed` (guardrail craft detecting illegal raw tab indentation characters in YAML documents).
+    - `roi-calculator`: `roi-annualized-gap` (orientation craft distinguishing cumulative ROI from annualized compound returns across multi-year investments).
+    - `rule-of-72-calculator`: `rule72-high-rate-error` (guardrail craft highlighting logarithmic formula divergence when interest rates exceed 15%).
+    - `savings-goal-calculator`: `savings-inflation-drag` (orientation craft illustrating purchasing power erosion on long-horizon savings goals).
+    - `sip-calculator`: `sip-step-up-boost` (orientation craft demonstrating wealth acceleration from small annual step-up contribution increases).
+    - `find-replace`: `find-replace-regex-literal` (guardrail craft distinguishing literal search from unescaped regular expression special characters).
+    - `uppercase-converter`: `uppercase-turkish-i` (orientation craft addressing locale-specific dotless vs dotted 'i' casing rules).
+    - `lorem-ipsum-generator`: `lorem-cicero-lead` (orientation craft explaining origin from Cicero's 45 BC De Finibus classical philosophical discourse).
+    - `random-string-generator`: `random-string-entropy` (guardrail craft ensuring token character pool diversity to protect cryptographic entropy).
+    - `uuid-generator`: `uuid-rfc4122-v4` (orientation craft detailing 4-bit version (0100) and 2-bit RFC 4122 variant (10xx) markers).
+    - `body-weight-tracker`: `weight-moving-average` (orientation craft isolating daily hydration/sodium weight noise with smoothed trend lines).
+    - `move-today-tracker`: `move-sedentary-window` (guardrail craft flagging metabolic risks of continuous sedentary bouts over 60 minutes).
+    - `water-intake-tracker`: `water-climate-multiplier` (orientation craft adjusting baseline hydration recommendations for high-heat and exercise sweat rates).
+  - Ratcheted `check:craft` coverage gate floor in `scripts/check-craft.ts` to `1.0` (100% catalog coverage).
+
+### Fixed
+
+- **Productivity & Tracker Mobile Touch Target A11y:** Ensured 44px+ touch targets on all interactive buttons across mobile viewports.
+- **Strict Performance & Budget Invariants:** All pages maintained well within size budgets (<18KB gzipped CSS, <10KB gzipped search index).
+
 ## [alpha-v13.23] - 2026-11-02
 
 ### Added

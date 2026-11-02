@@ -41,7 +41,7 @@ export const items: FAQItem[] = [
     id: 'y2j-faq-7',
     question: 'How do I round-trip parsed JSON back into YAML format?',
     answer:
-      'Click the JSON to YAML Converter pill in the switcher above. The converter pipeline transfers your parsed JSON data seamlessly across tools in tab memory so you can inspect YAML syntax without manual copy-pasting.',
+      'Click the JSON to YAML Converter pill in the switcher above. The converter pipeline transfers your parsed JSON data directly across tools in tab memory so you can inspect YAML syntax without manual copy-pasting.',
   },
   {
     id: 'y2j-faq-8',

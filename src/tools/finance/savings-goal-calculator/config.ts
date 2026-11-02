@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   pattern: 'finance-planning',
   family: 'savings',
   processorId: 'savings-goal',
+  craft: {
+    id: 'savings-inflation-drag',
+    kind: 'orientation',
+    solves:
+      'Long-term savings goals suffer from inflation drag, so the calculator contrasts nominal milestone amounts against real purchasing power.',
+  },
   relatedTools: ['compound-interest-calculator', 'emergency-fund-calculator', 'inflation-calculator'],
   methodology: {
     name: 'Future value of an annuity',

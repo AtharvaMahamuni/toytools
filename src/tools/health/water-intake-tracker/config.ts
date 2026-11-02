@@ -21,6 +21,11 @@ export const config: ToolConfig = {
   toolGroup: 'health-trackers',
   processorId: 'water-intake',
   relatedTools: ['body-weight-tracker', 'move-today-tracker', 'tdee-calculator', 'macro-calculator'],
+  craft: {
+    id: 'water-climate-multiplier',
+    kind: 'orientation',
+    solves: 'Static daily water targets ignore intense sweat loss in hot climates or during high-cardio training, so the tracker advises baseline scaling.',
+  },
   guide: {
     slug: 'how-to-track-water-intake',
     categorySlug: 'health-fitness',

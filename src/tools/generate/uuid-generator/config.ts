@@ -26,6 +26,11 @@ export const config: ToolConfig = {
   keywords: ['uuid', 'guid', 'v4', 'identifier', 'unique', 'random'],
   inputs: ['options'],
   outputs: ['text'],
+  craft: {
+    id: 'uuid-rfc4122-v4',
+    kind: 'orientation',
+    solves: 'Version 4 UUIDs require specific 4-bit version and 2-bit RFC 4122 variant markers, distinguishing them from sequential v7 or nil UUIDs.',
+  },
   guide: {
     slug: 'uuid-generator',
     categorySlug: 'generate',

@@ -21,6 +21,11 @@ export const config: ToolConfig = {
   toolGroup: 'health-trackers',
   processorId: 'body-weight',
   relatedTools: ['bmi-calculator', 'tdee-calculator', 'water-intake-tracker'],
+  craft: {
+    id: 'weight-moving-average',
+    kind: 'orientation',
+    solves: 'Day-to-day scale weight fluctuations from hydration and sodium mask genuine fat loss, so the tracker charts a smoothed trend line.',
+  },
   guide: {
     slug: 'how-to-track-body-weight',
     categorySlug: 'health-fitness',

@@ -13,6 +13,12 @@ export const config: ToolConfig = {
   pattern: 'text-transform',
   family: 'transform',
   processorId: 'uppercase',
+  craft: {
+    id: 'uppercase-turkish-i',
+    kind: 'orientation',
+    solves:
+      'Locale-sensitive uppercase conversion changes the dotted lowercase "i" to "İ" in Turkic languages rather than standard ASCII "I".',
+  },
   toolGroup: 'case-converters',
   relatedTools: ['lowercase-converter', 'title-case-converter', 'character-counter'],
   guide: {

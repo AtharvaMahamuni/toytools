@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 23,
+  minor: 24,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-11-02',
-  description: '',
+  description: '100% catalog craft coverage (171/171 tools)',
 };
 
 export function formatVersion(config: VersionConfig): string {

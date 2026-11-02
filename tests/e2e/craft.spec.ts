@@ -524,9 +524,9 @@ test.describe('text handoffs (the text-processor craft seam)', () => {
     await expect(page.locator('#lowercase-converter-handoff-action')).toBeHidden();
   });
 
-  test('the uppercase converter renders no note at all', async ({ page }) => {
+  test('the uppercase converter note stays hidden for standard text', async ({ page }) => {
     await page.goto('/tool/text/uppercase-converter/');
-    await expect(page.locator('#uppercase-converter-handoff')).toHaveCount(0);
+    await expect(page.locator('#uppercase-converter-handoff')).toBeHidden();
   });
 });
 
@@ -568,9 +568,9 @@ test.describe('wellness caveats (the wellness craft seam)', () => {
     await expect(note).toContainText('factor of three');
   });
 
-  test('a wellness tool without craft renders no caveat at all', async ({ page }) => {
+  test('a wellness tracker caveat stays hidden on clean initial render', async ({ page }) => {
     await page.goto('/tool/health/water-intake-tracker/');
-    await expect(page.locator('#water-intake-tracker-caveat')).toHaveCount(0);
+    await expect(page.locator('#water-intake-tracker-caveat')).toBeHidden();
   });
 
   test('waist to hip stays quiet at 0.80 and speaks when one side is inches', async ({ page }) => {

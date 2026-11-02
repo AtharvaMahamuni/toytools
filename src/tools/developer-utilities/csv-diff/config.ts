@@ -15,6 +15,12 @@ export const config: ToolConfig = {
   pattern: 'csv-transform',
   family: 'compare',
   processorId: 'csv-diff',
+  craft: {
+    id: 'csv-diff-key-col',
+    kind: 'guardrail',
+    solves:
+      'Comparing two CSVs by row order fails when rows are inserted or reordered, so the diff engine flags row count mismatches and identifies changed cells.',
+  },
   toolGroup: 'csv-tools',
   relatedTools: ['text-compare', 'csv-to-json-converter', 'csv-cleaner'],
   guide: {

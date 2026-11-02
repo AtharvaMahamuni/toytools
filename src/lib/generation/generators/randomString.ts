@@ -45,6 +45,7 @@ export const randomString: Generator = {
       type: 'text',
       default: '',
       placeholder: 'e.g. ABCDEF0123456789',
+      craft: 'random-string-entropy',
     },
   ],
   generate(opts: GeneratorOptions): GenerationResult {

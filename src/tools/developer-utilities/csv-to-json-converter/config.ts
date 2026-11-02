@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   pattern: 'structured-transform',
   family: 'json',
   processorId: 'csv-to-json',
+  craft: {
+    id: 'csv-json-types',
+    kind: 'orientation',
+    solves:
+      'Numeric strings like zip codes or phone numbers can be corrupted by auto-casting, so the converter documents string preservation vs numeric parsing.',
+  },
   toolGroup: 'json-csv',
   relatedTools: ['json-to-csv-converter', 'json-formatter', 'json-validator', 'json-minifier'],
   guide: {

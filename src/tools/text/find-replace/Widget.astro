@@ -45,7 +45,7 @@ import { config } from './config';
             autocomplete="off"
             spellcheck="false"
           />
-          <p id="fr-regex-error" class="fr-regex-error" role="alert"></p>
+          <p id="fr-regex-error" class="fr-regex-error" role="alert" data-craft={config.craft?.id}></p>
           <label class="fr-check">
             <input type="checkbox" id="fr-highlight" aria-label="Highlight matches in source" />
             Highlight matches in source

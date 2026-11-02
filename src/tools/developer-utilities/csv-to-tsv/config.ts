@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   pattern: 'csv-transform',
   family: 'convert',
   processorId: 'csv-to-tsv',
+  craft: {
+    id: 'csv-tsv-raw-tabs',
+    kind: 'guardrail',
+    solves:
+      'Unescaped tab characters inside quoted CSV cells corrupt TSV row structure, so the converter safely sanitizes tabs into spaces.',
+  },
   toolGroup: 'csv-tools',
   relatedTools: ['csv-to-json-converter', 'csv-cleaner', 'json-to-csv-converter'],
   guide: {

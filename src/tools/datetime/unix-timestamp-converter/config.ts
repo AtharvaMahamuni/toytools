@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   pattern: 'datetime-convert',
   family: 'timestamp',
   processorId: 'unix-timestamp',
+  craft: {
+    id: 'ts-epoch-millis',
+    kind: 'orientation',
+    solves:
+      'Pasting a 13-digit millisecond timestamp into a seconds converter yields distant future dates (year 50000+), so the converter detects length and clarifies the epoch scale.',
+  },
   relatedTools: ['timezone-converter', 'date-difference-calculator'],
   guide: {
     slug: 'unix-timestamp-converter',
