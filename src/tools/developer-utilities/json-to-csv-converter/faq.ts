@@ -39,9 +39,9 @@ export const items: FAQItem[] = [
   },
   {
     id: 'jtc-faq-7',
-    question: 'Is my data sent to a server when I convert?',
+    question: 'Is confidential JSON payload data secure when flattening to CSV?',
     answer:
-      'No. All conversion happens in your browser. Your JSON data never leaves your machine. There is no upload, no server-side processing, and no logging of what you convert. This makes the tool safe to use with internal or sensitive data.',
+      'Yes. The object tree flattening and comma-separated escaping are performed on your local CPU by browser JavaScript. No JSON payload, API response, or database export is uploaded to external endpoints.',
   },
   {
     id: 'jtc-faq-8',

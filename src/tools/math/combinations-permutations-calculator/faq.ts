@@ -43,7 +43,7 @@ export const items: FAQItem[] = [
   },
   {
     id: 'combinations-permutations-calculator-faq-9',
-    question: 'Is anything I enter uploaded?',
-    answer: 'No. The counting runs entirely in your browser. Nothing is sent to a server, there is no account, and the calculator works offline once the page has loaded.',
+    question: 'Are large n and r values processed privately?',
+    answer: 'Yes. Permutation and combination formulas evaluate using client-side JavaScript BigInt arithmetic. No numeric entries or probability queries are sent across a network.',
   },
 ];

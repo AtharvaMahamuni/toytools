@@ -72,6 +72,19 @@ function wire(root: HTMLElement, def: SimulationDef): void {
       if (Number.isFinite(v)) params[p.id] = Math.min(Math.max(v, p.min), p.max);
     }
   }
+  if (typeof location !== 'undefined' && location.hash && location.hash.length > 1) {
+    try {
+      const hashParams = new URLSearchParams(location.hash.slice(1));
+      for (const p of def.params) {
+        if (hashParams.has(p.id)) {
+          const v = Number(hashParams.get(p.id));
+          if (Number.isFinite(v)) params[p.id] = Math.min(Math.max(v, p.min), p.max);
+        }
+      }
+    } catch {
+      /* ignore invalid hash */
+    }
+  }
   reclampAll(def, params);
   const state: SimState = { t: 0, params, vars: def.init(params) };
 
@@ -413,6 +426,70 @@ function wire(root: HTMLElement, def: SimulationDef): void {
       for (const other of speedBtns) other.setAttribute('aria-pressed', String(other === btn));
     });
   }
+
+  const shareBtn = root.querySelector<HTMLButtonElement>('[data-sim-share]');
+  shareBtn?.addEventListener('click', () => {
+    const q = new URLSearchParams();
+    for (const p of def.params) {
+      if (state.params[p.id] !== p.default) {
+        q.set(p.id, String(state.params[p.id]));
+      }
+    }
+    const hash = q.toString() ? '#' + q.toString() : '';
+    const shareUrl = `${location.origin}${location.pathname}${hash}`;
+    if (typeof history.replaceState === 'function') {
+      history.replaceState(null, '', shareUrl);
+    }
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        const origText = shareBtn.textContent;
+        shareBtn.textContent = 'Copied!';
+        setTimeout(() => { shareBtn.textContent = origText; }, 1500);
+      }).catch(() => {});
+    }
+  });
+
+  // ── Keyboard accessibility for canvas (Space to play/pause, R to reset, [ ] for speed, Arrows to nudge) ──
+  canvas.addEventListener('keydown', (ev: KeyboardEvent) => {
+    if (ev.code === 'Space') {
+      ev.preventDefault();
+      loop.toggle();
+      reflectPlayState();
+      if (!loop.running()) updateLiveSummary();
+      return;
+    }
+    if (ev.key === 'r' || ev.key === 'R') {
+      ev.preventDefault();
+      resetBtn?.click();
+      return;
+    }
+    if (ev.key === '[' || ev.key === ']') {
+      ev.preventDefault();
+      const currentSpeed = loop.speed();
+      const speedList = [0.25, 0.5, 1, 2];
+      const idx = speedList.indexOf(currentSpeed);
+      const nextIdx = ev.key === '[' ? Math.max(0, idx - 1) : Math.min(speedList.length - 1, (idx >= 0 ? idx : 1) + 1);
+      const nextSpeed = speedList[nextIdx];
+      loop.setSpeed(nextSpeed);
+      for (const sBtn of speedBtns) {
+        sBtn.setAttribute('aria-pressed', String(Number(sBtn.getAttribute('data-sim-speed')) === nextSpeed));
+      }
+      return;
+    }
+    if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(ev.key)) {
+      ev.preventDefault();
+      const primaryParam = def.params[0];
+      if (!primaryParam) return;
+      const b = boundsOf(def, primaryParam, state.params);
+      const step = b.step || (b.max - b.min) / 20;
+      const delta = (ev.key === 'ArrowRight' || ev.key === 'ArrowUp') ? step : -step;
+      const nextVal = clampTo(b, state.params[primaryParam.id] + delta, state.params[primaryParam.id]);
+      if (nextVal !== state.params[primaryParam.id]) {
+        setSliderTo(primaryParam.id, nextVal);
+        onParamsChanged();
+      }
+    }
+  });
 
   // ── Direct manipulation: drag/tap the wave, bob, or blocks on the canvas ─────────────────
   if (def.pointer) {

@@ -244,7 +244,10 @@ const THRESHOLDS = {
   // 2026-10-31: 0.748 (128/171), truncated from 0.748538. Infinity Cube ships
   //   guardrail craft infinity-cube-hinge. A second swipe during a fold is ignored,
   //   so the chain cannot skip a hinge.
-  coverage: 0.748,
+  // 2026-11-02: 0.812 (139/171), truncated from 0.812865. Eleven backlog tools ship craft:
+  //   compound-interest, emergency-fund, cagr, inflation, pomodoro, todo-list, notepad,
+  //   qr-code, date-difference, cron, and html-entity recovery.
+  coverage: 0.812,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

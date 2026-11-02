@@ -57,9 +57,9 @@ export const items: FAQItem[] = [
   },
   {
     id: 'cc-faq-10',
-    question: 'Can I count characters in a prompt without uploading it?',
+    question: 'Can I audit character counts in confidential prompts privately?',
     answer:
-      'Yes. The count runs in your browser. The text is not sent to a server, and this page does not call an AI model.',
+      'Yes. The character analysis executes entirely in client-side memory on your local browser. Your prompts, code snippets, and draft copies are never uploaded to any remote server or third-party AI system.',
   },
   {
     id: 'cc-faq-11',

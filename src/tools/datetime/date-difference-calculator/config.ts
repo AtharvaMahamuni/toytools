@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   pattern: 'datetime-calculate',
   family: 'duration',
   processorId: 'date-difference',
+  craft: {
+    id: 'date-diff-inclusive-bounds',
+    kind: 'orientation',
+    solves:
+      'Date math confusion between calendar duration and inclusive business days leads people to book flights or project deadlines off by one day.',
+  },
   relatedTools: ['age-calculator'],
   guide: {
     slug: 'date-difference-calculator',

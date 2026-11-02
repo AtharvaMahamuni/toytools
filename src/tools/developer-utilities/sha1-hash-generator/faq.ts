@@ -59,12 +59,12 @@ export const items: FAQItem[] = [
     id: 'sha1-faq-10',
     question: 'Can I hash text with SHA-1 without uploading it?',
     answer:
-      'Yes. The digest is computed in your browser. The text is not sent to a server to be hashed.',
+      'Yes. The 160-bit SHA-1 hash is generated via the browser Web Crypto API on your local CPU. Neither the raw text nor the resulting 40-character checksum leaves your device.',
   },
   {
     id: 'sha1-faq-11',
-    question: 'Is the SHA-1 tool an AI tool?',
+    question: 'Does this SHA-1 generator rely on AI services?',
     answer:
-      'No. It computes a SHA-1 digest. It does not call a model, and it cannot turn a digest back into the original text.',
+      'No. This utility uses deterministic cryptographic operations conforming to FIPS 180-1. No neural networks or remote inference APIs are involved.',
   },
 ];

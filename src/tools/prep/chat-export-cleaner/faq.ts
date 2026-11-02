@@ -27,8 +27,8 @@ export const items: FAQItem[] = [
   },
   {
     id: 'cc-faq-5',
-    question: 'Is the transcript uploaded?',
+    question: 'Are my conversation transcripts uploaded when stripping metadata?',
     answer:
-      'No. Cleaning runs in your browser. What you enter stays on your device. Reloading the page clears the text.',
+      'No. The transcript scrubbing pipeline uses local regular expressions in your browser tab. Sensitive chat dialogues and client messages never leave your machine.',
   },
 ];

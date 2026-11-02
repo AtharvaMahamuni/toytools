@@ -45,9 +45,9 @@ export const items: FAQItem[] = [
   },
   {
     id: 'sc-faq-8',
-    question: 'Can I count sentences in a prompt without uploading it?',
+    question: 'Does counting sentences send my manuscript or document to an external server?',
     answer:
-      'Yes. The count runs in your browser. The text is not sent to a server, and this page does not call an AI model.',
+      'No. The boundary parsing logic parses punctuation terminals locally on your device. Long-form essays, chapters, and private letters remain strictly within your local session and are cleared when the tab closes.',
   },
   {
     id: 'sc-faq-9',

@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
   },
   {
     id: 'timezone-converter-faq-5',
-    question: 'Is my data sent anywhere?',
-    answer: 'No. The conversion runs entirely in your browser using its built-in timezone data. Nothing you type is uploaded, stored on a server, or shared, so it works offline once the page has loaded.',
+    question: 'Are my flight or meeting times transmitted over the internet?',
+    answer: 'No. Timezone offsets are resolved locally via your browser Intl.DateTimeFormat and IANA database. Your itinerary and scheduled call times stay strictly in private browser memory.',
   },
 ];

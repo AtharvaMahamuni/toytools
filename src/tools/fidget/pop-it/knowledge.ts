@@ -51,9 +51,9 @@ export const knowledge: Knowledge = {
     'Resetting the board between short breaks instead of reloading the tab',
   ],
   commonMistakes: [
-    'Leaving sound on in a shared space and blaming the page instead of Settings',
+    'Popping sensory bubbles with speaker audio enabled in a quiet room instead of toggling Mute',
     'Reloading the tab when Reset would continue the session',
-    'Expecting desktop vibration when the device has no vibrator',
+    'Expecting physical vibration motor feedback on desktop laptops that lack tactile haptic hardware',
   ],
   commonQuestions: [
     'Does this Pop It make sound on every tap?',

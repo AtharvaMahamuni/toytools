@@ -49,7 +49,7 @@ export const knowledge: Knowledge = {
   ],
   commonMistakes: [
     'Expecting the shelf to sync across phones and laptops',
-    'Clearing browser data without exporting JSON first',
+    'Wiping browser cookies or site storage without downloading a JSON shelf backup',
     'Leaving a finished book in the reading list because progress was not updated',
     'Importing the same backup twice and getting duplicate rows',
   ],

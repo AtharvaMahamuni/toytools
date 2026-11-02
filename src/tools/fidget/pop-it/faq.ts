@@ -63,9 +63,9 @@ export const items: FAQItem[] = [
   },
   {
     id: 'pop-faq-11',
-    question: 'Is this Pop It free, and do I need to download it?',
+    question: 'Is this digital Pop It fidget board free to use?',
     answer:
-      'Yes. It runs in the tab with no install, no account, and no paywall. Open the page, tap, and leave when you are done.',
+      'Yes. The virtual bubble board runs on client-side Web Audio and DOM events with zero download, login, or tracking requirements. Tap bubbles anytime you need a sensory break.',
   },
   {
     id: 'pop-faq-12',

@@ -25,7 +25,7 @@ export const knowledge: Knowledge = {
   commonMistakes: [
     'Expecting the other seat to move by itself',
     'Tapping a filled square again and thinking the game ignored you',
-    'Refreshing mid-match and expecting the score to still be there',
+    'Closing or reloading the tab expecting 3x3 game marks and session win tallies to be stored in an account',
     'Missing a diagonal and calling a finished line a draw',
   ],
   commonQuestions: [

@@ -123,6 +123,7 @@ export const qrCode: Generator = {
         { value: 'H', label: 'High (30%)' },
       ],
       group: 'Options',
+      craft: 'qr-error-correction',
     },
   ],
   generate(opts: GeneratorOptions): GenerationResult {

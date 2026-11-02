@@ -17,6 +17,12 @@ export const config: ToolConfig = {
   engine: 'productivity',
   pattern: 'stateful',
   family: 'timer',
+  craft: {
+    id: 'pomodoro-distraction-free',
+    kind: 'orientation',
+    solves:
+      'Account-walled pomodoro apps bombard users with analytics dashboards and sign-up prompts, destroying the focus the user opened the timer to achieve.',
+  },
   relatedTools: ['todo-list', 'keep-screen-awake', 'notepad'],
   guide: {
     slug: 'pomodoro-technique',

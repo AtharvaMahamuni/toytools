@@ -139,4 +139,22 @@ export const htmlEntity: EncodingTool = {
       { label: 'Output bytes', value: String(byteLength(output)) },
     ];
   },
+
+  recover(text, mode) {
+    if (mode === 'decode') {
+      if (/&amp;(amp|lt|gt|quot|#39);/i.test(text)) {
+        return {
+          label: 'Unwrap double-escaped entities',
+          text: text.replace(/&amp;(amp|lt|gt|quot|#39);/gi, '&$1;'),
+        };
+      }
+      if (/&(?:copy|reg|trade|amp|lt|gt|quot)(?!;)/i.test(text)) {
+        return {
+          label: 'Add missing semicolons to entities',
+          text: text.replace(/&(copy|reg|trade|amp|lt|gt|quot)(?!;)/gi, '&$1;'),
+        };
+      }
+    }
+    return null;
+  },
 };

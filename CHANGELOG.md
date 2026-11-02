@@ -2,6 +2,34 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.22] - 2026-11-02
+
+### Added
+
+- **Accessible Keyboard & URL State Sharing for Simulators.**
+  - **Keyboard Navigation:** Added keyboard interaction controls to interactive physics simulation canvases (`<canvas tabindex="0" role="region" aria-roledescription="interactive physics simulation">`). Users can pause/play with `Space`, reset parameters with `R`, cycle speeds with `[` and `]`, and adjust primary parameters with `ArrowLeft`/`ArrowRight`. Added visible focus indicator on focused canvas.
+  - **URL State Encoding & One-Click Sharing:** Wired non-default simulation parameters to URL hash encoding (`#p=...`). Added dedicated "Share" button to copy shareable deep-links to simulation experiments with instant visual clipboard feedback.
+- **Tool Craft Ratchet Expansion (>81% Catalog Coverage).**
+  - Declared and wired thoughtful craft affordances for 11 backlog tools across finance, productivity, generation, datetime, and developer utilities:
+    - `compound-interest-calculator`: `compound-regular-contribution` (highlights dominant impact of periodic deposits over time).
+    - `emergency-fund-calculator`: `emergency-months-target` (anchors target to essential outgoings rather than gross income).
+    - `cagr-calculator`: `cagr-volatility-gap` (clarifies smoothed CAGR assumptions vs drawdown reality).
+    - `inflation-calculator`: `inflation-purchasing-power` (translates percentage drop into doubling time and purchasing haircut).
+    - `pomodoro-timer`: `pomodoro-distraction-free` (clean distraction removal without account walls).
+    - `todo-list`: `todo-wake-lock` (keep-awake toggle prevents phone screen sleep while working).
+    - `notepad`: `notepad-local-persist` (instant local auto-save with offline backup JSON).
+    - `qr-code-generator`: `qr-error-correction` (guidance on module density vs physical damage resilience).
+    - `date-difference-calculator`: `date-diff-inclusive-bounds` (resolves inclusive vs duration edge-cases).
+    - `cron-expression-parser`: `cron-dow-dom-or` (warns about standard cron OR semantics between DOM and DOW).
+    - `html-entity-encoder-decoder`: `html-entity-recover` (one-tap unwrap of double-escaped entities and missing semicolons).
+  - Raised the `check:craft` coverage gate floor from 74.8% to 81.2% (139 of 171 tools declared and DOM-verified).
+
+### Fixed
+
+- **Content De-duplication Gate Clean (0 Near-Duplicate Pairs).** Rewrote overlapping privacy explanations, algorithmic definitions, and match mechanics across 24 tools (including hash generators, text counters, game tools, fidgets, data converters, and UPI calculators) to eliminate boilerplate while passing `check:duplication`.
+- **Query Targeting & SEO Alignment.** Refined discriminating token slots in tool configs (`tic-tac-toe`, `normalize-whitespace`) ensuring 100% targeting compliance against search intent corpus.
+- **Budget Compliance.** Preserved strict `<18KB` gzip CSS limits across productivity tools and `<10KB` interaction search terms footprint.
+
 ## [alpha-v13.21] - 2026-11-01
 
 ### Changed

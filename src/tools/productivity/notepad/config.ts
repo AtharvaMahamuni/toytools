@@ -18,6 +18,12 @@ export const config: ToolConfig = {
   engine: 'productivity',
   pattern: 'stateful',
   family: 'note',
+  craft: {
+    id: 'notepad-local-persist',
+    kind: 'orientation',
+    solves:
+      'Cloud note apps lock thoughts behind login walls and risk accidental page closure losing uncommitted drafts before sign-in finishes.',
+  },
   guide: {
     slug: 'how-to-take-better-notes',
     categorySlug: 'productivity',

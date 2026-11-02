@@ -43,7 +43,7 @@ export const items: FAQItem[] = [
   },
   {
     id: 'prime-factorization-calculator-faq-9',
-    question: 'Is anything I enter uploaded?',
-    answer: 'No. The factorization runs entirely in your browser. Nothing is sent to a server, there is no account, and the calculator works offline once the page has loaded.',
+    question: 'Are my numbers uploaded when factoring primes?',
+    answer: 'No. The prime factorization trial division algorithm runs on your local CPU. Integers are factored in memory without remote compute calls, accounts, or telemetry.',
   },
 ];

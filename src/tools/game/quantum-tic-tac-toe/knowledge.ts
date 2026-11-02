@@ -26,7 +26,7 @@ export const knowledge: Knowledge = {
     'Marking one square and expecting a classical X or O',
     'Treating a spooky three in a row as a win',
     'Closing a cycle and then choosing the collapse yourself',
-    'Refreshing mid-match and expecting the score to still be there',
+    'Accidentally refreshing the browser tab before resolving an active entanglement collapse cycle',
   ],
   commonQuestions: [
     'What is a move in quantum tic tac toe?',

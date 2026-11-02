@@ -46,9 +46,9 @@ export const knowledge: Knowledge = {
     'Clearing a mixed board with All off instead of reloading the tab',
   ],
   commonMistakes: [
-    'Leaving sound on in a shared space and blaming the page instead of Settings',
+    'Rapidly flipping toggle switches in a library or shared office without muting click audio in Feel controls',
     'Reloading the tab when All off would continue the session',
-    'Expecting desktop vibration when the device has no vibrator',
+    'Assuming trackpads will physically buzz on devices that do not support the navigator.vibrate API',
   ],
   commonQuestions: [
     'What is a switch board fidget?',

@@ -45,8 +45,8 @@ export const items: FAQItem[] = [
   },
   {
     id: 'gears-faq-8',
-    question: 'Is this free, and do I need to download it?',
+    question: 'Is the interactive gear train simulator free to run?',
     answer:
-      'Yes. It runs in the tab with no install, no account, and no paywall. Open the page, drag a gear, and leave when you are done.',
+      'Yes. The intermeshed gear simulation computes kinematics entirely in your web browser without installations, user registrations, or subscription gates. Just spin any gear with pointer or touch.',
   },
 ];

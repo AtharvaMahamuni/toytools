@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   pattern: 'datetime-schedule',
   family: 'schedule',
   processorId: 'cron',
+  craft: {
+    id: 'cron-dow-dom-or',
+    kind: 'guardrail',
+    solves:
+      'Standard cron treats Day of Month and Day of Week with logical OR when both are specified, creating unexpected extra execution days that surprise developers.',
+  },
   relatedTools: ['timezone-converter', 'unix-timestamp-converter'],
   guide: {
     slug: 'cron-expression-parser',

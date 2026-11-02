@@ -39,9 +39,9 @@ export const items: FAQItem[] = [
   },
   {
     id: 'y2j-faq-7',
-    question: 'Can I convert the JSON back to YAML?',
+    question: 'How do I round-trip parsed JSON back into YAML format?',
     answer:
-      'Yes. Use the JSON to YAML Converter, the sibling tool in this workspace. Switch direction with the pill above the editor and your result carries straight over, so you can round-trip between the two formats without copying and pasting.',
+      'Click the JSON to YAML Converter pill in the switcher above. The converter pipeline transfers your parsed JSON data seamlessly across tools in tab memory so you can inspect YAML syntax without manual copy-pasting.',
   },
   {
     id: 'y2j-faq-8',

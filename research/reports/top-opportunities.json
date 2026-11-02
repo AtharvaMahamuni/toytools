@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-10-30T23:09:33.735Z",
+  "generatedAt": "2026-11-02T05:35:38.422Z",
   "top": [
     {
       "id": "function-grapher",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-30T23:09:33.735Z",
+      "discoveredAt": "2026-11-02T05:35:38.422Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -103,7 +103,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-30T23:09:33.735Z",
+      "discoveredAt": "2026-11-02T05:35:38.422Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -176,7 +176,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-30T23:09:33.735Z",
+      "discoveredAt": "2026-11-02T05:35:38.422Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -242,7 +242,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-30T23:09:33.735Z",
+      "discoveredAt": "2026-11-02T05:35:38.422Z",
       "existingSolutions": [
         "ilovepdf.com",
         "smallpdf.com",
@@ -313,7 +313,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-30T23:09:33.735Z",
+      "discoveredAt": "2026-11-02T05:35:38.422Z",
       "existingSolutions": [
         "cloudconvert",
         "iloveimg",
@@ -387,7 +387,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-30T23:09:33.735Z",
+      "discoveredAt": "2026-11-02T05:35:38.422Z",
       "existingSolutions": [
         "Google Calendar",
         "timeanddate.com",
@@ -462,7 +462,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-30T23:09:33.735Z",
+      "discoveredAt": "2026-11-02T05:35:38.422Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -527,7 +527,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-30T23:09:33.735Z",
+      "discoveredAt": "2026-11-02T05:35:38.422Z",
       "existingSolutions": [
         "drikpanchang.com",
         "local print calendars",
@@ -598,7 +598,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-30T23:09:33.735Z",
+      "discoveredAt": "2026-11-02T05:35:38.422Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -668,7 +668,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-10-30T23:09:33.735Z",
+      "discoveredAt": "2026-11-02T05:35:38.422Z",
       "existingSolutions": [
         "eatthismuch.com",
         "myfitnesspal.com",
