@@ -193,7 +193,7 @@ export const searchAliases: Record<string, string[]> = {
   'water-intake-tracker': ['hydration', 'how much water'],
 
   // Productivity
-  'keep-screen-awake': ['prevent sleep', 'stay awake'],
+  'no-sleep-website': ['no sleep page', 'keep screen awake', 'prevent sleep', 'stay awake', 'screen wake lock'],
   'notepad': ['scratchpad', 'quick notes'],
   'pomodoro-timer': ['focus timer', '25 minute timer'],
   'todo-list': ['task list', 'checklist'],

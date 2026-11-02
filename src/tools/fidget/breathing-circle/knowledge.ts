@@ -54,7 +54,7 @@ export const knowledge: Knowledge = {
   ],
   usedWith: [
     { slug: 'pomodoro-timer', reason: 'A breathing session between focus blocks', strength: 0.8 },
-    { slug: 'keep-screen-awake', reason: 'Keep the phone awake through a longer session', strength: 0.6 },
+    { slug: 'no-sleep-website', reason: 'Keep the phone awake through a longer session', strength: 0.6 },
   ],
   alternatives: [
     { slug: 'pop-it', reason: 'A tap fidget when you want hands, not breath' },

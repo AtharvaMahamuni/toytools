@@ -16,7 +16,7 @@
 export const NOT_EMBEDDABLE: Readonly<Record<string, string>> = {
   'pomodoro-timer': 'Notification + service-worker notificationclick, fullscreen, raw storage keys, its own URL',
   'todo-list': 'own persistence and document-level behaviour in a 1,100+ line bespoke widget',
-  'keep-screen-awake': 'Wake Lock and fullscreen, its own URL',
+  'no-sleep-website': 'Wake Lock and fullscreen, its own URL',
   'habit-streak-tracker': 'own persistence in an 800+ line bespoke widget',
   'book-tracker': 'own persistence in a 750+ line bespoke widget',
   notepad: "keeps the user's note in local storage, like todo, habit and book",

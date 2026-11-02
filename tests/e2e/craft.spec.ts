@@ -458,7 +458,7 @@ test.describe('bespoke-widget craft', () => {
   });
 
   test('the wake lock status line is present and reports state', async ({ page }) => {
-    await page.goto('/tool/productivity/keep-screen-awake/');
+    await page.goto('/tool/productivity/no-sleep-website/');
     const line = page.locator('[data-craft="wl-lock-truth"]');
     await expect(line).toBeVisible();
     await expect(line).toHaveAttribute('data-lock', 'none');

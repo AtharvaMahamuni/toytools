@@ -67,7 +67,7 @@ export const knowledge: Knowledge = {
     { slug: 'pop-it', reason: 'Pick Pop It when you want a bubble board rather than latches' },
   ],
   nextSteps: [
-    { slug: 'keep-screen-awake', reason: 'Keep the phone awake while the board stays on screen', strength: 0.5 },
+    { slug: 'no-sleep-website', reason: 'Keep the phone awake while the board stays on screen', strength: 0.5 },
   ],
   workflowStage: ['transform'],
   keywords: [

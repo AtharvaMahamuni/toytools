@@ -95,6 +95,9 @@ export const toolRedirects: ToolRedirect[] = [
 
   // Case Converter split. See migration 3 above.
   { oldPath: 'text/case-converter',                  toolSlug: 'title-case-converter' },
+
+  // No Sleep Website repositioning from keep-screen-awake
+  { oldPath: 'productivity/keep-screen-awake',       toolSlug: 'no-sleep-website' },
 ];
 
 // Historical `/tools/...` paths that are NOT `{liveSegment}/{liveSlug}` (segment rename,
@@ -113,6 +116,9 @@ const historicalToolsPrefixExtras: ToolRedirect[] = [
 
   // Case Converter under plural prefix.
   { oldPath: 'text/case-converter', toolSlug: 'title-case-converter' },
+
+  // Keep Screen Awake under plural prefix.
+  { oldPath: 'productivity/keep-screen-awake', toolSlug: 'no-sleep-website' },
 
   // First-day single-segment `/tools/{slug}/` routes.
   { oldPath: 'word-counter',           toolSlug: 'word-counter' },

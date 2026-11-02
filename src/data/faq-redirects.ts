@@ -27,7 +27,7 @@ export const faqRedirects: FaqRedirect[] = [
   { oldPath: 'developer/sha256-hash-generator',       toolSlug: 'sha256-hash-generator' },
   { oldPath: 'developer/url-encoder-decoder',         toolSlug: 'url-encoder-decoder' },
   { oldPath: 'number/percentage-calculator',          toolSlug: 'percentage-calculator' },
-  { oldPath: 'productivity/keep-screen-awake',        toolSlug: 'keep-screen-awake' },
+  { oldPath: 'productivity/keep-screen-awake',        toolSlug: 'no-sleep-website' },
   { oldPath: 'productivity/notepad',                  toolSlug: 'notepad' },
   { oldPath: 'productivity/pomodoro-timer',           toolSlug: 'pomodoro-timer' },
   { oldPath: 'productivity/todo-list',                toolSlug: 'todo-list' },

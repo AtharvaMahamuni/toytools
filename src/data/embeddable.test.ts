@@ -9,7 +9,7 @@ const PAGE_ONLY = [
   'book-tracker',
   'habit-streak-tracker',
   'json-tree-viewer',
-  'keep-screen-awake',
+  'no-sleep-website',
   'notepad',
   'pomodoro-timer',
   'todo-list',

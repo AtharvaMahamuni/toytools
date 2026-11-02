@@ -2,7 +2,22 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [alpha-v13.24] - 2026-11-02
+## [alpha-v13.25] - 2026-11-03
+
+### Changed
+
+- **Repositioned Keep Screen Awake to No Sleep Website (`/tool/productivity/no-sleep-website/`).**
+  - Updated primary search terminology to target "No Sleep Website" intent while maintaining natural keyword coverage for "no sleep page", "keep screen awake", "keep screen on online", and "browser wake lock".
+  - Retained full backward compatibility with zero 404s:
+    - Added permanent redirect stubs in `src/data/tool-redirects.ts` and `src/data/faq-redirects.ts` for `/tool/productivity/keep-screen-awake/` and `/tools/productivity/keep-screen-awake/`.
+    - Redirect stubs provide instant `<meta http-equiv="refresh">`, canonical pointing to `/tool/productivity/no-sleep-website/`, `noindex` robots directive, and fallback link to hand over link equity.
+    - Preserved local storage and state backward compatibility (`toytools.keep-screen-awake.duration`, legacy state fallback).
+  - Enhanced user experience and visual craft:
+    - Warm gold `#C89B3C` ambient halo with `@media (prefers-reduced-motion: reduce)` support.
+    - Instant Wake Lock status synchronization and automatic reconnection on tab visibility/focus.
+    - Updated keyboard navigation (`Space` toggle, `Escape` ambient exit).
+    - Refreshed Guide and 10 FAQ items targeting genuine user search intent with zero AI-tell phrases and zero em-dashes.
+
 
 ### Added
 

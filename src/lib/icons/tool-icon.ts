@@ -231,7 +231,7 @@ const SLUG_GLYPH: Record<string, string> = {
   'pomodoro-timer': 'tomato',
   notepad: 'note',
   'todo-list': 'checklist',
-  'keep-screen-awake': 'sun',
+  'no-sleep-website': 'sun',
 
   // fidgets — each toy is a different object, so sharing `dots` made the
   // home-screen icons interchangeable. pop-it keeps the bubble row; the rest

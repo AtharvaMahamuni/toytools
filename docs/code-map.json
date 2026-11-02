@@ -2474,27 +2474,6 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "keep-screen-awake": {
-      "name": "Keep Screen Awake",
-      "dir": "src/tools/productivity/keep-screen-awake",
-      "categorySlug": "productivity",
-      "url": "/tool/productivity/keep-screen-awake/",
-      "engine": "productivity",
-      "pattern": "stateful",
-      "family": "utility",
-      "processorId": "",
-      "toolGroup": "",
-      "files": [
-        "Guide.astro",
-        "Widget.astro",
-        "config.ts",
-        "faq.ts",
-        "knowledge.ts"
-      ],
-      "guideRegistered": true,
-      "faqRegistered": true,
-      "knowledgeRegistered": true
-    },
     "kinetic-sand": {
       "name": "Kinetic Sand",
       "dir": "src/tools/fidget/kinetic-sand",
@@ -2778,6 +2757,27 @@
       "family": "habit",
       "processorId": "move-today",
       "toolGroup": "health-trackers",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "no-sleep-website": {
+      "name": "No Sleep Website",
+      "dir": "src/tools/productivity/no-sleep-website",
+      "categorySlug": "productivity",
+      "url": "/tool/productivity/no-sleep-website/",
+      "engine": "productivity",
+      "pattern": "stateful",
+      "family": "utility",
+      "processorId": "",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",
