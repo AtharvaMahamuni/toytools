@@ -91,7 +91,7 @@ const iconUrl  = withBase('/favicon.ico');
 <div slot="input" class="pt-view-actions">
   <button id="pt-fs-btn" type="button" class="pt-fs-btn" aria-label="Enter full screen">Full Screen</button>
   <span class="gold-dot" aria-hidden="true"></span>
-  <button id="pt-rd-btn" type="button" class="pt-fs-btn" aria-label="Remove distractions">Remove Distractions</button>
+  <button id="pt-rd-btn" type="button" class="pt-fs-btn" data-craft="pomodoro-distraction-free" aria-label="Remove distractions">Remove Distractions</button>
 </div>
 
 <!-- Backup: always on the tool screen (Atharva hard rule). Not behind Customize. -->
@@ -307,11 +307,6 @@ const iconUrl  = withBase('/favicon.ico');
   }
   .pt-dot[data-state="remaining"] { background: transparent; border: 2px solid var(--color-border); }
 
-  @keyframes dot-breathe {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.4; }
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .pt-dot[data-state="current"] { animation: none; }
   }
@@ -328,8 +323,9 @@ const iconUrl  = withBase('/favicon.ico');
   }
 
   .pt-fs-btn {
-    background: none; border: none; padding: 0;
-    color: var(--color-text-subtle); font-size: var(--text-xs); font-family: inherit;
+    background: none; border: none; padding: 0 var(--space-2);
+    min-height: 44px; display: inline-flex; align-items: center;
+    color: var(--color-text-subtle); font-size: var(--text-xs);
     cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
     transition: color var(--duration-fast) ease;
   }
@@ -344,7 +340,6 @@ const iconUrl  = withBase('/favicon.ico');
     padding-inline: var(--space-6);
     padding-bottom: var(--space-2);
   }
-  .pt-import[hidden], .pt-import-msg[hidden] { display: none; }
   .pt-import {
     display: flex; flex-direction: column; gap: var(--space-3);
     padding-inline: var(--space-6);
@@ -357,7 +352,6 @@ const iconUrl  = withBase('/favicon.ico');
     border-radius: var(--radius-full, 999px);
     background: var(--color-bg);
     color: var(--color-text-muted);
-    font: inherit;
     font-size: var(--text-sm);
     cursor: pointer;
   }

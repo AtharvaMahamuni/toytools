@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   family: 'web',
   processorId: 'json-escape',
   toolGroup: 'encoders',
+  craft: {
+    id: 'json-escape-newline',
+    kind: 'recovery',
+    solves:
+      'Multiline text pasted into JSON unescape carries raw newline characters that break JSON string parsing grammar.',
+  },
   relatedTools: ['json-formatter', 'json-validator', 'url-encoder-decoder'],
   guide: {
     slug: 'how-to-escape-a-json-string',

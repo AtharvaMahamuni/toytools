@@ -45,8 +45,8 @@ export const items: FAQItem[] = [
   },
   {
     id: 'ovulation-calculator-faq-8',
-    question: 'Are these dates uploaded?',
+    question: 'Are sensitive menstrual dates and fertility inputs kept private?',
     answer:
-      'No. The last period, the cycle length, the luteal phase, and the count date stay in the browser. What you enter stays on your device.',
+      'Yes. Your cycle dates, luteal duration, and fertile window estimates are computed client-side in browser RAM. Health data is never transmitted to servers or ad trackers.',
   },
 ];

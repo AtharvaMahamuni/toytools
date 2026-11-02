@@ -59,12 +59,12 @@ export const items: FAQItem[] = [
     id: 'sha512-faq-10',
     question: 'Can I hash text with SHA-512 without uploading it?',
     answer:
-      'Yes. The digest is computed in your browser. The text is not sent to a server to be hashed.',
+      'Yes. The 512-bit digest is generated completely within your browser instance. Inputs are never logged, uploaded, or exposed to intermediary proxy services.',
   },
   {
     id: 'sha512-faq-11',
-    question: 'Is the SHA-512 tool an AI tool?',
+    question: 'Does this tool use artificial intelligence to calculate hashes?',
     answer:
-      'No. It computes a SHA-512 digest. It does not call a model, and it cannot turn a digest back into the original text.',
+      'No. SHA-512 is an exact, unvarying mathematical specification running 80 rounds of 64-bit word shifts and logical functions. It uses deterministic algorithm code rather than neural nets.',
   },
 ];

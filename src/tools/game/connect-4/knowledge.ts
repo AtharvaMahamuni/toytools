@@ -25,7 +25,7 @@ export const knowledge: Knowledge = {
   commonMistakes: [
     'Dropping the disc in the column next to the one you aimed at',
     'Reading only the rows and missing a diagonal of four',
-    'Refreshing mid-match and expecting the score to still be there',
+    'Reloading the browser page mid-match and expecting gravity-dropped discs or win streaks to persist',
     'Waiting for a computer to play the other color',
   ],
   commonQuestions: [

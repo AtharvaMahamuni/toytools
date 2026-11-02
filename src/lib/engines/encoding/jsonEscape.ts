@@ -81,4 +81,22 @@ export const jsonEscape: EncodingTool = {
       { label: 'UTF-8 bytes', value: String(byteLength(mode === 'encode' ? input : output)) },
     ];
   },
+
+  recover(text, mode) {
+    if (mode === 'decode') {
+      if (text.includes('\n') || text.includes('\r')) {
+        return {
+          label: 'Escape raw newlines to \\n',
+          text: text.replace(/\r\n/g, '\\n').replace(/\n/g, '\\n').replace(/\r/g, '\\n'),
+        };
+      }
+      if (text.startsWith("'") && text.endsWith("'") && text.length >= 2) {
+        return {
+          label: 'Convert single quotes to double quotes',
+          text: `"${text.slice(1, -1).replace(/"/g, '\\"')}"`,
+        };
+      }
+    }
+    return null;
+  },
 };

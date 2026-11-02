@@ -15,6 +15,12 @@ export const config: ToolConfig = {
   family: 'interest',
   toolGroup: 'growth-calculators',
   processorId: 'compound-interest',
+  craft: {
+    id: 'compound-regular-contribution',
+    kind: 'orientation',
+    solves:
+      'People calculate compound interest without periodic contributions and assume small monthly additions do not matter, missing how ongoing deposits dominate principal over long horizons.',
+  },
   relatedTools: ['savings-goal-calculator', 'rule-of-72-calculator', 'inflation-calculator'],
   methodology: {
     name: 'Periodic compounding formula',

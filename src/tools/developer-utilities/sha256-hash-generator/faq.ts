@@ -59,12 +59,12 @@ export const items: FAQItem[] = [
     id: 'sha256-faq-10',
     question: 'Can I hash text with SHA-256 without uploading it?',
     answer:
-      'Yes. The digest is computed in your browser. The text is not sent to a server to be hashed.',
+      'Yes. The 256-bit cryptographic digest is calculated right in your browser tab via hardware-accelerated WebCrypto primitives. Plaintext never touches a server or persistent cloud storage.',
   },
   {
     id: 'sha256-faq-11',
-    question: 'Is the SHA-256 tool an AI tool?',
+    question: 'Does SHA-256 generation require machine learning?',
     answer:
-      'No. It computes a SHA-256 digest. It does not call a model, and it cannot turn a digest back into the original text.',
+      'No. SHA-256 relies entirely on bitwise operations, modular additions, and compression rounds defined in FIPS PUB 180-4. It does not invoke generative AI models or network APIs.',
   },
 ];

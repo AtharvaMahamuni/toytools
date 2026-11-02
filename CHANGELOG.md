@@ -2,6 +2,96 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.24] - 2026-11-02
+
+### Added
+
+- **100% Catalog Tool Craft Coverage (171 of 171 Non-Simulation Tools Declared & Verified).**
+  - Completed craft affordances and static DOM wiring across the final 21 backlog tools, achieving complete 100.0% coverage across the entire tool catalog:
+    - `unix-timestamp-converter`: `ts-epoch-millis` (orientation craft guiding users on 10-digit second vs 13-digit millisecond Unix timestamp scale).
+    - `rot13-encoder-decoder`: `rot13-self-inverse` (orientation craft explaining ROT13 self-inverse involution symmetry where re-running the cipher decrypts).
+    - `punycode-converter`: `punycode-ace-prefix` (recovery craft automatically stripping or attaching the `xn--` ASCII Compatible Encoding prefix for IDN domains).
+    - `json-tree-viewer`: `json-tree-depth` (orientation craft providing quick visual structure orientation on deeply nested JSON hierarchies).
+    - `csv-cleaner`: `csv-cleaner-delimiter` (guardrail craft catching mixed commas, semicolons, and tabs in raw CSV inputs).
+    - `csv-diff`: `csv-diff-key-col` (orientation craft establishing unique identifier column keys for structured row comparison).
+    - `csv-to-tsv`: `csv-tsv-raw-tabs` (guardrail craft detecting unescaped raw tab literals within CSV quoted values).
+    - `csv-to-json-converter`: `csv-json-types` (orientation craft handling automatic type coercion between strings, numbers, and booleans).
+    - `yaml-to-json-converter`: `yaml-tabs-disallowed` (guardrail craft detecting illegal raw tab indentation characters in YAML documents).
+    - `roi-calculator`: `roi-annualized-gap` (orientation craft distinguishing cumulative ROI from annualized compound returns across multi-year investments).
+    - `rule-of-72-calculator`: `rule72-high-rate-error` (guardrail craft highlighting logarithmic formula divergence when interest rates exceed 15%).
+    - `savings-goal-calculator`: `savings-inflation-drag` (orientation craft illustrating purchasing power erosion on long-horizon savings goals).
+    - `sip-calculator`: `sip-step-up-boost` (orientation craft demonstrating wealth acceleration from small annual step-up contribution increases).
+    - `find-replace`: `find-replace-regex-literal` (guardrail craft distinguishing literal search from unescaped regular expression special characters).
+    - `uppercase-converter`: `uppercase-turkish-i` (orientation craft addressing locale-specific dotless vs dotted 'i' casing rules).
+    - `lorem-ipsum-generator`: `lorem-cicero-lead` (orientation craft explaining origin from Cicero's 45 BC De Finibus classical philosophical discourse).
+    - `random-string-generator`: `random-string-entropy` (guardrail craft ensuring token character pool diversity to protect cryptographic entropy).
+    - `uuid-generator`: `uuid-rfc4122-v4` (orientation craft detailing 4-bit version (0100) and 2-bit RFC 4122 variant (10xx) markers).
+    - `body-weight-tracker`: `weight-moving-average` (orientation craft isolating daily hydration/sodium weight noise with smoothed trend lines).
+    - `move-today-tracker`: `move-sedentary-window` (guardrail craft flagging metabolic risks of continuous sedentary bouts over 60 minutes).
+    - `water-intake-tracker`: `water-climate-multiplier` (orientation craft adjusting baseline hydration recommendations for high-heat and exercise sweat rates).
+  - Ratcheted `check:craft` coverage gate floor in `scripts/check-craft.ts` to `1.0` (100% catalog coverage).
+
+### Fixed
+
+- **Productivity & Tracker Mobile Touch Target A11y:** Ensured 44px+ touch targets on all interactive buttons across mobile viewports.
+- **Strict Performance & Budget Invariants:** All pages maintained well within size budgets (<18KB gzipped CSS, <10KB gzipped search index).
+
+## [alpha-v13.23] - 2026-11-02
+
+### Added
+
+- **Tool Craft Ratchet Expansion to 87.7% (150 of 171 Tools Declared & Verified).**
+  - Implemented and wired declared craft affordances across 11 backlog tools spanning math, number, developer utilities, health, and datetime categories:
+    - `scientific-calculator`: `calc-deg-rad-mode` (orientation craft alerting users whether trigonometric functions evaluate in degrees or radians).
+    - `binary-text-converter`: `binary-text-recover` (recovery craft detecting ASCII vs UTF-8 byte boundary splits).
+    - `hex-encoder-decoder`: `hex-strip-prefix` (recovery craft stripping `0x` prefixes, comma separations, or spaced nibbles).
+    - `json-escape`: `json-escape-newline` (recovery craft normalizing raw carriage returns and escaped backslashes).
+    - `combinations-permutations-calculator`: `comb-n-ge-r` (guardrail craft indicating $n < r$ impossibility before calculation errors occur).
+    - `prime-factorization-calculator`: `prime-composite-trivial` (orientation craft identifying composite test numbers and powers of 2).
+    - `fraction-calculator`: `fraction-mixed-improper` (recovery craft converting mixed fractions into improper fractions).
+    - `macro-calculator`: `macro-percentage-sum` (guardrail craft ensuring macro protein/carb/fat split percentages sum to exactly 100%).
+    - `body-fat-calculator`: `body-fat-waist-spread` (orientation craft identifying boundary cases where Navy body fat tape measurements diverge).
+    - `timezone-converter`: `tz-dst-ambiguity` (orientation craft flagging fall-back 1-hour daylight saving time ambiguity).
+    - `age-calculator`: `age-leap-year-boundary` (orientation craft identifying leap year birthday boundaries).
+  - Raised the `check:craft` coverage gate floor in `scripts/check-craft.ts` from 81.2% to 87.7% (150/171 tools).
+
+- **Catalog-wide SEO & Generative Engine Optimization (GEO).**
+  - Evaluated content intelligence across the tool catalog with `seo-engine/scripts/analyze-tool.ts`: all newly crafted tools passed all quality criteria (Overall $\ge 75$, Writing Quality $\ge 70$, Usefulness $\ge 60$, Query Targeting 100%, 0 AI-tell phrases, 0 em-dashes).
+  - Reinforced authoritative quotable definitions ("What is..."), comparison formats ("X vs Y"), and troubleshooting solutions for LLMs (Google AI Overviews, Perplexity, ChatGPT).
+  - Verified full agentic crawler and discovery suite: `robots.txt`, `llms.txt`, `llms-full.txt`, `ai.txt`, `ai.json`, `robots-ai.txt`, `brand.txt`, `faq-ai.txt`, and `identity.json`.
+
+### Fixed
+
+- **Budget & Performance Guarantees:** Maintained all 420 built pages strictly under budget caps, including 11.5KB gzipped CSS (ceiling 18.0KB) and 9.8KB gzipped search terms (ceiling 10.0KB).
+
+## [alpha-v13.22] - 2026-11-02
+
+### Added
+
+- **Accessible Keyboard & URL State Sharing for Simulators.**
+  - **Keyboard Navigation:** Added keyboard interaction controls to interactive physics simulation canvases (`<canvas tabindex="0" role="region" aria-roledescription="interactive physics simulation">`). Users can pause/play with `Space`, reset parameters with `R`, cycle speeds with `[` and `]`, and adjust primary parameters with `ArrowLeft`/`ArrowRight`. Added visible focus indicator on focused canvas.
+  - **URL State Encoding & One-Click Sharing:** Wired non-default simulation parameters to URL hash encoding (`#p=...`). Added dedicated "Share" button to copy shareable deep-links to simulation experiments with instant visual clipboard feedback.
+- **Tool Craft Ratchet Expansion (>81% Catalog Coverage).**
+  - Declared and wired thoughtful craft affordances for 11 backlog tools across finance, productivity, generation, datetime, and developer utilities:
+    - `compound-interest-calculator`: `compound-regular-contribution` (highlights dominant impact of periodic deposits over time).
+    - `emergency-fund-calculator`: `emergency-months-target` (anchors target to essential outgoings rather than gross income).
+    - `cagr-calculator`: `cagr-volatility-gap` (clarifies smoothed CAGR assumptions vs drawdown reality).
+    - `inflation-calculator`: `inflation-purchasing-power` (translates percentage drop into doubling time and purchasing haircut).
+    - `pomodoro-timer`: `pomodoro-distraction-free` (clean distraction removal without account walls).
+    - `todo-list`: `todo-wake-lock` (keep-awake toggle prevents phone screen sleep while working).
+    - `notepad`: `notepad-local-persist` (instant local auto-save with offline backup JSON).
+    - `qr-code-generator`: `qr-error-correction` (guidance on module density vs physical damage resilience).
+    - `date-difference-calculator`: `date-diff-inclusive-bounds` (resolves inclusive vs duration edge-cases).
+    - `cron-expression-parser`: `cron-dow-dom-or` (warns about standard cron OR semantics between DOM and DOW).
+    - `html-entity-encoder-decoder`: `html-entity-recover` (one-tap unwrap of double-escaped entities and missing semicolons).
+  - Raised the `check:craft` coverage gate floor from 74.8% to 81.2% (139 of 171 tools declared and DOM-verified).
+
+### Fixed
+
+- **Content De-duplication Gate Clean (0 Near-Duplicate Pairs).** Rewrote overlapping privacy explanations, algorithmic definitions, and match mechanics across 24 tools (including hash generators, text counters, game tools, fidgets, data converters, and UPI calculators) to eliminate boilerplate while passing `check:duplication`.
+- **Query Targeting & SEO Alignment.** Refined discriminating token slots in tool configs (`tic-tac-toe`, `normalize-whitespace`) ensuring 100% targeting compliance against search intent corpus.
+- **Budget Compliance.** Preserved strict `<18KB` gzip CSS limits across productivity tools and `<10KB` interaction search terms footprint.
+
 ## [alpha-v13.21] - 2026-11-01
 
 ### Changed

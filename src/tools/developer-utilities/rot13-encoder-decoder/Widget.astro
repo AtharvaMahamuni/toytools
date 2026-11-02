@@ -4,3 +4,4 @@ import { config } from './config';
 ---
 
 <ConverterWidget slug={config.slug} processorId={config.processorId!} config={config} />
+<p class="tool-note" data-craft={config.craft?.id} hidden>ROT13 is symmetric: applying the cipher twice restores the original text.</p>

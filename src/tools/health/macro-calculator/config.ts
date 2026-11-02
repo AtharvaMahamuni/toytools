@@ -20,6 +20,12 @@ export const config: ToolConfig = {
   family: 'nutrition',
   toolGroup: 'body-metrics',
   processorId: 'macro',
+  craft: {
+    id: 'macro-percentage-sum',
+    kind: 'guardrail',
+    solves:
+      'People pick arbitrary macro percentage splits that fail to total 100 percent, producing caloric deficits or surpluses that contradict their target.',
+  },
   relatedTools: ['tdee-calculator', 'bmi-calculator', 'body-weight-tracker', 'water-intake-tracker'],
   methodology: {
     name: 'Atwater energy factors',

@@ -364,3 +364,35 @@ describe('boot — failure handling', () => {
     await flush();
   });
 });
+
+describe('boot — keyboard accessibility & share', () => {
+  beforeEach(() => stubEnv(true));
+
+  it('handles Space, R, and Arrow keys on canvas', async () => {
+    const root = mountWidget(wave, 'wave-speed-calculator');
+    const shareBtn = document.createElement('button');
+    shareBtn.setAttribute('data-sim-share', '');
+    root.append(shareBtn);
+
+    initSimulations(document);
+    await flush();
+
+    const canvas = root.querySelector('canvas[data-sim-canvas]') as HTMLCanvasElement;
+    const playBtn = root.querySelector('[data-sim-play]')!;
+
+    // Space toggles play state
+    expect(playBtn.getAttribute('aria-pressed')).toBe('false');
+    canvas.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', bubbles: true }));
+    expect(playBtn.getAttribute('aria-pressed')).toBe('true');
+
+    // ArrowRight nudges the primary parameter (frequency)
+    const freqInput = root.querySelector('input[data-param="frequency"]') as HTMLInputElement;
+    const oldFreq = Number(freqInput.value);
+    canvas.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    expect(Number(freqInput.value)).toBeGreaterThan(oldFreq);
+
+    // R resets to defaults
+    canvas.dispatchEvent(new KeyboardEvent('keydown', { key: 'r', bubbles: true }));
+    expect(Number(freqInput.value)).toBe(wave.params.find(p => p.id === 'frequency')!.default);
+  });
+});

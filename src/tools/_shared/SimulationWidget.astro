@@ -70,7 +70,14 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
   <div class="tool-panel phys-stage">
     <h2 class="phys-h phys-h--stage">{stageHeading}</h2>
     <div class="phys-canvas-wrap">
-      <canvas class="phys-canvas" data-sim-canvas role="img" aria-label={canvasLabel}></canvas>
+      <canvas
+        class="phys-canvas"
+        data-sim-canvas
+        tabindex="0"
+        role="region"
+        aria-roledescription="interactive physics simulation"
+        aria-label={`${canvasLabel}. Press Space to play or pause, R to reset, bracket keys to adjust speed, arrow keys to nudge.`}
+      ></canvas>
       {sim.pointer && (
         <p class="phys-hint" data-sim-hint>{sim.pointer.hint}</p>
       )}
@@ -94,6 +101,13 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
           >{sp}×</button>
         ))}
       </div>
+      <button
+        type="button"
+        class="phys-btn phys-btn--share"
+        data-sim-share
+        aria-label="Copy link to this setup"
+        title="Copy link to this setup"
+      >Share</button>
     </div>
   </div>
 
@@ -349,6 +363,11 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
   .phys-canvas[data-interacting='true'],
   .phys-canvas:active { cursor: grabbing; }
 
+  .phys-canvas:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: -2px;
+  }
+
   /* Audit X-1: the hint sits under the canvas, not on it, so it never covers the equation line
      or a caption. When it hides it keeps its line, so nothing below it jumps. */
   .phys-hint {
@@ -449,6 +468,10 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
 
   .phys-btn--primary[aria-pressed='true']:hover {
     background: var(--color-surface-hover);
+  }
+
+  .phys-btn--share {
+    margin-left: auto;
   }
 
   .phys-speeds {

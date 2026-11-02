@@ -15,6 +15,12 @@ export const config: ToolConfig = {
   family: 'interest',
   toolGroup: 'growth-calculators',
   processorId: 'roi',
+  craft: {
+    id: 'roi-annualized-gap',
+    kind: 'orientation',
+    solves:
+      'Holding-period total return ignores holding duration, making a 50% gain over 10 years appear deceptively comparable to a 50% gain over 2 years.',
+  },
   relatedTools: ['cagr-calculator', 'compound-interest-calculator', 'inflation-calculator'],
   methodology: {
     name: 'Return on investment, with annualization',

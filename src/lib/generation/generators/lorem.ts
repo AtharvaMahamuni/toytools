@@ -70,7 +70,7 @@ export const lorem: Generator = {
       ],
     },
     { id: 'count', label: 'How many', type: 'number', default: 5, min: 1, max: 100, step: 1 },
-    { id: 'startWithLorem', label: 'Start with "Lorem ipsum dolor sit amet"', type: 'boolean', default: true, group: 'Options' },
+    { id: 'startWithLorem', label: 'Start with "Lorem ipsum dolor sit amet"', type: 'boolean', default: true, group: 'Options', craft: 'lorem-cicero-lead' },
   ],
   generate(opts: GeneratorOptions): GenerationResult {
     const unit = String(opts.unit ?? 'paragraphs');

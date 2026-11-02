@@ -165,4 +165,17 @@ export const punycode: EncodingTool = {
     if (hasNonAscii(input)) return { mode: 'encode', confidence: 'high', label: 'Unicode' };
     return { mode: 'encode', confidence: 'low', label: 'ASCII' };
   },
+
+  recover(text, mode) {
+    if (mode === 'decode') {
+      const trimmed = text.trim();
+      if (!trimmed.includes('.') && !/^xn--/i.test(trimmed) && trimmed.includes('-')) {
+        return {
+          label: 'Add xn-- prefix and decode',
+          text: `xn--${trimmed}`,
+        };
+      }
+    }
+    return null;
+  },
 };

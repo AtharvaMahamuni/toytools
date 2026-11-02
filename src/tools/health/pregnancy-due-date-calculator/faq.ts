@@ -45,8 +45,8 @@ export const items: FAQItem[] = [
   },
   {
     id: 'pregnancy-due-date-calculator-faq-8',
-    question: 'Are these dates uploaded?',
+    question: 'Is my personal pregnancy timeline and LMP date uploaded?',
     answer:
-      'No. The last period, the cycle length, and the count date stay in the browser. What you enter stays on your device.',
+      'No. Gestational age and trimester milestone calculations occur strictly on your device. Reproductive dates remain confidential in your current session.',
   },
 ];

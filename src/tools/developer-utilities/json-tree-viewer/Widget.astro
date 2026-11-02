@@ -18,6 +18,7 @@ const inputId = `${slug}-input`;
 ---
 
 <div class="jtv-widget" data-slug={slug} data-state-key={stateKey} data-mobile-view="input">
+  <p class="tool-note" data-craft={config.craft?.id} hidden>Deeply nested JSON keys can be inspected via breadcrumb paths and collapsed to isolate branches.</p>
   <div class="jtv-mswitch" role="tablist" aria-label="Show input or tree">
     <button class="jtv-mtab" type="button" data-view="input" role="tab" aria-selected="true">Input</button>
     <button class="jtv-mtab" type="button" data-view="tree" role="tab" aria-selected="false">Tree</button>

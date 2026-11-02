@@ -3,9 +3,9 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'tic-tac-toe',
   name: 'Tic Tac Toe',
-  seoTitle: 'Tic Tac Toe Online: Two Player, Same Device',
+  seoTitle: 'Tic Tac Toe Online: Two Player, Same Device (Xs and Os)',
   description:
-    'Play tic tac toe online, two player, same device. No download and no account. Noughts and crosses, with undo and rematch.',
+    'Play tic tac toe online (Xs and Os), two player, same device. No download and no account. Noughts and crosses, with undo and rematch.',
   tagline: 'Two players, one phone. Undo a mis-tap.',
   categorySlug: 'games',
   tags: [

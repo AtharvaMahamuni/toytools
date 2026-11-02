@@ -50,7 +50,7 @@ export const knowledge: Knowledge = {
   ],
   commonMistakes: [
     'Expecting habits to sync across phones and laptops',
-    'Clearing browser data without exporting JSON first',
+    'Purging local storage cache without exporting habit streak history log first',
     'Tracking too many habits until the list becomes guilt',
     'Treating one missed day as a reason to quit entirely',
   ],

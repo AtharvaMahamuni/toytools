@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   family: 'web',
   relatedTools: ['slugify-text', 'url-encoder-decoder'],
   processorId: 'punycode',
+  craft: {
+    id: 'punycode-ace-prefix',
+    kind: 'recovery',
+    solves:
+      'Raw Punycode DNS labels copied without the xn-- ACE prefix fail decoding, so the tool offers to prepend xn-- and decode the domain.',
+  },
   toolGroup: 'encoders',
   guide: {
     slug: 'what-is-punycode',

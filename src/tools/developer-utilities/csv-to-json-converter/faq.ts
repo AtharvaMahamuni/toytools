@@ -39,14 +39,14 @@ export const items: FAQItem[] = [
   },
   {
     id: 'c2j-faq-7',
-    question: 'Can I convert the JSON back to CSV?',
+    question: 'Can I convert the generated JSON back to tabular CSV format?',
     answer:
-      'Yes. Use the JSON to CSV Converter, the sibling tool in this workspace. Switch direction with the pill above the editor and your result carries straight over, so you can round-trip between CSV and JSON without copying and pasting.',
+      'Yes. Select the JSON to CSV Converter sibling pill in the header toolbar. The parsed JSON object array automatically propagates into the sibling tool for immediate conversion without clipboard re-pasting.',
   },
   {
     id: 'c2j-faq-8',
-    question: 'Is my data sent to a server when I convert?',
+    question: 'Are my CSV spreadsheets uploaded or logged during JSON conversion?',
     answer:
-      'No. All conversion happens in your browser using JavaScript. Your CSV data never leaves your machine: there is no upload, no server-side processing, and no logging of what you convert. This makes the tool safe to use with internal or sensitive data.',
+      'No. The CSV delimiter parser and JSON serializer run inside a local Web Worker thread in your browser. Raw table rows, customer records, and numeric columns never transmit over HTTP or enter server logs.',
   },
 ];

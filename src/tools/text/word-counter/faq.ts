@@ -57,9 +57,9 @@ export const items: FAQItem[] = [
   },
   {
     id: 'wc-faq-10',
-    question: 'Can I count words in a prompt without uploading it?',
+    question: 'Can I track word limits on proprietary documents without uploading them?',
     answer:
-      'Yes. The count runs in your browser. The text is not sent to a server, and this page does not call an AI model.',
+      'Yes. The word frequency, reading time, and total count calculations occur purely in your browser window. No text payload leaves your machine or gets fed into training datasets.',
   },
   {
     id: 'wc-faq-11',

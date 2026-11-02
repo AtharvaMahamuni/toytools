@@ -4,3 +4,4 @@ import { config } from './config';
 ---
 
 <StructuredDataWidget slug={config.slug} structuredId={config.processorId!} config={config} />
+<p class="tool-note" data-craft={config.craft?.id} hidden>Leading zeros and large integers in CSV columns are preserved safely during JSON serialization.</p>

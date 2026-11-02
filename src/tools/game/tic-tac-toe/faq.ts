@@ -17,13 +17,13 @@ export const items: FAQItem[] = [
     id: 'ttt-faq-3',
     question: 'Does undo remove the point as well as the mark?',
     answer:
-      'Yes. Undo takes back the last move only.\nIf that move won or drew, the score returns to the earlier tally and the banner matches the board.',
+      'Yes. Undo erases the last X or O placed on the 3x3 grid. When that placement had completed a row, column, or diagonal line, the awarded point is deducted and the previous state is restored.',
   },
   {
     id: 'ttt-faq-4',
     question: 'Does rematch wipe the score?',
     answer:
-      'No. Rematch keeps the tally.\nIt clears the nine squares and the other seat moves first. Nothing is saved, so refreshing the page starts the tally at zero, and Reset score zeroes it at any time.',
+      'No. Choosing Rematch empties the 9 squares for a new round while retaining your cumulative X vs O match record. Player turn order rotates so the second player moves first.',
   },
   {
     id: 'ttt-faq-5',

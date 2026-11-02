@@ -13,6 +13,12 @@ export const config: ToolConfig = {
   engine: 'text-interactive',
   pattern: 'text-interactive',
   family: 'find-replace',
+  craft: {
+    id: 'find-replace-regex-literal',
+    kind: 'guardrail',
+    solves:
+      'Searching for literal characters like brackets, asterisks, or periods in regex mode produces cryptic syntax errors or unexpected mass replacements.',
+  },
   guide: {
     slug: 'find-replace',
     categorySlug: 'text-utilities',

@@ -244,7 +244,18 @@ const THRESHOLDS = {
   // 2026-10-31: 0.748 (128/171), truncated from 0.748538. Infinity Cube ships
   //   guardrail craft infinity-cube-hinge. A second swipe during a fold is ignored,
   //   so the chain cannot skip a hinge.
-  coverage: 0.748,
+  // 2026-11-02: 0.812 (139/171), truncated from 0.812865. Eleven backlog tools ship craft:
+  //   compound-interest, emergency-fund, cagr, inflation, pomodoro, todo-list, notepad,
+  //   qr-code, date-difference, cron, and html-entity recovery.
+  // 2026-11-02: 0.877 (150/171), truncated from 0.877192. Eleven more backlog tools ship craft:
+  //   scientific-calculator, binary-text, hex, json-escape, combinations, prime-factorization,
+  //   fraction, macro, body-fat, timezone, and age calculator.
+  // 2026-11-02: 1.000 (171/171). 100% craft coverage across all non-simulation tools in the catalog.
+  //   Final 21 backlog tools ship craft: unix-timestamp, rot13, punycode, json-tree,
+  //   csv-cleaner, csv-diff, csv-to-tsv, csv-to-json, yaml-to-json, roi, rule-of-72,
+  //   savings-goal, sip, find-replace, uppercase, lorem-ipsum, random-string, uuid,
+  //   body-weight, move-today, and water-intake.
+  coverage: 1.0,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

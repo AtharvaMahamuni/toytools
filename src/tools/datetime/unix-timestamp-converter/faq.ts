@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
   },
   {
     id: 'unix-timestamp-converter-faq-5',
-    question: 'Is my data sent anywhere?',
-    answer: 'No. The conversion runs entirely in your browser using your device clock and built-in timezone data. Nothing you type is uploaded, stored on a server, or shared, so it works offline once the page has loaded.',
+    question: 'Are backend database timestamps or log epochs sent to a server?',
+    answer: 'No. Unix epoch mathematical divisions and ISO-8601 string formatting execute in your browser runtime. Production server timestamps and user IDs remain secure on your machine.',
   },
 ];

@@ -26,6 +26,11 @@ export const config: ToolConfig = {
   keywords: ['lorem', 'ipsum', 'placeholder', 'dummy', 'filler', 'text'],
   inputs: ['options'],
   outputs: ['text'],
+  craft: {
+    id: 'lorem-cicero-lead',
+    kind: 'orientation',
+    solves: 'Users often wonder whether generated placeholder text has meaning; the tool orientates them to Cicero classical philosophical source text.',
+  },
   guide: {
     slug: 'lorem-ipsum-generator',
     categorySlug: 'generate',

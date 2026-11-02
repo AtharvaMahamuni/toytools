@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   family: 'binary-text',
   processorId: 'hex',
   toolGroup: 'encoders',
+  craft: {
+    id: 'hex-strip-prefix',
+    kind: 'recovery',
+    solves:
+      'Hexadecimal copied from packet dumps or source code often carries comma or colon delimiters that cause decode rejections.',
+  },
   relatedTools: ['base64-encoder-decoder', 'url-encoder-decoder'],
   guide: {
     slug: 'hex-encoder-decoder',

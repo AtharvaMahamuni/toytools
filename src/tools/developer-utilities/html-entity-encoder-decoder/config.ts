@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   family: 'web',
   processorId: 'html-entity',
   toolGroup: 'encoders',
+  craft: {
+    id: 'html-entity-recover',
+    kind: 'recovery',
+    solves:
+      'HTML entities pasted from CMS engines often arrive double-escaped or missing terminal semicolons, causing literal ampersands instead of decoded glyphs.',
+  },
   relatedTools: ['base64-encoder-decoder', 'url-encoder-decoder'],
   guide: {
     slug: 'what-is-html-entity-encoding',

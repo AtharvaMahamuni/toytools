@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   pattern: 'structured-transform',
   family: 'json',
   processorId: 'yaml-to-json',
+  craft: {
+    id: 'yaml-tabs-disallowed',
+    kind: 'recovery',
+    solves:
+      'YAML specification strictly forbids hard tabs for indentation, causing syntax errors when copying code from editors with tab indents.',
+  },
   toolGroup: 'json-yaml',
   relatedTools: ['json-to-yaml-converter', 'json-formatter', 'json-validator', 'json-to-csv-converter'],
   guide: {

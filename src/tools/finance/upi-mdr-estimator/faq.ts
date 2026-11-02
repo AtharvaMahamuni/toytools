@@ -64,9 +64,9 @@ export const items: FAQItem[] = [
   },
   {
     id: 'mdr-faq-11',
-    question: 'Are my numbers uploaded?',
+    question: 'Is my store turnover or payment volume uploaded?',
     answer:
-      'No. What you enter stays on your device.\nThe amount stays in this tab. Close the tab and the number is gone. There is no account on this page.',
+      'No. The merchant rate estimator performs local multiplication inside your client browser. Transaction sizes remain private to your local device session.',
   },
   {
     id: 'mdr-faq-12',

@@ -59,12 +59,12 @@ export const items: FAQItem[] = [
     id: 'md5-faq-10',
     question: 'Can I hash text with MD5 without uploading it?',
     answer:
-      'Yes. The digest is computed in your browser. The text is not sent to a server to be hashed.',
+      'Yes. The 128-bit MD5 digest is computed strictly client-side using in-memory JavaScript. Plaintext never traverses a network connection or reaches external infrastructure.',
   },
   {
     id: 'md5-faq-11',
-    question: 'Is the MD5 tool an AI tool?',
+    question: 'Can an AI tool reverse this MD5 hash back to text?',
     answer:
-      'No. It computes an MD5 digest. It does not call a model, and it cannot turn a digest back into the original text.',
+      'No. MD5 is a one-way mathematical hashing algorithm, not a machine learning model. It cannot mathematically invert a digest back into the original input string.',
   },
 ];

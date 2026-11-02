@@ -21,6 +21,11 @@ export const config: ToolConfig = {
   toolGroup: 'health-trackers',
   processorId: 'move-today',
   relatedTools: ['water-intake-tracker', 'body-weight-tracker', 'heart-rate-zone-calculator'],
+  craft: {
+    id: 'move-sedentary-window',
+    kind: 'guardrail',
+    solves: 'Prolonged continuous sedentary sitting for over 60 minutes elevates metabolic risks even when daily workout goals are otherwise met.',
+  },
   guide: {
     slug: 'how-to-build-a-daily-movement-habit',
     categorySlug: 'health-fitness',

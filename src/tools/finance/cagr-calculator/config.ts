@@ -15,6 +15,12 @@ export const config: ToolConfig = {
   family: 'interest',
   toolGroup: 'growth-calculators',
   processorId: 'cagr',
+  craft: {
+    id: 'cagr-volatility-gap',
+    kind: 'orientation',
+    solves:
+      'CAGR assumes smooth geometric growth across volatile assets, hiding drawdowns that force liquidations before the annualized return is realized.',
+  },
   relatedTools: ['roi-calculator', 'rule-of-72-calculator', 'compound-interest-calculator'],
   methodology: {
     name: 'Compound annual growth rate',

@@ -15,15 +15,15 @@ export const items: FAQItem[] = [
   },
   {
     id: 'c4-faq-3',
-    question: 'Does undo remove the point as well as the disc?',
+    question: 'Does undo retract an accidental drop and update the leaderboard?',
     answer:
-      'Yes. Undo takes back the last disc only.\nIf that disc won or drew, the score returns to the earlier tally and the banner matches the board.',
+      'Yes. Tapping Undo pulls back the most recently dropped disc from its column slot. If that disc completed a four-in-a-row diagonal, horizontal, or vertical line, the win tally reverts to the previous count.',
   },
   {
     id: 'c4-faq-4',
-    question: 'Does rematch wipe the score?',
+    question: 'Does starting a rematch reset the head-to-head disc record?',
     answer:
-      'No. Rematch keeps the tally.\nIt clears the grid and the other color drops first. Nothing is saved, so refreshing the page starts the tally at zero, and Reset score zeroes it at any time.',
+      'No. Rematch preserves the session win counter while emptying all 42 grid slots. The starting player alternates so red and yellow take turns dropping first. Reset score clears the tally.',
   },
   {
     id: 'c4-faq-5',

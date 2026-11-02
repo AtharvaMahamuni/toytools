@@ -22,6 +22,12 @@ export const config: ToolConfig = {
   pattern: 'generate-code',
   family: 'code',
   processorId: 'qr-code',
+  craft: {
+    id: 'qr-error-correction',
+    kind: 'guardrail',
+    solves:
+      'Printing a dense QR code with Low error correction risks unreadable scans if damaged or folded, while High error correction bloats module density beyond mobile camera resolution.',
+  },
   relatedTools: ['password-generator', 'uuid-generator'],
   keywords: ['qr', 'code', 'wifi', 'vcard', 'url', 'png', 'svg', 'download'],
   inputs: ['options'],

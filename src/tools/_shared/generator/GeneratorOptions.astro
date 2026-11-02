@@ -54,7 +54,7 @@ const rows = fields.map((f) => {
             <span>{field.label}</span>
           </label>
         ) : (
-          <label class="gen-label" for={fid(field.id)}>{field.label}</label>
+          <label class="gen-label" for={fid(field.id)} data-craft={field.craft}>{field.label}</label>
         )}
 
         {field.type === 'range' && (

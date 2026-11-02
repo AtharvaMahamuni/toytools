@@ -17,13 +17,13 @@ export const items: FAQItem[] = [
     id: 'upi-faq-3',
     question: 'What did PIB Delhi say on 15 Sep 2026?',
     answer:
-      'Person-to-person UPI stays free at any amount.\nMDR is not a tax and is not collected by the government or NPCI. A 0.4% MDR can apply to some person-to-merchant payments above 2000 rupees. Customers are not supposed to pay that MDR.',
+      'Person-to-person UPI transfers remain free at any rupee amount. Social media memes conflated merchant fees with personal taxes, which the government clarified applies only to select PPI wallet transactions.',
   },
   {
     id: 'upi-faq-4',
     question: 'Is MDR a tax?',
     answer:
-      'No. MDR is not a tax.\nIt is not collected by the government or NPCI. A 0.4% MDR can apply to some person-to-merchant payments above 2000 rupees. Customers are not supposed to pay that MDR.',
+      'No. Merchant Discount Rate (MDR) is a commercial payment-processing charge between merchant banks and payment aggregators, not a government tax deducted from customers.',
   },
   {
     id: 'upi-faq-5',
@@ -57,9 +57,9 @@ export const items: FAQItem[] = [
   },
   {
     id: 'upi-faq-10',
-    question: 'Are my numbers uploaded?',
+    question: 'Are my payment amounts uploaded or tracked?',
     answer:
-      'No. What you enter stays on your device.\nThe total stays in this tab. Close the tab and the number is gone. There is no account on this page.',
+      'No. The chunk division runs purely via arithmetic in your browser. No financial figures or UPI IDs are transmitted or saved.',
   },
   {
     id: 'upi-faq-11',

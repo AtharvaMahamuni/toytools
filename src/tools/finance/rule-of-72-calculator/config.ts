@@ -15,6 +15,12 @@ export const config: ToolConfig = {
   family: 'interest',
   toolGroup: 'growth-calculators',
   processorId: 'rule-of-72',
+  craft: {
+    id: 'rule72-high-rate-error',
+    kind: 'guardrail',
+    solves:
+      'The Rule of 72 rule-of-thumb diverges rapidly at rates exceeding 20%, so the calculator alerts users to exact logarithmic doubling time.',
+  },
   relatedTools: ['compound-interest-calculator', 'inflation-calculator', 'savings-goal-calculator'],
   methodology: {
     name: 'Rule of 72 approximation',

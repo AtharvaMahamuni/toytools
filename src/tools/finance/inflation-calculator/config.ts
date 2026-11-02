@@ -15,6 +15,12 @@ export const config: ToolConfig = {
   family: 'inflation',
   toolGroup: 'growth-calculators',
   processorId: 'inflation',
+  craft: {
+    id: 'inflation-purchasing-power',
+    kind: 'orientation',
+    solves:
+      'Future purchasing power numbers look abstract until translated into real price doubling time and real purchasing haircut percentage.',
+  },
   relatedTools: ['compound-interest-calculator', 'rule-of-72-calculator', 'savings-goal-calculator'],
   methodology: {
     name: 'Periodic compounding formula',

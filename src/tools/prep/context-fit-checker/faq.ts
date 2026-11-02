@@ -21,8 +21,8 @@ export const items: FAQItem[] = [
   },
   {
     id: 'cf-faq-4',
-    question: 'Is my text uploaded?',
+    question: 'Are my prompt documents uploaded to check token context window fit?',
     answer:
-      'No. The estimate runs in your browser. What you enter stays on your device. Reloading the page clears the text.',
+      'No. BPE tokenizer approximations calculate token counts directly within your browser JavaScript engine. Your draft books, legal briefs, and codebase files are not transmitted.',
   },
 ];

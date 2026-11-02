@@ -13,6 +13,12 @@ export const config: ToolConfig = {
   pattern: 'encode-decode',
   family: 'binary-text',
   processorId: 'rot13',
+  craft: {
+    id: 'rot13-self-inverse',
+    kind: 'orientation',
+    solves:
+      'Users frequently search for a separate ROT13 decoder without realizing ROT13 is symmetric: applying the cipher twice restores the original text.',
+  },
   toolGroup: 'encoders',
   relatedTools: ['base64-encoder-decoder', 'reverse-text', 'binary-text-converter'],
   guide: {

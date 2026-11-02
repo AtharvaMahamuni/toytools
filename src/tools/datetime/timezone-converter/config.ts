@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   pattern: 'datetime-convert',
   family: 'timezone',
   processorId: 'timezone',
+  craft: {
+    id: 'tz-dst-ambiguity',
+    kind: 'orientation',
+    solves:
+      'Clocks falling back during daylight saving autumn transitions repeat an entire hour, producing ambiguous wall-clock times that need timezone offset disambiguation.',
+  },
   relatedTools: ['age-calculator', 'date-difference-calculator'],
   guide: {
     slug: 'timezone-converter',

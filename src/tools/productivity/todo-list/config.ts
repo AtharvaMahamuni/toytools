@@ -17,6 +17,12 @@ export const config: ToolConfig = {
   engine: 'productivity',
   pattern: 'stateful',
   family: 'task',
+  craft: {
+    id: 'todo-wake-lock',
+    kind: 'continuation',
+    solves:
+      'People prop a checklist beside their workstation and look down to find the phone screen went to sleep, requiring hands off the physical task to re-authenticate.',
+  },
   guide: {
     slug: 'how-to-use-a-todo-list',
     categorySlug: 'productivity',

@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   pattern: 'csv-transform',
   family: 'clean',
   processorId: 'csv-clean',
+  craft: {
+    id: 'csv-cleaner-delimiter',
+    kind: 'recovery',
+    solves:
+      'Mixed commas, semicolons, and ragged uneven rows cause parser crashes, so the cleaner identifies delimiters and fixes jagged column counts.',
+  },
   toolGroup: 'csv-tools',
   relatedTools: ['csv-diff', 'csv-to-json-converter', 'remove-blank-lines'],
   guide: {

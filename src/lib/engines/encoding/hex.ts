@@ -72,4 +72,22 @@ export const hex: EncodingTool = {
       { label: 'Text bytes', value: String(byteLength(mode === 'encode' ? input : output)) },
     ];
   },
+
+  recover(text, mode) {
+    if (mode === 'decode') {
+      if (/[,:]/.test(text) && /[0-9a-fA-F]/i.test(text)) {
+        return {
+          label: 'Strip comma or colon delimiters',
+          text: text.replace(/[,:]/g, ' '),
+        };
+      }
+      if (/\b0x/i.test(text)) {
+        return {
+          label: 'Strip 0x prefixes',
+          text: text.replace(/\b0x/gi, ''),
+        };
+      }
+    }
+    return null;
+  },
 };

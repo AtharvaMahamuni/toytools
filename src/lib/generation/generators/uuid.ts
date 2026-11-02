@@ -31,7 +31,7 @@ export const uuid: Generator = {
   live: false,
   fields: [
     { id: 'count', label: 'How many', type: 'number', default: 1, min: 1, max: 100, step: 1 },
-    { id: 'version', label: 'Version', type: 'select', default: 'v4', options: [{ value: 'v4', label: 'Version 4 (random)' }] },
+    { id: 'version', label: 'Version', type: 'select', default: 'v4', options: [{ value: 'v4', label: 'Version 4 (random)' }], craft: 'uuid-rfc4122-v4' },
     { id: 'hyphens', label: 'Include hyphens', type: 'boolean', default: true, group: 'Format' },
     { id: 'uppercase', label: 'Uppercase', type: 'boolean', default: false, group: 'Format' },
   ],

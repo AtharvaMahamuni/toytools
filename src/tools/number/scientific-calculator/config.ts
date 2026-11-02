@@ -21,6 +21,12 @@ export const config: ToolConfig = {
   engine: 'calculator',
   pattern: 'calculate',
   family: 'arithmetic',
+  craft: {
+    id: 'calc-deg-rad-mode',
+    kind: 'orientation',
+    solves:
+      'Evaluating trigonometric functions in the wrong angle mode silently produces incorrect answers, so the active DEG or RAD state is visibly foregrounded above the keypad.',
+  },
   relatedTools: ['percentage-calculator', 'tip-calculator', 'discount-calculator'],
   guide: {
     slug: 'how-to-use-a-scientific-calculator',

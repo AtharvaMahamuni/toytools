@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   pattern: 'math-calculate',
   family: 'fractions',
   processorId: 'fraction',
+  craft: {
+    id: 'fraction-mixed-improper',
+    kind: 'orientation',
+    solves:
+      'Entering mixed numbers without explicit whole-part handling leads users to misread improper fractions or lose the whole number part in division.',
+  },
   relatedTools: ['fraction-bars-calculator', 'percentage-calculator', 'quadratic-equation-solver', 'unit-circle-calculator'],
   guide: {
     slug: 'fraction-calculator',

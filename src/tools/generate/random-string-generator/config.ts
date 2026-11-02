@@ -25,6 +25,11 @@ export const config: ToolConfig = {
   keywords: ['random', 'string', 'token', 'key', 'nonce', 'entropy', 'alphabet'],
   inputs: ['options'],
   outputs: ['text'],
+  craft: {
+    id: 'random-string-entropy',
+    kind: 'guardrail',
+    solves: 'Generating tokens without lowercase, uppercase, and digit variety yields low entropy strings vulnerable to dictionary attacks and collision.',
+  },
   guide: {
     slug: 'random-string-generator',
     categorySlug: 'generate',

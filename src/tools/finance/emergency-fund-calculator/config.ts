@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   pattern: 'finance-planning',
   family: 'savings',
   processorId: 'emergency-fund',
+  craft: {
+    id: 'emergency-months-target',
+    kind: 'guardrail',
+    solves:
+      'People calculate emergency funds on gross income rather than essential expenses, inflating targets so high they abandon savings before starting.',
+  },
   relatedTools: ['savings-goal-calculator', 'compound-interest-calculator', 'inflation-calculator'],
   methodology: {
     name: 'Months of essential expenses',

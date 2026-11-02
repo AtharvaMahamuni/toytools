@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'normalize-whitespace',
   name: 'Normalize Whitespace',
   seoTitle: 'Normalize Whitespace — Collapse All Spacing Online',
-  description: 'Clean whitespace by collapsing every run of spaces, tabs and newlines into single spaces, then trimming the result.',
+  description: 'Clean whitespace and standardize spacing. Whitespace normalization to fix messy spacing by collapsing spaces, tabs and newlines into single spaces.',
   tagline: 'Collapse every run of whitespace into single spaces.',
   categorySlug: 'text-utilities',
   tags: ['normalize whitespace', 'collapse whitespace', 'flatten text', 'remove line breaks', 'single line text', 'clean whitespace', 'remove newlines'],
