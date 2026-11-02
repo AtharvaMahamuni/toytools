@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   pattern: 'math-calculate',
   family: 'combinatorics',
   processorId: 'combinations',
+  craft: {
+    id: 'comb-n-ge-r',
+    kind: 'guardrail',
+    solves:
+      'Attempting to choose more items than the total set size without repetition (r > n) is mathematically impossible, so the boundary condition is flagged before formula evaluation.',
+  },
   relatedTools: ['fraction-calculator', 'quadratic-equation-solver', 'unit-circle-calculator'],
   guide: {
     slug: 'combinations-permutations-calculator',

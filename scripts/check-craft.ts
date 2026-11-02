@@ -247,7 +247,10 @@ const THRESHOLDS = {
   // 2026-11-02: 0.812 (139/171), truncated from 0.812865. Eleven backlog tools ship craft:
   //   compound-interest, emergency-fund, cagr, inflation, pomodoro, todo-list, notepad,
   //   qr-code, date-difference, cron, and html-entity recovery.
-  coverage: 0.812,
+  // 2026-11-02: 0.877 (150/171), truncated from 0.877192. Eleven more backlog tools ship craft:
+  //   scientific-calculator, binary-text, hex, json-escape, combinations, prime-factorization,
+  //   fraction, macro, body-fat, timezone, and age calculator.
+  coverage: 0.877,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

@@ -120,7 +120,7 @@ test.describe('encoding recovery (the craft seam)', () => {
 
   test('a tool whose processor has no honest fix renders no offer at all', async ({ page }) => {
     // Declining to guess is a legitimate answer, and it must cost nothing on the page.
-    await page.goto('/tool/developer-utilities/hex-encoder-decoder/');
+    await page.goto('/tool/developer-utilities/rot13-encoder-decoder/');
     await expect(page.locator('.conv-recover')).toHaveCount(0);
   });
 });
@@ -568,9 +568,9 @@ test.describe('wellness caveats (the wellness craft seam)', () => {
     await expect(note).toContainText('factor of three');
   });
 
-  test('the macro calculator renders no caveat at all', async ({ page }) => {
-    await page.goto('/tool/health/macro-calculator/');
-    await expect(page.locator('#macro-calculator-caveat')).toHaveCount(0);
+  test('a wellness tool without craft renders no caveat at all', async ({ page }) => {
+    await page.goto('/tool/health/water-intake-tracker/');
+    await expect(page.locator('#water-intake-tracker-caveat')).toHaveCount(0);
   });
 
   test('waist to hip stays quiet at 0.80 and speaks when one side is inches', async ({ page }) => {

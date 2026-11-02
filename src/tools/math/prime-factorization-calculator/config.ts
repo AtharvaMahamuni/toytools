@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   pattern: 'math-calculate',
   family: 'number-theory',
   processorId: 'prime-factorization',
+  craft: {
+    id: 'prime-composite-trivial',
+    kind: 'orientation',
+    solves:
+      'Prime factorization on numbers less than 2 or prime inputs can look like a calculation failure unless the prime or unit status is explicitly declared.',
+  },
   relatedTools: ['fraction-calculator', 'combinations-permutations-calculator', 'quadratic-equation-solver'],
   guide: {
     slug: 'prime-factorization-calculator',

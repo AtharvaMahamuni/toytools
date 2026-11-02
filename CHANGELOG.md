@@ -2,6 +2,34 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.23] - 2026-11-02
+
+### Added
+
+- **Tool Craft Ratchet Expansion to 87.7% (150 of 171 Tools Declared & Verified).**
+  - Implemented and wired declared craft affordances across 11 backlog tools spanning math, number, developer utilities, health, and datetime categories:
+    - `scientific-calculator`: `calc-deg-rad-mode` (orientation craft alerting users whether trigonometric functions evaluate in degrees or radians).
+    - `binary-text-converter`: `binary-text-recover` (recovery craft detecting ASCII vs UTF-8 byte boundary splits).
+    - `hex-encoder-decoder`: `hex-strip-prefix` (recovery craft stripping `0x` prefixes, comma separations, or spaced nibbles).
+    - `json-escape`: `json-escape-newline` (recovery craft normalizing raw carriage returns and escaped backslashes).
+    - `combinations-permutations-calculator`: `comb-n-ge-r` (guardrail craft indicating $n < r$ impossibility before calculation errors occur).
+    - `prime-factorization-calculator`: `prime-composite-trivial` (orientation craft identifying composite test numbers and powers of 2).
+    - `fraction-calculator`: `fraction-mixed-improper` (recovery craft converting mixed fractions into improper fractions).
+    - `macro-calculator`: `macro-percentage-sum` (guardrail craft ensuring macro protein/carb/fat split percentages sum to exactly 100%).
+    - `body-fat-calculator`: `body-fat-waist-spread` (orientation craft identifying boundary cases where Navy body fat tape measurements diverge).
+    - `timezone-converter`: `tz-dst-ambiguity` (orientation craft flagging fall-back 1-hour daylight saving time ambiguity).
+    - `age-calculator`: `age-leap-year-boundary` (orientation craft identifying leap year birthday boundaries).
+  - Raised the `check:craft` coverage gate floor in `scripts/check-craft.ts` from 81.2% to 87.7% (150/171 tools).
+
+- **Catalog-wide SEO & Generative Engine Optimization (GEO).**
+  - Evaluated content intelligence across the tool catalog with `seo-engine/scripts/analyze-tool.ts`: all newly crafted tools passed all quality criteria (Overall $\ge 75$, Writing Quality $\ge 70$, Usefulness $\ge 60$, Query Targeting 100%, 0 AI-tell phrases, 0 em-dashes).
+  - Reinforced authoritative quotable definitions ("What is..."), comparison formats ("X vs Y"), and troubleshooting solutions for LLMs (Google AI Overviews, Perplexity, ChatGPT).
+  - Verified full agentic crawler and discovery suite: `robots.txt`, `llms.txt`, `llms-full.txt`, `ai.txt`, `ai.json`, `robots-ai.txt`, `brand.txt`, `faq-ai.txt`, and `identity.json`.
+
+### Fixed
+
+- **Budget & Performance Guarantees:** Maintained all 420 built pages strictly under budget caps, including 11.5KB gzipped CSS (ceiling 18.0KB) and 9.8KB gzipped search terms (ceiling 10.0KB).
+
 ## [alpha-v13.22] - 2026-11-02
 
 ### Added

@@ -20,6 +20,12 @@ export const config: ToolConfig = {
   family: 'body-composition',
   toolGroup: 'body-metrics',
   processorId: 'body-fat',
+  craft: {
+    id: 'body-fat-waist-spread',
+    kind: 'orientation',
+    solves:
+      'Circumference tape measurements vary with breathing and tension, so small differences in waist tightness shift body fat estimates by several percent.',
+  },
   relatedTools: ['bmi-calculator', 'tdee-calculator', 'body-weight-tracker', 'move-today-tracker'],
   methodology: {
     name: 'US Navy circumference method',

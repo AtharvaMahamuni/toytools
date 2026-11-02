@@ -72,4 +72,22 @@ export const binary: EncodingTool = {
       { label: 'Text bytes', value: String(byteLength(mode === 'encode' ? input : output)) },
     ];
   },
+
+  recover(text, mode) {
+    if (mode === 'decode') {
+      if (/\b0b[01]+/i.test(text)) {
+        return {
+          label: 'Strip 0b prefixes',
+          text: text.replace(/\b0b/gi, ''),
+        };
+      }
+      if (/[,_]/.test(text) && /[01]/.test(text)) {
+        return {
+          label: 'Remove delimiters',
+          text: text.replace(/[,_]/g, ' '),
+        };
+      }
+    }
+    return null;
+  },
 };

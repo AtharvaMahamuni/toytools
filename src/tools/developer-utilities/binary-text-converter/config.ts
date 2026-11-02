@@ -15,6 +15,12 @@ export const config: ToolConfig = {
   relatedTools: ['ipv4-converter', 'binary-converter'],
   processorId: 'binary',
   toolGroup: 'encoders',
+  craft: {
+    id: 'binary-text-recover',
+    kind: 'recovery',
+    solves:
+      'Binary text copied from code often includes 0b prefixes or comma/underscore delimiters that cause decode rejections.',
+  },
   guide: {
     slug: 'how-to-convert-text-to-binary',
     categorySlug: 'developer-utilities',

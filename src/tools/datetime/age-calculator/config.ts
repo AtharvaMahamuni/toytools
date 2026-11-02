@@ -14,6 +14,12 @@ export const config: ToolConfig = {
   pattern: 'datetime-calculate',
   family: 'age',
   processorId: 'age',
+  craft: {
+    id: 'age-leap-year-boundary',
+    kind: 'orientation',
+    solves:
+      'Birthdays on February 29 during non-leap years shift legal age boundaries depending on jurisdiction conventions (Feb 28 vs March 1).',
+  },
   guide: {
     slug: 'age-calculator',
     categorySlug: 'datetime',
