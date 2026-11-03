@@ -113,6 +113,30 @@ export function zonedWallToUtc(wall: CivilDateTime, timeZone: string): number {
   return utc;
 }
 
+/**
+ * Whether a wall-clock time exists once, twice or never in `timeZone`. Spring-forward skips an hour
+ * (2026-03-08 02:30 in New York never happens) and fall-back repeats one (2026-11-01 01:30 happens
+ * twice), so a converter must say so rather than silently pick a reading.
+ */
+export type WallTimeStatus = 'ok' | 'nonexistent' | 'ambiguous';
+
+export function wallTimeStatus(wall: CivilDateTime, timeZone: string): WallTimeStatus {
+  const wallMs = Date.UTC(wall.y, wall.m - 1, wall.d, wall.hour, wall.minute, wall.second);
+  const same = (utc: number): boolean => {
+    const p = partsInZone(timeZone, new Date(utc));
+    return (
+      p.y === wall.y && p.m === wall.m && p.d === wall.d &&
+      p.hour === wall.hour && p.minute === wall.minute && p.second === wall.second
+    );
+  };
+  const offsets = new Set<number>();
+  for (const shiftH of [-30, -6, 0, 6, 30]) offsets.add(zoneOffsetMs(timeZone, new Date(wallMs + shiftH * 3_600_000)));
+  const hits = new Set<number>();
+  for (const off of offsets) if (same(wallMs - off)) hits.add(wallMs - off);
+  if (hits.size === 0) return 'nonexistent';
+  return hits.size > 1 ? 'ambiguous' : 'ok';
+}
+
 /** Format an offset in ms as 'UTC', 'UTC+05:30', or 'UTC-04:00'. */
 export function offsetLabel(ms: number): string {
   if (ms === 0) return 'UTC';

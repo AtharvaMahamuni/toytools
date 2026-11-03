@@ -87,10 +87,14 @@ export const bmiCalculator: WellnessCalculator = {
     const heightM = isMetric ? cmToM(h.value) : inToM(h.value);
 
     const value = computeBmi(weightKg, heightM);
-    const cat = bmiCategory(value);
+    // The category follows the value on screen (one decimal), and the distance to the healthy
+    // range agrees with it: 150 lb at 65 in is 24.96, shown as 25, so it reads Overweight with
+    // 0.4 lb to lose, never "25, Healthy weight" (accuracy audit, 3 Nov 2026).
+    const shown = Math.round(value * 10) / 10;
+    const cat = bmiCategory(shown);
     const label = BMI_CATEGORY_LABEL[cat];
     const [loKg, hiKg] = healthyWeightRangeKg(heightM);
-    const delta = weightToHealthyKg(weightKg, heightM);
+    const delta = cat === 'normal' ? 0 : weightToHealthyKg(weightKg, heightM);
 
     const hero = card('bmi', 'Body Mass Index', num1(value), {
       raw: Number(value.toFixed(2)) || Number(value.toPrecision(2)),

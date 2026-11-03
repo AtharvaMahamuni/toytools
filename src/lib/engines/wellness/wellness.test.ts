@@ -622,3 +622,20 @@ describe('validation messages start with a capital letter', () => {
     }
   });
 });
+
+// Accuracy audit (3 Nov 2026): the shown BMI, its category and the healthy-range distance agree.
+describe('bmi rounding consistency', () => {
+  it('150 lb at 65 in shows 25 as Overweight with 0.4 lb to lose', () => {
+    const res = runWellness('bmi', { unit: 'imperial', weight: 150, height: 65 }, {});
+    expect(res.hero?.value).toBe('25');
+    expect(res.hero?.note).toBe('Overweight');
+    const toHealthy = res.metrics?.find((m) => m.id === 'to-healthy');
+    expect(toHealthy?.label).toContain('to lose');
+  });
+  it('a BMI shown as 24.9 is Healthy weight with no distance card', () => {
+    const res = runWellness('bmi', { unit: 'metric', weight: 76.3, height: 175 }, {});
+    expect(res.hero?.value).toBe('24.9');
+    expect(res.hero?.note).toBe('Healthy weight');
+    expect(res.metrics?.find((m) => m.id === 'to-healthy')).toBeUndefined();
+  });
+});

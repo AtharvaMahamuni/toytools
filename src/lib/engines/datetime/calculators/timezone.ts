@@ -9,7 +9,7 @@ import type { ResultCard } from '@lib/results/types';
 import { datetimeField } from '../validation';
 import { insight, milestone, toolDecision, decisions } from '../story';
 import {
-  ZONES, zoneLabel, partsInZone, zoneOffsetMs, zonedWallToUtc, offsetLabel, clock,
+  ZONES, zoneLabel, partsInZone, zoneOffsetMs, zonedWallToUtc, wallTimeStatus, offsetLabel, clock,
   formatReading, monthShort,
 } from '../zones';
 
@@ -54,6 +54,7 @@ export const timezoneConverter: DateTimeTool = {
     // back in every zone we report.
     const utcMs = zonedWallToUtc(dt.value, fromZone);
     const instant = new Date(utcMs);
+    const wallStatus = wallTimeStatus(dt.value, fromZone);
 
     const sourceRead = partsInZone(fromZone, instant);
     const targetRead = partsInZone(toZone, instant);
@@ -101,6 +102,11 @@ export const timezoneConverter: DateTimeTool = {
               : `In ${toName} it is still the previous day.`,
             'info',
           ),
+      ...(wallStatus === 'nonexistent'
+        ? [insight(`${clock(dt.value)} does not exist in ${fromName} on this date: the clocks jump forward over it for daylight saving. The result uses the time just after the jump, ${clock(sourceRead)}.`, 'warning')]
+        : wallStatus === 'ambiguous'
+          ? [insight(`${clock(dt.value)} happens twice in ${fromName} on this date because the clocks fall back an hour. The result uses the first of the two (${offsetLabel(fromOffset)}); the second is an hour later.`, 'warning')]
+          : []),
       insight(`Offsets are read for ${sourceRead.d} ${monthShort(sourceRead.m)} ${sourceRead.y}, so daylight saving is accounted for.`),
     ];
 
