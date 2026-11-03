@@ -151,12 +151,39 @@ export function outermostShell(config: Configuration): number {
   return max;
 }
 
-/** Electrons in the outermost shell: the ones a main-group atom bonds with. */
-export function valenceElectrons(config: Configuration): number {
+/** The period (row) of element z, 1 to 7. */
+export function periodOf(z: number): number {
+  const ends = [2, 10, 18, 36, 54, 86, 118];
+  const i = ends.findIndex((end) => z <= end);
+  return i < 0 ? 7 : i + 1;
+}
+
+/** True for the d-block: groups 3 to 12 (Sc to Zn, Y to Cd, Lu to Hg, Lr to Cn). */
+export function isDBlock(z: number): boolean {
+  return (z >= 21 && z <= 30) || (z >= 39 && z <= 48) || (z >= 71 && z <= 80) || (z >= 103 && z <= 112);
+}
+
+/**
+ * Valence electrons, by a stated convention (accuracy audit, 3 Nov 2026). Main group: ns + np of
+ * the outermost occupied shell, never the inner d10 (Br is 7, not 17). d-block, given the element's
+ * atomic number: ns + (n-1)d, where n is the element's period, so Fe is 8, Fe2+ 6, Fe3+ 5 and
+ * Pd (4d10 5s0) 10. The old count summed every subshell of the outermost shell, giving Pd 18,
+ * Fe2+ 14 and Fe3+ 13.
+ */
+export function valenceElectrons(config: Configuration, z?: number): number {
+  if (z !== undefined && isDBlock(z)) {
+    const n = periodOf(z);
+    let sum = 0;
+    for (let i = 0; i < config.length; i++) {
+      const sub = AUFBAU[i]!;
+      if ((sub.n === n && sub.l === 0) || (sub.n === n - 1 && sub.l === 2)) sum += config[i]!;
+    }
+    return sum;
+  }
   const n = outermostShell(config);
   if (n === 0) return 0;
   let sum = 0;
-  for (let i = 0; i < config.length; i++) if (AUFBAU[i]!.n === n) sum += config[i]!;
+  for (let i = 0; i < config.length; i++) if (AUFBAU[i]!.n === n && AUFBAU[i]!.l <= 1) sum += config[i]!;
   return sum;
 }
 
@@ -292,7 +319,7 @@ const electronConfigurationSim: SimulationDef = {
       decimals: 0,
       compute: (s) => totalElectrons(currentConfiguration(s)),
     },
-    { id: 'valence', label: 'Valence electrons', unit: '', decimals: 0, compute: (s) => valenceElectrons(currentConfiguration(s)) },
+    { id: 'valence', label: 'Valence electrons', unit: '', decimals: 0, compute: (s) => valenceElectrons(currentConfiguration(s), Math.round(s.params.atomicNumber)) },
     { id: 'unpaired', label: 'Unpaired electrons', unit: '', decimals: 0, compute: (s) => unpairedElectrons(currentConfiguration(s)) },
     { id: 'shells', label: 'Occupied shells', unit: '', decimals: 0, compute: (s) => outermostShell(currentConfiguration(s)) },
   ],
@@ -336,14 +363,16 @@ const electronConfigurationSim: SimulationDef = {
       const config = currentConfiguration(s);
       const d = dElectrons(config);
       if (d === 0) return null;
-      return `An incomplete d subshell holds ${d} electron${d === 1 ? '' : 's'}. Those take part in bonding too, which is why a transition metal has more oxidation states than its valence count suggests.`;
+      return `An incomplete d subshell holds ${d} electron${d === 1 ? '' : 's'}. Those take part in bonding too, which is why a transition metal shows several oxidation states.`;
     },
     (s) => {
       const config = currentConfiguration(s);
-      const valence = valenceElectrons(config);
+      const z = Math.round(s.params.atomicNumber);
+      const valence = valenceElectrons(config, z);
       const unpaired = unpairedElectrons(config);
       if (unpaired === 0) return `Every electron is paired, so ${speciesLabel(s)} is diamagnetic and has a closed outer shell arrangement.`;
-      return `${valence} electron${valence === 1 ? '' : 's'} sit in the outermost shell and ${unpaired} of the atom's electrons are unpaired.`;
+      const where = isDBlock(z) ? 'count as valence (outer s plus the d below it)' : 'sit in the outer s and p subshells';
+      return `${valence} electron${valence === 1 ? '' : 's'} ${where} and ${unpaired} of the atom's electrons are unpaired.`;
     },
   ],
   explanation(s: SimState) {
@@ -361,7 +390,7 @@ const electronConfigurationSim: SimulationDef = {
     const exceptionNote = swap && charge === 0
       ? ` This element is one of the twenty ground states that do not follow aufbau: an electron moves from ${swap.from} to ${swap.to}.`
       : '';
-    return `${element.name} has ${z} protons, so ${speciesLabel(s)} carries ${totalElectrons(config)} electrons. They fill in the order 1s, 2s, 2p, 3s, 3p, 4s, 3d and onward, which is why the fourth shell starts before the third finishes.${exceptionNote}${ionNote} The configuration is ${shorthandString(config, z)}, leaving ${valenceElectrons(config)} in the outermost shell.`;
+    return `${element.name} has ${z} protons, so ${speciesLabel(s)} carries ${totalElectrons(config)} electrons. They fill in the order 1s, 2s, 2p, 3s, 3p, 4s, 3d and onward, which is why the fourth shell starts before the third finishes.${exceptionNote}${ionNote} The configuration is ${shorthandString(config, z)}, giving ${valenceElectrons(config, z)} valence electron${valenceElectrons(config, z) === 1 ? '' : 's'}${isDBlock(z) ? ' (outer s plus the d below it)' : ''}.`;
   },
   draw: drawElectronConfiguration,
 };

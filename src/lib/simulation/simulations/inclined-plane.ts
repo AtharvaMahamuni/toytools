@@ -34,9 +34,18 @@ export function gravityComponent(params: Record<string, number>): number {
   return params.mass * GRAVITY * Math.sin(thetaRad(params));
 }
 
-/** Friction force magnitude: mu mg cosθ (N). */
-export function frictionForce(params: Record<string, number>): number {
+/** Maximum (limiting) friction: mu mg cosθ (N). Kinetic friction while sliding. */
+export function maxFriction(params: Record<string, number>): number {
   return params.friction * params.mass * GRAVITY * Math.cos(thetaRad(params));
+}
+
+/**
+ * The friction actually acting (N). Sliding, it is kinetic friction mu mg cosθ. At rest, static
+ * friction only matches the pull down the slope, mg sinθ, and never reaches its maximum: 2 kg at 30°
+ * with mu = 0.8 feels 9.81 N, not 13.59 N (accuracy audit, 3 Nov 2026).
+ */
+export function frictionForce(params: Record<string, number>): number {
+  return isSliding(params) ? maxFriction(params) : Math.min(gravityComponent(params), maxFriction(params));
 }
 
 /** Normal force: mg cosθ (N). */

@@ -132,8 +132,13 @@ export function geometriesDiffer(s: SimState): boolean {
   return electronGeometry(s) !== molecularShape(s);
 }
 
-/** Characteristic ideal angle of the electron geometry, in degrees. */
+/**
+ * Characteristic ideal bond angle of the molecular shape, in degrees. The lone pairs set the
+ * electron geometry, but the angle is between bonds: XeF2 (AX2E3) has a trigonal bipyramidal
+ * electron geometry and a linear shape, so its angle is 180, not 90 (accuracy audit, 3 Nov 2026).
+ */
 export function idealAngle(s: SimState): number {
+  if (molecularShape(s) === 'linear') return LINEAR_IDEAL;
   switch (electronGeometry(s)) {
     case 'linear': return LINEAR_IDEAL;
     case 'trigonal planar': return TRIGONAL_IDEAL;
@@ -165,6 +170,7 @@ export function compressedAngle(s: SimState): number {
   if (!isValid(s)) return 0;
   const e = lonePairs(s);
   const geom = electronGeometry(s);
+  if (molecularShape(s) === 'linear') return LINEAR_IDEAL;
   if (geom === 'tetrahedral' && e > 0) return TETRAHEDRAL_IDEAL - TETRAHEDRAL_COMPRESSION * e;
   if (geom === 'trigonal planar' && e > 0) return TRIGONAL_IDEAL - TRIGONAL_COMPRESSION * e;
   return idealAngle(s);

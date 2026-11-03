@@ -150,7 +150,7 @@ describe('derived counts', () => {
   it('reads valence electrons off the outermost shell', () => {
     expect(valenceElectrons(neutralConfiguration(17))).toBe(7); // Cl 3s2 3p5
     expect(valenceElectrons(neutralConfiguration(20))).toBe(2); // Ca 4s2
-    expect(valenceElectrons(neutralConfiguration(26))).toBe(2); // Fe 4s2
+    expect(valenceElectrons(neutralConfiguration(26))).toBe(2); // Fe 4s2 without the d-block z
   });
 
   it('reports the d electrons a transition metal also bonds with', () => {
@@ -242,5 +242,21 @@ describe('species label and animation', () => {
         expect(v).toBeLessThanOrEqual(param.max);
       }
     }
+  });
+});
+
+// Accuracy audit (3 Nov 2026): main group counts ns + np; d-block counts ns + (n-1)d.
+describe('valence electron convention', () => {
+  const valence = (z: number, charge = 0) =>
+    electronConfiguration.measurements.find((m) => m.id === 'valence')!.compute(stateFor(z, charge));
+  it.each([
+    [17, 0, 7], [35, 0, 7], [31, 0, 3], [20, 0, 2], [11, 1, 8], [8, -2, 8],
+  ])('main group Z=%i charge %i has %i valence electrons (ns + np)', (z, c, v) => {
+    expect(valence(z, c)).toBe(v);
+  });
+  it.each([
+    [46, 0, 10], [26, 0, 8], [26, 2, 6], [26, 3, 5], [29, 0, 11], [30, 0, 12],
+  ])('d-block Z=%i charge %i has %i valence electrons (ns + (n-1)d)', (z, c, v) => {
+    expect(valence(z, c)).toBe(v);
   });
 });

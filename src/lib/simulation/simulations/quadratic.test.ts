@@ -5,6 +5,7 @@
 import { describe, expect, it } from 'vitest';
 import type { SimState } from '../types';
 import quadratic, {
+  isLinear,
   A_EPSILON,
   discriminant,
   effectiveA,
@@ -100,5 +101,29 @@ describe('quadratic model', () => {
     expect(text).toContain('x = -1.00 and x = 3.00');
     const none = quadratic.explanation(stateFor(1, 0, 4));
     expect(none).toContain('no real roots');
+  });
+});
+
+// Accuracy audit (3 Nov 2026): a = 0 is a line with one root and no vertex, never two roots.
+describe('quadratic a = 0 is solved as a line', () => {
+  it('0x² - 2x + 4 has the single root x = 2', () => {
+    const s = stateFor(0, -2, 4);
+    expect(isLinear(s)).toBe(true);
+    expect(rootCount(s)).toBe(1);
+    expect(realRoots(s)).toEqual([2, 2]);
+    expect(quadratic.explanation!(s)).toMatch(/no vertex/);
+    expect(quadratic.explanation!(s)).not.toMatch(/roots at/);
+  });
+  it('a flat line with c not 0 has no root', () => {
+    expect(rootCount(stateFor(0, 0, 3))).toBe(0);
+    expect(realRoots(stateFor(0, 0, 3))).toBeNull();
+  });
+});
+
+describe('quadratic vertex readout for a line', () => {
+  it('reads none instead of a vertex when a = 0', () => {
+    const vx = quadratic.measurements.find((m) => m.id === 'vertexX')!;
+    expect(vx.display!(stateFor(0, -2, 4))).toBe('none (a line)');
+    expect(vx.display!(stateFor(1, -2, 4))).toBeNull();
   });
 });

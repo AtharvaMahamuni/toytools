@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import inclinedPlane, {
+  frictionForce,
+  maxFriction,
   acceleration,
   isSliding,
   gravityComponent,
@@ -45,5 +47,18 @@ describe('inclined-plane model', () => {
         expect(v).toBeLessThanOrEqual(param.max);
       }
     }
+  });
+});
+
+// Accuracy audit (3 Nov 2026): a block at rest feels static friction mg sinθ, not the maximum μN.
+describe('static friction at rest', () => {
+  const held = { mass: 2, angle: 30, friction: 0.8 };
+  it('2 kg at 30 degrees with mu 0.8 shows 9.81 N of friction, not 13.59 N', () => {
+    expect(frictionForce(held)).toBeCloseTo(9.81, 2);
+    expect(maxFriction(held)).toBeCloseTo(13.59, 2);
+  });
+  it('a sliding block feels kinetic friction mu mg cos theta', () => {
+    const slide = { mass: 2, angle: 50, friction: 0.1 };
+    expect(frictionForce(slide)).toBeCloseTo(maxFriction(slide), 9);
   });
 });
