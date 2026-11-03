@@ -4,6 +4,9 @@
   --color-accent:         #f54e00;
   --color-accent-subtle:  rgba(245,78,0,.1);
   --color-accent-strong:  #b23400;  /* text-accessible orange text/active — AA (5.4:1 on subtle) */
+  /* White on #f54e00 is 3.52:1. The primary fill is the darker orange so a 14px label clears 4.5:1. */
+  --color-action:         #b23400;
+  --color-action-hover:   #8a2800;
 
   /* Brand tokens */
   --color-gold:           var(--color-accent);
@@ -26,6 +29,9 @@
   --color-surface:        #ffffff;
   --color-surface-hover:  #efeee8;
   --color-bg-tertiary:    #fafaf7;
+  /* Aliases used by sample and sort buttons. They follow the dark overrides of the targets. */
+  --color-surface-raised:   var(--color-bg-tertiary);
+  --color-surface-elevated: var(--color-surface-hover);
   --color-border:         #e6e5e0;
   --color-border-strong:  #cfcdc4;
 
@@ -35,6 +41,9 @@
   --color-text-subtle:    #6c6961;
   --color-text-inverse:   #ffffff;
   --color-text-accent:    var(--color-accent-strong);
+  /* Chosen option. Ink on canvas in light, canvas on ink in dark. Not the hover wash. */
+  --color-selected:       var(--color-text);
+  --color-on-selected:    var(--color-bg);
 
   /* Overlays */
   --color-overlay-bg:     #0F1115;
@@ -60,8 +69,9 @@
   --space-20: 80px;
 
   /* Typography */
-  --font-sans: 'Geist Variable', system-ui, sans-serif;
-  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+  /* Inter stands in for licensed CursorGothic. JetBrains Mono is the code face. */
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
 
   --text-xs:   0.75rem;
   --text-sm:   0.875rem;
@@ -86,18 +96,19 @@
   --border:        1px solid var(--color-border);
   --border-strong: 1px solid var(--color-border-strong);
   --radius-sm:     4px;
-  --radius-md:     6px;
-  --radius-lg:     10px;
+  --radius-md:     8px;   /* buttons and inputs */
+  --radius-lg:     12px;  /* cards */
   --radius-pill:   9999px;
 
-  /* Shadows (DESIGN.md hairline philosophy: minimal elevation) */
-  --shadow-card:  0 1px 2px rgba(0,0,0,.04);
-  --shadow-hover: 0 2px 8px rgba(0,0,0,.06);
+  /* Hairlines carry depth. These stay defined so older declarations do not
+     become invalid when composed with a real shadow layer. */
+  --shadow-card:  none;
+  --shadow-hover: none;
 
-  /* Motion — fade/opacity/color only */
+  /* Motion — color only. Corporate ease, no overshoot. */
   --duration-fast:   150ms;
   --duration-normal: 200ms;
-  --ease-default:    ease;
+  --ease-default:    cubic-bezier(0.2, 0, 0, 1);
   --transition-color:
     color var(--duration-fast) var(--ease-default),
     background-color var(--duration-fast) var(--ease-default),
@@ -121,18 +132,14 @@
   --z-overlay: 200;
 }
 
-/* Gold dot breathing animation */
-@keyframes dot-breathe {
-  0%, 100% { opacity: 0.65; }
-  50%       { opacity: 0.72; }
-}
-
 /* System dark preference */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --color-accent:        #ff6a26;
     --color-accent-subtle: rgba(255,106,38,.16);
     --color-accent-strong: #ff854d;
+    --color-action:        #ff6a26;
+    --color-action-hover:  #ff854d;
     --color-gold-subtle:   rgba(255,106,38,.18);
     --color-success:       #34d399;
     --color-success-bg:    rgba(52,211,153,.14);
@@ -157,6 +164,8 @@
   --color-accent:        #ff6a26;
   --color-accent-subtle: rgba(255,106,38,.16);
   --color-accent-strong: #ff854d;
+  --color-action:        #ff6a26;
+  --color-action-hover:  #ff854d;
   --color-gold-subtle:   rgba(255,106,38,.18);
   --color-success:       #34d399;
   --color-success-bg:    rgba(52,211,153,.14);
@@ -177,19 +186,19 @@
 
 /* Override fontsource default font-display: swap → optional */
 @font-face {
-  font-family: 'Geist Variable';
+  font-family: 'Inter Variable';
   font-style: normal;
   font-display: optional;
   font-weight: 100 900;
-  src: url('@fontsource-variable/geist/files/geist-latin-wght-normal.woff2') format('woff2-variations');
+  src: url('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2-variations');
   unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
 
 @font-face {
-  font-family: 'Geist Mono Variable';
+  font-family: 'JetBrains Mono Variable';
   font-style: normal;
   font-display: optional;
   font-weight: 100 900;
-  src: url('@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2') format('woff2-variations');
+  src: url('@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2') format('woff2-variations');
   unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }

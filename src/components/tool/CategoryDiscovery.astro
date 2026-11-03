@@ -26,7 +26,6 @@ const segmentOf = (slug: string) => categories.find(c => c.slug === slug)?.segme
 
 {category && count > 1 && (
   <aside class="category-discovery" aria-label={`More ${category.name}`}>
-    <span class="cd-dot" aria-hidden="true" style={`--cd-accent: ${category.accent ?? 'var(--color-gold)'}`}></span>
     <span class="cd-text">
       Looking for more?
       <a class="cd-link" href={categoryHref}>Browse all {`${count} ${category.name}`} →</a>
@@ -59,16 +58,8 @@ const segmentOf = (slug: string) => categories.find(c => c.slug === slug)?.segme
     color: var(--color-text-muted);
   }
 
-  .cd-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--cd-accent, var(--color-gold));
-    flex-shrink: 0;
-  }
-
   .cd-link {
-    color: var(--color-text-accent);
+    color: var(--color-text);
     font-weight: var(--font-weight-medium);
     text-decoration: none;
   }

@@ -451,14 +451,17 @@ const craftId = config.craft?.id;
     padding-inline: var(--space-4);
     border: var(--border);
     border-radius: var(--radius-md);
-    background: var(--color-accent);
+    background: var(--color-action);
     color: var(--color-text-inverse);
     font-weight: var(--font-weight-semibold);
     cursor: pointer;
-    transition: background-color 150ms, border-color 150ms;
+    transition: background-color 150ms;
   }
   .tracker-sub { background: var(--color-surface); color: var(--color-text); min-width: var(--touch-target); }
-  .tracker-add:hover, .tracker-log:hover { opacity: 0.92; }
+  .tracker-add:hover, .tracker-log:hover,
+  .tracker-add:active, .tracker-log:active {
+    background: var(--color-action-hover);
+  }
   .tracker-sub:hover { background: var(--color-surface-hover); border-color: var(--color-border-strong); }
   .tracker-actions--value { flex-direction: column; align-items: stretch; }
   .tracker-input-label { font-size: var(--text-sm); color: var(--color-text-muted); }

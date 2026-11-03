@@ -17,7 +17,7 @@ const guides = getRelatedGuides(toolSlug, max);
 {guides.length > 0 && (
   <section class="kg-section" aria-labelledby="kg-continue-learning">
     <h2 id="kg-continue-learning" class="kg-heading">
-      Continue Learning <span class="gold-dot" aria-hidden="true"></span>
+      Continue Learning
     </h2>
     <div class="kg-block">
       <h3 class="kg-subheading">Related Guides</h3>
@@ -36,11 +36,9 @@ const guides = getRelatedGuides(toolSlug, max);
     border-top: var(--border);
   }
   .kg-heading {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
     font-size: var(--text-xl);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-normal);
+    letter-spacing: -0.0125em;
     margin-bottom: var(--space-5);
   }
   .kg-block {
@@ -66,7 +64,7 @@ const guides = getRelatedGuides(toolSlug, max);
     gap: var(--space-2);
   }
   .kg-link {
-    color: var(--color-text-accent);
+    color: var(--color-text);
     text-decoration: none;
     font-weight: var(--font-weight-medium);
   }

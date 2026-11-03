@@ -53,8 +53,9 @@ const { items } = Astro.props;
     transition: var(--transition-color);
   }
 
-  .faq-question:hover {
-    color: var(--color-accent);
+  .faq-question:hover,
+  .faq-question:active {
+    background: var(--color-surface-hover);
   }
 
   .faq-question::-webkit-details-marker {
@@ -66,16 +67,16 @@ const { items } = Astro.props;
     align-items: center;
     flex-shrink: 0;
     color: var(--color-text-subtle);
-    transition: transform 200ms ease, color 150ms ease;
+    transition: transform 150ms var(--ease-default), color 150ms var(--ease-default);
   }
 
-  .faq-question:hover .faq-chevron {
-    color: var(--color-accent);
+  .faq-question:hover .faq-chevron,
+  details[open] .faq-chevron {
+    color: var(--color-text);
   }
 
   details[open] .faq-chevron {
     transform: rotate(90deg);
-    color: var(--color-accent);
   }
 
   .faq-answer {

@@ -41,14 +41,11 @@ const iconSrc = withBase(`/icons/tool/${slug}.svg`);
     border: var(--border);
     border-radius: var(--radius-lg);
     background: var(--color-surface);
-    box-shadow: var(--shadow-card);
-    transition: var(--transition-color), transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+    transition: var(--transition-color);
   }
 
   .app-tile:hover {
     border-color: var(--color-border-strong);
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-2px);
   }
 
   .app-tile-main {
@@ -67,7 +64,7 @@ const iconSrc = withBase(`/icons/tool/${slug}.svg`);
   }
 
   .app-tile:hover .app-tile-name {
-    color: var(--color-accent);
+    color: var(--color-text);
   }
 
   .app-tile-icon {
@@ -76,7 +73,7 @@ const iconSrc = withBase(`/icons/tool/${slug}.svg`);
     height: 56px;
     border-radius: var(--radius-md);
     flex-shrink: 0;
-    box-shadow: 0 1px 3px rgba(38, 37, 30, 0.08);
+    border: var(--border);
   }
 
   .app-tile-name {
@@ -95,8 +92,8 @@ const iconSrc = withBase(`/icons/tool/${slug}.svg`);
     font-weight: var(--font-weight-medium);
     padding: 2px var(--space-2);
     border-radius: var(--radius-pill);
-    background: var(--color-accent-subtle);
-    color: var(--color-accent-strong);
+    background: var(--color-border);
+    color: var(--color-text);
   }
 
   .app-tile-tagline {

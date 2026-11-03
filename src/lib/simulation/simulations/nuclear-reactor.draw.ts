@@ -119,7 +119,7 @@ export function drawNuclearReactor(ctx: CanvasRenderingContext2D, s: SimState, v
   if (s.vars.tripped) {
     ctx.save();
     ctx.fillStyle = vp.palette.danger;
-    ctx.font = 'bold 16px "Geist Variable", system-ui, sans-serif';
+    ctx.font = 'bold 16px "Inter Variable", system-ui, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('REACTOR TRIP', vp.width / 2, captionTop);

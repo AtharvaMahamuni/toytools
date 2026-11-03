@@ -495,13 +495,14 @@ const description =
   }
 
   .choice:active {
-    background: var(--color-bg-tertiary);
+    background: var(--color-surface-hover);
   }
 
-  .choice.is-active {
-    background: var(--color-accent-subtle);
-    color: var(--color-accent-strong);
-    border-color: var(--color-accent);
+  .choice.is-active,
+  .choice.is-active:active {
+    background: var(--color-selected);
+    color: var(--color-on-selected);
+    border-color: var(--color-selected);
   }
 
   .choice--danger {
@@ -511,9 +512,11 @@ const description =
     border-color: var(--color-danger);
   }
 
-  .choice--danger.is-confirming {
+  .choice--danger.is-confirming,
+  .choice--danger.is-confirming:active {
     background: var(--color-danger);
     color: var(--color-text-inverse);
+    border-color: var(--color-danger);
   }
 
   .key-list {

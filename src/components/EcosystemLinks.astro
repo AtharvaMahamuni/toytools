@@ -26,7 +26,7 @@ const links = [
 <nav class="ecosystem-links" aria-label="Related pages">
   {links.map((link, i) => (
     <>
-      {i > 0 && <span class="gold-dot" aria-hidden="true"></span>}
+      {i > 0 && <span class="eco-sep" aria-hidden="true">·</span>}
       {link.type === currentType
         ? <span class="eco-current" aria-current="page">{link.label}</span>
         : <a href={link.href} class="eco-link">{link.label}</a>
@@ -48,7 +48,7 @@ const links = [
   }
 
   .eco-link {
-    color: var(--color-text-accent);
+    color: var(--color-text);
     text-decoration: none;
     font-weight: var(--font-weight-medium);
     transition: var(--transition-color);

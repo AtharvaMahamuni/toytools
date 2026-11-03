@@ -386,12 +386,14 @@ const craftId = config.craft?.id ?? 'eq-preamp-headroom';
   }
 
   .eq-goal:hover { border-color: var(--color-border-strong); background: var(--color-surface-hover); }
-  .eq-goal:active { background: var(--color-accent-subtle); }
+  .eq-goal:active { background: var(--color-surface-hover); }
 
-  .eq-goal[aria-pressed='true'] {
-    border-color: var(--color-accent);
-    background: var(--color-accent-subtle);
-    color: var(--color-accent-strong);
+  .eq-goal[aria-pressed='true'],
+  .eq-goal[aria-pressed='true']:hover,
+  .eq-goal[aria-pressed='true']:active {
+    border-color: var(--color-selected);
+    background: var(--color-selected);
+    color: var(--color-on-selected);
   }
 
   /* The box is declared here, from build-time values, so the first paint is the right size: the

@@ -92,7 +92,11 @@ const { toolName } = Astro.props;
     cursor: pointer;
     transition: border-color 150ms, background-color 150ms, color 150ms;
   }
-  .tt-install-btn.is-visible:hover { border-color: var(--color-accent); color: var(--color-accent-strong); }
+  .tt-install-btn.is-visible:hover {
+    border-color: var(--color-border-strong);
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+  }
   .tt-install-btn svg { flex: none; }
 
   /* Overlay: hidden until is-open. */
@@ -112,9 +116,8 @@ const { toolName } = Astro.props;
     max-width: 420px;
     background: var(--color-surface);
     border: var(--border);
-    border-radius: var(--radius-lg, 16px);
+    border-radius: var(--radius-lg);
     padding: var(--space-6);
-    box-shadow: var(--shadow-lg, 0 12px 32px rgba(0, 0, 0, 0.25));
   }
   .tt-install-panel p { color: var(--color-text-muted); margin: 0 0 var(--space-4); font-size: var(--text-sm); }
   /* Carries the weight the <h2> used to, without being one. Scoped through .tt-install-panel
@@ -133,12 +136,16 @@ const { toolName } = Astro.props;
     min-height: var(--touch-target);
     border: none;
     border-radius: var(--radius-md, 10px);
-    background: var(--color-accent);
+    background: var(--color-action);
     color: var(--color-text-inverse);
     font-size: var(--text-sm);
     font-weight: var(--font-weight-semibold);
     cursor: pointer;
     transition: background-color 150ms;
+  }
+  .tt-install-done:hover,
+  .tt-install-done:active {
+    background: var(--color-action-hover);
   }
 </style>
 

@@ -36,7 +36,6 @@ import { withBase } from '../lib/paths';
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
     transition: var(--transition-color);
     overflow: hidden;
     padding-right: 6px;
@@ -44,7 +43,7 @@ import { withBase } from '../lib/paths';
 
   .hero-search-inner:focus-within {
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 3px var(--color-accent-subtle), var(--shadow-hover);
+    box-shadow: 0 0 0 3px var(--color-accent-subtle);
   }
 
   .hero-search-icon {
@@ -73,12 +72,12 @@ import { withBase } from '../lib/paths';
   }
 
   .hero-search-btn {
-    height: 40px;
+    height: var(--touch-target);
     padding: 0 var(--space-4);
-    border: 1px solid var(--color-border-strong);
+    border: none;
     border-radius: var(--radius-md);
-    background: var(--color-surface);
-    color: var(--color-text);
+    background: var(--color-action);
+    color: var(--color-text-inverse);
     font-size: var(--text-sm);
     font-family: var(--font-sans);
     font-weight: 500;
@@ -88,10 +87,10 @@ import { withBase } from '../lib/paths';
     flex-shrink: 0;
   }
 
-  .hero-search-btn:hover {
-    background: var(--color-surface-hover);
-    border-color: var(--color-accent);
-    color: var(--color-accent-strong);
+  .hero-search-btn:hover,
+  .hero-search-btn:active {
+    background: var(--color-action-hover);
+    color: var(--color-text-inverse);
   }
 
   @media (max-width: 480px) {

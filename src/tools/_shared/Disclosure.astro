@@ -118,7 +118,10 @@ const hasActions = Astro.slots.has('actions');
     outline-offset: 2px;
   }
 
-  .tt-disc-toggle:active { color: var(--color-accent-strong); }
+  .tt-disc-toggle:hover,
+  .tt-disc-toggle:active {
+    background: var(--color-surface-hover);
+  }
 
   .tt-disc-caret {
     flex: 0 0 auto;

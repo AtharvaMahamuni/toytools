@@ -48,7 +48,7 @@ const { id, craftId } = Astro.props;
     padding: 0;
     border: none;
     background: none;
-    color: var(--color-accent-strong);
+    color: var(--color-text);
     font: inherit;
     font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
@@ -62,12 +62,9 @@ const { id, craftId } = Astro.props;
     color: var(--color-text-subtle);
   }
 
-  .conv-recover:hover {
-    color: var(--color-text);
-  }
-
-  /* Phones have no hover, so the pressed state is the only feedback there is. */
+  .conv-recover:hover,
   .conv-recover:active {
     color: var(--color-text);
+    text-decoration: underline;
   }
 </style>

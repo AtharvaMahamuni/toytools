@@ -34,7 +34,7 @@ const { tool } = Astro.props;
       person asks at the same moment, which is whether to believe the result. */}
   {tool.methodology && (
     <span class="tool-method" title={tool.methodology.detail}>
-      Method<span class="gold-dot" aria-hidden="true"></span>{tool.methodology.name}
+      Method · {tool.methodology.name}
     </span>
   )}
   {/* The platform signs the tool rather than owning it, in the micro-label voice already used by
@@ -46,7 +46,7 @@ const { tool } = Astro.props;
       other half of the sentence this line starts. */}
   <div class="tool-signoff">
     <a class="tool-attribution" href={withBase('/platform/')} title="What powers this tool">
-      Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span>
+      Powered by ToyTools
     </a>
     <XAccountLink />
   </div>

@@ -75,9 +75,9 @@ const siteHref = siteUrl(Astro.site).href;
         visitor with no network does not have. */}
     <p class="hero-sub">
       <span>{tools.length} tools</span>
-      <span class="gold-dot" aria-hidden="true"></span>
+      <span aria-hidden="true">·</span>
       <span>Nothing uploaded</span>
-      <span class="gold-dot" aria-hidden="true"></span>
+      <span aria-hidden="true">·</span>
       <span>Works offline once opened</span>
     </p>
   </section>
@@ -124,11 +124,11 @@ const siteHref = siteUrl(Astro.site).href;
       Links to /platform/ and /architecture/ stay; the long fact grid is behind a closed summary. */}
   <details class="platform-strip">
     <summary class="platform-summary">
-      <span class="strip-eyebrow-inline">Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span></span>
+      <span class="strip-eyebrow-inline">Powered by ToyTools</span>
       <span class="platform-summary-text">One platform, {tools.length} faces — how it is built</span>
     </summary>
     <div class="platform-body" aria-labelledby="platform-heading">
-      <p class="strip-eyebrow">Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span><XAccountLink /></p>
+      <p class="strip-eyebrow">Powered by ToyTools <XAccountLink /></p>
       <h2 id="platform-heading">These are not {tools.length} separate tools</h2>
       <p class="strip-lede">
         They are one platform with {tools.length} faces. The computation lives in {engineCount}
@@ -155,7 +155,7 @@ const siteHref = siteUrl(Astro.site).href;
       </ul>
       <p class="strip-links">
         <a href={withBase('/platform/')}>How the platform is built</a>
-        <span class="gold-dot" aria-hidden="true"></span>
+        <span aria-hidden="true">·</span>
         <a href={withBase('/architecture/')}>See the map</a>
       </p>
     </div>
@@ -229,6 +229,12 @@ const siteHref = siteUrl(Astro.site).href;
     align-items: flex-start;
     gap: var(--space-5);
     padding: var(--space-12) 0;
+  }
+
+  @media (min-width: 1024px) {
+    .hero {
+      padding-block: var(--space-20);
+    }
   }
 
   /* Sized down from the old clamp(3xl, 5vw, 5xl): that ceiling was set for the single
@@ -311,7 +317,8 @@ const siteHref = siteUrl(Astro.site).href;
   }
 
   .recent-row :global(.recent-chip:hover) {
-    color: var(--color-accent);
+    color: var(--color-text);
+    text-decoration: underline;
   }
 
   .recent-row :global(.recent-sep) {

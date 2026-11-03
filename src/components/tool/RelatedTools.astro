@@ -19,7 +19,7 @@ const showExpiry = tools.some((tool) => freshUntil(tool.addedOn));
 {tools.length > 0 && (
   <section class="content-section">
     <h2 class="related-heading">
-      <span>Related tools <span class="gold-dot" aria-hidden="true"></span></span>
+      <span>Related tools</span>
       {categoryHref && <a class="related-see-all" href={categoryHref}>See all {category!.name} →</a>}
     </h2>
     <div class="related-grid">
@@ -44,7 +44,7 @@ const showExpiry = tools.some((tool) => freshUntil(tool.addedOn));
   .related-see-all {
     font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
-    color: var(--color-text-accent);
+    color: var(--color-text);
     text-decoration: none;
   }
 

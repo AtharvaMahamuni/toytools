@@ -99,7 +99,7 @@ const breadcrumbSchema = {
       </span>
       {engineList && (
         <>
-          <span class="gold-dot" aria-hidden="true"></span>
+          <span aria-hidden="true">·</span>
           <a class="engine-note" href={withBase('/platform/')}>
             {engineNames.length === 1 ? 'Runs on the' : 'Run on the'} {engineList}
             {engineNames.length === 1 ? ' engine' : ' engines'}

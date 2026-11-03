@@ -53,7 +53,7 @@ const featured = tools
     </div>
     <ul class="featured-track" data-featured-track>
       {featured.map(card => (
-        <li class="featured-item" data-featured-until={card.newUntil} style={card.accent ? `--cat-accent: ${card.accent}` : ''}>
+        <li class="featured-item" data-featured-until={card.newUntil}>
           <a class="featured-card" href={card.href} data-slug={card.slug}>
             <img class="featured-icon" src={card.icon} width="64" height="64" alt="" loading="lazy" decoding="async" />
             <span class="featured-copy">
@@ -62,10 +62,7 @@ const featured = tools
                 <span class="featured-badge" data-new-until={card.newUntil}>New</span>
               </span>
               <span class="featured-tagline">{card.tagline}</span>
-              <span class="featured-cat">
-                <span class="featured-dot" aria-hidden="true"></span>
-                {card.category}
-              </span>
+              <span class="featured-cat">{card.category}</span>
             </span>
           </a>
         </li>
@@ -165,18 +162,17 @@ const featured = tools
     font-size: var(--text-xl);
     line-height: 1;
     cursor: pointer;
-    box-shadow: var(--shadow-card);
-    transition: var(--transition-color), transform var(--duration-fast) ease;
+    transition: var(--transition-color);
   }
 
   .featured-btn:hover {
-    background-color: var(--color-surface);
+    background-color: var(--color-surface-hover);
     border-color: var(--color-border-strong);
-    box-shadow: var(--shadow-hover);
   }
 
   .featured-btn:active {
-    transform: scale(0.95);
+    background-color: var(--color-border);
+    border-color: var(--color-border-strong);
   }
 
   .featured-track {
@@ -207,18 +203,15 @@ const featured = tools
     border: var(--border);
     border-radius: var(--radius-lg);
     background: var(--color-surface);
-    box-shadow: var(--shadow-card);
     text-decoration: none;
     color: var(--color-text);
-    transition: var(--transition-color), transform var(--duration-fast) ease;
+    transition: var(--transition-color);
   }
 
   .featured-card:hover,
   .featured-card:active {
     background-color: var(--color-surface);
     border-color: var(--color-border-strong);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-hover);
     text-decoration: none;
     color: var(--color-text);
   }
@@ -252,8 +245,8 @@ const featured = tools
     font-weight: var(--font-weight-medium);
     padding: 2px var(--space-2);
     border-radius: var(--radius-pill);
-    background: var(--color-accent-subtle);
-    color: var(--color-accent-strong);
+    background: var(--color-border);
+    color: var(--color-text);
   }
 
   .featured-tagline {
@@ -271,14 +264,6 @@ const featured = tools
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-text-subtle);
-  }
-
-  .featured-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--cat-accent, var(--color-accent));
-    flex-shrink: 0;
   }
 
   @media (min-width: 1024px) {

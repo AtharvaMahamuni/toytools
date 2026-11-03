@@ -200,10 +200,9 @@ const description = 'How ToyTools is put together: categories, engines, tools, a
 
       <h2 class="arch-kicker">Catalog</h2>
       {categories.map(cat => (
-        <section class="arch-cat" style={`--swatch:${cat.accent}`}>
+        <section class="arch-cat">
           <h3>
             <button type="button" data-node={catId(cat.slug)}>
-              <span class="swatch" aria-hidden="true"></span>
               <span class="arch-name">{cat.name}</span>
               <span class="arch-meta">{cat.toolCount}</span>
             </button>
@@ -334,12 +333,10 @@ const description = 'How ToyTools is put together: categories, engines, tools, a
     background: var(--color-surface);
     border: var(--border);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
     overflow: hidden;
   }
   .arch-cat {
     margin-top: var(--space-8);
-    border-left: 3px solid var(--swatch);
   }
   .arch-block ul,
   .arch-cat ul { list-style: none; margin: 0; padding: 0; }
@@ -363,8 +360,9 @@ const description = 'How ToyTools is put together: categories, engines, tools, a
   .arch-name { flex: 1 1 8rem; min-width: 0; }
   .arch-map button:active,
   .arch-map button[aria-pressed="true"] {
-    background: var(--color-accent-subtle);
-    color: var(--color-accent-strong);
+    background: var(--color-bg-tertiary);
+    color: var(--color-text);
+    box-shadow: inset 2px 0 0 var(--color-accent);
   }
   .arch-map button:focus-visible {
     outline: 2px solid var(--color-accent);
@@ -380,19 +378,10 @@ const description = 'How ToyTools is put together: categories, engines, tools, a
     font-size: var(--text-xs);
   }
   .arch-map button[aria-pressed="true"] .arch-meta { color: inherit; }
-  .swatch {
-    width: 12px;
-    height: 12px;
-    border-radius: 3px;
-    background: var(--swatch);
-    flex: none;
-  }
-
   .arch-panel {
     background: var(--color-surface);
     border: var(--border);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
     padding: var(--space-5);
     scroll-margin-top: calc(var(--touch-target) + var(--space-6));
   }
@@ -410,7 +399,7 @@ const description = 'How ToyTools is put together: categories, engines, tools, a
   .arch-panel__empty h2 { font-size: var(--text-lg); }
   .arch-panel__kind {
     text-transform: uppercase; letter-spacing: 0.08em;
-    font-size: var(--text-xs); color: var(--color-accent); font-weight: 600;
+    font-size: var(--text-xs); color: var(--color-text-muted); font-weight: 600;
   }
   .arch-panel__sub { font-weight: 600; color: var(--color-text) !important; margin: var(--space-1) 0 var(--space-3); }
   .arch-panel__file code { font-size: var(--text-xs); word-break: break-all; }
@@ -426,7 +415,7 @@ const description = 'How ToyTools is put together: categories, engines, tools, a
   .arch-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-1); }
   .arch-links a, .arch-links button {
     display: block; width: 100%; text-align: left;
-    font-size: var(--text-sm); color: var(--color-accent);
+    font-size: var(--text-sm); color: var(--color-text);
     background: none; border: none; padding: var(--space-1) 0; cursor: pointer;
     min-height: var(--touch-target);
   }
