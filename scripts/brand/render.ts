@@ -26,18 +26,18 @@ const fontData = (file: string): string =>
   readFileSync(path.resolve(process.cwd(), file)).toString('base64');
 
 /**
- * Geist and Geist Mono, inlined as base64 @font-face rules.
+ * Inter and JetBrains Mono, the site's own faces, inlined as base64 @font-face rules.
  *
  * Inlined rather than linked because the page is rendered from a string with no server behind it,
  * so a relative font URL has nothing to resolve against and the render silently falls back to a
  * system face -- which looks close enough in a thumbnail to ship by accident.
  */
 export function fontCss(): string {
-  const geist = fontData('node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2');
-  const mono = fontData('node_modules/@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2');
+  const sans = fontData('node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2');
+  const mono = fontData('node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2');
   return (
-    `@font-face{font-family:'Geist';src:url(data:font/woff2;base64,${geist}) format('woff2');font-weight:100 900;}` +
-    `@font-face{font-family:'Geist Mono';src:url(data:font/woff2;base64,${mono}) format('woff2');font-weight:100 900;}`
+    `@font-face{font-family:'Inter';src:url(data:font/woff2;base64,${sans}) format('woff2');font-weight:100 900;}` +
+    `@font-face{font-family:'JetBrains Mono';src:url(data:font/woff2;base64,${mono}) format('woff2');font-weight:100 900;}`
   );
 }
 

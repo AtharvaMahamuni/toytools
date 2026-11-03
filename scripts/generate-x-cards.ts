@@ -104,7 +104,7 @@ function cardCss(H: number, square: boolean): string {
   .card {
     width: ${W}px; height: ${H}px;
     background: ${PAPER};
-    font-family: 'Geist', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     display: flex; flex-direction: column;
     padding: 92px 104px;
     box-sizing: border-box;
@@ -115,7 +115,7 @@ function cardCss(H: number, square: boolean): string {
 
   .top { display: flex; align-items: center; gap: 20px; }
   .eyebrow {
-    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
     font-size: 24px; font-weight: 500;
     letter-spacing: 0.08em; text-transform: uppercase;
     color: ${ACCENT};

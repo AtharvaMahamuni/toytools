@@ -42,7 +42,7 @@ function cardCss(): string {
     width: ${WIDTH}px; height: ${HEIGHT}px;
     box-sizing: border-box;
     background: ${PAPER};
-    font-family: 'Geist', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-align: center;
     padding-bottom: 28px;
@@ -63,7 +63,7 @@ function cardCss(): string {
   .domain {
     position: absolute; left: 0; right: 0; bottom: 34px; margin: 0;
     display: flex; align-items: center; justify-content: center; gap: 14px;
-    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
     font-size: 22px; font-weight: 500; letter-spacing: 0.02em;
     color: ${ACCENT};
   }

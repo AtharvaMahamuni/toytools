@@ -63,8 +63,7 @@ export default defineConfig({
     build: {
       // Vite inlines a file under 4 KB into the CSS that references it. JetBrains
       // Mono's cyrillic-ext face is 2028 bytes, so it lands as base64 in the shared
-      // sheet and the tool and guide pages miss their CSS budget. Geist subsets
-      // were all larger than that limit and stayed URLs. Fonts stay URLs.
+      // sheet and the tool and guide pages miss their CSS budget. Fonts stay URLs.
       assetsInlineLimit(filePath) {
         if (filePath.endsWith('.woff2')) return false;
       },

@@ -321,6 +321,28 @@ const interaction = INTERACTION_ASSETS.map((asset) => {
   return { ...asset, gzBytes };
 });
 
+// Font bytes. Fonts are not render-blocking (font-display: optional) and live outside the per-page
+// CSS and JS totals, so before 3 Nov 2026 they were an unmeasured way to add weight. woff2 is
+// already compressed, so these are raw bytes. The latin faces are what an English page actually
+// fetches (one Inter and one JetBrains Mono file); the other subsets load only when a page shows a
+// character in their unicode-range. Measured on 2026-11-03 after Geist left package.json: Inter
+// latin 47.1K, JetBrains Mono latin 39.5K (86.6K together), every subset together 297.6K.
+const FONT_BUDGET = { latinKb: 90, allKb: 300 };
+{
+  const assetDir = join(DIST, '_assets');
+  const fonts = existsSync(assetDir) ? readdirSync(assetDir).filter((n) => n.endsWith('.woff2')) : [];
+  const size = (n: string) => readFileSync(join(assetDir, n)).length;
+  const latin = fonts.filter((n) => /-latin-wght-normal\./.test(n));
+  if (latin.length === 0) {
+    failures.push('no latin woff2 face found in dist/_assets, so the font budget is silently unenforced. Fix the matcher.');
+  }
+  const latinKb = kb(latin.reduce((a, n) => a + size(n), 0));
+  const allKb = kb(fonts.reduce((a, n) => a + size(n), 0));
+  if (latinKb > FONT_BUDGET.latinKb) failures.push(`latin font faces ${latinKb.toFixed(1)}KB exceed ${FONT_BUDGET.latinKb}KB`);
+  if (allKb > FONT_BUDGET.allKb) failures.push(`all font files ${allKb.toFixed(1)}KB exceed ${FONT_BUDGET.allKb}KB`);
+  console.log(`\n[check-budget] fonts: latin ${latinKb.toFixed(1)}K of ${FONT_BUDGET.latinKb}K (${latin.length} files), all ${allKb.toFixed(1)}K of ${FONT_BUDGET.allKb}K (${fonts.length} files)`);
+}
+
 // Worst page per kind — the number that matters, and the one to quote when changing a budget.
 const kinds = [...new Set(measured.map((m) => m.kind))].sort();
 console.log('\n[check-budget] worst page per kind (gzipped):\n');

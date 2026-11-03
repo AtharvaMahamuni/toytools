@@ -72,7 +72,10 @@ import { BREATH_PRESETS, DEFAULT_BREATH_PRESET } from '@lib/engines/feel/breathi
   }
 
   .br-choice.is-active {
-    background: color-mix(in srgb, var(--color-accent) 18%, var(--color-surface));
+    /* The selected option is an ink pill, as in the shared chips (accuracy audit, 3 Nov 2026). */
+    background: var(--color-selected);
+    border-color: var(--color-selected);
+    color: var(--color-on-selected);
   }
 
   .br-choice:focus-visible {
