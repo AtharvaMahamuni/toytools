@@ -50,3 +50,22 @@ describe('punycode encoder', () => {
     expect(() => punycode.decode('xn--abc{')).toThrow();
   });
 });
+
+// Regression (#291 shipped this): "well-known" is not punycode. The xn-- fix corrupted it and the
+// status said Valid.
+describe('punycode prefix fix only for real punycode', () => {
+  it('does not offer xn-- for an ordinary hyphenated word', () => {
+    expect(punycode.recover!('well-known', 'decode')).toBeNull();
+    expect(punycode.recover!('self-service', 'decode')).toBeNull();
+  });
+
+  it('offers xn-- for a label that decodes to a real name', () => {
+    expect(punycode.recover!('mnchen-3ya', 'decode')).toEqual({ label: 'Add xn-- prefix and decode', text: 'xn--mnchen-3ya' });
+  });
+
+  it('never reports a corrupted decode as valid', () => {
+    expect(punycode.validate!('xn--well-known', 'decode').ok).toBe(false);
+    expect(punycode.validate!('xn--mnchen-3ya.de', 'decode').ok).toBe(true);
+    expect(punycode.validate!('xn--bcher-kva.example', 'decode').ok).toBe(true);
+  });
+});
