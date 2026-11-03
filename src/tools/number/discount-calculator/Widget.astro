@@ -24,7 +24,8 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
         <button type="button" class="disc-preset" data-pct="25">25%</button>
         <button type="button" class="disc-preset" data-pct="50">50%</button>
       </div>
-      <input id="disc-amount" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 25" />
+      <input id="disc-amount" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 25" aria-describedby="disc-warn" />
+      <p class="disc-warn" id="disc-warn" role="status" hidden></p>
     </div>
   </IoPanel>
 
@@ -68,6 +69,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     var secondary = document.querySelector('.tm-secondary');
     var savedEl  = document.getElementById('disc-saved');
     var rateEl   = document.getElementById('disc-rate');
+    var warnEl   = document.getElementById('disc-warn');
     var copyBtn  = document.getElementById('disc-copy');
     var clearBtn = document.getElementById('disc-clear');
     var noteEl   = document.getElementById('disc-note');
@@ -126,7 +128,15 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       }
     }
 
+    // A discount past the whole price is capped, and said so out loud rather than silently.
+    function warn(text) {
+      if (!warnEl) return;
+      warnEl.textContent = text || '';
+      warnEl.hidden = !text;
+    }
+
     function showEmpty(message) {
+      warn('');
       lastResult = '';
       note({});
       finalEl.textContent = '$0.00';
@@ -148,9 +158,11 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       if (modeEl.value === 'fixed') {
         saved = Math.min(amt, price);          // can't discount below zero
         rate = price > 0 ? (saved / price) * 100 : 0;
+        warn(amt > price ? 'A discount of ' + money(amt) + ' is more than the price, so it is capped at ' + money(price) + ' and the item is free.' : '');
       } else {
         rate = Math.min(amt, 100);             // cap at 100% off
         saved = price * rate / 100;
+        warn(amt > 100 ? 'A discount over 100% is not possible: ' + pct(amt) + ' is capped at 100% off, so the item is free.' : '');
       }
       var final = price - saved;
 
@@ -254,6 +266,12 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
 </script>
 
 <style>
+  .disc-warn {
+    margin: var(--space-1) 0 0;
+    color: var(--color-danger);
+    font-size: var(--text-sm);
+  }
+
   .disc-presets {
     display: flex;
     flex-wrap: wrap;

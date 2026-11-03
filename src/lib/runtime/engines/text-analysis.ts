@@ -1,5 +1,5 @@
 import { textNotice } from '@lib/text/notice';
-import { analyzeText, isNumberToken, wordTokens } from '@lib/text/analysis';
+import { analyzeText, graphemeCount, isNumberToken, wordTokens } from '@lib/text/analysis';
 import { formatMetric } from '@lib/text/formatters';
 import type { AttachFn } from '../types';
 
@@ -9,4 +9,5 @@ export const attach: AttachFn = (TT) => {
   TT.isNumberToken = isNumberToken; // Word Frequency's Ignore numbers option
   TT.textNotice = textNotice; // (id, text, analysis) → one line about the input, or null
   TT.formatMetric = formatMetric;
+  TT.graphemeCount = graphemeCount; // characters as people see them, for the Character Counter limit
 };

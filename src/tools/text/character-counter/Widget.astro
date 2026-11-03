@@ -60,6 +60,9 @@ import { config } from './config';
   var breakdownGrid = document.getElementById('cc-breakdown-grid');
   var activeLimit = 0;
 
+  // Characters as people see them (an emoji with a skin tone is one), matching the Characters stat.
+  function charsOf(t) { return ToyTools.graphemeCount ? ToyTools.graphemeCount(t) : Array.from(t).length; }
+
   function updateLimit(charCount) {
     if (!activeLimit) { limitBarWrap.hidden = true; return; }
     limitBarWrap.hidden = false;
@@ -83,7 +86,7 @@ import { config } from './config';
     var digits = (text.match(/\d/g) || []).length;
     var spaces = (text.match(/ /g) || []).length;
     var punct = (text.match(/[.,!?;:'"()\-–—\[\]{}\/\\@#$%^&*+=<>|~`]/g) || []).length;
-    var total = text.length;
+    var total = Math.max(charsOf(text), letters + digits + spaces + punct);
     var other = Math.max(0, total - letters - digits - spaces - punct);
     breakdownGrid.innerHTML =
       makeBreakdownRow('Letters', letters, total) +
@@ -106,7 +109,7 @@ import { config } from './config';
   }
 
   function compute() {
-    updateLimit(textarea.value.length);
+    updateLimit(charsOf(textarea.value));
     updateBreakdown(textarea.value);
   }
 
@@ -138,7 +141,7 @@ import { config } from './config';
         btn.setAttribute('aria-pressed', 'true');
         btn.classList.add('is-active');
       }
-      updateLimit(textarea.value.length);
+      updateLimit(charsOf(textarea.value));
       saveLimit();
     });
   });
@@ -156,7 +159,7 @@ import { config } from './config';
       if (activeLimit) {
         lines.push('');
         lines.push('Active limit: ' + activeLimit + ' characters');
-        lines.push('Remaining: ' + (activeLimit - textarea.value.length));
+        lines.push('Remaining: ' + (activeLimit - charsOf(textarea.value)));
       }
       lines.push('');
       lines.push('Generated: ' + new Date().toLocaleString());
@@ -221,9 +224,10 @@ import { config } from './config';
   }
   .cc-preset-btn:hover { background: var(--color-surface-elevated); border-color: var(--color-accent); }
   .cc-preset-btn.is-active {
-    background: var(--color-accent-subtle);
-    border-color: var(--color-accent);
-    color: var(--color-accent-strong);
+    /* The selected option is an ink pill, as in the shared chips (accuracy audit, 3 Nov 2026). */
+    background: var(--color-selected);
+    border-color: var(--color-selected);
+    color: var(--color-on-selected);
     font-weight: var(--font-weight-semibold);
   }
   .cc-preset-num {
