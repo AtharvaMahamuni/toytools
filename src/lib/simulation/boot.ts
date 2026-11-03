@@ -125,7 +125,7 @@ function wire(root: HTMLElement, def: SimulationDef): void {
   function updateReadouts(): void {
     for (const m of def.measurements) {
       const el = root.querySelector<HTMLElement>(`[data-measurement="${m.id}"]`);
-      if (el) el.textContent = formatWithUnit(m.compute(state), unitOf(def, m, state.params), m.decimals ?? 2);
+      if (el) el.textContent = (m.display?.(state) ?? formatWithUnit(m.compute(state), unitOf(def, m, state.params), m.decimals ?? 2));
     }
     if (def.formula) {
       for (const term of def.formula.terms) {
@@ -136,7 +136,7 @@ function wire(root: HTMLElement, def: SimulationDef): void {
           if (p) el.textContent = formatWithUnit(state.params[p.id], boundsOf(def, p, state.params).unit, p.decimals ?? 2);
         } else if (term.measurementId) {
           const m = measurementDefs.get(term.measurementId);
-          if (m) el.textContent = formatWithUnit(m.compute(state), unitOf(def, m, state.params), m.decimals ?? 2);
+          if (m) el.textContent = (m.display?.(state) ?? formatWithUnit(m.compute(state), unitOf(def, m, state.params), m.decimals ?? 2));
         }
       }
     }
@@ -202,7 +202,7 @@ function wire(root: HTMLElement, def: SimulationDef): void {
       const v = state.params[pid];
       return Number.isFinite(v) ? v.toFixed(p?.decimals ?? 2) : '?';
     });
-    const answer = formatWithUnit(outMeas.compute(state), unitOf(def, outMeas, state.params), outMeas.decimals ?? 2);
+    const answer = (outMeas.display?.(state) ?? formatWithUnit(outMeas.compute(state), unitOf(def, outMeas, state.params), outMeas.decimals ?? 2));
     workedEl.textContent = `${outTerm.symbol} = ${rhs} = ${answer}`;
   }
 
@@ -234,7 +234,7 @@ function wire(root: HTMLElement, def: SimulationDef): void {
       liveTimer = 0;
       const parts = def.measurements
         .filter((m) => !m.hidden)
-        .map((m) => `${m.label} ${formatWithUnit(m.compute(state), unitOf(def, m, state.params), m.decimals ?? 2)}`);
+        .map((m) => `${m.label} ${(m.display?.(state) ?? formatWithUnit(m.compute(state), unitOf(def, m, state.params), m.decimals ?? 2))}`);
       const text = liveMessage || parts.join(', ') + '.';
       liveMessage = '';
       if (liveEl.textContent !== text) liveEl.textContent = text;

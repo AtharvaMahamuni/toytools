@@ -4,7 +4,7 @@
 
 import type { SimState, Viewport } from '../types';
 import { clear, drawGrid, drawLabel } from '../canvas';
-import { discriminant, evaluate, realRoots, vertexX, vertexY, VIEW_X, VIEW_Y } from './quadratic';
+import { discriminant, evaluate, isLinear, realRoots, vertexX, vertexY, VIEW_X, VIEW_Y } from './quadratic';
 
 export function drawQuadratic(ctx: CanvasRenderingContext2D, s: SimState, vp: Viewport): void {
   clear(ctx, vp);
@@ -68,7 +68,8 @@ export function drawQuadratic(ctx: CanvasRenderingContext2D, s: SimState, vp: Vi
   // Axis of symmetry + vertex.
   const h = vertexX(s);
   const k = vertexY(s);
-  if (Math.abs(h) <= VIEW_X) {
+  const linear = isLinear(s);
+  if (!linear && Math.abs(h) <= VIEW_X) {
     ctx.save();
     ctx.strokeStyle = vp.palette.accent;
     ctx.setLineDash([5, 5]);
@@ -79,7 +80,7 @@ export function drawQuadratic(ctx: CanvasRenderingContext2D, s: SimState, vp: Vi
     ctx.stroke();
     ctx.restore();
   }
-  if (Math.abs(h) <= VIEW_X && Math.abs(k) <= VIEW_Y) {
+  if (!linear && Math.abs(h) <= VIEW_X && Math.abs(k) <= VIEW_Y) {
     ctx.save();
     ctx.fillStyle = vp.palette.accent;
     ctx.beginPath();
@@ -91,10 +92,10 @@ export function drawQuadratic(ctx: CanvasRenderingContext2D, s: SimState, vp: Vi
 
   // Real roots on the x-axis.
   const roots = realRoots(s);
-  if (roots && discriminant(s) >= -1e-9) {
+  if (roots && (linear || discriminant(s) >= -1e-9)) {
     ctx.save();
     ctx.fillStyle = vp.palette.danger;
-    for (const r of roots) {
+    for (const r of roots[0] === roots[1] ? [roots[0]] : roots) {
       if (Math.abs(r) > VIEW_X) continue;
       ctx.beginPath();
       ctx.arc(toPx(r), cy, 6, 0, Math.PI * 2);

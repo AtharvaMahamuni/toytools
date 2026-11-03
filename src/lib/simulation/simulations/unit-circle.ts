@@ -49,6 +49,14 @@ export function cosTheta(s: SimState): number {
   return Math.cos(s.vars.theta);
 }
 
+/**
+ * The tan θ readout: 'undefined' where cos θ is zero (90° and 270°), instead of the clamped ±99.99
+ * the measurement keeps for the graph (accuracy audit, 3 Nov 2026).
+ */
+export function tanDisplay(s: SimState): string | null {
+  return Math.abs(Math.cos(s.vars.theta)) < 1e-9 || Math.abs(Math.tan(s.vars.theta)) >= TAN_CLAMP ? 'undefined' : null;
+}
+
 /** tan θ clamped to ±TAN_CLAMP so the measurement stays finite at 90° and 270°. */
 export function tanTheta(s: SimState): number {
   return Math.max(-TAN_CLAMP, Math.min(TAN_CLAMP, Math.tan(s.vars.theta)));
@@ -133,7 +141,7 @@ const unitCircleSim: SimulationDef = {
     { id: 'radians', label: 'Radians', unit: 'rad', decimals: 3, compute: (s) => wrapAngle(s.vars.theta) },
     { id: 'sin', label: 'sin θ', unit: '', decimals: 3, compute: sinTheta },
     { id: 'cos', label: 'cos θ', unit: '', decimals: 3, compute: cosTheta },
-    { id: 'tan', label: 'tan θ', unit: '', decimals: 2, compute: tanTheta },
+    { id: 'tan', label: 'tan θ', unit: '', decimals: 2, compute: tanTheta, display: tanDisplay },
   ],
   formula: {
     expression: '(x, y) = (cos θ, sin θ)',

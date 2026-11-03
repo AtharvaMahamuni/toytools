@@ -5,6 +5,7 @@
 import { describe, expect, it } from 'vitest';
 import type { SimState } from '../types';
 import unitCircle, {
+  tanDisplay,
   angleDegrees,
   cosTheta,
   initUnitCircle,
@@ -122,5 +123,18 @@ describe('unit-circle model', () => {
     const text = unitCircle.explanation(stateAt(135));
     expect(text).toContain('quadrant II');
     expect(text).toContain('Pythagorean identity');
+  });
+});
+
+// Accuracy audit (3 Nov 2026): the tan readout says 'undefined' at 90 and 270, not ±99.99.
+describe('tan readout at the asymptotes', () => {
+  const tanMeasure = () => unitCircle.measurements.find((m) => m.id === 'tan')!;
+  it.each([90, 270])('tan %i degrees reads undefined', (deg) => {
+    expect(tanDisplay(stateAt(deg))).toBe('undefined');
+    expect(tanMeasure().display!(stateAt(deg))).toBe('undefined');
+    expect(Number.isFinite(tanMeasure().compute(stateAt(deg)))).toBe(true);
+  });
+  it.each([0, 45, 89, 135, 271])('tan %i degrees shows its number', (deg) => {
+    expect(tanDisplay(stateAt(deg))).toBeNull();
   });
 });

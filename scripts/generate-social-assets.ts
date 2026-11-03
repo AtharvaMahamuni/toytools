@@ -82,7 +82,7 @@ function bannerCss(): string {
     position: relative;
     width: 1500px; height: 500px;
     background: ${PAPER};
-    font-family: 'Geist', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     display: flex; align-items: center;
     /* The avatar lands in the bottom-left. Everything readable starts to the right of it. */
     padding-left: 404px;
@@ -114,7 +114,7 @@ function bannerCss(): string {
 ${goldDotCss(9)}
   .domain {
     position: absolute; right: 56px; bottom: 44px;
-    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
     font-size: 25px; font-weight: 500; letter-spacing: 0.02em;
     color: ${ACCENT};            /* --color-accent */
   }

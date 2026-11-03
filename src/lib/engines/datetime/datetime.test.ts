@@ -329,3 +329,22 @@ describe('unix timestamp: 13 digits read as seconds', () => {
     expect(JSON.stringify(runDateTime('unix-timestamp', { timestamp: '1700000000000', unit: 'milliseconds' }, NO_OPTS))).not.toContain('looks like milliseconds');
   });
 });
+
+// Accuracy audit (3 Nov 2026): DST gaps and repeated hours are called out, not silently resolved.
+describe('timezone DST edge warnings', () => {
+  const run = (datetime: string) =>
+    runDateTime('timezone', { datetime, fromZone: 'America/New_York', toZone: 'UTC' }, NO_OPTS);
+  const warnings = (r: ReturnType<typeof run>) =>
+    (r.insights ?? []).filter((i) => i.tone === 'warning').map((i) => i.text);
+  it('warns that 2026-03-08 02:30 does not exist in New York', () => {
+    const r = run('2026-03-08T02:30');
+    expect(r.uiState).toBe('success');
+    expect(warnings(r).join(' ')).toMatch(/does not exist/);
+  });
+  it('warns that 2026-11-01 01:30 happens twice in New York', () => {
+    expect(warnings(run('2026-11-01T01:30')).join(' ')).toMatch(/happens twice/);
+  });
+  it('does not warn for an ordinary time', () => {
+    expect(warnings(run('2026-07-08T09:00'))).toHaveLength(0);
+  });
+});

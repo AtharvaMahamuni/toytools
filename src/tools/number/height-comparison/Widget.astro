@@ -685,8 +685,10 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
   }
 
   .hc-btn.is-active {
-    background: var(--color-accent-subtle);
-    color: var(--color-accent-strong);
+    /* The selected option is an ink pill, as in the shared chips (accuracy audit, 3 Nov 2026). */
+    background: var(--color-selected);
+    border-color: var(--color-selected);
+    color: var(--color-on-selected);
     font-weight: var(--font-weight-semibold);
   }
 

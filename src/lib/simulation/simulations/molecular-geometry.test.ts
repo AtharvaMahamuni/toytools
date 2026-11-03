@@ -226,3 +226,20 @@ describe('presets and motion', () => {
     }
   });
 });
+
+// Accuracy audit (3 Nov 2026): the angle follows the molecular shape, not the electron geometry.
+describe('bond angle for every AXnEm case', () => {
+  const cases: Array<[number, number, number]> = [
+    [2, 0, 180], [1, 1, 180], [1, 2, 180], [3, 0, 120], [2, 1, 120], [4, 0, 109.5], [3, 1, 109.5], [2, 2, 109.5],
+    [1, 3, 180], [5, 0, 90], [4, 1, 90], [3, 2, 90], [2, 3, 180], [1, 4, 180], [6, 0, 90], [5, 1, 90], [4, 2, 90],
+    [3, 3, 90], [2, 4, 180],
+  ];
+  it.each(cases)('AX%iE%i has an ideal bond angle of %f degrees', (x, e, angle) => {
+    expect(idealAngle(molecule(x, e))).toBeCloseTo(angle, 1);
+  });
+
+  it('XeF2 (AX2E3) shows 180, not the 90 of its trigonal bipyramid', () => {
+    expect(idealAngle(molecule(2, 3))).toBe(180);
+    expect(compressedAngle(molecule(2, 3))).toBe(180);
+  });
+});

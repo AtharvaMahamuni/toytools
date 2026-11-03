@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { analyzeText, isNumberToken, wordTokens } from './analysis';
+import { analyzeText, isNumberToken, wordTokens, graphemeCount } from './analysis';
 
 describe('analyzeText', () => {
   it('returns all zeros for empty string', () => {
@@ -301,5 +301,22 @@ describe('Word Frequency decisions (26 Oct 2026)', () => {
   it('filtering numbers out of real tokens keeps the words', () => {
     const toks = wordTokens('In 2026, 1,000 people paid 3.14 each; the 1st one left at 10:30.');
     expect(toks.filter(t => !isNumberToken(t))).toEqual(['in', 'people', 'paid', 'each', 'the', '1st', 'one', 'left', 'at']);
+  });
+});
+
+// Accuracy audit (3 Nov 2026): abbreviations and decimals do not end sentences; characters are graphemes.
+describe('sentence ends and grapheme characters', () => {
+  it('Dr. Smith arrived at 3.30 p.m. today. He left. is 2 sentences', () => {
+    expect(analyzeText('Dr. Smith arrived at 3.30 p.m. today. He left.').sentences).toBe(2);
+  });
+  it('an abbreviation before a capital still ends a sentence', () => {
+    expect(analyzeText('We met at 9 a.m. Then we ate.').sentences).toBe(2);
+    expect(analyzeText('J. R. Smith wrote it, e.g. this one. Done.').sentences).toBe(2);
+  });
+  it('counts 😀👍🏽 é as 4 characters, composed or decomposed', () => {
+    expect(analyzeText('😀👍🏽 é').characters).toBe(4);
+    expect(analyzeText('😀👍🏽 e\u0301').characters).toBe(4);
+    expect(analyzeText('😀👍🏽 é').charactersNoSpaces).toBe(3);
+    expect(graphemeCount('🇮🇳')).toBe(1);
   });
 });

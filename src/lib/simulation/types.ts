@@ -77,6 +77,12 @@ export interface MeasurementDef {
   /** Feed the formula panel without rendering a measurement card. */
   hidden?: boolean;
   compute(s: SimState): number;
+  /**
+   * Optional text that replaces the number when the value is mathematically undefined, e.g.
+   * tan 90° or the vertex of a line. compute() stays finite for the graph and the contract; the
+   * readout shows this word instead of a clamped number. Return null to show the number.
+   */
+  display?(s: SimState): string | null;
 }
 
 /** One symbol in the formula panel; its live value comes from a param or a measurement. */

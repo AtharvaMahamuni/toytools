@@ -20,16 +20,28 @@ export function effectiveA(a: number): number {
   return a < 0 ? -A_EPSILON : A_EPSILON;
 }
 
+/**
+ * True when a is too close to zero to be a parabola: y = bx + c is a line, which has one root (or
+ * none) and no vertex. Every readout switches to the linear answer instead of the clamped-a
+ * parabola, which used to show two roots and a vertex for a line (accuracy audit, 3 Nov 2026).
+ */
+export function isLinear(s: SimState): boolean {
+  return Math.abs(s.params.a) < A_EPSILON;
+}
+
 export function discriminant(s: SimState): number {
   const { a, b, c } = s.params;
   return b * b - 4 * a * c;
 }
 
+/** Vertex x. A line has no vertex, so the linear case reads 0 and the canvas draws none. */
 export function vertexX(s: SimState): number {
+  if (isLinear(s)) return 0;
   return -s.params.b / (2 * effectiveA(s.params.a));
 }
 
 export function vertexY(s: SimState): number {
+  if (isLinear(s)) return 0;
   const a = effectiveA(s.params.a);
   const { b, c } = s.params;
   const h = -b / (2 * a);
@@ -38,6 +50,11 @@ export function vertexY(s: SimState): number {
 
 /** The real roots in ascending order, or null when the discriminant is negative. */
 export function realRoots(s: SimState): [number, number] | null {
+  if (isLinear(s)) {
+    if (Math.abs(s.params.b) < 1e-9) return null;
+    const x = -s.params.c / s.params.b;
+    return [x, x];
+  }
   const a = effectiveA(s.params.a);
   const { b, c } = s.params;
   const d = b * b - 4 * a * c;
@@ -49,6 +66,7 @@ export function realRoots(s: SimState): [number, number] | null {
 }
 
 export function rootCount(s: SimState): number {
+  if (isLinear(s)) return Math.abs(s.params.b) < 1e-9 ? 0 : 1;
   const d = discriminant(s);
   if (Math.abs(d) < 1e-9) return 1;
   return d > 0 ? 2 : 0;
@@ -86,8 +104,8 @@ const quadraticSim: SimulationDef = {
   measurements: [
     { id: 'discriminant', label: 'Discriminant Δ', unit: '', decimals: 2, compute: discriminant },
     { id: 'rootCount', label: 'Real roots', unit: '', decimals: 0, compute: rootCount },
-    { id: 'vertexX', label: 'Vertex x', unit: '', decimals: 2, compute: vertexX },
-    { id: 'vertexY', label: 'Vertex y', unit: '', decimals: 2, compute: vertexY },
+    { id: 'vertexX', label: 'Vertex x', unit: '', decimals: 2, compute: vertexX, display: (s) => (isLinear(s) ? 'none (a line)' : null) },
+    { id: 'vertexY', label: 'Vertex y', unit: '', decimals: 2, compute: vertexY, display: (s) => (isLinear(s) ? 'none (a line)' : null) },
     { id: 'yIntercept', label: 'y-intercept', unit: '', decimals: 2, compute: (s) => s.params.c },
   ],
   formula: {
@@ -102,10 +120,15 @@ const quadraticSim: SimulationDef = {
   },
   observations: [
     (s) => {
-      if (Math.abs(s.params.a) >= A_EPSILON) return null;
-      return 'With a = 0 the x² term vanishes and the equation stops being quadratic: y = bx + c is a straight line.';
+      if (!isLinear(s)) return null;
+      const { b, c } = s.params;
+      const tail = Math.abs(b) < 1e-9
+        ? (Math.abs(c) < 1e-9 ? 'With b = 0 and c = 0 it is the x-axis itself.' : 'With b = 0 it is flat and never crosses the x-axis, so there is no root.')
+        : `It has a single root at x = ${(-c / b).toFixed(2)} and no vertex.`;
+      return `With a = 0 the x² term vanishes and the equation stops being quadratic: y = bx + c is a straight line. ${tail}`;
     },
     (s) => {
+      if (isLinear(s)) return null;
       const d = discriminant(s);
       const roots = realRoots(s);
       if (Math.abs(d) < 1e-9) return 'Δ = 0: one repeated root. The vertex sits exactly on the x-axis and the parabola only touches it.';
@@ -138,6 +161,10 @@ const quadraticSim: SimulationDef = {
   },
   explanation(s: SimState) {
     const { a, b, c } = s.params;
+    if (isLinear(s)) {
+      const root = Math.abs(b) < 1e-9 ? 'no single root' : `one root at x = ${(-c / b).toFixed(2)}`;
+      return `With a = 0 the curve is the straight line y = ${b.toFixed(1)}x ${c < 0 ? '-' : '+'} ${Math.abs(c).toFixed(1)}. A line has no vertex and the quadratic formula does not apply; solving bx + c = 0 gives ${root}. Move a away from zero to bring the parabola back.`;
+    }
     const h = vertexX(s);
     const k = vertexY(s);
     const roots = realRoots(s);

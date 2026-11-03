@@ -132,9 +132,12 @@
     cursor: pointer;
   }
   .bt-filters button[aria-pressed="true"] {
-    color: var(--color-accent-strong);
-    background: var(--color-accent-subtle);
-    border-color: var(--color-accent);
+    /* The selected option is an ink pill, as in the shared chips (accuracy audit, 3 Nov 2026).
+       --color-text and --color-bg are the --color-selected pair, spelled so the shared
+       productivity sheet stays inside its CSS budget. */
+    background: var(--color-text);
+    border-color: var(--color-text);
+    color: var(--color-bg);
   }
   .bt-search-label { display: block; margin-top: var(--space-3); }
   .bt-search-label input, .bt-field input, .bt-field select, .bt-field textarea {

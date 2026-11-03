@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 25,
-  patch: 1,
+  minor: 26,
+  patch: 0,
   status: 'alpha',
   releaseDate: '2026-11-03',
-  description: 'Shared chrome follows the Cursor design language, primary buttons clear contrast, and selected choices stay visible',
+  description: 'Accuracy fixes: molecular angles, BMI rounding, DST warnings, linear quadratics, tan undefined, static friction, valence convention, sentences and graphemes, discount warning, font budget',
 };
 
 export function formatVersion(config: VersionConfig): string {

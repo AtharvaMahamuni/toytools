@@ -135,9 +135,10 @@ import { config } from './config';
     transition: var(--transition-color);
   }
   .fr-toggle input:checked + span {
-    background: var(--color-accent-subtle);
-    border-color: var(--color-accent);
-    color: var(--color-accent-strong);
+    /* The selected option is an ink pill, as in the shared chips (accuracy audit, 3 Nov 2026). */
+    background: var(--color-selected);
+    border-color: var(--color-selected);
+    color: var(--color-on-selected);
   }
   .fr-toggle:focus-within span { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
   .fr-search-row {

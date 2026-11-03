@@ -122,6 +122,61 @@ export function isNumberToken(token: string): boolean {
   return /\p{N}/u.test(token) && !/[\p{L}\p{M}]/u.test(token);
 }
 
+/**
+ * User-perceived characters (grapheme clusters): an emoji with a skin tone, a flag, or an e with a
+ * combining accent is one character, so '😀👍🏽 é' counts 4, not the 8 UTF-16 units text.length gave
+ * (accuracy audit, 3 Nov 2026). Falls back to code points where Intl.Segmenter is missing.
+ */
+let graphemeSegmenter: Intl.Segmenter | null | undefined;
+export function graphemeCount(text: string): number {
+  if (graphemeSegmenter === undefined) {
+    graphemeSegmenter = typeof Intl !== 'undefined' && 'Segmenter' in Intl
+      ? new Intl.Segmenter(undefined, { granularity: 'grapheme' })
+      : null;
+  }
+  if (!graphemeSegmenter) return Array.from(text).length;
+  let n = 0;
+  for (const _ of graphemeSegmenter.segment(text)) n++;
+  return n;
+}
+
+/** Abbreviations whose period never ends a sentence (a title always has a name after it). */
+const TITLE_ABBREVIATIONS = new Set(['mr', 'mrs', 'ms', 'dr', 'prof', 'st', 'sr', 'jr', 'mt', 'rev', 'gen', 'capt', 'lt', 'sgt', 'col', 'gov', 'sen', 'rep', 'hon', 'vs', 'no', 'fig', 'vol', 'pp', 'cf', 'approx', 'dept', 'est']);
+/** Abbreviations that end a sentence only when a capitalised word follows ("at 3 p.m. He left."). */
+const SOFT_ABBREVIATIONS = new Set(['a.m', 'p.m', 'e.g', 'i.e', 'etc', 'inc', 'ltd', 'co', 'corp', 'u.s', 'u.k', 'jan', 'feb', 'mar', 'apr', 'jun', 'jul', 'aug', 'sep', 'sept', 'oct', 'nov', 'dec']);
+
+/**
+ * Sentence-ending punctuation groups ("..." counts once). A period does not end a sentence inside a
+ * number (3.30), after a title such as Dr. or Mr., after a single initial, or after an abbreviation
+ * such as p.m. or e.g. that the sentence carries on from in lower case. So
+ * 'Dr. Smith arrived at 3.30 p.m. today. He left.' is 2 sentences, not 5 (accuracy audit,
+ * 3 Nov 2026).
+ */
+export function sentenceEnds(text: string): number {
+  let count = 0;
+  const re = /[.!?]+/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text))) {
+    const group = m[0];
+    const end = m.index + group.length;
+    const after = text.slice(end);
+    // Inside a token (3.30, example.com, a.m): not an end unless the text stops here.
+    if (after !== '' && !/^[\s"')\]\u201d\u2019]/.test(after)) continue;
+    if (group === '.') {
+      const before = text.slice(0, m.index);
+      const word = (before.match(/[\p{L}.]+$/u)?.[0] ?? '').toLowerCase();
+      const next = after.match(/^[\s"')\]\u201d\u2019]*(\S)?/u)?.[1] ?? '';
+      if (after.trim() !== '') {
+        if (TITLE_ABBREVIATIONS.has(word)) continue;
+        if (/^\p{L}$/u.test(word) && /\p{Lu}/u.test(before.slice(-1))) continue; // an initial, J. Smith
+        if ((SOFT_ABBREVIATIONS.has(word) || SOFT_ABBREVIATIONS.has(word.replace(/\.$/, ''))) && !/\p{Lu}/u.test(next)) continue;
+      }
+    }
+    count++;
+  }
+  return count;
+}
+
 export function analyzeText(text: string): TextAnalysis {
   // Only truly empty input is "nothing". Whitespace-only text still has characters, spaces and
   // lines (three spaces are three characters), it just has no words, sentences or paragraphs.
@@ -147,12 +202,11 @@ export function analyzeText(text: string): TextAnalysis {
   // Whitespace-delimited word count — known limitation: scripts written without
   // spaces (CJK) count a whole run as one word.
   const words = wordPieces(text).length;
-  const characters = text.length;
-  const charactersNoSpaces = text.replace(/\s/g, '').length;
+  const characters = graphemeCount(text);
+  const charactersNoSpaces = graphemeCount(text.replace(/\s/g, ''));
 
-  // Count sentence-ending punctuation groups (e.g. "..." counts as one).
-  // Known limitation: abbreviations ("Dr. Smith.") over-count by one per period.
-  const punctuationGroups = (text.match(/[.!?]+/g) ?? []).length;
+  // Sentence-ending punctuation groups, skipping abbreviations and decimals (sentenceEnds above).
+  const punctuationGroups = sentenceEnds(text);
   const sentences = words === 0 ? 0 : punctuationGroups > 0 ? punctuationGroups : 1;
 
   const paragraphs = text.split(/\n\n+/).filter(p => p.trim()).length;

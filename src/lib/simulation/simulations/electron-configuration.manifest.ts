@@ -135,7 +135,7 @@ export const manifest: SimulationManifest = {
     {
       question: 'What are valence electrons?',
       answer:
-        'Valence electrons are the ones in the outermost occupied shell, and they are the electrons that form bonds. Chlorine has seven, calcium has two. For a transition metal the picture is wider: iron has two in the 4s shell, but its incomplete 3d subshell takes part in bonding as well, which is why it shows several oxidation states.',
+        'Valence electrons are the ones in the outermost occupied shell, and they are the electrons that form bonds. Chlorine has seven, calcium has two. For a transition metal the convention is the outer s plus the d subshell below it: iron counts eight, two in 4s and six in 3d, and that d subshell taking part in bonding is why it shows several oxidation states.',
     },
     {
       question: 'What is noble gas shorthand?',
@@ -205,7 +205,7 @@ export const manifest: SimulationManifest = {
         id: 'valence',
         heading: 'Which Electrons Actually Bond?',
         body:
-          'The valence electrons, meaning the ones in the outermost occupied shell. Chlorine has seven and forms one bond to complete an octet. Calcium has two and loses both. A transition metal is the interesting case: iron has two valence electrons in 4s, but its incomplete 3d subshell joins in as well, therefore iron shows several oxidation states rather than one. Used as a valence electrons calculator, the readout above the orbital diagram gives that count directly.',
+          'The valence electrons. For a main-group atom these are the s and p electrons of the outermost occupied shell: chlorine has seven and forms one bond to complete an octet, calcium has two and loses both. For a transition metal the convention counts the outer s plus the d subshell below it, so iron has eight, Fe2+ six and Fe3+ five, and that d subshell is why iron shows several oxidation states rather than one. Used as a valence electrons calculator, the readout above the orbital diagram gives that count directly.',
         bullets: [
           'The valence shell is drawn highlighted on both the shell picture and the orbital diagram, so the electrons that bond are never buried in the middle of a string.',
           'However, for a transition metal read the d count as well, because those electrons bond too.',

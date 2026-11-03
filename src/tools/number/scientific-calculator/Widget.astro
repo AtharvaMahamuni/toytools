@@ -333,9 +333,10 @@ const attrs = (k: Key) => ({
     transition: var(--transition-color);
   }
   .sc-mode[aria-pressed='true'] {
-    background: var(--color-accent-subtle);
-    border-color: var(--color-accent);
-    color: var(--color-accent-strong);
+    /* The selected option is an ink pill, as in the shared chips (accuracy audit, 3 Nov 2026). */
+    background: var(--color-selected);
+    border-color: var(--color-selected);
+    color: var(--color-on-selected);
   }
 
   .sc-mem-indicator {

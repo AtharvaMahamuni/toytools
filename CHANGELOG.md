@@ -2,6 +2,28 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.26] - 2026-11-03
+
+### Fixed
+
+- **Molecular Geometry bond angles.** The angle follows the molecular shape, not the electron geometry. XeF2 (AX2E3) and AX2E4 are linear at 180°, not 90°. Every AXnEm case is pinned by a test.
+- **BMI rounding.** The category follows the BMI shown on screen. 150 lb at 65 in shows 25 as Overweight with 0.4 lb to lose, never "25, Healthy weight" next to a weight to lose.
+- **Timezone Converter DST warnings.** A time the clocks skip (2026-03-08 02:30 in New York) says it does not exist, and a time that happens twice (2026-11-01 01:30) says which reading is used.
+- **Quadratic Explorer with a = 0.** The line y = bx + c shows its single root (x = 2 for -2x + 4), and the vertex readouts say "none (a line)" instead of a vertex or two roots.
+- **Unit Circle tan.** tan θ reads "undefined" at 90° and 270°, not ±99.99.
+- **Inclined Plane friction.** A block at rest shows the static friction actually acting, mg sinθ (9.81 N for 2 kg at 30° with μ = 0.8), not the 13.59 N maximum.
+- **Electron Configuration valence.** Main-group atoms count the outer s and p electrons. The d-block counts the outer s plus the d below it, so Pd is 10, Fe 8, Fe2+ 6 and Fe3+ 5 (they read 18, 2, 14 and 13).
+- **Word Counter sentences.** Titles, initials, decimals and abbreviations such as p.m. no longer end a sentence. "Dr. Smith arrived at 3.30 p.m. today. He left." is 2 sentences.
+- **Character Counter characters.** Characters are counted as people see them, so an emoji with a skin tone or an accented letter is one. "😀👍🏽 é" is 4. The platform limit bar uses the same count.
+- **Discount Calculator.** A discount over 100%, or a fixed discount above the price, shows a warning that it is capped and the item is free.
+
+### Changed
+
+- The unused Geist font packages are removed. The brand and social image scripts render in Inter and JetBrains Mono, the site's own faces.
+- Font bytes now have a budget in the build: the latin faces a page fetches (86.6 KB of 90 KB) and every font subset together (297.6 KB of 300 KB).
+- Selected options in Height Comparison (cm or ft), Character Counter presets, Find and Replace toggles, Scientific Calculator modes, the Book Tracker filters, Prompt Packer formats and the fidget choices are ink pills, matching the shared chips. The ledger presets in Tip and Discount keep their bold orange text.
+- A contrast test checks the cream and orange tokens in both themes: the button label on orange, text on cream, and the selected pill.
+
 ## [alpha-v13.25.1] - 2026-11-03
 
 ### Changed
