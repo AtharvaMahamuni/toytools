@@ -76,7 +76,7 @@ export function createGraphRenderer(def: GraphDef): GraphRenderer {
 
     ctx.strokeStyle = p.border;
     ctx.lineWidth = 1;
-    ctx.font = '11px "Geist Mono Variable", ui-monospace, monospace';
+    ctx.font = '11px "JetBrains Mono Variable", ui-monospace, monospace';
     ctx.fillStyle = p.muted;
 
     // Horizontal gridlines + y tick labels.
@@ -96,7 +96,7 @@ export function createGraphRenderer(def: GraphDef): GraphRenderer {
 
     // Axis labels. The y label sits upright in the header row above the plot (a rotated label
     // gets clipped when the strip is short); the legend joins it there for multi-series graphs.
-    ctx.font = '12px "Geist Variable", system-ui, sans-serif';
+    ctx.font = '12px "Inter Variable", system-ui, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'alphabetic';
     ctx.fillText(def.xLabel, f.x + f.w / 2, vp.height - 8);
@@ -150,7 +150,7 @@ export function createGraphRenderer(def: GraphDef): GraphRenderer {
     // Legend for multi-series graphs — in the header row beside the y label, clear of the plot.
     if (def.series.length > 1) {
       ctx.save();
-      ctx.font = '12px "Geist Variable", system-ui, sans-serif';
+      ctx.font = '12px "Inter Variable", system-ui, sans-serif';
       ctx.textAlign = 'left';
       ctx.textBaseline = 'middle';
       let lx = f.x + ctx.measureText(def.yLabel).width + 20;

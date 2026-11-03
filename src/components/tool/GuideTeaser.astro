@@ -15,12 +15,12 @@ const updatedDisplay = formatMonthYear(updatedAt);
 ---
 
 <a class="guide-teaser" href={href}>
-  <p class="guide-teaser-label"><span class="gold-dot" aria-hidden="true"></span> Reference Guide</p>
+  <p class="guide-teaser-label">Reference Guide</p>
   <h3 class="guide-teaser-title">{title}</h3>
   <p class="guide-teaser-desc">{description}</p>
   <p class="guide-teaser-meta">
     {readMinutes} min read
-    <span class="gold-dot" aria-hidden="true"></span>
+    <span aria-hidden="true">·</span>
     Updated {updatedDisplay}
     <span class="guide-teaser-cta">Read the full guide →</span>
   </p>
@@ -32,17 +32,14 @@ const updatedDisplay = formatMonthYear(updatedAt);
     background: var(--color-surface);
     border: var(--border);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
     padding: var(--space-6);
     text-decoration: none;
     color: inherit;
-    transition: var(--transition-color), transform var(--duration-fast) ease;
+    transition: var(--transition-color);
   }
 
   .guide-teaser:hover {
     border-color: var(--color-border-strong);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-hover);
   }
 
   .guide-teaser-label {
@@ -80,7 +77,7 @@ const updatedDisplay = formatMonthYear(updatedAt);
   }
 
   .guide-teaser-cta {
-    color: var(--color-text-accent);
+    color: var(--color-text);
     font-weight: var(--font-weight-medium);
     margin-left: auto;
   }

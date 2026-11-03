@@ -15,7 +15,7 @@ const feedbackUrl = withBase('/feedback/');
 >
   <div class="not-found">
     <p class="code">
-      4<span class="gold-dot" aria-hidden="true"></span>4
+      404
     </p>
     <h1>Page not found</h1>
     <p class="message">That page doesn't exist or has been moved.</p>
@@ -42,12 +42,10 @@ const feedbackUrl = withBase('/feedback/');
   }
 
   .code {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
     font-family: var(--font-mono);
     font-size: var(--text-4xl);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-normal);
+    letter-spacing: -0.02em;
     color: var(--color-text-subtle);
     line-height: 1;
     max-width: unset;
@@ -70,9 +68,9 @@ const feedbackUrl = withBase('/feedback/');
     height: var(--touch-target);
     padding-inline: var(--space-6);
     margin-top: var(--space-2);
-    border: var(--border-strong);
+    border: none;
     border-radius: var(--radius-md);
-    background: var(--color-accent-strong);
+    background: var(--color-action);
     color: var(--color-text-inverse);
     font-weight: var(--font-weight-semibold);
     font-size: var(--text-base);
@@ -80,8 +78,10 @@ const feedbackUrl = withBase('/feedback/');
     transition: var(--transition-color);
   }
 
-  .home-link:hover {
-    opacity: 0.9;
+  .home-link:hover,
+  .home-link:active {
+    background: var(--color-action-hover);
+    color: var(--color-text-inverse);
     text-decoration: none;
   }
 
@@ -123,7 +123,7 @@ const feedbackUrl = withBase('/feedback/');
     display: inline-block;
     min-height: var(--touch-target);
     padding-block: var(--space-3);
-    color: var(--color-text-accent);
+    color: var(--color-text);
     text-decoration: none;
   }
 
@@ -132,7 +132,8 @@ const feedbackUrl = withBase('/feedback/');
   }
 
   .suggest-notice a:active {
-    color: var(--color-accent-strong);
+    color: var(--color-text);
+    text-decoration: underline;
   }
 
   .redirect-notice {

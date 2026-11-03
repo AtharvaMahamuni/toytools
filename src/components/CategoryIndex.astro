@@ -60,13 +60,11 @@ const shelves = categories.map(category => ({
   {shelves.map(shelf => (
     <section
       class="shelf"
-      style={shelf.accent ? `--cat-accent: ${shelf.accent}` : ''}
       aria-labelledby={`shelf-${shelf.slug}`}
     >
       <div class="shelf-head">
         <h2 class="shelf-title" id={`shelf-${shelf.slug}`}>
           <a class="shelf-name" href={shelf.href}>
-            <span class="shelf-dot" aria-hidden="true"></span>
             <span class="shelf-name-text">{shelf.name}</span>
             <span class="shelf-count">{shelf.count}</span>
           </a>
@@ -132,16 +130,8 @@ const shelves = categories.map(category => ({
 
   .shelf-name:hover,
   .shelf-name:active {
-    color: var(--color-accent);
-    text-decoration: none;
-  }
-
-  .shelf-dot {
-    flex-shrink: 0;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--cat-accent, var(--color-accent));
+    color: var(--color-text);
+    text-decoration: underline;
   }
 
   .shelf-name-text {
@@ -171,8 +161,8 @@ const shelves = categories.map(category => ({
 
   .shelf-see-all:hover,
   .shelf-see-all:active {
-    color: var(--color-accent);
-    text-decoration: none;
+    color: var(--color-text);
+    text-decoration: underline;
   }
 
   .shelf-tagline {

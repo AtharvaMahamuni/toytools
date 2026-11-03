@@ -443,21 +443,22 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     border-color: var(--color-border-strong);
     transform: scale(0.98);
   }
-  .phys-speed:active { background: var(--color-accent-subtle); }
+  .phys-speed:active { background: var(--color-surface-hover); }
 
   .phys-btn--primary {
     font-weight: 600;
   }
 
   .phys-btn--primary[aria-pressed='false'] {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
+    background: var(--color-action);
+    border-color: var(--color-action);
     color: var(--color-text-inverse);
   }
 
-  .phys-btn--primary[aria-pressed='false']:hover {
-    background: var(--color-accent-strong);
-    border-color: var(--color-accent-strong);
+  .phys-btn--primary[aria-pressed='false']:hover,
+  .phys-btn--primary[aria-pressed='false']:active {
+    background: var(--color-action-hover);
+    border-color: var(--color-action-hover);
   }
 
   .phys-btn--primary[aria-pressed='true'] {
@@ -503,11 +504,11 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     color: var(--color-text);
   }
 
-  .phys-speed[aria-pressed='true'] {
-    background: var(--color-surface);
-    color: var(--color-accent);
+  .phys-speed[aria-pressed='true'],
+  .phys-speed[aria-pressed='true']:active {
+    background: var(--color-selected);
+    color: var(--color-on-selected);
     font-weight: 600;
-    box-shadow: var(--shadow-card);
   }
 
   /* Tight: a label belongs to the content under it. The tile gap above is four times this. */

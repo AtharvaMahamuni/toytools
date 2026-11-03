@@ -24,13 +24,13 @@ const year = new Date().getFullYear();
   <div class="footer-inner">
     <div class="footer-brand">
       &copy; {year} ToyTools
-      <span class="gold-dot" aria-hidden="true"></span>
+      <span class="footer-sep" aria-hidden="true">·</span>
       <span
         class="footer-hint"
         data-tooltip="Loads fast. No unnecessary complexity. Built for getting things done."
         data-toast="Loads fast. No unnecessary complexity. Built for getting things done."
       >Lightweight</span>
-      <span class="gold-dot" aria-hidden="true"></span>
+      <span class="footer-sep" aria-hidden="true">·</span>
       <span
         class="footer-hint"
         data-tooltip={privacy}
@@ -133,7 +133,7 @@ const year = new Date().getFullYear();
   }
 
   .footer-link:active {
-    color: var(--color-accent-strong);
+    color: var(--color-text);
   }
 
   @media (max-width: 640px) {

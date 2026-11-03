@@ -12,7 +12,6 @@ const { category } = Astro.props;
 <a
   href={categoryPath(category)}
   class="category-card"
-  style={category.accent ? `--card-accent: ${category.accent}` : ''}
 >
   <div class="category-body">
     <span class="category-name">{category.name}</span>
@@ -29,27 +28,23 @@ const { category } = Astro.props;
     display: block;
     padding: var(--space-5);
     border: var(--border);
-    border-top: 3px solid var(--card-accent, var(--color-accent));
     border-radius: var(--radius-lg);
     background: var(--color-surface);
     text-decoration: none;
     color: var(--color-text);
     min-height: var(--touch-target);
     overflow: hidden;
-    box-shadow: var(--shadow-card);
-    transition: var(--transition-color), transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+    transition: var(--transition-color);
   }
 
   .category-card:hover {
     background-color: var(--color-surface);
     border-color: var(--color-border-strong);
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-2px);
     text-decoration: none;
   }
 
   .category-card:hover .category-name {
-    color: var(--color-accent);
+    color: var(--color-text);
   }
 
 

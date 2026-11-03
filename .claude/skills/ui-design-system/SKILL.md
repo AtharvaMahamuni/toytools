@@ -14,7 +14,7 @@ A comprehensive reference for building new UI in ToyTools. Use this when creatin
 - **Static-first**: No client-side framework. Widgets are HTML + CSS + vanilla JS in `<script is:inline>`.
 - **Mobile-first**: Design for a **393px** viewport (Pixel 5, the e2e gate), enhance upward. Canonical breakpoints are **1024 / 640 / 480px**; do not invent others.
 - **Token-driven**: Every colour, spacing value, and font size comes from CSS custom properties. Never use raw hex values or hard-coded pixel values.
-- **Warm Paper & Ink, single accent**: warm off-whites (`#FAF9F7` page, `#F4F2EE` panels) with soft-ink text; dark mode is warm graphite, not cool gray. One accent, a forest green `--color-accent`. The gold dot (`●` / `.gold-dot`) is the brand motif and the site mark, never an interactive element.
+- **Warm cream and ink, scarce orange**: canvas `#f7f7f4`, cards `#ffffff`, ink `#26251e`. The only accent is Cursor Orange. One primary button per page uses `--color-action` (the darker orange, so a white label clears 4.5:1). The focus ring stays `--color-accent` (`#f54e00`). Hairlines carry depth. There is no drop shadow and no category rainbow. Inter Variable stands in for CursorGothic. JetBrains Mono is the code face. `.gold-dot` remains in guide sources so the content checks keep passing, and guide CSS hides it.
 - **The tool leads, the platform signs**: a tool page is an application, not an article about an application. See "Page grammar" below, which is enforced by a test, not by taste.
 
 ---
@@ -26,7 +26,7 @@ enter it. This is what stops the page slowly re-accreting furniture as the catal
 
 ```
 Zone A  Do        ToolBar (mark + h1 + star + search + theme) | tagline | GroupSwitcher | widget | ToolActions
-Zone B  Trust     ONE row: trust notice, install affordance, "Powered by ToyTools ●"
+Zone B  Trust     ONE row: trust notice, install affordance, "Powered by ToyTools"
 Zone C  Know      ONE row: drawer triggers, the guide, the category hub
 ```
 
@@ -42,7 +42,7 @@ Zone C  Know      ONE row: drawer triggers, the guide, the category hub
   section-boundary recipe. Above the line is "do", below it is "understand".
 - **The h1 is the tool's name, never the brand.** A tool h1 sits inside ToolBar at
   `--text-base`/`--text-lg`; a guide h1 stays
-  `--text-4xl`. That size gap plus the guide's `TOYTOOLS ● GUIDE` eyebrow is the entire Tool Mode
+  `--text-4xl`. That size gap plus the guide's `GUIDE` eyebrow is the entire Tool Mode
   versus Reading Mode signal. Tool pages get no eyebrow; the absence is the other half of it.
 - **`tagline` is the on-page line** (max 80 chars, a build error above that). `description` stays
   long: it is the meta description and one of four query-targeting slots, so never shorten it for
@@ -96,9 +96,12 @@ All defined in `src/styles/tokens.css`. Reference only via `var(--token-name)`.
 
 ### Colours
 ```css
---color-accent          /* Forest green — buttons, links, focus. Single retheme point */
---color-accent-subtle   /* Accent tint background */
---color-accent-strong   /* Accent text on accent-subtle (AA) */
+--color-accent          /* Cursor Orange #f54e00 — focus ring and chart series */
+--color-accent-subtle   /* Accent tint for focus halos */
+--color-accent-strong   /* Orange text that must clear AA on a light surface */
+--color-action          /* Primary button fill. Light mode is #b23400 so white text clears 4.5:1 */
+--color-action-hover    /* Pressed primary. Darker in light mode, lighter in dark mode */
+--color-selected        /* Chosen choice. Ink fill, canvas label. Distinct from the hover wash */
 --color-text            /* Primary body text — soft ink, not #111 */
 --color-text-muted      /* Secondary text, descriptions */
 --color-text-subtle     /* Tertiary — labels, meta, captions */
@@ -109,17 +112,17 @@ All defined in `src/styles/tokens.css`. Reference only via `var(--token-name)`.
 --color-bg-tertiary     /* Headers of collapsible sections, TOC summaries */
 --color-border          /* Default border */
 --color-border-strong   /* Emphasized border */
---color-gold            /* Gold brand motif — the dot and the site mark */
+--color-gold            /* Alias of --color-accent. Do not paint it. */
 --color-success(-bg)    /* Transient state ONLY (copy confirm, valid). Never links or focus */
 --color-danger(-bg)     /* Destructive confirmation */
 --color-overlay-*       /* Theme-invariant immersive surfaces (always dark) */
 ```
 
-**There is no `--color-bg-secondary`, `--color-bg-elevated` or `--radius-lg`.** This file listed
-all three until 2026-08-08; CSS referencing a custom property that does not exist is invalid at
-computed-value time and silently does nothing, so check `src/styles/tokens.css` before reaching for
-a token you half-remember. Surfaces are `--color-surface`; radii are `--radius-sm` and
-`--radius-md`.
+**There is no `--color-bg-secondary` or `--color-bg-elevated`.** CSS referencing a custom property
+that does not exist is invalid at computed-value time and silently does nothing, so check
+`src/styles/tokens.css` before reaching for a token you half-remember. Surfaces are
+`--color-surface`. Radii are `--radius-sm` (4px), `--radius-md` (8px, buttons and inputs) and
+`--radius-lg` (12px, cards). `--shadow-card` and `--shadow-hover` are `none`.
 
 ### Spacing
 Spacing scale uses `--space-{n}` where n is 1–16. Common values:
@@ -222,7 +225,7 @@ Do not invent a third result chrome. `density="panel"` exists only as an opt-out
 ### Action buttons & state colour
 All tool buttons (`.action-btn`, defined in `tool-widget.css`) are transparent utility controls.
 Colour communicates **state only**: Copy → `--color-success(-bg)` "✓ Copied" (2s); Clear → two-click
-`--color-danger(-bg)` "Confirm Clear" (3s auto-revert). Never fill a button with accent for emphasis.
+`--color-danger(-bg)` "Confirm Clear" (3s auto-revert). Never fill a tool button with accent for emphasis. A page may have one filled orange primary (search, the guide's open-tool link, the 404 home link), and that fill is `--color-action` so the white label clears 4.5:1. Links stay ink. A chosen chip or setting uses `--color-selected`, not the hover wash.
 
 ### Persistence & platform globals
 `ToyTools.state.save/load/clear(toolId, data)` — versioned `toytools:{toolId}` JSON, never throws,
@@ -237,7 +240,8 @@ Same for trust, install and the brand signature: those are `ToolSignature`, also
 ```css
 --touch-target    /* 48px minimum — all clickable elements */
 --radius-sm       /* 4px */
---radius-md       /* 6px */
+--radius-md       /* 8px — buttons and inputs */
+--radius-lg       /* 12px — cards */
 
 --transition-color   /* transition: color, background-color, border-color 150ms */
 --duration-fast      /* 150ms */
@@ -365,7 +369,7 @@ It is **automatically included** in `ToolLayout`, `FAQLayout`, and `GuideLayout`
 | Hard-coded px values in CSS | `var(--space-{n})` or `var(--text-{size})` |
 | `transition: all` | `transition: var(--transition-color)` |
 | Transitioning layout properties | Only transition colour properties |
-| `var(--color-accent)` for decorative elements | `var(--color-gold)` for the gold dot; `var(--color-text-muted)` for secondary text |
+| `var(--color-accent)` for links, dots, or category paint | Ink text. Orange is the one primary button and the focus ring |
 | Inline styles (except `max-width` in BaseLayout) | CSS classes with token values |
 | React, Vue, Svelte components | Plain HTML + `<script is:inline>` |
 | `import.meta.env` in `<script is:inline>` | Pass values via Astro interpolation before the script |
@@ -729,14 +733,13 @@ existed to clear it, or the group loses its shared left edge.
 ### A `var()` with no fallback is a silent no-op
 
 CSS drops a declaration whose custom property does not resolve, and **one bad value voids the whole
-shorthand**. Nothing warns you; the rule just never applies. Two of these had been shipping:
-`--radius-lg` (no such token) left three tracker panels square-cornered, and `--space-10` (also not
-a token until 2026-08-20) meant `padding: var(--space-10) 0 var(--space-12)` gave `/about/`,
-`/privacy/`, `/changelog/` and `/settings/` **no block padding at all**.
+shorthand**. Nothing warns you; the rule just never applies. `--space-10` was missing until
+2026-08-20, so `padding: var(--space-10) 0 var(--space-12)` gave `/about/`, `/privacy/`,
+`/changelog/` and `/settings/` no block padding at all.
 
 Before using a token, confirm it exists in `src/styles/tokens.css`. The spacing scale is
-1-6, 8, 10, 12, 16, 20; radii are `--radius-sm` and `--radius-md` only. `git grep` for a token name
-that returns hits only outside tokens.css means everyone using it is getting nothing.
+1-6, 8, 10, 12, 16, 20. Radii are `--radius-sm`, `--radius-md`, and `--radius-lg`. `--shadow-card`
+and `--shadow-hover` resolve to `none`; do not compose them into a multi-layer `box-shadow`.
 
 ### Two ways content runs off a phone
 

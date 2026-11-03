@@ -54,7 +54,7 @@ const breadcrumbSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 
   <article class="page-doc">
-    <p class="eyebrow">Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span><XAccountLink /></p>
+    <p class="eyebrow">Powered by ToyTools <XAccountLink /></p>
     <h1>The platform behind the tools</h1>
     <p class="lede">
       Every tool on this site signs itself the same way. This page is what that signature means:
@@ -169,9 +169,9 @@ const breadcrumbSchema = {
             ) : (
               <span>{categoryName(engine.category)}</span>
             )}
-            <span class="gold-dot" aria-hidden="true"></span>
+            <span aria-hidden="true">·</span>
             <span>{engine.toolCount} {engine.toolCount === 1 ? 'tool' : 'tools'}</span>
-            <span class="gold-dot" aria-hidden="true"></span>
+            <span aria-hidden="true">·</span>
             <span>{engine.patterns.join(', ')}</span>
           </p>
         </li>

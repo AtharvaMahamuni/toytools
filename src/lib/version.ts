@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
   minor: 25,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
   releaseDate: '2026-11-03',
-  description: 'No Sleep Website repositioning with redirects, and punycode, HTML entity and timestamp fixes',
+  description: 'Shared chrome follows the Cursor design language, primary buttons clear contrast, and selected choices stay visible',
 };
 
 export function formatVersion(config: VersionConfig): string {

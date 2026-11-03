@@ -247,8 +247,9 @@ const toolIndex: Record<string, [string, 0 | 1]> = Object.fromEntries(
 
   .feedback-mail-link:active,
   .feedback-copy:active {
-    border-color: var(--color-accent);
-    color: var(--color-accent-strong);
+    border-color: var(--color-border-strong);
+    background: var(--color-border);
+    color: var(--color-text);
   }
 
   .feedback-review-note {
@@ -269,7 +270,7 @@ const toolIndex: Record<string, [string, 0 | 1]> = Object.fromEntries(
   }
 
   .feedback-submit:active {
-    opacity: 0.85;
+    background: var(--color-action-hover);
   }
 
   .feedback-submit:disabled {

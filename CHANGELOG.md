@@ -2,6 +2,15 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.25.1] - 2026-11-03
+
+### Changed
+
+- Shared pages and controls now use the warm cream canvas, ink text, and hairline cards. Orange stays on the one primary button and the focus ring.
+- Primary buttons use a darker orange so the white label meets contrast. Search, guide open-tool links, feedback submit, and the 404 home link are included.
+- A selected chip, setting, or segment is an ink pill. Hover stays a warm wash, so the chosen option is still obvious.
+- Fonts are Inter for text and JetBrains Mono for code and results. Font files stay separate downloads so the shared stylesheet does not swallow a small subset.
+
 ## [alpha-v13.25] - 2026-11-03
 
 ### Fixed

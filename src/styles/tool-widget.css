@@ -52,7 +52,7 @@
   min-height: 52px;
   border: none;
   border-radius: var(--radius-md);
-  background: var(--color-accent);
+  background: var(--color-action);
   color: var(--color-text-inverse);
   font-weight: var(--font-weight-medium);
   cursor: pointer;
@@ -60,8 +60,9 @@
   transition: var(--transition-color);
 }
 
-.primary-action:hover {
-  background: var(--color-accent-strong);
+.primary-action:hover,
+.primary-action:active {
+  background: var(--color-action-hover);
 }
 
 .widget-output {
@@ -97,9 +98,9 @@
   transition: color var(--duration-normal) var(--ease-default);
 }
 
-/* Subtle state cue when the value changes (Phase 2) */
+/* The script still toggles this when the figure changes. The number stays ink. */
 .hero-value.is-updated {
-  color: var(--color-accent);
+  color: var(--color-text);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -172,17 +173,17 @@
   border-radius: var(--radius-sm);
   transition: background-color 150ms;
 }
-.tm-stat-row:hover { background-color: var(--color-accent-subtle); }
+.tm-stat-row:hover { background-color: var(--color-surface-hover); }
 .tm-stat-row.is-copied { background-color: var(--color-success-bg); }
 
 /* "Try a sample" action — a muted secondary control in the .tool-actions row */
 .action-btn--sample {
-  background: var(--color-surface-raised);
+  background: var(--color-bg-tertiary);
   color: var(--color-text-muted);
   border: 1px solid var(--color-border);
 }
 .action-btn--sample:hover {
-  background: var(--color-surface-elevated);
+  background: var(--color-surface-hover);
   color: var(--color-text);
 }
 
@@ -453,13 +454,13 @@
   color: var(--color-text);
 }
 
-/* Educational insight card — quiet accent, never shouty. */
+/* Educational insight card. The stripe marks the note; the fill stays canvas-soft. */
 .conv-insight {
   margin-top: var(--space-6);
   padding: var(--space-4) var(--space-5);
-  border-left: 3px solid var(--color-accent);
+  border-left: 3px solid var(--color-text);
   border-radius: var(--radius-md);
-  background: var(--color-accent-subtle);
+  background: var(--color-bg-tertiary);
 }
 .conv-insight p {
   margin: 0;
@@ -732,8 +733,8 @@ body.tt-focus-lock {
   margin: 0 0 var(--space-4);
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-md);
-  background: var(--color-accent-subtle);
-  color: var(--color-accent-strong);
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-muted);
   font-size: var(--text-xs);
   line-height: 1.4;
 }
@@ -800,8 +801,8 @@ body.tt-focus-lock {
 }
 
 .smart-step:hover {
-  background: var(--color-accent-subtle);
-  border-color: var(--color-accent);
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-strong);
 }
 
 .smart-suffix {
@@ -837,11 +838,10 @@ body.tt-focus-lock {
   transition: var(--transition-color);
 }
 
-.smart-preset:hover,
-.smart-preset.is-active {
-  background: var(--color-accent-subtle);
-  border-color: var(--color-accent);
-  color: var(--color-accent-strong);
+.smart-preset:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
 }
 
 .currency-input { display: inline-flex; }
@@ -913,7 +913,7 @@ body.tt-focus-lock {
 .next-question,
 .decision { line-height: 1.4; }
 .milestone { color: var(--color-text-subtle); }
-.milestone.is-reached { color: var(--color-accent-strong); font-weight: var(--font-weight-medium); }
+.milestone.is-reached { color: var(--color-text); font-weight: var(--font-weight-medium); }
 
 .insight {
   padding: 0 0 0 var(--space-3);
@@ -922,7 +922,7 @@ body.tt-focus-lock {
   line-height: 1.45;
   border-left: 2px solid var(--color-border);
 }
-.insight--positive { border-left-color: var(--color-accent); background: transparent; }
+.insight--positive { border-left-color: var(--color-text); background: transparent; }
 .insight--caution { border-left-color: var(--color-danger); background: transparent; }
 
 .decision a { font-weight: var(--font-weight-medium); }
@@ -987,13 +987,6 @@ body.tt-focus-lock {
   border-color: transparent;
   color: var(--color-text-muted);
   font-variant-numeric: tabular-nums;
-}
-
-.calc-ledger .smart-preset.is-active {
-  background: transparent;
-  border-color: transparent;
-  color: var(--color-accent-strong);
-  font-weight: var(--font-weight-semibold);
 }
 
 .finance-ledger-toolbar {
@@ -1181,13 +1174,6 @@ body.tt-focus-lock {
   background: var(--color-surface-hover);
 }
 
-.smart-segment[aria-checked='true'] {
-  border-color: var(--color-accent);
-  background: var(--color-accent-subtle);
-  color: var(--color-accent-strong);
-  font-weight: var(--font-weight-medium);
-}
-
 /* ── Slider ──────────────────────────────────────────────────────────────────
    Paired with the numeric control, never replacing it: dragging is faster on a
    phone, typing is exact. Sized to the touch target so it is grabbable. */
@@ -1236,61 +1222,70 @@ body.tt-focus-lock {
    that shows. Keyboard focus is not handled here — global.css draws one
    :focus-visible ring everywhere from --focus-ring. */
 
-.primary-action:active {
-  opacity: 0.82;
-  transform: scale(0.98);
-}
-
 .action-btn:active,
 .action-btn--sample:active,
 .conv-hist-btn:active,
 .smart-segment:active {
   border-color: var(--color-border-strong);
   background: var(--color-surface-hover);
-  transform: scale(0.97);
 }
 
 .smart-step:active,
 .smart-preset:active {
-  border-color: var(--color-accent);
-  background: var(--color-accent-subtle);
-  transform: scale(0.94);
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-hover);
+}
+
+.smart-preset.is-active,
+.smart-preset.is-active:active,
+.smart-segment[aria-checked='true'],
+.smart-segment[aria-checked='true']:active {
+  border-color: var(--color-selected);
+  background: var(--color-selected);
+  color: var(--color-on-selected);
+  font-weight: var(--font-weight-medium);
 }
 
 .calc-ledger .smart-preset:hover,
 .calc-ledger .smart-preset:active {
   border-color: transparent;
-  background: var(--color-accent-subtle);
-  color: var(--color-accent-strong);
+  background: var(--color-surface-hover);
+  color: var(--color-text);
+}
+
+.calc-ledger .smart-preset.is-active,
+.calc-ledger .smart-preset.is-active:hover,
+.calc-ledger .smart-preset.is-active:active {
+  background: transparent;
+  border-color: transparent;
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
 }
 
 .tt-focus-exit:active {
   color: var(--color-text);
   border-color: var(--color-text-muted);
   background: var(--color-surface-hover);
-  transform: scale(0.97);
 }
 
 /* A whole row, not a button: it reads as a press when the fill lands, and scaling
    a full-width row is what makes a list feel like it is wobbling. */
 .tm-stat-row:active {
-  background-color: var(--color-accent-subtle);
+  background-color: var(--color-surface-hover);
 }
 
 /* The success and confirming states own their own colours, and .action-btn:active above would
-   otherwise repaint them back to the neutral surface. Restate them so only the scale changes. */
+   otherwise repaint them back to the neutral surface. */
 .action-btn--copy.is-success:active {
   border-color: var(--color-success);
   background: var(--color-success-bg);
   color: var(--color-success);
-  transform: scale(0.97);
 }
 
 .action-btn--clear.is-confirming:active {
   border-color: var(--color-danger);
   background: var(--color-danger-bg);
   color: var(--color-danger);
-  transform: scale(0.97);
 }
 
 @media (prefers-reduced-motion: reduce) {

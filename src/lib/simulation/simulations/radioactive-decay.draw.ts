@@ -48,7 +48,7 @@ export function drawRadioactiveDecay(ctx: CanvasRenderingContext2D, s: SimState,
 
   ctx.save();
   ctx.fillStyle = vp.palette.ink;
-  ctx.font = `600 ${Math.max(13, Math.round(vp.height * 0.045))}px "Geist Variable", system-ui, sans-serif`;
+  ctx.font = `600 ${Math.max(13, Math.round(vp.height * 0.045))}px "Inter Variable", system-ui, sans-serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(caption(s), vp.width / 2, vp.height * 0.88);

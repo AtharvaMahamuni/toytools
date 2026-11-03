@@ -1,5 +1,5 @@
-@import '@fontsource-variable/geist/index.css';
-@import '@fontsource-variable/geist-mono/index.css';
+@import '@fontsource-variable/inter/index.css';
+@import '@fontsource-variable/jetbrains-mono/index.css';
 @import './reset.css';
 @import './tokens.css';
 @import './tool-widget.css';
@@ -78,7 +78,8 @@ p {
 }
 
 a {
-  color: var(--color-text-accent);
+  color: var(--color-text);
+  text-underline-offset: 0.15em;
   transition: var(--transition-color);
 }
 
@@ -94,19 +95,15 @@ a:hover {
   border-radius: var(--radius-sm);
 }
 
-/* Gold dot brand motif */
+/* Legacy separator. Guide headings hide it. Not orange, and not animated. */
 .gold-dot {
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--color-gold-highlight) 0%, var(--color-gold) 100%);
-  animation: dot-breathe 60s ease-in-out infinite;
+  background: var(--color-text-subtle);
   vertical-align: middle;
   flex-shrink: 0;
-}
-@media (prefers-reduced-motion: reduce) {
-  .gold-dot { animation: none; }
 }
 
 /* Copy bar highlight — appears for 2s after clicking Copy */
@@ -201,7 +198,6 @@ main:focus {
   z-index: calc(var(--z-overlay) + 1);
   background: var(--color-bg);
   border: var(--border);
-  box-shadow: 0 12px 32px rgb(0 0 0 / 18%);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -271,9 +267,13 @@ main:focus {
   cursor: pointer;
 }
 
-.tt-palette-list li.is-active,
 .tt-palette-list li:hover {
-  background: var(--color-surface-hover);
+  background: var(--color-bg-tertiary);
+}
+
+.tt-palette-list li.is-active {
+  background: transparent;
+  box-shadow: inset 2px 0 0 var(--color-accent);
 }
 
 .tt-palette-name {
@@ -367,6 +367,15 @@ main:focus {
 @media (prefers-reduced-motion: reduce) {
   @view-transition {
     navigation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

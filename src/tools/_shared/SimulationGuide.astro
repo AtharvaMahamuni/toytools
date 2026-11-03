@@ -27,14 +27,14 @@ const toolHref = toolPath({ slug: meta.slug, segment: category.segment });
 
 <GuideLayout {...rest} toolSlug={meta.slug} toolName={meta.title} toolCategorySlug={meta.category}>
   <section id="quick-answer">
-    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>Quick Answer</h2>
     <p>{manifest.guide.quickAnswer}</p>
     <a href={toolHref} class="cta-link">Open The {meta.title} &rarr;</a>
   </section>
 
   {manifest.guide.sections.map((section) => (
     <section id={section.id}>
-      <h2>{section.heading} <span class="gold-dot" aria-hidden="true"></span></h2>
+      <h2>{section.heading}</h2>
       <p>{section.body}</p>
       {section.bullets && section.bullets.length > 0 && (
         <ul>{section.bullets.map((b) => <li>{b}</li>)}</ul>
@@ -44,7 +44,7 @@ const toolHref = toolPath({ slug: meta.slug, segment: category.segment });
 
   {manifest.guide.mistakes.length > 0 && (
     <section id="common-mistakes">
-      <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+      <h2>Common Mistakes</h2>
       {manifest.guide.mistakes.map((mistake) => (
         <ReferenceBlock type={mistake.type ?? 'common-mistake'} heading={mistake.heading}>
           <p>{mistake.body}</p>
@@ -61,13 +61,18 @@ const toolHref = toolPath({ slug: meta.slug, segment: category.segment });
     height: var(--touch-target);
     padding-inline: var(--space-5);
     margin-top: var(--space-5);
-    background: var(--color-accent);
+    background: var(--color-action);
     color: var(--color-text-inverse);
-    font-weight: var(--font-weight-semibold);
-    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-sm);
     border-radius: var(--radius-md);
     text-decoration: none;
     transition: var(--transition-color);
   }
-  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+  .cta-link:hover,
+  .cta-link:active {
+    background: var(--color-action-hover);
+    color: var(--color-text-inverse);
+    text-decoration: none;
+  }
 </style>

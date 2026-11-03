@@ -22,45 +22,28 @@ const label = heading ?? defaultHeadings[type];
 <style>
   .ref-block {
     padding: var(--space-4) var(--space-5);
-    border-left: 3px solid var(--color-border-strong);
+    border-left: 2px solid var(--color-border-strong);
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
     background: var(--color-bg-tertiary);
     margin-block: var(--space-4);
   }
 
   .ref-block[data-type="key-idea"] {
-    border-left-color: var(--color-accent);
-    background: var(--color-accent-subtle);
+    border-left-color: var(--color-text);
   }
 
   .ref-block[data-type="common-mistake"] {
-    border-left-color: var(--color-gold);
-    background: var(--color-gold-subtle);
-  }
-
-  .ref-block[data-type="note"] {
-    border-left-color: var(--color-border-strong);
-    background: var(--color-bg-tertiary);
+    border-left-color: var(--color-danger);
   }
 
   .ref-heading {
     font-weight: var(--font-weight-semibold);
-    font-size: var(--text-sm);
+    font-size: 0.6875rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
     color: var(--color-text-muted);
     margin-bottom: var(--space-2);
     max-width: unset;
-  }
-
-  .ref-block[data-type="key-idea"] .ref-heading {
-    color: var(--color-accent-strong);
-  }
-
-  .ref-block[data-type="common-mistake"] .ref-heading {
-    /* Text, not decoration: plain --color-gold is 4.31:1 on this block's tint, just under AA.
-       Same reason --color-accent-strong exists for the accent. */
-    color: var(--color-gold-strong);
   }
 
   :global(.ref-block p:not(.ref-heading)) {

@@ -27,7 +27,7 @@ export function drawProbability(ctx: CanvasRenderingContext2D, s: SimState, vp: 
     ctx.fill();
     ctx.stroke();
     ctx.fillStyle = last === 1 ? vp.palette.bg : vp.palette.ink;
-    ctx.font = `bold ${Math.round(R * 0.9)}px "Geist Variable", system-ui, sans-serif`;
+    ctx.font = `bold ${Math.round(R * 0.9)}px "Inter Variable", system-ui, sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(last === 0 ? '?' : last === 1 ? 'H' : 'T', cx, cy + 2);
@@ -41,7 +41,7 @@ export function drawProbability(ctx: CanvasRenderingContext2D, s: SimState, vp: 
     ctx.fill();
     ctx.stroke();
     ctx.fillStyle = last === 1 ? vp.palette.bg : vp.palette.ink;
-    ctx.font = `bold ${Math.round(R * 0.9)}px "Geist Variable", system-ui, sans-serif`;
+    ctx.font = `bold ${Math.round(R * 0.9)}px "Inter Variable", system-ui, sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(last === 0 ? '?' : String(last), cx, cy + 2);
@@ -59,7 +59,7 @@ export function drawProbability(ctx: CanvasRenderingContext2D, s: SimState, vp: 
   const rx = vp.width * 0.62;
   ctx.save();
   ctx.fillStyle = vp.palette.ink;
-  ctx.font = `600 ${Math.round(vp.height * 0.09)}px "Geist Mono Variable", ui-monospace, monospace`;
+  ctx.font = `600 ${Math.round(vp.height * 0.09)}px "JetBrains Mono Variable", ui-monospace, monospace`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(`${s.vars.successes} / ${s.vars.trials}`, rx, vp.height * 0.3);

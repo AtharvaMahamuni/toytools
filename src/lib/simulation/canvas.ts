@@ -132,7 +132,7 @@ export function drawLabel(
 ): void {
   ctx.save();
   ctx.fillStyle = color;
-  ctx.font = '12px "Geist Variable", system-ui, sans-serif';
+  ctx.font = '12px "Inter Variable", system-ui, sans-serif';
   ctx.textAlign = align;
   ctx.textBaseline = 'middle';
   ctx.fillText(text, x, y);

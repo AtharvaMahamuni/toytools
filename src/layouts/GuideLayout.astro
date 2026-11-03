@@ -101,12 +101,12 @@ const articleSchema = {
         element and no new tokens. Tool pages deliberately get no eyebrow: the absence is the
         other half of the signal. Not a heading, so it stays out of the H2 slot that
         check-query-coverage scores. */}
-    <p class="guide-eyebrow">ToyTools<span class="gold-dot" aria-hidden="true"></span> Guide</p>
+    <p class="guide-eyebrow">Guide</p>
     <h1>{title}</h1>
     <p class="guide-description">{description}</p>
     <p class="guide-meta">
       {readMinutes} min read
-      <span class="gold-dot" aria-hidden="true"></span>
+      <span class="guide-meta-sep" aria-hidden="true">·</span>
       Updated {updatedDisplay}
     </p>
   </div>
@@ -115,7 +115,7 @@ const articleSchema = {
     <aside class="toc-column" aria-label="Table of contents">
       <!-- Mobile: collapsible -->
       <details class="toc-mobile">
-        <summary class="toc-summary"><span class="gold-dot toc-dot" aria-hidden="true"></span> Contents</summary>
+        <summary class="toc-summary">Contents</summary>
         <ul id="toc-list-mobile" class="toc-list"></ul>
       </details>
       <!-- Desktop: sticky -->
@@ -151,29 +151,27 @@ const articleSchema = {
 
   .guide-header {
     padding-top: var(--space-8);
-    padding-bottom: var(--space-12);
+    padding-bottom: var(--space-20);
     border-bottom: var(--border);
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-20);
   }
 
-  /* The micro-label voice the platform already uses for .io-label, .dir-heading and the
-     ToolNavRow "Related" label. */
   .guide-eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
     margin-top: var(--space-3);
-    font-size: var(--text-xs);
-    font-weight: var(--font-weight-medium);
+    font-size: 0.6875rem;
+    font-weight: var(--font-weight-semibold);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     color: var(--color-text-subtle);
   }
 
   h1 {
     font-size: var(--text-4xl);
     font-weight: var(--font-weight-normal);
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
     margin-top: var(--space-2);
     margin-bottom: var(--space-4);
   }
@@ -194,6 +192,10 @@ const articleSchema = {
     color: var(--color-text-subtle);
     max-width: unset;
     margin-top: var(--space-2);
+  }
+
+  .guide-meta-sep {
+    color: var(--color-text-subtle);
   }
 
   /* ── Two-column body ──────────────────────────────────────── */
@@ -226,7 +228,7 @@ const articleSchema = {
   }
 
   .toc-heading {
-    font-size: var(--text-xs);
+    font-size: 0.6875rem;
     font-weight: var(--font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -241,7 +243,6 @@ const articleSchema = {
     display: none;
     border: var(--border);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
     background: var(--color-surface);
     margin-bottom: var(--space-8);
     overflow: hidden;
@@ -279,10 +280,6 @@ const articleSchema = {
     padding: var(--space-3) var(--space-4);
   }
 
-  .toc-dot {
-    flex-shrink: 0;
-  }
-
   /* ── TOC list shared ──────────────────────────────────────── */
 
   :global(.toc-list) {
@@ -317,14 +314,14 @@ const articleSchema = {
   }
 
   :global(.toc-list a[aria-current]) {
-    color: var(--color-accent);
+    color: var(--color-text);
     font-weight: var(--font-weight-medium);
   }
 
   /* ── Guide content sections ───────────────────────────────── */
 
   :global(.guide-content section) {
-    padding-block: var(--space-12);
+    padding-block: var(--space-20);
     border-bottom: var(--border);
   }
 
@@ -335,10 +332,12 @@ const articleSchema = {
 
   :global(.guide-content h2) {
     margin-bottom: var(--space-5);
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    letter-spacing: -0.01em;
+    font-weight: var(--font-weight-normal);
+    letter-spacing: -0.0125em;
+  }
+
+  :global(.guide-content h2 .gold-dot) {
+    display: none;
   }
 
   :global(.guide-content p) {
@@ -383,26 +382,35 @@ const articleSchema = {
     border-top: none;
   }
 
+  /* Hand guides each ship their own fill and an opacity hover. These win without editing those files.
+     The resting fill is the AA orange, not #f54e00, whose white label is 3.52:1. */
+  :global(.guide-content .cta-link) {
+    background: var(--color-action) !important;
+    color: var(--color-text-inverse) !important;
+  }
+
+  :global(.guide-content .cta-link:hover),
+  :global(.guide-content .cta-link:active) {
+    opacity: 1 !important;
+    background: var(--color-action-hover) !important;
+    color: var(--color-text-inverse) !important;
+  }
+
   :global(.guide-content .encoding-example) {
     font-family: var(--font-mono);
-    font-size: var(--text-sm);
+    font-size: 0.8125rem;
+    line-height: 1.5;
     color: var(--color-text-muted);
-    padding: var(--space-5) var(--space-6);
+    padding: var(--space-4);
     background: var(--color-surface);
     border: var(--border);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
     margin-top: var(--space-5);
     display: flex;
     align-items: center;
     gap: var(--space-4);
     flex-wrap: wrap;
     max-width: unset;
-  }
-
-  :global(.cta-link) {
-    background: var(--color-accent-strong) !important;
-    color: var(--color-text-inverse) !important;
   }
 </style>
 
