@@ -316,3 +316,16 @@ describe('ovulation date', () => {
     expect(runDateTime('ovulation', { lmp: '', cycle: 28, luteal: 14, asOf: '2026-01-10' }, NO_OPTS).uiState).toBe('validation-error');
   });
 });
+
+// The /changelog/ claim for craft ts-epoch-millis: a 13-digit value read as seconds is flagged.
+describe('unix timestamp: 13 digits read as seconds', () => {
+  it('says it looks like milliseconds and gives that date', () => {
+    const r = runDateTime('unix-timestamp', { timestamp: '1700000000000', unit: 'seconds' }, NO_OPTS);
+    expect(JSON.stringify(r)).toContain('13 digits looks like milliseconds. As milliseconds it is 2023-11-14T22:13:20.000Z');
+  });
+
+  it('stays quiet for 10 digits and in milliseconds mode', () => {
+    expect(JSON.stringify(runDateTime('unix-timestamp', { timestamp: '1700000000', unit: 'seconds' }, NO_OPTS))).not.toContain('looks like milliseconds');
+    expect(JSON.stringify(runDateTime('unix-timestamp', { timestamp: '1700000000000', unit: 'milliseconds' }, NO_OPTS))).not.toContain('looks like milliseconds');
+  });
+});
