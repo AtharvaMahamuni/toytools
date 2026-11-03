@@ -162,12 +162,14 @@ test.describe('electron configuration simulator', () => {
 
     await page.getByRole('button', { name: 'Iron', exact: true }).click();
     await expect(page.locator('[data-measurement="electrons"]')).toHaveText(/^26/);
-    await expect(page.locator('[data-measurement="valence"]')).toHaveText(/^2/);
+    // Valence by the d-block convention, ns + (n-1)d: iron is 4s2 3d6, so 8 (accuracy audit, 3 Nov 2026).
+    await expect(page.locator('[data-measurement="valence"]')).toHaveText(/^8/);
 
     // Fe2+ keeps all six 3d electrons and loses both 4s ones, so the outer shell drops to 3.
     await page.getByRole('button', { name: 'Fe2+ (loses 4s first)' }).click();
     await expect(page.locator('[data-measurement="electrons"]')).toHaveText(/^24/);
     await expect(page.locator('[data-measurement="shells"]')).toHaveText(/^3/);
+    await expect(page.locator('[data-measurement="valence"]')).toHaveText(/^6/);
 
     expect(errors, errors.join('\n')).toEqual([]);
   });
