@@ -179,7 +179,7 @@ jobs:
           # _shared is excluded because two shared widgets have subdirectories (converter/,
           # generator/): without it, touching src/tools/_shared/converter/Foo.astro gates a
           # phantom tool named "converter". Shared widgets are platform code with no content to gate.
-          slugs=$(git diff --name-only "$base" HEAD -- 'src/tools/' \
+          slugs=$(git diff --diff-filter=d --name-only "$base" HEAD -- 'src/tools/' \
             | grep -E '^src/tools/[^/]+/[^/]+/' \
             | grep -v '^src/tools/_shared/' \
             | sed -E 's#^src/tools/[^/]+/([^/]+)/.*#\1#' | sort -u)

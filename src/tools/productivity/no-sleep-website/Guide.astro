@@ -30,11 +30,11 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      To keep screen awake online while you read, cook, or present, open Keep Screen Awake
-      and press the button. This browser API keeps your display on while this tab is visible:
-      no app download, no account, and no settings change required.
+      To keep your screen on online while reading, cooking, presenting, or monitoring dashboards, open this No Sleep Website
+      and click the toggle button. This dedicated no sleep page uses the browser Wake Lock API to prevent screen sleep and
+      stop screen dimming without changing system settings: no app download, no account, and no installation required.
     </p>
-    <a href={toolHref} class="cta-link">Try Keep Screen Awake →</a>
+    <a href={toolHref} class="cta-link">Try No Sleep Website →</a>
   </section>
 
   <section id="why-screens-turn-off">
@@ -73,6 +73,11 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <ReferenceBlock type="note" heading="Display vs. system sleep">
       <p>Wake locks control the <em>display</em> only. They do not prevent your computer from sleeping when the lid closes or when the system sleep timer fires. Those are controlled at the OS level, outside the browser's reach.</p>
     </ReferenceBlock>
+
+    <h3>Browser tab wake lock vs whole-device caffeinate utilities</h3>
+    <p>
+      Command-line caffeinate utilities and native background apps force an entire computer to keep awake at the operating system kernel level, which can unintentionally prevent sleep even while a laptop rests closed in a backpack. In contrast, a browser tab wake lock operates within strict sandbox constraints: it requests the OS to keep display on only while this specific tab stays visible in your browser. When you switch tabs or close the window, the lock releases immediately. Therefore, this tool lets you prevent sleep safely during focused work sessions without compromising hardware safety or battery health.
+    </p>
   </section>
 
   <section id="common-situations">
@@ -81,8 +86,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <h3>Following Recipes</h3>
     <p>
       Reading a recipe while cooking means your hands are wet or occupied. Tapping the
-      screen repeatedly to keep it lit is frustrating. Activating the wake lock before you
-      start cooking means the recipe stays visible until you are done.
+      screen repeatedly to keep it lit is frustrating. Activating this utility lets you keep phone screen awake
+      before you start cooking so the instructions remain fully visible throughout meal prep.
     </p>
 
     <h3>Reading Long Articles</h3>
@@ -102,8 +107,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <h3>Presentations</h3>
     <p>
       If you are presenting from a browser window on a laptop, the screen turning off mid-sentence
-      is a disruptive experience. Activating the wake lock before you start keeps the display
-      on throughout your talk.
+      is a disruptive experience. Activating the wake lock before you start lets you stop screen dimming
+      and maintain an uninterrupted display throughout your talk.
     </p>
 
     <h3>Workout Sessions</h3>
@@ -113,11 +118,9 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       at them without touching the screen between sets.
     </p>
 
-    <h3>Monitoring Dashboards</h3>
+    <h3>Monitoring Dashboards and Displays</h3>
     <p>
-      Developers and analysts leave dashboards or log output on a second screen for
-      passive monitoring. The wake lock prevents the monitor from going dark, ensuring
-      alerts and status changes stay visible.
+      Developers, analysts, and operations teams frequently require holding a wall-mounted dashboard, kiosk, or telemetry display awake on a second monitor. For example, leaving a metrics board or build pipeline visible without physical input avoids frustrating blackouts during critical deployments. The wake lock keeps the monitor illuminated continuously.
     </p>
   </section>
 
@@ -126,7 +129,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <p>
       Keeping the screen on continuously will drain your battery faster than allowing it to
       dim and sleep. The impact depends on your display size, brightness setting, and device.
-      On a typical laptop at medium brightness, expect battery life to decrease by 20–40%
+      On a typical laptop at medium brightness, expect battery life to decrease by 20% to 40%
       compared to allowing normal sleep behavior.
     </p>
     <p>
@@ -193,8 +196,9 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 
   <section id="related-tools">
     <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
-    <p>Other productivity tools that work well alongside Keep Screen Awake:</p>
+    <p>Other productivity utilities that pair well with No Sleep Website:</p>
     <ul>
+      <li><a href={toolPathBySlug('pomodoro-timer')}>Pomodoro Timer</a>, Stay on track with timed work intervals while your screen stays awake.</li>
       <li><a href={toolPathBySlug('todo-list')}>Todo List</a>, Track tasks while keeping your screen on.</li>
       <li><a href={toolPathBySlug('notepad')}>Notepad</a>, Take notes during a session without losing your place.</li>
     </ul>

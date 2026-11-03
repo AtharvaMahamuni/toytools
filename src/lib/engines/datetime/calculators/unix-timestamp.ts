@@ -78,10 +78,19 @@ function timestampToDate(input: Record<string, number | string>): InteractiveRes
     card('milliseconds', 'In milliseconds', String(ms), { raw: ms }),
   ];
 
+  // A 13-digit number read as seconds lands near the year 56791. Say so, and show the date it most
+  // likely is as milliseconds (craft ts-epoch-millis).
+  const digits = String(Math.trunc(Math.abs(value))).length;
+  const looksMillis = unit !== 'milliseconds' && digits === 13;
+  const asMillis = looksMillis ? new Date(value) : null;
+
   return successResult({
     hero,
     metrics,
     insights: [
+      ...(asMillis && !Number.isNaN(asMillis.getTime())
+        ? [insight(`13 digits looks like milliseconds. As milliseconds it is ${asMillis.toISOString()}. Set Timestamp unit to Milliseconds.`)]
+        : []),
       insight(`In UTC that is ${clock(utcRead)} on ${formatReading(utcRead).split(', ').slice(0, 2).join(', ')}.`),
       insight(`That moment is ${relativePhrase(ms)}.`),
     ],

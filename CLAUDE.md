@@ -212,7 +212,11 @@ a validator fails — or, worse, drifts silently.
   manifest's `metadata.slug`), **plus** a `src/data/tool-redirects.ts` entry mapping the retired
   `<segment>/<old-slug>` path to the new tool. `src/pages/tool/[...oldPath].astro` turns every entry
   into a noindex meta-refresh stub, the only thing standing between a previously indexed URL and the
-  noindex 404 page. Then sweep the slug through `src/data/search-aliases.ts`, the e2e specs,
+  noindex 404 page. Note on GitHub Pages constraint: GitHub Pages does not support arbitrary server-side
+  HTTP 301 headers; redirect stubs serve HTTP 200 with `<meta http-equiv="refresh">`, canonical link,
+  and fallback anchor. For genuine HTTP 301 status codes at the edge, configure Cloudflare Redirect Rules
+  (e.g., `URI Path eq "/tool/productivity/keep-screen-awake/"` -> 301 Redirect to `/tool/productivity/no-sleep-website/`).
+  Then sweep the slug through `src/data/search-aliases.ts`, the e2e specs,
   `research/datasets/*.json`, any `relatedTools`, and rerun `icons:generate` (deleting the old PNGs)
   and `map:generate`.
 - **Add a tool group** → declare it in `src/data/tool-groups.ts` **and** set `toolGroup: '<id>'` on

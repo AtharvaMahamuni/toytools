@@ -51,7 +51,7 @@ const OTHER_FILES: Record<string, string> = {
   // Widgets are out of scope in this series (spec: do not refactor existing widgets). Each passes
   // its own fixed tool URL through withBase, so it is base-aware today.
   'src/tools/productivity/pomodoro-timer/Widget.astro': "widget, not refactored; withBase('/tool/productivity/pomodoro-timer/')",
-  'src/tools/productivity/keep-screen-awake/Widget.astro': "widget, not refactored; withBase('/tool/productivity/keep-screen-awake/')",
+  'src/tools/productivity/no-sleep-website/Widget.astro': "widget, not refactored; withBase('/tool/productivity/no-sleep-website/')",
   // Shared text widget: withBase('/tool/text/') rendered into a data attribute, and the inline
   // script's fallback for that attribute (inline scripts cannot import).
   'src/tools/_shared/TextProcessorWidget.astro': 'shared widget, not refactored; sibling prefix for an is:inline script',

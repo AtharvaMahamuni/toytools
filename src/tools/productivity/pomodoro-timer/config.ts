@@ -23,7 +23,7 @@ export const config: ToolConfig = {
     solves:
       'Account-walled pomodoro apps bombard users with analytics dashboards and sign-up prompts, destroying the focus the user opened the timer to achieve.',
   },
-  relatedTools: ['todo-list', 'keep-screen-awake', 'notepad'],
+  relatedTools: ['todo-list', 'no-sleep-website', 'notepad'],
   guide: {
     slug: 'pomodoro-technique',
     categorySlug: 'productivity',

@@ -133,6 +133,47 @@ function decodeLabel(input: string): string {
 
 const hasNonAscii = (s: string): boolean => /[^\x00-\x7F]/.test(s);
 
+// Scripts a real IDN label is written in. Japanese mixes Han, Hiragana and Katakana; Korean can mix
+// Han and Hangul. Any other mix (Thai inside Latin, Georgian inside Latin) is not a name anyone
+// registered, so it is how a non-punycode word such as "well-known" shows up when decoded.
+const SCRIPTS: Array<[string, RegExp]> = [
+  ['Latin', /\p{Script=Latin}/u], ['Greek', /\p{Script=Greek}/u], ['Cyrillic', /\p{Script=Cyrillic}/u],
+  ['Armenian', /\p{Script=Armenian}/u], ['Hebrew', /\p{Script=Hebrew}/u], ['Arabic', /\p{Script=Arabic}/u],
+  ['Thaana', /\p{Script=Thaana}/u], ['Devanagari', /\p{Script=Devanagari}/u], ['Bengali', /\p{Script=Bengali}/u],
+  ['Tamil', /\p{Script=Tamil}/u], ['Thai', /\p{Script=Thai}/u], ['Georgian', /\p{Script=Georgian}/u],
+  ['Hangul', /\p{Script=Hangul}/u], ['Hiragana', /\p{Script=Hiragana}/u], ['Katakana', /\p{Script=Katakana}/u],
+  ['Han', /\p{Script=Han}/u],
+];
+const MIXES = [new Set(['Han', 'Hiragana', 'Katakana', 'Latin']), new Set(['Han', 'Hangul', 'Latin'])];
+
+/**
+ * Whether a decoded label reads as a real name: letters, marks, digits and hyphens only, at least
+ * one non-ASCII character, and one script (or a CJK mix). "xn--well-known" decodes to "ใw๧ell",
+ * which fails, so it is never offered as a fix or shown as valid.
+ */
+export function plausibleLabel(decoded: string): boolean {
+  if (!decoded || !hasNonAscii(decoded)) return false;
+  if (!/^[\p{L}\p{M}\p{N}-]+$/u.test(decoded)) return false;
+  const used = new Set<string>();
+  for (const ch of decoded) {
+    if (!/\p{L}/u.test(ch)) continue;
+    const hit = SCRIPTS.find(([, re]) => re.test(ch));
+    used.add(hit ? hit[0] : 'Other');
+  }
+  if (used.size <= 1) return true;
+  return MIXES.some((mix) => [...used].every((sc) => mix.has(sc)));
+}
+
+/** Decode one bare label (no xn--), or null when it is not real punycode. */
+function decodePlausible(label: string): string | null {
+  try {
+    const d = decodeLabel(label);
+    return plausibleLabel(d) ? d : null;
+  } catch {
+    return null;
+  }
+}
+
 export const punycode: EncodingTool = {
   id: 'punycode',
   family: 'web',
@@ -166,10 +207,21 @@ export const punycode: EncodingTool = {
     return { mode: 'encode', confidence: 'low', label: 'ASCII' };
   },
 
+  // Decoding never fails on its own (Bootstring maps almost any ASCII to some code points), so an
+  // xn-- label that decodes to a mixed-script jumble is reported, never shown as valid.
+  validate(input, mode) {
+    if (mode !== 'decode') return { ok: true };
+    const bad = input.trim().split('.').find((l) => /^xn--/i.test(l) && decodePlausible(l.slice(4)) === null);
+    if (bad) return { ok: false, severity: 'error', message: `"${bad}" is not valid punycode. It does not decode to a real name.` };
+    return { ok: true };
+  },
+
   recover(text, mode) {
     if (mode === 'decode') {
       const trimmed = text.trim();
-      if (!trimmed.includes('.') && !/^xn--/i.test(trimmed) && trimmed.includes('-')) {
+      // Offer the prefix only when the label really decodes as punycode ("mnchen-3ya" is münchen;
+      // "well-known" is an ordinary word and would decode to a jumble).
+      if (!trimmed.includes('.') && !/^xn--/i.test(trimmed) && trimmed.includes('-') && decodePlausible(trimmed) !== null) {
         return {
           label: 'Add xn-- prefix and decode',
           text: `xn--${trimmed}`,

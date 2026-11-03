@@ -32,7 +32,7 @@ export const knowledge: Knowledge = {
   ],
   usedWith: [
     { slug: 'todo-list', reason: 'Write the session goal as a task before starting the timer', strength: 0.8 },
-    { slug: 'keep-screen-awake', reason: 'Keep the countdown visible through a full session without the screen locking', strength: 0.7 },
+    { slug: 'no-sleep-website', reason: 'Keep the countdown visible through a full session without the screen locking', strength: 0.7 },
   ],
   alternatives: [],
   nextSteps: [

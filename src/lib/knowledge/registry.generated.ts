@@ -74,7 +74,6 @@ import { knowledge as jsonTreeViewer } from '@tools/developer-utilities/json-tre
 import { knowledge as jsonValidator } from '@tools/developer-utilities/json-validator/knowledge';
 import { knowledge as jwtDecoder } from '@tools/developer-utilities/jwt-decoder/knowledge';
 import { knowledge as kebabCaseConverter } from '@tools/text/kebab-case-converter/knowledge';
-import { knowledge as keepScreenAwake } from '@tools/productivity/keep-screen-awake/knowledge';
 import { knowledge as kineticSand } from '@tools/fidget/kinetic-sand/knowledge';
 import { knowledge as leanBodyMassCalculator } from '@tools/health/lean-body-mass-calculator/knowledge';
 import { knowledge as letterCounter } from '@tools/text/letter-counter/knowledge';
@@ -89,6 +88,7 @@ import { knowledge as markupCalculator } from '@tools/number/markup-calculator/k
 import { knowledge as matrixCalculator } from '@tools/math/matrix-calculator/knowledge';
 import { knowledge as md5HashGenerator } from '@tools/developer-utilities/md5-hash-generator/knowledge';
 import { knowledge as moveTodayTracker } from '@tools/health/move-today-tracker/knowledge';
+import { knowledge as noSleepWebsite } from '@tools/productivity/no-sleep-website/knowledge';
 import { knowledge as normalizeWhitespace } from '@tools/text/normalize-whitespace/knowledge';
 import { knowledge as notepad } from '@tools/productivity/notepad/knowledge';
 import { knowledge as numberToWords } from '@tools/number/number-to-words/knowledge';
@@ -247,7 +247,6 @@ export const authoredKnowledge: Knowledge[] = [
   jsonValidator,
   jwtDecoder,
   kebabCaseConverter,
-  keepScreenAwake,
   kineticSand,
   leanBodyMassCalculator,
   letterCounter,
@@ -262,6 +261,7 @@ export const authoredKnowledge: Knowledge[] = [
   matrixCalculator,
   md5HashGenerator,
   moveTodayTracker,
+  noSleepWebsite,
   normalizeWhitespace,
   notepad,
   numberToWords,

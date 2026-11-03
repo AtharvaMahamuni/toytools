@@ -2,15 +2,37 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [alpha-v13.24] - 2026-11-02
+## [alpha-v13.25] - 2026-11-03
+
+### Fixed
+
+- **Punycode prefix fix.** "Add xn-- prefix" is offered only when the label really decodes as punycode (one script, letters only). "well-known" is no longer turned into a jumble, and an xn-- label that decodes to one is reported as not valid punycode instead of Valid.
+- **HTML entity semicolon fix.** The missing-semicolon fix only touches a complete known entity name followed by a non-letter, so `&copy 2026` becomes `&copy; 2026` while `&copyright` stays as typed.
+- **Unix timestamp milliseconds note.** A 13-digit value read as seconds (near the year 56791) now shows a note with its date as milliseconds and says to set the unit to Milliseconds.
+- **Changelog accuracy.** The alpha-v13.24 lines for the SIP step-up, the punycode prefix and the entity semicolons now say what the tools do.
+
+### Changed
+
+- **Repositioned Keep Screen Awake to No Sleep Website (`/tool/productivity/no-sleep-website/`).**
+  - Updated primary search terminology to target "No Sleep Website" intent while maintaining natural keyword coverage for "no sleep page", "keep screen awake", "keep screen on online", and "browser wake lock".
+  - Retained full backward compatibility with zero 404s:
+    - Added permanent redirect stubs in `src/data/tool-redirects.ts` and `src/data/faq-redirects.ts` for `/tool/productivity/keep-screen-awake/` and `/tools/productivity/keep-screen-awake/`.
+    - Redirect stubs provide instant `<meta http-equiv="refresh">`, canonical pointing to `/tool/productivity/no-sleep-website/`, `noindex` robots directive, and fallback link to hand over link equity.
+    - Preserved local storage and state backward compatibility (`toytools.keep-screen-awake.duration`, legacy state fallback).
+  - Enhanced user experience and visual craft:
+    - Warm gold `#C89B3C` ambient halo with `@media (prefers-reduced-motion: reduce)` support.
+    - Instant Wake Lock status synchronization and automatic reconnection on tab visibility/focus.
+    - Updated keyboard navigation (`Space` toggle, `Escape` ambient exit).
+    - Refreshed Guide and 10 FAQ items targeting genuine user search intent with zero AI-tell phrases and zero em-dashes.
+
 
 ### Added
 
 - **100% Catalog Tool Craft Coverage (171 of 171 Non-Simulation Tools Declared & Verified).**
   - Completed craft affordances and static DOM wiring across the final 21 backlog tools, achieving complete 100.0% coverage across the entire tool catalog:
-    - `unix-timestamp-converter`: `ts-epoch-millis` (orientation craft guiding users on 10-digit second vs 13-digit millisecond Unix timestamp scale).
+    - `unix-timestamp-converter`: `ts-epoch-millis` (orientation craft: a 13-digit value read as seconds, which lands near the year 56791, now gets a note with its date as milliseconds and a pointer to the Milliseconds unit. The note shipped in alpha-v13.25).
     - `rot13-encoder-decoder`: `rot13-self-inverse` (orientation craft explaining ROT13 self-inverse involution symmetry where re-running the cipher decrypts).
-    - `punycode-converter`: `punycode-ace-prefix` (recovery craft automatically stripping or attaching the `xn--` ASCII Compatible Encoding prefix for IDN domains).
+    - `punycode-converter`: `punycode-ace-prefix` (recovery craft offering the `xn--` ASCII Compatible Encoding prefix when a bare label decodes to a real name; corrected in alpha-v13.25 so an ordinary word such as well-known is not offered it).
     - `json-tree-viewer`: `json-tree-depth` (orientation craft providing quick visual structure orientation on deeply nested JSON hierarchies).
     - `csv-cleaner`: `csv-cleaner-delimiter` (guardrail craft catching mixed commas, semicolons, and tabs in raw CSV inputs).
     - `csv-diff`: `csv-diff-key-col` (orientation craft establishing unique identifier column keys for structured row comparison).
@@ -20,7 +42,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
     - `roi-calculator`: `roi-annualized-gap` (orientation craft distinguishing cumulative ROI from annualized compound returns across multi-year investments).
     - `rule-of-72-calculator`: `rule72-high-rate-error` (guardrail craft highlighting logarithmic formula divergence when interest rates exceed 15%).
     - `savings-goal-calculator`: `savings-inflation-drag` (orientation craft illustrating purchasing power erosion on long-horizon savings goals).
-    - `sip-calculator`: `sip-step-up-boost` (orientation craft demonstrating wealth acceleration from small annual step-up contribution increases).
+    - `sip-calculator`: `sip-step-up-boost` (continuation craft declared for a future annual step-up; the calculator has no step-up input yet and models a fixed monthly amount).
     - `find-replace`: `find-replace-regex-literal` (guardrail craft distinguishing literal search from unescaped regular expression special characters).
     - `uppercase-converter`: `uppercase-turkish-i` (orientation craft addressing locale-specific dotless vs dotted 'i' casing rules).
     - `lorem-ipsum-generator`: `lorem-cicero-lead` (orientation craft explaining origin from Cicero's 45 BC De Finibus classical philosophical discourse).
@@ -83,7 +105,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
     - `qr-code-generator`: `qr-error-correction` (guidance on module density vs physical damage resilience).
     - `date-difference-calculator`: `date-diff-inclusive-bounds` (resolves inclusive vs duration edge-cases).
     - `cron-expression-parser`: `cron-dow-dom-or` (warns about standard cron OR semantics between DOM and DOW).
-    - `html-entity-encoder-decoder`: `html-entity-recover` (one-tap unwrap of double-escaped entities and missing semicolons).
+    - `html-entity-encoder-decoder`: `html-entity-recover` (one-tap unwrap of double-escaped entities, and a missing semicolon after a complete entity name; corrected in alpha-v13.25 so ordinary words such as `&copyright` are left alone).
   - Raised the `check:craft` coverage gate floor from 74.8% to 81.2% (139 of 171 tools declared and DOM-verified).
 
 ### Fixed

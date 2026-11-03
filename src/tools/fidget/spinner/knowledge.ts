@@ -57,7 +57,7 @@ export const knowledge: Knowledge = {
     { slug: 'switch-board', reason: 'Clicks instead of momentum' },
   ],
   nextSteps: [
-    { slug: 'keep-screen-awake', reason: 'Keep the phone awake if a long spin is the point', strength: 0.5 },
+    { slug: 'no-sleep-website', reason: 'Keep the phone awake if a long spin is the point', strength: 0.5 },
   ],
   workflowStage: ['transform'],
   keywords: [

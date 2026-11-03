@@ -102,7 +102,7 @@ export const guidePublishedAt: Record<string, string> = {
   'json-validator': '2026-06-10',
   'jwt-decoder': '2026-06-25',
   'kebab-case-converter': '2026-06-07',
-  'keep-screen-awake': '2026-06-04',
+  'no-sleep-website': '2026-06-04',
   'kinetic-sand': '2026-09-09',
   'lean-body-mass-calculator': '2026-10-09',
   'letter-counter': '2026-06-25',

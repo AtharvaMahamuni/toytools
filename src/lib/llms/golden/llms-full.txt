@@ -1129,12 +1129,12 @@ Use for: Check habits, keep honest streaks, start again without guilt.
 Privacy: No sync, no cloud. Your data stays on this device.
 Does not: Sync habits to an account or punish a missed day, or send the checklist to an AI model.
 
-## Keep Screen Awake
+## No Sleep Website
 
-URL: https://toytoolsapp.com/tool/productivity/keep-screen-awake/
-Use for: Keep the display on in your browser while this tab stays open.
+URL: https://toytoolsapp.com/tool/productivity/no-sleep-website/
+Use for: Keep your screen awake in your browser without installing an app.
 Privacy: Works offline after the first page load.
-Does not: Call an AI model.
+Does not: Override device power buttons, bypass low-battery shutdowns, or run in the background.
 
 ## Notepad
 

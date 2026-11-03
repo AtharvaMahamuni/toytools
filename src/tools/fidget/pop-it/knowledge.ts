@@ -67,7 +67,7 @@ export const knowledge: Knowledge = {
   usedWith: [
     { slug: 'switch-board', reason: 'Another browser fidget when you want latches instead of bubbles', strength: 0.8 },
     { slug: 'pomodoro-timer', reason: 'Fidget between focus blocks without leaving the browser', strength: 0.7 },
-    { slug: 'keep-screen-awake', reason: 'Keep the phone awake while the board stays on screen', strength: 0.6 },
+    { slug: 'no-sleep-website', reason: 'Keep the phone awake while the board stays on screen', strength: 0.6 },
   ],
   alternatives: [
     { slug: 'dice-roller', reason: 'Another quick browser toy when you want a random outcome instead of a sensory loop' },

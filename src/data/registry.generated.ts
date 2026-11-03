@@ -74,7 +74,6 @@ import { config as jsonTreeViewer } from '@tools/developer-utilities/json-tree-v
 import { config as jsonValidator } from '@tools/developer-utilities/json-validator/config';
 import { config as jwtDecoder } from '@tools/developer-utilities/jwt-decoder/config';
 import { config as kebabCaseConverter } from '@tools/text/kebab-case-converter/config';
-import { config as keepScreenAwake } from '@tools/productivity/keep-screen-awake/config';
 import { config as kineticSand } from '@tools/fidget/kinetic-sand/config';
 import { config as leanBodyMassCalculator } from '@tools/health/lean-body-mass-calculator/config';
 import { config as letterCounter } from '@tools/text/letter-counter/config';
@@ -89,6 +88,7 @@ import { config as markupCalculator } from '@tools/number/markup-calculator/conf
 import { config as matrixCalculator } from '@tools/math/matrix-calculator/config';
 import { config as md5HashGenerator } from '@tools/developer-utilities/md5-hash-generator/config';
 import { config as moveTodayTracker } from '@tools/health/move-today-tracker/config';
+import { config as noSleepWebsite } from '@tools/productivity/no-sleep-website/config';
 import { config as normalizeWhitespace } from '@tools/text/normalize-whitespace/config';
 import { config as notepad } from '@tools/productivity/notepad/config';
 import { config as numberToWords } from '@tools/number/number-to-words/config';
@@ -247,7 +247,6 @@ export const toolConfigs: ToolConfig[] = [
   jsonValidator,
   jwtDecoder,
   kebabCaseConverter,
-  keepScreenAwake,
   kineticSand,
   leanBodyMassCalculator,
   letterCounter,
@@ -262,6 +261,7 @@ export const toolConfigs: ToolConfig[] = [
   matrixCalculator,
   md5HashGenerator,
   moveTodayTracker,
+  noSleepWebsite,
   normalizeWhitespace,
   notepad,
   numberToWords,

@@ -62,7 +62,6 @@ export const NON_GOAL_BACKLOG: readonly string[] = Object.freeze([
   'json-tree-viewer',
   'json-validator',
   'kebab-case-converter',
-  'keep-screen-awake',
   'letter-counter',
   'line-counter',
   'lorem-ipsum-generator',

@@ -17,7 +17,7 @@ import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import { withBase } from '@lib/paths';
 
-const toolUrl = withBase('/tool/productivity/keep-screen-awake/');
+const toolUrl = withBase('/tool/productivity/no-sleep-website/');
 const iconUrl = withBase('/favicon.ico');
 ---
 
@@ -191,11 +191,18 @@ const iconUrl = withBase('/favicon.ico');
     border-radius: 50%;
     background: radial-gradient(circle, var(--color-gold-subtle) 0%, transparent 68%);
     opacity: 0;
+    pointer-events: none;
     transition: opacity var(--duration-normal) var(--ease-default);
   }
   .wl-stage[data-state="active"] .wl-lamp {
     opacity: 1;
-    animation: dot-breathe 5s ease-in-out infinite;
+    animation: dot-breathe 4s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wl-stage[data-state="active"] .wl-lamp {
+      animation: none;
+      opacity: 0.8;
+    }
   }
 
   .wl-ring-svg { position: relative; width: 100%; height: 100%; }
@@ -479,7 +486,7 @@ const iconUrl = withBase('/favicon.ico');
     var toggleBtn = document.getElementById('wl-toggle');
     if (!toggleBtn) return;
 
-    var TOOL_ID    = 'keep-screen-awake';
+    var TOOL_ID    = 'no-sleep-website';
     var LEGACY_DUR = 'toytools.keep-screen-awake.duration';
     var LEGACY_FMT = 'toytools.keep-screen-awake.timeformat';
     var RING_CIRC  = 534;
@@ -568,7 +575,7 @@ const iconUrl = withBase('/favicon.ico');
     }
 
     function restore() {
-      var saved = TT && TT.state ? TT.state.load(TOOL_ID) : null;
+      var saved = TT && TT.state ? (TT.state.load(TOOL_ID) || TT.state.load('keep-screen-awake')) : null;
 
       // One-time migration off the old dot-namespaced keys, which sat outside `toytools:`
       // and were therefore missing from ToyTools.data exports.
@@ -698,7 +705,7 @@ const iconUrl = withBase('/favicon.ico');
       renderDurationSelection();
       renderAmbient();
 
-      document.title = active ? 'Awake / Keep Screen Awake' : origTitle;
+      document.title = active ? 'Awake · No Sleep Website' : origTitle;
     }
 
     // The live region announces STATE, never the ticking numerals. A per-second aria-live

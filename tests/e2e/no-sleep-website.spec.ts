@@ -1,4 +1,4 @@
-// Deep suite for Keep Screen Awake, on desktop and Pixel 5.
+// Deep suite for No Sleep Website (formerly Keep Screen Awake), on desktop and Pixel 5.
 //
 // The Wake Lock API is stubbed via addInitScript rather than exercised for real: a headless
 // browser is not a visible screen, so `wakeLock.request('screen')` rejects there and every
@@ -8,7 +8,7 @@
 // on showing "Awake" over a sleeping screen) is the reason this spec exists.
 import { test, expect, type Page } from '@playwright/test';
 
-const URL = '/tool/productivity/keep-screen-awake/';
+const URL = '/tool/productivity/no-sleep-website/';
 
 function guardConsole(page: Page): string[] {
   const errors: string[] = [];
@@ -210,5 +210,18 @@ test.describe('keep screen awake', () => {
       () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
     );
     expect(overflow).toBeLessThanOrEqual(0);
+  });
+
+  test('legacy keep-screen-awake URL serves a redirect stub pointing to no-sleep-website', async ({ page }) => {
+    await page.goto('/tool/productivity/keep-screen-awake/');
+    // In browser navigation, meta-refresh may redirect immediately or render the fallback stub
+    try {
+      await page.waitForURL(/\/tool\/productivity\/no-sleep-website\/$/, { timeout: 4000 });
+    } catch {
+      const canonical = page.locator('link[rel="canonical"]');
+      await expect(canonical).toHaveAttribute('href', /.*\/tool\/productivity\/no-sleep-website\//);
+      const link = page.locator('a[href*="no-sleep-website"]');
+      await expect(link).toBeVisible();
+    }
   });
 });

@@ -74,7 +74,6 @@ import { items as jsonTreeViewerFaqs } from '@tools/developer-utilities/json-tre
 import { items as jsonValidatorFaqs } from '@tools/developer-utilities/json-validator/faq';
 import { items as jwtDecoderFaqs } from '@tools/developer-utilities/jwt-decoder/faq';
 import { items as kebabCaseConverterFaqs } from '@tools/text/kebab-case-converter/faq';
-import { items as keepScreenAwakeFaqs } from '@tools/productivity/keep-screen-awake/faq';
 import { items as kineticSandFaqs } from '@tools/fidget/kinetic-sand/faq';
 import { items as leanBodyMassCalculatorFaqs } from '@tools/health/lean-body-mass-calculator/faq';
 import { items as letterCounterFaqs } from '@tools/text/letter-counter/faq';
@@ -89,6 +88,7 @@ import { items as markupCalculatorFaqs } from '@tools/number/markup-calculator/f
 import { items as matrixCalculatorFaqs } from '@tools/math/matrix-calculator/faq';
 import { items as md5HashGeneratorFaqs } from '@tools/developer-utilities/md5-hash-generator/faq';
 import { items as moveTodayTrackerFaqs } from '@tools/health/move-today-tracker/faq';
+import { items as noSleepWebsiteFaqs } from '@tools/productivity/no-sleep-website/faq';
 import { items as normalizeWhitespaceFaqs } from '@tools/text/normalize-whitespace/faq';
 import { items as notepadFaqs } from '@tools/productivity/notepad/faq';
 import { items as numberToWordsFaqs } from '@tools/number/number-to-words/faq';
@@ -247,7 +247,6 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'json-validator': jsonValidatorFaqs,
   'jwt-decoder': jwtDecoderFaqs,
   'kebab-case-converter': kebabCaseConverterFaqs,
-  'keep-screen-awake': keepScreenAwakeFaqs,
   'kinetic-sand': kineticSandFaqs,
   'lean-body-mass-calculator': leanBodyMassCalculatorFaqs,
   'letter-counter': letterCounterFaqs,
@@ -262,6 +261,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'matrix-calculator': matrixCalculatorFaqs,
   'md5-hash-generator': md5HashGeneratorFaqs,
   'move-today-tracker': moveTodayTrackerFaqs,
+  'no-sleep-website': noSleepWebsiteFaqs,
   'normalize-whitespace': normalizeWhitespaceFaqs,
   'notepad': notepadFaqs,
   'number-to-words': numberToWordsFaqs,
