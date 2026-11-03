@@ -15,7 +15,7 @@ export const VERSION_CONFIG: VersionConfig = {
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-11-03',
-  description: 'No Sleep Website repositioning, backward-compatible URL migration, and UX refinement',
+  description: 'No Sleep Website repositioning with redirects, and punycode, HTML entity and timestamp fixes',
 };
 
 export function formatVersion(config: VersionConfig): string {
