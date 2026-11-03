@@ -148,10 +148,13 @@ export const htmlEntity: EncodingTool = {
           text: text.replace(/&amp;(amp|lt|gt|quot|#39);/gi, '&$1;'),
         };
       }
-      if (/&(?:copy|reg|trade|amp|lt|gt|quot)(?!;)/i.test(text)) {
+      // Only a complete known name followed by a non-letter (or the end): "&copy 2026" gets its
+      // semicolon, but "&copyright" is ordinary text and stays as typed.
+      const MISSING = /&(copy|reg|trade|amp|lt|gt|quot|COPY|REG|TRADE|AMP|LT|GT|QUOT)(?![;A-Za-z0-9])/g;
+      if (MISSING.test(text)) {
         return {
           label: 'Add missing semicolons to entities',
-          text: text.replace(/&(copy|reg|trade|amp|lt|gt|quot)(?!;)/gi, '&$1;'),
+          text: text.replace(MISSING, '&$1;'),
         };
       }
     }
