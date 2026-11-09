@@ -10,7 +10,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Fixed
 
-- **CSS Minifier calc().** Spaces around `+` and `-` inside `calc()`, `min()`, `max()`, and `clamp()` (including nested calls) are kept. Negative values and `var()` stay intact.
+- **CSS Minifier calc().** Spaces around `+` and `-` inside `calc()`, `min()`, `max()`, and `clamp()` (including nested calls) are kept. Negative values and `var()` stay intact. Math-function placeholders use private-use sentinels so a literal `__TTMATH0__` in user CSS is unchanged.
 
 ## [alpha-v13.28] - 2026-11-09
 

@@ -127,6 +127,32 @@ export function tokenizeCss(input: string): { kind: Kind; text: string }[] {
 }
 
 /**
+ * Private-use sentinels for math-function placeholders.
+ * They cannot collide with ASCII placeholders like `__TTMATH0__`, and any
+ * pre-existing private-use chars in the input are escaped before protect.
+ */
+export const MATH_PH_START = '\uE000';
+export const MATH_PH_END = '\uE001';
+export const MATH_PH_ESC = '\uE002';
+
+/** Escape private-use sentinels so placeholders cannot collide with user CSS. */
+export function escapeMathSentinels(code: string): string {
+  return code
+    .split(MATH_PH_START).join(MATH_PH_START + MATH_PH_ESC)
+    .split(MATH_PH_END).join(MATH_PH_END + MATH_PH_ESC);
+}
+
+export function unescapeMathSentinels(code: string): string {
+  return code
+    .split(MATH_PH_START + MATH_PH_ESC).join(MATH_PH_START)
+    .split(MATH_PH_END + MATH_PH_ESC).join(MATH_PH_END);
+}
+
+export function mathPlaceholder(index: number): string {
+  return `${MATH_PH_START}${index}${MATH_PH_END}`;
+}
+
+/**
  * Lift calc()/min()/max()/clamp() bodies so minify can keep spaces around + and -
  * inside them (including nested parentheses).
  */
@@ -135,24 +161,25 @@ export function protectMathFunctions(code: string): { code: string; blocks: stri
   const names = /(?:calc|min|max|clamp)\(/gi;
   let out = '';
   let i = 0;
-  while (i < code.length) {
+  const safe = escapeMathSentinels(code);
+  while (i < safe.length) {
     names.lastIndex = i;
-    const m = names.exec(code);
+    const m = names.exec(safe);
     if (!m) {
-      out += code.slice(i);
+      out += safe.slice(i);
       break;
     }
-    out += code.slice(i, m.index);
+    out += safe.slice(i, m.index);
     const name = m[0]; // e.g. calc(
     let depth = 1;
     let j = m.index + name.length;
-    while (j < code.length && depth > 0) {
-      const c = code[j];
+    while (j < safe.length && depth > 0) {
+      const c = safe[j];
       if (c === '(') depth++;
       else if (c === ')') depth--;
       j++;
     }
-    const body = code.slice(m.index + name.length, j - 1);
+    const body = safe.slice(m.index + name.length, j - 1);
     // Normalize interior whitespace. Keep a single space around binary + and -.
     // Do not split custom properties (--x) or unary minus after ( or ,.
     let normalized = body.replace(/\s+/g, ' ').trim();
@@ -161,7 +188,7 @@ export function protectMathFunctions(code: string): { code: string; blocks: stri
     normalized = normalized.replace(/\s+/g, ' ').trim();
     const idx = blocks.length;
     blocks.push(name + normalized + ')');
-    out += `__TTMATH${idx}__`;
+    out += mathPlaceholder(idx);
     i = j;
   }
   return { code: out, blocks };
@@ -184,9 +211,9 @@ export function minifyCss(css: string): string {
     // keep space after ) when followed by ident? rare
     s = s.replace(/\)\s+/g, ')');
     for (let i = 0; i < blocks.length; i++) {
-      s = s.replace(`__TTMATH${i}__`, blocks[i]);
+      s = s.split(mathPlaceholder(i)).join(blocks[i]);
     }
-    out += s;
+    out += unescapeMathSentinels(s);
   }
   // Drop optional semicolons before a closing brace.
   return out.replace(/;}/g, '}').trim();

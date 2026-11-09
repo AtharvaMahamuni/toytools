@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { beautifyCss, cssMinifier, minifyCss, stripCssModePrefix } from './cssMinifier';
+import { beautifyCss, cssMinifier, MATH_PH_START, MATH_PH_END, minifyCss, stripCssModePrefix } from './cssMinifier';
 
 describe('css-minifier', () => {
   it('minifies whitespace and comments', async () => {
@@ -60,4 +60,25 @@ describe('css-minifier', () => {
     expect(out).toContain('a{color:red}');
     expect(out).toContain('b{margin:0}');
     expect(out).not.toContain('/*');
+  });
+
+
+  it('round-trips a literal __TTMATH0__ through minify and beautify', () => {
+    const input = 'a{content:__TTMATH0__;width:calc(1px + 2px)}';
+    const min = minifyCss(input);
+    expect(min).toContain('__TTMATH0__');
+    expect(min).toContain('calc(1px + 2px)');
+    const pretty = beautifyCss(input);
+    expect(pretty).toContain('__TTMATH0__');
+    expect(pretty).toContain('1px + 2px');
+    // Minify then beautify still keeps the literal marker.
+    expect(beautifyCss(min)).toContain('__TTMATH0__');
+  });
+
+  it('round-trips private-use sentinel characters in user CSS', () => {
+    const input = `a{content:${MATH_PH_START}x${MATH_PH_END};w:calc(1px + 2px)}`;
+    const min = minifyCss(input);
+    expect(min).toContain(`${MATH_PH_START}x${MATH_PH_END}`);
+    expect(min).toContain('calc(1px + 2px)');
+    expect(beautifyCss(min)).toContain(`${MATH_PH_START}x${MATH_PH_END}`);
   });
