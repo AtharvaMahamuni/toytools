@@ -69,4 +69,22 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       stylesheet might contain internal class names or comments you do not want uploaded.
     </p>
   </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Expecting unused-rule elimination from a tokenizer is the usual mix-up: minify CSS only
+      drops comments and insignificant whitespace. Another mistake is minifying the only copy you
+      still edit. Beautify first, edit, then minify as a last step.
+    </p>
+  </section>
+
+  <section id="vs-upload">
+    <h2>Browser Minify vs Uploading to a Web Service <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      An upload minifier vs a browser css beautifier and css formatter trade convenience for privacy.
+      Prefer the local path when a stylesheet may contain internal class names or comments you do not
+      want uploaded. Unminify CSS here stays on this device too.
+    </p>
+  </section>
 </GuideLayout>
