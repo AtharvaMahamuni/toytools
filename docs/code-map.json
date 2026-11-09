@@ -79,11 +79,12 @@
       "runtimeGlobal": "runStructuredData",
       "sharedWidget": "src/tools/_shared/StructuredDataWidget.astro",
       "supportedFamilies": [
+        "css",
         "json",
         "sql",
         "xml"
       ],
-      "toolCount": 13
+      "toolCount": 14
     },
     "jwt": {
       "name": "JWT Engine",
@@ -1624,6 +1625,27 @@
       "pattern": "color-convert",
       "family": "perceptual-gradient",
       "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "css-minifier": {
+      "name": "CSS Minifier and Beautifier",
+      "dir": "src/tools/design/css-minifier",
+      "categorySlug": "design-tools",
+      "url": "/tool/design/css-minifier/",
+      "engine": "structured-data",
+      "pattern": "structured-transform",
+      "family": "css",
+      "processorId": "css-minifier",
       "toolGroup": "",
       "files": [
         "Guide.astro",

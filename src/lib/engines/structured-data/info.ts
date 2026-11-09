@@ -154,6 +154,21 @@ const STRUCTURED_INFO: Record<string, StructuredInfo> = {
     placeholder: 'Paste XML here',
     downloadExt: '.xml',
   },
+  'css-minifier': {
+    displayName: 'CSS Minifier and Beautifier',
+    insight:
+      'Minifying removes comments and insignificant whitespace so stylesheets transfer smaller. Beautifying expands minified CSS with consistent indentation so you can read it again.',
+    technical: [
+      { term: 'Minify', detail: 'Drop comments and collapse whitespace outside strings and url()' },
+      { term: 'Beautify', detail: 'Indent blocks with two spaces; keep string and url() contents' },
+      { term: 'Safe', detail: 'Does not rewrite selectors, merge rules, or alter calc() math' },
+      { term: 'Privacy', detail: 'Runs in your browser; nothing leaves this tab' },
+    ],
+    sample: 'body{margin:0;color:#333}/* note */.card{padding:1rem}',
+    inputLabel: 'CSS input',
+    placeholder: 'Paste CSS here',
+    downloadExt: '.css',
+  },
 };
 
 /** Educational info for a structured-data tool. Never throws; unknown ids return a stub. */

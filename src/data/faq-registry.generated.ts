@@ -34,6 +34,7 @@ import { items as contextFitCheckerFaqs } from '@tools/prep/context-fit-checker/
 import { items as crc32HashGeneratorFaqs } from '@tools/developer-utilities/crc32-hash-generator/faq';
 import { items as cronExpressionParserFaqs } from '@tools/datetime/cron-expression-parser/faq';
 import { items as cssGradientGeneratorFaqs } from '@tools/design/css-gradient-generator/faq';
+import { items as cssMinifierFaqs } from '@tools/design/css-minifier/faq';
 import { items as csvCleanerFaqs } from '@tools/developer-utilities/csv-cleaner/faq';
 import { items as csvColumnPickerFaqs } from '@tools/developer-utilities/csv-column-picker/faq';
 import { items as csvDiffFaqs } from '@tools/developer-utilities/csv-diff/faq';
@@ -209,6 +210,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'crc32-hash-generator': crc32HashGeneratorFaqs,
   'cron-expression-parser': cronExpressionParserFaqs,
   'css-gradient-generator': cssGradientGeneratorFaqs,
+  'css-minifier': cssMinifierFaqs,
   'csv-cleaner': csvCleanerFaqs,
   'csv-column-picker': csvColumnPickerFaqs,
   'csv-diff': csvDiffFaqs,

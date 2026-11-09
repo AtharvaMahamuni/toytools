@@ -32,6 +32,7 @@ export const searchAliases: Record<string, string[]> = {
   'json-formatter': ['beautify json', 'pretty print json', 'prettify json'],
   'sql-formatter': ['beautify sql', 'format sql query'],
   'xml-formatter': ['xml beautifier'],
+  'css-minifier': ['css formatter'],
 
   'json-minifier': ['compress json', 'shrink json'],
   'json-to-csv-converter': ['json2csv'],

@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.29] - 2026-11-09
+
+### Added
+
+- **CSS Minifier and Beautifier.** `/tool/design/css-minifier/` minifies or beautifies CSS in the browser with a hand-rolled tokenizer. Comments and insignificant whitespace are removed on minify; beautify restores indentation. Strings and url() values stay intact. The guide is at `/guide/design/css-minifier/`.
+
 ## [alpha-v13.28] - 2026-11-09
 
 ### Added

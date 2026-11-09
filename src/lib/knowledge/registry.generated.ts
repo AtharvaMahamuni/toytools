@@ -34,6 +34,7 @@ import { knowledge as contextFitChecker } from '@tools/prep/context-fit-checker/
 import { knowledge as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/knowledge';
 import { knowledge as cronExpressionParser } from '@tools/datetime/cron-expression-parser/knowledge';
 import { knowledge as cssGradientGenerator } from '@tools/design/css-gradient-generator/knowledge';
+import { knowledge as cssMinifier } from '@tools/design/css-minifier/knowledge';
 import { knowledge as csvCleaner } from '@tools/developer-utilities/csv-cleaner/knowledge';
 import { knowledge as csvColumnPicker } from '@tools/developer-utilities/csv-column-picker/knowledge';
 import { knowledge as csvDiff } from '@tools/developer-utilities/csv-diff/knowledge';
@@ -209,6 +210,7 @@ export const authoredKnowledge: Knowledge[] = [
   crc32HashGenerator,
   cronExpressionParser,
   cssGradientGenerator,
+  cssMinifier,
   csvCleaner,
   csvColumnPicker,
   csvDiff,

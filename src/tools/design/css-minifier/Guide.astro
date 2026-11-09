@@ -1,0 +1,72 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Minify CSS removes comments and insignificant whitespace so the file is smaller to transfer.
+      Beautify CSS (also called unminify CSS) expands a compact stylesheet with indentation so you
+      can read it. Both runs stay in your browser.
+    </p>
+    <a href={toolHref} class="cta-link">Try the CSS Minifier and Beautifier →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A small tokenizer splits the stylesheet into code, strings and comments. Minify drops comments
+      and collapses code whitespace. Beautify walks the same tokens and inserts newlines and
+      two-space indents at braces and semicolons. Therefore a css formatter pass does not need a
+      network round trip.
+    </p>
+  </section>
+
+  <section id="what-minify-cannot-do">
+    <h2>What Minifying Cannot Remove Safely <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Unused rules, duplicate selectors and verbose colour forms need a bundler that sees your HTML.
+      This page refuses those guesses. It only removes what CSS grammar treats as insignificant.
+    </p>
+  </section>
+
+  <section id="css-minifier-example">
+    <h2>CSS Minifier Example <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      For example, paste
+      <code>body &#123; margin: 0; color: #333; &#125; /* note */</code>.
+      Minify returns <code>body&#123;margin:0;color:#333&#125;</code> and reports bytes saved.
+      Beautify turns a one-line file back into indented rules.
+    </p>
+  </section>
+
+  <section id="when-to-use">
+    <h2>When to Minify or Beautify <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Beautify when you inherit a minified vendor file and need to read a rule. Minify when you will
+      ship hand-written CSS without another build step. Prefer a browser-only tool when the
+      stylesheet might contain internal class names or comments you do not want uploaded.
+    </p>
+  </section>
+</GuideLayout>

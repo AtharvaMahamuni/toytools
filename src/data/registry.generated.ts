@@ -34,6 +34,7 @@ import { config as contextFitChecker } from '@tools/prep/context-fit-checker/con
 import { config as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/config';
 import { config as cronExpressionParser } from '@tools/datetime/cron-expression-parser/config';
 import { config as cssGradientGenerator } from '@tools/design/css-gradient-generator/config';
+import { config as cssMinifier } from '@tools/design/css-minifier/config';
 import { config as csvCleaner } from '@tools/developer-utilities/csv-cleaner/config';
 import { config as csvColumnPicker } from '@tools/developer-utilities/csv-column-picker/config';
 import { config as csvDiff } from '@tools/developer-utilities/csv-diff/config';
@@ -209,6 +210,7 @@ export const toolConfigs: ToolConfig[] = [
   crc32HashGenerator,
   cronExpressionParser,
   cssGradientGenerator,
+  cssMinifier,
   csvCleaner,
   csvColumnPicker,
   csvDiff,

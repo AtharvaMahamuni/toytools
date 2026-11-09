@@ -206,7 +206,9 @@ test.describe('homepage index', () => {
     // the JSON Tools switcher. 127 + 1 = 128 directory links.
     // XML Formatter and Validator (alpha-v13.28) is ungrouped: XML is not a mode of
     // JSON Tools. 128 + 1 = 129 directory links.
-    await expect(directory.locator('.dir-link')).toHaveCount(129);
+    // CSS Minifier and Beautifier (alpha-v13.29) is ungrouped under Design and CSS.
+    // 129 + 1 = 130 directory links.
+    await expect(directory.locator('.dir-link')).toHaveCount(130);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {
