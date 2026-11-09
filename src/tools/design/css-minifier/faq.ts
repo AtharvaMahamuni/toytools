@@ -29,7 +29,7 @@ export const items: FAQItem[] = [
     id: 'css-min-5',
     question: 'Will minify change how my page looks?',
     answer:
-      'Not for ordinary stylesheets. Whitespace between tokens is insignificant in CSS. If a stylesheet relied on a hack that needs a specific space inside a selector, keep a copy and compare after minifying.',
+      'Not for ordinary stylesheets. Whitespace between tokens is insignificant in CSS. Keep a copy and compare after minifying if a stylesheet relies on a hack that needs a specific space inside a selector.',
   },
   {
     id: 'css-min-6',
@@ -41,7 +41,7 @@ export const items: FAQItem[] = [
     id: 'css-min-7',
     question: 'Why show bytes saved?',
     answer:
-      'So you can see whether a minify pass is worth shipping. A small file may shrink only a few bytes once gzip is applied; a large one can drop kilobytes of comments and spaces.',
+      'So you can see whether a minify pass is worth shipping. A small file shrinks only a few bytes once gzip is applied; a large one drops kilobytes of comments and spaces.',
   },
   {
     id: 'css-min-8',

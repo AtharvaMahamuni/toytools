@@ -36,10 +36,10 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
   <section id="how-it-works">
     <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A small tokenizer splits the stylesheet into code, strings and comments. Minify drops comments
-      and collapses code whitespace. Beautify walks the same tokens and inserts newlines and
-      two-space indents at braces and semicolons. Therefore a css formatter pass does not need a
-      network round trip.
+      CSS minification here is a local css minify pass: a small tokenizer splits the stylesheet into
+      code, strings and comments. Minify drops comments and collapses code whitespace. Beautify walks
+      the same tokens and inserts newlines and two-space indents at braces and semicolons. Therefore a
+      css formatter pass does not need a network round trip.
     </p>
   </section>
 
@@ -47,7 +47,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <h2>What Minifying Cannot Remove Safely <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Unused rules, duplicate selectors and verbose colour forms need a bundler that sees your HTML.
-      This page refuses those guesses. It only removes what CSS grammar treats as insignificant.
+      This page refuses those guesses. Minify rewrites selectors is a myth here: selectors stay exactly
+      as written. It only removes what CSS grammar treats as insignificant.
     </p>
   </section>
 
@@ -82,9 +83,11 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
   <section id="vs-upload">
     <h2>Browser Minify vs Uploading to a Web Service <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      An upload minifier vs a browser css beautifier and css formatter trade convenience for privacy.
-      Prefer the local path when a stylesheet may contain internal class names or comments you do not
-      want uploaded. Unminify CSS here stays on this device too.
+      Browser minify vs build-pipeline minify is the real choice for production. A bundler can drop
+      unused rules; this page cannot. An upload minifier vs a browser css beautifier and css formatter
+      also trades convenience for privacy. Prefer the local path when a stylesheet contains internal
+      class names or comments you do not want uploaded. Unminify CSS here stays on this device too.
+      Checking how many bytes comments cost is what the minify status line reports.
     </p>
   </section>
 </GuideLayout>
