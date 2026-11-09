@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'XML Formatter and Validator',
   seoTitle: 'XML Formatter and Validator Online',
   description:
-    'Format and validate XML online: pretty print XML, minify XML, and see the first well-formedness error with a line. What you enter stays on your device.',
+    'XML formatter and xml beautifier online: pretty print xml, minify XML, xml validator with line errors. What you enter stays on your device.',
   tagline: 'Pretty-print or minify XML and catch well-formedness errors.',
   categorySlug: 'developer-utilities',
   tags: ['xml formatter', 'format xml', 'xml validator', 'pretty print xml', 'minify xml'],
