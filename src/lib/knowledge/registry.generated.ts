@@ -173,6 +173,7 @@ import { knowledge as waterIntakeTracker } from '@tools/health/water-intake-trac
 import { knowledge as whatIsMyIp } from '@tools/developer-utilities/what-is-my-ip/knowledge';
 import { knowledge as wordCounter } from '@tools/text/word-counter/knowledge';
 import { knowledge as wordFrequencyCounter } from '@tools/text/word-frequency-counter/knowledge';
+import { knowledge as xmlFormatter } from '@tools/developer-utilities/xml-formatter/knowledge';
 import { knowledge as yamlToJsonConverter } from '@tools/developer-utilities/yaml-to-json-converter/knowledge';
 
 export const authoredKnowledge: Knowledge[] = [
@@ -347,5 +348,6 @@ export const authoredKnowledge: Knowledge[] = [
   whatIsMyIp,
   wordCounter,
   wordFrequencyCounter,
+  xmlFormatter,
   yamlToJsonConverter,
 ];

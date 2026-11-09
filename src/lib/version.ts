@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 27,
+  minor: 28,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-11-09',
-  description: 'SQL Formatter: pretty-print SQL in the browser',
+  description: 'XML Formatter and Validator: pretty-print and check XML in the browser',
 };
 
 export function formatVersion(config: VersionConfig): string {

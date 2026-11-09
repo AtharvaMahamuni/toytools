@@ -80,9 +80,10 @@
       "sharedWidget": "src/tools/_shared/StructuredDataWidget.astro",
       "supportedFamilies": [
         "json",
-        "sql"
+        "sql",
+        "xml"
       ],
-      "toolCount": 12
+      "toolCount": 13
     },
     "jwt": {
       "name": "JWT Engine",
@@ -4542,6 +4543,27 @@
       "family": "text-counting",
       "processorId": "",
       "toolGroup": "text-counters",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "xml-formatter": {
+      "name": "XML Formatter and Validator",
+      "dir": "src/tools/developer-utilities/xml-formatter",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/xml-formatter/",
+      "engine": "structured-data",
+      "pattern": "structured-transform",
+      "family": "xml",
+      "processorId": "xml-formatter",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

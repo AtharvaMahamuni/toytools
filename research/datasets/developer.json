@@ -763,6 +763,83 @@
       "evergreen": 90,
       "difficulty": "low",
       "localization": 85
+    },
+    {
+      "query": "format xml online",
+      "problem": "I have messy or minified XML and need it readable or checked for well-formedness without uploading it.",
+      "intent": "transactional",
+      "transformation": "XML pretty-print and well-formedness check",
+      "proposedTool": "xml-formatter",
+      "proposedName": "XML Formatter and Validator",
+      "proposedEngine": "structured-data",
+      "searchQueries": [
+        "format xml",
+        "xml formatter",
+        "xml validator",
+        "pretty print xml",
+        "minify xml"
+      ],
+      "existingSolutions": [
+        "xmlviewer.org",
+        "freeformatter.com",
+        "IDE formatters"
+      ],
+      "solutionWeaknesses": [
+        "several online formatters upload the document",
+        "IDE formatters need a project open"
+      ],
+      "relatedProblems": [
+        "format json",
+        "validate xml schema"
+      ],
+      "relatedTools": [
+        "json-formatter",
+        "json-validator",
+        "html-entity-encoder-decoder"
+      ],
+      "demand": 70,
+      "competition": 58,
+      "evergreen": 90,
+      "difficulty": "low",
+      "localization": 85
+    },
+    {
+      "query": "minify css online",
+      "problem": "I need to shrink CSS for production or expand minified CSS to read it, without uploading stylesheets.",
+      "intent": "transactional",
+      "transformation": "CSS minify and beautify",
+      "proposedTool": "css-minifier",
+      "proposedName": "CSS Minifier and Beautifier",
+      "proposedEngine": "structured-data",
+      "searchQueries": [
+        "minify css",
+        "css beautifier",
+        "unminify css",
+        "css formatter",
+        "beautify css"
+      ],
+      "existingSolutions": [
+        "cssminifier.com",
+        "beautifytools.com",
+        "IDE formatters"
+      ],
+      "solutionWeaknesses": [
+        "several online minifiers upload the stylesheet",
+        "IDE formatters need a project open"
+      ],
+      "relatedProblems": [
+        "minify json",
+        "format html"
+      ],
+      "relatedTools": [
+        "json-minifier",
+        "json-formatter"
+      ],
+      "demand": 74,
+      "competition": 60,
+      "evergreen": 90,
+      "difficulty": "low",
+      "localization": 85
     }
   ]
 }

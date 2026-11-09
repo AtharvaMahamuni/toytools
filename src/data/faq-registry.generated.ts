@@ -173,6 +173,7 @@ import { items as waterIntakeTrackerFaqs } from '@tools/health/water-intake-trac
 import { items as whatIsMyIpFaqs } from '@tools/developer-utilities/what-is-my-ip/faq';
 import { items as wordCounterFaqs } from '@tools/text/word-counter/faq';
 import { items as wordFrequencyCounterFaqs } from '@tools/text/word-frequency-counter/faq';
+import { items as xmlFormatterFaqs } from '@tools/developer-utilities/xml-formatter/faq';
 import { items as yamlToJsonConverterFaqs } from '@tools/developer-utilities/yaml-to-json-converter/faq';
 
 export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
@@ -347,5 +348,6 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'what-is-my-ip': whatIsMyIpFaqs,
   'word-counter': wordCounterFaqs,
   'word-frequency-counter': wordFrequencyCounterFaqs,
+  'xml-formatter': xmlFormatterFaqs,
   'yaml-to-json-converter': yamlToJsonConverterFaqs,
 };

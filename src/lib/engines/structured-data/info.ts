@@ -138,6 +138,22 @@ const STRUCTURED_INFO: Record<string, StructuredInfo> = {
     placeholder: 'Paste SQL here',
     downloadExt: '.sql',
   },
+  'xml-formatter': {
+    displayName: 'XML Formatter and Validator',
+    insight:
+      'Formatting re-indents well-formed XML so nested elements are readable. Validation uses the browser DOMParser and reports the first well-formedness error with a line when the browser provides one.',
+    technical: [
+      { term: 'Operation', detail: 'Parse with DOMParser, then serialize with 2-space indentation or minify' },
+      { term: 'Validation', detail: 'Well-formedness only: matching tags, one root, legal names' },
+      { term: 'Not checked', detail: 'DTD, XSD, or Schematron schemas' },
+      { term: 'Preserved', detail: 'Element names, attributes, text, comments and CDATA' },
+      { term: 'Privacy', detail: 'Runs in your browser; nothing leaves this tab' },
+    ],
+    sample: '<note><to>Ada</to><from>Grace</from><body>Hello</body></note>',
+    inputLabel: 'XML input',
+    placeholder: 'Paste XML here',
+    downloadExt: '.xml',
+  },
 };
 
 /** Educational info for a structured-data tool. Never throws; unknown ids return a stub. */

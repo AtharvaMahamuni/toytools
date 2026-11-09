@@ -172,5 +172,6 @@ export const authoredGuideSlugs = [
   'what-is-my-ip',
   'word-counter',
   'word-frequency-counter',
+  'xml-formatter',
   'yaml-to-json-converter',
 ] as const;

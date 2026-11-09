@@ -506,6 +506,13 @@ Use for: See the public IPv4 and IPv6 this connection presents.
 Privacy: Your browser asks an IP echo. ToyTools never sees the reply.
 Does not: Reveal a private LAN address or store the lookup, or send the address to an AI model.
 
+## XML Formatter and Validator
+
+URL: https://toytoolsapp.com/tool/developer-utilities/xml-formatter/
+Use for: Pretty-print or minify XML and catch well-formedness errors.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
+Does not: Validate against an XSD, DTD or Schematron schema.
+
 ## YAML to JSON Converter
 
 URL: https://toytoolsapp.com/tool/developer-utilities/yaml-to-json-converter/
