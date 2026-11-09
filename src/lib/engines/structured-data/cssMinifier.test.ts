@@ -33,7 +33,6 @@ describe('css-minifier', () => {
     expect(out).toContain('url(');
     expect(out).toContain('a b.png');
   });
-});
 
   it('keeps spaces around + and - inside calc()', () => {
     expect(minifyCss('a{width:calc(1px + 2px)}')).toBe('a{width:calc(1px + 2px)}');
@@ -82,3 +81,4 @@ describe('css-minifier', () => {
     expect(min).toContain('calc(1px + 2px)');
     expect(beautifyCss(min)).toContain(`${MATH_PH_START}x${MATH_PH_END}`);
   });
+});
