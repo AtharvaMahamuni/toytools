@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'SQL Formatter',
   seoTitle: 'SQL Formatter Online: Pretty Print SQL',
   description:
-    'Format SQL query text online: pretty print SQL, beautify SQL, and indent clauses. SQL beautifier online that keeps string literals intact. What you enter stays on your device.',
+    'Format SQL online: pretty print SQL, beautify clauses, and indent keywords. String literals stay intact. What you enter stays on your device.',
   tagline: 'Pretty-print messy SQL with tidy clauses and keywords.',
   categorySlug: 'developer-utilities',
   tags: ['sql formatter', 'format sql', 'pretty print sql', 'sql beautifier', 'indent sql'],
@@ -39,7 +39,7 @@ export const config: ToolConfig = {
   guide: {
     slug: 'sql-formatter',
     categorySlug: 'developer-utilities',
-    title: 'SQL Formatter: Make Queries Readable Without Uploading Them',
+    title: 'SQL Formatter: Readable Queries, No Upload',
     description:
       'How SQL formatting works, which keywords it recognises, and why a query with credentials should never be pasted into an upload site.',
     readMinutes: 4,
