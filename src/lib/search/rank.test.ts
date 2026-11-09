@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { boundedDistance, categorySearchTerm, namesAnswer, normalizeQuery, queryWords, scoreEntry, rankEntries } from './rank';
-import { buildCatalogWire, buildClientIndex, buildSearchTerms, entryUrl } from './index';
+import { buildCatalogWire, buildClientIndex, buildSearchTerms, entryUrl, hydrateCatalogWire, nameFromSlug } from './index';
 import { searchAliases } from '@data/search-aliases';
 
 const entry = (n: string, k: string[] = []) => ({ n, k });
@@ -268,13 +268,17 @@ describe('buildClientIndex', () => {
     // Radioactive Decay Calculator are three more name-catalog entries.
     // Measured 13_599 raw. The names cannot shrink without renaming the tools.
     // Terms stay in search-terms.json. Catalog growth, not alias bloat.
+    // 2026-11-09: 13_650 → 10_305. buildCatalogWire omits `n` when it equals
+    // nameFromSlug(s); the client rebuilds it. Measured 10_079 raw (2_649 gz). Headroom
+    // keeps ~186 B for three upcoming name-catalog entries (SQL / XML / CSS formatters)
+    // plus a small margin. Do not raise this number to land a tool; trim or omit instead.
     const wire = Buffer.byteLength(JSON.stringify(buildCatalogWire()), 'utf8');
-    expect(wire).toBeLessThan(13_650);
+    expect(wire).toBeLessThan(10_305);
     expect(JSON.stringify(buildCatalogWire())).not.toContain('"k"');
   });
 
   it('keeps search terms aligned with the catalog and out of the name file', () => {
-    const wire = buildCatalogWire();
+    const wire = hydrateCatalogWire(buildCatalogWire());
     const terms = buildSearchTerms();
     expect(terms).toHaveLength(wire.t.length);
     const merged = wire.t.map((entry, i) => ({ ...entry, k: terms[i]! }));
