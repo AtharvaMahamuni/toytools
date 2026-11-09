@@ -173,6 +173,7 @@ import { config as waterIntakeTracker } from '@tools/health/water-intake-tracker
 import { config as whatIsMyIp } from '@tools/developer-utilities/what-is-my-ip/config';
 import { config as wordCounter } from '@tools/text/word-counter/config';
 import { config as wordFrequencyCounter } from '@tools/text/word-frequency-counter/config';
+import { config as xmlFormatter } from '@tools/developer-utilities/xml-formatter/config';
 import { config as yamlToJsonConverter } from '@tools/developer-utilities/yaml-to-json-converter/config';
 
 export const toolConfigs: ToolConfig[] = [
@@ -347,5 +348,6 @@ export const toolConfigs: ToolConfig[] = [
   whatIsMyIp,
   wordCounter,
   wordFrequencyCounter,
+  xmlFormatter,
   yamlToJsonConverter,
 ];

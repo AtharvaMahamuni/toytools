@@ -204,7 +204,9 @@ test.describe('homepage index', () => {
     // mode of the reactor. 123 + 4 = 127 directory links.
     // SQL Formatter (alpha-v13.27) is ungrouped: pretty-printing SQL is not a mode of
     // the JSON Tools switcher. 127 + 1 = 128 directory links.
-    await expect(directory.locator('.dir-link')).toHaveCount(128);
+    // XML Formatter and Validator (alpha-v13.28) is ungrouped: XML is not a mode of
+    // JSON Tools. 128 + 1 = 129 directory links.
+    await expect(directory.locator('.dir-link')).toHaveCount(129);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

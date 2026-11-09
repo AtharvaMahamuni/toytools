@@ -47,6 +47,9 @@ const PINS: [query: string, slug: string][] = [
   ['format sql', 'sql-formatter'],
   ['sql formatter', 'sql-formatter'],
   ['pretty print sql', 'sql-formatter'],
+  ['format xml', 'xml-formatter'],
+  ['xml formatter', 'xml-formatter'],
+  ['xml validator', 'xml-formatter'],
 ];
 
 describe('top result pins', () => {

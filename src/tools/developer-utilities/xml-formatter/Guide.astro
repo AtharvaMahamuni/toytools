@@ -1,0 +1,83 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      XML formatting re-indents a well-formed document so nested elements are readable, or removes
+      insignificant whitespace when you minify. Validation here means well-formedness: matching tags
+      and one root. Schema checks (XSD, DTD) are out of scope. Everything runs in your browser.
+    </p>
+    <a href={toolHref} class="cta-link">Try the XML Formatter and Validator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The page parses your text with the browser DOMParser. When the document is well-formed, a
+      serializer walks the tree and writes either indented tags (pretty print) or a compact form
+      (minify). Therefore format xml and minify xml are the same parse with two serializers. When
+      the parse fails, the status shows the first well-formedness error and, when the browser
+      includes it, a line number.
+    </p>
+  </section>
+
+  <section id="well-formed-vs-schema">
+    <h2>Well-Formed Versus Schema-Valid <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Well-formed XML follows the grammar: one root, matched tags, legal names. Schema-valid XML
+      also matches an XSD or DTD your system publishes. This page stops at well-formedness so it
+      never needs to fetch a schema and never uploads your document.
+    </p>
+  </section>
+
+  <section id="xml-formatter-example">
+    <h2>XML Formatter Example <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      For example, paste
+      <code>&lt;note&gt;&lt;to&gt;Ada&lt;/to&gt;&lt;from&gt;Grace&lt;/from&gt;&lt;body&gt;Hello&lt;/body&gt;&lt;/note&gt;</code>.
+      Pretty print puts each element on its own indented line. Minify returns a single compact line.
+      Change a close tag to the wrong case and the status reports malformed XML instead of guessing.
+    </p>
+  </section>
+
+  <section id="case-and-namespaces">
+    <h2>Case Sensitivity and Namespaces <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      XML is case sensitive: <code>Book</code> and <code>book</code> are different. Namespaces bind a
+      URI with <code>xmlns</code> or a prefix. Prefixed names stay as written. External DTDs are not
+      loaded, which keeps the tool offline-friendly and private.
+    </p>
+  </section>
+
+  <section id="when-to-use">
+    <h2>When to Use This Page <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Use it when a log line, SOAP envelope or config snippet needs a readable layout, or when you
+      want a quick well-formedness check before pasting into a ticket. Prefer it over upload-based
+      formatters whenever the XML might contain secrets or personal data.
+    </p>
+  </section>
+</GuideLayout>

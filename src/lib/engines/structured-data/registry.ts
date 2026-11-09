@@ -25,6 +25,11 @@ export const STRUCTURED_TOOLS: Record<string, StructuredDataTool> = {
     family: 'json',
     execute: (input) => import('./sqlFormatter').then((mod) => mod.sqlFormatter.execute(input)).catch(chunkFailed),
   },
+  'xml-formatter': {
+    id: 'xml-formatter',
+    family: 'json',
+    execute: (input) => import('./xmlFormatter').then((mod) => mod.xmlFormatter.execute(input)).catch(chunkFailed),
+  },
   // Own chunk, like json-to-schema below: the lossless tokenizer would otherwise land in the shared
   // structured-data runtime, and json-tree-viewer (which loads it) is near its byte ceiling.
   'json-formatter': {

@@ -143,6 +143,7 @@ const SLUG_GLYPH: Record<string, string> = {
   'url-encoder-decoder': 'link',
   'json-formatter': 'braces',
   'sql-formatter': 'sql',
+  'xml-formatter': 'xml',
   'json-minifier': 'bracesMin',
   'json-validator': 'bracesCheck',
   'json-tree-viewer': 'tree',

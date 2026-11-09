@@ -41,6 +41,8 @@ export const GLYPHS: Record<string, string> = {
   // ── developer: structured data (JSON/YAML/CSV) ────────────────────────
   braces: S + '<path d="M8 3H7a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-4c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/>' + E,
   sql: S + '<path d="M5 7h14v2H5z"/><path d="M5 11h10v2H5z"/><path d="M5 15h8v2H5z"/><path d="M16 14l3 3-3 3"/>' + E,
+  // Angle brackets for an XML document root.
+  xml: S + '<path d="M8.5 7 4 12l4.5 5"/><path d="M15.5 7 20 12l-4.5 5"/><path d="M13.2 6.5 10.8 17.5"/>' + E,
   bracesCheck: S + '<path d="M9 3H8a2 2 0 0 0-2 2v3.5a2 2 0 0 1-2 2 2 2 0 0 1 2 2V16c0 1.1.9 2 2 2h1"/><path d="M20 3h-1a2 2 0 0 0-2 2v3.5a2 2 0 0 0-1 .5"/><path d="M13 16.5l2 2 4-4.5"/>' + E,
   bracesMin: S + '<path d="M8 4H7a2 2 0 0 0-2 2v3a2 2 0 0 1-2 2 2 2 0 0 1 2 2v3c0 1.1.9 2 2 2h1"/><path d="M16 20h1a2 2 0 0 0 2-2v-3c0-1.1.9-2 2-2a2 2 0 0 1-2-2V6a2 2 0 0 0-2-2h-1"/><path d="M9.5 12h5"/>' + E,
   tree: S + '<path d="M21 6h-8M21 12h-8M21 18h-8"/><path d="M4 4v3a2 2 0 0 0 2 2h3M4 12h5"/><path d="M4 4v10a2 2 0 0 0 2 2h3"/>' + E,
