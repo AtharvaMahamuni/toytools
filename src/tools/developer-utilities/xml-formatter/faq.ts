@@ -47,6 +47,6 @@ export const items: FAQItem[] = [
     id: 'xml-fmt-8',
     question: 'Will formatting change what my XML means?',
     answer:
-      'No for element structure and attribute values. Whitespace-only text nodes between elements may be normalised when pretty-printing, which matches how most documents treat insignificant whitespace.',
+      'No for element structure and attribute values. Whitespace-only text nodes between elements are normalised when pretty-printing, which matches how most documents treat insignificant whitespace.',
   },
 ];
