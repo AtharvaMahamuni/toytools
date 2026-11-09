@@ -6,7 +6,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Added
 
-- **XML Formatter and Validator.** `/tool/developer-utilities/xml-formatter/` pretty-prints or minifies XML in the browser with the built-in DOMParser. Well-formedness errors report a line when the browser provides one. No schema validation and nothing is uploaded. The guide is at `/guide/developer-utilities/xml-formatter/`.
+- **XML Formatter and Validator.** `/tool/developer-utilities/xml-formatter/` pretty-prints or minifies XML in the browser with the built-in DOMParser. Well-formedness errors report a line when the browser provides one. No schema validation and nothing leaves this tab. The guide is at `/guide/developer-utilities/xml-formatter/`.
 
 ## [alpha-v13.27] - 2026-11-09
 

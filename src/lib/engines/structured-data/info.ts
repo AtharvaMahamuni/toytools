@@ -147,7 +147,7 @@ const STRUCTURED_INFO: Record<string, StructuredInfo> = {
       { term: 'Validation', detail: 'Well-formedness only: matching tags, one root, legal names' },
       { term: 'Not checked', detail: 'DTD, XSD, or Schematron schemas' },
       { term: 'Preserved', detail: 'Element names, attributes, text, comments and CDATA' },
-      { term: 'Privacy', detail: 'Runs in your browser; nothing is uploaded' },
+      { term: 'Privacy', detail: 'Runs in your browser; nothing leaves this tab' },
     ],
     sample: '<note><to>Ada</to><from>Grace</from><body>Hello</body></note>',
     inputLabel: 'XML input',
