@@ -725,6 +725,44 @@
       "localization": 96,
       "algorithmicFit": 100,
       "authorityRequired": 5
+    },
+    {
+      "query": "format sql online",
+      "problem": "I have a one-line SQL query from a log and need it readable without uploading it.",
+      "intent": "transactional",
+      "transformation": "SQL pretty-print",
+      "proposedTool": "sql-formatter",
+      "proposedName": "SQL Formatter",
+      "proposedEngine": "structured-data",
+      "searchQueries": [
+        "format sql",
+        "sql formatter",
+        "pretty print sql",
+        "sql beautifier online",
+        "format sql query"
+      ],
+      "existingSolutions": [
+        "sqlformat.org",
+        "everSQL",
+        "IDE formatters"
+      ],
+      "solutionWeaknesses": [
+        "several online formatters upload the query",
+        "IDE formatters need a project open"
+      ],
+      "relatedProblems": [
+        "minify sql",
+        "format json"
+      ],
+      "relatedTools": [
+        "json-formatter",
+        "regex-tester"
+      ],
+      "demand": 72,
+      "competition": 55,
+      "evergreen": 90,
+      "difficulty": "low",
+      "localization": 85
     }
   ]
 }

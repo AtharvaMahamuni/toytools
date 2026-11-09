@@ -144,6 +144,7 @@ import { config as snakeCaseConverter } from '@tools/text/snake-case-converter/c
 import { config as spaceCounter } from '@tools/text/space-counter/config';
 import { config as spinner } from '@tools/fidget/spinner/config';
 import { config as splitBill } from '@tools/finance/split-bill/config';
+import { config as sqlFormatter } from '@tools/developer-utilities/sql-formatter/config';
 import { config as statisticsVisualizer } from '@tools/math/statistics-visualizer/config';
 import { config as switchBoard } from '@tools/fidget/switch-board/config';
 import { config as systemdTimerConverter } from '@tools/datetime/systemd-timer-converter/config';
@@ -317,6 +318,7 @@ export const toolConfigs: ToolConfig[] = [
   spaceCounter,
   spinner,
   splitBill,
+  sqlFormatter,
   statisticsVisualizer,
   switchBoard,
   systemdTimerConverter,

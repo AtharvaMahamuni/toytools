@@ -122,6 +122,22 @@ const STRUCTURED_INFO: Record<string, StructuredInfo> = {
     ],
     sample: '{"name":"Atharva","age":30,"active":true}',
   },
+  'sql-formatter': {
+    displayName: 'SQL Formatter',
+    insight:
+      'Formatting uppercases SQL keywords and puts each major clause on its own line so a one-line query is readable. String literals, comments and identifiers stay exactly as typed.',
+    technical: [
+      { term: 'Operation', detail: 'Tokenize, uppercase keywords, indent clauses and parentheses' },
+      { term: 'Dialects', detail: 'Everyday Postgres, MySQL and SQLite keywords' },
+      { term: 'Preserved', detail: 'String literals, -- and /* */ comments, numbers, identifiers' },
+      { term: 'Errors', detail: 'Unclosed quotes are reported; nothing is guessed' },
+      { term: 'Privacy', detail: 'Runs in your browser; a password-like literal also raises a warning' },
+    ],
+    sample: "select u.id, u.name from users u join orders o on o.user_id = u.id where o.total > 100 order by o.created_at desc",
+    inputLabel: 'SQL input',
+    placeholder: 'Paste SQL here',
+    downloadExt: '.sql',
+  },
 };
 
 /** Educational info for a structured-data tool. Never throws; unknown ids return a stub. */

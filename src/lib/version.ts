@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 26,
-  patch: 1,
+  minor: 27,
+  patch: 0,
   status: 'alpha',
   releaseDate: '2026-11-09',
-  description: 'Omit default catalog display names from search-index.json',
+  description: 'SQL Formatter: pretty-print SQL in the browser',
 };
 
 export function formatVersion(config: VersionConfig): string {

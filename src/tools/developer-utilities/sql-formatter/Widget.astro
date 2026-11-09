@@ -1,0 +1,9 @@
+---
+import StructuredDataWidget from '@tools/_shared/StructuredDataWidget.astro';
+import { config } from './config';
+---
+
+<StructuredDataWidget slug={config.slug} structuredId={config.processorId!} config={config} />
+<p class="tool-note" data-craft={config.craft?.id} hidden>
+  A password or API key in a quoted value triggers a warning so it is not copied into a shareable gist next.
+</p>

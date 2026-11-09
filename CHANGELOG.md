@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.27] - 2026-11-09
+
+### Added
+
+- **SQL Formatter.** `/tool/developer-utilities/sql-formatter/` pretty-prints messy SQL in the browser: uppercase keywords, one major clause per line, indented parentheses. String literals, comments and identifiers stay intact. Unclosed quotes are reported. A warning fires when a quoted value looks like a password or API key. The guide is at `/guide/developer-utilities/sql-formatter/`.
+
 ## [alpha-v13.26.1] - 2026-11-09
 
 ### Changed

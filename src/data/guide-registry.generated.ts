@@ -143,6 +143,7 @@ export const authoredGuideSlugs = [
   'space-counter',
   'spinner',
   'split-bill',
+  'sql-formatter',
   'statistics-visualizer',
   'switch-board',
   'systemd-timer-converter',
