@@ -14,6 +14,11 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 - **XML Formatter and Validator.** `/tool/developer-utilities/xml-formatter/` pretty-prints or minifies XML in the browser with the built-in DOMParser. Well-formedness errors report a line when the browser provides one. No schema validation and nothing leaves this tab. The guide is at `/guide/developer-utilities/xml-formatter/`.
 
+### Fixed
+
+- **XML Formatter entities.** Text and attribute values are re-escaped on serialize (`&`, `<`, `>` in text; `&`, `<`, `"` in attributes). CDATA stays verbatim. Round-trip tests cover entities, attributes, CDATA, and numeric references.
+- **SQL Formatter comments (regression).** `--` and `/* */` comments stay in the output and do not swallow the following clauses.
+
 ## [alpha-v13.27] - 2026-11-09
 
 ### Added

@@ -53,7 +53,38 @@ export function parseErrorLocation(message: string): { line?: number; column?: n
   return {};
 }
 
-function serializeNode(node: Node, indent: number, pretty: boolean, parts: string[]): void {
+
+/** Escape text-node content so a re-parse keeps the same characters. */
+export function escapeXmlText(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+/** Escape an attribute value written inside double quotes. */
+export function escapeXmlAttr(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/"/g, '&quot;');
+}
+
+
+const CDATA_PLACEHOLDER = 'tt-cdata-ph';
+
+/** Lift CDATA so DOMParser (and happy-dom) never has to parse it. */
+export function extractCdataSections(xml: string): { xml: string; blocks: string[] } {
+  const blocks: string[] = [];
+  const next = xml.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, (_m, content: string) => {
+    const i = blocks.length;
+    blocks.push(content);
+    return `<${CDATA_PLACEHOLDER} i="${i}"/>`;
+  });
+  return { xml: next, blocks };
+}
+
+function serializeNode(node: Node, indent: number, pretty: boolean, parts: string[], cdataBlocks: string[] = []): void {
   const pad = pretty ? '  '.repeat(indent) : '';
   const nl = pretty ? '\n' : '';
 
@@ -62,9 +93,9 @@ function serializeNode(node: Node, indent: number, pretty: boolean, parts: strin
     if (pretty) {
       const trimmed = raw.trim();
       if (!trimmed) return;
-      parts.push(pad + trimmed + nl);
+      parts.push(pad + escapeXmlText(trimmed) + nl);
     } else if (raw.trim()) {
-      parts.push(raw.replace(/\s+/g, ' ').trim());
+      parts.push(escapeXmlText(raw.replace(/\s+/g, ' ').trim()));
     }
     return;
   }
@@ -88,10 +119,16 @@ function serializeNode(node: Node, indent: number, pretty: boolean, parts: strin
   if (node.nodeType !== Node.ELEMENT_NODE) return;
   const el = node as Element;
   const name = el.tagName;
+  // Placeholder for a CDATA section lifted before parse.
+  if (name === CDATA_PLACEHOLDER || name === CDATA_PLACEHOLDER.toUpperCase()) {
+    const i = Number(el.getAttribute('i') ?? '-1');
+    const content = cdataBlocks[i] ?? '';
+    parts.push(`${pretty ? pad : ''}<![CDATA[${content}]]>${nl}`);
+    return;
+  }
   let attrs = '';
   for (const attr of Array.from(el.attributes)) {
-    const q = attr.value.includes('"') ? "'" : '"';
-    attrs += ` ${attr.name}=${q}${attr.value}${q}`;
+    attrs += ` ${attr.name}="${escapeXmlAttr(attr.value)}"`;
   }
 
   const children = Array.from(el.childNodes);
@@ -107,13 +144,13 @@ function serializeNode(node: Node, indent: number, pretty: boolean, parts: strin
     children[0].nodeType === Node.TEXT_NODE &&
     !(children[0].nodeValue ?? '').includes('\n')
   ) {
-    const text = (children[0].nodeValue ?? '').trim();
+    const text = escapeXmlText((children[0].nodeValue ?? '').trim());
     parts.push(`${pad}<${name}${attrs}>${text}</${name}>${nl}`);
     return;
   }
 
   parts.push(`${pretty ? pad : ''}<${name}${attrs}>${nl}`);
-  for (const child of children) serializeNode(child, indent + 1, pretty, parts);
+  for (const child of children) serializeNode(child, indent + 1, pretty, parts, cdataBlocks);
   parts.push(`${pretty ? pad : ''}</${name}>${nl}`);
 }
 
@@ -123,7 +160,8 @@ export function formatXml(xml: string, mode: XmlMode = 'pretty'): StructuredData
     return { ok: false, output: '', error: 'XML parsing is not available in this environment.' };
   }
 
-  const doc = new DOMParser().parseFromString(xml, 'application/xml');
+  const { xml: withoutCdata, blocks } = extractCdataSections(xml);
+  const doc = new DOMParser().parseFromString(withoutCdata, 'application/xml');
   const errMsg = parserErrorMessage(doc);
   if (errMsg) {
     const loc = parseErrorLocation(errMsg);
@@ -145,7 +183,7 @@ export function formatXml(xml: string, mode: XmlMode = 'pretty'): StructuredData
 
   const root = doc.documentElement;
   if (!root) return { ok: false, output: '', error: 'Malformed XML: no root element.' };
-  serializeNode(root, 0, mode === 'pretty', parts);
+  serializeNode(root, 0, mode === 'pretty', parts, blocks);
   let output = parts.join('');
   if (mode === 'pretty') output = output.replace(/\n+$/, '\n');
   return { ok: true, output };
