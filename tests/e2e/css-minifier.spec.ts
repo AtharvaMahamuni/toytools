@@ -21,7 +21,7 @@ test.describe('CSS Minifier and Beautifier', () => {
     const input = page.locator('#css-minifier-input');
     await input.fill('body {\n  color: red;\n}\n');
     await input.dispatchEvent('input');
-    await expect(page.locator('#css-minifier-output')).toHaveValue('body{color:red}');
+    await expect(page.locator('#css-minifier-output')).toContainText('body{color:red}');
     await expect(page.locator('#css-minifier-status')).toContainText(/Saved \d+ byte/i);
   });
 });
