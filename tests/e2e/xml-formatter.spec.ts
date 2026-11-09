@@ -21,7 +21,7 @@ test.describe('XML Formatter and Validator', () => {
     const input = page.locator('#xml-formatter-input');
     await input.fill('<root>\n  <a>1</a>\n</root>');
     await input.dispatchEvent('input');
-    await expect(page.locator('#xml-formatter-output')).toHaveValue(/<root><a>1<\/a><\/root>/);
+    await expect(page.locator('#xml-formatter-output')).toContainText('<root><a>1</a></root>');
   });
 
   test('reports malformed XML', async ({ page }) => {
