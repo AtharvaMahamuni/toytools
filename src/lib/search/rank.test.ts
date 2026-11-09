@@ -270,7 +270,7 @@ describe('buildClientIndex', () => {
     // Terms stay in search-terms.json. Catalog growth, not alias bloat.
     // 2026-11-09: 13_650 → 10_305. buildCatalogWire omits `n` when it equals
     // nameFromSlug(s); the client rebuilds it. Measured 10_079 raw (2_649 gz). Headroom
-    // keeps ~186 B for three upcoming name-catalog entries (SQL / XML / CSS formatters)
+    // keeps 226 B for three upcoming name-catalog entries (SQL / XML / CSS formatters)
     // plus a small margin. Do not raise this number to land a tool; trim or omit instead.
     const wire = Buffer.byteLength(JSON.stringify(buildCatalogWire()), 'utf8');
     expect(wire).toBeLessThan(10_305);

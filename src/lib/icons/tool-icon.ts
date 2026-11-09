@@ -142,6 +142,7 @@ const SLUG_GLYPH: Record<string, string> = {
   'punycode-converter': 'globeA',
   'url-encoder-decoder': 'link',
   'json-formatter': 'braces',
+  'sql-formatter': 'sql',
   'json-minifier': 'bracesMin',
   'json-validator': 'bracesCheck',
   'json-tree-viewer': 'tree',

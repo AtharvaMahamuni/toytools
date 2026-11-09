@@ -12,6 +12,7 @@
  * entry before the first commit. Never change an existing date.
  */
 export const guidePublishedAt: Record<string, string> = {
+  'sql-formatter': '2026-11-09',
   'infinity-cube': '2026-10-31',
   'height-comparison': '2026-10-28',
   'ovulation-calculator': '2026-10-21',

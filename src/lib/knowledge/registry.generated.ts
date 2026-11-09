@@ -144,6 +144,7 @@ import { knowledge as snakeCaseConverter } from '@tools/text/snake-case-converte
 import { knowledge as spaceCounter } from '@tools/text/space-counter/knowledge';
 import { knowledge as spinner } from '@tools/fidget/spinner/knowledge';
 import { knowledge as splitBill } from '@tools/finance/split-bill/knowledge';
+import { knowledge as sqlFormatter } from '@tools/developer-utilities/sql-formatter/knowledge';
 import { knowledge as statisticsVisualizer } from '@tools/math/statistics-visualizer/knowledge';
 import { knowledge as switchBoard } from '@tools/fidget/switch-board/knowledge';
 import { knowledge as systemdTimerConverter } from '@tools/datetime/systemd-timer-converter/knowledge';
@@ -317,6 +318,7 @@ export const authoredKnowledge: Knowledge[] = [
   spaceCounter,
   spinner,
   splitBill,
+  sqlFormatter,
   statisticsVisualizer,
   switchBoard,
   systemdTimerConverter,

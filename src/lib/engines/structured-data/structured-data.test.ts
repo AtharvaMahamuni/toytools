@@ -326,3 +326,57 @@ describe('json-tree-viewer', () => {
     expect(r.error).toBeTruthy();
   });
 });
+
+import { formatSql, secretWarning, sqlFormatter, tokenizeSql } from './sqlFormatter';
+
+describe('sql-formatter', () => {
+  it('pretty-prints a simple select with uppercase keywords', async () => {
+    const res = await sqlFormatter.execute('select id,name from users where active=1 order by name');
+    expect(res.ok).toBe(true);
+    expect(res.output).toContain('SELECT');
+    expect(res.output).toContain('FROM');
+    expect(res.output).toContain('WHERE');
+    expect(res.output).toMatch(/ORDER BY/);
+    expect(res.output.split('\n').length).toBeGreaterThan(3);
+  });
+
+  it('keeps string literals intact, including escaped quotes', async () => {
+    const res = await sqlFormatter.execute("select 'O''Brien' as name from dual");
+    expect(res.ok).toBe(true);
+    expect(res.output).toContain("'O''Brien'");
+  });
+
+  it('keeps -- and block comments', async () => {
+    const res = await sqlFormatter.execute('select 1 -- keep me\nfrom t /* block */');
+    expect(res.ok).toBe(true);
+    expect(res.output).toContain('-- keep me');
+    expect(res.output).toContain('/* block */');
+  });
+
+  it('reports an unclosed single-quoted string', async () => {
+    const res = await sqlFormatter.execute("select 'oops from t");
+    expect(res.ok).toBe(false);
+    expect(res.error).toMatch(/Unclosed single-quoted/);
+  });
+
+  it('returns empty output for blank input', async () => {
+    expect(await sqlFormatter.execute('   ')).toEqual({ ok: true, output: '' });
+  });
+
+  it('warns when a password literal is present', async () => {
+    expect(secretWarning("update users set password = 'hunter2' where id = 1")).toMatch(/password or secret/);
+    const res = await sqlFormatter.execute("update users set password = 'hunter2' where id = 1");
+    expect(res.ok).toBe(true);
+    expect(res.warning).toMatch(/password or secret/);
+  });
+
+  it('tokenizes dollar-quoted strings as one token', () => {
+    const toks = tokenizeSql("select $$hello world$$ as x");
+    expect(toks.some((t) => t.kind === 'string' && t.value === '$$hello world$$')).toBe(true);
+  });
+
+  it('formatSql indents inside parentheses', () => {
+    const out = formatSql('select * from (select id from users) u');
+    expect(out).toMatch(/\(\n/);
+  });
+});

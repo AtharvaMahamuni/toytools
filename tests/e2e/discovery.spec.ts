@@ -202,7 +202,9 @@ test.describe('homepage index', () => {
     // The chair flip is not a mode of the Newman projection. Fraction bars draw one
     // whole, and they are not a mode of the fraction form. A decay sample is not a
     // mode of the reactor. 123 + 4 = 127 directory links.
-    await expect(directory.locator('.dir-link')).toHaveCount(127);
+    // SQL Formatter (alpha-v13.27) is ungrouped: pretty-printing SQL is not a mode of
+    // the JSON Tools switcher. 127 + 1 = 128 directory links.
+    await expect(directory.locator('.dir-link')).toHaveCount(128);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

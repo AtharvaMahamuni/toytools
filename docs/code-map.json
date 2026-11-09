@@ -79,9 +79,10 @@
       "runtimeGlobal": "runStructuredData",
       "sharedWidget": "src/tools/_shared/StructuredDataWidget.astro",
       "supportedFamilies": [
-        "json"
+        "json",
+        "sql"
       ],
-      "toolCount": 11
+      "toolCount": 12
     },
     "jwt": {
       "name": "JWT Engine",
@@ -3931,6 +3932,27 @@
       "pattern": "finance-planning",
       "family": "bill",
       "processorId": "split-bill",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "sql-formatter": {
+      "name": "SQL Formatter",
+      "dir": "src/tools/developer-utilities/sql-formatter",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/sql-formatter/",
+      "engine": "structured-data",
+      "pattern": "structured-transform",
+      "family": "sql",
+      "processorId": "sql-formatter",
       "toolGroup": "",
       "files": [
         "Guide.astro",

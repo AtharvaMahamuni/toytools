@@ -30,6 +30,8 @@ export const searchAliases: Record<string, string[]> = {
   'json-escape': ['escape json string'],
   'json-diff': ['compare json'],
   'json-formatter': ['beautify json', 'pretty print json', 'prettify json'],
+  'sql-formatter': ['beautify sql', 'format sql query'],
+
   'json-minifier': ['compress json', 'shrink json'],
   'json-to-csv-converter': ['json2csv'],
   'json-to-yaml-converter': ['json to yml'],

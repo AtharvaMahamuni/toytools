@@ -1,0 +1,118 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      SQL formatting rewrites a one-line or messy query with uppercase keywords, one major clause per
+      line, and indented lists inside parentheses. The data in string literals and the spelling of
+      identifiers stay the same. Formatting runs in your browser, so the query is never uploaded.
+    </p>
+    <a href={toolHref} class="cta-link">Try the SQL Formatter →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The page tokenises your SQL into words, strings, comments, numbers and punctuation. Keywords from
+      everyday Postgres, MySQL and SQLite are uppercased. SELECT, FROM, WHERE, JOIN and ORDER BY each
+      start a new line. A comma breaks a list onto the next line, and parentheses push the indent one
+      level deeper. Therefore a one-line log paste becomes a readable block without changing what the
+      database would run.
+    </p>
+  </section>
+
+  <section id="dialects">
+    <h2>Which SQL Dialects Are Supported? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Everyday Postgres, MySQL and SQLite keywords are recognised: SELECT, JOIN variants, GROUP BY,
+      WITH, RETURNING and dollar-quoted strings. Therefore a format sql pass on a typical app query
+      uppercases the right words. Exotic vendor extensions stay as ordinary identifiers.
+    </p>
+  </section>
+
+  <section id="sql-formatter-example">
+    <h2>SQL Formatter Example <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      For example, paste
+      <code>select u.id, u.name from users u join orders o on o.user_id = u.id where o.total &gt; 100 order by o.created_at desc</code>.
+      The output puts SELECT, FROM, JOIN, WHERE and ORDER BY on their own lines, keeps the identifiers
+      as typed, and leaves the comparison intact. That is the same query, only easier to review.
+      How to pretty-print SQL with joins is the same path: paste the long JOIN, read each ON clause
+      on its own indent, and use the result in a code review.
+    </p>
+  </section>
+
+  <section id="pretty-print">
+    <h2>Pretty Print SQL and Beautify SQL <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Use this page as a sql beautifier or sql pretty print pass when a one-line query is hard to read.
+      Whitespace and keyword case are insignificant to the database. A formatter uses that freedom to
+      make structure visible. Comments that start with <code>--</code> or sit between <code>/*</code>
+      and <code>*/</code> are kept on their own lines, however, so a note that explains a tricky
+      predicate is never deleted. Beautify sql and pretty print sql mean the same layout job here.
+    </p>
+  </section>
+
+  <section id="vs-alternatives">
+    <h2>SQL Formatter vs Alternatives <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      An IDE formatter needs a project open and a dialect plugin. SQL formatter vs uploading to a web
+      service is the privacy question: many online formatters post your text to a server so they can
+      run a library there. This page is the middle path: open it, paste, and read the result with no
+      account and no upload. It does not rewrite or optimise the query plan. However, when you need
+      the JSON the query returns formatted too, open the JSON Formatter next. Therefore you stay in
+      the browser for both the SQL and the payload.
+    </p>
+  </section>
+
+  <section id="privacy">
+    <h2>Why a Browser-Only Formatter Matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Production SQL sometimes still contains a password, token or connection string. Any formatter
+      that uploads your text can leave that secret in a log. This page runs entirely in your browser.
+      If a quoted value looks like a password or API key, you also get a warning so it is not the next
+      thing you paste into a gist.
+    </p>
+  </section>
+
+  <section id="errors">
+    <h2>Unclosed Quotes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      An odd number of single quotes, double quotes or backticks stops the run with a clear error. The
+      tool does not guess where the string should have ended. Fix the quote and try again.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Pasting a query that still contains a live password into an upload formatter is the costly mistake.
+      Expecting the formatter to change the query plan is the other: layout is the only job. Making a
+      long JOIN readable before a code review is the everyday win. Rotate any secret that has already
+      been pasted elsewhere, then format a redacted copy here.
+    </p>
+  </section>
+</GuideLayout>

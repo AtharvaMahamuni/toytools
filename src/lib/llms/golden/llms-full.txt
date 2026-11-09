@@ -485,6 +485,13 @@ Use for: Escape a command for every shell between you and the far end.
 Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Call an AI model.
 
+## SQL Formatter
+
+URL: https://toytoolsapp.com/tool/developer-utilities/sql-formatter/
+Use for: Pretty-print messy SQL with tidy clauses and keywords.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
+Does not: Run the query against a database or rewrite its meaning.
+
 ## URL Encoder and Decoder
 
 URL: https://toytoolsapp.com/tool/developer-utilities/url-encoder-decoder/

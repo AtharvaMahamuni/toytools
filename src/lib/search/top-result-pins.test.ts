@@ -44,6 +44,9 @@ const PINS: [query: string, slug: string][] = [
   ['aerobic capacity calculator', 'vo2-max-calculator'],
   ['whr calculator', 'waist-to-hip-ratio-calculator'],
   ['central obesity calculator', 'waist-to-hip-ratio-calculator'],
+  ['format sql', 'sql-formatter'],
+  ['sql formatter', 'sql-formatter'],
+  ['pretty print sql', 'sql-formatter'],
 ];
 
 describe('top result pins', () => {

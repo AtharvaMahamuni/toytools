@@ -144,6 +144,7 @@ import { items as snakeCaseConverterFaqs } from '@tools/text/snake-case-converte
 import { items as spaceCounterFaqs } from '@tools/text/space-counter/faq';
 import { items as spinnerFaqs } from '@tools/fidget/spinner/faq';
 import { items as splitBillFaqs } from '@tools/finance/split-bill/faq';
+import { items as sqlFormatterFaqs } from '@tools/developer-utilities/sql-formatter/faq';
 import { items as statisticsVisualizerFaqs } from '@tools/math/statistics-visualizer/faq';
 import { items as switchBoardFaqs } from '@tools/fidget/switch-board/faq';
 import { items as systemdTimerConverterFaqs } from '@tools/datetime/systemd-timer-converter/faq';
@@ -317,6 +318,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'space-counter': spaceCounterFaqs,
   'spinner': spinnerFaqs,
   'split-bill': splitBillFaqs,
+  'sql-formatter': sqlFormatterFaqs,
   'statistics-visualizer': statisticsVisualizerFaqs,
   'switch-board': switchBoardFaqs,
   'systemd-timer-converter': systemdTimerConverterFaqs,
