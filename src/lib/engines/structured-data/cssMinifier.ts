@@ -126,6 +126,47 @@ export function tokenizeCss(input: string): { kind: Kind; text: string }[] {
   return out;
 }
 
+/**
+ * Lift calc()/min()/max()/clamp() bodies so minify can keep spaces around + and -
+ * inside them (including nested parentheses).
+ */
+export function protectMathFunctions(code: string): { code: string; blocks: string[] } {
+  const blocks: string[] = [];
+  const names = /(?:calc|min|max|clamp)\(/gi;
+  let out = '';
+  let i = 0;
+  while (i < code.length) {
+    names.lastIndex = i;
+    const m = names.exec(code);
+    if (!m) {
+      out += code.slice(i);
+      break;
+    }
+    out += code.slice(i, m.index);
+    const name = m[0]; // e.g. calc(
+    let depth = 1;
+    let j = m.index + name.length;
+    while (j < code.length && depth > 0) {
+      const c = code[j];
+      if (c === '(') depth++;
+      else if (c === ')') depth--;
+      j++;
+    }
+    const body = code.slice(m.index + name.length, j - 1);
+    // Normalize interior whitespace. Keep a single space around binary + and -.
+    // Do not split custom properties (--x) or unary minus after ( or ,.
+    let normalized = body.replace(/\s+/g, ' ').trim();
+    normalized = normalized.replace(/\s*\+\s*/g, ' + ');
+    normalized = normalized.replace(/([0-9%)\]])\s*-\s*(?=[0-9.\w(])/g, '$1 - ');
+    normalized = normalized.replace(/\s+/g, ' ').trim();
+    const idx = blocks.length;
+    blocks.push(name + normalized + ')');
+    out += `__TTMATH${idx}__`;
+    i = j;
+  }
+  return { code: out, blocks };
+}
+
 export function minifyCss(css: string): string {
   const tokens = tokenizeCss(css);
   let out = '';
@@ -135,12 +176,16 @@ export function minifyCss(css: string): string {
       out += t.text;
       continue;
     }
+    const { code: protectedCode, blocks } = protectMathFunctions(t.text);
     // collapse whitespace in code; keep a single space only when needed between idents
-    let s = t.text.replace(/\s+/g, ' ');
-    // remove space around punctuation
-    s = s.replace(/\s*([{}:;,>~+])\s*/g, '$1');
+    let s = protectedCode.replace(/\s+/g, ' ');
+    // remove space around punctuation (not + or -; those live inside protected math)
+    s = s.replace(/\s*([{}:;,>~])\s*/g, '$1');
     // keep space after ) when followed by ident? rare
     s = s.replace(/\)\s+/g, ')');
+    for (let i = 0; i < blocks.length; i++) {
+      s = s.replace(`__TTMATH${i}__`, blocks[i]);
+    }
     out += s;
   }
   // Drop optional semicolons before a closing brace.

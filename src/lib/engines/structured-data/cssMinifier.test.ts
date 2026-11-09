@@ -34,3 +34,30 @@ describe('css-minifier', () => {
     expect(out).toContain('a b.png');
   });
 });
+
+  it('keeps spaces around + and - inside calc()', () => {
+    expect(minifyCss('a{width:calc(1px + 2px)}')).toBe('a{width:calc(1px + 2px)}');
+    expect(minifyCss('a{width:calc(100% - 20px)}')).toBe('a{width:calc(100% - 20px)}');
+  });
+
+  it('keeps spaces in nested calc and min/max/clamp', () => {
+    const nested = minifyCss('a{w:calc(1px + calc(2px - 3px))}');
+    expect(nested).toContain('1px +');
+    expect(nested).toContain('2px -');
+    expect(minifyCss('a{w:min(1px + 2px, 10%)}')).toContain('1px + 2px');
+    expect(minifyCss('a{w:max(1px - 2px, 0px)}')).toContain('1px - 2px');
+    expect(minifyCss('a{w:clamp(1px, 2px + 3px, 4px)}')).toContain('2px + 3px');
+  });
+
+  it('keeps negative values and var() inside calc()', () => {
+    expect(minifyCss('a{w:calc(-1px + 2px)}')).toBe('a{w:calc(-1px + 2px)}');
+    expect(minifyCss('a{w:calc(var(--x) + 1px)}')).toBe('a{w:calc(var(--x) + 1px)}');
+    expect(minifyCss('a{w:calc(var(--gap, 1px) - 2px)}')).toContain('var(--gap, 1px) - 2px');
+  });
+
+  it('does not let /* */ comments swallow the next rule', () => {
+    const out = minifyCss('a{color:red}/* note */\nb{margin:0}');
+    expect(out).toContain('a{color:red}');
+    expect(out).toContain('b{margin:0}');
+    expect(out).not.toContain('/*');
+  });

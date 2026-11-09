@@ -8,6 +8,10 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 - **CSS Minifier and Beautifier.** `/tool/design/css-minifier/` minifies or beautifies CSS in the browser with a hand-rolled tokenizer. Comments and insignificant whitespace are removed on minify; beautify restores indentation. Strings and url() values stay intact. The guide is at `/guide/design/css-minifier/`.
 
+### Fixed
+
+- **CSS Minifier calc().** Spaces around `+` and `-` inside `calc()`, `min()`, `max()`, and `clamp()` (including nested calls) are kept. Negative values and `var()` stay intact.
+
 ## [alpha-v13.28] - 2026-11-09
 
 ### Added
