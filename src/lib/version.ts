@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
   minor: 26,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
-  releaseDate: '2026-11-03',
-  description: 'Accuracy fixes: molecular angles, BMI rounding, DST warnings, linear quadratics, tan undefined, static friction, valence convention, sentences and graphemes, discount warning, font budget',
+  releaseDate: '2026-11-09',
+  description: 'Omit default catalog display names from search-index.json',
 };
 
 export function formatVersion(config: VersionConfig): string {

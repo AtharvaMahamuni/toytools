@@ -4,7 +4,9 @@
 //                         Consumed by scripts/platform-health.ts for coverage reporting.
 //   buildClientIndex()  — the full compact catalog, including per-tool terms. Tests and the
 //                         in-process ranker use this. It is not what the browser fetches.
-//   buildCatalogWire()  — slug, name, and interned ids only. Served as dist/search-index.json.
+//   buildCatalogWire()  — slug, interned ids, and a display name only when it is not the
+//                         title-cased slug. Served as dist/search-index.json; the client rebuilds
+//                         omitted names with nameFromSlug() in ./types.
 //   buildSearchTerms()  — the term lists, one array per catalog entry, same order. Served as
 //                         dist/search-terms.json and fetched only when names do not answer.
 //
@@ -15,7 +17,13 @@ import { tools } from '@data/registry';
 import { categories } from '@data/categories';
 import { searchAliases } from '@data/search-aliases';
 import { withBase } from '@lib/paths';
-import type { ClientIndex, SearchEntry } from './types';
+import {
+  nameFromSlug,
+  type CatalogWire,
+  type CatalogWireEntry,
+  type ClientIndex,
+  type SearchEntry,
+} from './types';
 
 export interface SearchDocument {
   slug: string;
@@ -55,8 +63,8 @@ export function buildSearchIndex(): SearchDocument[] {
  * The shape and entryUrl() live in ./types, which imports nothing, so the browser can use them
  * without pulling the registry into a chunk meant to be a few kilobytes.
  */
-export type { SearchEntry, ClientIndex } from './types';
-export { entryUrl, entryCategory } from './types';
+export type { SearchEntry, ClientIndex, CatalogWire, CatalogWireEntry } from './types';
+export { entryUrl, entryCategory, nameFromSlug, entryName, hydrateCatalogWire } from './types';
 
 export function buildClientIndex(): ClientIndex {
   const segmentOf = new Map(categories.map(c => [c.slug, c.segment]));
@@ -112,15 +120,20 @@ export function buildClientIndex(): ClientIndex {
  * they ride in buildSearchTerms() and the browser fetches them only when a query is not already
  * a tool name. Omitting `k` here (rather than sending empty arrays) is the whole saving.
  */
-export function buildCatalogWire(): Omit<ClientIndex, 't'> & {
-  t: { s: string; n: string; g: number; c: number }[];
-} {
+export function buildCatalogWire(): CatalogWire {
   const full = buildClientIndex();
   return {
     b: full.b,
     g: full.g,
     c: full.c,
-    t: full.t.map(({ s, n, g, c }) => ({ s, n, g, c })),
+    // Drop `n` when the slug already determines it. Measured on 2026-11-09: this cut the wire
+    // from 13,597 B raw to ~10.2 KB and left room for three more name-catalog entries without
+    // raising the ratchet in rank.test.ts.
+    t: full.t.map(({ s, n, g, c }) => {
+      const entry: CatalogWireEntry = { s, g, c };
+      if (n !== nameFromSlug(s)) entry.n = n;
+      return entry;
+    }),
   };
 }
 

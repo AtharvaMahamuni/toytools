@@ -151,9 +151,32 @@ describe('loadIndex', () => {
     const a = await mod.loadIndex();
     const b = await mod.loadIndex();
 
-    expect(a).toEqual(INDEX);
+    // The wire omits k; loadIndex hydrates names and starts every entry with an empty term list.
+    const hydrated = {
+      ...INDEX,
+      t: INDEX.t.map(({ s, n, g, c }) => ({ s, n, g, c, k: [] as string[] })),
+    };
+    expect(a).toEqual(hydrated);
     expect(b).toBe(a);
     expect(fetchImpl).toHaveBeenCalledTimes(1);
+  });
+
+
+  it('rebuilds an omitted display name from the slug', async () => {
+    const wire = {
+      b: '',
+      g: ['text'],
+      c: ['Text'],
+      t: [
+        { s: 'word-counter', g: 0, c: 0 },
+        { s: 'ampersand', n: 'Fish & Chips', g: 0, c: 0 },
+      ],
+    };
+    const fetchImpl = vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve(wire) });
+    await load(fetchImpl);
+    const index = await mod.loadIndex();
+    expect(index?.t[0]?.n).toBe('Word Counter');
+    expect(index?.t[1]?.n).toBe('Fish & Chips');
   });
 
   it('resolves to null when the response is not ok', async () => {

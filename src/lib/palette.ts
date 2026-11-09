@@ -12,7 +12,7 @@
  */
 
 import { categorySearchTerm, namesAnswer, rankEntries } from './search/rank';
-import { entryUrl, entryCategory, type ClientIndex, type SearchEntry } from './search/types';
+import { entryUrl, entryCategory, hydrateCatalogWire, type CatalogWire, type ClientIndex, type SearchEntry } from './search/types';
 
 // /search/ and /404/ import these from here rather than from ./search/rank directly. That keeps
 // every consumer on ONE chunk, so the ceiling in check-budget measures all of this code instead of
@@ -119,13 +119,12 @@ function catalogBase(): string {
 export function loadIndex(): Promise<ClientIndex | null> {
   if (!indexPromise) {
     indexPromise = fetch(`${catalogBase()}/search-index.json`)
-      .then((r) => (r.ok ? (r.json() as Promise<ClientIndex>) : null))
+      .then((r) => (r.ok ? (r.json() as Promise<CatalogWire>) : null))
       .then((raw) => {
         if (!raw?.t) return null;
-        // The wire catalog omits k. Ranking reads k, so an absent list is an empty one
-        // until rankCatalog fills it from search-terms.json.
-        for (const entry of raw.t) if (!entry.k) entry.k = [];
-        return raw;
+        // Rebuild omitted display names, then give every entry an empty k until
+        // rankCatalog fills terms from search-terms.json.
+        return hydrateCatalogWire(raw);
       })
       .catch(() => null);
   }

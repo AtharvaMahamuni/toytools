@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.26.1] - 2026-11-09
+
+### Changed
+
+- **Search catalog wire.** `dist/search-index.json` leaves out a tool's display name when it equals the title-cased slug (for example Word Counter from word-counter). The palette and /search/ rebuild the name on the client, so every rendered label stays the same. The always-fetched catalog drops from 13,597 B raw to 10,079 B raw, which leaves room for three more tools without raising the wire ratchet.
+
 ## [alpha-v13.26] - 2026-11-03
 
 ### Fixed
