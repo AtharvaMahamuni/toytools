@@ -50,6 +50,9 @@ const PINS: [query: string, slug: string][] = [
   ['format xml', 'xml-formatter'],
   ['xml formatter', 'xml-formatter'],
   ['xml validator', 'xml-formatter'],
+  ['minify css', 'css-minifier'],
+  ['css beautifier', 'css-minifier'],
+  ['unminify css', 'css-minifier'],
 ];
 
 describe('top result pins', () => {

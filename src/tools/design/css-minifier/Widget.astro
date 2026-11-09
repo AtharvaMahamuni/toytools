@@ -1,0 +1,44 @@
+---
+import StructuredDataWidget from '@tools/_shared/StructuredDataWidget.astro';
+import { config } from './config';
+---
+
+<label class="widget-label" for="css-minifier-mode">Mode</label>
+<select id="css-minifier-mode" class="widget-select">
+  <option value="beautify" selected>Beautify</option>
+  <option value="minify">Minify</option>
+</select>
+<StructuredDataWidget slug={config.slug} structuredId={config.processorId!} config={config} />
+<p class="tool-note" data-craft={config.craft?.id} hidden>
+  Minify reports how many bytes were removed when the pass shrinks the stylesheet.
+</p>
+<script is:inline>
+  (function () {
+    var modeEl = document.getElementById('css-minifier-mode');
+    var input = document.getElementById('css-minifier-input');
+    if (!modeEl || !input) return;
+    function wrap() {
+      if (!window.ToyTools || typeof window.ToyTools.runStructuredData !== 'function') return false;
+      var original = window.ToyTools.runStructuredData;
+      if (original.__cssMinifierWrapped) return true;
+      function wrapped(id, text) {
+        if (id !== 'css-minifier') return original(id, text);
+        var mode = modeEl.value === 'minify' ? 'minify' : 'beautify';
+        return original(id, '@@' + mode + '@@\n' + text);
+      }
+      wrapped.__cssMinifierWrapped = true;
+      window.ToyTools.runStructuredData = wrapped;
+      modeEl.addEventListener('change', function () {
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      });
+      return true;
+    }
+    if (!wrap()) {
+      var tries = 0;
+      var t = setInterval(function () {
+        tries++;
+        if (wrap() || tries > 80) clearInterval(t);
+      }, 50);
+    }
+  })();
+</script>

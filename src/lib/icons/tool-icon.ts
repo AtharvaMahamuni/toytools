@@ -144,6 +144,7 @@ const SLUG_GLYPH: Record<string, string> = {
   'json-formatter': 'braces',
   'sql-formatter': 'sql',
   'xml-formatter': 'xml',
+  'css-minifier': 'css',
   'json-minifier': 'bracesMin',
   'json-validator': 'bracesCheck',
   'json-tree-viewer': 'tree',

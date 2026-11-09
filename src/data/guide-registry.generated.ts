@@ -34,6 +34,7 @@ export const authoredGuideSlugs = [
   'crc32-hash-generator',
   'cron-expression-parser',
   'css-gradient-generator',
+  'css-minifier',
   'csv-cleaner',
   'csv-column-picker',
   'csv-diff',

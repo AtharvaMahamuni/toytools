@@ -233,6 +233,13 @@ Use for: An OKLCH linear gradient, copied as CSS code.
 Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
 Does not: Apply a vendor easing curve or upload the color stops.
 
+## CSS Minifier and Beautifier
+
+URL: https://toytoolsapp.com/tool/design/css-minifier/
+Use for: Shrink CSS for production, or expand minified CSS to read it.
+Privacy: The text, files and values you enter in tools are processed on your device and not uploaded.
+Does not: Autoprefix, transpile, or merge duplicate rules.
+
 ## Image Palette Extractor
 
 URL: https://toytoolsapp.com/tool/design/image-palette-extractor/
