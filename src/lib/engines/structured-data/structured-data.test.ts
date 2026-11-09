@@ -353,6 +353,31 @@ describe('sql-formatter', () => {
     expect(res.output).toContain('/* block */');
   });
 
+  it('does not let -- comments swallow the next clause', async () => {
+    const res = await sqlFormatter.execute(
+      "select id -- trailing note\nfrom users\nwhere active = 1 -- end\norder by id",
+    );
+    expect(res.ok).toBe(true);
+    expect(res.output).toContain('-- trailing note');
+    expect(res.output).toMatch(/FROM/i);
+    expect(res.output).toMatch(/WHERE/i);
+    expect(res.output).toMatch(/ORDER BY/i);
+    expect(res.output).toContain('users');
+    expect(res.output).toContain('active');
+  });
+
+  it('does not let block comments swallow the next clause', async () => {
+    const res = await sqlFormatter.execute(
+      'select /* mid */ id, name from /* tbl */ users where id = 1',
+    );
+    expect(res.ok).toBe(true);
+    expect(res.output).toContain('/* mid */');
+    expect(res.output).toContain('/* tbl */');
+    expect(res.output).toMatch(/FROM/i);
+    expect(res.output).toContain('users');
+    expect(res.output).toContain('name');
+  });
+
   it('reports an unclosed single-quoted string', async () => {
     const res = await sqlFormatter.execute("select 'oops from t");
     expect(res.ok).toBe(false);
