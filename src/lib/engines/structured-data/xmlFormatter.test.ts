@@ -1,13 +1,11 @@
 // @vitest-environment happy-dom
 import { describe, expect, it } from 'vitest';
-import {
-  escapeXmlAttr,
+import { escapeXmlAttr,
   escapeXmlText,
   formatXml,
   parseErrorLocation,
   stripModePrefix,
-  xmlFormatter,
-} from './xmlFormatter';
+  xmlFormatter, cleanParserError, pickCdataPlaceholder, extractProlog } from './xmlFormatter';
 
 function assertRoundTrip(input: string, mode: 'pretty' | 'minify' = 'pretty') {
   const first = formatXml(input, mode);
@@ -159,5 +157,66 @@ describe('xml-formatter', () => {
     expect(out).toContain('<!-- keep me -->');
     expect(out).toContain('<a>1</a>');
     expect(out).toContain('<!-- trail -->');
+  });
+
+  it('keeps a DOCTYPE in pretty and minify output', () => {
+    const src = '<?xml version="1.0"?><!DOCTYPE note SYSTEM "note.dtd"><note><to>Ada</to></note>';
+    const pretty = formatXml(src, 'pretty');
+    expect(pretty.ok).toBe(true);
+    if (pretty.ok) {
+      expect(pretty.output).toContain('<!DOCTYPE note SYSTEM "note.dtd">');
+      expect(pretty.output).toContain('<?xml version="1.0"?>');
+      expect(pretty.output).toContain('<note>');
+    }
+    const mini = formatXml(src, 'minify');
+    expect(mini.ok).toBe(true);
+    if (mini.ok) {
+      expect(mini.output).toContain('<!DOCTYPE note SYSTEM "note.dtd">');
+    }
+  });
+
+  it('does not re-indent mixed content', () => {
+    const src = '<p>See <em>this</em> now</p>';
+    const res = formatXml(src, 'pretty');
+    expect(res.ok).toBe(true);
+    if (res.ok) {
+      expect(res.output).toContain('<p>See <em>this</em> now</p>');
+      expect(res.output).not.toMatch(/<p>\s*\n/);
+    }
+  });
+
+  it('honours xml:space="preserve"', () => {
+    const src = '<pre xml:space="preserve">  keep\n  me  </pre>';
+    const res = formatXml(src, 'pretty');
+    expect(res.ok).toBe(true);
+    if (res.ok) {
+      expect(res.output).toContain('>  keep\n  me  </pre>');
+    }
+  });
+
+  it('picks a CDATA placeholder that does not collide with the input', () => {
+    const colliding = '<root><tt-cdata-ph i="9"/><![CDATA[secret]]></root>';
+    const name = pickCdataPlaceholder(colliding);
+    expect(name).not.toBe('tt-cdata-ph');
+    const res = formatXml(colliding, 'pretty');
+    expect(res.ok).toBe(true);
+    if (res.ok) {
+      expect(res.output).toContain('<tt-cdata-ph i="9"/>');
+      expect(res.output).toContain('<![CDATA[secret]]>');
+    }
+  });
+
+  it('cleanParserError strips browser boilerplate', () => {
+    const raw = 'This page contains the following errors: error on line 2 at column 1: Opening and ending tag mismatch: a and root. Below is a rendering of the page up to the first error.';
+    expect(cleanParserError(raw)).toBe('Opening and ending tag mismatch: a and root.');
+    expect(cleanParserError(raw)).not.toMatch(/This page contains/i);
+    expect(cleanParserError(raw)).not.toMatch(/error on line/i);
+  });
+
+  it('extractProlog reads a declaration and DOCTYPE', () => {
+    const { prolog, body } = extractProlog('<?xml version="1.0"?>\n<!DOCTYPE a SYSTEM "a.dtd">\n<a/>');
+    expect(prolog).toContain('<?xml version="1.0"?>');
+    expect(prolog).toContain('<!DOCTYPE a SYSTEM "a.dtd">');
+    expect(body.trim()).toBe('<a/>');
   });
 });

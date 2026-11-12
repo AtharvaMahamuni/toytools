@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 29,
+  minor: 30,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-11-09',
-  description: 'CSS Minifier and Beautifier: minify or beautify CSS in the browser',
+  releaseDate: '2026-11-12',
+  description: 'Formatter UI parity for SQL, XML, and CSS, plus faster CSS beautify',
 };
 
 export function formatVersion(config: VersionConfig): string {

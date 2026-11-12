@@ -2,6 +2,17 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.30] - 2026-11-12
+
+### Changed
+
+- **Formatter UI parity.** SQL Formatter, XML Formatter and Validator, and CSS Minifier and Beautifier now share the same StructuredDataWidget chrome as JSON Formatter. XML and CSS mode switches sit in the input header as an `.io-mode` select (Pretty print / Minify, Beautify / Minify), not a full-width form field above the panes. Large pastes yield so the page stays clickable.
+
+### Fixed
+
+- **CSS beautify performance.** Beautifying a large stylesheet no longer rescans the whole output at every brace, so a roughly 1 MB sheet finishes in a fraction of a second instead of freezing the tab.
+- **XML Formatter DOCTYPE, mixed content, and errors.** A source DOCTYPE is kept. Mixed content and `xml:space="preserve"` are not re-indented. The CDATA placeholder is unique when the input already contains `tt-cdata-ph`. Well-formedness errors drop browser boilerplate and keep a line number when the parser provides one.
+
 ## [alpha-v13.29] - 2026-11-09
 
 ### Added

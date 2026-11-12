@@ -223,46 +223,68 @@ export function beautifyCss(css: string): string {
   // Start from minified form so beautify is deterministic
   const min = minifyCss(css);
   const tokens = tokenizeCss(min);
-  let out = '';
+  const parts: string[] = [];
   let depth = 0;
   const nl = '\n';
   const pad = () => '  '.repeat(Math.max(0, depth));
+  // Trim trailing whitespace off the buffer without scanning the whole output
+  // on every brace (the previous out.replace(/\s+$/, '') was quadratic on large sheets).
+  const trimTrailWs = () => {
+    while (parts.length) {
+      const last = parts[parts.length - 1];
+      const trimmed = last.replace(/\s+$/, '');
+      if (trimmed.length === last.length) break;
+      if (trimmed) {
+        parts[parts.length - 1] = trimmed;
+        break;
+      }
+      parts.pop();
+    }
+  };
+  const endsWithNl = () => {
+    for (let i = parts.length - 1; i >= 0; i--) {
+      const t = parts[i];
+      if (!t) continue;
+      return t.endsWith('\n');
+    }
+    return true;
+  };
 
   for (const t of tokens) {
     if (t.kind === 'str') {
-      out += t.text;
+      parts.push(t.text);
       continue;
     }
     if (t.kind === 'comment') {
-      out += (out.endsWith('\n') || out === '' ? pad() : ' ') + t.text + nl;
+      parts.push((endsWithNl() ? pad() : ' ') + t.text + nl);
       continue;
     }
     for (let i = 0; i < t.text.length; i++) {
       const c = t.text[i];
       if (c === '{') {
-        out = out.replace(/\s+$/, '');
-        out += ' {' + nl;
+        trimTrailWs();
         depth++;
-        out += pad();
+        parts.push(' {', nl, pad());
         continue;
       }
       if (c === '}') {
         depth = Math.max(0, depth - 1);
-        out = out.replace(/\s+$/, '');
-        out += nl + pad() + '}' + nl + pad();
+        trimTrailWs();
+        parts.push(nl, pad(), '}', nl, pad());
         continue;
       }
       if (c === ';') {
-        out += ';' + nl + pad();
+        parts.push(';', nl, pad());
         continue;
       }
       if (c === ':' && i + 1 < t.text.length && t.text[i + 1] !== ':') {
-        out += ': ';
+        parts.push(': ');
         continue;
       }
-      out += c;
+      parts.push(c);
     }
   }
+  const out = parts.join('');
   return out.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim() + (out.trim() ? '\n' : '');
 }
 

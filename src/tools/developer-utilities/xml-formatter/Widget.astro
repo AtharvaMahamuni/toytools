@@ -1,46 +1,20 @@
 ---
 import StructuredDataWidget from '@tools/_shared/StructuredDataWidget.astro';
 import { config } from './config';
+
+const modes = [
+  { value: 'pretty', label: 'Pretty print' },
+  { value: 'minify', label: 'Minify' },
+];
 ---
 
-<label class="widget-label" for="xml-formatter-mode">Mode</label>
-<select id="xml-formatter-mode" class="widget-select">
-  <option value="pretty" selected>Pretty print</option>
-  <option value="minify">Minify</option>
-</select>
-<StructuredDataWidget slug={config.slug} structuredId={config.processorId!} config={config} />
+<StructuredDataWidget
+  slug={config.slug}
+  structuredId={config.processorId!}
+  config={config}
+  modes={modes}
+  modeAriaLabel="Mode"
+/>
 <p class="tool-note" data-craft={config.craft?.id} hidden>
   The first well-formedness error includes a line number when the browser reports one.
 </p>
-<script is:inline>
-  (function () {
-    var modeEl = document.getElementById('xml-formatter-mode');
-    var input = document.getElementById('xml-formatter-input');
-    if (!modeEl || !input || !window.ToyTools) return;
-    var run = window.ToyTools.runStructuredData;
-    if (typeof run !== 'function') {
-      // Runtime may attach later; wrap when available.
-      var tries = 0;
-      var t = setInterval(function () {
-        tries++;
-        if (window.ToyTools && typeof window.ToyTools.runStructuredData === 'function') {
-          clearInterval(t);
-          wrap();
-        } else if (tries > 80) clearInterval(t);
-      }, 50);
-      return;
-    }
-    wrap();
-    function wrap() {
-      var original = window.ToyTools.runStructuredData;
-      window.ToyTools.runStructuredData = function (id, text) {
-        if (id !== 'xml-formatter') return original(id, text);
-        var mode = modeEl.value === 'minify' ? 'minify' : 'pretty';
-        return original(id, '@@' + mode + '@@\n' + text);
-      };
-      modeEl.addEventListener('change', function () {
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-      });
-    }
-  })();
-</script>
