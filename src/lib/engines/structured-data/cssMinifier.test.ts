@@ -81,4 +81,17 @@ describe('css-minifier', () => {
     expect(min).toContain('calc(1px + 2px)');
     expect(beautifyCss(min)).toContain(`${MATH_PH_START}x${MATH_PH_END}`);
   });
+
+  it('beautify of a large stylesheet finishes quickly', () => {
+    // ~1 MB of simple rules. The old beautifier was quadratic (replace on the
+    // whole output at every brace) and froze the page for tens of seconds.
+    const css = Array.from({ length: 20000 }, (_, i) => `.c${i}{color:#333;margin:${i % 20}px;padding:1rem}`).join('');
+    expect(css.length).toBeGreaterThan(800_000);
+    const t0 = Date.now();
+    const out = beautifyCss(css);
+    const ms = Date.now() - t0;
+    expect(out).toContain('.c0 {');
+    expect(out).toContain('color: #333');
+    expect(ms).toBeLessThan(2000);
+  });
 });

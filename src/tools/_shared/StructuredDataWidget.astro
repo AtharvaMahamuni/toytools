@@ -22,6 +22,13 @@ interface Props {
   config: ToolConfig;
   showOutput?: boolean;
   /**
+   * Optional in-page mode switch, rendered as an `.io-mode` select in the input header
+   * (the same pattern ConverterWidget uses for encode/decode). Off by default, and off
+   * means no extra markup: JSON Formatter and other single-mode tools stay unchanged.
+   */
+  modes?: { value: string; label: string }[];
+  modeAriaLabel?: string;
+  /**
    * Opt-in phone-first layout (beta-v12.1, used only by JSON to JSON Schema). Moves the insight
    * paragraph and the Technical details rows out of the widget into Zone C's "More about" row
    * (still in the HTML: see MoreAbout.astro), labels the example button
@@ -32,7 +39,9 @@ interface Props {
   slim?: boolean;
 }
 
-const { slug, structuredId, config, showOutput = true, slim = false } = Astro.props;
+const { slug, structuredId, config, showOutput = true, slim = false, modes, modeAriaLabel = 'Mode' } = Astro.props;
+const modeId = `${slug}-mode`;
+const defaultMode = modes?.[0]?.value;
 // Fragment when not slim, so the default path gains no wrapper element.
 const Root = slim ? 'div' : Fragment;
 const rootProps = slim ? { class: 'sd-slim' } : {};
@@ -57,6 +66,13 @@ const statusId = `${slug}-status`;
 
 <Root {...rootProps}><ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
   <IoPanel slot="input" label="Input" labelFor={inputId} data-structured={structuredId} data-slug={slug} data-state-key={stateKey} data-sample={info.sample ?? ''}>
+    {modes && modes.length > 0 && (
+      <select slot="header-end" id={modeId} class="io-mode" aria-label={modeAriaLabel}>
+        {modes.map((m) => (
+          <option value={m.value} selected={m.value === defaultMode}>{m.label}</option>
+        ))}
+      </select>
+    )}
     <textarea
       id={inputId}
       aria-label={info.inputLabel ?? 'JSON input'}
@@ -120,6 +136,7 @@ const statusId = `${slug}-status`;
     var input = document.getElementById(slug + '-input');
     var output = document.getElementById(slug + '-output');
     var status = document.getElementById(slug + '-status');
+    var modeEl = document.getElementById(slug + '-mode');
     if (!input || !status) return;
 
     function setOutput(text, empty) {
@@ -127,6 +144,25 @@ const statusId = `${slug}-status`;
       output.textContent = text;
       if (empty) output.setAttribute('data-empty', '');
       else output.removeAttribute('data-empty');
+    }
+
+    function payload() {
+      var text = input.value;
+      if (!modeEl) return text;
+      return '@@' + modeEl.value + '@@\n' + text;
+    }
+
+    var runSeq = 0;
+    var frame = 0;
+    var LARGE = 50000;
+
+    function schedule() {
+      if (frame) return;
+      frame = requestAnimationFrame(function () {
+        frame = 0;
+        run();
+        persist();
+      });
     }
 
     function run() {
@@ -140,19 +176,30 @@ const statusId = `${slug}-status`;
         repair.offer(true);
         return;
       }
+      var text = payload();
       var ticket = ++runSeq;
-      var res = ToyTools.runStructuredData(sid, input.value);
-      if (res && typeof res.then === 'function') {
-        res.then(function (settled) { if (ticket === runSeq) apply(settled); }, function () {
-          // The registry already turns a failed chunk into a result; this covers anything else.
-          if (ticket === runSeq) apply({ ok: false, output: '', error: 'This tool could not finish loading. Check your connection and reload the page.' });
-        });
+      function go() {
+        if (ticket !== runSeq) return;
+        var res = ToyTools.runStructuredData(sid, text);
+        if (res && typeof res.then === 'function') {
+          res.then(function (settled) { if (ticket === runSeq) apply(settled); }, function () {
+            // The registry already turns a failed chunk into a result; this covers anything else.
+            if (ticket === runSeq) apply({ ok: false, output: '', error: 'This tool could not finish loading. Check your connection and reload the page.' });
+          });
+          return;
+        }
+        apply(res);
+      }
+      // Large pastes: yield so the page can paint and stay clickable while the engine runs.
+      if (text.length > LARGE) {
+        status.textContent = 'Working…';
+        status.setAttribute('data-ok', '');
+        setTimeout(go, 0);
         return;
       }
-      apply(res);
+      go();
     }
 
-    var runSeq = 0;
     function apply(res) {
       status.setAttribute('data-ok', res.ok ? 'true' : 'false');
       status.textContent = res.ok ? '✓ Valid' + (res.warning ? '. ⚠ ' + res.warning : '') : '✗ ' + (res.error || 'Invalid');
@@ -200,7 +247,12 @@ const statusId = `${slug}-status`;
       if (saved && typeof saved.input === 'string') input.value = saved.input;
     } catch (_) {}
 
-    input.addEventListener('input', function () { run(); persist(); });
+    input.addEventListener('input', schedule);
+    if (modeEl) {
+      modeEl.addEventListener('change', function () {
+        run();
+      });
+    }
 
     var exBtn = document.querySelector('[data-conv-example]');
     if (exBtn) exBtn.addEventListener('click', function () {
