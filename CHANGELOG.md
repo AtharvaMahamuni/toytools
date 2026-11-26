@@ -2,6 +2,16 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v13.31] - 2026-11-26
+
+### Added
+
+- **Multilingual support (Phase 1: Spanish `/es/`, German `/de/`, French `/fr/`) with full content parity and availability-gated SEO.**
+  - Localized site navigation, footer, search, trust pages (`about`, `privacy`, `terms`, `platform`, `feedback`), homepage, all 16 category hubs, and a clean `<LanguageSwitcher />` menu.
+  - Localized 10 flagship tools end-to-end across 30 tool packs and 30 full technical guides (`no-sleep-website`, `pomodoro-timer`, `word-counter`, `percentage-calculator`, `json-formatter`, `aspect-ratio-calculator`, `bmi-calculator`, `qr-code-generator`, `unix-timestamp-converter`, `text-compare`) with 1:1 FAQ parity, translated shared widgets, and client-side `#tt-i18n` engine localization.
+  - Availability-gated bidirectional `hreflang` annotations (`x-default`, `en`, `es`, `de`, `fr`) in `<head>` plus XML `xhtml:link` hreflang sitemaps (`hreflang-tools.xml`, `hreflang-guides.xml`, `hreflang-categories.xml`, `hreflang-pages.xml`).
+  - Added Vitest parity suite (`src/lib/i18n/i18n.test.ts`), Playwright E2E coverage (`tests/e2e/i18n.spec.ts`), and updated `check-budget.ts` and `check-crawl-hygiene.ts` to validate localized builds strictly.
+
 ## [alpha-v13.30] - 2026-11-12
 
 ### Changed

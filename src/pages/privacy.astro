@@ -7,10 +7,12 @@
 // delivery path, change this page in the same commit.
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { generatePageTitle } from '@lib/titles';
-import { withBase } from '@lib/paths';
+import { withBase, pagePath } from '@lib/paths';
 import { GA_MEASUREMENT_ID } from '@lib/analytics/guard';
 import { PRIVACY_LINE } from '@lib/privacy';
 import { tools } from '@data/registry';
+import { ACTIVE_LOCALES } from '@data/locales';
+import { pageHreflangLinks, switcherAlternatesForPath } from '@lib/i18n/registry';
 
 const description =
   `${PRIVACY_LINE} No account, no database, no server sees your input. Analytics is the one exception, named below.`;
@@ -21,9 +23,17 @@ const updated = '13 October 2026';
 // the catalog so this list cannot drift from the code.
 const keepNames = tools.filter((t) => t.keepInput).map((t) => t.name).sort();
 const keepList = `${keepNames.slice(0, -1).join(', ')} and ${keepNames[keepNames.length - 1]}`;
+const hreflangLinks = pageHreflangLinks('/privacy/', Astro.site);
+const switcherAlternates = switcherAlternatesForPath(loc => pagePath('/privacy/', loc), ACTIVE_LOCALES);
 ---
 
-<BaseLayout title={generatePageTitle('privacy')} description={description} maxWidth="tool">
+<BaseLayout
+  title={generatePageTitle('privacy')}
+  description={description}
+  maxWidth="tool"
+  hreflangLinks={hreflangLinks}
+  switcherAlternates={switcherAlternates}
+>
   <article class="page-doc">
     <h1>Privacy</h1>
     <p class="lede">{description}</p>

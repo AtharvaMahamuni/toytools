@@ -12,6 +12,7 @@
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import { DEFAULT_LAYOUT, DEFAULT_CAPABILITIES } from '@lib/results/types';
 import type { SectionId, Capabilities } from '@lib/results/types';
+import type { LocaleCode } from '@data/locales';
 
 interface Props {
   idPrefix: string;
@@ -29,6 +30,7 @@ interface Props {
    * `panel` keeps labelled result chrome. Text-window tools do not use this renderer.
    */
   density?: 'panel' | 'ledger';
+  lang?: LocaleCode;
 }
 
 const {
@@ -39,15 +41,79 @@ const {
   craftId,
   craftOn = 'visualization',
   density = 'ledger',
+  lang = 'en',
 } = Astro.props;
 const craftFor = (slot: 'visualization' | 'hero-note' | 'empty') =>
   craftId && craftOn === slot ? craftId : undefined;
 const caps: Capabilities = { ...DEFAULT_CAPABILITIES, ...capabilities };
 const heroId = `${idPrefix}-hero`;
 const ledger = density === 'ledger';
+
+const LABELS: Record<LocaleCode, {
+  panelResult: string;
+  comparison: string;
+  workings: string;
+  assumptions: string;
+  timeline: string;
+  milestones: string;
+  nextQuestions: string;
+  alsoTry: string;
+  howCalculated: string;
+  whatNext: string;
+}> = {
+  en: {
+    panelResult: 'Result',
+    comparison: 'Comparison',
+    workings: 'How this was worked out',
+    assumptions: 'Assumptions',
+    timeline: 'Timeline',
+    milestones: 'Milestones',
+    nextQuestions: 'Questions to explore',
+    alsoTry: 'Also try',
+    howCalculated: 'How this is calculated',
+    whatNext: 'What to do next',
+  },
+  es: {
+    panelResult: 'Resultado',
+    comparison: 'Comparación',
+    workings: 'Cómo se calculó',
+    assumptions: 'Supuestos',
+    timeline: 'Cronología',
+    milestones: 'Hitos',
+    nextQuestions: 'Preguntas para explorar',
+    alsoTry: 'Prueba también',
+    howCalculated: 'Cómo se calcula',
+    whatNext: 'Siguientes pasos',
+  },
+  de: {
+    panelResult: 'Ergebnis',
+    comparison: 'Vergleich',
+    workings: 'Berechnungsweg',
+    assumptions: 'Annahmen',
+    timeline: 'Zeitverlauf',
+    milestones: 'Meilensteine',
+    nextQuestions: 'Weitere Fragen',
+    alsoTry: 'Passend dazu',
+    howCalculated: 'Berechnungsgrundlage',
+    whatNext: 'Nächste Schritte',
+  },
+  fr: {
+    panelResult: 'Résultat',
+    comparison: 'Comparaison',
+    workings: 'Détail du calcul',
+    assumptions: 'Hypothèses',
+    timeline: 'Chronologie',
+    milestones: 'Jalons',
+    nextQuestions: 'Questions associées',
+    alsoTry: 'À essayer aussi',
+    howCalculated: 'Méthode de calcul',
+    whatNext: 'Aller plus loin',
+  },
+};
+const l = LABELS[lang];
 ---
 
-<IoPanel label="Result" variant="prose" result copyTargetId={ledger ? undefined : heroId} bare={ledger}>
+<IoPanel label={l.panelResult} variant="prose" result copyTargetId={ledger ? undefined : heroId} bare={ledger}>
   <div
     class:list={['experience', { 'experience--ledger': ledger }]}
     id={`${idPrefix}-experience`}
@@ -84,34 +150,34 @@ const ledger = density === 'ledger';
       </div>
 
       <div class="experience-section experience-placeholder" data-section="comparison" hidden>
-        <p class="experience-heading">Comparison</p>
+        <p class="experience-heading">{l.comparison}</p>
       </div>
 
       {ledger ? (
         <>
           <details class="experience-workings experience-disclosure">
-            <summary>How this was worked out</summary>
+            <summary>{l.workings}</summary>
             <div class="experience-section" data-section="explanation" hidden>
               <p class="experience-explanation" data-explanation></p>
             </div>
             <div class="experience-section" data-section="assumptions" hidden>
-              <p class="experience-heading">Assumptions</p>
+              <p class="experience-heading">{l.assumptions}</p>
               <dl class="tm-stats" data-list></dl>
             </div>
             <div class="experience-section" data-section="timeline" hidden>
-              <p class="experience-heading">Timeline</p>
+              <p class="experience-heading">{l.timeline}</p>
               <dl class="tm-stats" data-list aria-live="off"></dl>
             </div>
             <div class="experience-section" data-section="milestones" hidden>
-              <p class="experience-heading">Milestones</p>
+              <p class="experience-heading">{l.milestones}</p>
               <ul class="milestone-list" data-list></ul>
             </div>
             <div class="experience-section" data-section="nextQuestions" hidden>
-              <p class="experience-heading">Questions to explore</p>
+              <p class="experience-heading">{l.nextQuestions}</p>
               <ul class="next-question-list" data-list></ul>
             </div>
             <div class="experience-section" data-section="decisions" hidden>
-              <p class="experience-heading">Also try</p>
+              <p class="experience-heading">{l.alsoTry}</p>
               <ul class="decision-list" data-list></ul>
             </div>
           </details>
@@ -119,32 +185,32 @@ const ledger = density === 'ledger';
       ) : (
         <>
           <details class="experience-section experience-disclosure" data-section="timeline" hidden>
-            <summary>Timeline</summary>
+            <summary>{l.timeline}</summary>
             <dl class="tm-stats" data-list aria-live="off"></dl>
           </details>
 
           <div class="experience-section" data-section="milestones" hidden>
-            <p class="experience-heading">Milestones</p>
+            <p class="experience-heading">{l.milestones}</p>
             <ul class="milestone-list" data-list></ul>
           </div>
 
           <details class="experience-section experience-disclosure" data-section="assumptions" hidden>
-            <summary>Assumptions</summary>
+            <summary>{l.assumptions}</summary>
             <dl class="tm-stats" data-list></dl>
           </details>
 
           <details class="experience-section experience-disclosure" data-section="explanation" hidden>
-            <summary>How this is calculated</summary>
+            <summary>{l.howCalculated}</summary>
             <p class="experience-explanation" data-explanation></p>
           </details>
 
           <details class="experience-section experience-disclosure" data-section="nextQuestions" hidden>
-            <summary>Questions to explore</summary>
+            <summary>{l.nextQuestions}</summary>
             <ul class="next-question-list" data-list></ul>
           </details>
 
           <div class="experience-section" data-section="decisions" hidden>
-            <p class="experience-heading">What to do next</p>
+            <p class="experience-heading">{l.whatNext}</p>
             <ul class="decision-list" data-list></ul>
           </div>
         </>

@@ -1,0 +1,90 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="es"
+>
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Un timestamp Unix es el recuento de segundos transcurridos desde un punto de partida fijo, y este conversor trabaja en ambos sentidos. En «Timestamp a fecha» transforma un número como 1700000000 en fecha legible, y en «Fecha a timestamp» realiza la operación inversa. Muestra al momento la hora UTC, la cadena ISO 8601 y tu hora local en segundos o milisegundos para consultar registros, bases de datos y APIs.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Conversor de Timestamp Unix →</a>
+  </section>
+
+  <section id="como-funciona">
+    <h2>Cómo funciona el tiempo Unix <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      La época Unix (Unix epoch) corresponde a la medianoche UTC del 1 de enero de 1970. Cero representa ese instante exacto y los números negativos representan fechas anteriores. Como el conteo parte siempre desde UTC, un timestamp Unix designa exactamente el mismo instante físico en Londres, Madrid, Ciudad de México o Tokio, sin depender del reloj local. También verás segundos Unix en las <a href={guidePathBySlug('jwt-decoder')}>reclamaciones exp e iat de tokens JWT</a>.
+    </p>
+  </section>
+
+  <section id="ejemplos">
+    <h2>Ejemplos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>De timestamp a fecha:</strong> 1700000000 segundos equivale a las 22:13:20 UTC del martes 14 de noviembre de 2023.</p>
+    <p><strong>De fecha a timestamp:</strong> introducir 14 de noviembre de 2023 a las 22:13:20 UTC devuelve 1700000000 segundos o 1700000000000 milisegundos.</p>
+    <p><strong>Detectar la unidad errónea:</strong> leer 1700000000000 como segundos da el año 55901, señal inequívoca de que el dato está en milisegundos.</p>
+  </section>
+
+  <section id="segundos-vs-milisegundos">
+    <h2>Segundos frente a milisegundos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      El tiempo Unix clásico cuenta segundos (valores actuales de 10 cifras), mientras que JavaScript y muchas API web cuentan milisegundos (13 cifras, mil veces mayores). Si al convertir aparece una fecha miles de años en el futuro, simplemente divide por 1000 o selecciona Milisegundos como unidad de entrada.
+    </p>
+  </section>
+
+  <section id="errores-frecuentes">
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Leer milisegundos como si fueran segundos">
+      <p>Pegar una cifra de 13 dígitos dejando seleccionada la unidad en segundos desplaza la fecha al año 50000+. Comprueba siempre la longitud: 10 dígitos suele ser segundos y 13 milisegundos.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Suponer que el timestamp está en hora local">
+      <p>Un timestamp Unix nunca almacena zona horaria: siempre se mide desde UTC. Lee primero el valor UTC antes de traducirlo a tu huso horario local.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="Todo se procesa en local">
+      <p>Las conversiones se ejecutan directamente en tu navegador sin enviar datos a ningún servidor y funcionan incluso sin conexión tras cargar la página.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

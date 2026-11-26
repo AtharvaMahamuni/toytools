@@ -12,29 +12,33 @@
 // browser" from the tool it describes. It belongs immediately under the tool it is about.
 import TrustNotice from '@components/tool/TrustNotice.astro';
 import XAccountLink from '@components/XAccountLink.astro';
-import { withBase } from '@lib/paths';
+import { pagePath } from '@lib/paths';
 import type { Tool } from '@data/types';
+import type { LocaleCode } from '@data/locales';
+import { getUiStrings } from '@data/i18n/index';
 
 interface Props {
   tool: Tool;
+  lang?: LocaleCode;
 }
 
-const { tool } = Astro.props;
+const { tool, lang = 'en' } = Astro.props;
+const t = getUiStrings(lang);
 ---
 
 <div class="tool-signature">
-  <TrustNotice variant={tool.trustVariant ?? 'private'} keepInput={tool.keepInput === true} />
+  <TrustNotice variant={tool.trustVariant ?? 'private'} keepInput={tool.keepInput === true} lang={lang} />
   {/* Work-in-progress tools keep typed input on this device, so the wipe sits beside the notice
       that says so. ToyToolsRuntime handles [data-tt-clear-input] (keys removed, page reloaded). */}
   {tool.keepInput === true && (tool.trustVariant ?? 'private') === 'private' && (
-    <button type="button" class="action-btn" data-tt-clear-input={tool.slug}>Clear saved input</button>
+    <button type="button" class="action-btn" data-tt-clear-input={tool.slug}>{t.tool.clearSavedInput}</button>
   )}
   {/* The published method the numbers come from, where the engine implements a named one. One row,
       not a section: it belongs beside the privacy badge because it answers the same question a
       person asks at the same moment, which is whether to believe the result. */}
   {tool.methodology && (
     <span class="tool-method" title={tool.methodology.detail}>
-      Method · {tool.methodology.name}
+      {t.tool.methodPrefix} · {tool.methodology.name}
     </span>
   )}
   {/* The platform signs the tool rather than owning it, in the micro-label voice already used by
@@ -45,8 +49,8 @@ const { tool } = Astro.props;
       that ToyTools has many tools, not that one platform is underneath them. /platform/ is the
       other half of the sentence this line starts. */}
   <div class="tool-signoff">
-    <a class="tool-attribution" href={withBase('/platform/')} title="What powers this tool">
-      Powered by ToyTools
+    <a class="tool-attribution" href={pagePath('/platform/', lang)} title={t.tool.poweredByTitle}>
+      {t.tool.poweredBy}
     </a>
     <XAccountLink />
   </div>

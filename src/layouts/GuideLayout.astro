@@ -1,6 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import { generatePageTitle } from '@lib/titles';
+import { generateLocalizedPageTitle, getUiStrings, localizeCategory } from '@data/i18n/index';
 import Breadcrumb from '@components/Breadcrumb.astro';
 import BackButton from '@components/BackButton.astro';
 import EcosystemLinks from '@components/EcosystemLinks.astro';
@@ -11,11 +11,18 @@ import ContinueLearning from '@components/knowledge/ContinueLearning.astro';
 import type { EcosystemEntry } from '@data/types';
 import { categories } from '@data/categories';
 import { formatMonthYear } from '@lib/dates';
-import { withBase, canonicalFor, categoryPath } from '../lib/paths';
+import { canonicalFor, categoryPath, guidePath, pagePath } from '../lib/paths';
 import { privacyStatement, withPrivacy } from '@lib/privacy';
 import { tools } from '@data/registry';
 import { orgRef, personRef } from '@lib/schema/identity';
 import { guidePublishedAt } from '@data/guide-published';
+import { getLocaleConfig, type LocaleCode } from '@data/locales';
+import {
+  availableLocalesForGuide,
+  guideHreflangLinks,
+  localizeTool,
+  switcherAlternatesForPath,
+} from '@lib/i18n/registry';
 
 interface Props {
   title: string;
@@ -26,6 +33,7 @@ interface Props {
   toolName: string;
   toolCategorySlug: string;
   entry: EcosystemEntry;
+  lang?: LocaleCode;
 }
 
 const {
@@ -37,90 +45,116 @@ const {
   toolName,
   toolCategorySlug,
   entry,
+  lang = 'en',
 } = Astro.props;
 
-const category = categories.find(c => c.slug === toolCategorySlug);
-const toolCategorySegment = category?.segment ?? toolCategorySlug;
+const t = getUiStrings(lang);
+const localeCfg = getLocaleConfig(lang);
+const rawCategory = categories.find(c => c.slug === toolCategorySlug);
+const category = rawCategory ? localizeCategory(rawCategory, lang) : undefined;
+const toolCategorySegment = rawCategory?.segment ?? toolCategorySlug;
 const toolCategoryName = category?.name ?? toolCategorySlug;
+
+const fullTool = tools.find((item) => item.slug === toolSlug);
+const localizedTool = fullTool ? localizeTool(fullTool, lang) : null;
+const availableLocales = fullTool?.guide ? availableLocalesForGuide(toolSlug) : ['en' as LocaleCode];
+const hreflangLinks = fullTool?.guide ? guideHreflangLinks(fullTool, Astro.site) : [];
+const switcherAlternates = fullTool?.guide
+  ? switcherAlternatesForPath(
+      (loc) => guidePath({ categorySlug: fullTool.guide!.categorySlug, slug: fullTool.guide!.slug }, loc),
+      availableLocales,
+    )
+  : [];
+
+const homeHref = pagePath('/', lang);
+const homeAbs = Astro.site ? new URL(homeHref, Astro.site).href : homeHref;
 
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site ? new URL(withBase('/'), Astro.site).href : withBase('/') },
-    { '@type': 'ListItem', position: 2, name: toolCategoryName, item: canonicalFor({ kind: 'category', slug: toolCategorySlug }, Astro.site) },
+    { '@type': 'ListItem', position: 1, name: t.nav.home, item: homeAbs },
+    { '@type': 'ListItem', position: 2, name: toolCategoryName, item: canonicalFor({ kind: 'category', slug: toolCategorySlug }, Astro.site, lang) },
     { '@type': 'ListItem', position: 3, name: title },
   ],
 };
 
 // `updatedAt` is ISO 8601 (see GuideConfig.updatedAt). It goes to the schema verbatim, because that
 // is the only shape Google parses, and reaches the visitor through formatMonthYear below.
-const updatedDisplay = formatMonthYear(updatedAt);
+const updatedDisplay = lang === 'en'
+  ? formatMonthYear(updatedAt)
+  : new Intl.DateTimeFormat(localeCfg.intlLocale, { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(updatedAt));
 
 // datePublished is the day the guide first shipped (src/data/guide-published.ts). It used to be
 // `updatedAt`, so every rewrite claimed the article was brand new. validate-registry keeps every
 // guide in that map and never later than `updatedAt`; the fallback only covers a scaffold mid-edit.
 const publishedAt = guidePublishedAt[toolSlug] ?? updatedAt;
 // The guide speaks for its tool, so a lookup tool's guide carries the lookup privacy statement.
-const guideVariant = tools.find((t) => t.slug === toolSlug)?.trustVariant;
+const guideVariant = fullTool?.trustVariant;
+const localizedPrivacy = lang === 'en'
+  ? privacyStatement(guideVariant)
+  : t.footer.privacyByVariant[guideVariant ?? 'private'];
+
+const tocLabels: Record<LocaleCode, string> = {
+  en: 'Contents',
+  es: 'Contenido',
+  de: 'Inhalt',
+  fr: 'Sommaire',
+};
 
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: title,
-  description: withPrivacy(description, guideVariant),
+  description: lang === 'en' ? withPrivacy(description, guideVariant) : `${description} ${localizedPrivacy}`.trim(),
   datePublished: publishedAt <= updatedAt ? publishedAt : updatedAt,
   dateModified: updatedAt,
   url: Astro.url.href,
-  inLanguage: 'en',
+  inLanguage: lang,
   author: personRef(),
   publisher: orgRef(),
 };
 ---
 
 <BaseLayout
-  title={generatePageTitle('guide', title)}
+  title={generateLocalizedPageTitle('guide', title, lang)}
   description={description}
   maxWidth="content"
-  privacyLine={privacyStatement(guideVariant)}
+  lang={lang}
+  hreflangLinks={hreflangLinks}
+  switcherAlternates={switcherAlternates}
+  privacyLine={localizedPrivacy}
 >
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
 
   <div class="guide-header">
     <Breadcrumb items={[
-      { label: 'Home', href: withBase('/') },
-      { label: toolCategoryName, href: categoryPath({ slug: toolCategorySlug }) },
+      { label: t.nav.home, href: homeHref },
+      { label: toolCategoryName, href: categoryPath({ slug: toolCategorySlug }, lang) },
       { label: title },
     ]} />
     <BackButton />
-    {/* Reading Mode, said out loud. The <title> has read "... ● ToyTools Guide" all along and the
-        page itself never showed the distinction, so a guide and a tool page opened the same way.
-        Together with the tool h1 dropping to --text-2xl while this one keeps --text-4xl, the
-        eyebrow plus the size gap is the whole Tool Mode versus Reading Mode signal, for one
-        element and no new tokens. Tool pages deliberately get no eyebrow: the absence is the
-        other half of the signal. Not a heading, so it stays out of the H2 slot that
-        check-query-coverage scores. */}
-    <p class="guide-eyebrow">Guide</p>
+    <p class="guide-eyebrow">{t.tool.guideFallback}</p>
     <h1>{title}</h1>
     <p class="guide-description">{description}</p>
     <p class="guide-meta">
-      {readMinutes} min read
+      {readMinutes} {t.guide.readTimeSuffix}
       <span class="guide-meta-sep" aria-hidden="true">·</span>
-      Updated {updatedDisplay}
+      {t.guide.updatedPrefix} {updatedDisplay}
     </p>
   </div>
 
   <div class="guide-body">
-    <aside class="toc-column" aria-label="Table of contents">
+    <aside class="toc-column" aria-label={tocLabels[lang]}>
       <!-- Mobile: collapsible -->
       <details class="toc-mobile">
-        <summary class="toc-summary">Contents</summary>
+        <summary class="toc-summary">{tocLabels[lang]}</summary>
         <ul id="toc-list-mobile" class="toc-list"></ul>
       </details>
       <!-- Desktop: sticky -->
-      <nav class="toc-desktop" aria-label="Table of contents">
-        <p class="toc-heading">Contents</p>
+      <nav class="toc-desktop" aria-label={tocLabels[lang]}>
+        <p class="toc-heading">{tocLabels[lang]}</p>
         <ul id="toc-list-desktop" class="toc-list"></ul>
       </nav>
     </aside>
@@ -141,8 +175,9 @@ const articleSchema = {
     currentType="guide"
     toolSlug={toolSlug}
     toolCategorySegment={toolCategorySegment}
-    toolName={toolName}
-    entry={entry}
+    toolName={localizedTool?.name ?? toolName}
+    entry={localizedTool ?? entry}
+    lang={lang}
   />
 </BaseLayout>
 

@@ -18,27 +18,39 @@ import { wellnessExamplesFor } from '@lib/engines/wellness/examples';
 import { DEFAULT_CAPABILITIES } from '@lib/results/types';
 import { toolUrlStateMode } from '@lib/url-state';
 import type { ToolConfig } from '@data/types';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { WIDGET_CHROME, localizeFields, uiStr } from '@lib/i18n/widget-utils';
 
 interface Props {
   slug: string;
   wellnessId: string;
   config: ToolConfig;
   emptyText?: string;
+  lang?: LocaleCode;
+  pack?: LocalizedToolPack | null;
 }
 
-const { slug, wellnessId, config, emptyText } = Astro.props;
+const { slug, wellnessId, config, emptyText, lang = 'en', pack = null } = Astro.props;
+const c = WIDGET_CHROME[lang];
+
+const forgetLabel: Record<LocaleCode, string> = { en: 'Forget', es: 'Olvidar', de: 'Vergessen', fr: 'Oublier' };
+const shareLabel: Record<LocaleCode, string> = { en: 'Copy link', es: 'Copiar enlace', de: 'Link kopieren', fr: 'Copier le lien' };
+const resetLabel: Record<LocaleCode, string> = { en: 'Reset to Defaults', es: 'Restablecer', de: 'Zurücksetzen', fr: 'Réinitialiser' };
+const loadExLabel: Record<LocaleCode, string> = { en: 'Load Example', es: 'Cargar ejemplo', de: 'Beispiel laden', fr: 'Charger un exemple' };
 
 // Shareable-link mode, decided at build time from the registry (src/lib/url-state.ts).
 // "auto" syncs the address bar as you type; "manual" only builds a link when asked.
 const urlMode = toolUrlStateMode(config);
 const tool = getWellnessCalculator(wellnessId);
-const fields = tool?.fields ?? [];
+const rawFields = tool?.fields ?? [];
+const fields = localizeFields(rawFields, pack);
 const splitRatio = fields.length <= 2 ? '1-1' : '3-2';
 const caps = { ...DEFAULT_CAPABILITIES, ...(tool?.capabilities ?? {}) };
 const examples = wellnessExamplesFor(wellnessId).map((e) => e.inputs);
-const defaults = Object.fromEntries(fields.map((f) => [f.id, f.default]));
-const unitDims = unitDimensions(fields);
-const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
+const defaults = Object.fromEntries(rawFields.map((f) => [f.id, f.default]));
+const unitDims = unitDimensions(rawFields);
+const resolvedEmpty = uiStr(pack, 'emptyText', emptyText ?? 'Enter your details to calculate.');
 const craftId = config.craft?.id;
 ---
 
@@ -46,7 +58,7 @@ const craftId = config.craft?.id;
   <ToolSplit ratio={splitRatio} stackOrder="input-first" stickyOutput={false} equalHeight={false} reserve="16rem">
     <IoPanel
       slot="input"
-      label="Details"
+      label={c.details}
       variant="prose"
       bare
       data-wellness={wellnessId}
@@ -59,7 +71,7 @@ const craftId = config.craft?.id;
     >
       <p class="wellness-profile" id={`${slug}-profile`} hidden>
         <span data-profile-text></span>
-        <button type="button" class="wellness-profile-forget" id={`${slug}-forget`}>Forget</button>
+        <button type="button" class="wellness-profile-forget" id={`${slug}-forget`}>{forgetLabel[lang]}</button>
       </p>
       <div class="io-body wellness-form" id={`${slug}-form`} data-wellness-form>
         {fields.map((field) => <SmartInput field={field} idPrefix={slug} />)}
@@ -72,6 +84,7 @@ const craftId = config.craft?.id;
         emptyText={resolvedEmpty}
         layout={tool?.layout}
         capabilities={caps}
+        lang={lang}
       />
       {craftId && <CraftNote id={`${slug}-caveat`} craftId={craftId} />}
     </div>
@@ -79,14 +92,14 @@ const craftId = config.craft?.id;
 </div>
 
 <div class="tool-actions">
-  <button class="action-btn action-btn--copy" id={`${slug}-copy`} data-label="Copy" type="button">Copy</button>
+  <button class="action-btn action-btn--copy" id={`${slug}-copy`} data-label={c.copy} type="button">{c.copy}</button>
   {caps.loadExample && examples.length > 0 && (
-    <button class="action-btn" id={`${slug}-example`} type="button">Load Example</button>
+    <button class="action-btn" id={`${slug}-example`} type="button">{loadExLabel[lang]}</button>
   )}
   {urlMode !== 'off' && (
-    <button class="action-btn" id={`${slug}-share`} data-label="Copy link" type="button">Copy link</button>
+    <button class="action-btn" id={`${slug}-share`} data-label={shareLabel[lang]} type="button">{shareLabel[lang]}</button>
   )}
-  <button class="action-btn action-btn--clear" id={`${slug}-reset`} data-label="Reset" type="button">Reset to Defaults</button>
+  <button class="action-btn action-btn--clear" id={`${slug}-reset`} data-label={resetLabel[lang]} type="button">{resetLabel[lang]}</button>
 </div>
 
 {examples.length > 0 && (
@@ -245,7 +258,7 @@ const craftId = config.craft?.id;
         renderDelta(null);
         return;
       }
-      var res = ToyTools.runWellness(wid, c.input, {});
+      var res = ToyTools.runWellness(wid, c.input, { locale: document.documentElement.lang || 'en' });
       ToyTools.experience.render(expRoot, res);
       caveat(res && res.ok ? c.input : null);
       publishDerived(res);

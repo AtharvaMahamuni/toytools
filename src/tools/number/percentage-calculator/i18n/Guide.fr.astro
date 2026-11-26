@@ -1,0 +1,151 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="fr"
+>
+
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Un pourcentage exprime un nombre sous forme de fraction de 100. L’expression vient du latin « per centum », qui signifie « pour cent ». Dire 40% signifie retenir 40 parts sur 100, soit deux cinquièmes de l’ensemble.
+    </p>
+    <p>
+      Les pourcentages servent partout : soldes, TVA, résultats scolaires, taux d’intérêt et statistiques. Trois calculs couvrent presque tous les besoins : prendre un pourcentage d’un nombre, trouver quel pourcentage un nombre représente par rapport à un autre et mesurer une variation en pourcentage.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir la Calculatrice de Pourcentage →</a>
+  </section>
+
+  <section id="les-trois-calculs-essentiels">
+    <h2>Les trois formules essentielles <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>1. Combien font X% de Y ?</strong>
+      Multipliez Y par X puis divisez par 100. Pour trouver 15% de 200 : (15 × 200) ÷ 100 = 30. Astuce rapide : obtenez 10% en décalant la virgule d’un rang vers la gauche (200 → 20), prenez la moitié pour 5% (10), puis additionnez : 20 + 10 = 30.
+    </p>
+    <p>
+      <strong>2. Quel pourcentage représente X de Y ?</strong>
+      Divisez X par Y puis multipliez par 100. Pour savoir quel pourcentage représente 45 de 180 : (45 ÷ 180) × 100 = 25%. Ce calcul répond aux questions sur une note obtenue ou la part d’un budget dépensé.
+    </p>
+    <p>
+      <strong>3. Quelle est la variation en pourcentage de X à Y ?</strong>
+      Soustrayez la valeur initiale (X) de la valeur finale (Y), divisez par la valeur absolue de X puis multipliez par 100 : ((Y − X) ÷ |X|) × 100. Si un chiffre d’affaires passe de 800 € à 1 000 € : ((1000 − 800) ÷ 800) × 100 = +25%. Un résultat négatif indique une baisse. Si X est négatif (par exemple de −20 à 50), retirez son signe moins au dénominateur pour garder le bon sens d’évolution : (50 − (−20)) ÷ 20 × 100 = +350%.
+    </p>
+    <ReferenceBlock type="key-idea" heading="La base change tout">
+      <p>Tout pourcentage est relatif à une valeur de référence. Avant de calculer, identifiez quel nombre représente le « tout » (la base). Inverser numérateur et dénominateur reste la source d’erreur la plus fréquente.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="exemples-corriges">
+    <h2>Comment calculer un pourcentage ? Exemples concrets <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Avec deux mêmes nombres, 12 et 80, chaque formule répond à une question différente :
+    </p>
+    <ul>
+      <li><strong>Combien font 15% de 80 ?</strong> 80 × 15 ÷ 100 = 12.</li>
+      <li><strong>12 représente quel pourcentage de 80 ?</strong> 12 ÷ 80 × 100 = 15%.</li>
+      <li><strong>Variation en pourcentage de 80 à 92 :</strong> (92 − 80) ÷ 80 × 100 = +15%. Revenir de 92 à 80 donne (80 − 92) ÷ 92 × 100 = −13,04%, car la base de départ est plus grande.</li>
+      <li><strong>Une veste coûte 64 € après 20% de remise. Quel était le prix initial ?</strong> 64 ÷ 0,80 = 80 €. Ajouter 20% à 64 € donnerait 76,80 €, ce qui est faux car la remise portait sur 80 €.</li>
+    </ul>
+    <p>
+      Les trois premiers cas correspondent aux trois modes de notre outil. Pour le quatrième, retrouver la valeur initiale avant remise, divisez toujours par la fraction restante au lieu de rajouter le pourcentage.
+    </p>
+  </section>
+
+  <section id="pourcentages-au-quotidien">
+    <h2>Les pourcentages dans la vie courante <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Soldes et remises.</strong> Une remise de 30% signifie que vous payez 70% du tarif affiché. Multipliez simplement le prix initial par 0,70 : pour un article à 120 €, 120 × 0,70 = 84 €.
+    </p>
+    <p>
+      <strong>Taxes et TVA.</strong> La TVA s’applique sur le montant hors taxe. Pour ajouter 20% à 60 € : 60 × 1,20 = 72 €. Pour retrouver le prix HT depuis un prix TTC, divisez par 1,20.
+    </p>
+    <p>
+      <strong>Notes et évaluations.</strong> Un score de 72 sur 90 correspond à (72 ÷ 90) × 100 = 80%. De nombreux barèmes convertissent ces pourcentages en mentions ou moyennes.
+    </p>
+    <p>
+      <strong>Taux d’intérêt.</strong> Un livret rapportant 4% par an génère sur 5 000 € un gain annuel de 5 000 × 0,04 = 200 €. Avec les intérêts composés, chaque nouvelle période s’applique au capital accumulé.
+    </p>
+    <p>
+      <strong>Statistiques.</strong> Les enquêtes présentent leurs résultats en pourcentage (« 68% des répondants approuvent ») afin de comparer équitablement des échantillons de tailles différentes sur une échelle de 0 à 100.
+    </p>
+  </section>
+
+  <section id="erreurs-courantes">
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Confondre variation en pourcentage et points de pourcentage">
+      <p>
+        Si un taux passe de 2% à 3%, il augmente de 1 point de pourcentage, mais il progresse en réalité de 50% en valeur relative. Les points de pourcentage mesurent un écart arithmétique entre deux taux ; la variation en pourcentage mesure l’évolution relative.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Moins 50% puis plus 50% ne ramène pas au point de départ">
+      <p>
+        Un produit à 100 € réduit de 50% tombe à 50 €. Augmenter ensuite 50 € de 50% donne 75 €, pas 100 €. Comme la base change entre les deux opérations, les pourcentages ne sont pas symétriques : après une perte de 50%, il faut un gain de 100% pour retrouver l’équilibre.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Repérez toujours la base avant de calculer">
+      <p>L’expression « pourcentage de » indique la base : dans « 15% de 200 », la base est 200 ; dans « 200 est quel % de 500 ? », la base est 500. Une erreur de base répond juste à la mauvaise question.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="histoire">
+    <h2>Histoire du pourcentage <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Exprimer des quantités en centièmes remonte à la Rome antique, où impôts et intérêts étaient déjà calculés par tranches de cent. L’expression latine « per centum » figurait dans les registres financiers dès le Ier siècle av. J.-C. Au Moyen Âge, les marchands italiens popularisèrent les fractions sur 100 et abrégèrent « per cento » dans leurs écritures jusqu’à former le symbole %.
+    </p>
+    <p>
+      La notation s’est uniformisée dans les manuels d’arithmétique imprimés aux XVIe et XVIIe siècles avec l’essor du commerce européen. Vers 1650, le signe moderne « % » apparaissait dans des manuscrits italiens avant de s’imposer au XVIIIe siècle dans la banque, les assurances et la fiscalité.
+    </p>
+    <p>
+      À l’époque moderne, le pourcentage est devenu le langage commun de la statistique, de la finance et des sciences. L’arrivée des tableurs dans les années 1980 a automatisé des calculs autrefois effectués à l’aide de tables imprimées ou de règles à calcul, perpétuant une méthode vieille de plus de deux millénaires.
+    </p>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

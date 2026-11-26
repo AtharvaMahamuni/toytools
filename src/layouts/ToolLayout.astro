@@ -1,41 +1,62 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import { generatePageTitle } from '@lib/titles';
+import { generateLocalizedPageTitle, getUiStrings } from '@data/i18n/index';
 import ToolIdentity from '@components/tool/ToolIdentity.astro';
 import ToolBar from '@components/tool/ToolBar.astro';
 import FeedbackCapture from '@components/feedback/FeedbackCapture.astro';
 import { iconColors } from '@lib/icons/tool-icon';
 import { APPLE_TOUCH_SIZE } from '@lib/icons/sizes';
 import type { Tool, Category } from '@data/types';
-import { withBase, canonicalFor } from '../lib/paths';
+import { withBase, canonicalFor, pagePath, toolPath, localePrefix } from '../lib/paths';
 import { openingAnswer, privacyStatement } from '@lib/privacy';
 import { orgRef, personRef } from '@lib/schema/identity';
 import { toolAbstract } from '@lib/schema/abstract';
 import { toolFacts } from '@lib/llms/facts';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import {
+  availableLocalesForTool,
+  switcherAlternatesForPath,
+  toolHreflangLinks,
+} from '@lib/i18n/registry';
 
 interface Props {
   tool: Tool;
   category: Category;
+  lang?: LocaleCode;
+  pack?: LocalizedToolPack | null;
 }
 
-const { tool, category } = Astro.props;
+const { tool, category, lang = 'en', pack = null } = Astro.props;
+const t = getUiStrings(lang);
+
+const availableLocales = availableLocalesForTool(tool.slug);
+const hreflangLinks = toolHreflangLinks(tool, category, Astro.site);
+const switcherAlternates = switcherAlternatesForPath(
+  (loc) => toolPath({ slug: tool.slug, segment: category.segment }, loc),
+  availableLocales,
+);
 
 // Per-tool install metadata — lets this tool be added to the home screen as its
 // own app (manifest + maskable icon + theme colour), all derived from the registry.
 const pwa = {
-  manifestUrl: withBase(`/manifest/${tool.slug}.webmanifest`),
+  manifestUrl: withBase(`${localePrefix(lang)}/manifest/${tool.slug}.webmanifest`),
   // iOS ignores SVG for the home-screen icon, so apple-touch-icon points at a PNG.
   iconUrl: withBase(`/icons/tool/${tool.slug}-${APPLE_TOUCH_SIZE}.png`),
   themeColor: iconColors(tool).accent,
   title: tool.name,
 };
 
+const homeAbs = Astro.site
+  ? new URL(pagePath('/', lang), Astro.site).href
+  : pagePath('/', lang);
+
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site ? new URL(withBase('/'), Astro.site).href : withBase('/') },
-    { '@type': 'ListItem', position: 2, name: category.name, item: canonicalFor({ kind: 'category', slug: category.slug }, Astro.site) },
+    { '@type': 'ListItem', position: 1, name: t.nav.home, item: homeAbs },
+    { '@type': 'ListItem', position: 2, name: category.name, item: canonicalFor({ kind: 'category', slug: category.slug }, Astro.site, lang) },
     { '@type': 'ListItem', position: 3, name: tool.name },
   ],
 };
@@ -47,26 +68,52 @@ const breadcrumbSchema = {
 // structured data.
 // `abstract` carries the tool's citation copy (its job, its privacy line and what it does not do),
 // which was a visible block until 2026-09-30 (W1). Only tools that set `citation` have one.
-const abstract = toolAbstract(toolFacts(tool, Astro.site));
+const localizedPrivacy = lang === 'en'
+  ? privacyStatement(tool.trustVariant)
+  : t.footer.privacyByVariant[tool.trustVariant ?? 'private'];
+const schemaDescription = lang === 'en'
+  ? openingAnswer(tool)
+  : `${tool.tagline ? `${tool.tagline} ` : ''}${tool.description} ${localizedPrivacy}`.trim();
+const abstract = lang === 'en'
+  ? toolAbstract(toolFacts(tool, Astro.site))
+  : (tool.citation ? `${tool.citation.problem} ${localizedPrivacy} It ${tool.citation.nonGoal}` : undefined);
+
 const softwareSchema = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: tool.name,
-  description: openingAnswer(tool),
+  inLanguage: lang,
+  description: schemaDescription,
   ...(abstract ? { abstract } : {}),
   url: Astro.url.href,
   applicationCategory: 'WebApplication',
   operatingSystem: 'Any',
   isAccessibleForFree: true,
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  offers: { '@type': 'Offer', price: '0', priceCurrency: t.tool.currency },
   ...(tool.updatedAt ? { dateModified: tool.updatedAt } : {}),
   publisher: orgRef(),
   author: personRef(),
 };
+
+const engineI18n = pack ? { ...(pack.ui ?? {}), ...(pack.fields ? { _fields: pack.fields } : {}) } : undefined;
 ---
 
-<BaseLayout title={generatePageTitle('tool', tool.seoTitle ?? tool.name)} description={tool.description} maxWidth="shell" pwa={pwa} engines={[tool.engine]} feedbackTool={tool.slug} privacyLine={privacyStatement(tool.trustVariant)} ephemeral={(tool.trustVariant ?? 'private') === 'private'} keepInput={tool.keepInput === true}>
-  <ToolBar slot="header" tool={tool} />
+<BaseLayout
+  title={generateLocalizedPageTitle('tool', tool.seoTitle ?? tool.name, lang)}
+  description={tool.description}
+  maxWidth="shell"
+  lang={lang}
+  hreflangLinks={hreflangLinks}
+  switcherAlternates={switcherAlternates}
+  engineI18n={engineI18n}
+  pwa={pwa}
+  engines={[tool.engine]}
+  feedbackTool={tool.slug}
+  privacyLine={localizedPrivacy}
+  ephemeral={(tool.trustVariant ?? 'private') === 'private'}
+  keepInput={tool.keepInput === true}
+>
+  <ToolBar slot="header" tool={tool} lang={lang} />
 
   {/* The BreadcrumbList JSON-LD stays even though the visible trail is gone: Google builds SERP
       breadcrumbs from this, not from the markup, so removing the on-page trail costs nothing in

@@ -1,0 +1,106 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="fr"
+>
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      L’Indice de Masse Corporelle (IMC) divise votre poids en kilogrammes par le carré de votre taille en mètres. Une personne de 70 kg mesurant 1,75 m obtient un IMC de 70 / (1,75 × 1,75) = 22,9. Pour les adultes, l’Organisation mondiale de la santé classe cet indice en quatre zones : moins de 18,5 indique une insuffisance pondérale, 18,5 à 24,9 un poids normal, 25 à 29,9 un surpoids et 30 ou plus une obésité. Ce calculateur fonctionne en système métrique ou impérial et affiche la plage de poids santé adaptée à votre taille.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir le Calculateur d’IMC →</a>
+  </section>
+
+  <section id="comment-ca-marche">
+    <h2>Fonctionnement de la formule de l’IMC <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      L’IMC rassemble deux mesures simples, taille et poids, en un repère unique comparable entre personnes grandes et petites. Le poids seul est trompeur car une personne plus grande pèse naturellement davantage. Diviser par la taille au carré neutralise en grande partie cet effet d’échelle. En mode impérial, l’outil convertit d’abord les livres et les pouces en kilogrammes et mètres afin que 154 lb à 69 pouces donnent le même résultat que 69,9 kg à 175 cm.
+    </p>
+  </section>
+
+  <section id="categories">
+    <h2>Lire les catégories de l’OMS <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Les seuils 18,5, 25 et 30 établis par l’OMS reposent sur de vastes études de population. Un IMC de 24,9 reste dans la norme tandis que 25,0 passe en surpoids, mais il s’agit d’une frontière statistique progressive et non d’un basculement brutal. En plus de votre catégorie, le calculateur affiche donc l’intervalle concret en kilos ou en livres qui maintient votre taille entre 18,5 et 24,9.
+    </p>
+  </section>
+
+  <section id="exemples">
+    <h2>Exemples chiffrés <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>70 kg pour 175 cm.</strong> 70 / (1,75)² = 22,9, bien situé dans la plage normale de 18,5 à 24,9. Le poids santé correspondant à 175 cm va d’environ 56,7 kg à 76,3 kg.</p>
+    <p><strong>90 kg pour 170 cm.</strong> 90 / (1,70)² = 31,1, dans la zone d’obésité ; l’outil précise combien de kilos vous séparent de la plage normale.</p>
+    <p><strong>154 lb pour 69 pouces.</strong> Converti en interne, cela donne un IMC d’environ 22,7, identique au résultat métrique équivalent.</p>
+  </section>
+
+  <section id="limites">
+    <h2>Ce que l’IMC ne mesure pas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Puisque l’IMC n’utilise que la taille et le poids, il ne distingue pas le muscle de la graisse ni la répartition de la masse grasse. Un sportif musclé peut être classé en surpoids malgré très peu de graisse, et une personne âgée ayant perdu du muscle peut afficher un indice normal malgré un excès adipeux. De plus, l’IMC adulte ne s’applique pas aux mineurs, qui relèvent de courbes pédiatriques par âge et par sexe. Utilisez-le comme indicateur initial en complément du taux de masse grasse ou du tour de taille.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Un repère statistique, pas un diagnostic">
+      <p>L’IMC indique utilement s’il convient d’examiner votre corpulence de plus près, mais ne résume jamais à lui seul votre état de santé individuel.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="erreurs-courantes">
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Prendre l’IMC pour un diagnostic médical">
+      <p>
+        Un indice situé en zone de surpoids constitue une indication générale, jamais un verdict médical isolé. La masse musculaire, la condition physique et les bilans biologiques comptent tout autant.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Mélanger les unités">
+      <p>
+        Entrer un poids en livres avec une taille en centimètres fausse complètement le calcul. Choisissez Métrique ou Impérial avant de saisir vos deux mesures.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Sportifs et seniors">
+      <p>Ne différenciant pas muscle et tissu adipeux, l’IMC surestime souvent le risque chez les personnes très musclées et le sous-estime après une fonte musculaire. Tout le traitement s’exécute localement dans votre navigateur.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -1,0 +1,106 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="es"
+>
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      El Índice de Masa Corporal (IMC) se calcula dividiendo tu peso en kilogramos entre el cuadrado de tu estatura en metros. Una persona de 70 kg y 1,75 m obtiene 70 / (1,75 × 1,75), es decir, unos 22,9. Para adultos, la Organización Mundial de la Salud interpreta ese valor en cuatro franjas: menos de 18,5 es bajo peso, de 18,5 a 24,9 es saludable, de 25 a 29,9 es sobrepeso y 30 o más corresponde a obesidad. Esta calculadora funciona en unidades métricas o imperiales y muestra el rango exacto de peso saludable para tu estatura.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Calculadora de IMC →</a>
+  </section>
+
+  <section id="como-funciona">
+    <h2>Cómo funciona la fórmula del IMC <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      El IMC combina dos medidas sencillas, peso y estatura, en un único índice comparable entre personas altas y bajas. El peso aislado resulta engañoso porque una persona más alta suele pesar más de forma natural. Dividir por la estatura al cuadrado compensa gran parte de esa diferencia para aplicar las mismas referencias a toda la población adulta. Si introduces unidades imperiales, la herramienta convierte primero libras y pulgadas a kilos y metros antes de aplicar la fórmula exacta, de modo que 154 lb y 69 pulgadas coinciden con 69,9 kg y 175 cm.
+    </p>
+  </section>
+
+  <section id="categorias">
+    <h2>Cómo interpretar las categorías de la OMS <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Las categorías de la OMS marcan los cuatro tramos estándar para adultos en 18,5, 25 y 30, procedentes de grandes estudios estadísticos poblacionales. Un IMC de 24,9 figura como saludable y 25,0 como sobrepeso, pero esos umbrales representan líneas estadísticas graduales y no fronteras abruptas. Por ello, además de la etiqueta, la herramienta muestra el intervalo concreto de peso en kilos o libras que sitúa tu altura entre 18,5 y 24,9.
+    </p>
+  </section>
+
+  <section id="ejemplos">
+    <h2>Ejemplos prácticos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>70 kg con 175 cm.</strong> El cálculo es 70 / (1,75)² = 22,9, cómodamente dentro de la zona saludable de 18,5 a 24,9. El rango saludable para 175 cm se sitúa entre 56,7 kg y 76,3 kg.</p>
+    <p><strong>90 kg con 170 cm.</strong> Resulta en 90 / (1,70)² = 31,1, dentro de la franja de obesidad; la herramienta indica cuántos kilogramos separan ese valor del límite saludable superior.</p>
+    <p><strong>154 lb con 69 pulgadas.</strong> Al convertir al sistema métrico equivale aproximadamente a un IMC de 22,7, idéntico al obtenido directamente en kilogramos y centímetros.</p>
+  </section>
+
+  <section id="limites">
+    <h2>Qué no mide el IMC <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Como el IMC solo emplea peso y estatura, no distingue el tejido muscular de la grasa corporal ni indica dónde se acumula esa grasa. Por ese motivo puede sobrestimar el riesgo en deportistas muy musculados y subestimarlo en personas mayores que han perdido masa muscular. Tampoco sirve para menores de 18 años, donde se usan tablas pediátricas de percentiles por edad y sexo. Tómalo como un primer indicador orientativo y acompáñalo de una estimación de grasa corporal o perímetro de cintura cuando necesites mayor precisión.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Una orientación rápida, no un diagnóstico">
+      <p>El IMC responde bien si conviene observar un peso más de cerca, pero no evalúa la salud individual por sí solo. Úsalo como punto de partida junto a otros datos clínicos.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="errores-frecuentes">
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Interpretar el IMC como un diagnóstico médico">
+      <p>
+        Situarse en la banda de sobrepeso es un dato orientativo, no un diagnóstico clínico. Composición corporal, condición física, análisis sanguíneos e historial médico cuentan por igual.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Mezclar unidades métricas e imperiales">
+      <p>
+        Escribir el peso en libras dejando la estatura en centímetros produce un resultado absurdo. Elige métrico o imperial en el selector superior antes de escribir ambas cifras.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Deportistas y personas mayores">
+      <p>Dado que no diferencia músculo y grasa, el IMC tiende a sobrevalorar el riesgo en personas muy musculosas y a infravalorarlo tras pérdida muscular. Todo se calcula localmente en tu navegador sin enviar datos.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

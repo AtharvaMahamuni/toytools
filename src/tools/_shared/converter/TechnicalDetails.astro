@@ -3,15 +3,24 @@
 // Rendered statically from the engine's `technical` rows (algorithm, RFC, output
 // format, limitations). Extensible: any provider can list as many rows as it likes.
 import type { TechnicalEntry } from '@lib/engines/transform/types';
+import type { LocaleCode } from '@data/locales';
+
 interface Props {
   technical?: TechnicalEntry[];
+  lang?: LocaleCode;
 }
-const { technical } = Astro.props;
+const { technical, lang = 'en' } = Astro.props;
+const summaryByLocale: Record<LocaleCode, string> = {
+  en: 'Technical details',
+  es: 'Detalles técnicos',
+  de: 'Technische Details',
+  fr: 'Détails techniques',
+};
 ---
 
 {technical && technical.length > 0 && (
   <details class="widget-details conv-tech">
-    <summary>Technical details</summary>
+    <summary>{summaryByLocale[lang]}</summary>
     <dl class="conv-tech-list">
       {technical.map((entry) => (
         <div class="conv-tech-row">

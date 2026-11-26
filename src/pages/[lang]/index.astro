@@ -1,0 +1,418 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { BRAND_NAME, siteUrl } from '@config/site';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import HeroSearch from '@components/HeroSearch.astro';
+import CategoryIndex from '@components/CategoryIndex.astro';
+import NewBadgeExpiry from '@components/NewBadgeExpiry.astro';
+import ToolDirectory from '@components/ToolDirectory.astro';
+import CategoryChips from '@components/CategoryChips.astro';
+import { tools } from '@data/registry';
+import { engineRegistry, knownPatterns } from '@data/engines';
+import { pagePath, withBase } from '@lib/paths';
+import { ORG_ID } from '@lib/schema/identity';
+import XAccountLink from '@components/XAccountLink.astro';
+import { ACTIVE_LOCALES, LOCALIZED_LOCALES } from '@data/locales';
+import { generateLocalizedPageTitle, getUiStrings } from '@data/i18n/index';
+import { pageHreflangLinks, switcherAlternatesForPath } from '@lib/i18n/registry';
+import type { LocalizedLocale } from '@lib/i18n/types';
+
+export const getStaticPaths = (() => {
+  return LOCALIZED_LOCALES.map(lang => ({
+    params: { lang },
+    props: { lang },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  lang: LocalizedLocale;
+}
+
+const { lang } = Astro.props;
+const ui = getUiStrings(lang);
+
+const HOME_COPY: Record<LocalizedLocale, {
+  h1Line1: string;
+  h1Line2: string;
+  tagline: string;
+  statTools: string;
+  statPrivacy: string;
+  statOffline: string;
+  intro: string;
+  favorites: string;
+  recent: string;
+  browseAll: string;
+  platformSummary: string;
+  platformHeading: string;
+  platformLede: string;
+  facts: { title: string; body: string }[];
+  platformLink: string;
+  mapLink: string;
+}> = {
+  es: {
+    h1Line1: 'Calcula, convierte y formatea.',
+    h1Line2: 'Directo en tu navegador.',
+    tagline: 'Tu caja de herramientas web. Ábrela, resuelve la tarea al instante y cierra la pestaña.',
+    statTools: `${tools.length} herramientas`,
+    statPrivacy: 'Sin subir archivos',
+    statOffline: 'Funciona sin conexión tras abrirse',
+    intro: `Una sola plataforma con ${tools.length} puertas de acceso. Cada utilidad funciona sobre los mismos motores probados y las mismas reglas de privacidad: abre al instante, calcula en tu dispositivo y mantiene tus datos contigo sin cuentas ni registros.`,
+    favorites: 'Favoritos:',
+    recent: 'Recientes:',
+    browseAll: `Explorar las ${tools.length} herramientas`,
+    platformSummary: `Una plataforma, ${tools.length} utilidades: cómo está construida`,
+    platformHeading: `No son ${tools.length} herramientas aisladas`,
+    platformLede: `Es una única plataforma con ${tools.length} interfaces. La lógica vive en ${engineRegistry.length} motores compartidos para que cada mejora y validación beneficie a todo el catálogo a la vez.`,
+    facts: [
+      { title: `${engineRegistry.length} motores, ${knownPatterns.size} patrones`, body: 'Las fórmulas y validaciones residen en motores auditados, no duplicadas por página.' },
+      { title: 'Un entorno ligero', body: 'Estado local, atajos, búsqueda y modo oscuro compartidos. Cada página descarga solo su motor.' },
+      { title: 'Sin servidores intermedios', body: 'No hay base de datos ni servidor de aplicación detrás de cada cálculo. Todo corre en tu navegador.' },
+      { title: 'Presupuesto de peso verificado', body: 'Cada página tiene un límite estricto de kilobytes controlado en compilación.' },
+    ],
+    platformLink: 'Cómo funciona la plataforma',
+    mapLink: 'Ver mapa técnico',
+  },
+  de: {
+    h1Line1: 'Rechnen, umwandeln, formatieren.',
+    h1Line2: 'Direkt im Browser.',
+    tagline: 'Der kompakte Werkzeugkasten im Netz. Öffnen, Aufgabe erledigen und Tab wieder schließen.',
+    statTools: `${tools.length} Tools`,
+    statPrivacy: 'Kein Upload Ihrer Eingaben',
+    statOffline: 'Nach dem Öffnen offline nutzbar',
+    intro: `Eine Plattform, ${tools.length} spezialisierte Werkzeuge. Jedes Tool nutzt dieselben geprüften Engines und Datenschutzregeln: Es startet sofort, rechnet lokal auf Ihrem Gerät und verlangt weder Konto noch Anmeldung.`,
+    favorites: 'Favoriten:',
+    recent: 'Zuletzt genutzt:',
+    browseAll: `Alle ${tools.length} Tools durchsuchen`,
+    platformSummary: `Eine Plattform, ${tools.length} Oberflächen: so ist sie aufgebaut`,
+    platformHeading: `Keine ${tools.length} getrennten Einzelprogramme`,
+    platformLede: `Hinter allen ${tools.length} Seiten steht eine gemeinsame Architektur mit ${engineRegistry.length} getesteten Engines, einheitlicher Bedienung und strenger lokaler Datenverarbeitung.`,
+    facts: [
+      { title: `${engineRegistry.length} Engines, ${knownPatterns.size} Muster`, body: 'Rechenlogik steckt zentral in getesteten Modulen statt verstreut in Einzelseiten.' },
+      { title: 'Schlanke Laufzeit', body: 'Suchpalette, Tastenkürzel und Dark Mode kommen aus dem Kern; jedes Tool lädt nur seine Engine.' },
+      { title: 'Keine Server-Verarbeitung', body: 'Kein Anwendungsserver und keine Datenbank im Hintergrund. Die Berechnung bleibt im Browser.' },
+      { title: 'Kontrollierte Ladebudgets', body: 'Jede Seite unterliegt beim Build festen Größenlimits für CSS, HTML und JavaScript.' },
+    ],
+    platformLink: 'Aufbau der Plattform',
+    mapLink: 'Architektur-Karte ansehen',
+  },
+  fr: {
+    h1Line1: 'Calculez, convertissez, formatez.',
+    h1Line2: 'Dans votre navigateur.',
+    tagline: 'La boîte à outils du web. Ouvrez, réglez votre tâche en quelques secondes et refermez l\'onglet.',
+    statTools: `${tools.length} outils`,
+    statPrivacy: 'Aucun envoi vers un serveur',
+    statOffline: 'Fonctionne hors ligne une fois ouvert',
+    intro: `Une plateforme unique donnant accès à ${tools.length} outils ciblés. Chaque utilitaire partage les mêmes moteurs vérifiés et la même règle de confidentialité : démarrage instantané, calcul local sur votre appareil et aucun compte requis.`,
+    favorites: 'Favoris :',
+    recent: 'Récents :',
+    browseAll: `Parcourir les ${tools.length} outils`,
+    platformSummary: `Une plateforme, ${tools.length} outils : son architecture`,
+    platformHeading: `Ce ne sont pas ${tools.length} sites séparés`,
+    platformLede: `Une même base technique alimente les ${tools.length} outils via ${engineRegistry.length} moteurs testés, garantissant fiabilité, sobriété et respect strict des données locales.`,
+    facts: [
+      { title: `${engineRegistry.length} moteurs, ${knownPatterns.size} modèles`, body: 'La logique mathématique et technique est mutualisée dans des moteurs testés.' },
+      { title: 'Exécution légère', body: 'Recherche, raccourcis et thème sombre sont partagés ; chaque page ne charge que son moteur.' },
+      { title: 'Aucun serveur applicatif', body: 'Aucune base de données distante : vos entrées sont traitées localement dans votre navigateur.' },
+      { title: 'Budgets de poids vérifiés', body: 'Chaque page respecte des plafonds stricts de CSS, HTML et JavaScript contrôlés à chaque build.' },
+    ],
+    platformLink: 'Découvrir la plateforme',
+    mapLink: 'Voir la carte technique',
+  },
+};
+
+const copy = HOME_COPY[lang];
+const siteHref = siteUrl(Astro.site).href;
+const homeHref = pagePath('/', lang);
+const homeAbs = new URL(homeHref, siteHref).href;
+const searchBaseAbs = new URL(pagePath('/search/', lang), siteHref).href;
+const hreflangLinks = pageHreflangLinks('/', Astro.site);
+const switcherAlternates = switcherAlternatesForPath(loc => pagePath('/', loc), ACTIVE_LOCALES);
+---
+
+<BaseLayout
+  title={generateLocalizedPageTitle('home', undefined, lang)}
+  description={ui.home.description}
+  maxWidth="shell"
+  lang={lang}
+  hreflangLinks={hreflangLinks}
+  switcherAlternates={switcherAlternates}
+>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: BRAND_NAME,
+    url: homeAbs,
+    inLanguage: lang,
+    description: ui.home.description,
+    publisher: { '@id': ORG_ID },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${searchBaseAbs}?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  })} />
+
+  <section class="hero">
+    <h1>{copy.h1Line1}<br class="h1-break" /> {copy.h1Line2}</h1>
+    <p class="hero-tagline">{copy.tagline}</p>
+    <HeroSearch lang={lang} />
+    <p class="hero-sub">
+      <span>{copy.statTools}</span>
+      <span aria-hidden="true">·</span>
+      <span>{copy.statPrivacy}</span>
+      <span aria-hidden="true">·</span>
+      <span>{copy.statOffline}</span>
+    </p>
+  </section>
+
+  <p class="hero-intro">{copy.intro}</p>
+
+  <p class="recent-row" id="favorite-row" hidden>
+    <span class="recent-label">{copy.favorites}</span>
+    <span id="favorite-chips"></span>
+  </p>
+
+  <p class="recent-row" id="recent-row" hidden>
+    <span class="recent-label">{copy.recent}</span>
+    <span id="recent-chips"></span>
+  </p>
+
+  <section class="section">
+    <CategoryIndex lang={lang} />
+  </section>
+
+  <details class="all-tools">
+    <summary class="all-tools-summary">{copy.browseAll}</summary>
+    <div class="all-tools-body">
+      <CategoryChips allHref={homeHref} target="dir" lang={lang} />
+      <ToolDirectory lang={lang} />
+    </div>
+  </details>
+
+  <details class="platform-strip">
+    <summary class="platform-summary">
+      <span class="strip-eyebrow-inline">{ui.tool.poweredBy}</span>
+      <span class="platform-summary-text">{copy.platformSummary}</span>
+    </summary>
+    <div class="platform-body" aria-labelledby="platform-heading">
+      <p class="strip-eyebrow">{ui.tool.poweredBy} <XAccountLink /></p>
+      <h2 id="platform-heading">{copy.platformHeading}</h2>
+      <p class="strip-lede">{copy.platformLede}</p>
+      <ul class="strip-facts">
+        {copy.facts.map(f => (
+          <li>
+            <strong>{f.title}</strong>
+            <span>{f.body}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="strip-links">
+        <a href={pagePath('/platform/', lang)}>{copy.platformLink}</a>
+        <span aria-hidden="true">·</span>
+        <a href={withBase('/architecture/')}>{copy.mapLink}</a>
+      </p>
+    </div>
+  </details>
+
+  <script is:inline>
+    (function () {
+      function findLink(slug) {
+        var direct = document.querySelector('.dir-link[data-slug="' + slug + '"]');
+        if (direct) return direct;
+        var groups = document.querySelectorAll('.dir-link[data-group-slugs]');
+        for (var i = 0; i < groups.length; i++) {
+          var slugs = (groups[i].getAttribute('data-group-slugs') || '').split(',');
+          if (slugs.indexOf(slug) !== -1) return groups[i];
+        }
+        return null;
+      }
+
+      function renderRow(slugs, chipsId, rowId, limit) {
+        var chips = document.getElementById(chipsId);
+        var row = document.getElementById(rowId);
+        if (!chips || !row || !slugs.length) return;
+
+        var added = 0;
+        var seen = {};
+        slugs.forEach(function (slug) {
+          if (added >= limit || !slug) return;
+          var link = findLink(slug);
+          if (!link || seen[link.getAttribute('href')]) return;
+          seen[link.getAttribute('href')] = true;
+          if (added > 0) {
+            var sep = document.createElement('span');
+            sep.className = 'recent-sep';
+            sep.setAttribute('aria-hidden', 'true');
+            sep.textContent = '·';
+            chips.appendChild(sep);
+          }
+          var a = link.cloneNode(true);
+          a.className = 'recent-chip';
+          chips.appendChild(a);
+          added++;
+        });
+        if (added > 0) row.hidden = false;
+      }
+
+      var TT = window.ToyTools;
+      var favorites = (TT && TT.favorites) ? TT.favorites.list() : [];
+      var recent = (TT && TT.getRecent) ? TT.getRecent() : [];
+
+      renderRow(favorites, 'favorite-chips', 'favorite-row', 6);
+      renderRow(
+        recent.map(function (e) { return e && e.slug; }).filter(function (slug) {
+          return slug && favorites.indexOf(slug) === -1;
+        }),
+        'recent-chips', 'recent-row', 5
+      );
+    })();
+  </script>
+  <NewBadgeExpiry />
+</BaseLayout>
+
+<style>
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+    padding: var(--space-12) 0;
+  }
+
+  @media (min-width: 1024px) {
+    .hero {
+      padding-block: var(--space-20);
+    }
+  }
+
+  .hero h1 {
+    font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
+    font-weight: 400;
+    letter-spacing: -0.72px;
+    margin: 0;
+    line-height: var(--leading-tight);
+    max-width: 22ch;
+    color: var(--color-text);
+  }
+
+  .h1-break { display: none; }
+  @media (min-width: 640px) { .h1-break { display: inline; } }
+
+  .hero-tagline {
+    font-size: clamp(var(--text-base), 2.5vw, var(--text-xl));
+    color: var(--color-text-muted);
+    max-width: 44ch;
+    margin: 0;
+    line-height: var(--leading-relaxed);
+  }
+
+  .hero-intro {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+    margin: 0 0 var(--space-8);
+  }
+
+  .hero-sub {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+    max-width: unset;
+    margin: 0;
+  }
+
+  .recent-row[hidden] { display: none; }
+  .recent-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    font-size: var(--text-sm);
+    margin: 0 0 var(--space-8);
+    max-width: unset;
+  }
+  .recent-label { color: var(--color-text-subtle); }
+  .recent-row :global(.recent-chip) {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .recent-row :global(.recent-chip:hover) { color: var(--color-text); text-decoration: underline; }
+  .recent-row :global(.recent-sep) { color: var(--color-text-subtle); margin-inline: var(--space-1); user-select: none; }
+
+  .platform-strip {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-12);
+    border-top: var(--border);
+  }
+  .platform-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+    min-height: var(--touch-target);
+    cursor: pointer;
+    list-style: none;
+    transition: var(--transition-color);
+  }
+  .platform-summary::-webkit-details-marker { display: none; }
+  .platform-summary:hover .platform-summary-text { color: var(--color-text); }
+  .strip-eyebrow-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-subtle);
+  }
+  .platform-summary-text { font-size: var(--text-sm); color: var(--color-text-muted); }
+  .platform-body { padding-top: var(--space-6); }
+  .strip-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-subtle);
+    margin: 0 0 var(--space-2);
+  }
+  .strip-eyebrow :global(.x-account) { margin-left: var(--space-2); }
+  .platform-strip h2 { margin: 0; }
+  .strip-lede { margin: var(--space-3) 0 0; color: var(--color-text-muted); line-height: var(--leading-relaxed); }
+  .strip-facts { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-6); }
+  @media (min-width: 640px) {
+    .strip-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6) var(--space-8); }
+  }
+  .strip-facts li { min-width: 0; display: flex; flex-direction: column; gap: var(--space-1); }
+  .strip-facts strong { font-size: var(--text-base); font-weight: var(--font-weight-semibold); color: var(--color-text); }
+  .strip-facts span { font-size: var(--text-sm); color: var(--color-text-muted); line-height: var(--leading-relaxed); }
+  .strip-links { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); margin: var(--space-6) 0 0; font-size: var(--text-sm); max-width: unset; }
+  .section { padding-bottom: var(--space-8); }
+  .all-tools { padding-top: var(--space-8); border-top: var(--border); }
+  .all-tools-summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--touch-target);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    list-style: none;
+    transition: var(--transition-color);
+  }
+  .all-tools-summary::-webkit-details-marker { display: none; }
+  .all-tools-summary::before { content: '+'; font-size: var(--text-base); line-height: 1; color: var(--color-text-subtle); }
+  .all-tools[open] .all-tools-summary::before { content: '−'; }
+  .all-tools-summary:hover, .all-tools-summary:active { color: var(--color-text); }
+  .all-tools-body { padding-top: var(--space-6); }
+</style>

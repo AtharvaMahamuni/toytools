@@ -1,0 +1,158 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+
+const exampleData = { user: { id: 1, name: 'Alice', roles: ['admin', 'editor'], active: true } };
+const compactJsonExample    = JSON.stringify(exampleData);
+const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="de"
+>
+
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      JSON-Formatierung (Pretty-Printing) wandelt kompaktes JSON mithilfe von Einrückungen und Zeilenumbrüchen in ein gut lesbares Format um. Die eigentlichen Daten bleiben völlig unverändert, lediglich die Leerzeichen ändern sich.
+    </p>
+    <p>
+      Ideal, um minimierte API-Antworten oder Konfigurationsdateien vor dem Debugging übersichtlich zu machen.
+    </p>
+    <a href={toolHref} class="cta-link">JSON-Formatierer online öffnen</a>
+  </section>
+
+  <section id="was-ist-json-formatierung">
+    <h2>Was ist JSON-Formatierung? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      JSON (JavaScript Object Notation) ist ein Textformat für strukturierte Daten. Ein Parser verarbeitet eine kompakte Einzelzeile genauso wie ein mehrzeiliges Dokument über hunderte Zeilen. APIs und Datenpipelines liefern meist kompaktes JSON, weil kleinere Antworten schneller übertragen werden.
+    </p>
+    <p>
+      Für Maschinen ist das optimal, doch für Menschen erfordert eine unformatierte Zeile wie
+      <code>{compactJsonExample}</code>
+      mühsames Suchen. Ein JSON-Formatierer prüft zunächst die Syntax und rückt anschließend Ihre Original-Tokens einheitlich neu ein, ohne Werte neu zu serialisieren:
+    </p>
+    <pre class="json-example"><code>{formattedJsonExample}</code></pre>
+    <p>
+      Dieselben Daten, bessere Darstellung. Die Baumstruktur ist auf einen Blick erkennbar.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Leerraum verändert kein JSON">
+      <p>JSON-Parser ignorieren Leerzeichen und Zeilenumbrüche zwischen Tokens. Eine formatierte und eine minifizierte Version derselben JSON-Datei sind inhaltlich zu 100% identisch.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="warum-das-wichtig-ist">
+    <h2>Warum das in der Praxis wichtig ist <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Formatiertes JSON ist ein unverzichtbares Werkzeug bei der Fehlersuche. Wenn eine Schnittstelle unerwartete Daten liefert oder eine Konfiguration nicht greift, legt das Einrücken Verschachtelungsfehler und fehlende Felder sofort offen.
+    </p>
+    <p>
+      Ebenso entscheidend ist es für Code-Reviews: Ein Git-Diff über formatiertes JSON zeigt genau jede geänderte Eigenschaft, während ein Diff über eine einzelne minimierte Zeile kaum prüfbar ist.
+    </p>
+    <p>
+      Deshalb liegen Konfigurationsdateien im Repository fast immer formatiert vor, während die Minifizierung erst im Build- oder Auslieferungsschritt erfolgt.
+    </p>
+  </section>
+
+  <section id="anwendungsfaelle">
+    <h2>Wann man einen JSON-Formatierer einsetzt <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>
+        <strong>API-Antworten debuggen</strong>: Kopieren Sie die rohe Netzwerkantwort aus den Entwicklertools in den Formatierer, um verschachtelte Objekte sofort lesbar zu machen.
+      </li>
+      <li>
+        <strong>Konfigurationsdateien prüfen</strong>: Minimierte Ausgaben von <code>tsconfig.json</code>, <code>package-lock.json</code> oder gebündelte Einstellungen lassen sich mit sauberer 2-Leerzeichen-Einrückung mühelos lesen.
+      </li>
+      <li>
+        <strong>Webhook-Payloads aus Logs auswerten</strong>: Rohdaten aus Serverprotokollen lassen sich nach dem Formatieren deutlich schneller auf bestimmte Schlüssel prüfen.
+      </li>
+      <li>
+        <strong>Vor dem Commit in die Versionsverwaltung</strong>: Einheitlich eingerücktes JSON sorgt für saubere Commits und nachvollziehbare Pull Requests.
+      </li>
+    </ul>
+  </section>
+
+  <section id="haeufige-fehler">
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Ungültiges JSON formatieren wollen">
+      <p>
+        Vor dem Einrücken prüft der Formatierer die Syntax. Fehlt ein Anführungszeichen, steht ein nachgestelltes Komma oder werden einfache Anführungszeichen genutzt, schlägt das Parsen fehl. Nutzen Sie den <a href={toolPathBySlug('json-validator')}>JSON-Validator</a>, um die fehlerhafte Stelle genau einzugrenzen.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Formatiertes JSON auf produktiven Hochlast-Pfaden speichern">
+      <p>
+        Formatierung hilft Entwicklern, kostet aber Übertragungsvolumen. Für stark frequentierte APIs oder Caches empfiehlt sich kompaktes JSON, während formatiertes JSON in der Entwicklung und Analyse eingesetzt wird.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="JSON.stringify serialisiert neu, dieser Formatierer nicht">
+      <p>
+        In JavaScript baut <code>JSON.stringify(JSON.parse(text), null, 2)</code> den Text aus geparsten Werten neu auf: Ganzzahlen über 2<sup>53</sup> werden gerundet, <code>1.0</code> wird zu <code>1</code>, <code>1e5</code> zu <code>100000</code> und doppelte Schlüssel verlieren ältere Werte. Dieses Tool nutzt <code>JSON.parse</code> nur zur Syntaxprüfung und rückt Ihre Original-Tokens verlustfrei ein.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="verwandte-tools">
+    <h2>Verwandte Werkzeuge <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-minifier')}>JSON Minifier</a>: Formatiertes JSON für produktive API-Antworten wieder komprimieren.</li>
+      <li><a href={toolPathBySlug('json-validator')}>JSON Validator</a>: Syntax vor dem Formatieren gezielt auf Fehler überprüfen.</li>
+    </ul>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+
+  .json-example {
+    background: var(--color-surface-2);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4);
+    font-size: var(--text-sm);
+    overflow-x: auto;
+    line-height: 1.6;
+  }
+</style>

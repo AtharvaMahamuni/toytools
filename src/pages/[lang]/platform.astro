@@ -1,0 +1,162 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { pagePath, categoryPath } from '@lib/paths';
+import { tools } from '@data/registry';
+import { categories } from '@data/categories';
+import { engineRegistry, knownPatterns } from '@data/engines';
+import XAccountLink from '@components/XAccountLink.astro';
+import { ACTIVE_LOCALES, LOCALIZED_LOCALES } from '@data/locales';
+import { generateLocalizedPageTitle, getUiStrings, localizeCategory } from '@data/i18n/index';
+import { pageHreflangLinks, switcherAlternatesForPath } from '@lib/i18n/registry';
+import type { LocalizedLocale } from '@lib/i18n/types';
+
+export const getStaticPaths = (() =>
+  LOCALIZED_LOCALES.map(lang => ({ params: { lang }, props: { lang } }))
+) satisfies GetStaticPaths;
+
+interface Props {
+  lang: LocalizedLocale;
+}
+
+const { lang } = Astro.props;
+const ui = getUiStrings(lang);
+
+const toolCount = tools.length;
+const engineCount = engineRegistry.length;
+const patternCount = knownPatterns.size;
+const categoryCount = categories.length;
+const enginesByReach = [...engineRegistry].sort(
+  (a, b) => b.toolCount - a.toolCount || a.name.localeCompare(b.name),
+);
+
+const COPY: Record<LocalizedLocale, {
+  description: string;
+  h1: string;
+  lede: string;
+  stats: [string, string, string, string];
+  enginesHeading: string;
+  enginesIntro: string;
+  guaranteesHeading: string;
+  guarantees: { title: string; body: string }[];
+}> = {
+  es: {
+    description: 'ToyTools es una plataforma unificada: motores probados, un entorno ligero en el navegador y garantías de privacidad compartidas por todas las utilidades.',
+    h1: 'La plataforma detrás de las herramientas',
+    lede: `Cada herramienta lleva el sello de la misma arquitectura: ${engineCount} motores compartidos, un único núcleo de navegador y verificaciones automáticas que dan soporte a las ${toolCount} herramientas.`,
+    stats: ['Motores', 'Patrones', 'Categorías', 'Herramientas'],
+    enginesHeading: 'Motores compartidos',
+    enginesIntro: 'Cada motor concentra las fórmulas, conversiones y validaciones para todo un conjunto de herramientas.',
+    guaranteesHeading: 'Garantías compartidas',
+    guarantees: [
+      { title: 'Cálculo local', body: 'Sin servidor de aplicaciones: tus datos permanecen en tu navegador.' },
+      { title: 'Presupuestos de peso', body: 'Cada compilación verifica límites estrictos de CSS, JS y HTML.' },
+      { title: 'Accesibilidad y teclado', body: 'Paleta de búsqueda, contraste AA y navegación por teclado en todo el sitio.' },
+    ],
+  },
+  de: {
+    description: 'ToyTools ist eine einheitliche Browser-Plattform aus getesteten Engines, schlanker Laufzeit und klaren Datenschutzgarantien.',
+    h1: 'Die Plattform hinter den Tools',
+    lede: `Alle ${toolCount} Werkzeuge basieren auf derselben Grundlage: ${engineCount} getrennte Engines, eine gemeinsame Laufzeit und automatische Budget-Prüfungen.`,
+    stats: ['Engines', 'Muster', 'Kategorien', 'Tools'],
+    enginesHeading: 'Geteilte Engines',
+    enginesIntro: 'Jede Engine bündelt geprüfte Rechenlogik und Validierungen für eine ganze Tool-Familie.',
+    guaranteesHeading: 'Gemeinsame Garantien',
+    guarantees: [
+      { title: 'Lokale Ausführung', body: 'Kein Anwendungsserver: Eingaben werden direkt im Browser verarbeitet.' },
+      { title: 'Strenge Ladebudgets', body: 'Jeder Build prüft Obergrenzen für CSS, HTML und JavaScript.' },
+      { title: 'Tastatur & Barrierefreiheit', body: 'Einheitliche Suchpalette, Kontrastwerte und Tastaturbedienung.' },
+    ],
+  },
+  fr: {
+    description: 'ToyTools repose sur une plateforme unifiée : moteurs partagés, exécution locale légère et garanties communes à chaque outil.',
+    h1: 'La plateforme derrière les outils',
+    lede: `Chacun des ${toolCount} outils repose sur le même socle technique : ${engineCount} moteurs testés, un noyau navigateur unique et des contrôles de budget automatisés.`,
+    stats: ['Moteurs', 'Modèles', 'Catégories', 'Outils'],
+    enginesHeading: 'Moteurs mutualisés',
+    enginesIntro: 'Chaque moteur regroupe les algorithmes, formules et validations d\'une famille complète d\'outils.',
+    guaranteesHeading: 'Garanties communes',
+    guarantees: [
+      { title: 'Calcul sur votre appareil', body: 'Aucun serveur applicatif : vos saisies restent dans votre navigateur.' },
+      { title: 'Budgets stricts par page', body: 'La compilation vérifie les plafonds CSS, JS et HTML de chaque route.' },
+      { title: 'Accessibilité & clavier', body: 'Palette de recherche rapide, contraste AA et raccourcis unifiés.' },
+    ],
+  },
+};
+
+const c = COPY[lang];
+const homeHref = pagePath('/', lang);
+const abs = (path: string): string =>
+  Astro.site ? new URL(path, Astro.site).href : path;
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: ui.nav.home, item: abs(homeHref) },
+    { '@type': 'ListItem', position: 2, name: ui.footer.platform },
+  ],
+};
+
+const hreflangLinks = pageHreflangLinks('/platform/', Astro.site);
+const switcherAlternates = switcherAlternatesForPath(loc => pagePath('/platform/', loc), ACTIVE_LOCALES);
+---
+
+<BaseLayout
+  title={generateLocalizedPageTitle('platform', undefined, lang)}
+  description={c.description}
+  maxWidth="tool"
+  lang={lang}
+  hreflangLinks={hreflangLinks}
+  switcherAlternates={switcherAlternates}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <article class="page-doc">
+    <p class="eyebrow">{ui.tool.poweredBy} <XAccountLink /></p>
+    <h1>{c.h1}</h1>
+    <p class="lede">{c.lede}</p>
+
+    <dl class="stat-row">
+      <div class="stat"><dt>{c.stats[0]}</dt><dd>{engineCount}</dd></div>
+      <div class="stat"><dt>{c.stats[1]}</dt><dd>{patternCount}</dd></div>
+      <div class="stat"><dt>{c.stats[2]}</dt><dd>{categoryCount}</dd></div>
+      <div class="stat"><dt>{c.stats[3]}</dt><dd>{toolCount}</dd></div>
+    </dl>
+
+    <h2>{c.enginesHeading}</h2>
+    <p>{c.enginesIntro}</p>
+    <ul class="engine-list">
+      {enginesByReach.map(e => {
+        const rawCat = categories.find(cat => cat.slug === e.category);
+        const cat = rawCat ? localizeCategory(rawCat, lang) : null;
+        return (
+          <li>
+            <strong>{e.name}</strong> ({e.toolCount})
+            {cat && <> · <a href={categoryPath(cat, lang)}>{cat.name}</a></>}
+          </li>
+        );
+      })}
+    </ul>
+
+    <h2>{c.guaranteesHeading}</h2>
+    <ul>
+      {c.guarantees.map(g => (
+        <li><strong>{g.title}:</strong> {g.body}</li>
+      ))}
+    </ul>
+  </article>
+</BaseLayout>
+
+<style>
+  .page-doc { padding: var(--space-10) 0 var(--space-12); }
+  .eyebrow { display: inline-flex; align-items: center; gap: 6px; font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-subtle); margin-bottom: var(--space-2); }
+  .lede { font-size: var(--text-lg); color: var(--color-text-muted); margin-top: var(--space-4); }
+  .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: var(--space-4); margin: var(--space-8) 0; padding: var(--space-4); border: var(--border); border-radius: var(--radius-md); background: var(--color-surface); }
+  .stat dt { font-size: var(--text-xs); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em; }
+  .stat dd { font-size: var(--text-2xl); font-weight: var(--font-weight-semibold); font-family: var(--font-mono); margin: var(--space-1) 0 0; }
+  .page-doc h2 { margin-top: var(--space-10); }
+  .page-doc p, .page-doc ul { margin-top: var(--space-4); line-height: var(--leading-relaxed); }
+  .page-doc ul { list-style: disc; padding-left: var(--space-6); }
+  .page-doc li { margin-top: var(--space-2); }
+</style>

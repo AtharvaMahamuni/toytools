@@ -1,0 +1,92 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+  lang="fr"
+>
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Le comptage de mots découpe votre texte selon les espaces et sauts de ligne pour mesurer mots, caractères, phrases, paragraphes et temps de lecture en temps réel. L'objectif de mots intégré affiche immédiatement votre progression sans rien envoyer sur internet.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir le Compteur de Mots →</a>
+  </section>
+
+  <section id="pourquoi-compter-les-mots">
+    <h2>Pourquoi le nombre de mots compte <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Contraintes académiques et concours :</strong> Les dossiers et synthèses imposent des plafonds stricts de mots ou de caractères.</li>
+      <li><strong>Calibrage éditorial et SEO :</strong> Assurer la densité informative sans diluer le propos.</li>
+      <li><strong>Facturation linguistique :</strong> Traducteurs et rédacteurs établissent leurs devis au mot exact.</li>
+    </ul>
+  </section>
+
+  <section id="comment-sont-comptes-les-mots">
+    <h2>Comment les mots sont comptés (et pourquoi les logiciels divergent) <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Les écarts mineurs entre Word, Google Docs et les compteurs web viennent des cas frontières :</p>
+    <ul>
+      <li><strong>Mots avec trait d'union ou apostrophe :</strong> Selon les règles linguistiques ou informatiques, « aujourd'hui » ou « c'est-à-dire » compte pour un ou plusieurs mots ; notre outil considère le bloc complet comme une unité.</li>
+      <li><strong>Nombres et adresses web :</strong> Comptés comme un seul mot.</li>
+      <li><strong>Tirets cadratins sans espace :</strong> Correctement séparés en mots distincts.</li>
+    </ul>
+    <ReferenceBlock type="note" heading="Vérifier les annexes">
+      <p>Pour un devoir universitaire, vérifiez si la bibliographie et les notes de bas de page sont incluses dans le quota imposé.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="caracteres-mots-lecture">
+    <h2>Caractères, mots et temps de lecture <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Les formulaires, SMS et balises meta limitent les <strong>caractères</strong> (espaces compris), alors que mémoires et articles raisonnent en <strong>mots</strong>. Le temps de lecture divise le total des mots par une moyenne de 200 mots par minute.
+    </p>
+  </section>
+
+  <section id="erreurs-courantes">
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>Compter sur un texte copié d'un PDF contenant des espaces multiples ou des sauts parasites.</li>
+      <li>Confondre limite de mots et limite de caractères.</li>
+      <li>Ignorer les répétitions lexicales révélées par le classement fréquentiel.</li>
+    </ul>
+    <p>Pour comparer deux versions après relecture, utilisez notre <a href={toolPathBySlug('text-compare', 'fr')}>Comparateur de Textes</a>.</p>
+  </section>
+
+  <section id="histoire">
+    <h2>Bref historique du comptage automatique <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Avant l'informatique, on estimait les feuillets par moyenne de signes par ligne. Dès les années 1970, la commande Unix <code>wc</code> a standardisé le comptage instantané de lignes, mots et octets.</p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

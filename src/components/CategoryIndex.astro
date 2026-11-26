@@ -12,6 +12,16 @@ import { tools } from '@data/registry';
 import { categoryPath } from '@lib/paths';
 import { freshUntil } from '@lib/tools/freshness';
 import AppTile from '@components/AppTile.astro';
+import type { LocaleCode } from '@data/locales';
+import { getUiStrings, localizeCategory } from '@data/i18n/index';
+import { hasLocalizedTool, localizeTool } from '@lib/i18n/registry';
+
+interface Props {
+  lang?: LocaleCode;
+}
+
+const { lang = 'en' } = Astro.props;
+const ui = getUiStrings(lang);
 
 /** Hard cap per shelf — matches category.highlights validation and home HTML budget. */
 const TILES_PER_SHELF = 3;
@@ -36,27 +46,33 @@ function tilesFor(category: Category): ShelfTile[] {
     .map(slug => bySlug.get(slug))
     .filter((t): t is ToolConfig => Boolean(t));
   const picked = chosen.length > 0 ? chosen : categoryTools.slice(0, TILES_PER_SHELF);
-  return picked.slice(0, TILES_PER_SHELF).map(t => ({
-    slug: t.slug,
-    name: t.name,
-    tagline: t.tagline || t.description,
-    newUntil: freshUntil(t.addedOn),
-  }));
+  return picked.slice(0, TILES_PER_SHELF).map(raw => {
+    const t = hasLocalizedTool(raw.slug, lang) ? localizeTool(raw, lang) : raw;
+    return {
+      slug: t.slug,
+      name: t.name,
+      tagline: t.tagline || t.description,
+      newUntil: freshUntil(t.addedOn),
+    };
+  });
 }
 
-const shelves = categories.map(category => ({
-  slug: category.slug,
-  name: category.name,
-  href: categoryPath(category),
-  tagline: labelFor(category),
-  count: category.toolCount,
-  accent: category.accent,
-  segment: category.segment,
-  tiles: tilesFor(category),
-}));
+const shelves = categories.map(rawCat => {
+  const category = localizeCategory(rawCat, lang);
+  return {
+    slug: category.slug,
+    name: category.name,
+    href: categoryPath(category, lang),
+    tagline: labelFor(category),
+    count: category.toolCount,
+    accent: category.accent,
+    segment: category.segment,
+    tiles: tilesFor(rawCat),
+  };
+});
 ---
 
-<div class="category-shelves" aria-label="Browse tools by category">
+<div class="category-shelves" aria-label={ui.home.browseCategories}>
   {shelves.map(shelf => (
     <section
       class="shelf"
@@ -69,7 +85,7 @@ const shelves = categories.map(category => ({
             <span class="shelf-count">{shelf.count}</span>
           </a>
         </h2>
-        <a class="shelf-see-all" href={shelf.href}>See all</a>
+        <a class="shelf-see-all" href={shelf.href}>{ui.home.viewAll}</a>
       </div>
       <p class="shelf-tagline">{shelf.tagline}</p>
       <ul class="shelf-track">
@@ -81,6 +97,7 @@ const shelves = categories.map(category => ({
               tagline={tile.tagline}
               segment={shelf.segment}
               newUntil={tile.newUntil}
+              lang={lang}
             />
           </li>
         ))}

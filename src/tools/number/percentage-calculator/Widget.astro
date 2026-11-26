@@ -2,30 +2,42 @@
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import CraftNote from '@tools/_shared/CraftNote.astro';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { WIDGET_CHROME, uiStr } from '@lib/i18n/widget-utils';
+
+interface Props {
+  lang?: LocaleCode;
+  pack?: LocalizedToolPack | null;
+}
+
+const { lang = 'en', pack = null } = Astro.props;
+const c = WIDGET_CHROME[lang];
+const u = (k: string, fb: string) => uiStr(pack, k, fb);
 ---
 
 <div class="calc-ledger">
 <ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
-  <IoPanel slot="input" label="Values" variant="prose" bare data-tool="percentage-calculator">
+  <IoPanel slot="input" label={u('panelValues', 'Values')} variant="prose" bare data-tool="percentage-calculator">
     <div class="io-body">
-      <label class="widget-label" for="percentage-mode">Calculation</label>
+      <label class="widget-label" for="percentage-mode">{u('lblMode', 'Calculation')}</label>
       <select id="percentage-mode" class="widget-select">
-        <option value="of">What is A% of B?</option>
-        <option value="change">Percentage change from A to B</option>
-        <option value="is">A is what percent of B?</option>
+        <option value="of">{u('optOf', 'What is A% of B?')}</option>
+        <option value="change">{u('optChange', 'Percentage change from A to B')}</option>
+        <option value="is">{u('optIs', 'A is what percent of B?')}</option>
       </select>
-      <label class="widget-label" for="percentage-a">A</label>
-      <input id="percentage-a" class="widget-input" type="number" inputmode="decimal" placeholder="Example: 20" />
-      <label class="widget-label" for="percentage-b">B</label>
-      <input id="percentage-b" class="widget-input" type="number" inputmode="decimal" placeholder="Example: 150" />
+      <label class="widget-label" for="percentage-a">{u('lblA', 'A')}</label>
+      <input id="percentage-a" class="widget-input" type="number" inputmode="decimal" placeholder={u('phA', 'Example: 20')} />
+      <label class="widget-label" for="percentage-b">{u('lblB', 'B')}</label>
+      <input id="percentage-b" class="widget-input" type="number" inputmode="decimal" placeholder={u('phB', 'Example: 150')} />
     </div>
   </IoPanel>
 
-  <IoPanel slot="output" label="Result" variant="prose" result bare>
+  <IoPanel slot="output" label={c.result} variant="prose" result bare>
     <div class="tm-hero" role="status" aria-live="polite" aria-atomic="true">
       <span class="hero-value" id="pct-value">0</span>
-      <span class="hero-label">Result</span>
-      <p class="empty-hint" id="pct-hint">Enter values to calculate.</p>
+      <span class="hero-label">{c.result}</span>
+      <p class="empty-hint" id="pct-hint">{u('emptyHint', 'Enter values to calculate.')}</p>
       <p class="pct-formula" id="pct-formula" hidden></p>
       <CraftNote id="pct-note" craftId="pct-points" />
     </div>
@@ -34,13 +46,20 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
 </div>
 
 <div class="tool-actions">
-  <button class="action-btn action-btn--copy" id="pct-copy" data-label="Copy" type="button">Copy</button>
-  <button class="action-btn action-btn--clear" id="pct-clear" data-label="Clear" type="button">Clear</button>
+  <button class="action-btn action-btn--copy" id="pct-copy" data-label={c.copy} type="button">{c.copy}</button>
+  <button class="action-btn action-btn--clear" id="pct-clear" data-label={c.clear} type="button">{c.clear}</button>
 </div>
 
 
 <script is:inline>
   (function () {
+    var I = {};
+    try {
+      var i18nEl = document.getElementById('tt-i18n');
+      if (i18nEl && i18nEl.textContent) I = JSON.parse(i18nEl.textContent);
+    } catch (_) {}
+    function s(k, fb) { return (typeof I[k] === 'string' && I[k]) ? I[k] : fb; }
+
     var modeEl = document.getElementById('percentage-mode');
     var aEl = document.getElementById('percentage-a');
     var bEl = document.getElementById('percentage-b');
@@ -80,36 +99,34 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       lastResult = '';
       note({});
       valueEl.textContent = '0';
-      if (hintEl) { hintEl.textContent = message || 'Enter values to calculate.'; hintEl.hidden = false; }
+      if (hintEl) { hintEl.textContent = message || s('emptyHint', 'Enter values to calculate.'); hintEl.hidden = false; }
       if (formulaEl) formulaEl.hidden = true;
     }
 
     function calc() {
       var mode = modeEl.value;
       var aRaw = aEl.value, bRaw = bEl.value;
-      if (aRaw === '' || bRaw === '') { showEmpty('Enter values to calculate.'); return; }
+      if (aRaw === '' || bRaw === '') { showEmpty(s('emptyHint', 'Enter values to calculate.')); return; }
       var a = Number(aRaw), b = Number(bRaw);
-      if (!Number.isFinite(a) || !Number.isFinite(b)) { showEmpty('Enter valid numbers.'); return; }
-      if (mode === 'change' && a === 0) { showEmpty('First value cannot be zero.'); return; }
-      if (mode === 'is' && b === 0) { showEmpty('Second value cannot be zero.'); return; }
+      if (!Number.isFinite(a) || !Number.isFinite(b)) { showEmpty(s('errInvalid', 'Enter valid numbers.')); return; }
+      if (mode === 'change' && a === 0) { showEmpty(s('errFirstZero', 'First value cannot be zero.')); return; }
+      if (mode === 'is' && b === 0) { showEmpty(s('errSecondZero', 'Second value cannot be zero.')); return; }
 
       note({ mode: mode, a: a, b: b });
 
       var result, formula;
       if (mode === 'of') {
         result = (a / 100) * b;
-        formula = a + '% of ' + b;
+        formula = s('fmlOf', '{a}% of {b}').replace('{a}', String(a)).replace('{b}', String(b));
       } else if (mode === 'change') {
-        // Divide by |A| so the sign always means up or down, even from a negative baseline:
-        // -20 to 50 is +350%. Same formula as percentChange() in src/lib/number/percent.ts.
         result = ((b - a) / Math.abs(a)) * 100;
-        formula = (result > 0 ? 'Increase' : result < 0 ? 'Decrease' : 'No change') + ' from ' + a + ' to ' + b;
+        var dir = result > 0 ? s('dirIncrease', 'Increase') : result < 0 ? s('dirDecrease', 'Decrease') : s('dirNone', 'No change');
+        formula = s('fmlChange', '{dir} from {a} to {b}').replace('{dir}', dir).replace('{a}', String(a)).replace('{b}', String(b));
       } else {
         result = (a / b) * 100;
-        formula = a + ' is this % of ' + b;
+        formula = s('fmlIs', '{a} is this % of {b}').replace('{a}', String(a)).replace('{b}', String(b));
       }
       var shown = Number(result.toFixed(6));
-      // An increase carries an explicit "+", so the sign reads the same as a decrease's "-".
       show((mode === 'change' && shown > 0 ? '+' : '') + shown.toString() + (mode === 'of' ? '' : '%'), formula);
     }
 
@@ -133,14 +150,14 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     // Copy with success state
     var copyTimer;
     if (copyBtn) copyBtn.addEventListener('click', function () {
-      if (!lastResult) { TT && TT.toast('Nothing to copy!'); return; }
+      if (!lastResult) { TT && TT.toast(s('toastEmptyCopy', 'Nothing to copy!')); return; }
       TT && TT.copy(lastResult);
       copyBtn.classList.add('is-success');
-      copyBtn.textContent = '✓ Copied';
+      copyBtn.textContent = s('btnCopied', '✓ Copied');
       clearTimeout(copyTimer);
       copyTimer = setTimeout(function () {
         copyBtn.classList.remove('is-success');
-        copyBtn.textContent = 'Copy';
+        copyBtn.textContent = s('btnCopy', 'Copy');
       }, 2000);
     });
 
@@ -148,12 +165,12 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     var clearTimer;
     function resetClear() {
       clearTimeout(clearTimer);
-      if (clearBtn) { clearBtn.classList.remove('is-confirming'); clearBtn.textContent = 'Clear'; }
+      if (clearBtn) { clearBtn.classList.remove('is-confirming'); clearBtn.textContent = s('btnClear', 'Clear'); }
     }
     if (clearBtn) clearBtn.addEventListener('click', function () {
       if (!clearBtn.classList.contains('is-confirming')) {
         clearBtn.classList.add('is-confirming');
-        clearBtn.textContent = 'Confirm Clear';
+        clearBtn.textContent = s('btnConfirmClear', 'Confirm Clear');
         clearTimeout(clearTimer);
         clearTimer = setTimeout(resetClear, 3000);
         return;

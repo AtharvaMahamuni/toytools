@@ -1,45 +1,104 @@
 ---
 import { PRIVACY_BADGE, PRIVACY_LINE, privacyStatement } from '@lib/privacy';
+import type { LocaleCode } from '@data/locales';
+import { getUiStrings } from '@data/i18n/index';
 
 interface Props {
   variant?: 'private' | 'offline' | 'local' | 'lookup';
   /** A private work-in-progress tool (config `keepInput`): its typed input is kept on this device. */
   keepInput?: boolean;
+  lang?: LocaleCode;
 }
 
-const { variant = 'private', keepInput = false } = Astro.props;
-// Honest copy for keep-input tools: what you type is saved on this device, never uploaded.
-const KEEP_LINE = 'Your input stays on this device (never uploaded).';
-const keep = keepInput && variant === 'private';
+const { variant = 'private', keepInput = false, lang = 'en' } = Astro.props;
+const t = getUiStrings(lang);
 
-const notices = {
-  private: { badge: PRIVACY_BADGE },
-  offline: { badge: 'Offline ● Works without internet after loading' },
-  local: { badge: 'Local ● Data stored only on this device' },
-  lookup: { badge: 'Lookup ● Your browser asks an IP echo' },
-} as const;
-
-const notice = notices[variant];
-const statement = keep ? `${PRIVACY_LINE} ${KEEP_LINE}` : privacyStatement(variant);
-
-const tooltipLines: Record<string, string[]> = {
-  private: [
-    PRIVACY_LINE,
-    'No account required.',
-    'Nothing stored unless you choose to save it.',
-  ],
-  offline: ['After the first page load, no network connection is needed.'],
-  local:   ['No sync, no cloud. Your data stays on this device.'],
-  lookup:  ['Your browser asks an IP echo for the address the internet already sees.', 'ToyTools never sees the reply, and nothing is stored here.'],
+const KEEP_LINE_BY_LOCALE: Record<LocaleCode, string> = {
+  en: 'Your input stays on this device (never uploaded).',
+  es: 'Tu entrada permanece en este dispositivo (nunca se sube).',
+  de: 'Ihre Eingabe bleibt auf diesem Gerät (kein Upload).',
+  fr: 'Votre saisie reste sur cet appareil (aucun envoi).',
+};
+const CLEAR_LINE_BY_LOCALE: Record<LocaleCode, string> = {
+  en: 'Clear saved input removes it.',
+  es: 'Borrar entrada guardada la elimina.',
+  de: 'Gespeicherte Eingabe löschen entfernt sie.',
+  fr: 'Effacer la saisie enregistrée la supprime.',
 };
 
+const keep = keepInput && variant === 'private';
+const localizedPrivacyLine = lang === 'en' ? PRIVACY_LINE : t.footer.privacyByVariant.private;
+const statement = keep ? `${localizedPrivacyLine} ${KEEP_LINE_BY_LOCALE[lang]}` : (lang === 'en' ? privacyStatement(variant) : t.footer.privacyByVariant[variant]);
+
+const badgesByLocale: Record<LocaleCode, Record<'private' | 'offline' | 'local' | 'lookup', string>> = {
+  en: {
+    private: PRIVACY_BADGE,
+    offline: 'Offline ● Works without internet after loading',
+    local: 'Local ● Data stored only on this device',
+    lookup: 'Lookup ● Your browser asks an IP echo',
+  },
+  es: {
+    private: `Privado ● ${t.footer.privacyByVariant.private.replace(/\.$/, '')}`,
+    offline: 'Sin conexión ● Funciona sin internet tras cargar',
+    local: 'Local ● Datos guardados solo en este dispositivo',
+    lookup: 'Consulta ● Tu navegador consulta un eco de IP',
+  },
+  de: {
+    private: `Privat ● ${t.footer.privacyByVariant.private.replace(/\.$/, '')}`,
+    offline: 'Offline ● Funktioniert nach dem Laden ohne Internet',
+    local: 'Lokal ● Daten nur auf diesem Gerät gespeichert',
+    lookup: 'Abfrage ● Ihr Browser fragt einen IP-Echo-Dienst ab',
+  },
+  fr: {
+    private: `Privé ● ${t.footer.privacyByVariant.private.replace(/\.$/, '')}`,
+    offline: 'Hors ligne ● Fonctionne sans internet après chargement',
+    local: 'Local ● Données conservées sur cet appareil uniquement',
+    lookup: 'Requête ● Votre navigateur interroge un écho IP',
+  },
+};
+
+const tooltipsByLocale: Record<LocaleCode, Record<'private' | 'offline' | 'local' | 'lookup', string[]>> = {
+  en: {
+    private: [PRIVACY_LINE, 'No account required.', 'Nothing stored unless you choose to save it.'],
+    offline: ['After the first page load, no network connection is needed.'],
+    local: ['No sync, no cloud. Your data stays on this device.'],
+    lookup: ['Your browser asks an IP echo for the address the internet already sees.', 'ToyTools never sees the reply, and nothing is stored here.'],
+  },
+  es: {
+    private: [t.footer.privacyByVariant.private, 'Sin cuenta ni registro.', 'Nada se guarda salvo que decidas conservarlo.'],
+    offline: ['Tras la primera carga, no necesita conexión a internet.'],
+    local: ['Sin sincronización ni nube. Tus datos permanecen en este dispositivo.'],
+    lookup: ['Tu navegador consulta un servicio eco para ver la IP pública.', 'ToyTools nunca ve la respuesta y nada se almacena aquí.'],
+  },
+  de: {
+    private: [t.footer.privacyByVariant.private, 'Kein Konto erforderlich.', 'Nichts wird gespeichert, außer Sie wählen es bewusst.'],
+    offline: ['Nach dem ersten Laden ist keine Internetverbindung nötig.'],
+    local: ['Keine Synchronisierung, keine Cloud. Ihre Daten bleiben auf diesem Gerät.'],
+    lookup: ['Ihr Browser fragt einen IP-Echo-Dienst nach Ihrer öffentlichen Adresse.', 'ToyTools sieht die Antwort nie und speichert nichts.'],
+  },
+  fr: {
+    private: [t.footer.privacyByVariant.private, 'Aucun compte requis.', 'Rien n\'est enregistré sauf choix explicite.'],
+    offline: ['Après le premier chargement, aucune connexion n\'est requise.'],
+    local: ['Aucune synchronisation, aucun cloud. Vos données restent sur cet appareil.'],
+    lookup: ['Votre navigateur interroge un service écho IP pour lire votre adresse publique.', 'ToyTools ne voit jamais la réponse et rien n\'est conservé.'],
+  },
+};
+
+const noAccountByLocale: Record<LocaleCode, string> = {
+  en: 'No account required.',
+  es: 'Sin cuenta ni registro.',
+  de: 'Kein Konto erforderlich.',
+  fr: 'Aucun compte requis.',
+};
+
+const noticeBadge = badgesByLocale[lang][variant];
 const lines = keep
-  ? [PRIVACY_LINE, 'No account required.', KEEP_LINE, 'Clear saved input removes it.']
-  : tooltipLines[variant];
+  ? [localizedPrivacyLine, noAccountByLocale[lang], KEEP_LINE_BY_LOCALE[lang], CLEAR_LINE_BY_LOCALE[lang]]
+  : tooltipsByLocale[lang][variant];
 ---
 
-<span class="trust-wrap" data-toast={statement} tabindex="0" role="note" aria-label={notice.badge}>
-  <span class="trust-badge">{notice.badge}</span>
+<span class="trust-wrap" data-toast={statement} tabindex="0" role="note" aria-label={noticeBadge}>
+  <span class="trust-badge">{noticeBadge}</span>
   <span class="trust-tooltip" role="tooltip">
     {lines.map(l => <span class="trust-tooltip-line">{l}</span>)}
   </span>

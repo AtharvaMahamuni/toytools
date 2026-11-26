@@ -1,0 +1,128 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+  lang="fr"
+>
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      La technique Pomodoro consiste à travailler par blocs chronométrés de 25 minutes entrecoupés de pauses courtes de 5 minutes. Toutes les quatre sessions, une pause longue de 15 minutes permet de recharger l'attention. Ce rythme régulier facilite le démarrage et limite la fatigue mentale.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir le Minuteur Pomodoro →</a>
+  </section>
+
+  <section id="pourquoi-se-concentrer-est-difficile">
+    <h2>Pourquoi la concentration s'érode <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Les interruptions cassent l'élan :</strong> Il faut souvent plus de vingt minutes pour retrouver une attention profonde après une notification.</li>
+      <li><strong>Le changement de contexte fatigue :</strong> Passer des e-mails au code augmente le taux d'erreur.</li>
+      <li><strong>Les tâches floues favorisent l'évitement :</strong> Limiter l'engagement à 25 minutes lève l'inertie du départ.</li>
+      <li><strong>La fatigue progresse silencieusement :</strong> Négliger les pauses dégrade la qualité du travail dès la deuxième heure.</li>
+    </ul>
+  </section>
+
+  <section id="fonctionnement-cycle">
+    <h2>Déroulement d'un cycle Pomodoro <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ol>
+      <li><strong>Choisir une tâche unique :</strong> Définissez clairement l'objectif avant de démarrer.</li>
+      <li><strong>Travailler 25 minutes sans interruption :</strong> Notez les pensées parasites sur papier pour y revenir plus tard.</li>
+      <li><strong>Prendre 5 minutes de vraie pause :</strong> Levez-vous, étirez-vous et reposez vos yeux loin des écrans.</li>
+      <li><strong>Faire une pause de 15 minutes après 4 cycles :</strong> Réinitialisez votre attention pour la série suivante.</li>
+    </ol>
+    <ReferenceBlock type="key-idea" heading="La pause n'est pas optionnelle">
+      <p>Quand le signal retentit, arrêtez-vous même au milieu d'une phrase. Respecter la pause protège votre endurance pour la session suivante.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="exemples-pratiques">
+    <h2>Cas d'usage concrets <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h3>Révisions et études</h3>
+    <p>Parfait pour lire un chapitre, résoudre des exercices ou mémoriser des fiches de cours.</p>
+    <h3>Développement logiciel</h3>
+    <p>Efficace pour la correction de bogues et la revue de code ; passez en 50/10 pour les problèmes d'architecture profonds.</p>
+    <h3>Lecture et rédaction</h3>
+    <p>Séparer les blocs de recherche des blocs de rédaction accélère nettement la production de premiers jets.</p>
+  </section>
+
+  <section id="pomodoro-et-tdah">
+    <h2>Pomodoro et TDAH <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Pour de nombreuses personnes atteintes de TDAH, le compte à rebours rend la tâche finie et gérable (« juste 15 ou 25 minutes »), tout en prévenant l'épuisement après des épisodes d'hyperfocalisation.
+    </p>
+  </section>
+
+  <section id="variantes-populaires">
+    <h2>Variantes courantes : 25/5, 50/10 et 90/20 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h3>25/5 : le format standard</h3>
+    <p>Idéal pour démarrer rapidement, gérer ses tâches courantes et éviter les distractions.</p>
+    <h3>50/10 : le bloc approfondi</h3>
+    <p>Adapté aux développeurs, analystes et rédacteurs qui ont besoin d'une immersion plus longue.</p>
+    <h3>90/20 : le rythme ultradien</h3>
+    <p>Calé sur les cycles naturels de vigilance cognitive de 90 minutes.</p>
+  </section>
+
+  <section id="erreurs-courantes">
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Consulter son téléphone pendant la pause :</strong> Les réseaux sociaux sollicitent les mêmes ressources attentionnelles.</li>
+      <li><strong>Empiler les cycles sur des tâches secondaires :</strong> Privilégiez la priorité avant la quantité.</li>
+      <li><strong>Ignorer l'alarme de fin :</strong> Prolonger sans pause ruine la régularité du rythme.</li>
+    </ul>
+  </section>
+
+  <section id="efficacite">
+    <h2>La méthode est-elle vraiment efficace ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Les travaux en ergonomie cognitive confirment que les objectifs courts réduisent la procrastination et que les pauses programmées soutiennent l'attention soutenue.
+    </p>
+  </section>
+
+  <section id="histoire">
+    <h2>Origine de la technique <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Conçue à la fin des années 1980 par Francesco Cirillo à l'aide d'un minuteur de cuisine en forme de tomate.</p>
+  </section>
+
+  <section id="outils-associes">
+    <h2>Outils associés <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('no-sleep-website', 'fr')}>Garder l'écran allumé</a>, empêche la mise en veille de l'écran pendant votre cycle.</li>
+      <li><a href={toolPathBySlug('todo-list')}>Todo List</a>, préparez l'objectif exact de la session.</li>
+      <li><a href={toolPathBySlug('notepad')}>Notepad</a>, notez les idées surgissant en cours de bloc.</li>
+    </ul>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

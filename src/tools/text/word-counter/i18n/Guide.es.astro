@@ -1,0 +1,98 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+  lang="es"
+>
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      El conteo de palabras divide tu texto por separadores visibles como espacios y saltos de línea para devolver cuántas palabras discretas contiene. Nuestro contador de palabras mide en directo palabras, caracteres, frases, párrafos y tiempo estimado de lectura sin salir de tu navegador ni subir tu borrador.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Contador de Palabras →</a>
+  </section>
+
+  <section id="por-que-importa">
+    <h2>Por qué importa el número de palabras <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Límites académicos y becas:</strong> Universidades y formularios de admisión aplican topes estrictos donde superar el límite puede recortar el texto o invalidar la entrega.</li>
+      <li><strong>Extensión editorial y SEO:</strong> Redactores y editores equilibran cobertura temática y claridad controlando la longitud del borrador con un objetivo visual.</li>
+      <li><strong>Tarifas profesionales:</strong> Traductores y correctores presupuestan proyectos por palabra neta.</li>
+    </ul>
+  </section>
+
+  <section id="como-se-cuentan-las-palabras">
+    <h2>Cómo se cuentan las palabras (y por qué difieren las herramientas) <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Aunque parezca trivial, no existe una regla universal idéntica entre procesadores de texto. Los puntos de divergencia habituales son:
+    </p>
+    <ul>
+      <li><strong>Palabras compuestas con guion:</strong> Unos programas cuentan «físico-químico» como una palabra y otros como dos.</li>
+      <li><strong>Guiones largos sin espacios:</strong> Un guion largo pegado entre dos palabras (<code>palabra&#8212;otra</code>) puede unir dos vocablos si solo se divide por espacios; este contador separa en guiones largos y cortos.</li>
+      <li><strong>Números y URL:</strong> Cifras como «2026» y direcciones web cuentan como una sola unidad.</li>
+    </ul>
+    <ReferenceBlock type="note" heading="Cifras frente a citas bibliográficas">
+      <p>Si entregas un trabajo universitario con límite de palabras, comprueba antes en las normas si la portada, las notas al pie y la bibliografía cuentan dentro del total exigido.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="caracteres-palabras-lectura">
+    <h2>Caracteres, palabras y tiempo de lectura <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Cada métrica responde a una restricción diferente. Los formularios web, SMS y meta descripciones restringen <strong>caracteres</strong> (normalmente incluidos los espacios), mientras que ensayos y artículos miden <strong>palabras</strong>. El tiempo de lectura divide el total de palabras entre una tasa estándar de 200 palabras por minuto para prosa general.
+    </p>
+  </section>
+
+  <section id="errores-comunes">
+    <h2>Errores comunes al revisar la extensión <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>Pegar texto con espacios dobles o saltos extraños procedentes de un PDF antes de limpiar el formato.</li>
+      <li>Confiar en el conteo de palabras cuando la plataforma receptora valida por límite exacto de caracteres.</li>
+      <li>Dejar palabras comodín repetidas sin revisar la lista de palabras más frecuentes.</li>
+    </ul>
+    <p>
+      Si quieres comparar dos borradores tras recortar un artículo, utiliza <a href={toolPathBySlug('text-compare', 'es')}>Comparador de Textos</a>.
+    </p>
+  </section>
+
+  <section id="historia">
+    <h2>Breve historia del conteo automático <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Antes de los procesadores digitales, las redacciones estimaban las palabras multiplicando las líneas escritas por un promedio de palabras por línea o midiendo pulgadas de columna. El comando <code>wc</code> de Unix popularizó en los años setenta el conteo automático instantáneo de líneas, palabras y bytes.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

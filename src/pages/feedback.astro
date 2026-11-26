@@ -4,9 +4,11 @@ import FeedbackForm from '@components/feedback/FeedbackForm.astro';
 import FaqAccordion from '@components/tool/FaqAccordion.astro';
 import { generatePageTitle } from '@lib/titles';
 import { categories } from '@data/categories';
-import { withBase, categoryPath } from '@lib/paths';
+import { withBase, categoryPath, pagePath } from '@lib/paths';
 import { BRAND_NAME } from '@config/site';
 import { FEEDBACK_FAQ } from '@lib/feedback/faq';
+import { ACTIVE_LOCALES } from '@data/locales';
+import { pageHreflangLinks, switcherAlternatesForPath } from '@lib/i18n/registry';
 
 // The visible H1 speaks to the person who is already here; the browser and search-result
 // title has to answer the query that brought them. They are separate levers, so each does
@@ -49,12 +51,16 @@ const pageSchema = {
   inLanguage: 'en',
   isPartOf: { '@type': 'WebSite', name: BRAND_NAME },
 };
+const hreflangLinks = pageHreflangLinks('/feedback/', Astro.site);
+const switcherAlternates = switcherAlternatesForPath(loc => pagePath('/feedback/', loc), ACTIVE_LOCALES);
 ---
 
 <BaseLayout
   title={generatePageTitle('feedback')}
   description={description}
   maxWidth="tool"
+  hreflangLinks={hreflangLinks}
+  switcherAlternates={switcherAlternates}
 >
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />

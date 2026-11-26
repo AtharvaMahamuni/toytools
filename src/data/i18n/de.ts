@@ -1,0 +1,238 @@
+import type { SiteUiStrings } from '@lib/i18n/types';
+
+export const DE_UI: SiteUiStrings = {
+  locale: 'de',
+  nav: {
+    home: 'ToyTools',
+    homeAria: 'ToyTools Startseite',
+    searchPlaceholder: 'Tools durchsuchen',
+    searchAria: 'Tools durchsuchen',
+    changelogAria: 'Änderungsprotokoll ansehen',
+    languageLabel: 'Sprache',
+    languageAria: 'Sprache auswählen',
+    themeLabel: 'Design',
+  },
+  footer: {
+    lightweight: 'Leichtgewichtig',
+    lightweightTip: 'Lädt schnell. Keine unnötige Komplexität. Für effizientes Arbeiten gebaut.',
+    privateLabel: 'Privat',
+    privacyByVariant: {
+      private: 'Ihre Eingaben bleiben lokal auf Ihrem Gerät.',
+      offline: 'Funktioniert nach dem ersten Laden auch offline.',
+      local: 'Keine Synchronisierung, keine Cloud. Ihre Daten bleiben auf diesem Gerät.',
+      lookup: 'Ihr Browser fragt einen IP-Echo-Dienst ab. ToyTools sieht die Antwort nicht.',
+    },
+    contactAndFeedback: 'Kontakt und Feedback',
+    platform: 'Plattform',
+    about: 'Über uns',
+    privacy: 'Datenschutz',
+    terms: 'Nutzungsbedingungen',
+    changelog: 'Changelog',
+    settings: 'Einstellungen',
+    shortcuts: 'Tastenkürzel',
+    siteInfoAria: 'Seiteninformationen',
+    madeBy: 'Erstellt von',
+  },
+  tool: {
+    moreAbout: 'Mehr über das Tool',
+    moreAboutAria: 'Mehr über {name}',
+    usesOf: 'Anwendungen für {concept}',
+    pitfallsOf: 'Typische Fehler bei {concept}',
+    questionsOf: 'Fragen zu {concept}',
+    relatedTo: 'Verwandte Tools zu {concept}',
+    allCategory: 'Alle Tools in {category}',
+    methodPrefix: 'Methode',
+    poweredBy: 'Bereitgestellt von ToyTools',
+    poweredByTitle: 'Technische Grundlage dieses Tools',
+    clearSavedInput: 'Gespeicherte Eingabe löschen',
+    guideFallback: 'Ratgeber',
+    favoriteAria: 'Tool als Favorit speichern',
+    installLabel: 'Installieren',
+    currency: 'EUR',
+  },
+  guide: {
+    openTool: 'Tool öffnen',
+    backToTool: '{name} öffnen',
+    readTimeSuffix: 'Min. Lesezeit',
+    updatedPrefix: 'Aktualisiert',
+    inCategory: 'Kategorie',
+    relatedHeading: 'Ähnliche Tools',
+  },
+  category: {
+    toolCountSingular: 'Tool',
+    toolCountPlural: 'Tools',
+    guidesHeading: 'Ratgeber in dieser Kategorie',
+    toolsHeading: 'Alle Tools',
+    builtOn: 'Basiert auf',
+  },
+  home: {
+    title: 'Kostenlose Online-Tools: Rechnen, Umwandeln, Formatieren',
+    description:
+      'Schnelle, datenschutzfreundliche Browser-Tools für Text, Mathematik, Datum, Entwicklung, Design und Produktivität. Direkt lokal auf Ihrem Gerät.',
+    h1: 'Online-Tools ohne Ballast',
+    subtitle: 'Kostenlose, lokale Werkzeuge direkt in Ihrem Browser. Ihre Eingaben bleiben auf Ihrem Gerät.',
+    browseCategories: 'Kategorien entdecken',
+    featuredTools: 'Beliebte Tools',
+    viewAll: 'Alle ansehen',
+  },
+  titles: {
+    home: 'Kostenlose Online-Tools: Rechnen, Umwandeln, Formatieren',
+    guideSuffix: 'Ratgeber',
+    faqSuffix: 'Häufige Fragen',
+    search: 'Suche',
+    platform: 'Die Plattform hinter den Tools',
+    feedback: 'Kontakt und Feedback',
+    privacy: 'Datenschutz',
+    terms: 'Nutzungsbedingungen',
+    about: 'Über uns',
+    changelog: 'Changelog',
+    settings: 'Einstellungen',
+    offline: 'Offline',
+    notFound: 'Seite nicht gefunden',
+  },
+  categories: {
+    'text-utilities': {
+      name: 'Text-Werkzeuge',
+      description: 'Texte direkt im Browser zählen, bereinigen, vergleichen und umwandeln.',
+      tagline: 'Texte zählen, bereinigen, vergleichen und formatieren.',
+      intro: [
+        'Text-Werkzeuge decken drei Aufgaben ab, die oft zusammenkommen: Zählen liefert exakte Werte für Wörter, Zeichen, Zeilen oder Lesezeiten. Umwandeln verändert Groß- und Kleinschreibung oder URL-Slugs. Bereinigen entfernt unsichtbare Steuerzeichen, doppelte Leerzeichen, überflüssige Leerzeilen und kopierte Tabulatoren.',
+        'Zeichen- und Wortzähler arbeiten bewusst nach dokumentierten Regeln, da Meta-Beschreibungen, Social-Media-Felder oder Manuskripte Leerzeichen unterschiedlich bewerten. Jedes Tool nennt seine genaue Zählregel direkt neben dem Ergebnis.',
+        'Die Verarbeitung läuft vollständig lokal in Ihrem Browser ab. Ihre Texte werden nicht an fremde Server übertragen.',
+      ],
+    },
+    'number-utilities': {
+      name: 'Zahlen und Rechnen',
+      description: 'Prozente, Rabatte, Trinkgeld, Margen und alltägliche Berechnungen schnell lösen.',
+      tagline: 'Prozente, Rabatte, Aufschläge und Alltagsmathematik.',
+      intro: [
+        'Alltagsrechnungen, die man oft genug braucht, um sie nicht im Kopf überschlagen zu wollen, und bei denen Rechenregeln leicht verwechselt werden: Prozentwerte, prozentuale Veränderungen, Skonto, Marge und Aufschlag.',
+        'Besonders Marge und Handelsspanne werden häufig verwechselt. Der Aufschlag bezieht sich auf den Einkaufspreis, die Marge auf den Verkaufspreis. Deshalb zeigen unsere Rechner neben dem Endergebnis immer auch den Rechenweg.',
+      ],
+    },
+    'developer-utilities': {
+      name: 'Entwickler-Tools',
+      description: 'JSON formatieren und prüfen, Base64 kodieren, Hashes berechnen, JWT dekodieren und IPv4-Subnetze planen.',
+      tagline: 'Daten formatieren, kodieren, prüfen und inspizieren.',
+      intro: [
+        'Die größte Tool-Sammlung richtet sich an wiederkehrende Entwickleraufgaben: JSON-Daten übersichtlich einrücken, auf Syntaxfehler prüfen, in CSV oder YAML überführen und große Payloads im Baum durchsuchen.',
+        'Encoder und Decoder für Base64, URL-Kodierung, HTML-Entities und Punycode helfen beim sicheren Hin- und Rückwandeln von Zeichenketten. Hash-Tools und CIDR-Subnetzrechner ergänzen das Paket.',
+      ],
+    },
+    productivity: {
+      name: 'Produktivität',
+      description: 'Fokus-Timer, Bildschirm-Wachhalter, Notizblock und Aufgabenlisten lokal im Browser.',
+      tagline: 'Fokus halten, Aufgaben planen, Bildschirm aktiv lassen.',
+      intro: [
+        'Eine bewusst kompakte Gruppe aus Pomodoro-Timer, Bildschirm-Wachhalter (No Sleep Website), Notizblock, Aufgabenliste und Gewohnheitstracker.',
+        'Alle gespeicherten Einträge verbleiben lokal in Ihrem Browser auf diesem Gerät, ohne Benutzerkonto und ohne Cloud-Synchronisierung.',
+      ],
+    },
+    'money-finance': {
+      name: 'Finanzen und Geld',
+      description: 'Zinseszins, Sparziele, Kreditraten und Inflation transparent berechnen.',
+      tagline: 'Zinseszins, Sparpläne und Inflation berechnen.',
+      intro: [
+        'Zinseszins, Vermögensaufbau, Tilgung und Kaufkraftverlust folgen demselben Prinzip: Geld verändert seinen Wert über die Zeit.',
+        'Bereits das Zinsintervall beeinflusst das Ergebnis spürbar. Monatliche, vierteljährliche und jährliche Verzinsung führen bei gleichem Nominalzins zu unterschiedlichen Endsummen. Jede Berechnung legt ihre Annahmen offen.',
+      ],
+    },
+    generate: {
+      name: 'Generatoren',
+      description: 'Sichere Passwörter, UUIDs, QR-Codes und Blindtext lokal im Browser erzeugen.',
+      tagline: 'Passwörter, UUIDs, QR-Codes und Testdaten.',
+      intro: [
+        'Generatoren erzeugen neue Werte direkt in Ihrem Browser: kryptografisch zufällige Passwörter, UUIDs, QR-Codes und Platzhaltertexte.',
+        'Zufallswerte stammen direkt aus der Web-Crypto-API Ihres Browsers. Nichts davon wird protokolliert oder über das Netzwerk gesendet.',
+      ],
+    },
+    physics: {
+      name: 'Physik',
+      headline: 'Physik-Simulationen',
+      description: 'Interaktive Physik-Simulationen zu Wellen, Schwingungen, Mechanik, Wärme und Stromkreisen.',
+      tagline: 'Bewegung, Wellen, Wärme und Schaltkreise anschaulich.',
+      intro: [
+        'Interaktive Simulationen machen physikalische Zusammenhänge direkt sichtbar und veränderbar: Pendellängen anpassen, Wellenamplituden ziehen oder Wärmefluss beobachten.',
+        'Jede Simulation zeigt Messwerte live zusammen mit der eingesetzten Formel.',
+      ],
+    },
+    'applied-math': {
+      name: 'Angewandte Mathematik',
+      headline: 'Mathematik-Rechner und Simulationen',
+      description: 'Dreiecke, Matrizen, Brüche, quadratische Gleichungen und Wahrscheinlichkeiten berechnen und visualisieren.',
+      tagline: 'Dreiecke, Matrizen, Brüche, Statistik und Trigonometrie.',
+      intro: [
+        'Mathematik zum Ausprobieren und Nachrechnen. Vom Einheitskreis über quadratische Gleichungen bis zu Matrizenrechnern mit nachvollziehbaren Zwischenschritten.',
+      ],
+    },
+    chemistry: {
+      name: 'Chemie',
+      headline: 'Chemie-Simulationen',
+      description: 'Interaktive Chemie-Simulationen für Konformationen, Bindungen, VSEPR-Geometrie und Reaktionskinetik.',
+      tagline: 'Konformere, Bindungstypen, VSEPR-Struktur und Kinetik.',
+      intro: [
+        'Interaktive Darstellungen chemischer Konzepte wie Newman-Projektionen, Kristallfeldaufspaltung und Molekülgeometrien nach dem VSEPR-Modell, komplett offline im Browser nutzbar.',
+      ],
+    },
+    'date-time': {
+      name: 'Datum und Uhrzeit',
+      description: 'Alter, Zeitspannen, Zeitzonen, Unix-Timestamps, Schlafzyklen und Cron-Ausdrücke berechnen.',
+      tagline: 'Zeitspannen, Zeitzonen, Unix-Timestamps und Kalender.',
+      intro: [
+        'Datumsberechnungen scheitern oft an Schaltjahren, unterschiedlichen Monatslängen, Sommerzeitwechseln oder der Verwechslung von Sekunden und Millisekunden bei Unix-Timestamps.',
+        'Unsere Werkzeuge behandeln Zeitzonen, Schaltjahre und Datumsformate explizit und nachvollziehbar.',
+      ],
+    },
+    'health-fitness': {
+      name: 'Gesundheit und Fitness',
+      description: 'BMI, Grundumsatz, Kalorienbedarf, Makronährstoffe und Lauftempo nach Standardformeln berechnen.',
+      tagline: 'BMI, Kalorienbedarf, Makros und Trainingswerte.',
+      intro: [
+        'Rechner für Körpermaße, Energieverbrauch und Makronährstoffziele auf Basis veröffentlichter wissenschaftlicher Formeln, deren genaue Methodik auf jeder Seite genannt wird.',
+        'Kennzahlen wie der BMI sind statistische Orientierungswerte für Erwachsene und ersetzen keine ärztliche Diagnose. Alle Eingaben bleiben auf Ihrem Gerät.',
+      ],
+    },
+    'design-tools': {
+      name: 'Design und CSS',
+      description: 'Farbformate umrechnen, WCAG-Kontrast prüfen, Seitenverhältnisse und CSS-Einheiten berechnen.',
+      tagline: 'Farben, WCAG-Kontrast, Seitenverhältnisse und CSS.',
+      intro: [
+        'Werkzeuge für den Übergang vom Entwurf in sauberes CSS: Umrechnung zwischen HEX, RGB, HSL und OKLCH, WCAG-Kontrastprüfung, Seitenverhältnisse für Bildschirme sowie px-zu-rem-Umrechnung.',
+      ],
+    },
+    'music-audio': {
+      name: 'Musik und Audio',
+      description: 'Equalizer-Einstellungen nach Klangziel erstellen und verstehen.',
+      tagline: 'Equalizer-Profile gezielt planen und anwenden.',
+      intro: [
+        'Übersetzt klangliche Ziele wie wärmere Bässe oder verständlichere Stimmen in konkrete Frequenzband-Empfehlungen für Ihren eigenen Equalizer.',
+      ],
+    },
+    fidgets: {
+      name: 'Digitale Fidget-Tools',
+      headline: 'Virtuelle Fidget-Tools Online',
+      description: 'Interaktive Klick-, Dreh- und Tastflächen direkt im Browser mit optionalem Ton und Haptik.',
+      tagline: 'Digitale Entspannungs-Tools ohne App-Installation.',
+      intro: [
+        'Virtuelle Schalter, Zahnräder und Klickflächen für kurze Pausen direkt im Browser. Ton und Vibration lassen sich getrennt steuern und respektieren reduzierte Bewegung.',
+      ],
+    },
+    prep: {
+      name: 'KI-Vorbereitung',
+      description: 'Texte, Chat-Exporte, Prompts und JSON-Schemas vor dem Einfügen in ein KI-Modell lokal aufbereiten.',
+      tagline: 'Texte und Kontextfenster lokal vorbereiten.',
+      intro: [
+        'Deterministische Hilfen zum Strukturieren von Prompts, Bereinigen von Chat-Verläufen und Abschätzen von Token-Limits. ToyTools führt kein eigenes Sprachmodell aus und überträgt keine Texte.',
+      ],
+    },
+    games: {
+      name: 'Spiele',
+      headline: 'Zwei-Spieler-Spiele auf einem Gerät',
+      description: 'Klassische Brettspiele für zwei Personen an einem Bildschirm, ohne Konto oder Server.',
+      tagline: 'Zwei Spieler, ein Gerät, kein Login.',
+      intro: [
+        'Rundenbasierte Klassiker für zwei Personen am selben Gerät. Ohne Anmeldung, ohne Gegner-Suche und ohne Speicherung außerhalb des offenen Tabs.',
+      ],
+    },
+  },
+};

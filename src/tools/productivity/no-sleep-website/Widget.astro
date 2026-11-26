@@ -15,10 +15,22 @@
 // behind a "Sleeping" label).
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
-import { withBase } from '@lib/paths';
+import { toolPath, withBase } from '@lib/paths';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { uiStr } from '@lib/i18n/widget-utils';
 
-const toolUrl = withBase('/tool/productivity/no-sleep-website/');
+interface Props {
+  lang?: LocaleCode;
+  pack?: LocalizedToolPack | null;
+}
+
+const { lang = 'en', pack = null } = Astro.props;
+
+const toolUrl = toolPath({ slug: 'no-sleep-website', segment: 'productivity' }, lang);
 const iconUrl = withBase('/favicon.ico');
+
+const u = (k: string, fb: string) => uiStr(pack, k, fb);
 ---
 
 <!-- URLs for the completion notification (no import.meta.env inside is:inline) -->
@@ -29,7 +41,7 @@ const iconUrl = withBase('/favicon.ico');
 
 <!-- ── Status: the answer, first on mobile ───────────────────────────────── -->
 <div slot="output">
-  <IoPanel label="Screen" result={true} class="wl-panel">
+  <IoPanel label={u('panelScreen', 'Screen')} result={true} class="wl-panel">
     <div class="wl-stage" data-state="idle" id="wl-stage">
       <div class="wl-ring-wrapper">
         <div class="wl-lamp" aria-hidden="true"></div>
@@ -45,27 +57,27 @@ const iconUrl = withBase('/favicon.ico');
         </svg>
         <div class="wl-hero-overlay">
           <span id="wl-hero" class="wl-hero">0:00</span>
-          <span id="wl-hero-label" class="wl-hero-label">Ready</span>
+          <span id="wl-hero-label" class="wl-hero-label">{u('heroReady', 'Ready')}</span>
         </div>
       </div>
 
       <p id="wl-live" class="wl-sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
 
       <button id="wl-toggle" type="button" class="wl-primary" aria-pressed="false">
-        Keep Screen Awake
+        {u('btnStart', 'Keep Screen Awake')}
       </button>
 
-      <p id="wl-lock" class="wl-lock" data-lock="none" data-craft="wl-lock-truth">Ready when you are.</p>
+      <p id="wl-lock" class="wl-lock" data-lock="none" data-craft="wl-lock-truth">{u('lockReady', 'Ready when you are.')}</p>
 
       <dl id="wl-meta" class="wl-meta" hidden>
-        <div class="wl-meta-row"><dt>Started</dt><dd id="wl-started-value"></dd></div>
-        <div id="wl-ends-row" class="wl-meta-row" hidden><dt>Ends</dt><dd id="wl-ends-value"></dd></div>
+        <div class="wl-meta-row"><dt>{u('metaStarted', 'Started')}</dt><dd id="wl-started-value"></dd></div>
+        <div id="wl-ends-row" class="wl-meta-row" hidden><dt>{u('metaEnds', 'Ends')}</dt><dd id="wl-ends-value"></dd></div>
       </dl>
 
       <p id="wl-today" class="wl-today" hidden></p>
 
       <div class="wl-view-actions">
-        <button id="wl-ambient-btn" type="button" class="wl-text-btn">Ambient mode</button>
+        <button id="wl-ambient-btn" type="button" class="wl-text-btn">{u('btnAmbient', 'Ambient mode')}</button>
       </div>
     </div>
   </IoPanel>
@@ -73,24 +85,24 @@ const iconUrl = withBase('/favicon.ico');
 
 <!-- ── Session setup ─────────────────────────────────────────────────────── -->
 <div slot="input">
-  <IoPanel label="Session" class="wl-panel">
+  <IoPanel label={u('panelSession', 'Session')} class="wl-panel">
     <div class="io-body">
       <div id="wl-unsupported" hidden class="wl-unsupported">
-        <p class="wl-unsupported-title">This browser cannot hold a wake lock.</p>
+        <p class="wl-unsupported-title">{u('unsupTitle', 'This browser cannot hold a wake lock.')}</p>
         <p id="wl-unsupported-hint" class="wl-unsupported-hint"></p>
       </div>
 
       <fieldset class="wl-fieldset">
-        <legend class="wl-legend">Keep awake for</legend>
-        <div class="wl-duration-grid" role="group" aria-label="Session length">
-          <button data-duration="0"    class="wl-dur is-selected" type="button">Until I stop</button>
-          <button data-duration="900"  class="wl-dur" type="button">15 min</button>
-          <button data-duration="1800" class="wl-dur" type="button">30 min</button>
-          <button data-duration="3600" class="wl-dur" type="button">1 hour</button>
-          <button data-duration="7200" class="wl-dur" type="button">2 hours</button>
+        <legend class="wl-legend">{u('keepAwakeFor', 'Keep awake for')}</legend>
+        <div class="wl-duration-grid" role="group" aria-label={u('sessionLengthAria', 'Session length')}>
+          <button data-duration="0"    class="wl-dur is-selected" type="button">{u('durUntilStop', 'Until I stop')}</button>
+          <button data-duration="900"  class="wl-dur" type="button">{u('dur15m', '15 min')}</button>
+          <button data-duration="1800" class="wl-dur" type="button">{u('dur30m', '30 min')}</button>
+          <button data-duration="3600" class="wl-dur" type="button">{u('dur1h', '1 hour')}</button>
+          <button data-duration="7200" class="wl-dur" type="button">{u('dur2h', '2 hours')}</button>
         </div>
         <div class="wl-custom-row">
-          <label class="wl-custom-label" for="wl-custom-min">Custom</label>
+          <label class="wl-custom-label" for="wl-custom-min">{u('customLabel', 'Custom')}</label>
           <input
             id="wl-custom-min"
             type="number"
@@ -99,29 +111,29 @@ const iconUrl = withBase('/favicon.ico');
             inputmode="numeric"
             enterkeyhint="done"
             autocomplete="off"
-            placeholder="minutes"
+            placeholder={u('customPlaceholder', 'minutes')}
             class="wl-custom-input"
           />
         </div>
       </fieldset>
 
       <details class="wl-options">
-        <summary class="wl-options-summary">Alerts and display</summary>
+        <summary class="wl-options-summary">{u('alertsSummary', 'Alerts and display')}</summary>
         <div class="wl-options-body">
           <label class="wl-check-row">
             <input id="wl-sound" type="checkbox" class="wl-checkbox" />
-            <span>Chime when the session ends</span>
+            <span>{u('optChime', 'Chime when the session ends')}</span>
           </label>
           <label class="wl-check-row">
             <input id="wl-notify" type="checkbox" class="wl-checkbox" />
-            <span>Browser notification when it ends</span>
+            <span>{u('optNotify', 'Browser notification when it ends')}</span>
           </label>
           <label id="wl-guard-row" class="wl-check-row" hidden>
             <input id="wl-guard" type="checkbox" class="wl-checkbox" />
-            <span>Release below 15% battery</span>
+            <span>{u('optGuard', 'Release below 15% battery')}</span>
           </label>
-          <div class="wl-format-row" role="group" aria-label="Clock format">
-            <span class="wl-format-label">Clock</span>
+          <div class="wl-format-row" role="group" aria-label={u('clockFormatAria', 'Clock format')}>
+            <span class="wl-format-label">{u('clockLabel', 'Clock')}</span>
             <button data-format="12" class="wl-fmt is-selected" type="button">12h</button>
             <button data-format="24" class="wl-fmt" type="button">24h</button>
           </div>
@@ -145,27 +157,27 @@ const iconUrl = withBase('/favicon.ico');
       <span id="wl-amb-clock" class="wl-amb-clock">00:00</span>
       <div class="wl-amb-status">
         <span id="wl-amb-dot" class="wl-amb-dot" data-state="idle" aria-hidden="true"></span>
-        <span id="wl-amb-state" class="wl-amb-state">Sleeping</span>
+        <span id="wl-amb-state" class="wl-amb-state">{u('ambSleeping', 'Sleeping')}</span>
       </div>
       <div id="wl-amb-timer" class="wl-amb-timer" hidden>
-        <span id="wl-amb-timer-label" class="wl-amb-meta">Remaining</span>
+        <span id="wl-amb-timer-label" class="wl-amb-meta">{u('heroRemaining', 'Remaining')}</span>
         <span id="wl-amb-timer-value" class="wl-amb-timer-value">0:00</span>
       </div>
       <div id="wl-amb-ends" class="wl-amb-ends" hidden>
-        <span class="wl-amb-meta">Ends at</span>
+        <span class="wl-amb-meta">{u('ambEndsAt', 'Ends at')}</span>
         <span id="wl-amb-ends-value" class="wl-amb-ends-value"></span>
       </div>
     </div>
   </div>
 
   <div id="wl-amb-controls" class="wl-amb-controls">
-    <button id="wl-amb-toggle" type="button" class="wl-amb-btn">Keep Awake</button>
-    <button id="wl-amb-dim"    type="button" class="wl-amb-btn wl-amb-btn--quiet">Dim</button>
-    <button id="wl-amb-exit"   type="button" class="wl-amb-btn wl-amb-btn--quiet">Exit</button>
+    <button id="wl-amb-toggle" type="button" class="wl-amb-btn">{u('ambBtnStart', 'Keep Awake')}</button>
+    <button id="wl-amb-dim"    type="button" class="wl-amb-btn wl-amb-btn--quiet">{u('ambBtnDim', 'Dim')}</button>
+    <button id="wl-amb-exit"   type="button" class="wl-amb-btn wl-amb-btn--quiet">{u('ambBtnExit', 'Exit')}</button>
   </div>
 </div>
 
-<style>
+<style is:global>
   .wl-sr-only {
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
@@ -532,6 +544,13 @@ const iconUrl = withBase('/favicon.ico');
 
     var supported = 'wakeLock' in navigator;
 
+    var I = {};
+    try {
+      var i18nEl = document.getElementById('tt-i18n');
+      if (i18nEl && i18nEl.textContent) I = JSON.parse(i18nEl.textContent);
+    } catch (_) {}
+    function s(k, fb) { return (typeof I[k] === 'string' && I[k]) ? I[k] : fb; }
+
     // ── State ────────────────────────────────────────────────────────────
     // Every visible element is derived from this in render(). Nothing else writes the DOM.
     var S = {
@@ -619,10 +638,12 @@ const iconUrl = withBase('/favicon.ico');
 
     function formatMinutes(totalSeconds) {
       var mins = Math.round(totalSeconds / 60);
-      if (mins < 60) return mins + 'm';
+      var mUnit = s('unitMinShort', 'm');
+      var hUnit = s('unitHourShort', 'h');
+      if (mins < 60) return mins + mUnit;
       var h = Math.floor(mins / 60);
       var m = mins % 60;
-      return m === 0 ? h + 'h' : h + 'h ' + m + 'm';
+      return m === 0 ? h + hUnit : h + hUnit + ' ' + m + mUnit;
     }
 
     // ── Render: one function, one source of truth ────────────────────────
@@ -641,10 +662,10 @@ const iconUrl = withBase('/favicon.ico');
     }
 
     function lockText() {
-      if (S.phase === 'completed') return 'Session complete.';
-      if (S.phase === 'idle') return supported ? 'Ready when you are.' : 'Use your device settings instead.';
-      if (S.lockHeld) return 'Wake lock held by your device.';
-      return 'Lock lost. Reconnecting...';
+      if (S.phase === 'completed') return s('lockComplete', 'Session complete.');
+      if (S.phase === 'idle') return supported ? s('lockReady', 'Ready when you are.') : s('lockUnsupported', 'Use your device settings instead.');
+      if (S.lockHeld) return s('lockHeld', 'Wake lock held by your device.');
+      return s('lockLost', 'Lock lost. Reconnecting...');
     }
 
     function lockKind() {
@@ -661,10 +682,10 @@ const iconUrl = withBase('/favicon.ico');
       if (hero) hero.textContent = formatClock(heroSeconds());
       if (heroLabel) {
         heroLabel.textContent =
-          S.phase === 'idle'      ? (S.duration > 0 ? 'Planned' : 'Ready')
-          : S.phase === 'completed' ? 'Total awake'
-          : S.endTime               ? 'Remaining'
-          : 'Awake for';
+          S.phase === 'idle'      ? (S.duration > 0 ? s('heroPlanned', 'Planned') : s('heroReady', 'Ready'))
+          : S.phase === 'completed' ? s('heroTotalAwake', 'Total awake')
+          : S.endTime               ? s('heroRemaining', 'Remaining')
+          : s('heroAwakeFor', 'Awake for');
       }
 
       if (ring) {
@@ -677,7 +698,7 @@ const iconUrl = withBase('/favicon.ico');
       }
 
       toggleBtn.setAttribute('aria-pressed', active ? 'true' : 'false');
-      toggleBtn.textContent = active ? 'Stop' : 'Keep Screen Awake';
+      toggleBtn.textContent = active ? s('btnStop', 'Stop') : s('btnStart', 'Keep Screen Awake');
 
       if (lockLine) {
         lockLine.textContent = lockText();
@@ -694,9 +715,10 @@ const iconUrl = withBase('/favicon.ico');
         var has = S.today.sessions > 0;
         todayEl.hidden = !has;
         if (has) {
+          var unit = S.today.sessions === 1 ? s('todayOne', 'session') : s('todayMany', 'sessions');
           todayEl.textContent =
-            'Today: ' + S.today.sessions + (S.today.sessions === 1 ? ' session' : ' sessions') +
-            ' / ' + formatMinutes(S.today.seconds) + ' awake';
+            s('todayPrefix', 'Today: ') + S.today.sessions + ' ' + unit +
+            ' / ' + formatMinutes(S.today.seconds) + ' ' + s('todayAwakeSuffix', 'awake');
         }
       }
 
@@ -705,7 +727,7 @@ const iconUrl = withBase('/favicon.ico');
       renderDurationSelection();
       renderAmbient();
 
-      document.title = active ? 'Awake · No Sleep Website' : origTitle;
+      document.title = active ? s('titleActive', 'Awake · No Sleep Website') : origTitle;
     }
 
     // The live region announces STATE, never the ticking numerals. A per-second aria-live
@@ -735,21 +757,21 @@ const iconUrl = withBase('/favicon.ico');
       if (ambDot) ambDot.dataset.state = S.phase;
       if (ambState) {
         ambState.textContent =
-          S.phase === 'active' ? (S.lockHeld ? 'Awake' : 'Reconnecting')
-          : S.phase === 'completed' ? 'Completed'
-          : 'Sleeping';
+          S.phase === 'active' ? (S.lockHeld ? s('ambAwake', 'Awake') : s('ambReconnecting', 'Reconnecting'))
+          : S.phase === 'completed' ? s('ambCompleted', 'Completed')
+          : s('ambSleeping', 'Sleeping');
       }
       if (ambTimer) ambTimer.hidden = S.phase === 'idle';
       if (ambTimerLbl) {
         ambTimerLbl.textContent =
-          S.phase === 'completed' ? 'Total awake' : S.endTime ? 'Remaining' : 'Awake for';
+          S.phase === 'completed' ? s('heroTotalAwake', 'Total awake') : S.endTime ? s('heroRemaining', 'Remaining') : s('heroAwakeFor', 'Awake for');
       }
       if (ambTimerVal) ambTimerVal.textContent = formatClock(heroSeconds());
       if (ambEnds) ambEnds.hidden = !(S.phase === 'active' && S.endTime);
       if (S.phase === 'active' && S.endTime && ambEndsVal) {
         ambEndsVal.textContent = formatTimeOfDay(new Date(S.endTime));
       }
-      if (ambToggle) ambToggle.textContent = S.phase === 'active' ? 'Stop' : 'Keep Awake';
+      if (ambToggle) ambToggle.textContent = S.phase === 'active' ? s('btnStop', 'Stop') : s('ambBtnStart', 'Keep Awake');
     }
 
     // ── Wake lock ────────────────────────────────────────────────────────
@@ -764,13 +786,9 @@ const iconUrl = withBase('/favicon.ico');
         sentinel.addEventListener('release', function () {
           wakeLock = null;
           if (S.phase === 'active') {
-            // The old build only retried on visibilitychange, so a lock dropped while the tab
-            // stayed visible (battery saver, OS power policy) was never re-acquired and the UI
-            // went on claiming "Awake" over a sleeping screen. ensureLock() in the ticker now
-            // retries every second regardless of what caused the release.
             S.lockHeld = false;
             S.lostAt = Date.now();
-            announce('Wake lock lost. Reconnecting.');
+            announce(s('annLockLost', 'Wake lock lost. Reconnecting.'));
             render();
           }
         });
@@ -799,15 +817,13 @@ const iconUrl = withBase('/favicon.ico');
     }
 
     // ── Battery ──────────────────────────────────────────────────────────
-    // Keeping a display lit is the largest power draw a page can cause, so the tool that asks
-    // for it should be the one that watches the cost.
     var battery = null;
 
     function renderBattery() {
       if (!battery || !batteryEl) return;
       var pct = Math.round(battery.level * 100);
       batteryEl.hidden = false;
-      batteryEl.textContent = 'Battery ' + pct + '%' + (battery.charging ? ' and charging' : '');
+      batteryEl.textContent = s('batteryLabel', 'Battery ') + pct + '%' + (battery.charging ? s('batteryCharging', ' and charging') : '');
       if (guardRow) guardRow.hidden = false;
     }
 
@@ -815,7 +831,7 @@ const iconUrl = withBase('/favicon.ico');
       if (!battery || !S.guard || S.phase !== 'active') return;
       if (battery.charging) return;
       if (battery.level > 0.15) return;
-      stop('Stopped at ' + Math.round(battery.level * 100) + '% battery to protect your charge.');
+      stop(s('batteryGuardStop', 'Stopped at {pct}% battery to protect your charge.').replace('{pct}', String(Math.round(battery.level * 100))));
     }
 
     if (navigator.getBattery) {
@@ -858,7 +874,7 @@ const iconUrl = withBase('/favicon.ico');
       if (!S.notify) return;
       if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
       try {
-        var n = new Notification('Screen released', { body: body, icon: iconUrl, data: { url: toolUrl } });
+        var n = new Notification(s('notifyTitle', 'Screen released'), { body: body, icon: iconUrl, data: { url: toolUrl } });
         n.onclick = function () { window.focus(); n.close(); };
       } catch (_) {}
     }
@@ -887,13 +903,15 @@ const iconUrl = withBase('/favicon.ico');
           S.startTime = null;
           S.endTime = null;
           stopTicker();
-          announce('Could not acquire a wake lock.');
+          announce(s('annAcquireFail', 'Could not acquire a wake lock.'));
           render();
         }
       });
 
       startTicker();
-      announce(S.endTime ? 'Screen kept awake for ' + formatMinutes(S.duration) + '.' : 'Screen kept awake.');
+      announce(S.endTime
+        ? s('annStartedTimed', 'Screen kept awake for {dur}.').replace('{dur}', formatMinutes(S.duration))
+        : s('annStartedOpen', 'Screen kept awake.'));
       render();
     }
 
@@ -907,7 +925,7 @@ const iconUrl = withBase('/favicon.ico');
       S.phase = 'idle';
       S.startTime = null;
       S.endTime = null;
-      announce(message || 'Screen released.');
+      announce(message || s('notifyTitle', 'Screen released.'));
       render();
       if (message && lockLine) lockLine.textContent = message;
     }
@@ -921,8 +939,8 @@ const iconUrl = withBase('/favicon.ico');
       S.phase = 'completed';
       S.endTime = null;
       chime(); buzz();
-      notifyDone('Your ' + formatMinutes(S.lastElapsed) + ' session finished.');
-      announce('Session complete after ' + formatMinutes(S.lastElapsed) + '.');
+      notifyDone(s('notifyBody', 'Your {dur} session finished.').replace('{dur}', formatMinutes(S.lastElapsed)));
+      announce(s('annCompleted', 'Session complete after {dur}.').replace('{dur}', formatMinutes(S.lastElapsed)));
       render();
     }
 
@@ -1119,11 +1137,11 @@ const iconUrl = withBase('/favicon.ico');
     // ── Unsupported browsers ─────────────────────────────────────────────
     function deviceHint() {
       var ua = navigator.userAgent;
-      if (/iPhone|iPad|iPod/i.test(ua)) return 'On iOS: Settings > Display & Brightness > Auto-Lock > Never.';
-      if (/Android/i.test(ua))         return 'On Android: Settings > Display > Screen timeout.';
-      if (/Mac OS X/i.test(ua))        return 'On macOS: System Settings > Lock Screen > Turn display off.';
-      if (/Windows/i.test(ua))         return 'On Windows: Settings > System > Power & battery > Screen and sleep.';
-      return 'Set your screen timeout in your device display settings.';
+      if (/iPhone|iPad|iPod/i.test(ua)) return s('hintIos', 'On iOS: Settings > Display & Brightness > Auto-Lock > Never.');
+      if (/Android/i.test(ua))         return s('hintAndroid', 'On Android: Settings > Display > Screen timeout.');
+      if (/Mac OS X/i.test(ua))        return s('hintMac', 'On macOS: System Settings > Lock Screen > Turn display off.');
+      if (/Windows/i.test(ua))         return s('hintWin', 'On Windows: Settings > System > Power & battery > Screen and sleep.');
+      return s('hintOther', 'Set your screen timeout in your device display settings.');
     }
 
     if (!supported) {

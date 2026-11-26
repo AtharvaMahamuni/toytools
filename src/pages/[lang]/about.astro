@@ -1,0 +1,172 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { pagePath, withBase } from '@lib/paths';
+import { tools } from '@data/registry';
+import { categories } from '@data/categories';
+import { engineRegistry } from '@data/engines';
+import { ACTIVE_LOCALES, LOCALIZED_LOCALES } from '@data/locales';
+import { generateLocalizedPageTitle } from '@data/i18n/index';
+import { pageHreflangLinks, switcherAlternatesForPath } from '@lib/i18n/registry';
+import type { LocalizedLocale } from '@lib/i18n/types';
+
+export const getStaticPaths = (() =>
+  LOCALIZED_LOCALES.map(lang => ({ params: { lang }, props: { lang } }))
+) satisfies GetStaticPaths;
+
+interface Props {
+  lang: LocalizedLocale;
+}
+
+const { lang } = Astro.props;
+const toolCount = tools.length;
+const categoryCount = categories.length;
+const guideCount = tools.filter(t => t.guide !== undefined).length;
+const engineCount = engineRegistry.length;
+
+const COPY: Record<LocalizedLocale, {
+  description: string;
+  h1: string;
+  s1Title: string;
+  s1p1: string;
+  s1p2: string;
+  s2Title: string;
+  s2p1: string;
+  s2p2: string;
+  s3Title: string;
+  s3p1: string;
+  s3p2: string;
+  s4Title: string;
+  s4p1: string;
+  s4p2: string;
+  s4Link: string;
+  s5Title: string;
+  links: { label: string; href: string; desc: string }[];
+}> = {
+  es: {
+    description: 'ToyTools es una caja de herramientas web rápida y ligera ejecutada en una plataforma local en tu navegador. Sin cuentas, sin subidas y sin servidores.',
+    h1: 'Acerca de ToyTools',
+    s1Title: 'Qué es',
+    s1p1: 'La imagen de una caja de herramientas define el estándar. Abres un cajón, tomas la utilidad exacta que resuelve la tarea y la cierras. Nada pregunta quién eres ni exige veinte minutos de configuración.',
+    s1p2: `Son ${toolCount} utilidades en ${categoryCount} categorías: contar y limpiar texto, convertir y codificar datos, calcular fechas y finanzas, además de simulaciones interactivas de física y matemáticas. ${guideCount} de ellas incluyen una guía escrita para comprender el fondo técnico.`,
+    s2Title: 'Una plataforma, no una carpeta suelta',
+    s2p1: `Debajo de cada página hay una única arquitectura. La lógica vive en ${engineCount} motores compartidos y probados de forma independiente. La interfaz, los atajos de teclado, el soporte sin conexión y el contrato de privacidad pertenecen a la plataforma.`,
+    s2p2: 'Por eso una corrección mejora todas las herramientas de un motor a la vez, la utilidad número cien es tan rápida como la primera y cada página lleva el sello Con tecnología de ToyTools.',
+    s3Title: 'Cómo funciona',
+    s3p1: 'Cada motor corre en tu navegador. No hay servidor de aplicaciones, ni base de datos ni cuentas de usuario: una calculadora o un contador de palabras no necesita recibir tus textos ni tus cifras privadas.',
+    s3p2: 'El sitio se compila de forma estática con presupuestos estrictos de tamaño por página para que abra rápido incluso en redes móviles y funcione sin conexión una vez visitado.',
+    s4Title: 'Cómo se eligen las herramientas',
+    s4p1: 'A partir de necesidades reales con respuesta determinista y verificable: conversiones, conteos, cálculos y simulaciones visuales.',
+    s4p2: 'Lo más útil que puedes enviarnos es un problema recurrente que estés resolviendo a mano.',
+    s4Link: 'Cuéntanos qué intentabas resolver',
+    s5Title: 'Otros enlaces del sitio',
+    links: [
+      { label: 'Plataforma', href: pagePath('/platform/', 'es'), desc: 'los motores, el entorno de ejecución y las garantías compartidas.' },
+      { label: 'Arquitectura', href: withBase('/architecture/'), desc: 'mapa técnico interactivo generado desde el propio catálogo.' },
+      { label: 'Cambios', href: withBase('/changelog/'), desc: 'novedades registradas versión por versión.' },
+      { label: 'Privacidad', href: pagePath('/privacy/', 'es'), desc: 'qué se guarda en tu dispositivo y qué nunca sale de él.' },
+      { label: 'Ajustes', href: withBase('/settings/'), desc: 'exportar, importar o borrar tus datos locales.' },
+    ],
+  },
+  de: {
+    description: 'ToyTools ist ein schneller, schlanker Werkzeugkasten auf einer gemeinsamen Browser-Plattform. Ohne Konto, ohne Upload und ohne Anwendungsserver.',
+    h1: 'Über ToyTools',
+    s1Title: 'Was ToyTools ist',
+    s1p1: 'Ein Werkzeugkasten setzt den Maßstab: Öffnen, das passende Werkzeug nehmen, die Aufgabe lösen und wieder schließen. Keine Registrierung, keine Ablenkung.',
+    s1p2: `Aktuell umfasst der Katalog ${toolCount} Werkzeuge in ${categoryCount} Kategorien: Textanalyse, Datenkonvertierung, Finanz- und Datumsrechnung sowie interaktive Physik- und Mathematik-Simulationen. ${guideCount} Tools bringen zusätzlich einen ausführlichen Ratgeber mit.`,
+    s2Title: 'Eine Plattform statt loser Einzeldateien',
+    s2p1: `Hinter den Seiten arbeitet ein einheitliches System. Die Logik steckt in ${engineCount} unabhängig getesteten Engines; Oberfläche, Tastenkürzel, Offline-Fähigkeit und Datenschutzvertrag stammen aus demselben Kern.`,
+    s2p2: 'Dadurch greift jede Fehlerbehebung sofort für alle Tools einer Engine, und neue Werkzeuge bleiben genauso schnell wie die ersten.',
+    s3Title: 'Wie es funktioniert',
+    s3p1: 'Jede Engine läuft direkt in Ihrem Browser. Es gibt keinen Anwendungsserver und keine Datenbank. Textzähler oder Gehaltsrechner brauchen Ihre Eingaben nicht an Dritte zu übertragen.',
+    s3p2: 'Die gesamte Website wird statisch erzeugt und prüft beim Build strenge Byte-Limits je Seite.',
+    s4Title: 'Wie neue Tools entstehen',
+    s4p1: 'Aus konkreten Alltagsaufgaben mit exakter, überprüfbarer Antwort: Umrechnungen, Berechnungen, Formatierungen und Simulationen.',
+    s4p2: 'Wenn sich eine wiederkehrende Aufgabe nur umständlich von Hand lösen lässt, freuen wir uns über Hinweise.',
+    s4Link: 'Beschreiben Sie Ihr Anwendungsproblem',
+    s5Title: 'Weitere Seiten',
+    links: [
+      { label: 'Plattform', href: pagePath('/platform/', 'de'), desc: 'Engines, Laufzeit und gemeinsame Garantien.' },
+      { label: 'Architektur', href: withBase('/architecture/'), desc: 'interaktive Strukturkarte des gesamten Katalogs.' },
+      { label: 'Changelog', href: withBase('/changelog/'), desc: 'alle Änderungen je Version.' },
+      { label: 'Datenschutz', href: pagePath('/privacy/', 'de'), desc: 'was lokal gespeichert wird und was Ihr Gerät nie verlässt.' },
+      { label: 'Einstellungen', href: withBase('/settings/'), desc: 'lokale Daten exportieren, importieren oder löschen.' },
+    ],
+  },
+  fr: {
+    description: 'ToyTools est une boîte à outils web rapide et légère exécutée localement dans votre navigateur. Sans compte, sans envoi de données et sans serveur applicatif.',
+    h1: 'À propos de ToyTools',
+    s1Title: 'Ce que c\'est',
+    s1p1: 'Une vraie boîte à outils reste la meilleure référence : ouvrir un tiroir, utiliser l\'instrument exact et refermer l\'onglet. Aucune inscription ni configuration superflue.',
+    s1p2: `Le catalogue rassemble ${toolCount} utilitaires dans ${categoryCount} catégories : analyse de texte, formatage et encodage, calculs financiers et temporels ainsi que simulations interactives. ${guideCount} d\'entre eux s\'accompagnent d\'un guide détaillé.`,
+    s2Title: 'Une plateforme unifiée',
+    s2p1: `Sous chaque page se trouve une architecture commune : ${engineCount} moteurs testés séparément portent la logique, tandis que l\'interface, les raccourcis et la confidentialité appartiennent au socle.`,
+    s2p2: 'Une amélioration de moteur bénéficie immédiatement à tous les outils associés, sans alourdir le chargement.',
+    s3Title: 'Fonctionnement technique',
+    s3p1: 'Tout s\'exécute dans votre navigateur sans serveur applicatif ni base de données. Vos textes, chiffres ou jetons ne sont jamais transmis.',
+    s3p2: 'Le site est généré statiquement avec des budgets stricts par page vérifiés à chaque compilation.',
+    s4Title: 'Choix des outils',
+    s4p1: 'Nous construisons des outils déterministes pour les tâches qui appellent une réponse exacte : conversions, comptages, calculs et simulations.',
+    s4p2: 'Le retour le plus utile reste la description d\'un besoin concret que vous faites encore à la main.',
+    s4Link: 'Décrire un besoin',
+    s5Title: 'Autres rubriques',
+    links: [
+      { label: 'Plateforme', href: pagePath('/platform/', 'fr'), desc: 'les moteurs, le socle et les garanties communes.' },
+      { label: 'Architecture', href: withBase('/architecture/'), desc: 'carte interactive générée depuis le catalogue.' },
+      { label: 'Nouveautés', href: withBase('/changelog/'), desc: 'journal des versions.' },
+      { label: 'Confidentialité', href: pagePath('/privacy/', 'fr'), desc: 'ce qui reste sur votre appareil et ce qui est mesuré.' },
+      { label: 'Paramètres', href: withBase('/settings/'), desc: 'exporter, importer ou effacer vos données locales.' },
+    ],
+  },
+};
+
+const c = COPY[lang];
+const hreflangLinks = pageHreflangLinks('/about/', Astro.site);
+const switcherAlternates = switcherAlternatesForPath(loc => pagePath('/about/', loc), ACTIVE_LOCALES);
+---
+
+<BaseLayout
+  title={generateLocalizedPageTitle('about', undefined, lang)}
+  description={c.description}
+  maxWidth="tool"
+  lang={lang}
+  hreflangLinks={hreflangLinks}
+  switcherAlternates={switcherAlternates}
+>
+  <article class="page-doc">
+    <h1>{c.h1}</h1>
+    <p class="lede">{c.description}</p>
+
+    <h2>{c.s1Title}</h2>
+    <p>{c.s1p1}</p>
+    <p>{c.s1p2}</p>
+
+    <h2>{c.s2Title}</h2>
+    <p>{c.s2p1}</p>
+    <p>{c.s2p2}</p>
+
+    <h2>{c.s3Title}</h2>
+    <p>{c.s3p1}</p>
+    <p>{c.s3p2}</p>
+
+    <h2>{c.s4Title}</h2>
+    <p>{c.s4p1}</p>
+    <p>{c.s4p2} <a href={pagePath('/feedback/', lang)}>{c.s4Link}</a>.</p>
+
+    <h2>{c.s5Title}</h2>
+    <ul>
+      {c.links.map(l => (
+        <li><a href={l.href}>{l.label}</a>: {l.desc}</li>
+      ))}
+    </ul>
+  </article>
+</BaseLayout>
+
+<style>
+  .page-doc { padding: var(--space-10) 0 var(--space-12); }
+  .lede { font-size: var(--text-lg); color: var(--color-text-muted); margin-top: var(--space-4); }
+  .page-doc h2 { margin-top: var(--space-12); }
+  .page-doc p, .page-doc ul { margin-top: var(--space-4); line-height: var(--leading-relaxed); }
+  .page-doc ul { list-style: disc; padding-left: var(--space-6); }
+  .page-doc li { margin-top: var(--space-2); }
+</style>

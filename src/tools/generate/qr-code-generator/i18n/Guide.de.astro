@@ -1,0 +1,153 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath, categoryPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+const categoryHref = categoryPath(category, 'de');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="de"
+>
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Ein QR-Code ist ein quadratischer Barcode, mit dem Smartphone-Kameras Links öffnen, WLAN-Zugänge einrichten oder Kontakte speichern. Dieser Generator läuft komplett lokal im Browser: Wählen Sie Text, URL, E-Mail, Telefon, WLAN oder Visitenkarte, füllen Sie die Felder aus und laden Sie das Ergebnis kostenlos als PNG für Bildschirme oder SVG für den Druck herunter. Alle Eingaben bleiben auf Ihrem Gerät.
+    </p>
+    <a href={toolHref} class="cta-link">QR-Code-Generator öffnen →</a>
+  </section>
+
+  <section id="warum-das-wichtig-ist">
+    <h2>Warum QR-Codes im Alltag nützlich sind <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      QR-Codes schlagen die Brücke zwischen gedrucktem Material und digitalen Zielen: Ein Plakat öffnet eine Webseite, ein Tischaufsteller zeigt die Speisekarte und ein Sticker verbindet Gäste ohne lästiges Abtippen ins WLAN.
+    </p>
+    <p>
+      Gerade bei sensiblen Angaben wie WLAN-Passwörtern oder Telefonnummern zählt Datenschutz: Da alles lokal berechnet wird, sieht kein externer Server Ihre Eingaben.
+    </p>
+    <ReferenceBlock type="key-idea">
+      <p>
+        Ein QR-Code kodiert reinen Text in einem standardisierten Format. Smartphones erkennen Muster für WLAN, vCard-Kontakte, mailto-Adressen und Telefonnummern automatisch.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="wie-es-funktioniert">
+    <h2>Wie der Generator arbeitet <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Das Tool baut aus Ihren Feldern die passende Standard-Zeichenkette auf und berechnet das kleinstmögliche QR-Raster für die gewählte Fehlerkorrekturstufe. Selbst im Dark Mode zeichnet die Vorschau stets dunkle Module auf weißem Hintergrund, damit Kameras sofort fokussieren.
+    </p>
+  </section>
+
+  <section id="beispiele">
+    <h2>Typische Anwendungsbeispiele <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>URL:</strong> Verlinkung von Flyern, Verpackungen oder Messeständen.</li>
+      <li><strong>WLAN:</strong> Direkter Beitritt per SSID, Passwort und WPA/WPA2-Angabe.</li>
+      <li><strong>Kontaktkarte:</strong> Name, Rufnummer, E-Mail und Firma als vCard.</li>
+      <li><strong>E-Mail &amp; Telefon:</strong> Vorgefertigte Nachricht oder direkte Anwahl.</li>
+      <li><strong>Text:</strong> Seriennummern, Gutscheincodes oder kurze Hinweise.</li>
+    </ul>
+  </section>
+
+  <section id="anwendungsfaelle">
+    <h2>Praxistipps vor dem Druck <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Halten Sie Inhalte so knapp wie möglich, drucken Sie ausreichend groß für den Leseabstand und testen Sie jeden Probedruck mit einem Smartphone vor der Massenproduktion.
+    </p>
+  </section>
+
+  <section id="vorteile">
+    <h2>Vorteile der lokalen Erstellung <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Anders als viele Online-Dienste fügt ToyTools keine Tracking-Weiterleitungen, Kontopflicht oder Wasserzeichen hinzu. Sie erhalten Ihren direkten Inhalt wahlweise als Pixel-PNG oder druckreife SVG-Vektorgrafik.
+    </p>
+  </section>
+
+  <section id="grenzen">
+    <h2>Grenzen statischer QR-Codes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Ein hier erzeugter QR-Code ist statisch: Die Daten stecken fest im Muster und lassen sich nach dem Druck nicht ändern. Wenn sich ein Ziel ändern soll, kodieren Sie eine kurze Weiterleitungs-URL unter Ihrer eigenen Domain.
+    </p>
+    <ReferenceBlock type="common-mistake">
+      <p>
+        Extrem lange URLs erzeugen winzige Module, die auf kleinen Aufklebern schwer lesbar werden. Kürzen Sie lange Adressen vorab.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="datenschutz">
+    <h2>Datenschutz <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Alle Daten, inklusive Passwörtern und Kontakten, verlassen Ihren Browser nicht. Gespeichert werden lokal nur allgemeine Formular-Voreinstellungen wie gewählter Typ und Fehlerkorrekturstufe.
+    </p>
+  </section>
+
+  <section id="haeufige-fehler">
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Zu viele Daten kodieren:</strong> Macht das Raster unnötig fein.</li>
+      <li><strong>Zu klein drucken:</strong> Mindestgröße an Leseabstand und Datenmenge anpassen.</li>
+      <li><strong>Ruhezone wegschneiden:</strong> Weißen Rand um das Quadrat unbedingt erhalten.</li>
+      <li><strong>Niedrige Korrektur auf rauen Flächen:</strong> Für robuste Drucke Quartil oder Hoch wählen.</li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>Häufig gestellte Fragen <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Alle 25 Detailfragen rund um Druckgröße, UTF-8-Zeichen, Dark Mode und Offline-Nutzung finden Sie direkt auf der Werkzeugseite.</p>
+    <a href={`${toolHref}#faq`} class="cta-link">Zu den QR-Code-FAQs →</a>
+  </section>
+
+  <section id="verwandte-tools">
+    <h2>Verwandte Werkzeuge <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Der QR-Code-Generator gehört zur Kategorie <a href={categoryHref}>Generatoren</a> mit weiteren datensparsamen Erstellungswerkzeugen direkt im Browser.
+    </p>
+  </section>
+
+  <section id="naechste-schritte">
+    <h2>Nächste Schritte <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolHref}>QR-Code-Generator</a> direkt ausprobieren.</li>
+      <li><a href={categoryHref}>Alle Generatoren</a> im Überblick ansehen.</li>
+    </ul>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

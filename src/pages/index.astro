@@ -10,9 +10,11 @@ import ToolDirectory from '@components/ToolDirectory.astro';
 import CategoryChips from '@components/CategoryChips.astro';
 import { tools } from '@data/registry';
 import { engineRegistry, knownPatterns } from '@data/engines';
-import { withBase } from '@lib/paths';
+import { withBase, pagePath } from '@lib/paths';
 import { ORG_ID } from '@lib/schema/identity';
 import XAccountLink from '@components/XAccountLink.astro';
+import { ACTIVE_LOCALES } from '@data/locales';
+import { pageHreflangLinks, switcherAlternatesForPath } from '@lib/i18n/registry';
 
 // Named once and used for both the meta description and the WebSite schema, which
 // carried two copies of the same sentence and could drift apart. It names the three
@@ -29,12 +31,16 @@ const SITE_DESCRIPTION =
 const engineCount = engineRegistry.length;
 const patternCount = knownPatterns.size;
 const siteHref = siteUrl(Astro.site).href;
+const hreflangLinks = pageHreflangLinks('/', Astro.site);
+const switcherAlternates = switcherAlternatesForPath(loc => pagePath('/', loc), ACTIVE_LOCALES);
 ---
 
 <BaseLayout
   title={generatePageTitle('home')}
   description={SITE_DESCRIPTION}
   maxWidth="shell"
+  hreflangLinks={hreflangLinks}
+  switcherAlternates={switcherAlternates}
 >
   <script type="application/ld+json" set:html={JSON.stringify({
     '@context': 'https://schema.org',

@@ -1,0 +1,128 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+  lang="de"
+>
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Die Pomodoro-Technik teilt Arbeit in fokussierte 25-Minuten-Einheiten mit anschließender 5-minütiger Pause. Nach vier Einheiten folgt eine längere Erholung von 15 Minuten. Dieser klare Takt erleichtert den Einstieg, begrenzt Störungen und hält die geistige Leistungsfähigkeit stabil.
+    </p>
+    <a href={toolHref} class="cta-link">Pomodoro-Timer öffnen →</a>
+  </section>
+
+  <section id="warum-fokus-schwer-faellt">
+    <h2>Warum Konzentration oft schwerfällt <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Unterbrechungen kosten Anlaufzeit:</strong> Nach einer Nachricht dauert es oft über zwanzig Minuten, bis die volle Arbeitstiefe wieder erreicht ist.</li>
+      <li><strong>Kontextwechsel belasten das Arbeitsgedächtnis:</strong> Ständiges Springen zwischen E-Mail, Chat und Code erhöht die Fehlerquote.</li>
+      <li><strong>Unbegrenzte Aufgaben lösen Aufschub aus:</strong> Eine feste 25-Minuten-Grenze macht den Start konkret und machbar.</li>
+      <li><strong>Unsichtbare Ermüdung:</strong> Ohne regelmäßige Pausen sinkt die Qualität nach der ersten Stunde spürbar.</li>
+    </ul>
+  </section>
+
+  <section id="wie-ein-zyklus-funktioniert">
+    <h2>So funktioniert ein Pomodoro-Zyklus <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ol>
+      <li><strong>Eine Aufgabe festlegen:</strong> Definieren Sie vor dem Start exakt, woran gearbeitet wird.</li>
+      <li><strong>25 Minuten fokussiert arbeiten:</strong> Störende Gedanken kurz notieren und sofort weitermachen.</li>
+      <li><strong>5 Minuten bewusst pausieren:</strong> Aufstehen, Augen entspannen, Wasser trinken.</li>
+      <li><strong>Nach vier Blöcken 15 Minuten erholen:</strong> Das Gehirn setzt die Aufmerksamkeit für den nächsten Zyklus zurück.</li>
+    </ol>
+    <ReferenceBlock type="key-idea" heading="Die Pause gehört zum System">
+      <p>Wenn der Timer klingelt, beenden Sie die Einheit konsequent. Pausen schützen Ihre Leistungsfähigkeit für den gesamten Arbeitstag.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="praxisbeispiele">
+    <h2>Praxisbeispiele nach Aufgabenart <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h3>Studium und Prüfungsvorbereitung</h3>
+    <p>Besonders wirksam für konkrete Ziele wie das Durcharbeiten eines Kapitels oder das Lösen von Übungsaufgaben.</p>
+    <h3>Programmierung und Debugging</h3>
+    <p>Ideal für Bugfixes und Reviews; bei tiefer Systemarchitektur empfiehlt sich der Wechsel auf 50/10.</p>
+    <h3>Lesen und Schreiben</h3>
+    <p>Feste Schreibblöcke trennen Recherche von der eigentlichen Ausformulierung.</p>
+  </section>
+
+  <section id="pomodoro-und-adhs">
+    <h2>Pomodoro und ADHS <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Die externe Zeitstruktur senkt bei ADHS die Einstiegshürde und verhindert Erschöpfung nach langem Hyperfokus. Kürzere 15-Minuten-Intervalle und der ablenkungsfreie Vollbildmodus helfen zusätzlich beim Anfangen.
+    </p>
+  </section>
+
+  <section id="beliebte-varianten">
+    <h2>Bekannte Intervalle: 25/5, 50/10 und 90/20 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h3>25/5: Der Klassiker</h3>
+    <p>Bewährt für Alltagsorganisation, Lernen und Aufgaben mit hoher Ablenkungsgefahr.</p>
+    <h3>50/10: Erweiterter Deep-Work-Block</h3>
+    <p>Genug Anlaufzeit für komplexe Code-Probleme, Analyse und längeres Schreiben.</p>
+    <h3>90/20: Ultradianer Block</h3>
+    <p>Orientiert sich am natürlichen 90-Minuten-Wachzyklus des Gehirns.</p>
+  </section>
+
+  <section id="haeufige-fehler">
+    <h2>Typische Fehler vermeiden <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Pausen am Smartphone verbringen:</strong> Kurze Feeds verhindern echte mentale Erholung.</li>
+      <li><strong>Nur Blöcke zählen statt Ergebnisse prüfen:</strong> Entscheidend ist die abgeschlossene Kernaufgabe.</li>
+      <li><strong>Den Timer überziehen:</strong> Führt unweigerlich zu tieferer Erschöpfung im späteren Tagesverlauf.</li>
+    </ul>
+  </section>
+
+  <section id="wirksamkeit">
+    <h2>Funktioniert die Pomodoro-Technik wirklich? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Zeitlich begrenzte Verpflichtungen reduzieren Aufschiebeverhalten und geplante Erholungsphasen stabilisieren die Daueraufmerksamkeit über mehrere Stunden.
+    </p>
+  </section>
+
+  <section id="geschichte">
+    <h2>Herkunft der Methode <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Francesco Cirillo entwickelte die Technik Ende der 1980er-Jahre mithilfe einer tomatenförmigen Küchenuhr.</p>
+  </section>
+
+  <section id="verwandte-tools">
+    <h2>Verwandte Produktivitäts-Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('no-sleep-website', 'de')}>Bildschirm anlassen</a>, verhindert das Sperren des Displays während einer Fokus-Einheit.</li>
+      <li><a href={toolPathBySlug('todo-list')}>Todo List</a>, hält das konkrete Sitzungsziel fest.</li>
+      <li><a href={toolPathBySlug('notepad')}>Notepad</a>, fängt spontane Gedanken für die Pause auf.</li>
+    </ul>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

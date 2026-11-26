@@ -8,6 +8,8 @@ import StatGrid from '@components/tool/StatGrid.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
+import type { LocaleCode } from '@data/locales';
+import { WIDGET_CHROME } from '@lib/i18n/widget-utils';
 
 interface StatDef {
   metric: string;
@@ -25,20 +27,37 @@ interface Props {
   /** Notice id for this counter's orientation line, and the tool's declared craft id. */
   noticeId?: string;
   craftId?: string;
+  lang?: LocaleCode;
+  inputLabel?: string;
+  placeholder?: string;
 }
 
-const { slug, stats, sampleText, toolGroup, noticeId, craftId } = Astro.props;
+const { slug, stats, sampleText, toolGroup, noticeId, craftId, lang = 'en', inputLabel, placeholder } = Astro.props;
+const c = WIDGET_CHROME[lang];
 const stateKey = toolGroup ? `group:${toolGroup}` : slug;
 const [primaryStat, ...secondaryStats] = stats;
 const inputId = `${slug}-input`;
+
+const DEFAULT_INPUT_LABEL: Record<LocaleCode, string> = {
+  en: 'Your text',
+  es: 'Tu texto',
+  de: 'Ihr Text',
+  fr: 'Votre texte',
+};
+const DEFAULT_PLACEHOLDER: Record<LocaleCode, string> = {
+  en: 'Paste or type text here…',
+  es: 'Pega o escribe texto aquí…',
+  de: 'Text hier einfügen oder eingeben…',
+  fr: 'Collez ou saisissez du texte ici…',
+};
 ---
 
 <ToolSplit ratio="2-1" stackOrder="output-first" stickyOutput={false}>
-  <IoPanel slot="input" label="Your text" labelFor={inputId} variant="prose">
-    <textarea id={inputId} placeholder="Paste or type text here…"></textarea>
+  <IoPanel slot="input" label={inputLabel ?? DEFAULT_INPUT_LABEL[lang]} labelFor={inputId} variant="prose">
+    <textarea id={inputId} placeholder={placeholder ?? DEFAULT_PLACEHOLDER[lang]}></textarea>
   </IoPanel>
 
-  <IoPanel slot="output" label="Result" variant="prose" result>
+  <IoPanel slot="output" label={c.result} variant="prose" result>
     <HeroMetric
       metric={primaryStat.metric}
       label={primaryStat.label}
@@ -53,15 +72,15 @@ const inputId = `${slug}-input`;
   </IoPanel>
 </ToolSplit>
 
-<ToolActions copyTarget={inputId} clearTarget={inputId} pasteTarget={inputId}>
+<ToolActions copyTarget={inputId} clearTarget={inputId} pasteTarget={inputId} lang={lang}>
   {sampleText && (
     <button
       class="action-btn action-btn--sample"
       data-action="sample"
       data-target={inputId}
-      aria-label="Load a sample text"
+      aria-label={c.sample}
     >
-      Sample
+      {c.sample}
     </button>
   )}
   <slot name="actions" />

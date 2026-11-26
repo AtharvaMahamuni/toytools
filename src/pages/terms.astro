@@ -4,15 +4,25 @@
 // /privacy/ (analytics, storage) and /about/ (what the site is).
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { generatePageTitle } from '@lib/titles';
-import { withBase } from '@lib/paths';
+import { withBase, pagePath } from '@lib/paths';
+import { ACTIVE_LOCALES } from '@data/locales';
+import { pageHreflangLinks, switcherAlternatesForPath } from '@lib/i18n/registry';
 
 const description =
   'ToyTools is free to use, runs on your device and is provided as is, with no warranty. These are the terms that come with that.';
 
 const updated = '28 October 2026';
+const hreflangLinks = pageHreflangLinks('/terms/', Astro.site);
+const switcherAlternates = switcherAlternatesForPath(loc => pagePath('/terms/', loc), ACTIVE_LOCALES);
 ---
 
-<BaseLayout title={generatePageTitle('terms')} description={description} maxWidth="tool">
+<BaseLayout
+  title={generatePageTitle('terms')}
+  description={description}
+  maxWidth="tool"
+  hreflangLinks={hreflangLinks}
+  switcherAlternates={switcherAlternates}
+>
   <article class="page-doc">
     <h1>Terms of use</h1>
     <p class="lede">{description}</p>

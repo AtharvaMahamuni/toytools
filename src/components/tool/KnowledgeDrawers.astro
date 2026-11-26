@@ -42,6 +42,9 @@ import { tools } from '@data/registry';
 import { getRelatedTools } from '@lib/tools/related';
 import { categoryPath, toolPath } from '@lib/paths';
 import type { FAQItem, Tool } from '@data/types';
+import type { LocaleCode } from '@data/locales';
+import { formatTemplate, getUiStrings, localizeCategory } from '@data/i18n/index';
+import { hasLocalizedTool, localizeKnowledge, localizeTool } from '@lib/i18n/registry';
 
 interface Props {
   tool: Tool;
@@ -49,11 +52,13 @@ interface Props {
   guideHref: string | null;
   /** The linked guide's title: the tool's own, or its sharedGuide host's. */
   guideTitle?: string | null;
+  lang?: LocaleCode;
 }
 
-const { tool, faqItems, guideHref, guideTitle } = Astro.props;
+const { tool, faqItems, guideHref, guideTitle, lang = 'en' } = Astro.props;
+const t = getUiStrings(lang);
 
-const knowledge = getKnowledge(tool.slug);
+const knowledge = localizeKnowledge(tool.slug, getKnowledge(tool.slug), lang);
 
 /** Keeps the page from turning into an essay, and keeps 119 pages inside their byte budget. */
 const MAX_ITEMS = 5;
@@ -66,7 +71,8 @@ const mistakes = (knowledge?.commonMistakes ?? []).slice(0, MAX_ITEMS);
 // concept, which is the part targeting scores.
 const concept = knowledge?.primaryConcepts?.[0] || tool.name;
 
-const category = categories.find((c) => c.slug === tool.categorySlug);
+const rawCategory = categories.find((c) => c.slug === tool.categorySlug);
+const category = rawCategory ? localizeCategory(rawCategory, lang) : undefined;
 
 // Derived (src/lib/tools/related.ts): same-category tools ranked engine → pattern → family above a
 // relevance floor, then the tool's own hand-picked relatedTools override, with one slot kept for an
@@ -81,8 +87,8 @@ const related = getRelatedTools(tool, tools, 24)
   .slice(0, RELATED_COUNT);
 
 const drawers = [
-  { id: 'uses', heading: `Uses of ${concept}`, items: useCases },
-  { id: 'pitfalls', heading: `${concept} pitfalls`, items: mistakes },
+  { id: 'uses', heading: formatTemplate(t.tool.usesOf, { concept }), items: useCases },
+  { id: 'pitfalls', heading: formatTemplate(t.tool.pitfallsOf, { concept }), items: mistakes },
 ].filter((d) => d.items.length > 0);
 
 const hasFaq = faqItems.length > 0;
@@ -92,10 +98,10 @@ const hasFaq = faqItems.length > 0;
     The same copy is the tool's SoftwareApplication `abstract` (ToolLayout) and reaches the llms
     files through toolFacts(). */}
 {(drawers.length > 0 || hasFaq || related.length > 0 || guideHref || category) && (
-  <section class="knowledge-drawers" aria-label={`More about ${tool.name}`}>
+  <section class="knowledge-drawers" aria-label={formatTemplate(t.tool.moreAboutAria, { name: tool.name })}>
     {/* Mobile More about shell; desktop CSS reveals .kd-row and hides summary. */}
     <details class="kd-more" id="kd-more">
-      <summary>▸ More about</summary>
+      <summary>▸ {t.tool.moreAbout}</summary>
     <div class="kd-row">
       {drawers.map((d) => (
         <details class="kd" id={`kd-${d.id}`}>
@@ -123,7 +129,7 @@ const hasFaq = faqItems.length > 0;
                 <polyline points="9 18 15 12 9 6"/>
               </svg>
             </span>
-            <h2 class="kd-heading">{concept} questions <span class="kd-count">({faqItems.length})</span></h2>
+            <h2 class="kd-heading">{formatTemplate(t.tool.questionsOf, { concept })} <span class="kd-count">({faqItems.length})</span></h2>
           </summary>
           <div class="kd-faq">
             <FaqAccordion items={faqItems} />
@@ -133,17 +139,19 @@ const hasFaq = faqItems.length > 0;
 
       {related.length > 0 && (
         <nav class="kd-related-nav" aria-labelledby="kd-related-heading">
-          <h2 id="kd-related-heading" class="kd-heading">Tools related to {concept}</h2>
+          <h2 id="kd-related-heading" class="kd-heading">{formatTemplate(t.tool.relatedTo, { concept })}</h2>
           <span class="kd-related-links">
             {related.map((r, i) => {
               const cat = categories.find((c) => c.slug === r.categorySlug);
+              const sibLang = hasLocalizedTool(r.slug, lang) ? lang : 'en';
+              const localizedSib = localizeTool(r, sibLang);
               return (
                 <>
                   {i > 0 && <span class="kd-sep" aria-hidden="true">·</span>}
                   <a
                     class="kd-sibling"
-                    href={toolPath({ slug: r.slug, segment: cat?.segment ?? r.categorySlug })}
-                  >{r.name}</a>
+                    href={toolPath({ slug: r.slug, segment: cat?.segment ?? r.categorySlug }, sibLang)}
+                  >{localizedSib.name}</a>
                 </>
               );
             })}
@@ -153,14 +161,14 @@ const hasFaq = faqItems.length > 0;
 
       {guideHref && (
         <a class="kd-link" href={guideHref}>
-          {guideTitle ?? tool.guide?.title ?? 'Guide'}
+          {guideTitle ?? tool.guide?.title ?? t.tool.guideFallback}
           <span class="kd-out" aria-hidden="true">↗</span>
         </a>
       )}
 
       {category && (
-        <a class="kd-link" href={categoryPath(category)}>
-          All {category.name}
+        <a class="kd-link" href={categoryPath(category, lang)}>
+          {formatTemplate(t.tool.allCategory, { category: category.name })}
           <span class="kd-out" aria-hidden="true">↗</span>
         </a>
       )}

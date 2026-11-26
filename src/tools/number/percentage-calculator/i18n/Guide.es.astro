@@ -1,0 +1,151 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="es"
+>
+
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Un porcentaje es un número expresado como fracción de 100. La expresión viene del latín «per centum», que significa «por cada cien». Cuando dices 40%, te refieres a 40 de cada 100 partes, es decir, dos quintas partes del total.
+    </p>
+    <p>
+      Los porcentajes aparecen a diario en descuentos, impuestos, notas académicas, tipos de interés y estadísticas. Casi todos los casos prácticos se resuelven con tres cálculos: hallar el porcentaje de una cantidad, saber qué porcentaje representa un número de otro y medir la variación porcentual.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Calculadora de Porcentajes →</a>
+  </section>
+
+  <section id="las-tres-formulas-principales">
+    <h2>Las tres fórmulas principales <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>1. ¿Cuánto es el X% de Y?</strong>
+      Multiplica Y por X y divide entre 100. Para hallar el 15% de 200: (15 × 200) ÷ 100 = 30. Como atajo mental, calcula el 10% moviendo la coma un lugar a la izquierda (200 → 20) y ajusta: la mitad del 10% es el 5% (10), así que el 15% = 20 + 10 = 30.
+    </p>
+    <p>
+      <strong>2. ¿Qué porcentaje es X de Y?</strong>
+      Divide X entre Y y multiplica por 100. Para saber qué porcentaje es 45 de 180: (45 ÷ 180) × 100 = 25%. Sirve para responder qué nota sacaste o qué proporción del presupuesto se ha gastado.
+    </p>
+    <p>
+      <strong>3. ¿Cuál es la variación porcentual de X a Y?</strong>
+      Resta el valor inicial (X) del valor final (Y), divide entre el valor absoluto de X y multiplica por 100. Fórmula: ((Y − X) ÷ |X|) × 100. Si unos ingresos suben de 800 € a 1.000 €: ((1000 − 800) ÷ 800) × 100 = 25% de aumento. Un resultado negativo indica una bajada. Si X es negativo, como pasar de −20 a 50, divide entre 20 sin el signo menos para conservar la dirección correcta: (50 − (−20)) ÷ 20 × 100 = 350% de aumento.
+    </p>
+    <ReferenceBlock type="key-idea" heading="La base lo es todo">
+      <p>Todo porcentaje es relativo a un valor base. Antes de operar, identifica qué número actúa como «total» (la base). Confundir numerador y denominador es la causa más habitual de resultados erróneos.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="ejemplos-resueltos">
+    <h2>¿Cómo se calcula un porcentaje? Ejemplos resueltos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Con los mismos dos números, 12 y 80, cada fórmula responde a una pregunta distinta:
+    </p>
+    <ul>
+      <li><strong>¿Cuánto es el 15% de 80?</strong> 80 × 15 ÷ 100 = 12.</li>
+      <li><strong>¿12 qué porcentaje es de 80?</strong> 12 ÷ 80 × 100 = 15%.</li>
+      <li><strong>¿Cuál es la variación porcentual de 80 a 92?</strong> (92 − 80) ÷ 80 × 100 = 15% de aumento. Volver de 92 a 80 es (80 − 92) ÷ 92 × 100 = 13,04% de bajada, porque la base ahora es mayor.</li>
+      <li><strong>Una chaqueta cuesta 64 € tras un 20% de descuento. ¿Cuál era su precio original?</strong> 64 ÷ 0,80 = 80 €. Sumar un 20% a 64 daría 76,80 €, lo cual es incorrecto: el descuento del 20% se aplicó sobre 80 €, no sobre 64 €.</li>
+    </ul>
+    <p>
+      Los tres primeros corresponden a los tres modos de la calculadora. El cuarto, calcular el valor previo antes de un porcentaje, es donde falla la mayoría de cálculos mentales: divide siempre entre la fracción restante en lugar de sumar el porcentaje de vuelta.
+    </p>
+  </section>
+
+  <section id="porcentajes-en-la-vida-diaria">
+    <h2>Porcentajes en la vida cotidiana <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Descuentos y rebajas.</strong> Un 30% de descuento implica pagar el 70% del precio original. Multiplica el precio inicial por 0,70: para un artículo de 120 $, 120 × 0,70 = 84 $.
+    </p>
+    <p>
+      <strong>Impuestos e IVA.</strong> El impuesto sobre el valor añadido se aplica sobre la base imponible. Para añadir un 20% a 60 €: 60 × 1,20 = 72 €. Para extraer la base sin impuestos desde el total, divide entre 1,20.
+    </p>
+    <p>
+      <strong>Calificaciones y notas.</strong> Obtener 72 puntos de 90 posibles equivale a (72 ÷ 90) × 100 = 80%. Muchos sistemas educativos traducen ese porcentaje a escalas alfabéticas o decimales según el reglamento de cada centro.
+    </p>
+    <p>
+      <strong>Tipos de interés.</strong> Una cuenta de ahorro al 4% anual suma el 4% del saldo cada año. Sobre 5.000 $: 5.000 × 0,04 = 200 $ anuales. Con interés compuesto, cada nuevo porcentaje se calcula sobre el saldo acumulado.
+    </p>
+    <p>
+      <strong>Estadística y encuestas.</strong> Los resultados suelen expresarse en porcentaje («el 68% estuvo de acuerdo») para comparar con justicia muestras de tamaños diferentes sobre una escala común de 0 a 100.
+    </p>
+  </section>
+
+  <section id="errores-frecuentes">
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Confundir variación porcentual con puntos porcentuales">
+      <p>
+        Si los tipos de interés suben del 2% al 3%, aumentan en 1 punto porcentual, pero eso supone una subida relativa del 50% sobre el tipo inicial. «Puntos porcentuales» mide la resta aritmética entre dos porcentajes; «variación porcentual» mide el cambio relativo. Conviene distinguirlos al leer informes financieros.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Un 50% de bajada y luego un 50% de subida no devuelven al inicio">
+      <p>
+        Un producto de 100 $ rebajado un 50% cuesta 50 $. Si después sube un 50%, cuesta 75 $, no 100 $. Cada porcentaje se aplica sobre una base distinta. Por esa asimetría, tras perder un 50% hace falta ganar un 100% para empatar.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Identifica siempre la base antes de calcular">
+      <p>La preposición «de» señala la base. En «15% de 200», la base es 200. En «¿qué porcentaje es 200 de 500?», la base es 500. Elegir mal la base da una cifra matemáticamente correcta pero para otra pregunta distinta.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="historia">
+    <h2>Breve historia del porcentaje <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Expresar cantidades como partes de cien se remonta a la antigua Roma, donde impuestos e intereses se calculaban en centésimas. La expresión latina «per centum» ya figuraba en registros financieros del siglo I a. C. Más adelante, los mercaderes italianos medievales perfeccionaron las fracciones sobre 100 en contabilidad, abreviando «per cento» en escritura manuscrita hasta dar origen al símbolo %.
+    </p>
+    <p>
+      La notación se estandarizó en libros de aritmética impresos durante los siglos XVI y XVII conforme crecía el comercio europeo. Hacia 1650 la forma moderna del símbolo «%» ya aparecía en manuscritos italianos y en el siglo XVIII se volvió universal en banca, seguros y recaudación fiscal.
+    </p>
+    <p>
+      En la época contemporánea, el porcentaje se consolidó como idioma común de las finanzas, la ciencia y la estadística. La llegada de las hojas de cálculo en los años ochenta automatizó unas operaciones que antes requerían tablas impresas o reglas de cálculo, manteniendo vigente durante más de dos mil años la misma idea básica.
+    </p>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

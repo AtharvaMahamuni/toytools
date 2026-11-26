@@ -146,11 +146,13 @@ function findAsset(match: RegExp | string): string | null {
 }
 
 function pageKind(rel: string): keyof typeof BUDGETS | null {
-  if (rel.startsWith('tool/')) return 'tool';
-  if (rel.startsWith('guide/')) return 'guide';
-  if (rel.startsWith('category/')) return 'category';
-  // Language stubs, sitemaps and redirect shells are not part of the contract.
-  if (/^[a-z]{2}(-[a-z]{2})?\//.test(rel)) return null;
+  const bare = rel.replace(/^(es|de|fr)\//, '');
+  if (rel === 'es' || rel === 'de' || rel === 'fr') return 'page';
+  if (bare.startsWith('tool/')) return 'tool';
+  if (bare.startsWith('guide/')) return 'guide';
+  if (bare.startsWith('category/')) return 'category';
+  // Legacy language stubs, sitemaps and redirect shells are not part of the contract.
+  if (/^[a-z]{2}(-[a-z]{2})?\//.test(bare)) return null;
   return 'page';
 }
 

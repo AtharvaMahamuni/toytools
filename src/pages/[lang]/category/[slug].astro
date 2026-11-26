@@ -1,0 +1,173 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import CategoryToolList from '@components/CategoryToolList.astro';
+import CategoryGuideList from '@components/CategoryGuideList.astro';
+import NewBadgeExpiry from '@components/NewBadgeExpiry.astro';
+import { categories } from '@data/categories';
+import { tools } from '@data/registry';
+import { engineRegistry } from '@data/engines';
+import { canonicalFor, categoryPath, pagePath } from '@lib/paths';
+import { BRAND_NAME } from '@config/site';
+import { ACTIVE_LOCALES, LOCALIZED_LOCALES } from '@data/locales';
+import { generateLocalizedPageTitle, getUiStrings, localizeCategory } from '@data/i18n/index';
+import {
+  categoryHreflangLinks,
+  hasLocalizedTool,
+  localizeTool,
+  switcherAlternatesForPath,
+} from '@lib/i18n/registry';
+import type { LocalizedLocale } from '@lib/i18n/types';
+import type { Category, ToolConfig } from '@data/types';
+
+export const getStaticPaths = (() => {
+  const paths: {
+    params: { lang: LocalizedLocale; slug: string };
+    props: { category: Category; tools: ToolConfig[]; lang: LocalizedLocale };
+  }[] = [];
+
+  for (const lang of LOCALIZED_LOCALES) {
+    for (const rawCategory of categories) {
+      const categoryTools = tools.filter(t => t.categorySlug === rawCategory.slug);
+      paths.push({
+        params: { lang, slug: rawCategory.slug },
+        props: {
+          category: localizeCategory(rawCategory, lang),
+          tools: categoryTools,
+          lang,
+        },
+      });
+    }
+  }
+  return paths;
+}) satisfies GetStaticPaths;
+
+const { category, tools: categoryTools, lang } = Astro.props;
+const ui = getUiStrings(lang);
+
+const engineNames = [...new Set(categoryTools.map(t => t.engine))]
+  .map(id => engineRegistry.find(e => e.id === id)?.name.replace(/ Engine$/, ''))
+  .filter((name): name is string => Boolean(name))
+  .sort();
+
+const andWord: Record<LocalizedLocale, string> = { es: 'y', de: 'und', fr: 'et' };
+const engineList =
+  engineNames.length <= 1
+    ? engineNames.join('')
+    : `${engineNames.slice(0, -1).join(', ')} ${andWord[lang]} ${engineNames.at(-1)}`;
+
+const headline = category.headline ?? category.name;
+const homeHref = pagePath('/', lang);
+const abs = (path: string): string =>
+  Astro.site ? new URL(path, Astro.site).href : path;
+
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: headline,
+  description: category.description,
+  inLanguage: lang,
+  url: Astro.url.href,
+  isPartOf: { '@type': 'WebSite', name: BRAND_NAME, url: abs(homeHref) },
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: categoryTools.length,
+    itemListElement: categoryTools.map((t, i) => {
+      const targetLang = hasLocalizedTool(t.slug, lang) ? lang : 'en';
+      const localized = targetLang === 'en' ? t : localizeTool(t, targetLang);
+      return {
+        '@type': 'ListItem',
+        position: i + 1,
+        name: localized.name,
+        url: canonicalFor({ kind: 'tool', slug: t.slug, segment: category.segment }, Astro.site, targetLang),
+      };
+    }),
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: ui.nav.home, item: abs(homeHref) },
+    { '@type': 'ListItem', position: 2, name: category.name },
+  ],
+};
+
+const aboutHeadingByLocale: Record<LocalizedLocale, string> = {
+  es: `Acerca de ${headline}`,
+  de: `Über ${headline}`,
+  fr: `À propos : ${headline}`,
+};
+
+const engineLabelByLocale: Record<LocalizedLocale, string> = {
+  es: engineNames.length === 1 ? `Motor: ${engineList}` : `Motores: ${engineList}`,
+  de: engineNames.length === 1 ? `Engine: ${engineList}` : `Engines: ${engineList}`,
+  fr: engineNames.length === 1 ? `Moteur : ${engineList}` : `Moteurs : ${engineList}`,
+};
+
+const hreflangLinks = categoryHreflangLinks(category, Astro.site);
+const switcherAlternates = switcherAlternatesForPath(loc => categoryPath({ slug: category.slug }, loc), ACTIVE_LOCALES);
+---
+
+<BaseLayout
+  title={generateLocalizedPageTitle('category', headline, lang)}
+  description={category.description}
+  maxWidth="category"
+  lang={lang}
+  hreflangLinks={hreflangLinks}
+  switcherAlternates={switcherAlternates}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(collectionSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <div class="category-header">
+    <Breadcrumb items={[
+      { label: ui.nav.home, href: homeHref },
+      { label: category.name },
+    ]} />
+    <div class="category-title">
+      <h1>{headline}</h1>
+    </div>
+    <p class="category-description">{category.description}</p>
+    <p class="tool-count">
+      <span>
+        <span class="count-number">{categoryTools.length}</span>
+        {' '}{categoryTools.length === 1 ? ui.category.toolCountSingular : ui.category.toolCountPlural}
+      </span>
+      {engineList && (
+        <>
+          <span aria-hidden="true">·</span>
+          <a class="engine-note" href={pagePath('/platform/', lang)}>
+            {engineLabelByLocale[lang]}
+          </a>
+        </>
+      )}
+    </p>
+  </div>
+
+  <CategoryToolList category={category} tools={categoryTools} lang={lang} />
+
+  {category.intro && category.intro.length > 0 && (
+    <section class="category-intro" aria-labelledby="about-category">
+      <h2 id="about-category">{aboutHeadingByLocale[lang]}</h2>
+      {category.intro.map((para) => <p>{para}</p>)}
+    </section>
+  )}
+  <CategoryGuideList category={category} tools={categoryTools} lang={lang} />
+  <NewBadgeExpiry />
+</BaseLayout>
+
+<style>
+  .category-header { margin-bottom: var(--space-10); }
+  .category-intro { margin-top: var(--space-12); max-width: var(--width-prose); }
+  .category-intro h2 { font-size: var(--text-lg); font-weight: var(--font-weight-semibold); }
+  .category-intro p { margin-top: var(--space-4); color: var(--color-text-muted); line-height: var(--leading-relaxed); }
+  .category-title { margin-bottom: var(--space-3); }
+  .category-description { font-size: var(--text-lg); color: var(--color-text-muted); max-width: 55ch; margin-bottom: var(--space-3); }
+  .tool-count { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); font-size: var(--text-sm); color: var(--color-text-subtle); max-width: unset; }
+  .count-number { font-family: var(--font-mono); color: var(--color-text-muted); }
+  .engine-note { color: var(--color-text-subtle); text-decoration: none; transition: var(--transition-color); }
+  .engine-note:hover, .engine-note:active { color: var(--color-text-muted); text-decoration: underline; }
+</style>

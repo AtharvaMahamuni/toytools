@@ -15,6 +15,9 @@ import { dateTimeExamplesFor } from '@lib/engines/datetime/examples';
 import { DEFAULT_CAPABILITIES } from '@lib/results/types';
 import { toolUrlStateMode } from '@lib/url-state';
 import type { ToolConfig } from '@data/types';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { WIDGET_CHROME, localizeFields, uiStr } from '@lib/i18n/widget-utils';
 
 interface Props {
   slug: string;
@@ -28,27 +31,35 @@ interface Props {
   craftOn?: 'visualization' | 'hero-note';
   /** One plain line shown under the result, using the existing widget-help style. */
   resultNote?: string;
+  lang?: LocaleCode;
+  pack?: LocalizedToolPack | null;
 }
 
-const { slug, dateTimeId, config, emptyText, craftOn, resultNote } = Astro.props;
+const { slug, dateTimeId, config, emptyText, craftOn, resultNote, lang = 'en', pack = null } = Astro.props;
+const c = WIDGET_CHROME[lang];
+const shareLabel: Record<LocaleCode, string> = { en: 'Copy link', es: 'Copiar enlace', de: 'Link kopieren', fr: 'Copier le lien' };
+const resetLabel: Record<LocaleCode, string> = { en: 'Reset to Defaults', es: 'Restablecer', de: 'Zurücksetzen', fr: 'Réinitialiser' };
+const loadExLabel: Record<LocaleCode, string> = { en: 'Load Example', es: 'Cargar ejemplo', de: 'Beispiel laden', fr: 'Charger un exemple' };
 
 // Shareable-link mode, decided at build time from the registry (src/lib/url-state.ts).
 // "auto" syncs the address bar as you type; "manual" only builds a link when asked.
 const urlMode = toolUrlStateMode(config);
 const tool = getDateTimeTool(dateTimeId);
-const fields = tool?.fields ?? [];
+const rawFields = tool?.fields ?? [];
+const fields = localizeFields(rawFields, pack);
 const splitRatio = fields.length <= 2 ? '1-1' : '3-2';
 const caps = { ...DEFAULT_CAPABILITIES, ...(tool?.capabilities ?? {}) };
 const examples = dateTimeExamplesFor(dateTimeId).map((e) => e.inputs);
-const defaults = Object.fromEntries(fields.map((f) => [f.id, f.default]));
-const resolvedEmpty = emptyText ?? 'Enter your dates to calculate.';
+const defaults = Object.fromEntries(rawFields.map((f) => [f.id, f.default]));
+const resolvedEmpty = uiStr(pack, 'emptyText', emptyText ?? 'Enter your dates to calculate.');
+const resolvedNote = resultNote ? uiStr(pack, 'resultNote', resultNote) : undefined;
 ---
 
 <div class="calc-ledger">
   <ToolSplit ratio={splitRatio} stackOrder="output-first" stickyOutput={false} equalHeight={false}>
     <IoPanel
       slot="input"
-      label="Details"
+      label={c.details}
       variant="prose"
       bare
       data-datetime={dateTimeId}
@@ -69,21 +80,22 @@ const resolvedEmpty = emptyText ?? 'Enter your dates to calculate.';
       capabilities={caps}
       craftId={craftOn ? config.craft?.id : undefined}
       craftOn={craftOn}
+      lang={lang}
     />
   </ToolSplit>
 </div>
 
-{resultNote && <p class="widget-help" data-result-note>{resultNote}</p>}
+{resolvedNote && <p class="widget-help" data-result-note>{resolvedNote}</p>}
 
 <div class="tool-actions">
-  <button class="action-btn action-btn--copy" id={`${slug}-copy`} data-label="Copy" type="button">Copy</button>
+  <button class="action-btn action-btn--copy" id={`${slug}-copy`} data-label={c.copy} type="button">{c.copy}</button>
   {caps.loadExample && examples.length > 0 && (
-    <button class="action-btn" id={`${slug}-example`} type="button">Load Example</button>
+    <button class="action-btn" id={`${slug}-example`} type="button">{loadExLabel[lang]}</button>
   )}
   {urlMode !== 'off' && (
-    <button class="action-btn" id={`${slug}-share`} data-label="Copy link" type="button">Copy link</button>
+    <button class="action-btn" id={`${slug}-share`} data-label={shareLabel[lang]} type="button">{shareLabel[lang]}</button>
   )}
-  <button class="action-btn action-btn--clear" id={`${slug}-reset`} data-label="Reset" type="button">Reset to Defaults</button>
+  <button class="action-btn action-btn--clear" id={`${slug}-reset`} data-label={resetLabel[lang]} type="button">{resetLabel[lang]}</button>
 </div>
 
 {examples.length > 0 && (
@@ -178,7 +190,7 @@ const resolvedEmpty = emptyText ?? 'Enter your dates to calculate.';
         ToyTools.experience.render(expRoot, empty);
         return;
       }
-      var res = ToyTools.runDateTime(did, c.input, {});
+      var res = ToyTools.runDateTime(did, c.input, { locale: document.documentElement.lang || 'en' });
       ToyTools.experience.render(expRoot, res);
     }
 

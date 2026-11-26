@@ -1,0 +1,92 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+  lang="de"
+>
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Ein Wörterzähler zerlegt Ihren Text an Leerzeichen, Zeilenumbrüchen und definierten Satzzeichen, um Wörter, Zeichen, Sätze, Absätze und Lesezeit live zu messen. Mit einem eingebauten Wortziel prüfen Sie beim Schreiben sofort, wie weit Ihr Entwurf vom Limit entfernt ist, ohne dass Daten Ihren Browser verlassen.
+    </p>
+    <a href={toolHref} class="cta-link">Wörterzähler öffnen →</a>
+  </section>
+
+  <section id="warum-wortzahl-zaehlt">
+    <h2>Warum die Wortzahl wichtig ist <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Akademische Obergrenzen:</strong> Seminararbeiten, Abstracts und Stipendienbewerbungen setzen strenge Wort- oder Zeichenlimits.</li>
+      <li><strong>Redaktion und SEO:</strong> Redakteure steuern Texttiefe und Lesbarkeit über klare Längenvorgaben.</li>
+      <li><strong>Kalkulation im Lektorat:</strong> Übersetzungen und Lektorate werden meist je Wort oder Normseite abgerechnet.</li>
+    </ul>
+  </section>
+
+  <section id="wie-gezaehlt-wird">
+    <h2>Wie Wörter gezählt werden <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Unterschiede zwischen Word, Google Docs und Browser-Tools entstehen vor allem bei Sonderfällen:</p>
+    <ul>
+      <li><strong>Bindestrich-Begriffe:</strong> Zusammensetzungen wie «E-Mail» zählen je nach Zähler als ein oder zwei Wörter; unser Zähler wertet sie als ein Wort.</li>
+      <li><strong>Zahlen und URLs:</strong> Jahreszahlen und vollständige Webadressen gelten jeweils als einzelnes Wort.</li>
+      <li><strong>Gedankenstriche ohne Leerzeichen:</strong> Werden sauber als Trenner erkannt.</li>
+    </ul>
+    <ReferenceBlock type="note" heading="Deckblatt und Quellenverzeichnis prüfen">
+      <p>Klären Sie vor Abgabe einer Hausarbeit, ob Literaturverzeichnis und Fußnoten zum geforderten Wortumfang zählen.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="zeichen-woerter-lesezeit">
+    <h2>Zeichen, Wörter und Lesezeit <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Während Essays nach Wörtern gemessen werden, gelten für Meta-Beschreibungen, Social-Media-Beiträge und Formularfelder harte Zeichenlimits inklusive Leerzeichen. Die Lesezeit rechnet mit durchschnittlich 200 Wörtern pro Minute.
+    </p>
+  </section>
+
+  <section id="haeufige-fehler">
+    <h2>Typische Fehler vermeiden <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>Unbereinigte PDF-Kopien mit doppelten Leerzeichen unverändert messen.</li>
+      <li>Wörter zählen, obwohl das Zielsystem eigentlich Zeichen prüft.</li>
+      <li>Wortwiederholungen im Text übersehen.</li>
+    </ul>
+    <p>Für den direkten Vergleich zweier gekürzter Fassungen eignet sich unser <a href={toolPathBySlug('text-compare', 'de')}>Textvergleich</a>.</p>
+  </section>
+
+  <section id="geschichte">
+    <h2>Kurze Geschichte des Wörterzählens <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Vor Textverarbeitungsprogrammen schätzten Redaktionen Wörter über durchschnittliche Zeilenlängen oder Spaltenmaße. Seit den 1970er-Jahren prägte das Unix-Werkzeug <code>wc</code> das automatische Zählen von Zeilen, Wörtern und Zeichen.</p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

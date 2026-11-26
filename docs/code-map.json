@@ -1001,6 +1001,7 @@
         "Widget.astro",
         "config.ts",
         "faq.ts",
+        "i18n",
         "knowledge.ts"
       ],
       "guideRegistered": true,
@@ -1085,6 +1086,7 @@
         "Widget.astro",
         "config.ts",
         "faq.ts",
+        "i18n",
         "knowledge.ts"
       ],
       "guideRegistered": true,
@@ -2303,6 +2305,7 @@
         "Widget.astro",
         "config.ts",
         "faq.ts",
+        "i18n",
         "knowledge.ts"
       ],
       "guideRegistered": true,
@@ -2807,6 +2810,7 @@
         "Widget.astro",
         "config.ts",
         "faq.ts",
+        "i18n",
         "knowledge.ts"
       ],
       "guideRegistered": true,
@@ -2974,6 +2978,7 @@
         "Widget.astro",
         "config.ts",
         "faq.ts",
+        "i18n",
         "knowledge.ts"
       ],
       "guideRegistered": true,
@@ -2995,6 +3000,7 @@
         "Widget.astro",
         "config.ts",
         "faq.ts",
+        "i18n",
         "knowledge.ts"
       ],
       "guideRegistered": true,
@@ -3184,6 +3190,7 @@
         "Widget.astro",
         "config.ts",
         "faq.ts",
+        "i18n",
         "knowledge.ts"
       ],
       "guideRegistered": true,
@@ -4108,6 +4115,7 @@
         "Widget.astro",
         "config.ts",
         "faq.ts",
+        "i18n",
         "knowledge.ts"
       ],
       "guideRegistered": true,
@@ -4318,6 +4326,7 @@
         "Widget.astro",
         "config.ts",
         "faq.ts",
+        "i18n",
         "knowledge.ts"
       ],
       "guideRegistered": true,
@@ -4549,6 +4558,7 @@
         "Widget.astro",
         "config.ts",
         "faq.ts",
+        "i18n",
         "knowledge.ts"
       ],
       "guideRegistered": true,

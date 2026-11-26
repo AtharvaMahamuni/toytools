@@ -3,45 +3,57 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import CraftNote from '@tools/_shared/CraftNote.astro';
 import { config } from './config';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { WIDGET_CHROME, uiStr } from '@lib/i18n/widget-utils';
+
+interface Props {
+  lang?: LocaleCode;
+  pack?: LocalizedToolPack | null;
+}
+
+const { lang = 'en', pack = null } = Astro.props;
+const c = WIDGET_CHROME[lang];
+const u = (k: string, fb: string) => uiStr(pack, k, fb);
 ---
 
 <div class="tc-widget">
   <div class="tc-toolbar">
-    <button class="action-btn action-btn--sample" id="tc-sample-btn" aria-label="Load a sample comparison">Sample</button>
+    <button class="action-btn action-btn--sample" id="tc-sample-btn" aria-label={u('btnSampleAria', 'Load a sample comparison')}>{c.sample}</button>
   </div>
 
   <div class="tc-inputs">
-    <IoPanel label="Original" labelFor="tc-original" variant="prose">
+    <IoPanel label={u('panelOriginal', 'Original')} labelFor="tc-original" variant="prose">
       <textarea
         id="tc-original"
         class="tc-textarea"
-        placeholder="Paste original text…"
+        placeholder={u('phOriginal', 'Paste original text…')}
         spellcheck="false"
-        aria-label="Original text"
+        aria-label={u('ariaOriginal', 'Original text')}
       ></textarea>
     </IoPanel>
-    <ToolActions pasteTarget="tc-original" clearTarget="tc-original" />
+    <ToolActions pasteTarget="tc-original" clearTarget="tc-original" lang={lang} />
 
-    <IoPanel label="New Text" labelFor="tc-new" variant="prose">
+    <IoPanel label={u('panelNew', 'New Text')} labelFor="tc-new" variant="prose">
       <textarea
         id="tc-new"
         class="tc-textarea"
-        placeholder="Paste new text…"
+        placeholder={u('phNew', 'Paste new text…')}
         spellcheck="false"
-        aria-label="New text"
+        aria-label={u('ariaNew', 'New text')}
       ></textarea>
     </IoPanel>
-    <ToolActions pasteTarget="tc-new" clearTarget="tc-new" />
+    <ToolActions pasteTarget="tc-new" clearTarget="tc-new" lang={lang} />
   </div>
 
   <div class="tc-result-section" id="tc-result-section" hidden>
     <p class="tc-summary" id="tc-summary" aria-live="polite"></p>
     <CraftNote id="tc-note" craftId="tc-whitespace" action />
     <div class="tc-stats-bar" id="tc-stats-bar" aria-live="polite"></div>
-    <div class="tc-diff" id="tc-diff" role="region" aria-label="Diff result"></div>
+    <div class="tc-diff" id="tc-diff" role="region" aria-label={u('ariaDiffResult', 'Diff result')}></div>
     <!-- Plain-text mirror of the diff, used by the copy/download actions below. -->
     <textarea id="tc-diff-text" class="tc-diff-text" hidden readonly aria-hidden="true"></textarea>
-    <ToolActions copyTarget="tc-diff-text" downloadFilename="text-compare-diff.txt" downloadTarget="tc-diff-text" />
+    <ToolActions copyTarget="tc-diff-text" downloadFilename="text-compare-diff.txt" downloadTarget="tc-diff-text" lang={lang} />
   </div>
 
 </div>
@@ -170,8 +182,15 @@ import { config } from './config';
 
   if (!origEl || !newEl || !section) return;
 
-  var SAMPLE_A = 'Roses are red\nViolets are blue\nSugar is sweet\nAnd so are you';
-  var SAMPLE_B = 'Roses are red\nViolets are blue\nHoney is sweet\nAnd so are you\nThe end';
+  var I = {};
+  try {
+    var i18nEl = document.getElementById('tt-i18n');
+    if (i18nEl && i18nEl.textContent) I = JSON.parse(i18nEl.textContent);
+  } catch (_) {}
+  function s(k, fb) { return (typeof I[k] === 'string' && I[k]) ? I[k] : fb; }
+
+  var SAMPLE_A = s('sampleA', 'Roses are red\nViolets are blue\nSugar is sweet\nAnd so are you');
+  var SAMPLE_B = s('sampleB', 'Roses are red\nViolets are blue\nHoney is sweet\nAnd so are you\nThe end');
 
   var CONTEXT = 3;      // lines of context shown around each change
   var MIN_COLLAPSE = 5; // minimum unchanged-run length to collapse
@@ -207,14 +226,13 @@ import { config } from './config';
   }
 
   function summarySentence(stats) {
-    if (stats.added === 0 && stats.removed === 0) return 'The two texts are identical.';
-    return 'Texts are ' + stats.similarity + '% similar: ' +
-      stats.added + ' added, ' + stats.removed + ' removed.';
+    if (stats.added === 0 && stats.removed === 0) return s('msgIdentical', 'The two texts are identical.');
+    return s('msgSummaryTpl', 'Texts are {sim}% similar: {added} added, {removed} removed.')
+      .replace('{sim}', String(stats.similarity))
+      .replace('{added}', String(stats.added))
+      .replace('{removed}', String(stats.removed));
   }
 
-  // The craft line: how much of this diff is whitespace nobody can see. A file saved on Windows
-  // against the same file from git differs on every line, and the raw diff says so in red without
-  // mentioning that not one visible character changed.
   function note(a, b) {
     if (!noteEl || !noteTxt) return null;
     var n = TT && TT.whitespaceNoise ? TT.whitespaceNoise(a, b) : null;
@@ -225,14 +243,14 @@ import { config } from './config';
       return null;
     }
     noteTxt.textContent = ignoring
-      ? 'Ignoring ' + n.level + '. ' + (n.identical
-          ? 'The two texts are otherwise identical.'
-          : n.normalizedChanged + ' of ' + n.rawChanged + ' changed lines differ by something you can see.')
+      ? s('wsIgnoringTpl', 'Ignoring {level}. ').replace('{level}', n.level) + (n.identical
+          ? s('wsOtherwiseIdentical', 'The two texts are otherwise identical.')
+          : s('wsNormChangedTpl', '{norm} of {raw} changed lines differ by something you can see.').replace('{norm}', String(n.normalizedChanged)).replace('{raw}', String(n.rawChanged)))
       : (n.identical
-          ? 'These differ only in ' + n.level + '. All ' + n.rawChanged + ' changed lines are identical to read.'
-          : (n.rawChanged - n.normalizedChanged) + ' of ' + n.rawChanged + ' changed lines differ only in ' + n.level + '.');
+          ? s('wsOnlyDiffTpl', 'These differ only in {level}. All {raw} changed lines are identical to read.').replace('{level}', n.level).replace('{raw}', String(n.rawChanged))
+          : s('wsSomeDiffTpl', '{diff} of {raw} changed lines differ only in {level}.').replace('{diff}', String(n.rawChanged - n.normalizedChanged)).replace('{raw}', String(n.rawChanged)).replace('{level}', n.level));
     if (noteBtn) {
-      noteBtn.textContent = ignoring ? 'Show raw diff' : 'Ignore ' + n.level;
+      noteBtn.textContent = ignoring ? s('btnShowRaw', 'Show raw diff') : s('btnIgnorePrefix', 'Ignore ') + n.level;
       noteBtn.hidden = false;
     }
     noteEl.hidden = false;
@@ -248,40 +266,33 @@ import { config } from './config';
     section.hidden = false;
 
     if (!TT || !TT.diff) {
-      // Runtime not ready yet — retry shortly
       setTimeout(run, 100);
       return;
     }
 
     var n = note(a, b);
-    // Normalizing changes only the comparison, never the two texts the reader pasted in.
     if (n && ignoring) { a = n.a; b = n.b; }
 
     var result = TT.diff(a, b);
     var stats  = TT.diffStats(result);
 
-    // Summary sentence
     summaryEl.textContent = summarySentence(stats);
 
-    // Stats bar
     statsBar.innerHTML =
-      '<span class="tc-stat"><span class="tc-stat-label">Added</span><span class="tc-stat-value added">+' + stats.added + '</span></span>' +
-      '<span class="tc-stat"><span class="tc-stat-label">Removed</span><span class="tc-stat-value removed">-' + stats.removed + '</span></span>' +
-      '<span class="tc-stat"><span class="tc-stat-label">Unchanged</span><span class="tc-stat-value">' + stats.unchanged + '</span></span>' +
-      '<span class="tc-stat"><span class="tc-stat-label">Similarity</span><span class="tc-stat-value similarity">' + stats.similarity + '%</span></span>';
+      '<span class="tc-stat"><span class="tc-stat-label">' + s('lblAdded', 'Added') + '</span><span class="tc-stat-value added">+' + stats.added + '</span></span>' +
+      '<span class="tc-stat"><span class="tc-stat-label">' + s('lblRemoved', 'Removed') + '</span><span class="tc-stat-value removed">-' + stats.removed + '</span></span>' +
+      '<span class="tc-stat"><span class="tc-stat-label">' + s('lblUnchanged', 'Unchanged') + '</span><span class="tc-stat-value">' + stats.unchanged + '</span></span>' +
+      '<span class="tc-stat"><span class="tc-stat-label">' + s('lblSimilarity', 'Similarity') + '</span><span class="tc-stat-value similarity">' + stats.similarity + '%</span></span>';
 
-    // Diff view (with context collapse) + plain-text mirror for copy/download
     var html = '';
     var plain = '';
     var groupId = 0;
 
-    // Mark which result indices are changed
     var isChange = [];
     for (var ci = 0; ci < result.length; ci++) {
       isChange[ci] = result[ci].type !== 'unchanged';
     }
 
-    // Mark which unchanged lines are within CONTEXT of a change (visible as context)
     var isVisible = [];
     for (var vi = 0; vi < result.length; vi++) {
       if (isChange[vi]) { isVisible[vi] = true; continue; }
@@ -304,13 +315,11 @@ import { config } from './config';
         plain += marker + ' ' + r.line + '\n';
         ri++;
       } else {
-        // Collect the consecutive non-context unchanged run
         var runStart = ri;
         while (ri < result.length && !isVisible[ri]) ri++;
         var runLen = ri - runStart;
 
         if (runLen < MIN_COLLAPSE) {
-          // Short run — show all lines
           for (var rj = runStart; rj < runStart + runLen; rj++) {
             html += '<div class="tc-line tc-unchanged" aria-label="unchanged">' +
               '<span class="tc-line-marker" aria-hidden="true"> </span>' +
@@ -318,10 +327,10 @@ import { config } from './config';
             plain += '  ' + result[rj].line + '\n';
           }
         } else {
-          // Long run — collapse behind a button; hidden divs for expand + plain text
           var gid = 'tcg' + (groupId++);
+          var expLbl = s('unchangedRunTpl', '… {n} unchanged lines').replace('{n}', String(runLen));
           html += '<button class="tc-collapse-btn" data-group="' + gid + '" ' +
-            'aria-label="Expand ' + runLen + ' unchanged lines">… ' + runLen + ' unchanged lines</button>';
+            'aria-label="' + expLbl + '">' + expLbl + '</button>';
           for (var rj = runStart; rj < runStart + runLen; rj++) {
             html += '<div class="tc-line tc-unchanged" data-group="' + gid + '" hidden aria-label="unchanged">' +
               '<span class="tc-line-marker" aria-hidden="true"> </span>' +

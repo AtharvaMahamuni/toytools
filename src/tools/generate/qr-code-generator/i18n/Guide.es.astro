@@ -1,0 +1,164 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath, categoryPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+const categoryHref = categoryPath(category, 'es');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="es"
+>
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Un código QR es un código de barras cuadrado que la cámara del móvil lee para abrir un enlace web, unirse a una red Wi-Fi o guardar un contacto. Este generador trabaja íntegramente en tu navegador: elige el tipo de contenido (texto, URL, correo, teléfono, Wi-Fi o tarjeta vCard), rellena los campos y el código aparece en tiempo real. Exporta en PNG para pantallas o en SVG vectorial para imprenta sin que ninguna contraseña o dato salga de tu dispositivo.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Generador de Códigos QR →</a>
+  </section>
+
+  <section id="por-que-importa">
+    <h2>Por qué son tan útiles <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Un código QR convierte cualquier soporte físico en un acceso inmediato: un cartel lleva a una web, un caballete de mesa muestra la carta y una tarjeta de visita guarda el contacto sin teclear a mano direcciones largas ni contraseñas Wi-Fi.
+    </p>
+    <p>
+      Dado que muchos códigos transportan datos sensibles como claves Wi-Fi o teléfonos personales, generarlos en local dentro del navegador evita enviar información privada a servidores externos.
+    </p>
+    <ReferenceBlock type="key-idea">
+      <p>
+        Un código QR solo codifica texto. La utilidad está en el formato normalizado de ese texto: las cámaras reconocen esquemas estándar para Wi-Fi, tarjetas de contacto, correo y teléfono.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="como-funciona">
+    <h2>Cómo funciona <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Al elegir un tipo de contenido, la herramienta compone la cadena estándar que esperan iOS y Android (por ejemplo, una cadena de unión Wi-Fi con SSID, clave y cifrado, o un bloque vCard) y calcula la matriz más compacta posible compatible con el nivel de corrección de errores seleccionado.
+    </p>
+    <p>
+      La matriz se dibuja siempre en cuadraditos oscuros sobre fondo blanco para garantizar contraste óptimo de lectura incluso si navegas con tema oscuro, y se exporta tanto en mapa de bits PNG como en vector SVG nítido a cualquier tamaño.
+    </p>
+  </section>
+
+  <section id="ejemplos">
+    <h2>Ejemplos habituales <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>URL:</strong> codifica un enlace web para carteles, envases o folletos.</li>
+      <li><strong>Wi-Fi:</strong> guarda SSID, contraseña y cifrado WPA/WPA2 para acceso rápido de invitados.</li>
+      <li><strong>Tarjeta de contacto:</strong> almacena nombre, teléfono, correo y empresa en formato vCard.</li>
+      <li><strong>Correo electrónico:</strong> abre un mensaje nuevo dirigido al destinatario elegido.</li>
+      <li><strong>Teléfono:</strong> prepara la marcación directa del número indicado.</li>
+      <li><strong>Texto:</strong> codifica cualquier nota breve, código de serie o referencia.</li>
+    </ul>
+    <p>
+      En todos los casos conviene mantener el texto lo más corto posible para lograr módulos más grandes y fáciles de enfocar.
+    </p>
+  </section>
+
+  <section id="casos-de-uso">
+    <h2>Casos de uso <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>Enlazar un cartel, etiqueta o folleto impreso a una página web.</li>
+      <li>Compartir el acceso Wi-Fi en casa, oficinas o alojamientos turísticos.</li>
+      <li>Facilitar tarjetas de visita o firmas digitales escaneables.</li>
+      <li>Mostrar menús, formularios de reseñas o entradas en eventos.</li>
+    </ul>
+    <p>Prueba siempre el resultado escaneándolo con un móvil antes de imprimir grandes tiradas.</p>
+  </section>
+
+  <section id="ventajas">
+    <h2>Ventajas de generarlo en local <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Eliminar la escritura manual reduce errores en cualquier teléfono moderno sin instalar aplicaciones. Al ejecutarse localmente en el navegador, no introduce redirecciones de seguimiento ni marcas de agua, y ofrece exportación vectorial SVG gratuita lista para imprenta.
+    </p>
+  </section>
+
+  <section id="limitaciones">
+    <h2>Limitaciones que conviene conocer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Estos códigos son estáticos: el contenido queda fijado en el propio patrón gráfico y no puede cambiarse después de imprimir sin generar un nuevo QR. Si necesitas cambiar el destino más adelante, codifica una URL corta bajo tu dominio con redirección actualizable.
+    </p>
+    <ReferenceBlock type="common-mistake">
+      <p>
+        Codificar URLs larguísimas llena la matriz de puntos diminutos que fallan al imprimirse en pequeño. Acorta la dirección antes de generar el QR.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="privacidad">
+    <h2>Privacidad <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Todo sucede en tu dispositivo: ni tus textos ni tus claves Wi-Fi salen del navegador ni se registran en servidor alguno. Solo se recuerdan en almacenamiento local tus opciones de formato y nivel de corrección.
+    </p>
+  </section>
+
+  <section id="errores-frecuentes">
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Codificar demasiado texto:</strong> vuelve el patrón denso y difícil de enfocar.</li>
+      <li><strong>Imprimir demasiado pequeño:</strong> respeta el tamaño mínimo según la distancia de escaneo.</li>
+      <li><strong>Recortar la zona tranquila:</strong> conserva siempre el margen blanco exterior alrededor del QR.</li>
+      <li><strong>Corrección baja en superficies delicadas:</strong> sube a Cuartil o Alta si el soporte puede rozarse.</li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>Preguntas frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Las respuestas detalladas sobre impresión, UTF-8, tamaño y privacidad están reunidas directamente en la página de la herramienta.</p>
+    <a href={`${toolHref}#faq`} class="cta-link">Leer preguntas frecuentes →</a>
+  </section>
+
+  <section id="herramientas-relacionadas">
+    <h2>Herramientas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      El generador de QR forma parte de la categoría <a href={categoryHref}>Generadores</a> junto con otras utilidades para crear identificadores, tokens y contraseñas seguras en local.
+    </p>
+  </section>
+
+  <section id="siguientes-pasos">
+    <h2>Dónde continuar <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolHref}>Generador de Códigos QR</a> para crear tu código ahora mismo.</li>
+      <li><a href={categoryHref}>Generadores</a> para explorar todas las herramientas de creación.</li>
+    </ul>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

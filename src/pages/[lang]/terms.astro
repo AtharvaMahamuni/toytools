@@ -1,0 +1,174 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { pagePath, withBase } from '@lib/paths';
+import { ACTIVE_LOCALES, LOCALIZED_LOCALES } from '@data/locales';
+import { generateLocalizedPageTitle } from '@data/i18n/index';
+import { pageHreflangLinks, switcherAlternatesForPath } from '@lib/i18n/registry';
+import type { LocalizedLocale } from '@lib/i18n/types';
+
+export const getStaticPaths = (() =>
+  LOCALIZED_LOCALES.map(lang => ({ params: { lang }, props: { lang } }))
+) satisfies GetStaticPaths;
+
+interface Props {
+  lang: LocalizedLocale;
+}
+
+const { lang } = Astro.props;
+
+const COPY: Record<LocalizedLocale, {
+  h1: string;
+  description: string;
+  updated: string;
+  sections: { heading: string; paragraphs: string[]; bullets?: string[] }[];
+}> = {
+  es: {
+    h1: 'Términos de uso',
+    description: 'ToyTools es gratuito, funciona directamente en tu dispositivo y se ofrece tal cual, sin garantía. Estas son las condiciones de uso.',
+    updated: '26 de noviembre de 2026',
+    sections: [
+      {
+        heading: 'Resumen',
+        paragraphs: [],
+        bullets: [
+          'ToyTools es gratuito. No exige cuenta, suscripción ni registro.',
+          'Las herramientas se ejecutan en tu navegador. Lo que introduces permanece en tu dispositivo según se detalla en la página de Privacidad.',
+          'Todo se ofrece tal cual y según disponibilidad. Comprueba siempre los cálculos críticos antes de tomar decisiones importantes.',
+        ],
+      },
+      {
+        heading: 'Uso permitido',
+        paragraphs: [
+          'Puedes utilizar ToyTools con fines personales, educativos o profesionales de forma gratuita, respetando la ley vigente y sin sobrecargar la infraestructura mediante solicitudes automatizadas.',
+        ],
+      },
+      {
+        heading: 'Ejecución local y copias de seguridad',
+        paragraphs: [
+          'ToyTools es un sitio web estático. El almacenamiento local permanece bajo tu control en tu navegador y puedes exportarlo o borrarlo desde Ajustes. Tú eres responsable de conservar copias de tus propios datos.',
+        ],
+      },
+      {
+        heading: 'Exclusión de garantías',
+        paragraphs: [
+          'ToyTools se suministra tal cual y sin garantías implícitas ni explícitas. Los cálculos financieros, matemáticos y de salud tienen carácter informativo y no constituyen asesoramiento profesional.',
+        ],
+      },
+    ],
+  },
+  de: {
+    h1: 'Nutzungsbedingungen',
+    description: 'ToyTools ist kostenlos, läuft lokal auf Ihrem Gerät und wird ohne Gewährleistung bereitgestellt.',
+    updated: '26. November 2026',
+    sections: [
+      {
+        heading: 'Kurzfassung',
+        paragraphs: [],
+        bullets: [
+          'ToyTools ist kostenlos. Es gibt kein Benutzerkonto und kein Abonnement.',
+          'Die Werkzeuge laufen direkt in Ihrem Browser. Einzelheiten stehen auf der Datenschutzseite.',
+          'Alle Ergebnisse werden ohne Gewähr bereitgestellt. Wichtige Berechnungen sollten vor Entscheidungen gegengeprüft werden.',
+        ],
+      },
+      {
+        heading: 'Zulässige Nutzung',
+        paragraphs: [
+          'Sie dürfen ToyTools kostenlos privat, schulisch und beruflich nutzen, sofern keine Gesetze verletzt und keine übermäßigen automatisierten Abrufe erzeugt werden.',
+        ],
+      },
+      {
+        heading: 'Lokale Ausführung',
+        paragraphs: [
+          'Als statische Website speichert ToyTools optionale Einstellungen nur lokal in Ihrem Browser. Sicherungen über die Einstellungsseite liegen in Ihrer eigenen Verantwortung.',
+        ],
+      },
+      {
+        heading: 'Haftungsausschluss',
+        paragraphs: [
+          'Finanz-, Gesundheits- und mathematische Rechner liefern rechnerische Orientierungswerte und ersetzen keine professionelle oder medizinische Beratung.',
+        ],
+      },
+    ],
+  },
+  fr: {
+    h1: 'Conditions d\'utilisation',
+    description: 'ToyTools est gratuit, s\'exécute sur votre appareil et est fourni en l\'état, sans garantie.',
+    updated: '26 novembre 2026',
+    sections: [
+      {
+        heading: 'En bref',
+        paragraphs: [],
+        bullets: [
+          'ToyTools est gratuit, sans compte ni abonnement.',
+          'Les outils fonctionnent sur votre appareil selon les modalités décrites dans la page Confidentialité.',
+          'Les résultats sont fournis en l\'état : vérifiez toujours les calculs critiques avant de vous y fier.',
+        ],
+      },
+      {
+        heading: 'Utilisation des outils',
+        paragraphs: [
+          'Vous pouvez utiliser ToyTools librement à titre personnel, éducatif ou professionnel, dans le respect des lois et sans perturber le service par des requêtes automatisées excessives.',
+        ],
+      },
+      {
+        heading: 'Exécution locale',
+        paragraphs: [
+          'Site entièrement statique, ToyTools conserve d\'éventuelles sauvegardes uniquement dans votre navigateur. L\'export depuis les Paramètres relève de votre responsabilité.',
+        ],
+      },
+      {
+        heading: 'Absence de garantie',
+        paragraphs: [
+          'Les outils financiers, mathématiques ou de santé fournissent des calculs indicatifs et ne constituent pas un conseil financier ou médical.',
+        ],
+      },
+    ],
+  },
+};
+
+const c = COPY[lang];
+const hreflangLinks = pageHreflangLinks('/terms/', Astro.site);
+const switcherAlternates = switcherAlternatesForPath(loc => pagePath('/terms/', loc), ACTIVE_LOCALES);
+---
+
+<BaseLayout
+  title={generateLocalizedPageTitle('terms', undefined, lang)}
+  description={c.description}
+  maxWidth="tool"
+  lang={lang}
+  hreflangLinks={hreflangLinks}
+  switcherAlternates={switcherAlternates}
+>
+  <article class="page-doc">
+    <h1>{c.h1}</h1>
+    <p class="lede">{c.description}</p>
+    <p class="updated">{c.updated}</p>
+
+    {c.sections.map(sec => (
+      <>
+        <h2>{sec.heading}</h2>
+        {sec.bullets && (
+          <ul>
+            {sec.bullets.map(b => <li>{b}</li>)}
+          </ul>
+        )}
+        {sec.paragraphs.map(p => <p>{p}</p>)}
+      </>
+    ))}
+
+    <p>
+      <a href={pagePath('/privacy/', lang)}>Privacy</a> · <a href={withBase('/settings/')}>Settings</a>
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .page-doc { padding: var(--space-10) 0 var(--space-12); }
+  .lede { font-size: var(--text-lg); color: var(--color-text-muted); margin-top: var(--space-4); }
+  .updated { font-size: var(--text-xs); color: var(--color-text-subtle); margin-top: var(--space-2); }
+  .page-doc h2 { margin-top: var(--space-12); }
+  .page-doc p, .page-doc ul { margin-top: var(--space-4); line-height: var(--leading-relaxed); }
+  .page-doc ul { list-style: disc; padding-left: var(--space-6); }
+  .page-doc li { margin-top: var(--space-2); }
+</style>

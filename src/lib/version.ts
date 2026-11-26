@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 13,
-  minor: 30,
+  minor: 31,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-11-12',
-  description: 'Formatter UI parity for SQL, XML, and CSS, plus faster CSS beautify',
+  releaseDate: '2026-11-26',
+  description: 'Phase 1 multilingual support for Spanish, German, and French with localized UI, guides, FAQs, and availability-gated hreflang SEO',
 };
 
 export function formatVersion(config: VersionConfig): string {

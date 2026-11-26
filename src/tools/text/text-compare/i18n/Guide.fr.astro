@@ -1,0 +1,130 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath, categoryPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="fr"
+>
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Ce comparateur de textes affiche exactement les différences entre deux versions côte à côte. Collez l’original dans la première zone et le nouveau texte dans la seconde : les ajouts apparaissent en vert avec <strong>+</strong>, les suppressions en rouge avec <strong>-</strong> et les lignes identiques en gris atténué, accompagnés du pourcentage de similarité.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir le Comparateur de Textes →</a>
+  </section>
+
+  <section id="pourquoi-cest-important">
+    <h2>Pourquoi comparer automatiquement deux textes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Repérer à l’œil nu un paragraphe déplacé ou une clause retirée est lent et source d’oubli. Une comparaison automatique met en lumière chaque ligne modifiée entre deux versions d’un contrat, d’une politique ou d’un article.
+    </p>
+  </section>
+
+  <section id="mode-demploi">
+    <h2>Comment utiliser l’outil <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ol>
+      <li>Collez la version initiale dans le champ <strong>Original</strong>.</li>
+      <li>Collez la nouvelle version dans le champ <strong>Nouveau texte</strong>.</li>
+      <li>Le diff s’affiche instantanément sous les deux cadres.</li>
+      <li>Les lignes vertes précédées de <code>+</code> ont été ajoutées.</li>
+      <li>Les lignes rouges précédées de <code>-</code> ont été retirées de l’original.</li>
+      <li>Les lignes grisées restent inchangées.</li>
+    </ol>
+  </section>
+
+  <section id="lire-le-diff">
+    <h2>Lire la sortie du diff <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      La présentation suit la norme classique des outils <code>diff</code> et <code>git diff</code> :
+    </p>
+    <ul>
+      <li><strong>+</strong> (fond vert) : ligne présente dans le nouveau texte mais absente de l’original.</li>
+      <li><strong>-</strong> (fond rouge) : ligne présente dans l’original mais absente du nouveau texte.</li>
+      <li><strong>espace</strong> (discret) : ligne identique des deux côtés.</li>
+    </ul>
+    <p>
+      La comparaison s’effectue ligne par ligne en tenant compte des majuscules et des espaces. Si des écarts proviennent uniquement d’espaces en fin de ligne ou de fins de ligne CRLF/LF, une option propose de les ignorer en un clic.
+    </p>
+    <ReferenceBlock type="note" heading="Comparaison ligne par ligne">
+      <p>
+        Si vous modifiez un seul mot dans une phrase, toute la ligne apparaît supprimée puis ajoutée afin de faciliter la relecture globale de documents longs.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="cas-dusage">
+    <h2>Quand utiliser un comparateur de textes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>Relire deux brouillons d’un document pour repérer chaque retouche.</li>
+      <li>Comparer deux versions d’un contrat pour isoler les clauses ajoutées ou retirées.</li>
+      <li>Vérifier rapidement des extraits de code ou de configuration avant un commit.</li>
+      <li>Contrôler qu’une traduction conserve la structure d’origine.</li>
+      <li>Auditer les modifications de contenu d’une page web avant et après mise à jour.</li>
+    </ul>
+  </section>
+
+  <section id="erreurs-courantes">
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Attendre un surlignage mot à mot">
+      <p>
+        Cet outil compare au niveau de la ligne entière. Changer un seul mot dans une ligne de dix mots entraîne l’affichage complet de l’ancienne ligne puis de la nouvelle.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Confondre similarité et qualité">
+      <p>
+        Un faible taux de similarité indique simplement que de nombreuses lignes ont changé : un brouillon profondément amélioré peut n’afficher que 30% de ressemblance avec la première version.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="outils-associes">
+    <p>
+      <strong>Outils associés :</strong> parcourez tous les utilitaires de
+      <a href={categoryPath(category, 'fr')}>Texte</a>,
+      dont <a href={toolPathBySlug('find-replace')}>Find and Replace</a>,
+      <a href={toolPathBySlug('word-counter', 'fr')}>Compteur de Mots</a>
+      et <a href={toolPathBySlug('remove-duplicate-lines')}>Remove Duplicate Lines</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

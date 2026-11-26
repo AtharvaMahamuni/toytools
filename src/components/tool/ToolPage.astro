@@ -21,25 +21,33 @@ import { guidePath } from '@lib/paths';
 import { getToolBySlug } from '@data/registry';
 import { resolveGuideHost } from '@lib/shared-guide';
 import type { Tool, Category } from '@data/types';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { hasLocalizedGuide, localizeFaqs, localizeTool } from '@lib/i18n/registry';
 
 interface Props {
   tool: Tool;
   category: Category;
+  lang?: LocaleCode;
+  pack?: LocalizedToolPack | null;
   /** Extra JSON-LD blocks (sims add LearningResource + HowTo on top of the generic schema). */
   extraSchemas?: unknown[];
 }
 
-const { tool, category, extraSchemas = [] } = Astro.props;
+const { tool, category, lang = 'en', pack = null, extraSchemas = [] } = Astro.props;
 
-const faqItems = faqsByToolSlug[tool.slug] ?? [];
+const faqItems = localizeFaqs(tool.slug, faqsByToolSlug[tool.slug] ?? [], lang);
 // A tool with its own guide links to it; a guideless tool with `sharedGuide` links to its hub.
 const guideHost = resolveGuideHost(tool, getToolBySlug);
-const guideHref = guideHost?.guide ? guidePath(guideHost.guide) : null;
-const guideTitle = guideHost?.guide?.title ?? null;
+const guideLang = guideHost && hasLocalizedGuide(guideHost.slug, lang) ? lang : 'en';
+const localizedGuideHost = guideHost ? localizeTool(guideHost, guideLang) : null;
+const guideHref = localizedGuideHost?.guide ? guidePath(localizedGuideHost.guide, guideLang) : null;
+const guideTitle = localizedGuideHost?.guide?.title ?? null;
 
 const faqSchema = faqItems.length > 0 ? {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
+  inLanguage: lang,
   mainEntity: faqItems.map(item => ({
     '@type': 'Question',
     name: item.question,
@@ -48,7 +56,7 @@ const faqSchema = faqItems.length > 0 ? {
 } : null;
 ---
 
-<ToolLayout tool={tool} category={category}>
+<ToolLayout tool={tool} category={category} lang={lang} pack={pack}>
   {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
   {extraSchemas.map(schema => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
 
@@ -57,12 +65,12 @@ const faqSchema = faqItems.length > 0 ? {
   <slot />
 
   {/* Zone B: immediately under the tool, before anything that is about other pages. */}
-  <ToolSignature tool={tool} />
+  <ToolSignature tool={tool} lang={lang} />
 
   {/* Zone C, entire: drawer triggers, the guide, and the category hub on one row. It replaced
       ToolNavRow, a second related-tools list and a duplicate feedback invite, which between them
       spent 682px repeating each other. */}
-  <KnowledgeDrawers tool={tool} faqItems={faqItems} guideHref={guideHref} guideTitle={guideTitle} />
+  <KnowledgeDrawers tool={tool} faqItems={faqItems} guideHref={guideHref} guideTitle={guideTitle} lang={lang} />
 </ToolLayout>
 
 {/* No styles: Zone C is KnowledgeDrawers' own, and it draws the section boundary itself. */}

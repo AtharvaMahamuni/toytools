@@ -15,21 +15,28 @@ import GeneratorActions from '@tools/_shared/generator/GeneratorActions.astro';
 import GeneratorFooter from '@tools/_shared/generator/GeneratorFooter.astro';
 import { generatorInfo } from '@lib/generation/registry';
 import type { ToolConfig } from '@data/types';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { WIDGET_CHROME, localizeFields, uiStr } from '@lib/i18n/widget-utils';
 
 interface Props {
   slug: string;
   generatorId: string;
   config: ToolConfig;
   emptyText?: string;
+  lang?: LocaleCode;
+  pack?: LocalizedToolPack | null;
 }
 
-const { slug, generatorId, config, emptyText } = Astro.props;
+const { slug, generatorId, config, emptyText, lang = 'en', pack = null } = Astro.props;
+const c = WIDGET_CHROME[lang];
 const info = generatorInfo(generatorId);
-const fields = info?.fields ?? [];
+const rawFields = info?.fields ?? [];
+const fields = localizeFields(rawFields, pack);
 const defaults = info?.defaults ?? {};
 const auto = info?.autoGenerate ?? true;
 const live = info?.live ?? false;
-const resolvedEmpty = emptyText ?? 'Configure the options and generate.';
+const resolvedEmpty = uiStr(pack, 'emptyText', emptyText ?? 'Configure the options and generate.');
 
 // The craft slot renders only for generators that actually supply notes. Generators whose craft is
 // an option marker (password-generator) already carry data-craft on the field, and a second empty
@@ -40,27 +47,30 @@ const craftId = info?.notes ? config?.craft?.id : undefined;
 <ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false}>
   <IoPanel
     slot="input"
-    label="Options"
+    label={c.options}
     variant="prose"
     data-generator={generatorId}
     data-slug={slug}
     data-auto={String(auto)}
     data-live={String(live)}
     data-defaults={JSON.stringify(defaults)}
+    data-copy={c.copy}
+    data-copied={c.copied}
+    data-nothing-to-copy={c.nothingToCopy}
   >
     <div class="io-body">
-      <GeneratorOptions fields={fields} idPrefix={slug} />
+      <GeneratorOptions fields={fields} idPrefix={slug} showLabel={c.show} hideLabel={c.hide} />
     </div>
   </IoPanel>
 
-  <IoPanel slot="output" label="Output" result>
+  <IoPanel slot="output" label={c.output} result>
     <div class="io-body">
-      <GeneratorOutput slug={slug} emptyText={resolvedEmpty} craftId={craftId} />
+      <GeneratorOutput slug={slug} emptyText={resolvedEmpty} craftId={craftId} lang={lang} />
     </div>
   </IoPanel>
 </ToolSplit>
 
-<GeneratorActions slug={slug} />
+<GeneratorActions slug={slug} lang={lang} />
 <GeneratorFooter />
 
 
@@ -300,10 +310,13 @@ const craftId = info?.notes ? config?.craft?.id : undefined;
         if (lastResult.kind === 'qr') text = lastResult.qr ? lastResult.qr.content : '';
         else text = lastResult.kind === 'lines' ? (lastResult.lines || []).join('\n') : (lastResult.text || '');
       }
-      if (!text) { if (window.ToyTools) ToyTools.toast('Nothing to copy yet!'); return; }
+      var nothingMsg = root.getAttribute('data-nothing-to-copy') || 'Nothing to copy yet!';
+      var copyLbl = root.getAttribute('data-copy') || 'Copy';
+      var copiedLbl = root.getAttribute('data-copied') || '✓ Copied';
+      if (!text) { if (window.ToyTools) ToyTools.toast(nothingMsg); return; }
       if (window.ToyTools) ToyTools.copy(text);
-      copyBtn.classList.add('is-success'); copyBtn.textContent = '✓ Copied';
-      setTimeout(function () { copyBtn.classList.remove('is-success'); copyBtn.textContent = 'Copy'; }, 2000);
+      copyBtn.classList.add('is-success'); copyBtn.textContent = copiedLbl;
+      setTimeout(function () { copyBtn.classList.remove('is-success'); copyBtn.textContent = copyLbl; }, 2000);
     });
 
     if (regenBtn) regenBtn.addEventListener('click', run);
@@ -316,7 +329,9 @@ const craftId = info?.notes ? config?.craft?.id : undefined;
         var show = input.type === 'password';
         input.type = show ? 'text' : 'password';
         btn.setAttribute('aria-pressed', String(show));
-        btn.textContent = show ? 'Hide' : 'Show';
+        var showLbl = btn.getAttribute('data-show-label') || 'Show';
+        var hideLbl = btn.getAttribute('data-hide-label') || 'Hide';
+        btn.textContent = show ? hideLbl : showLbl;
       });
     });
 

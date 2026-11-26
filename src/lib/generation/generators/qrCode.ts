@@ -11,6 +11,7 @@
 import qrcode from 'qrcode-generator';
 import type { Generator, GenerationResult, GeneratorOptions } from '../types';
 import { wifiPayload, vcardPayload, emailPayload, phonePayload } from '../utils';
+import { readClientI18n } from '@lib/i18n/client';
 
 type ErrorLevel = 'L' | 'M' | 'Q' | 'H';
 
@@ -127,24 +128,33 @@ export const qrCode: Generator = {
     },
   ],
   generate(opts: GeneratorOptions): GenerationResult {
+    const ei = (readClientI18n().engine ?? {}) as Record<string, string>;
     const content = payloadFor(opts);
     if (!content.trim()) {
-      return { ok: false, kind: 'qr', error: 'Enter the content to encode.' };
+      return { ok: false, kind: 'qr', error: ei.enterContent ?? 'Enter the content to encode.' };
     }
     const level = ((): ErrorLevel => {
       const l = str(opts.errorCorrection).toUpperCase();
       return l === 'L' || l === 'Q' || l === 'H' ? l : 'M';
     })();
 
+    const tooMuchMsg = (bytesLen: number) =>
+      ei.tooMuchTpl
+        ? ei.tooMuchTpl
+            .replace('{bytes}', String(bytesLen))
+            .replace('{level}', level)
+            .replace('{limit}', String(QR_MAX_BYTES[level]))
+        : tooMuchText(bytesLen, level);
+
     // typeNumber 0 = auto-select the smallest version that fits the data at this EC level.
     const bytes = utf8ByteString(content);
-    if (bytes.length > QR_MAX_BYTES[level]) return { ok: false, kind: 'qr', error: tooMuchText(bytes.length, level) };
+    if (bytes.length > QR_MAX_BYTES[level]) return { ok: false, kind: 'qr', error: tooMuchMsg(bytes.length) };
     const qr = qrcode(0, level);
     qr.addData(bytes);
     try {
       qr.make();
     } catch {
-      return { ok: false, kind: 'qr', error: tooMuchText(bytes.length, level) };
+      return { ok: false, kind: 'qr', error: tooMuchMsg(bytes.length) };
     }
     const count = qr.getModuleCount();
     const modules: boolean[][] = [];
@@ -161,8 +171,8 @@ export const qrCode: Generator = {
       text: content,
       downloads: ['png', 'svg'],
       meta: [
-        { label: 'Modules', value: `${count} x ${count}` },
-        { label: 'Error correction', value: level },
+        { label: ei.modulesLabel ?? 'Modules', value: `${count} x ${count}` },
+        { label: ei.ecLabel ?? 'Error correction', value: level },
       ],
     };
   },

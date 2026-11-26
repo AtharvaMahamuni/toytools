@@ -8,11 +8,13 @@
 // against, so it cannot claim a platform the code does not actually have.
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { generatePageTitle } from '@lib/titles';
-import { withBase, categoryPath } from '@lib/paths';
+import { withBase, categoryPath, pagePath } from '@lib/paths';
 import { tools } from '@data/registry';
 import { categories } from '@data/categories';
 import { engineRegistry, knownPatterns } from '@data/engines';
 import XAccountLink from '@components/XAccountLink.astro';
+import { ACTIVE_LOCALES } from '@data/locales';
+import { pageHreflangLinks, switcherAlternatesForPath } from '@lib/i18n/registry';
 
 // Kept under the 160-character ceiling Quality Guardian enforces on every meta description.
 const description =
@@ -48,9 +50,17 @@ const breadcrumbSchema = {
     { '@type': 'ListItem', position: 2, name: 'Platform' },
   ],
 };
+const hreflangLinks = pageHreflangLinks('/platform/', Astro.site);
+const switcherAlternates = switcherAlternatesForPath(loc => pagePath('/platform/', loc), ACTIVE_LOCALES);
 ---
 
-<BaseLayout title={generatePageTitle('platform')} description={description} maxWidth="tool">
+<BaseLayout
+  title={generatePageTitle('platform')}
+  description={description}
+  maxWidth="tool"
+  hreflangLinks={hreflangLinks}
+  switcherAlternates={switcherAlternates}
+>
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 
   <article class="page-doc">

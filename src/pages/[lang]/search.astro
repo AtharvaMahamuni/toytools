@@ -1,0 +1,130 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ToolCard from '@components/ToolCard.astro';
+import CategoryChips from '@components/CategoryChips.astro';
+import NewBadgeExpiry from '@components/NewBadgeExpiry.astro';
+import { categories } from '@data/categories';
+import { tools } from '@data/registry';
+import { pagePath } from '@lib/paths';
+import { LOCALIZED_LOCALES } from '@data/locales';
+import { generateLocalizedPageTitle, getUiStrings, localizeCategory } from '@data/i18n/index';
+import { hasLocalizedTool, localizeTool } from '@lib/i18n/registry';
+import type { LocalizedLocale } from '@lib/i18n/types';
+
+export const getStaticPaths = (() =>
+  LOCALIZED_LOCALES.map(lang => ({ params: { lang }, props: { lang } }))
+) satisfies GetStaticPaths;
+
+interface Props {
+  lang: LocalizedLocale;
+}
+
+const { lang } = Astro.props;
+const ui = getUiStrings(lang);
+
+function getCategoryName(slug: string): string {
+  const raw = categories.find(c => c.slug === slug);
+  return raw ? localizeCategory(raw, lang).name : slug;
+}
+
+const searchItems = tools.map(raw => {
+  const t = hasLocalizedTool(raw.slug, lang) ? localizeTool(raw, lang) : raw;
+  const catName = getCategoryName(raw.categorySlug);
+  const blurb = t.tagline || t.description;
+  const seen = new Set(`${t.name} ${blurb} ${catName}`.toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(Boolean));
+  const extra: string[] = [];
+  for (const rawPhrase of [raw.name, ...(t.tags ?? []), ...(t.keywords ?? []), t.family ?? '']) {
+    for (const word of rawPhrase.toLowerCase().split(/[^\p{L}\p{N}]+/u)) {
+      if (word.length < 2 || seen.has(word)) continue;
+      seen.add(word);
+      extra.push(word);
+    }
+  }
+  return { tool: t, catName, vocab: extra.join(' ') };
+});
+
+const COPY: Record<LocalizedLocale, { h1: string; btn: string; placeholder: string; none: string; suggest: string }> = {
+  es: { h1: 'Buscar herramientas', btn: 'Buscar', placeholder: 'Buscar por nombre, categoría o etiqueta', none: 'No se encontraron herramientas.', suggest: 'Sugerir herramienta' },
+  de: { h1: 'Tools durchsuchen', btn: 'Suchen', placeholder: 'Nach Name, Kategorie oder Stichwort suchen', none: 'Keine passenden Tools gefunden.', suggest: 'Tool vorschlagen' },
+  fr: { h1: 'Rechercher un outil', btn: 'Rechercher', placeholder: 'Rechercher par nom, catégorie ou mot-clé', none: 'Aucun outil trouvé.', suggest: 'Suggérer un outil' },
+};
+const c = COPY[lang];
+---
+
+<BaseLayout
+  title={generateLocalizedPageTitle('search', undefined, lang)}
+  description={ui.home.description}
+  maxWidth="category"
+  robots="noindex,follow"
+  lang={lang}
+>
+  <section class="search-header">
+    <h1>{c.h1}</h1>
+    <form class="search-page-form" action={pagePath('/search/', lang)} method="get" role="search">
+      <label class="sr-only" for="search-page-query">{ui.nav.searchAria}</label>
+      <input id="search-page-query" type="search" name="q" placeholder={c.placeholder} autocomplete="off" />
+      <button type="submit">{c.btn}</button>
+    </form>
+  </section>
+
+  <CategoryChips allHref={pagePath('/search/', lang)} lang={lang} />
+
+  <section class="search-results" aria-live="polite">
+    <p class="result-count" id="result-count"></p>
+    <div class="tool-grid" id="search-results">
+      {searchItems.map(({ tool, catName, vocab }) => (
+        <article data-search-item data-slug={tool.slug} data-search={vocab}>
+          <ToolCard tool={tool} categoryName={catName} withSlug={false} lang={lang} />
+        </article>
+      ))}
+    </div>
+    <p class="empty-state" id="empty-state" hidden>
+      {c.none}
+      <a id="empty-suggest" href={pagePath('/feedback/', lang)}>{c.suggest} &rarr;</a>
+    </p>
+  </section>
+  <NewBadgeExpiry />
+</BaseLayout>
+
+<style>
+  .search-header { padding: var(--space-12) 0 var(--space-8); border-bottom: var(--border); margin-bottom: var(--space-8); }
+  h1 { margin-bottom: var(--space-6); }
+  .search-page-form { display: flex; flex-direction: column; gap: var(--space-3); max-width: var(--width-tool); }
+  .search-page-form input, .search-page-form button { min-height: 52px; border-radius: var(--radius-lg); font: inherit; }
+  .search-page-form input { padding: 0 var(--space-4); border: 1px solid var(--color-border-strong); background: var(--color-surface); color: var(--color-text); }
+  .search-page-form button { padding: 0 var(--space-6); border: none; background: var(--color-action); color: var(--color-text-inverse); font-weight: var(--font-weight-semibold); cursor: pointer; }
+  @media (min-width: 640px) { .search-page-form { flex-direction: row; } .search-page-form input { flex: 1; } }
+  .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--space-4); }
+  .result-count { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-4); }
+  .empty-state { padding: var(--space-12) 0; color: var(--color-text-muted); }
+</style>
+
+<script is:inline>
+  (function () {
+    var input = document.getElementById('search-page-query');
+    var grid = document.getElementById('search-results');
+    var count = document.getElementById('result-count');
+    var empty = document.getElementById('empty-state');
+    if (!input || !grid || !count) return;
+    var cards = Array.from(grid.querySelectorAll('[data-search-item]'));
+    function filter() {
+      var q = input.value.trim().toLowerCase();
+      var visible = 0;
+      cards.forEach(function (card) {
+        var text = (card.textContent + ' ' + (card.getAttribute('data-search') || '')).toLowerCase();
+        var hit = !q || q.split(/\s+/).every(function (w) { return text.indexOf(w) !== -1; });
+        card.hidden = !hit;
+        if (hit) visible++;
+      });
+      count.textContent = String(visible);
+      if (empty) empty.hidden = visible > 0;
+    }
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('q')) input.value = params.get('q');
+    input.addEventListener('input', filter);
+    var form = input.closest('form');
+    if (form) form.addEventListener('submit', function (e) { e.preventDefault(); filter(); });
+    filter();
+  })();
+</script>

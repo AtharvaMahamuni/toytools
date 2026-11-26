@@ -26,6 +26,7 @@ import { fileURLToPath } from 'node:url';
 import { categories } from '../src/data/categories';
 import { tools as registryTools } from '../src/data/registry';
 import { manifestBySlug } from '../src/lib/simulation/manifests';
+import { LOCALIZED_LOCALES } from '../src/data/locales';
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const toolsDir = join(repoRoot, 'src', 'tools');
@@ -40,6 +41,8 @@ export interface DiscoveredTool {
   hasFaq: boolean;
   hasGuide: boolean;
   hasKnowledge: boolean;
+  i18nLocales: string[];
+  i18nGuides: string[];
 }
 
 /** Scan src/tools/<segment>/<slug>/ for conforming tool directories, sorted by slug. */
@@ -50,14 +53,27 @@ export function discoverTools(): DiscoveredTool[] {
     const segPath = join(toolsDir, segment.name);
     for (const slugDir of readdirSync(segPath, { withFileTypes: true })) {
       if (!slugDir.isDirectory()) continue;
-      const files = new Set(readdirSync(join(segPath, slugDir.name)));
+      const toolPathDir = join(segPath, slugDir.name);
+      const files = new Set(readdirSync(toolPathDir));
       if (!files.has('config.ts')) continue; // not a tool dir
+      const i18nLocales: string[] = [];
+      const i18nGuides: string[] = [];
+      const i18nDir = join(toolPathDir, 'i18n');
+      if (files.has('i18n') && existsSync(i18nDir)) {
+        const i18nFiles = new Set(readdirSync(i18nDir));
+        for (const loc of LOCALIZED_LOCALES) {
+          if (i18nFiles.has(`${loc}.ts`)) i18nLocales.push(loc);
+          if (i18nFiles.has(`Guide.${loc}.astro`)) i18nGuides.push(loc);
+        }
+      }
       found.push({
         slug: slugDir.name,
         segment: segment.name,
         hasFaq: files.has('faq.ts'),
         hasGuide: files.has('Guide.astro'),
         hasKnowledge: files.has('knowledge.ts'),
+        i18nLocales,
+        i18nGuides,
       });
     }
   }
@@ -227,14 +243,111 @@ ${slot}
 `;
 }
 
+export function serializeI18nRegistry(tools: DiscoveredTool[]): string {
+  const packImports: string[] = [];
+  const packEntries: string[] = [];
+  const guideEntries: string[] = [];
+
+  for (const t of tools) {
+    for (const loc of [...t.i18nLocales].sort()) {
+      const id = `${camelOf(t.slug)}${loc.toUpperCase()}`;
+      packImports.push(
+        `import { pack as ${id} } from '@tools/${t.segment}/${t.slug}/i18n/${loc}';`,
+      );
+      packEntries.push(`  '${loc}:${t.slug}': ${id},`);
+    }
+    for (const loc of [...t.i18nGuides].sort()) {
+      guideEntries.push(`  '${loc}:${t.slug}',`);
+    }
+  }
+
+  return `${HEADER}
+import type { LocalizedToolPack } from '@lib/i18n/types';
+${packImports.join('\n')}
+
+export const localizedPacksByKey: Record<string, LocalizedToolPack> = {
+${packEntries.join('\n')}
+};
+
+export const localizedGuideKeys = [
+${guideEntries.join('\n')}
+] as const;
+`;
+}
+
+function serializeLocalizedSegmentRoute({ segment, hasWidgets, hasSims }: { segment: string; hasWidgets: boolean; hasSims: boolean }): string {
+  const imports = [
+    `import type { GetStaticPaths } from 'astro';`,
+    `import ToolPage from '@components/tool/ToolPage.astro';`,
+    `import { localizedToolPathsForSegment } from '@lib/tools/segment-paths';`,
+  ];
+  if (hasSims) {
+    imports.push(
+      `import SimulationWidget from '@tools/_shared/SimulationWidget.astro';`,
+      `import { manifestBySlug } from '@lib/simulation/manifests';`,
+      `import { simulationSchemas } from '@lib/simulation/schema';`,
+    );
+  }
+
+  const body: string[] = [
+    `export const getStaticPaths = (() => {`,
+    `  return localizedToolPathsForSegment('${segment}');`,
+    `}) satisfies GetStaticPaths;`,
+    ``,
+    `const { tool, category, lang, pack } = Astro.props;`,
+  ];
+
+  if (hasSims) {
+    body.push(
+      `const simManifest = manifestBySlug.get(tool.slug);`,
+      `const simSchemas = simManifest ? simulationSchemas(simManifest, Astro.url.href) : [];`,
+    );
+  }
+  if (hasWidgets) {
+    body.push(
+      `const widgets = import.meta.glob<{ default: unknown }>('../../../../tools/${segment}/*/Widget.astro');`,
+      `const WidgetModule = ${hasSims ? 'simManifest ? null : ' : ''}await widgets[\`../../../../tools/${segment}/\${tool.slug}/Widget.astro\`]?.();`,
+      `const Widget = WidgetModule?.default as any;`,
+      `if (${hasSims ? '!simManifest && ' : ''}!Widget) throw new Error(\`No Widget.astro found for tool slug "\${tool.slug}"\`);`,
+    );
+  }
+
+  const schemasAttr = hasSims ? ' extraSchemas={simSchemas}' : '';
+  let slot: string;
+  if (hasWidgets && hasSims) {
+    slot = `  {simManifest
+    ? <SimulationWidget config={tool} simulationId={simManifest.metadata.processorId} examples={simManifest.examples} lang={lang} pack={pack} />
+    : <Widget lang={lang} pack={pack} />}`;
+  } else if (hasSims) {
+    slot = `  <SimulationWidget config={tool} simulationId={simManifest!.metadata.processorId} examples={simManifest!.examples} lang={lang} pack={pack} />`;
+  } else {
+    slot = `  <Widget lang={lang} pack={pack} />`;
+  }
+
+  return `${ASTRO_HEADER}
+${imports.join('\n')}
+${body.join('\n')}
+---
+
+<ToolPage tool={tool} category={category} lang={lang} pack={pack}${schemasAttr}>
+${slot}
+</ToolPage>
+`;
+}
+
 export const GENERATED_FILES: { path: string; serialize: (t: DiscoveredTool[]) => string }[] = [
   { path: 'src/data/registry.generated.ts', serialize: serializeToolRegistry },
   { path: 'src/data/faq-registry.generated.ts', serialize: serializeFaqRegistry },
   { path: 'src/data/guide-registry.generated.ts', serialize: serializeGuideRegistry },
   { path: 'src/lib/knowledge/registry.generated.ts', serialize: serializeKnowledgeRegistry },
+  { path: 'src/lib/i18n/registry.generated.ts', serialize: serializeI18nRegistry },
   ...discoverSegments(discoverTools()).map(seg => ({
     path: `src/pages/tool/${seg.segment}/[slug].astro`,
     serialize: () => serializeSegmentRoute(seg),
+  })),
+  ...discoverSegments(discoverTools()).map(seg => ({
+    path: `src/pages/[lang]/tool/${seg.segment}/[slug].astro`,
+    serialize: () => serializeLocalizedSegmentRoute(seg),
   })),
 ];
 

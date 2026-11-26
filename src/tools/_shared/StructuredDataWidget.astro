@@ -15,6 +15,9 @@ import MoreAbout from '@tools/_shared/MoreAbout.astro';
 import { structuredInfo } from '@lib/engines/structured-data/info';
 import { STRUCTURED_TOOLS } from '@lib/engines/structured-data/registry';
 import type { ToolConfig } from '@data/types';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { WIDGET_CHROME } from '@lib/i18n/widget-utils';
 
 interface Props {
   slug: string;
@@ -37,11 +40,15 @@ interface Props {
    * every slim difference is a conditional that renders nothing when the flag is unset.
    */
   slim?: boolean;
+  lang?: LocaleCode;
+  pack?: LocalizedToolPack | null;
 }
 
-const { slug, structuredId, config, showOutput = true, slim = false, modes, modeAriaLabel = 'Mode' } = Astro.props;
+const { slug, structuredId, config, showOutput = true, slim = false, modes, modeAriaLabel = 'Mode', lang = 'en', pack = null } = Astro.props;
 const modeId = `${slug}-mode`;
 const defaultMode = modes?.[0]?.value;
+const c = WIDGET_CHROME[lang];
+const ui = (pack?.ui ?? {}) as Record<string, any>;
 // Fragment when not slim, so the default path gains no wrapper element.
 const Root = slim ? 'div' : Fragment;
 const rootProps = slim ? { class: 'sd-slim' } : {};
@@ -50,22 +57,22 @@ const rootProps = slim ? { class: 'sd-slim' } : {};
 const stateKey = config?.toolGroup ? `group:${config.toolGroup}` : slug;
 // Reusable educational blocks (same ones the ConverterWidget uses).
 const info = structuredInfo(structuredId);
-const insightLines = info.insight == null ? [] : Array.isArray(info.insight) ? info.insight : [info.insight];
-const technicalRows = info.technical ?? [];
-// slim hands these same insight lines and technical rows to Zone C's "More about" row (MoreAbout)
-// instead of painting them under the actions: one drawer, not a callout plus a drawer. The markup
-// below is laid out so the default path's HTML is byte-identical to the pre-flag widget.
-// A tool whose input is not JSON has no honest repair to offer, and declining must cost
-// nothing on the page: no hidden button, no bytes, no markup.
+const rawInsight = ui.insight ?? info.insight;
+const insightLines = rawInsight == null ? [] : Array.isArray(rawInsight) ? rawInsight : [rawInsight];
+const technicalRows = (ui.technical as typeof info.technical) ?? info.technical ?? [];
 const repairable = STRUCTURED_TOOLS[structuredId]?.jsonInput === true;
 
 const inputId = `${slug}-input`;
 const outputId = `${slug}-output`;
 const statusId = `${slug}-status`;
+const inputLabel = ui.inputLabel ?? info.inputLabel ?? 'JSON input';
+const placeholder = ui.placeholder ?? info.placeholder ?? 'Paste JSON here';
+const emptyOut = ui.emptyOutput ?? c.emptyOutput;
+const moreAboutHeading = ui.moreAboutHeading ?? `How ${config.name} works`;
 ---
 
 <Root {...rootProps}><ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
-  <IoPanel slot="input" label="Input" labelFor={inputId} data-structured={structuredId} data-slug={slug} data-state-key={stateKey} data-sample={info.sample ?? ''}>
+  <IoPanel slot="input" label={c.input} labelFor={inputId} data-structured={structuredId} data-slug={slug} data-state-key={stateKey} data-sample={info.sample ?? ''}>
     {modes && modes.length > 0 && (
       <select slot="header-end" id={modeId} class="io-mode" aria-label={modeAriaLabel}>
         {modes.map((m) => (
@@ -75,8 +82,8 @@ const statusId = `${slug}-status`;
     )}
     <textarea
       id={inputId}
-      aria-label={info.inputLabel ?? 'JSON input'}
-      placeholder={info.placeholder ?? 'Paste JSON here'}
+      aria-label={inputLabel}
+      placeholder={placeholder}
       rows={slim ? '6' : undefined}
       spellcheck="false"
       autocomplete="off"
@@ -84,15 +91,13 @@ const statusId = `${slug}-status`;
       autocapitalize="off"></textarea>
   </IoPanel>
 
-  <IoPanel slot="output" label={showOutput ? 'Output' : 'Status'} copyTargetId={showOutput ? outputId : undefined}>
+  <IoPanel slot="output" label={showOutput ? c.output : c.status} copyTargetId={showOutput ? outputId : undefined}>
     <p id={statusId} class="io-status" data-ok="" aria-live="polite"></p>
-    {/* The craft seam: the status line names the fault, and the fix belongs where the diagnosis
-        is. A button and nothing else — no new bordered card (R2/R5). */}
     {repairable && (
       <button type="button" class="sd-repair" id={`${slug}-repair`} data-craft={config.craft?.id} hidden></button>
     )}
     {showOutput && (
-      <output id={outputId} class="io-output--bordered" aria-live="polite" data-empty>Output will appear here</output>
+      <output id={outputId} class="io-output--bordered" aria-live="polite" data-empty>{emptyOut}</output>
     )}
   </IoPanel>
 </ToolSplit>
@@ -102,15 +107,16 @@ const statusId = `${slug}-status`;
   pasteTarget={inputId}
   downloadTarget={showOutput ? outputId : undefined}
   downloadFilename={showOutput ? `${slug}${info.downloadExt ?? '.json'}` : undefined}
+  lang={lang}
 >
-  <ExampleLoader hasSample={!!info.sample} label={slim ? 'Sample' : undefined} />
+  <ExampleLoader hasSample={!!info.sample} label={slim ? c.sample : (lang === 'en' ? undefined : c.loadExample)} />
 </ToolActions>
 
 <slot />
 
-{!slim && (<Fragment><EducationalInsight insight={info.insight} />
-<TechnicalDetails technical={info.technical} /></Fragment>)}{slim && (insightLines.length > 0 || technicalRows.length > 0) && (
-  <MoreAbout id={`${slug}-about`} heading={`How ${config.name} works`}>
+{!slim && (<Fragment><EducationalInsight insight={rawInsight} />
+<TechnicalDetails technical={technicalRows} lang={lang} /></Fragment>)}{slim && (insightLines.length > 0 || technicalRows.length > 0) && (
+  <MoreAbout id={`${slug}-about`} heading={moreAboutHeading}>
     {insightLines.map((line) => <p>{line}</p>)}
     {technicalRows.length > 0 && (
       <dl class="conv-tech-list">
@@ -138,6 +144,17 @@ const statusId = `${slug}-status`;
     var status = document.getElementById(slug + '-status');
     var modeEl = document.getElementById(slug + '-mode');
     if (!input || !status) return;
+
+    var i18n = {};
+    try {
+      var i18nEl = document.getElementById('tt-i18n');
+      if (i18nEl && i18nEl.textContent) i18n = JSON.parse(i18nEl.textContent);
+    } catch (_) {}
+    var emptyOutText = i18n.emptyOutput || 'Output will appear here';
+    var validText = i18n.validLabel || 'Valid';
+    var invalidText = i18n.invalidLabel || 'Invalid';
+    var appliedText = i18n.appliedPrefix || 'Applied: ';
+    var loadErrText = i18n.loadError || 'This tool could not finish loading. Check your connection and reload the page.';
 
     function setOutput(text, empty) {
       if (!output) return;
@@ -172,7 +189,7 @@ const statusId = `${slug}-status`;
         ++runSeq;
         status.textContent = '';
         status.setAttribute('data-ok', '');
-        setOutput('Output will appear here', true);
+        setOutput(emptyOutText, true);
         repair.offer(true);
         return;
       }
@@ -184,7 +201,7 @@ const statusId = `${slug}-status`;
         if (res && typeof res.then === 'function') {
           res.then(function (settled) { if (ticket === runSeq) apply(settled); }, function () {
             // The registry already turns a failed chunk into a result; this covers anything else.
-            if (ticket === runSeq) apply({ ok: false, output: '', error: 'This tool could not finish loading. Check your connection and reload the page.' });
+            if (ticket === runSeq) apply({ ok: false, output: '', error: loadErrText });
           });
           return;
         }
@@ -192,7 +209,7 @@ const statusId = `${slug}-status`;
       }
       // Large pastes: yield so the page can paint and stay clickable while the engine runs.
       if (text.length > LARGE) {
-        status.textContent = 'Working…';
+        status.textContent = i18n.workingLabel || 'Working…';
         status.setAttribute('data-ok', '');
         setTimeout(go, 0);
         return;
@@ -202,8 +219,8 @@ const statusId = `${slug}-status`;
 
     function apply(res) {
       status.setAttribute('data-ok', res.ok ? 'true' : 'false');
-      status.textContent = res.ok ? '✓ Valid' + (res.warning ? '. ⚠ ' + res.warning : '') : '✗ ' + (res.error || 'Invalid');
-      setOutput(res.ok ? (res.output || '') : 'Output will appear here', !res.ok);
+      status.textContent = res.ok ? '✓ ' + validText + (res.warning ? '. ⚠ ' + res.warning : '') : '✗ ' + (res.error || invalidText);
+      setOutput(res.ok ? (res.output || '') : emptyOutText, !res.ok);
       repair.offer(res.ok);
     }
 
@@ -230,7 +247,7 @@ const statusId = `${slug}-status`;
           hide();
           run();
           persist();
-          if (window.ToyTools && ToyTools.toast) ToyTools.toast('Applied: ' + next.label);
+          if (window.ToyTools && ToyTools.toast) ToyTools.toast(appliedText + next.label);
           input.focus();
         });
       }

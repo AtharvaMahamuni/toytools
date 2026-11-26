@@ -3,11 +3,14 @@ import type { Tool } from '@data/types';
 import { categories } from '@data/categories';
 import { toolPath } from '../lib/paths';
 import { freshUntil } from '@lib/tools/freshness';
+import type { LocaleCode } from '@data/locales';
+import { hasLocalizedTool } from '@lib/i18n/registry';
 
 interface Props {
   tool: Tool;
   categoryName?: string;
   categorySegment?: string;
+  lang?: LocaleCode;
   /**
    * /search/ already stamps data-slug on the article. Repeating it on the anchor
    * copies every slug into the heaviest HTML document on the site.
@@ -15,9 +18,10 @@ interface Props {
   withSlug?: boolean;
 }
 
-const { tool, categoryName, categorySegment: segmentProp, withSlug = true } = Astro.props;
+const { tool, categoryName, categorySegment: segmentProp, lang = 'en', withSlug = true } = Astro.props;
 const segment = segmentProp ?? categories.find(c => c.slug === tool.categorySlug)?.segment ?? tool.categorySlug;
-const toolHref = toolPath({ slug: tool.slug, segment });
+const targetLang = hasLocalizedTool(tool.slug, lang) ? lang : 'en';
+const toolHref = toolPath({ slug: tool.slug, segment }, targetLang);
 // Tagline is the short on-page line; description is the SEO meta (up to 160 chars). Cards
 // that print the meta blow the /search/ HTML budget as those metas thicken.
 const blurb = tool.tagline || tool.description;
