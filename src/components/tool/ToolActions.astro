@@ -1,30 +1,31 @@
 ---
 import { allowsUrlState } from '@lib/url-state';
+import type { LocaleCode } from '@data/locales';
+import { WIDGET_CHROME } from '@lib/i18n/widget-utils';
 
 interface Props {
   copyTarget?: string;
   clearTarget?: string;
   pasteTarget?: string;
   downloadFilename?: string;
-  // Element to read the download content from. Defaults to clearTarget for
-  // single-textarea tools (input doubles as the editable content); engine
-  // widgets with a separate output element should pass it explicitly.
   downloadTarget?: string;
-  // Render the "Copy link" / "Share" action. Pass the tool's engine and pattern and the
-  // build-time policy decides; never pass a hardcoded true. On a tool whose input may be a
-  // secret the button is not rendered at all — not disabled, absent.
   shareEngine?: string;
   sharePattern?: string;
-  // Phones only (<640px): the row sticks to the bottom of the screen while its widget is in view,
-  // so Copy stays one tap away under a long result. Opt-in; every existing caller renders exactly
-  // as before. See .tool-actions--sticky in src/styles/prep-slim.css.
   sticky?: boolean;
+  lang?: LocaleCode;
 }
 
 const {
   copyTarget, clearTarget, pasteTarget, downloadFilename, downloadTarget,
-  shareEngine, sharePattern, sticky = false,
+  shareEngine, sharePattern, sticky = false, lang = 'en',
 } = Astro.props;
+const c = WIDGET_CHROME[lang];
+const shareLabelByLocale: Record<LocaleCode, string> = {
+  en: 'Copy link',
+  es: 'Copiar enlace',
+  de: 'Link kopieren',
+  fr: 'Copier le lien',
+};
 const resolvedDownloadTarget = downloadTarget || clearTarget;
 const canShare = (shareEngine || sharePattern) ? allowsUrlState(shareEngine, sharePattern) : false;
 const hasAny = copyTarget || clearTarget || pasteTarget || canShare;
@@ -37,10 +38,10 @@ const hasAny = copyTarget || clearTarget || pasteTarget || canShare;
         class="action-btn action-btn--paste"
         data-action="paste"
         data-target={pasteTarget}
-        data-label="Paste"
-        aria-label="Paste from clipboard"
+        data-label={c.paste}
+        aria-label={c.paste}
       >
-        Paste
+        {c.paste}
       </button>
     )}
     {copyTarget && (
@@ -48,10 +49,10 @@ const hasAny = copyTarget || clearTarget || pasteTarget || canShare;
         class="action-btn action-btn--copy"
         data-action="copy"
         data-target={copyTarget}
-        data-label="Copy"
-        aria-label="Copy text to clipboard"
+        data-label={c.copy}
+        aria-label={c.copy}
       >
-        Copy
+        {c.copy}
       </button>
     )}
     {clearTarget && (
@@ -59,20 +60,20 @@ const hasAny = copyTarget || clearTarget || pasteTarget || canShare;
         class="action-btn action-btn--clear"
         data-action="clear"
         data-target={clearTarget}
-        data-label="Clear"
-        aria-label="Clear text"
+        data-label={c.clear}
+        aria-label={c.clear}
       >
-        Clear
+        {c.clear}
       </button>
     )}
     {canShare && (
       <button
         class="action-btn action-btn--share"
         data-action="share"
-        data-label="Copy link"
-        aria-label="Copy a link to this result"
+        data-label={shareLabelByLocale[lang]}
+        aria-label={shareLabelByLocale[lang]}
       >
-        Copy link
+        {shareLabelByLocale[lang]}
       </button>
     )}
     {downloadFilename && resolvedDownloadTarget && (
@@ -81,10 +82,10 @@ const hasAny = copyTarget || clearTarget || pasteTarget || canShare;
         data-action="download"
         data-target={resolvedDownloadTarget}
         data-filename={downloadFilename}
-        data-label="Download"
-        aria-label={`Download as ${downloadFilename}`}
+        data-label={c.download}
+        aria-label={`${c.download} ${downloadFilename}`}
       >
-        Download
+        {c.download}
       </button>
     )}
     <slot />

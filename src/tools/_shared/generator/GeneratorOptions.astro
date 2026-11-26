@@ -9,8 +9,10 @@ import type { GeneratorField } from '@lib/generation/types';
 interface Props {
   fields: GeneratorField[];
   idPrefix: string;
+  showLabel?: string;
+  hideLabel?: string;
 }
-const { fields, idPrefix } = Astro.props;
+const { fields, idPrefix, showLabel = 'Show', hideLabel = 'Hide' } = Astro.props;
 
 const fid = (id: string) => `${idPrefix}-f-${id}`;
 const defaults: Record<string, GeneratorField['default']> = Object.fromEntries(fields.map((f) => [f.id, f.default]));
@@ -116,9 +118,11 @@ const rows = fields.map((f) => {
               type="button"
               class="action-btn gen-secret-toggle"
               data-secret-toggle={fid(field.id)}
+              data-show-label={showLabel}
+              data-hide-label={hideLabel}
               aria-controls={fid(field.id)}
               aria-pressed="false"
-            >Show</button>
+            >{showLabel}</button>
           </div>
         )}
 

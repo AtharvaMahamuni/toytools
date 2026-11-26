@@ -3,6 +3,8 @@
 // Whole tile is a single crawlable link to the tool page (icon + title/meta).
 // Install lives only on the tool page (InstallButton / ?install=1 deep-link there).
 import { withBase, toolPath } from '@lib/paths';
+import type { LocaleCode } from '@data/locales';
+import { hasLocalizedTool } from '@lib/i18n/registry';
 
 interface Props {
   /** Tool slug — drives icon path and (for groups) the primary member. */
@@ -13,10 +15,12 @@ interface Props {
   segment: string;
   /** ISO instant when the New badge expires. Omit to show no badge. */
   newUntil?: string;
+  lang?: LocaleCode;
 }
 
-const { slug, name, tagline, segment, newUntil } = Astro.props;
-const href = toolPath({ slug, segment });
+const { slug, name, tagline, segment, newUntil, lang = 'en' } = Astro.props;
+const targetLang = hasLocalizedTool(slug, lang) ? lang : 'en';
+const href = toolPath({ slug, segment }, targetLang);
 const iconSrc = withBase(`/icons/tool/${slug}.svg`);
 ---
 

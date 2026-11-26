@@ -8,6 +8,15 @@ import { tools } from '@data/registry';
 import { categories } from '@data/categories';
 import { toolGroups } from '@data/tool-groups';
 import { categoryPath, toolPath } from '@lib/paths';
+import type { LocaleCode } from '@data/locales';
+import { localizeCategory } from '@data/i18n/index';
+import { hasLocalizedTool, localizeTool } from '@lib/i18n/registry';
+
+interface Props {
+  lang?: LocaleCode;
+}
+
+const { lang = 'en' } = Astro.props;
 
 interface DirectoryEntry {
   label: string;
@@ -31,16 +40,19 @@ function entriesFor(categorySlug: string, segment: string): DirectoryEntry[] {
       if (seenGroups.has(group.id)) continue;
       seenGroups.add(group.id);
       const first = group.members[0]!;
+      const tLang = hasLocalizedTool(first.slug, lang) ? lang : 'en';
       entries.push({
         label: group.name,
-        href: toolPath({ slug: first.slug, segment }),
+        href: toolPath({ slug: first.slug, segment }, tLang),
         slug: first.slug,
         groupSlugs: group.members.map(m => m.slug).join(','),
       });
     } else {
+      const tLang = hasLocalizedTool(t.slug, lang) ? lang : 'en';
+      const localized = tLang === 'en' ? t : localizeTool(t, tLang);
       entries.push({
-        label: t.name,
-        href: toolPath({ slug: t.slug, segment }),
+        label: localized.name,
+        href: toolPath({ slug: t.slug, segment }, tLang),
         slug: t.slug,
       });
     }
@@ -48,13 +60,16 @@ function entriesFor(categorySlug: string, segment: string): DirectoryEntry[] {
   return entries;
 }
 
-const columns = categories.map(c => ({
-  slug: c.slug,
-  name: c.name,
-  href: categoryPath(c),
-  count: tools.filter(t => t.categorySlug === c.slug).length,
-  entries: entriesFor(c.slug, c.segment),
-}));
+const columns = categories.map(rawCat => {
+  const c = localizeCategory(rawCat, lang);
+  return {
+    slug: c.slug,
+    name: c.name,
+    href: categoryPath(c, lang),
+    count: tools.filter(t => t.categorySlug === c.slug).length,
+    entries: entriesFor(c.slug, c.segment),
+  };
+});
 ---
 
 <nav class="tool-directory" aria-label="All tools by category">

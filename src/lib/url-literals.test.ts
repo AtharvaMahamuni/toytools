@@ -48,10 +48,6 @@ const OTHER_FILES: Record<string, string> = {
   'src/lib/search/types.ts': 'palette chunk; pinned by src/lib/search/entry-url.test.ts',
   // Builds recent-tool links in an is:inline script, where no module can be imported.
   'src/pages/offline.astro': 'is:inline script builds the link by concatenation; no imports there',
-  // Widgets are out of scope in this series (spec: do not refactor existing widgets). Each passes
-  // its own fixed tool URL through withBase, so it is base-aware today.
-  'src/tools/productivity/pomodoro-timer/Widget.astro': "widget, not refactored; withBase('/tool/productivity/pomodoro-timer/')",
-  'src/tools/productivity/no-sleep-website/Widget.astro': "widget, not refactored; withBase('/tool/productivity/no-sleep-website/')",
   // Shared text widget: withBase('/tool/text/') rendered into a data attribute, and the inline
   // script's fallback for that attribute (inline scripts cannot import).
   'src/tools/_shared/TextProcessorWidget.astro': 'shared widget, not refactored; sibling prefix for an is:inline script',

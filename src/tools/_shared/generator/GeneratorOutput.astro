@@ -7,14 +7,18 @@
 // generator declares `notes`, the shared CraftNote is rendered once and the controller fills it
 // from GenerationResult.note. Nothing in this file knows what any generator would say.
 import CraftNote from '@tools/_shared/CraftNote.astro';
+import type { LocaleCode } from '@data/locales';
+import { WIDGET_CHROME } from '@lib/i18n/widget-utils';
 
 interface Props {
   slug: string;
   emptyText?: string;
   /** The tool's declared craft id. Rendered only when its generator supplies notes. */
   craftId?: string;
+  lang?: LocaleCode;
 }
-const { slug, emptyText = 'Configure the options and generate.', craftId } = Astro.props;
+const { slug, emptyText = 'Configure the options and generate.', craftId, lang = 'en' } = Astro.props;
+const c = WIDGET_CHROME[lang];
 ---
 
 <div class="gen-output" id={`${slug}-output`}>
@@ -23,7 +27,7 @@ const { slug, emptyText = 'Configure the options and generate.', craftId } = Ast
   <pre class="gen-output-text" id={`${slug}-text`} hidden aria-live="polite"></pre>
 
   <div class="gen-qr" id={`${slug}-qr`} hidden>
-    <canvas id={`${slug}-canvas`} class="gen-canvas" role="img" aria-label="Generated QR code"></canvas>
+    <canvas id={`${slug}-canvas`} class="gen-canvas" role="img" aria-label={c.qrAria}></canvas>
   </div>
 
   <p class="gen-error" id={`${slug}-error`} role="alert" hidden></p>

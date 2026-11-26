@@ -1,0 +1,90 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="fr"
+>
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Un timestamp Unix compte le nombre de secondes écoulées depuis un point de départ fixe, et ce convertisseur fonctionne dans les deux sens : transformer un nombre comme 1700000000 en date lisible, ou convertir une date en timestamp. Il affiche l’heure UTC, la chaîne ISO 8601 et votre heure locale en secondes ou en millisecondes pour vos journaux serveur, bases de données et API.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir le Convertisseur de Timestamp Unix →</a>
+  </section>
+
+  <section id="comment-ca-marche">
+    <h2>Fonctionnement du temps Unix <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      L’époque Unix (Unix epoch) correspond au 1er janvier 1970 à minuit UTC. Zéro représente cet instant et les valeurs négatives correspondent aux dates antérieures. Comme le compteur part toujours d’UTC, un timestamp Unix désigne exactement le même moment à Paris, Montréal ou Tokyo. On retrouve également ce format dans les <a href={guidePathBySlug('jwt-decoder')}>champs exp et iat des jetons JWT</a>.
+    </p>
+  </section>
+
+  <section id="exemples">
+    <h2>Exemples concrets <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Timestamp vers date :</strong> 1700000000 secondes correspond au mardi 14 novembre 2023 à 22:13:20 UTC.</p>
+    <p><strong>Date vers timestamp :</strong> saisir le 14 novembre 2023 à 22:13:20 UTC donne 1700000000 secondes, soit 1700000000000 millisecondes.</p>
+    <p><strong>Repérer une erreur d’unité :</strong> lire 1700000000000 comme des secondes renvoie à l’an 55901, signe évident qu’il s’agit de millisecondes.</p>
+  </section>
+
+  <section id="secondes-vs-millisecondes">
+    <h2>Secondes vs millisecondes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Le temps Unix historique compte les secondes (10 chiffres aujourd’hui), alors que JavaScript et nombre d’API web utilisent les millisecondes (13 chiffres, 1000 fois plus grand). Si une conversion donne une année très lointaine, basculez simplement l’unité sur Millisecondes.
+    </p>
+  </section>
+
+  <section id="erreurs-courantes">
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Confondre millisecondes et secondes">
+      <p>Coller une valeur à 13 chiffres dans le mode secondes projette la date au-delà de l’an 50000. Vérifiez le nombre de chiffres : 10 pour les secondes, 13 pour les millisecondes.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Supposer qu’un timestamp contient un fuseau local">
+      <p>Un timestamp Unix ne porte aucun fuseau horaire : il est toujours mesuré depuis UTC. Lisez d’abord la date UTC puis l’heure locale calculée à côté.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="Exécution locale">
+      <p>Toute la conversion s’effectue localement dans votre navigateur grâce aux données de fuseaux intégrées, sans aucun envoi vers un serveur.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

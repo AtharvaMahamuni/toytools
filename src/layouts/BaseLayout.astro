@@ -5,6 +5,8 @@ import ToyToolsRuntime from '@components/ToyToolsRuntime.astro';
 import { withBase } from '../lib/paths';
 import { BRAND_X, identityGraph, logoUrlFor } from '@lib/schema/identity';
 import { SOCIAL_IMAGE_PATH, siteUrl } from '@config/site';
+import { getLocaleConfig, normalizeLocale, type LocaleCode } from '@data/locales';
+import type { HreflangLink } from '@lib/i18n/types';
 import '../styles/global.css';
 
 interface PwaMeta {
@@ -14,12 +16,21 @@ interface PwaMeta {
   title: string; // short app title for the home-screen label
 }
 
+interface AlternateRoute {
+  code: LocaleCode;
+  href: string;
+}
+
 interface Props {
   title: string;
   description: string;
   canonicalUrl?: string;
   maxWidth?: 'tool' | 'content' | 'shell' | 'category' | 'full';
   robots?: string;
+  lang?: LocaleCode;
+  hreflangLinks?: HreflangLink[];
+  switcherAlternates?: AlternateRoute[];
+  engineI18n?: Record<string, unknown>;
   /** When set (tool pages), emits the per-tool web manifest + install meta so the
    *  tool can be added to the home screen as its own app. */
   pwa?: PwaMeta;
@@ -48,6 +59,10 @@ const {
   canonicalUrl,
   maxWidth = 'tool',
   robots = 'index,follow',
+  lang: rawLang = 'en',
+  hreflangLinks = [],
+  switcherAlternates = [],
+  engineI18n,
   pwa,
   engines = [],
   feedbackTool,
@@ -56,6 +71,8 @@ const {
   keepInput = false,
 } = Astro.props;
 
+const lang = normalizeLocale(rawLang);
+const localeCfg = getLocaleConfig(lang);
 const pageTitle = title;
 const canonical = canonicalUrl ?? Astro.url.href;
 const site = siteUrl(Astro.site);
@@ -72,7 +89,7 @@ const maxWidthVar =
 ---
 
 <!doctype html>
-<html lang="en" data-ephemeral={ephemeral ? '' : undefined} data-keep-input={ephemeral && keepInput ? '' : undefined}>
+<html lang={localeCfg.code} dir={localeCfg.dir} data-ephemeral={ephemeral ? '' : undefined} data-keep-input={ephemeral && keepInput ? '' : undefined}>
   <head>
     <meta charset="utf-8" />
     <script is:inline>
@@ -85,7 +102,11 @@ const maxWidthVar =
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {!robots.includes('noindex') && hreflangLinks.map((alt) => (
+      <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+    ))}
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content={localeCfg.ogLocale} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -127,6 +148,9 @@ const maxWidthVar =
     {!robots.includes('noindex') && (
       <script type="application/ld+json" set:html={JSON.stringify(identityGraph(logoUrl))} />
     )}
+    {engineI18n && (
+      <script type="application/json" id="tt-i18n" set:html={JSON.stringify(engineI18n)} />
+    )}
     {/* Google Analytics is loaded from ToyToolsRuntime (client-side) and ONLY for real users on a
         production hostname in the top window. The analytics guard (src/lib/analytics/guard.ts)
         excludes dev, E2E (PUBLIC_E2E=true), browser automation, any other host and any iframe, so
@@ -142,13 +166,13 @@ const maxWidthVar =
     {/* Tool pages pass their own header (ToolBar) through this slot: chrome belongs to whoever owns
         the page, so a tool wears its own and every platform page wears ToyTools'. Exactly one of
         the two renders, so there is always precisely one role="banner". */}
-    {Astro.slots.has('header') ? <slot name="header" /> : <Nav />}
+    {Astro.slots.has('header') ? <slot name="header" /> : <Nav lang={lang} alternates={switcherAlternates} />}
     {/* tabindex="-1" so the skip link can actually move focus here, not just scroll. */}
     <main id="main" tabindex="-1">
       <div class="page-content" style={`max-width: ${maxWidthVar};`}>
         <slot />
       </div>
     </main>
-    <Footer feedbackTool={feedbackTool} credit={!robots.includes('noindex')} privacy={privacyLine} />
+    <Footer feedbackTool={feedbackTool} credit={!robots.includes('noindex')} privacy={privacyLine} lang={lang} alternates={switcherAlternates} />
   </body>
 </html>

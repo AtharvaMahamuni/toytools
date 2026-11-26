@@ -1,9 +1,24 @@
 ---
-import { withBase } from '../lib/paths';
+import { pagePath } from '../lib/paths';
+import type { LocaleCode } from '@data/locales';
+import { getUiStrings } from '@data/i18n/index';
+
+interface Props {
+  lang?: LocaleCode;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = getUiStrings(lang);
+const buttonLabelByLocale: Record<LocaleCode, string> = {
+  en: 'Search',
+  es: 'Buscar',
+  de: 'Suchen',
+  fr: 'Rechercher',
+};
 ---
 
-<form class="hero-search" action={withBase('/search/')} method="get" role="search">
-  <label class="sr-only" for="hero-q">Search tools</label>
+<form class="hero-search" action={pagePath('/search/', lang)} method="get" role="search">
+  <label class="sr-only" for="hero-q">{t.nav.searchAria}</label>
   <div class="hero-search-inner">
     <span class="hero-search-icon" aria-hidden="true">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -16,11 +31,11 @@ import { withBase } from '../lib/paths';
       id="hero-q"
       name="q"
       class="hero-search-input"
-      placeholder="Search tools…"
+      placeholder={`${t.nav.searchPlaceholder}…`}
       autocomplete="off"
       spellcheck="false"
     />
-    <button type="submit" class="hero-search-btn">Search</button>
+    <button type="submit" class="hero-search-btn">{buttonLabelByLocale[lang]}</button>
   </div>
 </form>
 

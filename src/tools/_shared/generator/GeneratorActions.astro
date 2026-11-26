@@ -3,20 +3,25 @@
 // Download cluster (hidden until a result declares downloads, e.g. QR PNG/SVG). Presentational;
 // the GeneratorWidget controller wires the behaviour by id. Button classes match the platform
 // action-btn vocabulary used by the other engine widgets.
+import type { LocaleCode } from '@data/locales';
+import { WIDGET_CHROME } from '@lib/i18n/widget-utils';
+
 interface Props {
   slug: string;
+  lang?: LocaleCode;
 }
-const { slug } = Astro.props;
+const { slug, lang = 'en' } = Astro.props;
+const c = WIDGET_CHROME[lang];
 ---
 
 <div class="tool-actions">
-  <button class="action-btn action-btn--copy" id={`${slug}-copy`} type="button" data-label="Copy">Copy</button>
-  <button class="action-btn" id={`${slug}-regenerate`} type="button">Regenerate</button>
+  <button class="action-btn action-btn--copy" id={`${slug}-copy`} type="button" data-label={c.copy}>{c.copy}</button>
+  <button class="action-btn" id={`${slug}-regenerate`} type="button">{c.regenerate}</button>
   <span class="gen-downloads" id={`${slug}-downloads`} hidden>
-    <button class="action-btn" id={`${slug}-download-png`} type="button">Download PNG</button>
-    <button class="action-btn" id={`${slug}-download-svg`} type="button">Download SVG</button>
+    <button class="action-btn" id={`${slug}-download-png`} type="button">{c.downloadPng}</button>
+    <button class="action-btn" id={`${slug}-download-svg`} type="button">{c.downloadSvg}</button>
   </span>
-  <button class="action-btn action-btn--clear" id={`${slug}-clear`} type="button" data-label="Clear">Clear</button>
+  <button class="action-btn action-btn--clear" id={`${slug}-clear`} type="button" data-label={c.clear}>{c.clear}</button>
 </div>
 
 <style>

@@ -42,10 +42,33 @@ export function renderUrlset(entries: ContentEntry[], site: string): string {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="${URLSET_NS}">\n${urls}\n</urlset>\n`;
 }
 
+export interface HreflangUrlEntry {
+  loc: string;
+  updatedAt?: string;
+  alternates: { hreflang: string; href: string }[];
+}
+
+const XHTML_NS = 'http://www.w3.org/1999/xhtml';
+
 /** A <sitemapindex> document referencing each bucket sitemap by absolute URL. */
 export function renderSitemapIndex(bucketPaths: string[], site: string): string {
   const items = bucketPaths
     .map(p => `  <sitemap>\n    <loc>${escapeXml(absoluteUrl(p, site))}</loc>\n  </sitemap>`)
     .join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="${URLSET_NS}">\n${items}\n</sitemapindex>\n`;
+}
+
+/** A <urlset> document with xhtml:link alternate hreflang annotations per localized URL. */
+export function renderHreflangUrlset(entries: HreflangUrlEntry[], site: string): string {
+  const urls = entries
+    .map(e => {
+      const loc = `    <loc>${escapeXml(absoluteUrl(e.loc, site))}</loc>`;
+      const lastmod = isW3CDate(e.updatedAt) ? `\n    <lastmod>${e.updatedAt}</lastmod>` : '';
+      const links = e.alternates
+        .map(a => `\n    <xhtml:link rel="alternate" hreflang="${escapeXml(a.hreflang)}" href="${escapeXml(absoluteUrl(a.href, site))}" />`)
+        .join('');
+      return `  <url>\n${loc}${lastmod}${links}\n  </url>`;
+    })
+    .join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="${URLSET_NS}" xmlns:xhtml="${XHTML_NS}">\n${urls}\n</urlset>\n`;
 }

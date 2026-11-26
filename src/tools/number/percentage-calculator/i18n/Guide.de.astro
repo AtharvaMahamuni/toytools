@@ -1,0 +1,151 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="de"
+>
+
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Ein Prozent ist eine Zahl, die als Bruchteil von 100 angegeben wird. Der Ausdruck stammt vom lateinischen „per centum“ und bedeutet „von Hundert“. Wer 40% sagt, meint 40 von 100 Teilen oder zwei Fünftel des Ganzen.
+    </p>
+    <p>
+      Prozentangaben begegnen uns bei Rabatten, Steuern, Schulnoten, Zinssätzen und Statistiken. Fast alle Alltagsaufgaben lassen sich mit drei Rechnungen lösen: den Prozentwert einer Zahl bestimmen, den Anteil einer Zahl an einer anderen ermitteln und die prozentuale Veränderung berechnen.
+    </p>
+    <a href={toolHref} class="cta-link">Zum Prozentrechner →</a>
+  </section>
+
+  <section id="die-drei-grundformeln">
+    <h2>Die drei wichtigsten Grundformeln <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>1. Wie viel sind X% von Y?</strong>
+      Multiplizieren Sie Y mit X und teilen Sie durch 100. Für 15% von 200 rechnen Sie (15 × 200) ÷ 100 = 30. Als Kopfrechentrick teilen Sie zuerst durch 10 für 10% (200 → 20) und addieren die Hälfte davon als 5% (10): 20 + 10 = 30.
+    </p>
+    <p>
+      <strong>2. Wie viel Prozent ist X von Y?</strong>
+      Teilen Sie X durch Y und multiplizieren Sie mit 100. Für 45 von 180 ergibt das (45 ÷ 180) × 100 = 25%. So beantworten Sie Fragen nach Prüfungsquoten oder Budgetanteilen.
+    </p>
+    <p>
+      <strong>3. Wie groß ist die prozentuale Veränderung von X auf Y?</strong>
+      Ziehen Sie den Ausgangswert (X) vom neuen Wert (Y) ab, teilen Sie durch den Betrag von X und multiplizieren Sie mit 100: ((Y − X) ÷ |X|) × 100. Steigt ein Umsatz von 800 € auf 1.000 €: ((1000 − 800) ÷ 800) × 100 = 25% Zuwachs. Ein Minus zeigt einen Rückgang. Ist X negativ (etwa von −20 auf 50), lassen Sie beim Teilen das Minus weg, damit das Vorzeichen stimmt: (50 − (−20)) ÷ 20 × 100 = 350% Steigerung.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Der Grundwert entscheidet">
+      <p>Jede Prozentrechnung bezieht sich auf einen Grundwert. Legen Sie vor dem Rechnen fest, welche Zahl das „Ganze“ ist. Zähler und Nenner zu verwechseln ist die häufigste Fehlerquelle bei Prozentaufgaben.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="rechenbeispiele">
+    <h2>Wie rechnet man Prozente? Praxisbeispiele <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Mit denselben beiden Zahlen, 12 und 80, beantwortet jede Formel eine eigene Frage:
+    </p>
+    <ul>
+      <li><strong>Wie viel sind 15% von 80?</strong> 80 × 15 ÷ 100 = 12.</li>
+      <li><strong>12 ist wie viel Prozent von 80?</strong> 12 ÷ 80 × 100 = 15%.</li>
+      <li><strong>Prozentuale Veränderung von 80 auf 92:</strong> (92 − 80) ÷ 80 × 100 = 15% Anstieg. Der Rückweg von 92 auf 80 beträgt (80 − 92) ÷ 92 × 100 = 13,04% Rückgang, weil der Grundwert nun größer ist.</li>
+      <li><strong>Eine Jacke kostet nach 20% Rabatt 64 €. Was war der Originalpreis?</strong> 64 ÷ 0,80 = 80 €. Wer einfach 20% auf 64 € aufschlägt, landet fälschlich bei 76,80 €, weil der Rabatt auf 80 € gewährt wurde.</li>
+    </ul>
+    <p>
+      Die ersten drei Fälle entsprechen den drei Modi unseres Rechners. Das vierte Beispiel, das Rückrechnen auf den Ausgangswert, gelingt zuverlässig, indem Sie durch den verbleibenden Anteil teilen.
+    </p>
+  </section>
+
+  <section id="prozente-im-alltag">
+    <h2>Prozente im Alltag <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Rabatte im Handel.</strong> „30% Nachlass“ bedeutet, dass Sie 70% des Preises zahlen. Rechnen Sie Originalpreis × 0,70: Bei 120 € sind das 120 × 0,70 = 84 €.
+    </p>
+    <p>
+      <strong>Mehrwertsteuer.</strong> Steuern werden auf den Nettopreis aufgeschlagen. Für 20% Steuer auf 60 €: 60 × 1,20 = 72 €. Um den Nettopreis aus dem Bruttobetrag zu ermitteln, teilen Sie durch 1,20.
+    </p>
+    <p>
+      <strong>Noten und Ergebnisse.</strong> 72 von 90 Punkten entsprechen (72 ÷ 90) × 100 = 80%. Viele Bewertungsskalen ordnen diesen Prozentwerten feste Notenstufen zu.
+    </p>
+    <p>
+      <strong>Zinsen.</strong> Ein Sparkonto mit 4% Jahreszins bringt bei 5.000 € im ersten Jahr 5.000 × 0,04 = 200 €. Beim Zinseszins wird in jeder Periode auch das gewachsene Guthaben verzinst.
+    </p>
+    <p>
+      <strong>Statistiken.</strong> Umfragewerte werden fast immer in Prozent angegeben („68% stimmten zu“), damit unterschiedlich große Stichproben auf derselben 0-bis-100-Skala vergleichbar bleiben.
+    </p>
+  </section>
+
+  <section id="haeufige-fehler">
+    <h2>Häufige Fehler vermeiden <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Prozentuale Veränderung und Prozentpunkte verwechseln">
+      <p>
+        Steigt ein Zinssatz von 2% auf 3%, wächst er um 1 Prozentpunkt, steigt relativ betrachtet aber um 50%. Prozentpunkte geben die Differenz zweier Prozentwerte an; die prozentuale Veränderung misst das relative Wachstum. In Wirtschaftsberichten tauchen beide Begriffe nebeneinander auf.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="50% runter und 50% rauf führt nicht zum Ausgangswert">
+      <p>
+        Ein Artikel für 100 € kostet nach 50% Rabatt 50 €. Schlägt man auf 50 € wieder 50% auf, landet man bei 75 € statt 100 €. Weil sich der Bezugswert ändert, sind Prozentänderungen nicht umkehrbar: Ein Verlust von 50% erfordert 100% Gewinn zum Ausgleich.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Vor dem Rechnen immer den Grundwert klären">
+      <p>Die Formulierung „Prozent von“ benennt den Grundwert: Bei „15% von 200“ ist 200 die Basis; bei „200 sind wie viel Prozent von 500?“ ist 500 die Basis. Eine falsche Basis liefert eine andere Antwort als gesucht.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="geschichte">
+    <h2>Geschichte der Prozentrechnung <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Mengen in Hundertsteln anzugeben geht bis ins antike Rom zurück, wo Steuern und Abgaben bereits auf Hundertstel berechnet wurden. Der lateinische Ausdruck „per centum“ erschien schon in Finanzaufzeichnungen des 1. Jahrhunderts v. Chr. Später entwickelten italienische Kaufleute im Mittelalter aus abgekürzten Handschriften für „per cento“ allmählich das heutige Prozentzeichen %.
+    </p>
+    <p>
+      Mit dem wachsenden europäischen Handel wurde die Schreibweise im 16. und 17. Jahrhundert in gedruckten Rechenbüchern vereinheitlicht. Um 1650 trat die moderne Form „%“ in italienischen Manuskripten auf und setzte sich im 18. Jahrhundert im Bank-, Steuer- und Versicherungswesen durch.
+    </p>
+    <p>
+      Heute bildet das Prozent die Standardsprache für Statistik, Finanzen und Wissenschaft. Tabellenkalkulationen machten ab den 1980er-Jahren alltägliche Prozentrechnungen im Büroalltag sekundenschnell verfügbar und führten eine über 2.000 Jahre alte Idee nahtlos fort.
+    </p>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

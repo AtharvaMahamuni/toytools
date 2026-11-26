@@ -1,36 +1,49 @@
 ---
 import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
 import { config } from './config';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { uiStr } from '@lib/i18n/widget-utils';
+
+interface Props {
+  lang?: LocaleCode;
+  pack?: LocalizedToolPack | null;
+}
+
+const { lang = 'en', pack = null } = Astro.props;
+const u = (k: string, fb: string) => uiStr(pack, k, fb);
+const defaultSample = 'The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun.';
 ---
 
 <TextMetricWidget
   slug="word-counter"
   toolGroup={config.toolGroup}
-  emptyMessage="Paste or type text to count words."
-  sampleText="The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun."
+  lang={lang}
+  emptyMessage={u('emptyMessage', 'Paste or type text to count words.')}
+  sampleText={u('sampleText', defaultSample)}
   stats={[
-    { metric: 'words',       label: 'Words',        formatter: 'integer' },
-    { metric: 'characters',  label: 'Characters',   formatter: 'integer' },
-    { metric: 'sentences',   label: 'Sentences',    formatter: 'integer' },
-    { metric: 'paragraphs',  label: 'Paragraphs',   formatter: 'integer' },
-    { metric: 'readingTime', label: 'Reading Time', formatter: 'duration' },
-    { metric: 'uniqueWords', label: 'Unique Words', formatter: 'integer' },
+    { metric: 'words',       label: u('statWords', 'Words'),               formatter: 'integer' },
+    { metric: 'characters',  label: u('statCharacters', 'Characters'),     formatter: 'integer' },
+    { metric: 'sentences',   label: u('statSentences', 'Sentences'),       formatter: 'integer' },
+    { metric: 'paragraphs',  label: u('statParagraphs', 'Paragraphs'),     formatter: 'integer' },
+    { metric: 'readingTime', label: u('statReadingTime', 'Reading Time'),  formatter: 'duration' },
+    { metric: 'uniqueWords', label: u('statUniqueWords', 'Unique Words'),  formatter: 'integer' },
   ]}
 >
   <button
     slot="actions"
     class="action-btn"
     id="wc-download-btn"
-    aria-label="Download stats report"
+    aria-label={u('btnDownloadReport', 'Download Report')}
   >
-    Download Report
+    {u('btnDownloadReport', 'Download Report')}
   </button>
 
   {/* The tool's craft (kind: verification) — see config.ts. data-craft is the contract
       check-craft.ts verifies: a declared craft whose id never reaches the DOM fails the build. */}
   <section class="wc-goal-section" id="wc-goal-section" data-craft="wc-goal">
     <div class="wc-goal-header">
-      <label class="wc-goal-label" for="wc-goal-input">Word goal</label>
+      <label class="wc-goal-label" for="wc-goal-input">{u('lblGoal', 'Word goal')}</label>
       <div class="wc-goal-controls">
         <input
           type="number"
@@ -38,11 +51,11 @@ import { config } from './config';
           class="wc-goal-num"
           min="1"
           max="100000"
-          placeholder="e.g. 500"
-          aria-label="Set a word count goal"
+          placeholder={u('goalPlaceholder', 'e.g. 500')}
+          aria-label={u('lblGoal', 'Set a word count goal')}
         />
-        <button class="action-btn wc-goal-clear-btn" id="wc-goal-clear" aria-label="Clear goal" hidden>
-          Clear goal
+        <button class="action-btn wc-goal-clear-btn" id="wc-goal-clear" aria-label={u('btnClearGoal', 'Clear goal')} hidden>
+          {u('btnClearGoal', 'Clear goal')}
         </button>
       </div>
     </div>
@@ -52,7 +65,7 @@ import { config } from './config';
         id="wc-goal-progress"
         max="100"
         value="0"
-        aria-label="Word count progress toward goal"
+        aria-label={u('lblGoal', 'Word count progress toward goal')}
       ></progress>
       <span class="wc-goal-stat" id="wc-goal-stat" aria-live="polite"></span>
     </div>
@@ -60,20 +73,20 @@ import { config } from './config';
 
   <section class="wc-top-words-section" id="wc-top-words-section" hidden>
     <div class="wc-top-words-header">
-      <h2 class="wc-section-heading">Top Words</h2>
+      <h2 class="wc-section-heading">{u('headingTopWords', 'Top Words')}</h2>
       <div class="wc-top-controls">
         <label class="wc-toggle-label">
           <input type="checkbox" id="wc-stop-filter" />
-          Hide common words
+          {u('lblHideCommon', 'Hide common words')}
         </label>
         <button class="wc-sort-btn" id="wc-sort-btn" data-sort="freq" aria-pressed="true">
-          By frequency
+          {u('btnSortFreq', 'By frequency')}
         </button>
       </div>
     </div>
-    <ol class="wc-top-list" id="wc-top-list" aria-label="Top words by frequency"></ol>
+    <ol class="wc-top-list" id="wc-top-list" aria-label={u('headingTopWords', 'Top words by frequency')}></ol>
     <details class="wc-insights" id="wc-insights">
-      <summary class="wc-insights-summary">Word insights</summary>
+      <summary class="wc-insights-summary">{u('summaryInsights', 'Word insights')}</summary>
       <dl class="wc-insights-list" id="wc-insights-list"></dl>
     </details>
   </section>
@@ -81,7 +94,15 @@ import { config } from './config';
 
 <script is:inline>
 (function () {
-  var STOP_WORDS = new Set('the a an and or but in on at to for of with by from is are was were be been being have has had do does did will would could should may might shall can i me my we our you your he she it its they them their this that these those'.split(' '));
+  var I = {};
+  try {
+    var i18nEl = document.getElementById('tt-i18n');
+    if (i18nEl && i18nEl.textContent) I = JSON.parse(i18nEl.textContent);
+  } catch (_) {}
+  function s(k, fb) { return (typeof I[k] === 'string' && I[k]) ? I[k] : fb; }
+
+  var defaultStops = 'the a an and or but in on at to for of with by from is are was were be been being have has had do does did will would could should may might shall can i me my we our you your he she it its they them their this that these those';
+  var STOP_WORDS = new Set(s('stopWords', defaultStops).split(/\s+/));
 
   var textarea = document.getElementById('word-counter-input');
   if (!textarea) return;
@@ -121,9 +142,15 @@ import { config } from './config';
     goalProgress.max = 100;
     var remaining = goal - currentWordCount;
     if (remaining > 0) {
-      goalStat.textContent = currentWordCount + ' / ' + goal + ' words — ' + remaining + ' to go (' + pct + '%)';
+      goalStat.textContent = s('goalRemainTpl', '{cur} / {goal} words ({rem} to go, {pct}%)')
+        .replace('{cur}', String(currentWordCount))
+        .replace('{goal}', String(goal))
+        .replace('{rem}', String(remaining))
+        .replace('{pct}', String(pct));
     } else {
-      goalStat.textContent = currentWordCount + ' / ' + goal + ' words — Goal reached!';
+      goalStat.textContent = s('goalDoneTpl', '{cur} / {goal} words — Goal reached!')
+        .replace('{cur}', String(currentWordCount))
+        .replace('{goal}', String(goal));
     }
     goalProgress.className = 'wc-goal-progress' + (pct >= 100 ? ' is-complete' : '');
   }
@@ -155,9 +182,7 @@ import { config } from './config';
         '<span class="wc-word-count">' + entry[1] + '</span>' +
         '</li>';
     });
-    topList.innerHTML = html || '<li class="wc-word-empty">No words found.</li>';
-    // Word text via textContent, never innerHTML: tokens keep inner punctuation now, so a pasted
-    // "<b>" stays text.
+    topList.innerHTML = html || '<li class="wc-word-empty">' + s('noWordsFound', 'No words found.') + '</li>';
     var wordEls = topList.querySelectorAll('.wc-word-text');
     top.forEach(function (entry, i) { if (wordEls[i]) wordEls[i].textContent = entry[0]; });
   }
@@ -171,9 +196,9 @@ import { config } from './config';
     words.forEach(function (w) { freq[w] = (freq[w] || 0) + 1; });
     var repeated = Object.keys(freq).filter(function (w) { return freq[w] > 1; }).length;
     insightsList.innerHTML =
-      '<div class="wc-insight-row"><dt>Longest word</dt><dd>' + (longest || '—') + '</dd></div>' +
-      '<div class="wc-insight-row"><dt>Shortest word</dt><dd>' + (shortest || '—') + '</dd></div>' +
-      '<div class="wc-insight-row"><dt>Repeated words</dt><dd>' + repeated + '</dd></div>';
+      '<div class="wc-insight-row"><dt>' + s('insightLongest', 'Longest word') + '</dt><dd>' + (longest || '—') + '</dd></div>' +
+      '<div class="wc-insight-row"><dt>' + s('insightShortest', 'Shortest word') + '</dt><dd>' + (shortest || '—') + '</dd></div>' +
+      '<div class="wc-insight-row"><dt>' + s('insightRepeated', 'Repeated words') + '</dt><dd>' + repeated + '</dd></div>';
   }
 
   function compute() {
@@ -195,8 +220,8 @@ import { config } from './config';
   var downloadBtn = document.getElementById('wc-download-btn');
   if (downloadBtn) {
     downloadBtn.addEventListener('click', function () {
-      if (textarea.value === '') { ToyTools.toast('Nothing to download!'); return; }
-      var lines = ['Word Count Report', '=================', ''];
+      if (textarea.value === '') { ToyTools.toast(s('toastEmptyDownload', 'Nothing to download!')); return; }
+      var lines = [s('reportHeading', 'Word Count Report'), '=================', ''];
       document.querySelectorAll('[data-metric]').forEach(function (el) {
         var label = el.closest('.tm-hero, .tm-stat-row');
         var labelText = label ? (label.querySelector('.hero-label, .tm-stat-label') || {}).textContent : null;
@@ -204,10 +229,10 @@ import { config } from './config';
       });
       if (goalInput && goalInput.value) {
         lines.push('');
-        lines.push('Goal: ' + goalInput.value + ' words');
+        lines.push(s('reportGoalPrefix', 'Goal: ') + goalInput.value + ' ' + s('reportWordsSuffix', 'words'));
       }
       lines.push('');
-      lines.push('Generated: ' + new Date().toLocaleString());
+      lines.push(s('reportGeneratedPrefix', 'Generated: ') + new Date().toLocaleString());
       var blob = new Blob([lines.join('\n')], { type: 'text/plain' });
       var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
@@ -217,7 +242,7 @@ import { config } from './config';
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      ToyTools.toast('Report downloaded');
+      ToyTools.toast(s('toastDownloaded', 'Report downloaded'));
     });
   }
 
@@ -254,7 +279,7 @@ import { config } from './config';
   if (sortBtn) {
     sortBtn.addEventListener('click', function () {
       sortMode = sortMode === 'freq' ? 'alpha' : 'freq';
-      sortBtn.textContent = sortMode === 'freq' ? 'By frequency' : 'Alphabetical';
+      sortBtn.textContent = sortMode === 'freq' ? s('btnSortFreq', 'By frequency') : s('btnSortAlpha', 'Alphabetical');
       sortBtn.dataset.sort = sortMode;
       buildTopWords(currentWords);
     });

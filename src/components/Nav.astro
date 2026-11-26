@@ -1,7 +1,23 @@
 ---
-import { withBase } from '../lib/paths';
+import { pagePath, withBase } from '../lib/paths';
 import { APP_VERSION } from '../lib/version';
 import ThemeToggle from './ThemeToggle.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import type { LocaleCode } from '@data/locales';
+import { getUiStrings } from '@data/i18n/index';
+
+interface AlternateRoute {
+  code: LocaleCode;
+  href: string;
+}
+
+interface Props {
+  lang?: LocaleCode;
+  alternates?: AlternateRoute[];
+}
+
+const { lang = 'en', alternates = [] } = Astro.props;
+const t = getUiStrings(lang);
 ---
 
 <header role="banner">
@@ -10,30 +26,33 @@ import ThemeToggle from './ThemeToggle.astro';
       {/* The site mark replaces the trailing gold dot rather than joining it: two brand
           marks in one nav is noise, and the dot lives inside the mark now. Carrying the
           mark lets the wordmark drop a size and still read as the brand. */}
-      <a href={withBase('/')} class="nav-logo">
+      <a href={pagePath('/', lang)} class="nav-logo" aria-label={t.nav.homeAria}>
         <img class="nav-mark" src={withBase('/favicon.svg')} width="20" height="20" alt="" />
         <span>ToyTools</span>
       </a>
       {/* The badge advertised a version with nothing to click through to; it links to the changelog now. */}
-      <a href={withBase('/changelog/')} class="nav-version" aria-label={`ToyTools ${APP_VERSION}, see changelog`}>{APP_VERSION}<span class="nav-version-tooltip tt-tooltip" role="tooltip"><strong>Welcome, beta testers</strong>Experimentation is over.<br/>We are good to go. See what has changed.</span></a>
+      <a href={withBase('/changelog/')} class="nav-version" aria-label={`ToyTools ${APP_VERSION}, ${t.nav.changelogAria}`}>{APP_VERSION}<span class="nav-version-tooltip tt-tooltip" role="tooltip"><strong>Welcome, beta testers</strong>Experimentation is over.<br/>We are good to go. See what has changed.</span></a>
     </span>
     {/*
       A real link to the working search page, upgraded by JS into the command palette. Without it
       there is no way to reach another tool from a tool page except going home, and the "/" shortcut
       had nothing to focus anywhere but the home page.
     */}
-    <a href={withBase('/search/')} class="nav-search" data-palette-open aria-label="Search tools">
+    <a href={pagePath('/search/', lang)} class="nav-search" data-palette-open aria-label={t.nav.searchAria}>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="11" cy="11" r="7"/>
         <line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
-      <span class="nav-search-label">Search tools</span>
+      <span class="nav-search-label">{t.nav.searchPlaceholder}</span>
       {/* Ctrl K rather than "/", because most tool pages autofocus their input and "/" correctly
           yields to whatever you are typing. Cmd K works too (the handler checks both). */}
       <kbd class="nav-search-kbd" aria-hidden="true">Ctrl K</kbd>
     </a>
-    <ThemeToggle />
+    <div class="nav-actions">
+      <LanguageSwitcher lang={lang} alternates={alternates} variant="header" />
+      <ThemeToggle />
+    </div>
   </nav>
 </header>
 
@@ -207,6 +226,13 @@ import ThemeToggle from './ThemeToggle.astro';
       clip-path: inset(50%);
       white-space: nowrap;
     }
+  }
+
+  .nav-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-shrink: 0;
   }
 </style>
 

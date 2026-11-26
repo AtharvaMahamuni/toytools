@@ -1,0 +1,90 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="fr"
+>
+  <section id="apercu">
+    <h2>Aperçu</h2>
+    <p>
+      Un ratio d’aspect exprime le rapport entre la largeur et la hauteur d’un élément, noté sous la forme 16:9. Il décrit une silhouette plutôt qu’une taille : un cadre 16:9 garde exactement la même géométrie en 1280 × 720 qu’en 1920 × 1080. Ce calculateur vous permet de verrouiller un format et de trouver instantanément la dimension manquante pour redimensionner images, vidéos et blocs sans déformation.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir le Calculateur de Ratio →</a>
+  </section>
+
+  <section id="pourquoi-cest-important">
+    <h2>Pourquoi le ratio d’aspect compte</h2>
+    <p>
+      Lorsque largeur et hauteur s’écartent de leur proportion prévue, les visages s’étirent, les logos s’aplatissent et les vidéos affichent des bandes noires ou un recadrage forcé. Respecter un ratio fixe garantit également la stabilité d’affichage des pages web en réservant la bonne hauteur avant le chargement des images.
+    </p>
+  </section>
+
+  <section id="comment-ca-marche">
+    <h2>Fonctionnement mathématique</h2>
+    <p>
+      Pour un ratio L:H, la hauteur vaut largeur × H ÷ L et la largeur vaut hauteur × L ÷ H. Pour redimensionner proportionnellement, modifiez une seule dimension et laissez la seconde s’ajuster. La simplification divise les deux côtés par leur PGCD : pour 1920 par 1080, le PGCD est 120, donnant le ratio réduit 16:9. L’outil fonctionne dans les deux sens en direct tout en affichant le ratio simplifié.
+    </p>
+  </section>
+
+  <section id="exemples">
+    <h2>Exemples concrets</h2>
+    <p>
+      En 16:9, une bannière de 1600 px de large demande 1600 × 9 ÷ 16 = 900 px de haut. En 4:3, une photo de 800 px de large mesure 600 px de haut. Pour intégrer une vidéo ultra-large 21:9 de 1400 px de large, la hauteur exacte est 600 px. Saisir 1080 par 1350 révèle immédiatement le ratio simplifié 4:5 utilisé pour les publications portrait.
+    </p>
+  </section>
+
+  <section id="erreurs-courantes">
+    <h2>Erreurs fréquentes</h2>
+    <ul>
+      <li><strong>Modifier les deux dimensions à la main.</strong> Ajustez une seule cote pour que l’autre suive automatiquement le ratio verrouillé.</li>
+      <li><strong>Confondre définition et ratio.</strong> 1280×720 et 1920×1080 n’ont pas la même définition en pixels mais partagent le même format 16:9.</li>
+      <li><strong>Oublier les valeurs paires pour la vidéo.</strong> Les encodeurs H.264 exigent des dimensions entières paires ; l’outil signale tout nombre impair ou fractionnaire et propose la paire paire la plus proche.</li>
+    </ul>
+  </section>
+
+  <section id="comparaisons">
+    <h2>Formats usuels et alternatives</h2>
+    <p>
+      Chaque format répond à un usage précis : 16:9 pour la vidéo et les écrans modernes, 4:3 pour les affichages classiques, 3:2 en photographie, 21:9 pour le format cinéma ultra-large, 1:1 pour le carré et 9:16 pour la vidéo mobile verticale. À la différence des outils limités à un seul ratio figé, celui-ci réunit préréglages courants, ratios personnalisés et aperçu visuel immédiat.
+    </p>
+  </section>
+
+  <section id="confidentialite">
+    <h2>Exécution locale</h2>
+    <p>
+      Tous les calculs s’effectuent dans votre navigateur. Aucune valeur n’est transmise à un serveur et la page fonctionne même hors ligne une fois chargée.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none; transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

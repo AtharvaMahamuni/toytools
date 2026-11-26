@@ -1,0 +1,130 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath, categoryPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="de"
+>
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Mit diesem Textvergleich stellen Sie zwei Fassungen direkt gegenüber und erkennen sofort jede Änderung. Fügen Sie das Original links und die neue Version rechts ein: Ergänzungen erscheinen grün mit <strong>+</strong>, Entfernungen rot mit <strong>-</strong> und unveränderte Zeilen gedämpft, begleitet von einer prozentualen Ähnlichkeitsanzeige.
+    </p>
+    <a href={toolHref} class="cta-link">Textvergleich öffnen →</a>
+  </section>
+
+  <section id="warum-das-wichtig-ist">
+    <h2>Warum automatischer Textvergleich wichtig ist <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Zwei Entwürfe mit bloßem Auge abzugleichen kostet Zeit und übersieht leicht einzelne gestrichene Sätze oder verschobene Klauseln. Ein zeilenweises Diff legt bei Verträgen, Richtlinien und Dokumenten jede Abweichung präzise offen.
+    </p>
+  </section>
+
+  <section id="anleitung">
+    <h2>So nutzen Sie den Textvergleich <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ol>
+      <li>Fügen Sie die ältere Textfassung in das Feld <strong>Original</strong> ein.</li>
+      <li>Fügen Sie die neue Textfassung in das Feld <strong>Neuer Text</strong> ein.</li>
+      <li>Direkt darunter erscheint sofort das zeilenweise Diff samt Statistik.</li>
+      <li>Grüne Zeilen mit <code>+</code> kamen in der neuen Fassung hinzu.</li>
+      <li>Rote Zeilen mit <code>-</code> wurden aus dem Original entfernt.</li>
+      <li>Gedämpfte Zeilen ohne Vorzeichen sind identisch geblieben.</li>
+    </ol>
+  </section>
+
+  <section id="diff-lesen">
+    <h2>Diff-Ausgabe richtig lesen <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Die Darstellung folgt der bekannten Konvention von <code>diff</code> und <code>git diff</code>:
+    </p>
+    <ul>
+      <li><strong>+</strong> (grüner Hintergrund): Zeile nur im neuen Text vorhanden.</li>
+      <li><strong>-</strong> (roter Hintergrund): Zeile nur im Original vorhanden.</li>
+      <li><strong>Leerzeichen</strong> (gedämpft): Zeile in beiden Fassungen identisch.</li>
+    </ul>
+    <p>
+      Der Vergleich arbeitet zeilenweise und berücksichtigt Groß-/Kleinschreibung sowie Leerzeichen. Entstehen Unterschiede allein durch Zeilenenden (CRLF/LF) oder Leerzeichen am Zeilenende, bietet der Hinweis oberhalb ein Ausblenden per Klick an.
+    </p>
+    <ReferenceBlock type="note" heading="Zeilenweiser Vergleich">
+      <p>
+        Ändert sich ein einzelnes Wort in einem Satz, wird die gesamte Zeile als entfernt (alt) und hinzugefügt (neu) markiert, was bei langen Dokumenten deutlich schneller erfassbar ist.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="einsatzgebiete">
+    <h2>Wann der Vergleich hilft <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>Zwei Entwürfe eines Artikels oder Berichts auf Korrekturen prüfen.</li>
+      <li>Vertragsversionen auf eingefügte oder gestrichene Absätze untersuchen.</li>
+      <li>Code- und Konfigurationsänderungen vor einem Commit schnell gegenprüfen.</li>
+      <li>Übersetzungen auf strukturelle Übereinstimmung kontrollieren.</li>
+      <li>Webseiten-Texte vor und nach Updates vergleichen.</li>
+    </ul>
+  </section>
+
+  <section id="haeufige-fehler">
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Wortweise Markierung erwarten">
+      <p>
+        Dieses Tool vergleicht auf Zeilenebene. Schon ein ausgetauschtes Wort markiert daher die gesamte betroffene Zeile als entfernt und neu eingefügt.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Ähnlichkeit mit Textqualität verwechseln">
+      <p>
+        Eine niedrige Ähnlichkeit bedeutet nur, dass viele Zeilen überarbeitet wurden. Eine gründlich verbesserte Fassung kann durchaus nur 30% Zeilenübereinstimmung zeigen.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="verwandte-tools">
+    <p>
+      <strong>Verwandte Werkzeuge:</strong> Entdecken Sie alle Werkzeuge unter
+      <a href={categoryPath(category, 'de')}>Text-Werkzeuge</a>,
+      darunter <a href={toolPathBySlug('find-replace')}>Find and Replace</a>,
+      <a href={toolPathBySlug('word-counter', 'de')}>Wörterzähler</a>
+      und <a href={toolPathBySlug('remove-duplicate-lines')}>Remove Duplicate Lines</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

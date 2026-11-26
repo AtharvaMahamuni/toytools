@@ -1,0 +1,106 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="de"
+>
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Der Body-Mass-Index (BMI) ergibt sich aus dem Körpergewicht in Kilogramm geteilt durch das Quadrat der Körpergröße in Metern. Bei 70 kg und 1,75 m beträgt der BMI 70 / (1,75 × 1,75) = 22,9. Für Erwachsene unterscheidet die Weltgesundheitsorganisation (WHO) vier Bereiche: unter 18,5 gilt als Untergewicht, 18,5 bis 24,9 als Normalgewicht, 25 bis 29,9 als Übergewicht und 30 oder höher als Adipositas. Dieser Rechner arbeitet metrisch sowie imperial und zeigt zusätzlich den gesunden Gewichtsbereich für Ihre genaue Körpergröße.
+    </p>
+    <a href={toolHref} class="cta-link">Zum BMI-Rechner →</a>
+  </section>
+
+  <section id="wie-es-funktioniert">
+    <h2>So funktioniert die BMI-Formel <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Der BMI führt Größe und Gewicht in einer einzigen Kennzahl zusammen, die große und kleine Menschen vergleichbar macht. Reines Gewicht wäre irreführend, da größere Personen naturgemäß mehr wiegen. Das Teilen durch die Körpergröße zum Quadrat gleicht diesen Größeneffekt größtenteils aus. Bei imperialer Eingabe rechnet das Tool Pfund und Zoll zunächst exakt in Kilogramm und Meter um, sodass 154 lb bei 69 Zoll denselben BMI liefern wie 69,9 kg bei 175 cm.
+    </p>
+  </section>
+
+  <section id="kategorien">
+    <h2>WHO-Kategorien richtig lesen <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Die Schwellenwerte 18,5, 25 und 30 der WHO basieren auf umfangreichen Bevölkerungsstudien. Ein BMI von 24,9 gilt noch als Normalgewicht, 25,0 bereits als Übergewicht, doch dieser Übergang ist eine statistische Grenze und keine harte biologische Kante. Neben Ihrer Kategorie sehen Sie deshalb auch den konkreten Kilogramm- oder Pfund-Korridor, der bei Ihrer Größe zwischen 18,5 und 24,9 liegt.
+    </p>
+  </section>
+
+  <section id="beispiele">
+    <h2>Beispiele <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>70 kg bei 175 cm.</strong> 70 / (1,75)² = 22,9, sicher im Normalbereich zwischen 18,5 und 24,9. Der gesunde Gewichtskorridor reicht hier von rund 56,7 kg bis 76,3 kg.</p>
+    <p><strong>90 kg bei 170 cm.</strong> 90 / (1,70)² = 31,1, was in die Stufe Adipositas fällt; der Rechner zeigt direkt an, wie viele Kilogramm bis zum gesunden Bereich fehlen.</p>
+    <p><strong>154 lb bei 69 Zoll.</strong> Intern umgerechnet entspricht dies einem BMI von rund 22,7, passend zum metrischen Gegenwert.</p>
+  </section>
+
+  <section id="grenzen">
+    <h2>Was der BMI nicht misst <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Da der BMI nur Größe und Gewicht verwendet, unterscheidet er weder zwischen Muskelmasse und Körperfett noch berücksichtigt er die Fettverteilung. Sehr muskulöse Sportler erhalten oft einen zu hohen BMI, während ältere Menschen mit abgebauter Muskulatur trotz erhöhtem Fettanteil normal eingestuft werden können. Für Kinder und Jugendliche gelten zudem eigene Alters- und Geschlechts-Perzentilen statt fester Erwachsenen-Werte. Nutzen Sie den BMI als schnelle Ersteinschätzung zusammen mit Körperfettanteil oder Taillenumfang.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Erster Richtwert statt medizinischem Urteil">
+      <p>Der BMI zeigt gut, ob ein genauerer Blick sinnvoll sein kann, ersetzt aber keine ärztliche Bewertung der individuellen Körperzusammensetzung.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="haeufige-fehler">
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="BMI als Diagnose behandeln">
+      <p>
+        Ein Wert im Übergewichtsbereich ist ein statistischer Hinweis, keine medizinische Diagnose. Fitness, Blutwerte, Muskelmasse und Vorgeschichte spielen ebenso eine Rolle.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Einheiten mischen">
+      <p>
+        Gewicht in Pfund bei einer Körpergröße in Zentimetern liefert ein falsches Ergebnis. Wählen Sie oben Metrisch oder Imperial und geben Sie beide Werte im selben System ein.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Sportler und ältere Menschen">
+      <p>Weil Muskel- und Fettgewebe nicht getrennt werden, kann der BMI bei Sportlern zu hoch und bei Muskelschwund im Alter zu niedrig ausfallen. Alle Rechnungen laufen lokal in Ihrem Browser ohne Datenübertragung.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

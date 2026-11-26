@@ -1,0 +1,118 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import FeedbackForm from '@components/feedback/FeedbackForm.astro';
+import { pagePath } from '@lib/paths';
+import { BRAND_NAME } from '@config/site';
+import { ACTIVE_LOCALES, LOCALIZED_LOCALES } from '@data/locales';
+import { generateLocalizedPageTitle, getUiStrings } from '@data/i18n/index';
+import { pageHreflangLinks, switcherAlternatesForPath } from '@lib/i18n/registry';
+import type { LocalizedLocale } from '@lib/i18n/types';
+
+export const getStaticPaths = (() =>
+  LOCALIZED_LOCALES.map(lang => ({ params: { lang }, props: { lang } }))
+) satisfies GetStaticPaths;
+
+interface Props {
+  lang: LocalizedLocale;
+}
+
+const { lang } = Astro.props;
+const ui = getUiStrings(lang);
+
+const COPY: Record<LocalizedLocale, {
+  description: string;
+  h1: string;
+  p1: string;
+  p2: string;
+  h2: string;
+  p3: string;
+}> = {
+  es: {
+    description: 'Propón una herramienta nueva, informa de un fallo o describe una tarea repetitiva que haces a mano. Todas las sugerencias se leen.',
+    h1: 'Contacto y comentarios',
+    p1: 'ToyTools crece a partir de problemas reales. Si repites a menudo una conversión tediosa, limpias texto manualmente o necesitas una calculadora precisa sin subir archivos, descríbelo aquí.',
+    p2: 'Cuéntanos el problema antes que la solución. Si encaja con la plataforma (rápida, en tu navegador y con datos locales), puede convertirse en una herramienta nueva.',
+    h2: 'Qué ayuda más al enviar un comentario',
+    p3: 'El formulario prepara un borrador directamente en tu propio cliente de correo para que revises exactamente qué información envías antes de pulsar enviar.',
+  },
+  de: {
+    description: 'Schlagen Sie ein neues Tool vor, melden Sie einen Fehler oder beschreiben Sie eine wiederkehrende Aufgabe.',
+    h1: 'Kontakt und Feedback',
+    p1: 'ToyTools wächst aus konkreten Aufgaben im Alltag. Wenn Sie wiederkehrende Textbereinigungen, Umrechnungen oder Berechnungen ohne Upload vermissen, beschreiben Sie den Anwendungsfall hier.',
+    p2: 'Schildern Sie am besten das eigentliche Problem und wie oft es auftritt. Alles, was direkt im Browser ohne Server lösbar ist, passt zur Plattform.',
+    h2: 'So funktioniert das Formular',
+    p3: 'Das Formular öffnet eine vorausgefüllte Nachricht in Ihrem eigenen E-Mail-Programm, sodass Sie alle Angaben vor dem Absenden selbst prüfen.',
+  },
+  fr: {
+    description: 'Suggérez un nouvel outil, signalez un bogue ou décrivez une tâche répétitive à automatiser localement.',
+    h1: 'Contact et commentaires',
+    p1: 'ToyTools évolue à partir de besoins concrets. Si vous répétez une opération manuelle ou cherchez un utilitaire rapide sans envoi serveur, décrivez votre besoin ici.',
+    p2: 'Expliquez le problème rencontré plutôt que la seule interface imaginée : tout besoin déterministe exécutable dans le navigateur peut rejoindre le catalogue.',
+    h2: 'Fonctionnement du formulaire',
+    p3: 'Le formulaire compose un message dans votre propre client mail afin que vous gardiez le contrôle total avant l\'envoi.',
+  },
+};
+
+const c = COPY[lang];
+const homeHref = pagePath('/', lang);
+const abs = (path: string): string =>
+  Astro.site ? new URL(path, Astro.site).href : path;
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: ui.nav.home, item: abs(homeHref) },
+    { '@type': 'ListItem', position: 2, name: ui.footer.contactAndFeedback },
+  ],
+};
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: c.h1,
+  description: c.description,
+  url: Astro.url.href,
+  inLanguage: lang,
+  isPartOf: { '@type': 'WebSite', name: BRAND_NAME },
+};
+
+const hreflangLinks = pageHreflangLinks('/feedback/', Astro.site);
+const switcherAlternates = switcherAlternatesForPath(loc => pagePath('/feedback/', loc), ACTIVE_LOCALES);
+---
+
+<BaseLayout
+  title={generateLocalizedPageTitle('feedback', undefined, lang)}
+  description={c.description}
+  maxWidth="tool"
+  lang={lang}
+  hreflangLinks={hreflangLinks}
+  switcherAlternates={switcherAlternates}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+
+  <header class="feedback-header">
+    <h1>{c.h1}</h1>
+    <p class="feedback-intro">{c.p1}</p>
+    <p class="feedback-intro">{c.p2}</p>
+  </header>
+
+  <section class="feedback-form-section" aria-label={c.h1}>
+    <FeedbackForm />
+  </section>
+
+  <section class="feedback-prose">
+    <h2>{c.h2}</h2>
+    <p>{c.p3}</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .feedback-header { padding: var(--space-8) 0 var(--space-6); }
+  .feedback-intro { margin-top: var(--space-3); color: var(--color-text-muted); line-height: var(--leading-relaxed); max-width: var(--width-prose); }
+  .feedback-form-section { margin: var(--space-6) 0 var(--space-10); }
+  .feedback-prose { border-top: var(--border); padding-top: var(--space-8); max-width: var(--width-prose); }
+  .feedback-prose p { margin-top: var(--space-3); color: var(--color-text-muted); line-height: var(--leading-relaxed); }
+</style>

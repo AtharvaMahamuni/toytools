@@ -1,6 +1,7 @@
 ---
 import GeneratorWidget from '@tools/_shared/GeneratorWidget.astro';
 import { config } from './config';
+const { lang = 'en', pack = null } = Astro.props;
 ---
 
-<GeneratorWidget slug={config.slug} generatorId={config.processorId!} config={config} />
+<GeneratorWidget slug={config.slug} generatorId={config.processorId!} config={config} lang={lang} pack={pack} />

@@ -1,0 +1,140 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+  lang="de"
+>
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Um Ihren Bildschirm beim Lesen, Kochen, Präsentieren oder Überwachen eines Dashboards wach zu halten, öffnen Sie diese No Sleep Website und klicken Sie auf Bildschirm wach halten. Die Seite nutzt die standardisierte Screen Wake Lock API Ihres Browsers, um das automatische Abdunkeln und Abschalten des Displays zu verhindern, ganz ohne App-Installation oder Änderung Ihrer Systemeinstellungen.
+    </p>
+    <a href={toolHref} class="cta-link">Bildschirm anlassen öffnen →</a>
+  </section>
+
+  <section id="warum-bildschirm-ausgeht">
+    <h2>Warum sich Bildschirme automatisch abschalten <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Jedes Betriebssystem verfügt über ein automatisches Display-Timeout. Nach 30 Sekunden bis wenigen Minuten ohne Eingabe wird der Bildschirm gedimmt und gesperrt. Dahinter stehen vier praktische Gründe:
+    </p>
+    <ul>
+      <li><strong>Akku sparen:</strong> Das beleuchtete Display zählt bei Laptops und Smartphones zu den größten Energieverbrauchern.</li>
+      <li><strong>Wärmeentwicklung begrenzen:</strong> Dauerhaft helle Bildschirme erzeugen besonders bei Mobiltelefonen spürbar Abwärme.</li>
+      <li><strong>Sicherheit:</strong> Ein unbeaufsichtigtes Gerät sperrt sich nach Inaktivität automatisch zum Schutz Ihrer Daten.</li>
+      <li><strong>OLED-Schutz:</strong> Statische Inhalte bei maximaler Helligkeit können über Stunden auf OLED-Panels Einbrenneffekte begünstigen.</li>
+    </ul>
+    <p>
+      Im Alltag sind diese Standardwerte sinnvoll, doch sobald Sie den Bildschirm aktiv lesen oder beobachten, ohne ihn zu berühren, stört die vorzeitige Sperre.
+    </p>
+  </section>
+
+  <section id="funktionsweise-wake-lock">
+    <h2>Wie die Screen Wake Lock API funktioniert <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ein Browser Wake Lock bittet das Betriebssystem gezielt darum, das Bildschirm-Timeout auszusetzen:</p>
+    <ol>
+      <li><strong>Ihr Browser</strong> stellt die W3C-Schnittstelle <code>navigator.wakeLock.request('screen')</code> bereit.</li>
+      <li><strong>Die Webseite</strong> fordert beim Aktivieren einen Wake Lock Sentinel an.</li>
+      <li><strong>Der Browser</strong> leitet diese Anfrage an das Energie-Management des Betriebssystems weiter.</li>
+      <li><strong>Das System</strong> hält das Display aktiv, solange der Tab sichtbar im Vordergrund bleibt.</li>
+      <li>Beim Beenden, Schließen oder Tab-Wechsel wird der Lock freigegeben und das normale Timeout greift wieder.</li>
+    </ol>
+    <ReferenceBlock type="note" heading="Display-Wachzustand vs. System-Standby">
+      <p>Ein Wake Lock steuert ausschließlich das <em>Display</em>. Das Schließen eines Laptop-Deckels oder der physische Ein-/Aus-Schalter lösen weiterhin sofort den System-Ruhezustand aus.</p>
+    </ReferenceBlock>
+
+    <h3>Tab-gebundener Wake Lock vs. System-Tools wie Caffeinate</h3>
+    <p>
+      Befehlszeilen-Tools oder Hintergrund-Apps blockieren den Ruhezustand systemweit auf Kernel-Ebene, selbst wenn ein Laptop zugeklappt in der Tasche liegt. Der Browser-Wake-Lock wirkt dagegen streng innerhalb der Tab-Sandbox und löst sich sofort beim Verlassen der Seite.
+    </p>
+  </section>
+
+  <section id="anwendungsfaelle">
+    <h2>Typische Anwendungsfälle <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h3>Rezepte beim Kochen</h3>
+    <p>Mit nassen oder bemehlten Händen lässt sich ein Smartphone nicht alle dreißig Sekunden entsperren. Mit aktivem Wake Lock bleibt das Rezept dauerhaft lesbar.</p>
+    <h3>Lange Artikel und Dokumentationen</h3>
+    <p>Beim ruhigen Lesen technischer Unterlagen oder Studien verhindert die Sperre lästiges Abdunkeln mitten im Absatz.</p>
+    <h3>Präsentationen, Online-Kurse und Meetings</h3>
+    <p>Wenn Sie Inhalte auf dem Bildschirm erklären oder verfolgen, ohne Tastatur und Maus zu bedienen, bleibt das Bild unterbrechungsfrei hell.</p>
+    <h3>Dashboards und Status-Monitore</h3>
+    <p>Entwickler-Teams nutzen das Tool, um Build-Pipelines, Monitoring-Graphen oder Live-Metriken auf einem Zweitbildschirm sichtbar zu halten.</p>
+  </section>
+
+  <section id="akkuverbrauch">
+    <h2>Hinweise zum Akkuverbrauch <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Ein dauerhaft beleuchtetes Display verringert bei Laptops auf mittlerer Helligkeit die Akkulaufzeit typischerweise um 20 bis 40 Prozent. Bei Smartphones liegt der Mehrverbrauch bei rund 15 bis 25 Prozent pro Stunde.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Einfacher Spartipp">
+      <p>Regeln Sie die Bildschirmhelligkeit vor dem Start auf etwa 30 Prozent herunter. So bleibt der Inhalt in Innenräumen klar lesbar und benötigt nur einen Bruchteil der Energie.</p>
+    </ReferenceBlock>
+    <p>
+      Zusätzlich bietet die Seite eine optionale Akkuschutz-Option: Sie gibt den Wake Lock automatisch frei, sobald der Akkustand unter 15 Prozent fällt.
+    </p>
+  </section>
+
+  <section id="kompatibilitaet">
+    <h2>Geräte- und Browser-Kompatibilität <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Chrome unter Android:</strong> Vollständig unterstützt.</li>
+      <li><strong>Chrome auf Desktop (Windows, macOS, Linux):</strong> Vollständig unterstützt.</li>
+      <li><strong>Microsoft Edge &amp; Samsung Internet:</strong> Unterstützt auf Basis von Chromium.</li>
+      <li><strong>Safari unter iOS und macOS:</strong> Unterstützt ab Version 16.4.</li>
+      <li><strong>Firefox:</strong> Unterstützt ab Version 126.</li>
+    </ul>
+  </section>
+
+  <section id="grenzen">
+    <h2>Bekannte Einschränkungen <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Tab-Wechsel beendet den Wake Lock">
+      <p>Sobald Sie zu einem anderen Tab oder einer anderen App wechseln, gibt der Browser die Displaysperre automatisch frei. Sobald dieser Tab wieder sichtbar ist, fordert das Tool den Wake Lock automatisch erneut an.</p>
+    </ReferenceBlock>
+    <ul>
+      <li><strong>Energiesparmodus:</strong> Ein aktiver Akku-Sparmodus kann Web-Wake-Locks betriebssystemseitig ablehnen.</li>
+      <li><strong>Private Fenster:</strong> Manche Browser schränken Energie-APIs im Inkognito-Modus ein.</li>
+    </ul>
+  </section>
+
+  <section id="verwandte-tools">
+    <h2>Verwandte Produktivitäts-Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('pomodoro-timer', 'de')}>Pomodoro Timer</a>, strukturierte Arbeitsintervalle bei aktivem Display.</li>
+      <li><a href={toolPathBySlug('todo-list')}>Todo List</a>, Aufgaben lokal direkt im Browser abhaken.</li>
+      <li><a href={toolPathBySlug('notepad')}>Notepad</a>, schnelle Notizen ohne Cloud-Konto.</li>
+    </ul>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

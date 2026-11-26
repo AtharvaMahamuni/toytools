@@ -1,6 +1,7 @@
 ---
 import StructuredDataWidget from '@tools/_shared/StructuredDataWidget.astro';
 import { config } from './config';
+const { lang = 'en', pack = null } = Astro.props;
 ---
 
-<StructuredDataWidget slug={config.slug} structuredId={config.processorId!} config={config} />
+<StructuredDataWidget slug={config.slug} structuredId={config.processorId!} config={config} lang={lang} pack={pack} />

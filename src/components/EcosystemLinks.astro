@@ -1,5 +1,6 @@
 ---
 import type { EcosystemEntry } from '@data/types';
+import type { LocaleCode } from '@data/locales';
 import { guidePath, toolPath } from '../lib/paths';
 
 interface Props {
@@ -8,13 +9,14 @@ interface Props {
   toolCategorySegment: string;
   toolName: string;
   entry: EcosystemEntry;
+  lang?: LocaleCode;
 }
 
-const { currentType, toolSlug, toolCategorySegment, toolName, entry } = Astro.props;
+const { currentType, toolSlug, toolCategorySegment, toolName, entry, lang = 'en' } = Astro.props;
 
-const toolHref = toolPath({ slug: toolSlug, segment: toolCategorySegment });
+const toolHref = toolPath({ slug: toolSlug, segment: toolCategorySegment }, lang);
 const guideHref = entry.guide
-  ? guidePath(entry.guide)
+  ? guidePath(entry.guide, lang)
   : null;
 
 const links = [

@@ -40,21 +40,25 @@
 import FavoriteButton from '@components/tool/FavoriteButton.astro';
 import InstallButton from '@tools/_shared/InstallButton.astro';
 import ThemeToggle from '@components/ThemeToggle.astro';
-import { withBase } from '@lib/paths';
+import { pagePath, withBase } from '@lib/paths';
 import type { Tool } from '@data/types';
+import type { LocaleCode } from '@data/locales';
+import { getUiStrings } from '@data/i18n/index';
 
 interface Props {
   tool: Tool;
+  lang?: LocaleCode;
 }
 
-const { tool } = Astro.props;
+const { tool, lang = 'en' } = Astro.props;
+const t = getUiStrings(lang);
 ---
 
 <header class="tool-bar" role="banner">
   <div class="tb-inner">
     {/* The icon is the way home. alt="" on both images because the link's label says where it goes
         and the tool name is right beside it. */}
-    <a class="tb-home" href={withBase('/')} aria-label="ToyTools home" data-tb-home>
+    <a class="tb-home" href={pagePath('/', lang)} aria-label={t.nav.homeAria} data-tb-home>
       <img class="tb-mark" src={withBase(`/icons/tool/${tool.slug}.svg`)} width="28" height="28" alt="" />
       <img class="tb-badge" src={withBase('/favicon.svg')} width="14" height="14" alt="" data-tb-badge />
     </a>
@@ -63,7 +67,7 @@ const { tool } = Astro.props;
     {/* Beside the star on every width. Hides itself when the tool is already installed, and on
         Firefox, which has no install path to describe. */}
     <InstallButton toolName={tool.name} />
-    <a class="tb-search" href={withBase('/search/')} data-palette-open aria-label="Search tools">
+    <a class="tb-search" href={pagePath('/search/', lang)} data-palette-open aria-label={t.nav.searchAria}>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="11" cy="11" r="7"/>

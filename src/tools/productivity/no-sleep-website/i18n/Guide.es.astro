@@ -1,0 +1,166 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+  lang="es"
+>
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Para mantener tu pantalla encendida online mientras lees, cocinas, presentas o supervisas un panel de control, abre nuestra página para mantener pantalla encendida y pulsa el botón principal. Esta utilidad emplea la API estándar Screen Wake Lock del navegador para impedir la suspensión automática de pantalla sin instalar aplicaciones, crear cuentas ni cambiar los ajustes globales del dispositivo.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Mantener Pantalla Encendida →</a>
+  </section>
+
+  <section id="por-que-se-apaga-la-pantalla">
+    <h2>Por qué la pantalla se apaga automáticamente <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Todos los sistemas operativos incluyen un temporizador de inactividad que atenúa y bloquea la pantalla tras 30 segundos o unos minutos sin toques ni clics. Este comportamiento responde a cuatro motivos técnicos:
+    </p>
+    <ul>
+      <li><strong>Ahorro de batería.</strong> El panel iluminado es el mayor consumidor de energía en teléfonos y portátiles. Apagarlo cuando no hay interacción alarga la autonomía.</li>
+      <li><strong>Control térmico.</strong> Mantener la retroiluminación activa a alto brillo de forma continua genera calor, especialmente en teléfonos móviles.</li>
+      <li><strong>Seguridad física.</strong> Una pantalla desatendida en un espacio público supone un riesgo de privacidad; el bloqueo automático reduce esa exposición.</li>
+      <li><strong>Prevención de quemado OLED.</strong> Mostrar elementos estáticos con brillo elevado durante horas puede dejar retención de imagen permanente en pantallas OLED.</li>
+    </ul>
+    <p>
+      Aunque esta configuración predeterminada resulta útil en el día a día, resulta incómoda cuando miras la pantalla de forma activa sin tocarla: cocinando con las manos ocupadas, leyendo documentación extensa o presentando diapositivas.
+    </p>
+  </section>
+
+  <section id="como-funciona-wake-lock">
+    <h2>Cómo funciona la API Screen Wake Lock <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Un bloqueo de activación (wake lock) solicita al sistema operativo que suspenda temporalmente el temporizador de apagado del monitor. La cadena técnica es directa:
+    </p>
+    <ol>
+      <li><strong>El navegador</strong> expone la interfaz estándar <code>navigator.wakeLock.request('screen')</code> del W3C.</li>
+      <li><strong>La página web</strong> solicita el bloqueo cuando pulsas el botón de activación.</li>
+      <li><strong>El navegador</strong> traslada esa petición al gestor de energía del sistema operativo.</li>
+      <li><strong>El sistema</strong> mantiene el panel encendido mientras la pestaña siga visible y no ocurra una interrupción del sistema.</li>
+      <li>En cuanto detienes la sesión, cierras la pestaña o cambias de aplicación, el bloqueo se libera y vuelve tu tiempo de espera habitual.</li>
+    </ol>
+    <ReferenceBlock type="note" heading="Pantalla encendida frente a suspensión del equipo">
+      <p>Wake Lock controla únicamente el apagado automático de la <em>pantalla</em>. No impide que el equipo entre en suspensión al cerrar la tapa del portátil ni al pulsar el botón físico de encendido.</p>
+    </ReferenceBlock>
+
+    <h3>Bloqueo por pestaña frente a utilidades del sistema tipo caffeinate</h3>
+    <p>
+      Las aplicaciones nativas o comandos como <code>caffeinate</code> mantienen despierto todo el sistema a nivel de núcleo, incluso si guardas el portátil cerrado en una mochila. Un bloqueo de navegador opera dentro del aislamiento de seguridad de esa pestaña: se libera automáticamente al cambiar de pestaña o minimizar el navegador, protegiendo tu hardware y batería.
+    </p>
+  </section>
+
+  <section id="casos-de-uso">
+    <h2>Situaciones habituales donde resulta útil <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h3>Seguir recetas en la cocina</h3>
+    <p>Al cocinar tienes las manos mojadas o manchadas y tocar el móvil cada treinta segundos resulta poco higiénico e incómodo. Activar la sesión mantiene la receta visible durante toda la preparación.</p>
+
+    <h3>Lectura de artículos largos y documentación</h3>
+    <p>Estudiar informes técnicos, apuntes o artículos extensos puede llevar veinte minutos sin desplazamiento continuo. El bloqueo evita que la pantalla se oscurezca a mitad de lectura.</p>
+
+    <h3>Clases online y tutoriales</h3>
+    <p>Seguir un tutorial paso a paso en otra ventana o dispositivo permite consultar instrucciones sin mover el ratón ni pulsar el panel táctil periódicamente.</p>
+
+    <h3>Presentaciones y videollamadas</h3>
+    <p>Evita que la pantalla se bloquee en medio de una exposición o reunión donde no estás tecleando en ese equipo.</p>
+
+    <h3>Entrenamientos y rutinas</h3>
+    <p>Mantiene visibles series, tiempos o ejercicios sobre el teléfono o tableta sin necesidad de desbloquear el dispositivo entre repeticiones.</p>
+
+    <h3>Paneles de control y monitorización</h3>
+    <p>Equipos de desarrollo y operaciones lo utilizan para dejar tableros de métricas, despliegues o registros visibles en un monitor secundario.</p>
+  </section>
+
+  <section id="bateria">
+    <h2>Consideraciones de batería <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Mantener el panel encendido consume más batería que permitir el apagado automático. En un portátil a brillo medio suele reducir la autonomía entre un 20 % y un 40 %, y en un teléfono inteligente una hora continua con la pantalla encendida consume aproximadamente un 15 % a 25 % adicional frente al uso intermitente.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Medida práctica de ahorro">
+      <p>Reduce el brillo de pantalla antes de activar el bloqueo. Un panel al 30 % de brillo sigue siendo perfectamente legible en interiores y consume una fracción mínima de la energía necesaria al 100 %.</p>
+    </ReferenceBlock>
+    <p>
+      El propio código JavaScript de esta utilidad apenas utiliza CPU ni memoria; prácticamente todo el gasto energético procede de la iluminación del panel. Además, la opción integrada de protección de batería detiene automáticamente el bloqueo por debajo del 15 %.
+    </p>
+  </section>
+
+  <section id="compatibilidad">
+    <h2>Compatibilidad por dispositivo y navegador <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Screen Wake Lock es un estándar web compatible con los principales motores modernos:</p>
+    <ul>
+      <li><strong>Chrome en Android:</strong> Compatible de forma nativa en teléfonos y tabletas.</li>
+      <li><strong>Chrome de escritorio (Windows, macOS, Linux):</strong> Compatible.</li>
+      <li><strong>Microsoft Edge:</strong> Compatible al compartir motor Chromium.</li>
+      <li><strong>Samsung Internet:</strong> Compatible en versiones recientes.</li>
+      <li><strong>Safari en iOS y macOS:</strong> Compatible desde Safari 16.4 y iOS 16.4 en adelante.</li>
+      <li><strong>Firefox:</strong> Compatible desde Firefox 126 en adelante.</li>
+    </ul>
+    <p>
+      Si tu navegador es demasiado antiguo, la herramienta lo detecta al cargar y muestra directamente la ruta exacta en los ajustes de pantalla de tu sistema operativo.
+    </p>
+  </section>
+
+  <section id="limitaciones">
+    <h2>Limitaciones importantes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="El bloqueo se libera al cambiar de pestaña">
+      <p>En el instante en que cambias a otra pestaña o aplicación, el navegador libera el wake lock automáticamente para proteger la batería. Al regresar a esta pestaña en primer plano, la página intenta volver a adquirir el bloqueo de manera automática.</p>
+    </ReferenceBlock>
+    <ul>
+      <li><strong>Modo ahorro de energía:</strong> Activar el ahorro extremo de batería en el teléfono puede hacer que el sistema operativo rechace cualquier solicitud de Wake Lock.</li>
+      <li><strong>Suspensión del sistema frente a pantalla:</strong> Cerrar la tapa del portátil o pulsar el botón físico suspende el equipo por encima del navegador.</li>
+      <li><strong>Revocación por política del sistema:</strong> Si el sistema operativo revoca el bloqueo, la línea de estado lo indica con precisión en lugar de fingir que sigue activo.</li>
+      <li><strong>Navegación privada:</strong> Algunas configuraciones estrictas en modo incógnito pueden restringir la API; prueba en una ventana normal si falla.</li>
+    </ul>
+  </section>
+
+  <section id="herramientas-relacionadas">
+    <h2>Herramientas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Otras utilidades de productividad que combinan bien con Mantener Pantalla Encendida:</p>
+    <ul>
+      <li><a href={toolPathBySlug('pomodoro-timer', 'es')}>Temporizador Pomodoro</a>, organiza bloques de concentración con pantalla activa.</li>
+      <li><a href={toolPathBySlug('todo-list')}>Todo List</a>, gestiona tareas pendientes durante la sesión.</li>
+      <li><a href={toolPathBySlug('notepad')}>Notepad</a>, anota ideas rápidamente en tu navegador.</li>
+    </ul>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

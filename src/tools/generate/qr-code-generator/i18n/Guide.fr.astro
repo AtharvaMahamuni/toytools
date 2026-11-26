@@ -1,0 +1,153 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath, categoryPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+const categoryHref = categoryPath(category, 'fr');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="fr"
+>
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Un code QR est un code-barres carré qu’un smartphone scanne pour ouvrir un lien, rejoindre un réseau Wi-Fi ou enregistrer un contact. Ce générateur fonctionne entièrement dans votre navigateur : choisissez texte, URL, e-mail, téléphone, Wi-Fi ou fiche contact, remplissez les champs et exportez gratuitement en PNG pour les écrans ou en SVG vectoriel pour l’impression, sans rien envoyer hors de votre appareil.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir le Générateur de Code QR →</a>
+  </section>
+
+  <section id="pourquoi-cest-important">
+    <h2>Pourquoi utiliser des codes QR <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Un QR code relie instantanément un support papier ou physique à une action numérique : une affiche renvoie vers un site web, un chevalet affiche un menu et une carte de visite s’enregistre sans ressaisir un long numéro ni un mot de passe Wi-Fi.
+    </p>
+    <p>
+      Comme ces données peuvent être sensibles, générer le motif localement dans votre navigateur protège vos mots de passe Wi-Fi et coordonnées personnelles.
+    </p>
+    <ReferenceBlock type="key-idea">
+      <p>
+        Un QR code n’encode que du texte : son efficacité repose sur des formats normalisés que les smartphones reconnaissent automatiquement pour le Wi-Fi, les vCards, les e-mails et la téléphonie.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="comment-ca-marche">
+    <h2>Fonctionnement technique <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      À partir de vos champs, l’outil assemble la chaîne normalisée attendue par les lecteurs et calcule la plus petite grille compatible avec votre niveau de correction d’erreur. Même lorsque le site est en mode sombre, le QR reste affiché et exporté en modules noirs sur fond blanc afin d’assurer un contraste parfait.
+    </p>
+  </section>
+
+  <section id="exemples">
+    <h2>Exemples courants <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>URL :</strong> rediriger depuis une affiche, un emballage ou un stand.</li>
+      <li><strong>Wi-Fi :</strong> partager SSID, mot de passe et sécurité WPA/WPA2.</li>
+      <li><strong>Fiche contact :</strong> nom, téléphone, e-mail et entreprise au format vCard.</li>
+      <li><strong>E-mail &amp; Téléphone :</strong> ouvrir un message pré-rempli ou lancer un appel.</li>
+      <li><strong>Texte :</strong> numéro de série, code d’accès ou mémo court.</li>
+    </ul>
+  </section>
+
+  <section id="cas-dusage">
+    <h2>Cas d’usage et bonnes pratiques <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Gardez les textes concis pour préserver des modules larges et faciles à lire, prévoyez une taille adaptée à la distance de scan et testez toujours votre impression avec un smartphone avant un tirage définitif.
+    </p>
+  </section>
+
+  <section id="avantages">
+    <h2>Avantages du traitement local <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Contrairement aux plateformes imposant compte, pistage ou filigrane, ToyTools encode directement vos données localement et fournit un export SVG vectoriel net sans limite de taille.
+    </p>
+  </section>
+
+  <section id="limites">
+    <h2>Limites à connaître <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Les QR codes générés ici sont statiques : une fois imprimés, leur contenu ne peut pas être modifié sans recréer une nouvelle image. Pour faire évoluer une destination plus tard, encodez une URL courte de redirection sous votre contrôle.
+    </p>
+    <ReferenceBlock type="common-mistake">
+      <p>
+        Encoder une URL très longue surcharge la matrice et nuit au scan sur petit format. Raccourcissez toujours les liens longs avant génération.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="confidentialite">
+    <h2>Confidentialité <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Rien ne quitte votre appareil : aucune saisie ni image générée n’est envoyée ou enregistrée sur un serveur. Seules vos préférences d’options restent en stockage local dans votre navigateur.
+    </p>
+  </section>
+
+  <section id="erreurs-courantes">
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Encoder trop de données :</strong> densifie inutilement le motif.</li>
+      <li><strong>Imprimer trop petit :</strong> ajustez les dimensions à la distance réelle de lecture.</li>
+      <li><strong>Supprimer la zone calme :</strong> conservez toujours la bordure blanche autour du carré.</li>
+      <li><strong>Correction faible sur support exposé :</strong> préférez Quartile ou Haute si le support risque d’être rayé.</li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>Questions fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Toutes les réponses détaillées sur l’impression, l’UTF-8, le mode sombre et l’utilisation hors ligne figurent sur la page de l’outil.</p>
+    <a href={`${toolHref}#faq`} class="cta-link">Lire la FAQ du Générateur de Code QR →</a>
+  </section>
+
+  <section id="outils-associes">
+    <h2>Outils associés <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Ce générateur rejoint la catégorie <a href={categoryHref}>Générateurs</a> aux côtés des outils de mots de passe et d’identifiants uniques en local.
+    </p>
+  </section>
+
+  <section id="liens-internes">
+    <h2>Aller plus loin <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolHref}>Générateur de Code QR</a> pour générer votre code dès maintenant.</li>
+      <li><a href={categoryHref}>Générateurs</a> pour parcourir tous les générateurs disponibles.</li>
+    </ul>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

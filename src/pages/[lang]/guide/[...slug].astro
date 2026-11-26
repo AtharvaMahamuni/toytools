@@ -1,0 +1,60 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { toolsWithGuide } from '@data/registry';
+import { categories } from '@data/categories';
+import { LOCALIZED_LOCALES, isLocaleCode } from '@data/locales';
+import { getLocalizedToolPack, hasLocalizedGuide, localizeTool } from '@lib/i18n/registry';
+import type { LocalizedLocale } from '@lib/i18n/types';
+
+// Localized guide components are discovered from src/tools/<segment>/<slug>/i18n/Guide.<lang>.astro
+// so each localized guide renders only when its full deep guide file exists on disk.
+const guideModules = import.meta.glob<{ default: any }>('../../../tools/*/*/i18n/Guide.*.astro', {
+  eager: true,
+});
+const guidesByKey: Record<string, any> = {};
+for (const [path, mod] of Object.entries(guideModules)) {
+  const parts = path.split('/');
+  const filename = parts.at(-1)!; // Guide.es.astro
+  const langMatch = filename.match(/^Guide\.([a-z]{2})\.astro$/);
+  const slug = parts.at(-3);
+  if (langMatch && slug && isLocaleCode(langMatch[1])) {
+    guidesByKey[`${langMatch[1]}:${slug}`] = mod.default;
+  }
+}
+
+export const getStaticPaths = (() => {
+  const paths = [];
+  for (const lang of LOCALIZED_LOCALES) {
+    for (const rawTool of toolsWithGuide) {
+      const pack = getLocalizedToolPack(rawTool.slug, lang);
+      if (!pack?.guide || !hasLocalizedGuide(rawTool.slug, lang)) continue;
+      const tool = localizeTool(rawTool, lang);
+      const category = categories.find(c => c.slug === tool.categorySlug)!;
+      paths.push({
+        params: { lang, slug: `${tool.guide!.categorySlug}/${tool.guide!.slug}` },
+        props: { tool, category, lang },
+      });
+    }
+  }
+  return paths;
+}) satisfies GetStaticPaths;
+
+interface Props {
+  tool: ReturnType<typeof localizeTool>;
+  lang: LocalizedLocale;
+}
+
+const { tool, lang } = Astro.props;
+const GuideComp = guidesByKey[`${lang}:${tool.slug}`];
+---
+
+{GuideComp && (
+  <GuideComp
+    title={tool.guide!.title}
+    description={tool.guide!.description}
+    readMinutes={tool.guide!.readMinutes}
+    updatedAt={tool.guide!.updatedAt}
+    entry={tool}
+    lang={lang}
+  />
+)}

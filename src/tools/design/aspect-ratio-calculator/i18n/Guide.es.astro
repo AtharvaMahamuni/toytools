@@ -1,0 +1,90 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="es"
+>
+  <section id="resumen">
+    <h2>Resumen</h2>
+    <p>
+      Una relación de aspecto es la proporción entre el ancho y el alto de un elemento, escrita como dos números separados por dos puntos, por ejemplo 16:9. Describe la forma, no el tamaño absoluto: un fotograma 16:9 mantiene la misma silueta tanto a 1280 × 720 como a 1920 × 1080. Esta calculadora bloquea una proporción y resuelve al instante la medida faltante para que imágenes, vídeos y bloques web conserven su geometría exacta.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Calculadora de Relación de Aspecto →</a>
+  </section>
+
+  <section id="por-que-importa">
+    <h2>Por qué importa la relación de aspecto</h2>
+    <p>
+      Cuando ancho y alto dejan de guardar proporción, el contenido se deforma: los rostros se estiran, los logotipos se aplastan y los vídeos muestran barras negras o recortes inesperados. Mantener un ratio constante conserva la fidelidad visual, evita saltos de diseño al cargar imágenes (CLS) y garantiza que los componentes responsivos respondan de forma predecible.
+    </p>
+  </section>
+
+  <section id="como-funciona">
+    <h2>Cómo funcionan las fórmulas</h2>
+    <p>
+      Con una relación L:A (ancho respecto a alto), el alto equivale a ancho × A ÷ L, y el ancho equivale a alto × L ÷ A. Para escalar proporcionalmente basta con cambiar una sola dimensión y despejar la otra. La simplificación se obtiene dividiendo ambos lados por su máximo común divisor: para 1920 × 1080 el MCD es 120, de modo que se reduce a 16:9. La calculadora actualiza ambos sentidos en tiempo real e indica siempre la proporción simplificada junto a los píxeles, recordando que la relación es independiente de la resolución absoluta.
+    </p>
+  </section>
+
+  <section id="ejemplos">
+    <h2>Ejemplos prácticos</h2>
+    <p>
+      En formato 16:9, un banner de 1600 px de ancho necesita 1600 × 9 ÷ 16 = 900 px de alto. En formato 4:3, una imagen de 800 px de ancho mide 600 px de alto. Para adaptar un vídeo a una cabecera ultraancha 21:9 de 1400 px de ancho, la altura correspondiente es 600 px. Del mismo modo, introducir 1080 × 1350 revela la relación simplificada 4:5, habitual en publicaciones verticales para redes sociales.
+    </p>
+  </section>
+
+  <section id="errores-frecuentes">
+    <h2>Errores frecuentes</h2>
+    <ul>
+      <li><strong>Editar ambas medidas a la vez.</strong> Cambia solo el ancho o solo el alto para que la otra dimensión se recalcule automáticamente sin romper el formato.</li>
+      <li><strong>Confundir resolución con proporción.</strong> 1280×720 y 1920×1080 tienen distinto tamaño en píxeles, pero comparten exactamente la misma relación 16:9.</li>
+      <li><strong>Olvidar simplificar o comprobar pares en vídeo.</strong> Expresar 1920:1080 como 16:9 facilita las especificaciones, y en codificación H.264 conviene elegir dimensiones enteras pares.</li>
+    </ul>
+  </section>
+
+  <section id="comparativas">
+    <h2>Formatos habituales y usos</h2>
+    <p>
+      Cada proporción responde a un uso concreto: 16:9 para vídeo panorámico y pantallas actuales, 4:3 para monitores clásicos y fotografía tradicional, 3:2 para cámaras fotográficas, 21:9 para monitores ultraanchos y cine, 1:1 para formatos cuadrados y 9:16 para vídeo vertical en móviles. Una vez calculados los píxeles, puedes convertirlos a unidades CSS escalables (`rem`) o unidades móviles (`dp`). A diferencia de calculadoras limitadas a un único ratio, esta herramienta admite preajustes y proporciones personalizadas con vista previa inmediata.
+    </p>
+  </section>
+
+  <section id="privacidad">
+    <h2>Ejecución local</h2>
+    <p>
+      Todos los cálculos se ejecutan localmente en tu navegador. No se envía ningún dato fuera de tu dispositivo y la página funciona incluso sin conexión una vez cargada.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none; transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

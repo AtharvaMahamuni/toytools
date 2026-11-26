@@ -1,10 +1,12 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { generatePageTitle } from '@lib/titles';
-import { withBase } from '@lib/paths';
+import { withBase, pagePath } from '@lib/paths';
 import { tools } from '@data/registry';
 import { categories } from '@data/categories';
 import { engineRegistry } from '@data/engines';
+import { ACTIVE_LOCALES } from '@data/locales';
+import { pageHreflangLinks, switcherAlternatesForPath } from '@lib/i18n/registry';
 
 const description =
   'ToyTools is the internet\'s little toolbox: small, fast utilities on one shared browser-side platform. No accounts, no uploads, no servers.';
@@ -14,9 +16,17 @@ const toolCount = tools.length;
 const categoryCount = categories.length;
 const guideCount = tools.filter(t => t.guide !== undefined).length;
 const engineCount = engineRegistry.length;
+const hreflangLinks = pageHreflangLinks('/about/', Astro.site);
+const switcherAlternates = switcherAlternatesForPath(loc => pagePath('/about/', loc), ACTIVE_LOCALES);
 ---
 
-<BaseLayout title={generatePageTitle('about')} description={description} maxWidth="tool">
+<BaseLayout
+  title={generatePageTitle('about')}
+  description={description}
+  maxWidth="tool"
+  hreflangLinks={hreflangLinks}
+  switcherAlternates={switcherAlternates}
+>
   <article class="page-doc">
     <h1>About ToyTools</h1>
     <p class="lede">{description}</p>

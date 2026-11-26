@@ -1,22 +1,31 @@
 ---
-import { withBase } from '@lib/paths';
+import { pagePath, withBase } from '@lib/paths';
 import { PRIVACY_LINE } from '@lib/privacy';
 import { AUTHOR } from '@lib/schema/identity';
+import { getUiStrings } from '@data/i18n/index';
+import type { LocaleCode } from '@data/locales';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+interface AlternateRoute {
+  code: LocaleCode;
+  href: string;
+}
 
 interface Props {
-  /** Set on tool pages so the feedback link carries which tool the visitor is on. Tool pages used
-   *  to render their own 102px invite; it was a second copy of this link, so the block went and the
-   *  context moved here. /feedback/ reads ?tool= to prefill, which is how it always worked. */
+  /** Set on tool pages so the feedback link carries which tool the visitor is on. */
   feedbackTool?: string;
-  /** Author credit. Off on noindex pages: /search/ is already at the HTML budget, and models do
-   *  not quote those pages. */
+  /** Author credit. Off on noindex pages. */
   credit?: boolean;
   /** Private tooltip text. A lookup tool's page passes privacyStatement('lookup'). */
   privacy?: string;
+  lang?: LocaleCode;
+  alternates?: AlternateRoute[];
 }
 
-const { feedbackTool, credit = true, privacy = PRIVACY_LINE } = Astro.props;
-const feedbackHref = withBase(feedbackTool ? `/feedback/?tool=${feedbackTool}` : '/feedback/');
+const { feedbackTool, credit = true, privacy, lang = 'en', alternates = [] } = Astro.props;
+const t = getUiStrings(lang);
+const resolvedPrivacy = privacy ?? (lang === 'en' ? PRIVACY_LINE : t.footer.privacyByVariant.private);
+const feedbackHref = pagePath(feedbackTool ? `/feedback/?tool=${feedbackTool}` : '/feedback/', lang);
 const year = new Date().getFullYear();
 ---
 
@@ -27,32 +36,33 @@ const year = new Date().getFullYear();
       <span class="footer-sep" aria-hidden="true">·</span>
       <span
         class="footer-hint"
-        data-tooltip="Loads fast. No unnecessary complexity. Built for getting things done."
-        data-toast="Loads fast. No unnecessary complexity. Built for getting things done."
-      >Lightweight</span>
+        data-tooltip={t.footer.lightweightTip}
+        data-toast={t.footer.lightweightTip}
+      >{t.footer.lightweight}</span>
       <span class="footer-sep" aria-hidden="true">·</span>
       <span
         class="footer-hint"
-        data-tooltip={privacy}
-        data-toast={privacy}
-      >Private</span>
+        data-tooltip={resolvedPrivacy}
+        data-toast={resolvedPrivacy}
+      >{t.footer.privateLabel}</span>
       {credit && (
         <span class="footer-author" hidden>
-          Made by {AUTHOR.name} · <a href={AUTHOR.x} rel="me">X</a> · <a href={AUTHOR.linkedin} rel="me">LinkedIn</a>
+          {t.footer.madeBy} {AUTHOR.name} · <a href={AUTHOR.x} rel="me">X</a> · <a href={AUTHOR.linkedin} rel="me">LinkedIn</a>
         </span>
       )}
     </div>
-    <nav class="footer-links" aria-label="Site information">
-      <a class="footer-link" href={feedbackHref} data-feedback-link={feedbackTool ? '' : undefined}>Contact and feedback</a>
-      <a class="footer-link" href={withBase('/platform/')}>Platform</a>
-      <a class="footer-link" href={withBase('/about/')}>About</a>
-      <a class="footer-link" href={withBase('/privacy/')}>Privacy</a>
-      <a class="footer-link" href={withBase('/terms/')}>Terms</a>
-      <a class="footer-link" href={withBase('/changelog/')}>Changelog</a>
-      <a class="footer-link" href={withBase('/settings/')}>Settings</a>
+    <nav class="footer-links" aria-label={t.footer.siteInfoAria}>
+      <LanguageSwitcher lang={lang} alternates={alternates} variant="footer" />
+      <a class="footer-link" href={feedbackHref} data-feedback-link={feedbackTool ? '' : undefined}>{t.footer.contactAndFeedback}</a>
+      <a class="footer-link" href={pagePath('/platform/', lang)}>{t.footer.platform}</a>
+      <a class="footer-link" href={pagePath('/about/', lang)}>{t.footer.about}</a>
+      <a class="footer-link" href={pagePath('/privacy/', lang)}>{t.footer.privacy}</a>
+      <a class="footer-link" href={pagePath('/terms/', lang)}>{t.footer.terms}</a>
+      <a class="footer-link" href={withBase('/changelog/')}>{t.footer.changelog}</a>
+      <a class="footer-link" href={withBase('/settings/')}>{t.footer.settings}</a>
       {/* Opens the same sheet as "?", because a shortcut whose only trigger is a shortcut
           helps nobody. Hidden on phones, where there is no keyboard to shortcut with. */}
-      <button type="button" class="footer-link footer-shortcuts" data-shortcuts-open>Shortcuts</button>
+      <button type="button" class="footer-link footer-shortcuts" data-shortcuts-open>{t.footer.shortcuts}</button>
     </nav>
   </div>
 </footer>

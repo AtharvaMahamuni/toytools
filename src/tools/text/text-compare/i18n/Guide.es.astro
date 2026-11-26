@@ -1,0 +1,130 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath, categoryPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="es"
+>
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Este comparador de textos te permite confrontar dos versiones lado a lado y detectar al momento qué líneas cambiaron. Pega el borrador original a la izquierda y la nueva versión a la derecha: las adiciones aparecen en verde con el signo <strong>+</strong>, las eliminaciones en rojo con <strong>-</strong> y las líneas intactas en gris tenue, junto con un porcentaje exacto de similitud.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Comparador de Textos →</a>
+  </section>
+
+  <section id="por-que-importa">
+    <h2>Por qué comparar textos automáticamente <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Revisar dos borradores a ojo es lento y propenso a descuidos: resulta muy fácil pasar por alto una frase borrada o un párrafo reubicado. Resaltar automáticamente cada diferencia resulta decisivo al auditar contratos, actualizaciones legales o textos entre varias rondas de edición.
+    </p>
+  </section>
+
+  <section id="como-usar">
+    <h2>Cómo usar el comparador <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ol>
+      <li>Pega la versión anterior en el cuadro <strong>Original</strong>.</li>
+      <li>Pega la versión revisada en el cuadro <strong>Texto nuevo</strong>.</li>
+      <li>El diff aparece al instante debajo con las estadísticas de cambios.</li>
+      <li>Las líneas verdes con <code>+</code> son adiciones nuevas.</li>
+      <li>Las líneas rojas con <code>-</code> se eliminaron respecto al original.</li>
+      <li>Las líneas grises se mantienen sin modificaciones.</li>
+    </ol>
+  </section>
+
+  <section id="como-leer-el-diff">
+    <h2>Cómo interpretar el resultado <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      La salida sigue exactamente la convención estándar de <code>diff</code> y <code>git diff</code> en línea de comandos:
+    </p>
+    <ul>
+      <li><strong>+</strong> (fondo verde): línea presente en el texto nuevo pero no en el original.</li>
+      <li><strong>-</strong> (fondo rojo): línea presente en el original pero no en el texto nuevo.</li>
+      <li><strong>espacio</strong> (tenue): línea idéntica en ambas versiones.</li>
+    </ul>
+    <p>
+      La herramienta compara línea a línea y distingue mayúsculas y espacios. Recuerda que un diff informa qué cambió en modo de solo lectura sin fusionar archivos automáticamente. Si la única diferencia son saltos de línea o espacios finales, el aviso contextual permite ignorarlos al instante.
+    </p>
+    <ReferenceBlock type="note" heading="Comparación por líneas completas">
+      <p>
+        Al modificar una sola palabra dentro de una línea, toda esa línea figura como eliminada en la versión antigua y añadida en la nueva, facilitando la lectura rápida de bloques extensos.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="cuando-usarlo">
+    <h2>Cuándo utilizar un comparador de textos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>Revisar dos borradores de un informe o artículo para ver qué cambió.</li>
+      <li>Contrastar versiones de contratos para detectar cláusulas añadidas o retiradas.</li>
+      <li>Verificar fragmentos de código o configuración antes de hacer commit.</li>
+      <li>Comprobar que una traducción o edición conserva la estructura original.</li>
+      <li>Auditar cambios de contenido en páginas web entre versiones antiguas y nuevas.</li>
+    </ul>
+  </section>
+
+  <section id="errores-frecuentes">
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Esperar resaltado palabra por palabra">
+      <p>
+        El comparador trabaja a nivel de línea. Si cambias una sola palabra en una oración de diez palabras, verás toda la línea antigua marcada con menos y la nueva con más.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Confundir porcentaje de similitud con calidad">
+      <p>
+        Un porcentaje bajo de similitud solo indica que se editaron muchas líneas. Una versión profundamente mejorada puede tener apenas un 30% de coincidencia con el primer borrador.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="herramientas-relacionadas">
+    <p>
+      <strong>Herramientas relacionadas:</strong> explora todas las utilidades de
+      <a href={categoryPath(category, 'es')}>Texto</a>,
+      como <a href={toolPathBySlug('find-replace')}>Find and Replace</a>,
+      <a href={toolPathBySlug('word-counter', 'es')}>Contador de Palabras</a>
+      y <a href={toolPathBySlug('remove-duplicate-lines')}>Remove Duplicate Lines</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -64,12 +64,28 @@ const sitemapFiles = readdirSync(sitemapDir).filter(f => f.endsWith('.xml')).map
 let locs = 0;
 let footers = 0;
 
+const CONTACT_LABELS_BY_PREFIX: Record<string, string> = {
+  '': 'Contact and feedback',
+  '/es': 'Contacto y comentarios',
+  '/de': 'Kontakt und Feedback',
+  '/fr': 'Contact et commentaires',
+};
+
 /** What the footer is missing, or null. The contact link may carry ?tool= on tool pages. */
-export function footerProblem(html: string): string | null {
+export function footerProblem(html: string, pagePath = '/'): string | null {
   const footer = html.match(/<footer[^>]*role="contentinfo"[\s\S]*?<\/footer>/)?.[0];
   if (!footer) return 'is missing';
-  for (const p of ['/about/', '/privacy/', '/terms/']) if (!footer.includes(`${p}"`)) return `has no ${p} link`;
-  if (!/<a[^>]*href="[^"]*\/feedback\/(\?tool=[^"]*)?"[^>]*>\s*Contact and feedback\s*<\/a>/.test(footer)) return 'has no "Contact and feedback" link to /feedback/';
+  const locMatch = pagePath.match(/^\/(es|de|fr)(?:\/|$)/);
+  const prefix = locMatch ? `/${locMatch[1]}` : '';
+  for (const p of ['/about/', '/privacy/', '/terms/']) {
+    if (!footer.includes(`${prefix}${p}"`)) return `has no ${prefix}${p} link`;
+  }
+  const contactLabel = CONTACT_LABELS_BY_PREFIX[prefix]!;
+  const escapedLabel = contactLabel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const feedbackRe = new RegExp(
+    `<a[^>]*href="[^"]*${prefix}\\/feedback\\/(\\?tool=[^"]*)?"[^>]*>\\s*${escapedLabel}\\s*<\\/a>`,
+  );
+  if (!feedbackRe.test(footer)) return `has no "${contactLabel}" link to ${prefix}/feedback/`;
   return null;
 }
 const listed = new Set<string>();
@@ -89,7 +105,7 @@ for (const file of sitemapFiles) {
     const html = readFileSync(target, 'utf8');
     if (isStub(html)) errors.push(`${name} lists redirect stub ${path}`);
     else if (isNoindex(html)) errors.push(`${name} lists noindex page ${path}`);
-    else { const f = footerProblem(html); if (f) errors.push(`${path}: footer ${f}`); else footers++; }
+    else { const f = footerProblem(html, path); if (f) errors.push(`${path}: footer ${f}`); else footers++; }
   }
 }
 if (locs === 0) errors.push('no sitemap URLs found');

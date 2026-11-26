@@ -1,0 +1,90 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="de"
+>
+  <section id="ueberblick">
+    <h2>Überblick</h2>
+    <p>
+      Ein Seitenverhältnis beschreibt das Verhältnis zwischen Breite und Höhe eines Elements, etwa 16:9. Es definiert die Form unabhängig von der absoluten Größe: Ein 16:9-Bildschirm hat dieselbe Proportion, egal ob er 1280 × 720 oder 1920 × 1080 Pixel misst. Mit dem Seitenverhältnis-Rechner sperren Sie ein Format und berechnen sofort die fehlende Breite oder Höhe, damit Bilder, Videos und Layout-Boxen formtreu bleiben.
+    </p>
+    <a href={toolHref} class="cta-link">Zum Seitenverhältnis-Rechner →</a>
+  </section>
+
+  <section id="warum-das-wichtig-ist">
+    <h2>Warum das Seitenverhältnis wichtig ist</h2>
+    <p>
+      Sobald Breite und Höhe vom gewünschten Verhältnis abweichen, verzerren Motive: Gesichter wirken gedehnt, Logos gestaucht oder Videos erhalten ungewollte schwarze Balken und Beschnitt. Ein sauberes Verhältnis schützt zudem die Layout-Stabilität beim Laden im Browser, weil der exakte Platz vorab reserviert wird.
+    </p>
+  </section>
+
+  <section id="wie-es-funktioniert">
+    <h2>So funktioniert die Berechnung</h2>
+    <p>
+      Bei einem Verhältnis B:H gilt: Höhe = Breite × H ÷ B und Breite = Höhe × B ÷ H. Zum proportionalen Skalieren ändern Sie genau einen Wert und lassen den anderen berechnen. Zur Vereinfachung teilt man beide Zahlen durch ihren größten gemeinsamen Teiler: Bei 1920 × 1080 beträgt dieser 120, woraus sich exakt 16:9 ergibt. Unser Rechner arbeitet live in beide Richtungen und zeigt neben den Pixelwerten immer das gekürzte Seitenverhältnis an.
+    </p>
+  </section>
+
+  <section id="beispiele">
+    <h2>Praxisbeispiele</h2>
+    <p>
+      Bei 16:9 benötigt ein 1600 px breiter Banner exakt 1600 × 9 ÷ 16 = 900 px Höhe. Bei 4:3 misst ein 800 px breites Bild genau 600 px in der Höhe. Für ein 21:9-Ultrawide-Video mit 1400 px Breite ergibt sich eine Höhe von 600 px. Und das Format 1080 × 1350 entspricht gekürzt genau 4:5, dem Standard-Hochformat vieler Social-Feeds.
+    </p>
+  </section>
+
+  <section id="haeufige-fehler">
+    <h2>Häufige Fehler</h2>
+    <ul>
+      <li><strong>Beide Seiten frei verändern.</strong> Passen Sie immer nur eine Seite an und lassen Sie die Gegenseite berechnen.</li>
+      <li><strong>Auflösung und Verhältnis verwechseln.</strong> 1280×720 und 1920×1080 haben verschiedene Pixelzahlen, aber exakt dasselbe 16:9-Format.</li>
+      <li><strong>Gerade Werte bei Video-Exporten vergessen.</strong> Codecs wie H.264 benötigen oft gerade ganze Pixelwerte; bei ungeraden Ergebnissen schlägt der Rechner das nächstliegende gerade Paar vor.</li>
+    </ul>
+  </section>
+
+  <section id="vergleich">
+    <h2>Typische Formate im Vergleich</h2>
+    <p>
+      16:9 eignet sich für Video und Monitore, 4:3 für klassische Displays, 3:2 für Spiegelreflex- und Systemkameras, 21:9 für Ultrawide-Kinoformate, 1:1 für quadratische Kacheln und 9:16 für Hochkant-Mobilvideos. Im Gegensatz zu starren Einzelformat-Tools vereint dieser Rechner alle Vorgaben sowie beliebige Eigenverhältnisse samt Live-Vorschau in einer Ansicht.
+    </p>
+  </section>
+
+  <section id="datenschutz">
+    <h2>Läuft lokal im Browser</h2>
+    <p>
+      Die gesamte Geometrieberechnung läuft direkt auf Ihrem Gerät. Keine Eingabe wird hochgeladen, und nach dem Laden funktioniert die Seite auch offline zuverlässig.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none; transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

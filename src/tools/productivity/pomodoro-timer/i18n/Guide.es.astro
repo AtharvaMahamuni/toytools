@@ -1,0 +1,138 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+  lang="es"
+>
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      La técnica Pomodoro consiste en trabajar en bloques cronometrados de 25 minutos separados por pausas cortas de 5 minutos. Después de cuatro bloques seguidos, se realiza un descanso largo de 15 minutos. Esta cadencia reduce la fricción de empezar, acota el impacto de las interrupciones y protege tu capacidad de atención durante toda la jornada.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Temporizador Pomodoro →</a>
+  </section>
+
+  <section id="por-que-cuesta-concentrarse">
+    <h2>Por qué cuesta mantener la concentración <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>La falta de enfoque casi nunca es falta de fuerza de voluntad, sino un problema estructural:</p>
+    <ul>
+      <li><strong>Las interrupciones reinician el reloj cognitivo:</strong> Volver al nivel de profundidad previo tras una notificación puede llevar más de veinte minutos.</li>
+      <li><strong>El cambio de contexto tiene un coste real:</strong> Alternar entre correo, chat y trabajo técnico consume memoria de trabajo y aumenta los errores.</li>
+      <li><strong>Las tareas abiertas generan rechazo:</strong> Un objetivo vago intimida; un compromiso acotado a 25 minutos vuelve manejable el primer paso.</li>
+      <li><strong>La fatiga se acumula en silencio:</strong> Saltarse descansos reduce drásticamente el rendimiento a partir de la primera hora.</li>
+    </ul>
+  </section>
+
+  <section id="como-funciona-el-ciclo">
+    <h2>Cómo funciona un ciclo Pomodoro <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ol>
+      <li><strong>Elige una sola tarea:</strong> Define con claridad qué vas a completar en el bloque.</li>
+      <li><strong>Trabaja 25 minutos sin cambiar de tarea:</strong> Si surge una idea o recado, anótalo y vuelve inmediatamente a la tarea principal.</li>
+      <li><strong>Descansa 5 minutos reales:</strong> Levántate, estira y aparta la mirada de la pantalla.</li>
+      <li><strong>Tras cuatro bloques, descansa 15 minutos:</strong> La pausa larga restablece la atención antes de iniciar otro ciclo.</li>
+    </ol>
+    <p>Enfoque (25 min) → Pausa corta (5 min) → ×4 → Pausa larga (15 min).</p>
+    <ReferenceBlock type="key-idea" heading="El descanso es parte del método">
+      <p>Cuando suena la alarma al finalizar los 25 minutos, detente aunque estés a mitad de una frase. Respetar la pausa protege tu energía para el siguiente bloque.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="ejemplos-reales">
+    <h2>Ejemplos prácticos por disciplina <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h3>Estudio y oposiciones</h3>
+    <p>Funciona especialmente bien cuando cada bloque tiene una meta medible: leer un tema, hacer diez problemas o repasar tarjetas de memoria.</p>
+    <h3>Programación y desarrollo</h3>
+    <p>Ideal para depurar errores concretos, escribir pruebas o revisar pull requests. Para arquitectura profunda conviene cambiar a 50/10.</p>
+    <h3>Lectura y redacción</h3>
+    <p>Separar los bloques de documentación de los bloques de borrador evita que investigues indefinidamente sin escribir una línea.</p>
+  </section>
+
+  <section id="pomodoro-y-tdah">
+    <h2>Pomodoro y TDAH <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Para muchas personas con TDAH, la técnica resuelve dos obstáculos frecuentes: acota la barrera de inicio ("solo son 15 o 25 minutos") y obliga a hacer pausas que evitan el agotamiento extremo tras episodios de hiperfoco.
+    </p>
+    <h3>Cómo adaptarlo si te cuesta arrancar</h3>
+    <ul>
+      <li>Empieza con sesiones de 15 minutos si 25 te generan resistencia inicial.</li>
+      <li>Usa el modo Sin distracciones a pantalla completa para retirar pestañas y relojes adicionales.</li>
+      <li>Combínalo siempre con una nota única del siguiente paso concreto antes de pulsar Iniciar.</li>
+    </ul>
+  </section>
+
+  <section id="variaciones-populares">
+    <h2>Variaciones habituales: 25/5, 50/10 y 90/20 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h3>25/5: El estándar clásico</h3>
+    <p>Equilibrio versátil para tareas administrativas, estudio, revisión de código y arranque contra la procrastinación.</p>
+    <h3>50/10: El bloque extendido</h3>
+    <p>Pensado para desarrollo de software, diseño técnico y escritura prolongada donde necesitas tiempo para cargar el contexto en memoria.</p>
+    <h3>90/20: El ciclo ultradiano</h3>
+    <p>Basado en los ciclos naturales de vigilia cognitiva de 90 minutos seguidos de 20 minutos de recuperación completa.</p>
+  </section>
+
+  <section id="errores-comunes">
+    <h2>Errores frecuentes al usar Pomodoro <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Usar la pausa para mirar el móvil:</strong> Desplazarte por notificaciones fatiga los mismos circuitos atencionales que acabas de usar.</li>
+      <li><strong>Medir éxito por número de tomates:</strong> Completar ocho sesiones en tareas secundarias vale menos que dos bloques centrados en lo prioritario.</li>
+      <li><strong>Seguir trabajando tras sonar el aviso:</strong> Agota tu reserva de atención y rompe la predictibilidad del hábito.</li>
+    </ul>
+  </section>
+
+  <section id="funciona-realmente">
+    <h2>¿Funciona realmente la técnica Pomodoro? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Aunque los ensayos clínicos específicos sobre la marca Pomodoro son limitados, la psicología cognitiva respalda sus dos pilares: objetivos temporales breves reducen la evitación, y los descansos programados previenen la caída de vigilancia sostenida.
+    </p>
+  </section>
+
+  <section id="historia">
+    <h2>Breve historia <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Francesco Cirillo creó el método a finales de los años ochenta durante sus estudios universitarios utilizando un reloj de cocina mecánico con forma de tomate (pomodoro en italiano).
+    </p>
+  </section>
+
+  <section id="herramientas-relacionadas">
+    <h2>Herramientas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('no-sleep-website', 'es')}>Mantener Pantalla Encendida</a>, evita que el móvil bloquee el temporizador visible.</li>
+      <li><a href={toolPathBySlug('todo-list')}>Todo List</a>, define la tarea exacta antes de empezar el bloque.</li>
+      <li><a href={toolPathBySlug('notepad')}>Notepad</a>, anota distracciones para revisarlas en la pausa.</li>
+    </ul>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

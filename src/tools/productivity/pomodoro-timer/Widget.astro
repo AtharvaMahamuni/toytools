@@ -1,9 +1,20 @@
 ---
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
-import { withBase } from '@lib/paths';
+import { toolPath, withBase } from '@lib/paths';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { uiStr } from '@lib/i18n/widget-utils';
+
+interface Props {
+  lang?: LocaleCode;
+  pack?: LocalizedToolPack | null;
+}
+
+const { lang = 'en', pack = null } = Astro.props;
+const u = (k: string, fb: string) => uiStr(pack, k, fb);
 
 const swUrl    = withBase('/sw.js');
-const toolUrl  = withBase('/tool/productivity/pomodoro-timer/');
+const toolUrl  = toolPath({ slug: 'pomodoro-timer', segment: 'productivity' }, lang);
 const iconUrl  = withBase('/favicon.ico');
 ---
 
@@ -17,34 +28,34 @@ const iconUrl  = withBase('/favicon.ico');
 <!-- Settings panel -->
 <div slot="output" class="pt-settings">
   <button id="pt-settings-toggle" type="button" class="pt-text-action">
-    Customize ▾
+    {u('btnCustomize', 'Customize')} ▾
   </button>
   <div id="pt-settings-panel" hidden class="pt-settings-panel">
     <div class="pt-settings-grid">
-      <label class="pt-setting-label" for="pt-focus-mins">Focus Duration <span class="pt-setting-unit">(min)</span></label>
+      <label class="pt-setting-label" for="pt-focus-mins">{u('lblFocusMins', 'Focus Duration')} <span class="pt-setting-unit">({u('unitMin', 'min')})</span></label>
       <input id="pt-focus-mins" type="number" min="1" max="180" value="25" class="pt-setting-input" />
 
-      <label class="pt-setting-label" for="pt-short-break-mins">Short Break <span class="pt-setting-unit">(min)</span></label>
+      <label class="pt-setting-label" for="pt-short-break-mins">{u('lblShortBreak', 'Short Break')} <span class="pt-setting-unit">({u('unitMin', 'min')})</span></label>
       <input id="pt-short-break-mins" type="number" min="1" max="60" value="5" class="pt-setting-input" />
 
-      <label class="pt-setting-label" for="pt-long-break-mins">Long Break <span class="pt-setting-unit">(min)</span></label>
+      <label class="pt-setting-label" for="pt-long-break-mins">{u('lblLongBreak', 'Long Break')} <span class="pt-setting-unit">({u('unitMin', 'min')})</span></label>
       <input id="pt-long-break-mins" type="number" min="1" max="120" value="15" class="pt-setting-input" />
 
-      <label class="pt-setting-label" for="pt-sessions-per-cycle">Sessions Per Cycle</label>
+      <label class="pt-setting-label" for="pt-sessions-per-cycle">{u('lblSessionsPerCycle', 'Sessions Per Cycle')}</label>
       <input id="pt-sessions-per-cycle" type="number" min="1" max="12" value="4" class="pt-setting-input" />
     </div>
     <div class="pt-toggles">
       <label class="pt-toggle-row">
-        <input id="pt-sound-toggle" type="checkbox" class="pt-checkbox" aria-label="Play notification sound" />
-        <span class="pt-toggle-label">Play Notification Sound</span>
+        <input id="pt-sound-toggle" type="checkbox" class="pt-checkbox" aria-label={u('lblSound', 'Play Notification Sound')} />
+        <span class="pt-toggle-label">{u('lblSound', 'Play Notification Sound')}</span>
       </label>
       <label class="pt-toggle-row">
-        <input id="pt-notif-toggle" type="checkbox" class="pt-checkbox" aria-label="Browser notifications" />
-        <span class="pt-toggle-label">Browser Notifications</span>
+        <input id="pt-notif-toggle" type="checkbox" class="pt-checkbox" aria-label={u('lblNotif', 'Browser Notifications')} />
+        <span class="pt-toggle-label">{u('lblNotif', 'Browser Notifications')}</span>
       </label>
       <label class="pt-toggle-row">
-        <input id="pt-autostart-toggle" type="checkbox" class="pt-checkbox" aria-label="Auto start next session" />
-        <span class="pt-toggle-label">Auto Start Next Session</span>
+        <input id="pt-autostart-toggle" type="checkbox" class="pt-checkbox" aria-label={u('lblAutoStart', 'Auto Start Next Session')} />
+        <span class="pt-toggle-label">{u('lblAutoStart', 'Auto Start Next Session')}</span>
       </label>
     </div>
   </div>
@@ -52,9 +63,9 @@ const iconUrl  = withBase('/favicon.ico');
 
 <!-- Timer section -->
 <div slot="input" class="pt-timer-section">
-  <div id="pt-mode" class="pt-mode" aria-label="Current mode: Focus">FOCUS</div>
+  <div id="pt-mode" class="pt-mode" aria-label={`${u('ariaModePrefix', 'Current mode:')} ${u('modeFocus', 'FOCUS')}`}>{u('modeFocus', 'FOCUS')}</div>
 
-  <div class="pt-ring-wrapper" role="timer" aria-label="Pomodoro timer">
+  <div class="pt-ring-wrapper" role="timer" aria-label={u('ariaTimer', 'Pomodoro timer')}>
     <svg viewBox="0 0 200 200" class="pt-ring-svg" aria-hidden="true">
       <circle class="pt-ring-track" cx="100" cy="100" r="85" />
       <circle
@@ -71,42 +82,42 @@ const iconUrl  = withBase('/favicon.ico');
   </div>
 
   <div class="pt-controls">
-    <button id="pt-start" type="button" class="pt-btn-primary">Start</button>
-    <button id="pt-pause" type="button" class="pt-btn-primary" hidden>Pause</button>
-    <button id="pt-reset" type="button" class="pt-btn-secondary">Reset</button>
+    <button id="pt-start" type="button" class="pt-btn-primary">{u('btnStart', 'Start')}</button>
+    <button id="pt-pause" type="button" class="pt-btn-primary" hidden>{u('btnPause', 'Pause')}</button>
+    <button id="pt-reset" type="button" class="pt-btn-secondary">{u('btnReset', 'Reset')}</button>
   </div>
 
   <div id="pt-transition-msg" class="pt-transition-msg" aria-live="polite" hidden>
-    Focus Complete ✓
+    {u('msgFocusComplete', 'Focus Complete ✓')}
   </div>
 </div>
 
 <!-- Session progress -->
 <div slot="input" class="pt-progress-section">
-  <div id="pt-dots" class="pt-dots" role="group" aria-label="Session progress"></div>
-  <div id="pt-session-label" class="pt-session-label">Session 1 of 4</div>
+  <div id="pt-dots" class="pt-dots" role="group" aria-label={u('ariaProgress', 'Session progress')}></div>
+  <div id="pt-session-label" class="pt-session-label">{u('sessionInitial', 'Session 1 of 4')}</div>
 </div>
 
 <!-- View actions -->
 <div slot="input" class="pt-view-actions">
-  <button id="pt-fs-btn" type="button" class="pt-fs-btn" aria-label="Enter full screen">Full Screen</button>
+  <button id="pt-fs-btn" type="button" class="pt-fs-btn" aria-label={u('btnFullScreen', 'Full Screen')}>{u('btnFullScreen', 'Full Screen')}</button>
   <span class="gold-dot" aria-hidden="true"></span>
-  <button id="pt-rd-btn" type="button" class="pt-fs-btn" data-craft="pomodoro-distraction-free" aria-label="Remove distractions">Remove Distractions</button>
+  <button id="pt-rd-btn" type="button" class="pt-fs-btn" data-craft="pomodoro-distraction-free" aria-label={u('btnRemoveDistractions', 'Remove Distractions')}>{u('btnRemoveDistractions', 'Remove Distractions')}</button>
 </div>
 
 <!-- Backup: always on the tool screen (Atharva hard rule). Not behind Customize. -->
-<div slot="input" class="pt-backup" role="group" aria-label="Backup">
-  <button type="button" id="pt-export" class="pt-backup-btn">Export JSON</button>
-  <button type="button" id="pt-import-btn" class="pt-backup-btn" aria-expanded="false" aria-controls="pt-import-panel">Import JSON</button>
+<div slot="input" class="pt-backup" role="group" aria-label={u('ariaBackup', 'Backup')}>
+  <button type="button" id="pt-export" class="pt-backup-btn">{u('btnExportJson', 'Export JSON')}</button>
+  <button type="button" id="pt-import-btn" class="pt-backup-btn" aria-expanded="false" aria-controls="pt-import-panel">{u('btnImportJson', 'Import JSON')}</button>
 </div>
 <div slot="input" id="pt-import-panel" class="pt-import" hidden>
   <label class="pt-import-field" for="pt-import-text">
-    <span>Paste backup JSON</span>
+    <span>{u('lblPasteBackup', 'Paste backup JSON')}</span>
     <textarea id="pt-import-text" rows="4" placeholder='{"v":1,"settings":{...},"prefs":{...},"stats":{...}}'></textarea>
   </label>
   <div class="pt-import-row">
-    <input id="pt-import-file" type="file" accept="application/json,.json" aria-label="Choose JSON backup file" />
-    <button type="button" id="pt-import-run" class="pt-btn-primary">Import</button>
+    <input id="pt-import-file" type="file" accept="application/json,.json" aria-label={u('ariaChooseFile', 'Choose JSON backup file')} />
+    <button type="button" id="pt-import-run" class="pt-btn-primary">{u('btnImport', 'Import')}</button>
   </div>
   <p id="pt-import-msg" class="pt-import-msg" role="status" hidden></p>
 </div>
@@ -114,7 +125,7 @@ const iconUrl  = withBase('/favicon.ico');
 <!-- Today's statistics -->
 <div slot="output" class="pt-stats-section">
   <span id="pt-stats" class="pt-stats" aria-live="polite" aria-atomic="true">
-    Today ● 0 Sessions ● 0 Minutes
+    {u('statsInitial', 'Today ● 0 Sessions ● 0 Minutes')}
   </span>
 </div>
 
@@ -126,15 +137,15 @@ const iconUrl  = withBase('/favicon.ico');
 <!-- Fullscreen / Remove Distractions overlay -->
 <div id="pt-fullscreen" class="pt-fullscreen" data-phase="focus" hidden>
   <div class="pt-fs-content">
-    <div id="pt-fs-mode" class="pt-fs-mode">FOCUS</div>
+    <div id="pt-fs-mode" class="pt-fs-mode">{u('modeFocus', 'FOCUS')}</div>
     <div id="pt-fs-time" class="pt-fs-time">25:00</div>
     <div id="pt-fs-dots" class="pt-fs-dots"></div>
-    <div id="pt-fs-session-label" class="pt-fs-session-label">Session 1 of 4</div>
+    <div id="pt-fs-session-label" class="pt-fs-session-label">{u('sessionInitial', 'Session 1 of 4')}</div>
     <div class="pt-fs-controls">
-      <button id="pt-fs-start" type="button" class="pt-fs-start-btn">Start</button>
+      <button id="pt-fs-start" type="button" class="pt-fs-start-btn">{u('btnStart', 'Start')}</button>
     </div>
   </div>
-  <button id="pt-fs-exit" type="button" class="pt-fs-exit" aria-label="Exit full screen">✕</button>
+  <button id="pt-fs-exit" type="button" class="pt-fs-exit" aria-label={u('ariaExitFs', 'Exit full screen')}>✕</button>
 </div>
 
 <style is:global>
@@ -626,6 +637,13 @@ const iconUrl  = withBase('/favicon.ico');
   var origTitle = document.title;
   var isRunning = false;
 
+  var I = {};
+  try {
+    var i18nEl = document.getElementById('tt-i18n');
+    if (i18nEl && i18nEl.textContent) I = JSON.parse(i18nEl.textContent);
+  } catch (_) {}
+  function s(k, fb) { return (typeof I[k] === 'string' && I[k]) ? I[k] : fb; }
+
   // SW URLs from build-time meta tags
   var swUrl   = (document.getElementById('pt-sw-url')   || {}).content   || '/sw.js';
   var toolUrl = (document.getElementById('pt-tool-url') || {}).content   || '/';
@@ -753,9 +771,9 @@ const iconUrl  = withBase('/favicon.ico');
   }
 
   function phaseLabel(phase) {
-    if (phase === 'shortBreak') return 'SHORT BREAK';
-    if (phase === 'longBreak')  return 'LONG BREAK';
-    return 'FOCUS';
+    if (phase === 'shortBreak') return s('modeShortBreak', 'SHORT BREAK');
+    if (phase === 'longBreak')  return s('modeLongBreak', 'LONG BREAK');
+    return s('modeFocus', 'FOCUS');
   }
 
   function playBeep() {
@@ -787,8 +805,8 @@ const iconUrl  = withBase('/favicon.ico');
     if (!swReg || !prefs.notifications || Notification.permission !== 'granted') return;
     var isBreak = phase !== 'focus';
     try {
-      swReg.showNotification(isBreak ? 'Break Time' : '● Pomodoro Running', {
-        body: isBreak ? 'Take a break. Tap to return to timer.' : 'Focus session in progress. Tap to return.',
+      swReg.showNotification(isBreak ? s('notifBreakTitle', 'Break Time') : s('notifFocusTitle', '● Pomodoro Running'), {
+        body: isBreak ? s('notifBreakBody', 'Take a break. Tap to return to timer.') : s('notifFocusBody', 'Focus session in progress. Tap to return.'),
         tag: 'pomodoro-running',
         requireInteraction: true,
         renotify: false,
@@ -816,13 +834,13 @@ const iconUrl  = withBase('/favicon.ico');
       var isFocus = (phase === 'focus' || phase === 'paused');
       if (i < sessionNum) {
         dot.dataset.state = 'completed';
-        dot.setAttribute('aria-label', 'Session ' + i + ': completed');
+        dot.setAttribute('aria-label', s('dotDone', 'Session {i}: completed').replace('{i}', String(i)));
       } else if (i === sessionNum && isFocus) {
         dot.dataset.state = 'current';
-        dot.setAttribute('aria-label', 'Session ' + i + ': in progress');
+        dot.setAttribute('aria-label', s('dotCurrent', 'Session {i}: in progress').replace('{i}', String(i)));
       } else {
         dot.dataset.state = 'remaining';
-        dot.setAttribute('aria-label', 'Session ' + i + ': remaining');
+        dot.setAttribute('aria-label', s('dotRemaining', 'Session {i}: remaining').replace('{i}', String(i)));
       }
       container.appendChild(dot);
     }
@@ -840,7 +858,7 @@ const iconUrl  = withBase('/favicon.ico');
     renderMode: function (phase) {
       if (modeEl) {
         modeEl.textContent = phaseLabel(phase);
-        modeEl.setAttribute('aria-label', 'Current mode: ' + phaseLabel(phase));
+        modeEl.setAttribute('aria-label', s('ariaModePrefix', 'Current mode:') + ' ' + phaseLabel(phase));
       }
       if (fsOverlay) fsOverlay.dataset.phase = phase;
       if (fsModeEl)  fsModeEl.textContent = phaseLabel(phase);
@@ -848,16 +866,17 @@ const iconUrl  = withBase('/favicon.ico');
     renderDots: function (sessionNum, total, context) {
       buildDots(dotsEl, sessionNum, total, context);
       buildDots(fsDotsEl, sessionNum, total, context);
-      if (sessionLbl)   sessionLbl.textContent   = 'Session ' + sessionNum + ' of ' + total;
-      if (fsSessionLbl) fsSessionLbl.textContent = 'Session ' + sessionNum + ' of ' + total;
+      var lbl = s('sessionTpl', 'Session {n} of {total}').replace('{n}', String(sessionNum)).replace('{total}', String(total));
+      if (sessionLbl)   sessionLbl.textContent   = lbl;
+      if (fsSessionLbl) fsSessionLbl.textContent = lbl;
     },
     renderStats: function () {
       if (statsEl) {
+        var sessW = stats.completedSessions === 1 ? s('unitSessionOne', 'Session') : s('unitSessionMany', 'Sessions');
+        var minW = stats.focusedMinutes === 1 ? s('unitMinuteOne', 'Minute') : s('unitMinuteMany', 'Minutes');
         statsEl.textContent =
-          'Today  ●  ' + stats.completedSessions + ' Session' +
-          (stats.completedSessions === 1 ? '' : 's') +
-          '  ●  ' + stats.focusedMinutes + ' Minute' +
-          (stats.focusedMinutes === 1 ? '' : 's');
+          s('todayWord', 'Today') + '  ●  ' + stats.completedSessions + ' ' + sessW +
+          '  ●  ' + stats.focusedMinutes + ' ' + minW;
       }
     },
     syncFullscreen: function () {
@@ -869,7 +888,7 @@ const iconUrl  = withBase('/favicon.ico');
       isRunning = running;
       if (startBtn) startBtn.hidden = running;
       if (pauseBtn) pauseBtn.hidden = !running;
-      if (fsStartBtn) fsStartBtn.textContent = running ? 'Pause' : 'Start';
+      if (fsStartBtn) fsStartBtn.textContent = running ? s('btnPause', 'Pause') : s('btnStart', 'Start');
       if (running) {
         showRunningNotification(pom ? pom.getPhase() : 'focus');
       } else {
@@ -879,7 +898,7 @@ const iconUrl  = withBase('/favicon.ico');
     },
     onFocusComplete: function (focusMins) {
       playBeep();
-      sendTransientNotification('Focus session complete — time for a break!');
+      sendTransientNotification(s('msgFocusNotif', 'Focus session complete. Time for a break!'));
       stats.completedSessions++;
       stats.focusedMinutes += focusMins;
       saveStats();
@@ -901,8 +920,8 @@ const iconUrl  = withBase('/favicon.ico');
     onBreakComplete: function (breakPhase) {
       playBeep();
       var msg = breakPhase === 'longBreak'
-        ? 'Long break over — time to focus!'
-        : 'Break over — back to work!';
+        ? s('msgLongBreakNotif', 'Long break over. Time to focus!')
+        : s('msgShortBreakNotif', 'Break over. Back to work!');
       sendTransientNotification(msg);
       dismissRunningNotification();
     },
@@ -931,7 +950,7 @@ const iconUrl  = withBase('/favicon.ico');
   var savedTimerState = loadTimerState();
   if (savedTimerState && savedTimerState.remainingMs > 0) {
     pom.restoreFromSaved(savedTimerState);
-    ToyTools.toast('Session restored — press Start to resume.');
+    ToyTools.toast(s('msgRestored', 'Session restored. Press Start to resume.'));
   } else {
     uiCallbacks.renderMode(pom.getPhase());
     uiCallbacks.renderDots(pom.getSessionNum(), settings.sessionsPerCycle, 'focus');

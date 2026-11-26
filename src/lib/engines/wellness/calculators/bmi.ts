@@ -21,6 +21,11 @@ import { numberField, selectField } from '../validation';
 import { assumption, decisions, insight, toolDecision } from '../story';
 import { bandSpec } from '@lib/visualization/types';
 import type { VizBand } from '@lib/visualization/types';
+import { readClientI18n } from '@lib/i18n/client';
+
+function tpl(s: string, vars: Record<string, string>): string {
+  return s.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? `{${k}}`);
+}
 
 const UNITS = ['metric', 'imperial'] as const;
 
@@ -71,17 +76,20 @@ export const bmiCalculator: WellnessCalculator = {
     },
   ],
 
-  calculate(input, _opts) {
-    const unit = selectField(input, 'unit', 'your unit system', UNITS);
+  calculate(input, opts) {
+    const loc = opts?.locale && opts.locale !== 'en' ? opts.locale : '';
+    const ei = loc ? (readClientI18n().engine ?? {}) as Record<string, any> : {};
+
+    const unit = selectField(input, 'unit', ei.fieldUnit ?? 'your unit system', UNITS);
     if (!unit.ok) return unit.result;
     const isMetric = unit.value === 'metric';
 
-    const w = numberField(input, 'weight', 'your weight', { min: 0, max: isMetric ? 500 : 1100 });
+    const w = numberField(input, 'weight', ei.fieldWeight ?? 'your weight', { min: 0, max: isMetric ? 500 : 1100 });
     if (!w.ok) return w.result;
-    const h = numberField(input, 'height', 'your height', { min: 0, max: isMetric ? 260 : 102 });
+    const h = numberField(input, 'height', ei.fieldHeight ?? 'your height', { min: 0, max: isMetric ? 260 : 102 });
     if (!h.ok) return h.result;
-    if (w.value <= 0) return validationError('Enter a weight above zero to calculate your BMI.');
-    if (h.value <= 0) return validationError('Enter a height above zero to calculate your BMI.');
+    if (w.value <= 0) return validationError(ei.errWeightZero ?? 'Enter a weight above zero to calculate your BMI.');
+    if (h.value <= 0) return validationError(ei.errHeightZero ?? 'Enter a height above zero to calculate your BMI.');
 
     const weightKg = isMetric ? w.value : lbToKg(w.value);
     const heightM = isMetric ? cmToM(h.value) : inToM(h.value);
@@ -92,26 +100,30 @@ export const bmiCalculator: WellnessCalculator = {
     // 0.4 lb to lose, never "25, Healthy weight" (accuracy audit, 3 Nov 2026).
     const shown = Math.round(value * 10) / 10;
     const cat = bmiCategory(shown);
-    const label = BMI_CATEGORY_LABEL[cat];
+    const label = ei.cats?.[cat] ?? BMI_CATEGORY_LABEL[cat];
     const [loKg, hiKg] = healthyWeightRangeKg(heightM);
     const delta = cat === 'normal' ? 0 : weightToHealthyKg(weightKg, heightM);
+    const bmiFormatted = num1(value);
+    const rangeFormatted = weightRange(loKg, hiKg, unit.value);
 
-    const hero = card('bmi', 'Body Mass Index', num1(value), {
+    const hero = card('bmi', ei.heroLabel ?? 'Body Mass Index', bmiFormatted, {
       raw: Number(value.toFixed(2)) || Number(value.toPrecision(2)),
       emphasis: 'hero',
       note: label,
     });
 
     const metrics: ResultCard[] = [
-      card('category', 'Category', label, { emphasis: 'primary' }),
-      card('healthy-range', 'Healthy weight for your height', weightRange(loKg, hiKg, unit.value), {
+      card('category', ei.categoryLabel ?? 'Category', label, { emphasis: 'primary' }),
+      card('healthy-range', ei.healthyRangeLabel ?? 'Healthy weight for your height', rangeFormatted, {
         raw: Number(loKg.toFixed(1)),
       }),
     ];
     if (delta !== 0 && Number.isFinite(delta)) {
-      const verb = delta > 0 ? 'to lose to reach' : 'to gain to reach';
+      const toHealthyLabel = delta > 0
+        ? (ei.weightToLoseLabel ?? 'Weight to lose to reach the healthy range')
+        : (ei.weightToGainLabel ?? 'Weight to gain to reach the healthy range');
       metrics.push(
-        card('to-healthy', `Weight ${verb} the healthy range`, fmtWeight(Math.abs(delta), unit.value), {
+        card('to-healthy', toHealthyLabel, fmtWeight(Math.abs(delta), unit.value), {
           raw: Number(Math.abs(delta).toFixed(1)),
         }),
       );
@@ -120,48 +132,60 @@ export const bmiCalculator: WellnessCalculator = {
     const insights = [
       insight(
         cat === 'normal'
-          ? `A BMI of ${num1(value)} sits in the healthy range (18.5 to 24.9) for adults.`
-          : `A BMI of ${num1(value)} falls in the "${label}" band. The healthy range for your height is ${weightRange(loKg, hiKg, unit.value)}.`,
+          ? tpl(ei.insightNormal ?? 'A BMI of {bmi} sits in the healthy range (18.5 to 24.9) for adults.', { bmi: bmiFormatted })
+          : tpl(ei.insightOther ?? 'A BMI of {bmi} falls in the "{label}" band. The healthy range for your height is {range}.', { bmi: bmiFormatted, label, range: rangeFormatted }),
         cat === 'normal' ? 'positive' : 'info',
       ),
       insight(
-        'BMI is a quick screening ratio, not a diagnosis. It does not tell muscle from fat, so very muscular or older bodies can be mislabelled. Treat it as one signal among many.',
+        ei.insightCaveat ?? 'BMI is a quick screening ratio, not a diagnosis. It does not tell muscle from fat, so very muscular or older bodies can be mislabelled. Treat it as one signal among many.',
         'caution',
       ),
     ];
 
+    const bands = ei.bands
+      ? BMI_BANDS.map(b => ({ ...b, label: ei.bands[b.id] ?? b.label }))
+      : BMI_BANDS;
+
     return successResult({
       hero,
       metrics,
-      visualization: bandSpec(value, BMI_BANDS, {
-        title: `Your BMI of ${num1(value)} on the WHO adult scale`,
-        valueLabel: num1(value),
-        description: `Healthy weight for your height: ${weightRange(loKg, hiKg, unit.value)}.`,
+      visualization: bandSpec(value, bands, {
+        title: tpl(ei.vizTitle ?? 'Your BMI of {bmi} on the WHO adult scale', { bmi: bmiFormatted }),
+        valueLabel: bmiFormatted,
+        description: tpl(ei.vizDesc ?? 'Healthy weight for your height: {range}.', { range: rangeFormatted }),
       }),
       insights,
       milestones: [
         {
           id: 'ms-healthy',
-          label: 'Weight is within the healthy BMI range',
+          label: ei.milestoneHealthy ?? 'Weight is within the healthy BMI range',
           reached: cat === 'normal',
         },
       ],
       assumptions: [
-        assumption('Units', isMetric ? 'metric (kg, cm)' : 'imperial (lb, in)'),
-        assumption('Formula', 'weight (kg) / height (m)²'),
-        assumption('Categories', 'WHO adult ranges (18.5 / 25 / 30)'),
+        assumption(ei.assumpUnitsTerm ?? 'Units', isMetric ? (ei.assumpMetric ?? 'metric (kg, cm)') : (ei.assumpImperial ?? 'imperial (lb, in)')),
+        assumption(ei.assumpFormulaTerm ?? 'Formula', ei.assumpFormulaVal ?? 'weight (kg) / height (m)²'),
+        assumption(ei.assumpCatsTerm ?? 'Categories', ei.assumpCatsVal ?? 'WHO adult ranges (18.5 / 25 / 30)'),
       ],
       decisions: decisions([
         toolDecision('Estimate the calories you burn a day', 'tdee-calculator'),
         toolDecision('Measure body fat, which BMI cannot see', 'body-fat-calculator'),
         toolDecision('Track your weight over time', 'body-weight-tracker'),
-      ]),
-      nextQuestions: [
+      ]).map(d => {
+        const map: Record<string, string | undefined> = {
+          'tdee-calculator': ei.decTdee,
+          'body-fat-calculator': ei.decBodyFat,
+          'body-weight-tracker': ei.decWeight,
+        };
+        const ov = d.tool?.slug ? map[d.tool.slug] : undefined;
+        return ov ? { ...d, label: ov } : d;
+      }),
+      nextQuestions: ei.nextQuestions ?? [
         'How many calories do I burn in a day?',
         'What is my body fat percentage?',
         'Is BMI accurate for athletes?',
       ],
-      explanation:
+      explanation: ei.explanation ??
         'BMI divides your weight in kilograms by the square of your height in metres. The result is compared against fixed adult bands set by the World Health Organization. Because it uses only height and weight, BMI cannot distinguish muscle from fat or account for frame size, so it works best as a population-level screen rather than an individual verdict.',
       meta: { bmi: Number(value.toFixed(2)) || Number(value.toPrecision(2)), category: cat },
     });

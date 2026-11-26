@@ -1,0 +1,90 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="de"
+>
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Ein Unix-Zeitstempel zählt die vergangenen Sekunden seit einem festen Startpunkt. Dieser Umrechner arbeitet in beide Richtungen: Von „Zeitstempel in Datum“ (etwa 1700000000 in ein Kalenderdatum) ebenso wie von „Datum in Zeitstempel“. Ausgegeben werden UTC-Zeit, ISO-8601-Format und Ihre lokale Uhrzeit wahlweise in Sekunden oder Millisekunden für Logs, Datenbanken und APIs.
+    </p>
+    <a href={toolHref} class="cta-link">Zum Unix-Zeitstempel-Umrechner →</a>
+  </section>
+
+  <section id="wie-es-funktioniert">
+    <h2>Wie Unix-Zeit funktioniert <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Die Unix-Epoche beginnt am 1. Januar 1970 um 00:00:00 UTC. Null entspricht diesem Nullpunkt; negative Zahlen stehen für frühere Zeitpunkte. Da immer ab UTC gezählt wird, bezeichnet derselbe Unix-Zeitstempel weltweit exakt denselben Augenblick in Berlin, Mumbai oder Tokio. Rohe Unix-Sekunden begegnen Ihnen auch in den <a href={guidePathBySlug('jwt-decoder')}>exp- und iat-Claims von JWT-Tokens</a>.
+    </p>
+  </section>
+
+  <section id="beispiele">
+    <h2>Beispiele <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Zeitstempel in Datum:</strong> 1700000000 Sekunden entspricht Dienstag, 14. November 2023 um 22:13:20 UTC.</p>
+    <p><strong>Datum in Zeitstempel:</strong> Die Eingabe 14. November 2023, 22:13:20 UTC ergibt 1700000000 Sekunden bzw. 1700000000000 Millisekunden.</p>
+    <p><strong>Falsche Einheit erkennen:</strong> Wird 1700000000000 als Sekunden interpretiert, entsteht das Jahr 55901, ein klares Zeichen für Millisekunden.</p>
+  </section>
+
+  <section id="sekunden-vs-millisekunden">
+    <h2>Sekunden vs. Millisekunden <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Klassische Unix-Zeit zählt Sekunden (heute 10 Stellen). JavaScript und viele Web-APIs zählen Millisekunden (13 Stellen, Faktor 1000). Landet ein Datum tausende Jahre in der Zukunft, schalten Sie im Eingabefeld einfach auf Millisekunden um.
+    </p>
+  </section>
+
+  <section id="haeufige-fehler">
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Millisekunden als Sekunden interpretieren">
+      <p>Eine 13-stellige Zahl im Sekunden-Modus springt ins Jahr 50000+. Prüfen Sie kurz die Stellenzahl: 10 Ziffern bedeuten aktuell Sekunden, 13 Millisekunden.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Ortszeit statt UTC annehmen">
+      <p>Ein Unix-Zeitstempel trägt keine Zeitzone, weil er stets bei UTC beginnt. Lesen Sie zuerst UTC ab und rechnen Sie bei Bedarf in Ihre Zone um.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="Läuft komplett lokal">
+      <p>Alle Berechnungen laufen mit den eingebauten Zeitzonendaten Ihres Browsers direkt auf Ihrem Gerät ohne Serverkontakt.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

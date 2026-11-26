@@ -9,8 +9,10 @@ import NewBadgeExpiry from '@components/NewBadgeExpiry.astro';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
 import { engineRegistry } from '@data/engines';
-import { withBase, canonicalFor } from '../../lib/paths';
+import { withBase, canonicalFor, categoryPath } from '../../lib/paths';
 import { BRAND_NAME } from '@config/site';
+import { ACTIVE_LOCALES } from '@data/locales';
+import { categoryHreflangLinks, switcherAlternatesForPath } from '@lib/i18n/registry';
 
 export const getStaticPaths = (() => {
   return categories.map(category => {
@@ -71,12 +73,16 @@ const breadcrumbSchema = {
     { '@type': 'ListItem', position: 2, name: category.name },
   ],
 };
+const hreflangLinks = categoryHreflangLinks(category, Astro.site);
+const switcherAlternates = switcherAlternatesForPath(loc => categoryPath({ slug: category.slug }, loc), ACTIVE_LOCALES);
 ---
 
 <BaseLayout
   title={generatePageTitle('category', headline)}
   description={category.description}
   maxWidth="category"
+  hreflangLinks={hreflangLinks}
+  switcherAlternates={switcherAlternates}
 >
   <script type="application/ld+json" set:html={JSON.stringify(collectionSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />

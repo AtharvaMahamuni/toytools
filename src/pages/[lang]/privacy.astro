@@ -1,0 +1,177 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { pagePath, withBase } from '@lib/paths';
+import { GA_MEASUREMENT_ID } from '@lib/analytics/guard';
+import { tools } from '@data/registry';
+import { ACTIVE_LOCALES, LOCALIZED_LOCALES } from '@data/locales';
+import { generateLocalizedPageTitle } from '@data/i18n/index';
+import { pageHreflangLinks, switcherAlternatesForPath } from '@lib/i18n/registry';
+import type { LocalizedLocale } from '@lib/i18n/types';
+
+export const getStaticPaths = (() =>
+  LOCALIZED_LOCALES.map(lang => ({ params: { lang }, props: { lang } }))
+) satisfies GetStaticPaths;
+
+interface Props {
+  lang: LocalizedLocale;
+}
+
+const { lang } = Astro.props;
+const keepNames = tools.filter((t) => t.keepInput).map((t) => t.name).sort();
+const keepList = keepNames.join(', ');
+
+const COPY: Record<LocalizedLocale, {
+  h1: string;
+  description: string;
+  updated: string;
+  shortTitle: string;
+  shortBullets: string[];
+  browserTitle: string;
+  browserBody: string[];
+  storageTitle: string;
+  storageBody: string[];
+  analyticsTitle: string;
+  analyticsBody: string[];
+  feedbackTitle: string;
+  feedbackBody: string;
+}> = {
+  es: {
+    h1: 'Privacidad',
+    description: 'Lo que introduces permanece en tu dispositivo. Sin cuentas, sin base de datos y sin envíos a servidores. Google Analytics es la única excepción.',
+    updated: '26 de noviembre de 2026',
+    shortTitle: 'En resumen',
+    shortBullets: [
+      'Ninguna herramienta envía lo que escribes a servidores externos.',
+      'No hay cuentas, inicio de sesión ni perfiles de usuario.',
+      'Cualquier dato guardado (notas, tareas, ajustes) reside solo en el almacenamiento local de tu navegador y puedes exportarlo o borrarlo desde Ajustes.',
+      `Google Analytics (${GA_MEASUREMENT_ID}) mide visitas agregadas en el dominio oficial, sin incluir tus entradas de texto o cálculo.`,
+    ],
+    browserTitle: 'Qué se ejecuta en tu navegador',
+    browserBody: [
+      'ToyTools es un sitio estático sin servidor de aplicaciones. El texto que cuentas, los números que calculas, las contraseñas que generas y los tokens que decodificas se procesan íntegramente en la memoria de tu navegador.',
+      'Al no existir servidor en el otro extremo, la mayoría de las utilidades siguen funcionando sin conexión tras la primera visita y pueden instalarse como aplicaciones web independientes.',
+    ],
+    storageTitle: 'Qué se guarda en tu dispositivo',
+    storageBody: [
+      'Algunas utilidades de productividad y seguimiento guardan su estado en localStorage bajo claves con prefijo toytools: o toytools. únicamente en tu navegador actual.',
+      `Las herramientas de trabajo en curso diseñadas para conservar tu último borrador (${keepList}) mantienen lo escrito en este dispositivo hasta que pulses Borrar entrada guardada.`,
+      'Las herramientas privadas estándar no conservan lo que escribes tras recargar la pestaña y jamás escriben tus datos en la URL automáticamente.',
+    ],
+    analyticsTitle: 'Analítica y consultas de red',
+    analyticsBody: [
+      `El sitio carga Google Analytics (${GA_MEASUREMENT_ID}) únicamente en toytoolsapp.com para conocer qué páginas reciben visitas. Se eliminan los parámetros de consulta en calculadoras compartibles antes de registrar la ruta.`,
+      'La única herramienta que realiza una petición de red por diseño es la consulta de IP pública, que pregunta directamente a un servicio eco desde tu navegador.',
+    ],
+    feedbackTitle: 'Comentarios y contacto',
+    feedbackBody: 'La página de contacto prepara un correo en tu propio cliente de email para que revises exactamente qué información decides enviar antes de enviarlo.',
+  },
+  de: {
+    h1: 'Datenschutz',
+    description: 'Ihre Eingaben bleiben auf Ihrem Gerät. Kein Konto, keine Datenbank und kein Server sieht Ihre Texte. Die einzige Ausnahme ist Web-Analyse wie unten erklärt.',
+    updated: '26. November 2026',
+    shortTitle: 'Kurzfassung',
+    shortBullets: [
+      'Kein Tool überträgt Ihre Text- oder Zahlen-Eingaben an einen Anwendungsserver.',
+      'Es gibt keine Benutzerkonten, keinen Login und kein serverseitiges Profil.',
+      'Gespeicherte Notizen, Aufgaben oder Einstellungen verbleiben lokal im Browser-Speicher und lassen sich jederzeit unter Einstellungen exportieren oder löschen.',
+      `Google Analytics (${GA_MEASUREMENT_ID}) zählt allgemeine Seitenaufrufe auf der offiziellen Domain ohne Ihre Tool-Eingaben.`,
+    ],
+    browserTitle: 'Verarbeitung direkt im Browser',
+    browserBody: [
+      'ToyTools besteht vollständig aus statischen Dateien ohne Anwendungsserver. Alles, was Sie einfügen, berechnen, formatieren oder generieren, bleibt in Ihrem Browser.',
+      'Deshalb funktionieren die meisten Werkzeuge nach dem ersten Laden auch ohne Internetverbindung.',
+    ],
+    storageTitle: 'Lokale Speicherung auf Ihrem Gerät',
+    storageBody: [
+      'Werkzeuge wie Notizblock, Aufgabenliste oder Pomodoro-Timer speichern Einstellungen und Einträge unter den Browser-Schlüsseln toytools: und toytools. lokal auf diesem Gerät.',
+      `Ausgewählte Entwurfs-Tools (${keepList}) behalten Ihre letzte Eingabe lokal auf diesem Gerät, bis Sie "Gespeicherte Eingabe löschen" wählen.`,
+      'Standard-Rechner behalten Eingaben nur im geöffneten Tab und verwerfen sie beim Neuladen.',
+    ],
+    analyticsTitle: 'Analyse und Netzwerkabfragen',
+    analyticsBody: [
+      `Auf toytoolsapp.com wird Google Analytics (${GA_MEASUREMENT_ID}) zur Messung allgemeiner Seitenzugriffe geladen. Query-Parameter geteilter Rechnerlinks werden vor der Übergabe entfernt.`,
+      'Das einzige Tool mit einer bewussten Netzwerkabfrage ist die öffentliche IP-Anzeige über einen externen Echo-Dienst.',
+    ],
+    feedbackTitle: 'Feedback-Formular',
+    feedbackBody: 'Die Kontaktseite erstellt eine E-Mail direkt in Ihrem eigenen Mail-Programm, sodass Sie den genauen Text vor dem Absenden sehen und kontrollieren.',
+  },
+  fr: {
+    h1: 'Confidentialité',
+    description: 'Ce que vous saisissez reste sur votre appareil. Sans compte ni serveur applicatif. Seule la mesure d\'audience est détaillée ci-dessous.',
+    updated: '26 novembre 2026',
+    shortTitle: 'En bref',
+    shortBullets: [
+      'Aucun outil ne transmet ce que vous saisissez vers un serveur externe.',
+      'Aucun compte, aucune connexion ni base d\'utilisateurs.',
+      'Les notes, préférences et listes enregistrées restent dans le stockage local de votre navigateur et sont exportables ou supprimables depuis Paramètres.',
+      `Google Analytics (${GA_MEASUREMENT_ID}) mesure la fréquentation globale sur le domaine officiel sans jamais recevoir vos saisies.`,
+    ],
+    browserTitle: 'Exécution locale dans le navigateur',
+    browserBody: [
+      'ToyTools est un site entièrement statique. Textes comptés, formules financières, mots de passe générés et jetons analysés restent dans votre navigateur.',
+      'Une fois chargés, la plupart des utilitaires restent utilisables hors ligne.',
+    ],
+    storageTitle: 'Stockage sur votre appareil',
+    storageBody: [
+      'Certains outils de productivité enregistrent leur état dans localStorage sous les clés toytools: et toytools. sur cet appareil uniquement.',
+      `Certains outils de brouillon (${keepList}) conservent localement votre texte en cours jusqu\'à ce que vous cliquiez sur Effacer la saisie enregistrée.`,
+      'Les calculateurs privés ordinaires oublient vos valeurs dès le rechargement de la page.',
+    ],
+    analyticsTitle: 'Mesure d\'audience et requêtes réseau',
+    analyticsBody: [
+      `Google Analytics (${GA_MEASUREMENT_ID}) est chargé uniquement sur toytoolsapp.com pour mesurer les visites de pages, en retirant les paramètres de lien partagé.`,
+      'Seul l\'outil de recherche d\'adresse IP interroge directement un service écho depuis votre navigateur.',
+    ],
+    feedbackTitle: 'Commentaires',
+    feedbackBody: 'La page de contact prépare un message dans votre client mail habituel afin que vous voyiez exactement ce qui est envoyé.',
+  },
+};
+
+const c = COPY[lang];
+const hreflangLinks = pageHreflangLinks('/privacy/', Astro.site);
+const switcherAlternates = switcherAlternatesForPath(loc => pagePath('/privacy/', loc), ACTIVE_LOCALES);
+---
+
+<BaseLayout
+  title={generateLocalizedPageTitle('privacy', undefined, lang)}
+  description={c.description}
+  maxWidth="tool"
+  lang={lang}
+  hreflangLinks={hreflangLinks}
+  switcherAlternates={switcherAlternates}
+>
+  <article class="page-doc">
+    <h1>{c.h1}</h1>
+    <p class="lede">{c.description}</p>
+    <p class="updated">{c.updated}</p>
+
+    <h2>{c.shortTitle}</h2>
+    <ul>
+      {c.shortBullets.map(item => <li>{item}</li>)}
+    </ul>
+
+    <h2>{c.browserTitle}</h2>
+    {c.browserBody.map(p => <p>{p}</p>)}
+
+    <h2>{c.storageTitle}</h2>
+    {c.storageBody.map(p => <p>{p}</p>)}
+    <p><a href={withBase('/settings/')}>ToyTools Settings</a></p>
+
+    <h2>{c.analyticsTitle}</h2>
+    {c.analyticsBody.map(p => <p>{p}</p>)}
+
+    <h2>{c.feedbackTitle}</h2>
+    <p>{c.feedbackBody} <a href={pagePath('/feedback/', lang)}>{c.feedbackTitle}</a>.</p>
+  </article>
+</BaseLayout>
+
+<style>
+  .page-doc { padding: var(--space-10) 0 var(--space-12); }
+  .lede { font-size: var(--text-lg); color: var(--color-text-muted); margin-top: var(--space-4); }
+  .updated { font-size: var(--text-xs); color: var(--color-text-subtle); margin-top: var(--space-2); }
+  .page-doc h2 { margin-top: var(--space-12); }
+  .page-doc p, .page-doc ul { margin-top: var(--space-4); line-height: var(--leading-relaxed); }
+  .page-doc ul { list-style: disc; padding-left: var(--space-6); }
+  .page-doc li { margin-top: var(--space-2); }
+</style>

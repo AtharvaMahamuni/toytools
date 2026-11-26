@@ -54,23 +54,36 @@ export type Entity =
   | ({ kind: 'category' } & CategoryRef)
   | ({ kind: 'guide' } & GuideRef);
 
-export const toolRoute = (tool: ToolRef): string => `/tool/${tool.segment}/${tool.slug}/`;
-export const categoryRoute = (category: CategoryRef): string => `/category/${category.slug}/`;
-export const guideRoute = (guide: GuideRef): string => `/guide/${guide.categorySlug}/${guide.slug}/`;
+export function localePrefix(locale?: string): string {
+  return locale && locale !== 'en' ? `/${locale}` : '';
+}
+
+export const pageRoute = (path: string, locale?: string): string => {
+  const normalized = path.startsWith('/') ? path : `/${path}`;
+  return `${localePrefix(locale)}${normalized}`;
+};
+export const pagePath = (path: string, locale?: string): string => withBase(pageRoute(path, locale));
+
+export const toolRoute = (tool: ToolRef, locale?: string): string =>
+  `${localePrefix(locale)}/tool/${tool.segment}/${tool.slug}/`;
+export const categoryRoute = (category: CategoryRef, locale?: string): string =>
+  `${localePrefix(locale)}/category/${category.slug}/`;
+export const guideRoute = (guide: GuideRef, locale?: string): string =>
+  `${localePrefix(locale)}/guide/${guide.categorySlug}/${guide.slug}/`;
 
 /** The href of a tool page. */
-export const toolPath = (tool: ToolRef): string => withBase(toolRoute(tool));
+export const toolPath = (tool: ToolRef, locale?: string): string => withBase(toolRoute(tool, locale));
 /** The href of a category page. */
-export const categoryPath = (category: CategoryRef): string => withBase(categoryRoute(category));
+export const categoryPath = (category: CategoryRef, locale?: string): string => withBase(categoryRoute(category, locale));
 /** The href of a guide page. */
-export const guidePath = (guide: GuideRef): string => withBase(guideRoute(guide));
+export const guidePath = (guide: GuideRef, locale?: string): string => withBase(guideRoute(guide, locale));
 
 /** The link to an entity from a page on this site. Today: always the same-origin path. */
-export function urlFor(entity: Entity): string {
+export function urlFor(entity: Entity, locale?: string): string {
   switch (entity.kind) {
-    case 'tool': return toolPath(entity);
-    case 'category': return categoryPath(entity);
-    case 'guide': return guidePath(entity);
+    case 'tool': return toolPath(entity, locale);
+    case 'category': return categoryPath(entity, locale);
+    case 'guide': return guidePath(entity, locale);
   }
 }
 
@@ -78,6 +91,6 @@ export function urlFor(entity: Entity): string {
  * The canonical, absolute URL of an entity: its path on this build's site (`Astro.site`, or the
  * production origin when a build sets none). Today every entity is owned by this site.
  */
-export function canonicalFor(entity: Entity, site?: URL | string | null): string {
-  return new URL(urlFor(entity), siteUrl(site)).href;
+export function canonicalFor(entity: Entity, site?: URL | string | null, locale?: string): string {
+  return new URL(urlFor(entity, locale), siteUrl(site)).href;
 }

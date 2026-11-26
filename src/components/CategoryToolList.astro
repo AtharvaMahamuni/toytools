@@ -8,13 +8,16 @@ import { toolGroups } from '@data/tool-groups';
 import { toolPath } from '@lib/paths';
 import { freshUntil } from '@lib/tools/freshness';
 import AppTile from '@components/AppTile.astro';
+import type { LocaleCode } from '@data/locales';
+import { hasLocalizedTool, localizeTool } from '@lib/i18n/registry';
 
 interface Props {
   category: Category;
   tools: ToolConfig[];
+  lang?: LocaleCode;
 }
 
-const { category, tools: categoryTools } = Astro.props;
+const { category, tools: categoryTools, lang = 'en' } = Astro.props;
 
 interface Chip {
   label: string;
@@ -46,12 +49,13 @@ function untilFor(members: ToolConfig[]): string | undefined {
 
 const groupById = new Map(toolGroups.map(g => [g.id, g]));
 const toolsBySlug = new Map(categoryTools.map(t => [t.slug, t]));
-const toolHref = (slug: string) => toolPath({ slug, segment: category.segment });
+const toolHref = (slug: string) => toolPath({ slug, segment: category.segment }, hasLocalizedTool(slug, lang) ? lang : 'en');
 
 const sections = new Map<string, Section>();
 const seenGroups = new Set<string>();
 
-for (const t of categoryTools) {
+for (const rawTool of categoryTools) {
+  const t = hasLocalizedTool(rawTool.slug, lang) ? localizeTool(rawTool, lang) : rawTool;
   const meta = (t.pattern && sectionsByPattern[t.pattern]) || { title: 'Other', order: 99 };
   let section = sections.get(meta.title);
   if (!section) {
@@ -67,12 +71,22 @@ for (const t of categoryTools) {
       .map(m => toolsBySlug.get(m.slug))
       .filter((m): m is ToolConfig => Boolean(m));
     const primary = members[0] ?? t;
+    const primaryLoc = hasLocalizedTool(primary.slug, lang) ? localizeTool(primary, lang) : primary;
+    const groupTaglines: Record<LocaleCode, string> = {
+      en: 'One workspace, every mode, and your input carries across.',
+      es: 'Un solo espacio de trabajo para cada modo sin perder tu entrada.',
+      de: 'Ein gemeinsamer Arbeitsbereich für alle Modi, Eingaben bleiben erhalten.',
+      fr: 'Un espace unifié pour chaque mode, votre saisie reste conservée.',
+    };
     section.rows.push({
-      slug: primary.slug,
+      slug: primaryLoc.slug,
       name: group.name,
-      tagline: 'One workspace, every mode, and your input carries across.',
+      tagline: groupTaglines[lang],
       newUntil: untilFor(members),
-      chips: group.members.map(m => ({ label: m.label, href: toolHref(m.slug) })),
+      chips: group.members.map(m => {
+        const lm = hasLocalizedTool(m.slug, lang) ? localizeTool(toolsBySlug.get(m.slug) ?? primary, lang) : null;
+        return { label: lm ? lm.name : m.label, href: toolHref(m.slug) };
+      }),
     });
   } else {
     section.rows.push({
@@ -101,6 +115,7 @@ const showHeadings = ordered.length > 1;
               tagline={row.tagline}
               segment={category.segment}
               newUntil={row.newUntil}
+              lang={lang}
             />
             {row.chips && (
               <div class="cat-chips">
