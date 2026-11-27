@@ -21,6 +21,7 @@
 // See docs/analysis/2026-08-11-tool-craft.md.
 
 import { percentChange } from './percent';
+import { readClientI18n } from '@lib/i18n/client';
 
 export type PitfallId =
   | 'tax-calculator'
@@ -141,11 +142,17 @@ export function numberPitfall(id: PitfallId, input: PitfallInput): Pitfall | nul
       // discount lands on the right base by construction.
       const { price, final, basePrice } = input;
       if (!finite(price) || !finite(final) || price <= 0 || final < 0 || final >= price) return null;
+      const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
       const chained = finite(basePrice) && basePrice > final;
+      const totalRate = chained ? pct((1 - final / basePrice!) * 100) : '';
       const text = chained
-        ? `${pct((1 - final / basePrice!) * 100)} off the original ${money(basePrice!)} in total. Stacked percentages multiply, they do not add.`
-        : `A second discount applies to ${money(final)}, not to ${money(price)}. Stacked percentages multiply, they do not add.`;
-      return { text, action: { label: 'Stack another discount', value: final } };
+        ? (typeof ei.pitfallChainedTpl === 'string' && ei.pitfallChainedTpl
+            ? ei.pitfallChainedTpl.replace(/\{rate\}/g, totalRate).replace(/\{base\}/g, money(basePrice!))
+            : `${totalRate} off the original ${money(basePrice!)} in total. Stacked percentages multiply, they do not add.`)
+        : (typeof ei.pitfallSingleTpl === 'string' && ei.pitfallSingleTpl
+            ? ei.pitfallSingleTpl.replace(/\{final\}/g, money(final)).replace(/\{price\}/g, money(price))
+            : `A second discount applies to ${money(final)}, not to ${money(price)}. Stacked percentages multiply, they do not add.`);
+      return { text, action: { label: ei.pitfallActionLabel ?? 'Stack another discount', value: final } };
     }
 
     default:

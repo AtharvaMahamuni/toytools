@@ -1,0 +1,153 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="ja"
+>
+  <section id="quick-answer">
+    <h2>概要（クイック回答） <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      読書や料理のレシピ閲覧、プレゼンテーション、監視画面の表示中にPCやスマホの画面が消えるのを防ぐには、この画面スリープ防止サイト（No Sleep Website）を開いて開始ボタンを押すだけです。ブラウザ標準の Screen Wake Lock API を使って画面の自動消灯を一時停止するため、専用アプリのインストールやOS設定の書き換えは一切不要です。
+    </p>
+    <a href={toolHref} class="cta-link">画面スリープ防止を開く →</a>
+  </section>
+
+  <section id="why-screens-sleep">
+    <h2>なぜ画面は自動で消えるのか <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      どのOSにも操作が数十秒から数分間ないときに輝度を落として画面をロックするタイマーが備わっています。これには4つの技術的理由があります。
+    </p>
+    <ul>
+      <li><strong>バッテリー消費の抑制:</strong> ディスプレイの点灯はスマートフォンやノートPCで最大の電力消費源であり、非操作時の消灯で稼働時間を延ばせます。</li>
+      <li><strong>発熱の防止:</strong> 高輝度での連続点灯は特にスマートフォンで発熱を招きます。</li>
+      <li><strong>盗み見対策・物理セキュリティ:</strong> 席を離れた端末がすぐロックされることで第三者の閲覧リスクを減らせます。</li>
+      <li><strong>OLED焼き付き対策:</strong> 静止画面を長時間高輝度で表示し続けると有機ELパネルに焼き付きが起きやすくなります。</li>
+    </ul>
+    <p>
+      日常使いでは合理的な仕組みですが、手を触れずに画面を見続ける場面では作業を遮る原因になります。
+    </p>
+  </section>
+
+  <section id="how-wake-lock-works">
+    <h2>Screen Wake Lock API の仕組み <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Wake Lock とはブラウザからOSへ「このタブが表示されている間は画面消灯タイマーを止めてほしい」と要求する仕組みです。
+    </p>
+    <ol>
+      <li><strong>ブラウザが</strong> W3C標準の <code>navigator.wakeLock.request('screen')</code> を提供します。</li>
+      <li><strong>本ページで</strong>「画面を常時点灯」を押すとロックの取得をリクエストします。</li>
+      <li><strong>ブラウザが</strong> OSの電源管理システムへディスプレイ維持の要求を渡します。</li>
+      <li><strong>OSが</strong> タブが前面で表示されている間、自動消灯を抑止します。</li>
+      <li>停止ボタンを押すかタブを切り替えると即座にロックが解放され、元の消灯設定に戻ります。</li>
+    </ol>
+    <ReferenceBlock type="note" heading="画面ロック防止とPC本体のスリープの違い">
+      <p>Wake Lock が防ぐのは<em>ディスプレイの自動消灯</em>だけです。ノートPCのフタを閉じたり電源ボタンを押したりしたときの本体スリープまでは止められません。</p>
+    </ReferenceBlock>
+
+    <h3>ブラウザ単位のロックと OSコマンド（caffeinate 等）の違い</h3>
+    <p>
+      <code>caffeinate</code> などのネイティブ常駐ツールはシステム全体に作用するため、フタを閉じた後の加熱や電池切れリスクを伴います。Webの Wake Lock は表示中のタブにスコープが限定されるため、別アプリへ移れば自動で解除される安全設計です。
+    </p>
+  </section>
+
+  <section id="use-cases">
+    <h2>主な活用シーン <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h3>キッチンでレシピを見ながら料理する</h3>
+    <p>濡れた手や粉のついた手でスマホを何度も触らずに、手順を表示したまま調理できます。</p>
+
+    <h3>長文ドキュメントや技術資料を読む</h3>
+    <p>スクロールせずに数分読み込む場面でも途中で暗転して集中が途切れません。</p>
+
+    <h3>プレゼン・デモ・オンライン会議</h3>
+    <p>キーボードに触れない説明中でもスクリーンやプロジェクタへの出力がロックされません。</p>
+
+    <h3>運用ダッシュボードやタイマー表示</h3>
+    <p>サブモニターに監視グラフやポモドーロタイマーを点けっぱなしにする用途にも適しています。</p>
+  </section>
+
+  <section id="battery">
+    <h2>バッテリーへの影響と節約のコツ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      画面を常時点灯させると待機時より電力消費が増えます。ノートPCの中輝度ではバッテリー持続時間がおおむね20%から40%短くなり、スマホでは1時間連続点灯で通常の待受より約15%から25%多く消費します。
+    </p>
+    <ReferenceBlock type="key-idea" heading="輝度を少し下げるだけで消費電力を大幅削減">
+      <p>常時点灯を使う前に画面の明るさを30%程度まで落としておくと、室内では十分見やすいまま消費電力を大幅に抑えられます。</p>
+    </ReferenceBlock>
+    <p>
+      本ページ内の「バッテリー残量15%未満で解除する」オプションを有効にすると、過放電の心配なく使えます。
+    </p>
+  </section>
+
+  <section id="compatibility">
+    <h2>対応デバイスとブラウザ互換性 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Android Chrome / Edge / Samsung Internet:</strong> 標準対応しています。</li>
+      <li><strong>デスクトップ Chrome / Edge (Windows・macOS・Linux):</strong> 標準対応しています。</li>
+      <li><strong>Safari (iOS 16.4+ / iPadOS 16.4+ / macOS):</strong> 標準対応しています。</li>
+      <li><strong>Firefox:</strong> バージョン126以降で標準対応しています。</li>
+    </ul>
+    <p>非対応の古い環境では、ページ上にお使いのOS向けのディスプレイ設定手順を自動で案内します。</p>
+  </section>
+
+  <section id="limitations">
+    <h2>注意すべき制限事項 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="別タブやホーム画面へ移動すると解除されます">
+      <p>ブラウザの仕様により、タブがバックグラウンドへ回るとWake Lockは自動解放されます。再度このタブを開くと自動再取得を試みます。</p>
+    </ReferenceBlock>
+    <ul>
+      <li><strong>低電力・省電力モード:</strong> 端末の省電力モード中はOS側がWake Lock要求を拒否する場合があります。</li>
+      <li><strong>OSによる強制解除:</strong> 電源管理ポリシーでロックが外れた場合、本ツールは状態を正直に表示します。</li>
+    </ul>
+  </section>
+
+  <section id="related-tools">
+    <h2>関連ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('pomodoro-timer', 'ja')}>ポモドーロタイマー</a>: 画面を点けたまま集中ブロックを計測できます。</li>
+      <li><a href={toolPathBySlug('todo-list')}>Todo List</a>: 作業中のタスク整理に役立ちます。</li>
+      <li><a href={toolPathBySlug('notepad')}>Notepad</a>: ブラウザ内でさっとメモを残せます。</li>
+    </ul>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

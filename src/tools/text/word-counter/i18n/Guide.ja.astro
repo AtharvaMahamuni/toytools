@@ -1,0 +1,84 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="ja"
+>
+  <section id="quick-answer">
+    <h2>概要（クイック回答） <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      文字数・単語数カウントは、入力されたテキストから文字、空白区切りの単語、文、段落の数をリアルタイムで集計します。原稿や英文エッセイをブラウザに貼り付けるだけで読了時間の目安まで即座に確認でき、文章が外部サーバーに送信されることはありません。
+    </p>
+    <a href={toolHref} class="cta-link">文字数・単語数カウンターを開く →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>単語数・文字数管理が重要な理由 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>論文・出願フォームの上限管理:</strong> 規定の語数・文字数を超過すると提出不可や末尾切り捨てになることがあります。</li>
+      <li><strong>Web記事・SEOの構成調整:</strong> 読者の読みやすさと網羅性のバランスを見ながら目標分量を確認できます。</li>
+      <li><strong>翻訳・執筆の見積もり:</strong> 実務では正味ワード数や文字単価での計算が基本です。</li>
+    </ul>
+  </section>
+
+  <section id="how-words-are-counted">
+    <h2>カウント基準（ツール間で差が出る理由） <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>ハイフン付きの語:</strong> ツールによって1語と見なすか2語に分けるかが異なります。</li>
+      <li><strong>ダッシュの前後の空白:</strong> 全角や欧文ダッシュを挟む語の区切り方により数語ズレることがあります。</li>
+      <li><strong>数字とURL:</strong> 「2026」やWebアドレスは通常1単位として扱われます。日本語テキストでは文字数指標と併せて使うのが正確です。</li>
+    </ul>
+    <ReferenceBlock type="note" heading="引用や脚注が含まれる規定に注意">
+      <p>大学のレポートや公募では、タイトル・図表キャプション・参考文献リストを上限に含めるかどうかを事前に確認しておきましょう。</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="characters-words-reading">
+    <h2>文字数・単語数・読了時間の使い分け <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      フォーム欄、SMS、メタディスクリプション、日本語原稿は主に<strong>文字数</strong>が基準となり、英文エッセイや海外メディア向け記事は<strong>単語数</strong>が基準になります。正確な文字種別やSNS文字数制限（X 280、SMS 160、メタ 155）のゲージ確認には <a href={toolPathBySlug('character-counter', 'ja')}>文字数カウント専用ツール</a> も便利です。
+    </p>
+  </section>
+
+  <section id="related-tools">
+    <h2>関連ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      改稿後の差分を並べて確認したい場合は <a href={toolPathBySlug('text-compare', 'ja')}>テキスト比較（Diff）</a>、読了時間の詳細分析には <a href={toolPathBySlug('reading-time-calculator', 'ja')}>読了時間計算ツール</a> をご利用ください。
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

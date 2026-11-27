@@ -1,37 +1,50 @@
 ---
 import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
 import { config } from './config';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { uiStr } from '@lib/i18n/widget-utils';
+
+interface Props {
+  lang?: LocaleCode;
+  pack?: LocalizedToolPack | null;
+}
+
+const { lang = 'en', pack = null } = Astro.props;
+const u = (k: string, fb: string) => uiStr(pack, k, fb);
+const defaultSample = 'The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun.';
 ---
 
 <TextMetricWidget
   slug="character-counter"
   toolGroup={config.toolGroup}
-  emptyMessage="Paste or type text to count characters."
-  sampleText="The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun."
+  lang={lang}
+  emptyMessage={u('emptyMessage', 'Paste or type text to count characters.')}
+  sampleText={u('sampleText', defaultSample)}
   stats={[
-    { metric: 'characters',         label: 'Characters',      formatter: 'integer' },
-    { metric: 'charactersNoSpaces', label: 'Without Spaces',  formatter: 'integer' },
-    { metric: 'words',              label: 'Words',           formatter: 'integer' },
-    { metric: 'sentences',          label: 'Sentences',       formatter: 'integer' },
-    { metric: 'paragraphs',         label: 'Paragraphs',      formatter: 'integer' },
-    { metric: 'averageWordLength',  label: 'Avg Word Length', formatter: 'decimal' },
+    { metric: 'characters',         label: u('statCharacters', 'Characters'),        formatter: 'integer' },
+    { metric: 'charactersNoSpaces', label: u('statNoSpaces', 'Without Spaces'),      formatter: 'integer' },
+    { metric: 'words',              label: u('statWords', 'Words'),                  formatter: 'integer' },
+    { metric: 'sentences',          label: u('statSentences', 'Sentences'),          formatter: 'integer' },
+    { metric: 'paragraphs',         label: u('statParagraphs', 'Paragraphs'),        formatter: 'integer' },
+    { metric: 'averageWordLength',  label: u('statAvgWordLength', 'Avg Word Length'), formatter: 'decimal' },
   ]}
 >
   <button
     slot="actions"
     class="action-btn"
     id="cc-download-btn"
-    aria-label="Download stats report"
+    aria-label={u('btnDownloadReport', 'Download stats report')}
   >
-    Download Report
+    {u('btnDownloadReport', 'Download Report')}
   </button>
 
   <section class="cc-limits-section" data-craft={config.craft?.id}>
-    <h2 class="cc-limits-heading">Character limits</h2>
-    <div class="cc-presets" role="group" aria-label="Character limit presets">
+    <h2 class="cc-limits-heading">{u('headingLimits', 'Character limits')}</h2>
+    <div class="cc-presets" role="group" aria-label={u('ariaPresets', 'Character limit presets')}>
       <button class="cc-preset-btn" data-limit="280" aria-pressed="false">Twitter / X <span class="cc-preset-num">280</span></button>
       <button class="cc-preset-btn" data-limit="160" aria-pressed="false">SMS <span class="cc-preset-num">160</span></button>
-      <button class="cc-preset-btn" data-limit="155" aria-pressed="false">Meta desc <span class="cc-preset-num">155</span></button>
+      <button class="cc-preset-btn" data-limit="155" aria-pressed="false">{u('presetMetaDesc', 'Meta desc')} <span class="cc-preset-num">155</span></button>
       <button class="cc-preset-btn" data-limit="3000" aria-pressed="false">LinkedIn <span class="cc-preset-num">3 000</span></button>
     </div>
     <div class="cc-limit-bar-wrap" id="cc-limit-bar-wrap" hidden>
@@ -43,13 +56,21 @@ import { config } from './config';
   </section>
 
   <section class="cc-breakdown-section" id="cc-breakdown-section" hidden>
-    <h2 class="cc-breakdown-heading">Character breakdown</h2>
+    <h2 class="cc-breakdown-heading">{u('headingBreakdown', 'Character breakdown')}</h2>
     <dl class="cc-breakdown-grid" id="cc-breakdown-grid" aria-live="polite"></dl>
   </section>
 </TextMetricWidget>
 
 <script is:inline>
 (function () {
+  var I = {};
+  try {
+    var i18nEl = document.getElementById('tt-i18n');
+    if (i18nEl && i18nEl.textContent) I = JSON.parse(i18nEl.textContent);
+  } catch (_) {}
+  function s(k, fb) { return (typeof I[k] === 'string' && I[k]) ? I[k] : fb; }
+  function tpl(str, vars) { return str.replace(/\{(\w+)\}/g, function (_, k) { return k in vars ? String(vars[k]) : '{' + k + '}'; }); }
+
   var textarea = document.getElementById('character-counter-input');
   if (!textarea) return;
 
@@ -71,10 +92,19 @@ import { config } from './config';
     limitBarFill.className = 'cc-limit-bar-fill' + (pct >= 100 ? ' is-over' : pct >= 80 ? ' is-warning' : '');
     var remaining = activeLimit - charCount;
     if (remaining > 0) {
-      limitStat.textContent = charCount + ' / ' + activeLimit + ' characters, ' + remaining + ' remaining (' + Math.round(pct) + '%)';
+      limitStat.textContent = tpl(s('limitRemainingTpl', '{chars} / {limit} characters, {remaining} remaining ({pct}%)'), {
+        chars: charCount,
+        limit: activeLimit,
+        remaining: remaining,
+        pct: Math.round(pct),
+      });
       limitStat.className = 'cc-limit-stat';
     } else {
-      limitStat.textContent = charCount + ' / ' + activeLimit + ' characters, ' + Math.abs(remaining) + ' over the limit';
+      limitStat.textContent = tpl(s('limitOverTpl', '{chars} / {limit} characters, {over} over the limit'), {
+        chars: charCount,
+        limit: activeLimit,
+        over: Math.abs(remaining),
+      });
       limitStat.className = 'cc-limit-stat cc-limit-stat--over';
     }
   }
@@ -89,11 +119,11 @@ import { config } from './config';
     var total = Math.max(charsOf(text), letters + digits + spaces + punct);
     var other = Math.max(0, total - letters - digits - spaces - punct);
     breakdownGrid.innerHTML =
-      makeBreakdownRow('Letters', letters, total) +
-      makeBreakdownRow('Digits', digits, total) +
-      makeBreakdownRow('Spaces', spaces, total) +
-      makeBreakdownRow('Punctuation', punct, total) +
-      (other > 0 ? makeBreakdownRow('Other', other, total) : '');
+      makeBreakdownRow(s('lblLetters', 'Letters'), letters, total) +
+      makeBreakdownRow(s('lblDigits', 'Digits'), digits, total) +
+      makeBreakdownRow(s('lblSpaces', 'Spaces'), spaces, total) +
+      makeBreakdownRow(s('lblPunctuation', 'Punctuation'), punct, total) +
+      (other > 0 ? makeBreakdownRow(s('lblOther', 'Other'), other, total) : '');
   }
 
   function makeBreakdownRow(label, count, total) {
@@ -149,8 +179,8 @@ import { config } from './config';
   var downloadBtn = document.getElementById('cc-download-btn');
   if (downloadBtn) {
     downloadBtn.addEventListener('click', function () {
-      if (textarea.value === '') { ToyTools.toast('Nothing to download!'); return; }
-      var lines = ['Character Count Report', '======================', ''];
+      if (textarea.value === '') { ToyTools.toast(s('nothingToDownload', 'Nothing to download!')); return; }
+      var lines = [s('reportTitle', 'Character Count Report'), '======================', ''];
       document.querySelectorAll('[data-metric]').forEach(function (el) {
         var row = el.closest('.tm-hero, .tm-stat-row');
         var labelEl = row ? (row.querySelector('.hero-label, .tm-stat-label') || null) : null;
@@ -158,11 +188,11 @@ import { config } from './config';
       });
       if (activeLimit) {
         lines.push('');
-        lines.push('Active limit: ' + activeLimit + ' characters');
-        lines.push('Remaining: ' + (activeLimit - charsOf(textarea.value)));
+        lines.push(s('reportActiveLimit', 'Active limit') + ': ' + activeLimit);
+        lines.push(s('reportRemaining', 'Remaining') + ': ' + (activeLimit - charsOf(textarea.value)));
       }
       lines.push('');
-      lines.push('Generated: ' + new Date().toLocaleString());
+      lines.push(s('reportGenerated', 'Generated') + ': ' + new Date().toLocaleString());
       var blob = new Blob([lines.join('\n')], { type: 'text/plain' });
       var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
@@ -172,7 +202,7 @@ import { config } from './config';
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      ToyTools.toast('Report downloaded');
+      ToyTools.toast(s('reportDownloaded', 'Report downloaded'));
     });
   }
 

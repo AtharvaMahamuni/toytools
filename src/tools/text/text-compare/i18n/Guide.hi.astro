@@ -1,0 +1,68 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath, categoryPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="hi"
+>
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      टेक्स्ट तुलना टूल दो पाठों को आमने-सामने रखकर तुरंत दिखाता है कि कौन-सी लाइनें जोड़ी गईं (हरा <strong>+</strong>) और कौन-सी हटाई गईं (लाल <strong>-</strong>)। पूरी तुलना सीधे आपके ब्राउज़र में होती है ताकि गोपनीय ड्राफ़्ट सुरक्षित रहें।
+    </p>
+    <a href={toolHref} class="cta-link">टेक्स्ट तुलना टूल खोलें →</a>
+  </section>
+
+  <section id="how-to-read">
+    <h2>अंतर (Diff) को कैसे पढ़ें <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>+ (हरा):</strong> केवल नए टेक्स्ट में मौजूद पंक्ति।</li>
+      <li><strong>- (लाल):</strong> केवल पुराने टेक्स्ट में मौजूद थी, अब हटाई गई।</li>
+      <li><strong>समान:</strong> दोनों संस्करणों में एक जैसी पंक्तियाँ।</li>
+    </ul>
+    <ReferenceBlock type="note" heading="केवल स्पेस या लाइन-ब्रेक के अंतर हटाएँ">
+      <p>यदि अंतर केवल अतिरिक्त स्पेस के कारण दिखे, तो ऊपर आने वाले बटन से एक क्लिक में उन्हें अनदेखा करें।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <a href={categoryPath(category, 'hi')}>टेक्स्ट टूल श्रेणी</a> में आप <a href={toolPathBySlug('word-counter', 'hi')}>वर्ड काउंटर</a> और <a href={toolPathBySlug('character-counter', 'hi')}>कैरेक्टर काउंटर</a> का उपयोग भी कर सकते हैं।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

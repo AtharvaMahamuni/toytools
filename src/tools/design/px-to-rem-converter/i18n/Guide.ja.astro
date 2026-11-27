@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>結論とポイント <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <code>px</code> を <code>rem</code> に変換するには、ピクセル値をルート要素（<code>html</code>）のフォントサイズ（ブラウザ標準は <code>16px</code>）で割ります。文字や余白を <code>rem</code> で指定すると、閲覧者のブラウザ文字サイズ設定に連動して全体が破綻なく拡大縮小します。
+    </p>
+    <a href={toolHref} class="cta-link">PX ⇄ REM 変換ツールを開く →</a>
+  </section>
+
+  <section id="rem-vs-em-pt">
+    <h2>REM・EM・PTそれぞれの挙動の違い <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <code>rem</code> が常にルート基準で一定なのに対し、<code>em</code> は親や自分自身のサイズを基準とするため入れ子要素で倍率が複利的に掛かります。印刷物由来のポイント指定はWeb基準で <code>1インチ = 96px = 72pt</code> のため、<code>12pt = 16px</code> となります。
+    </p>
+    <ReferenceBlock type="key-idea" heading="62.5%（10px基準）テクニックを使う場合">
+      <p>CSSで <code>html &#123; font-size: 62.5%; &#125;</code> を設定し <code>1rem = 10px</code> として運用している場合は、上のルート基準サイズ欄を「10」に変更して計算してください。</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>関連するデザイン・CSSツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      画面比率の調整には <a href={toolPathBySlug('aspect-ratio-calculator', 'ja')}>アスペクト比計算ツール</a>、スタイルシートの軽量化には <a href={toolPathBySlug('css-minifier', 'ja')}>CSS圧縮ツール</a>、見出し比率設計には <a href={toolPathBySlug('type-scale-generator')}>Type Scale Generator</a>、モバイル単位変換には <a href={toolPathBySlug('px-to-dp-converter')}>PX to DP Converter</a> をどうぞ。
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

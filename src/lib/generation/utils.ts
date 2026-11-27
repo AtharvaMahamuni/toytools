@@ -6,6 +6,7 @@
 // Node (vitest) and the browser alike.
 
 import type { GeneratorStrength } from './types';
+import { readClientI18n } from '@lib/i18n/client';
 
 /** The platform's crypto source (window.crypto in browsers, globalThis.crypto in Node 18+). */
 function getCrypto(): Crypto {
@@ -59,11 +60,13 @@ export function entropyBits(length: number, poolSize: number): number {
  * guidance: under 28 bits is trivially guessable, 128+ bits is effectively uncrackable.
  */
 export function strengthFromEntropy(bits: number): GeneratorStrength {
-  if (bits < 28) return { score: 0, label: 'Very weak' };
-  if (bits < 40) return { score: 1, label: 'Weak' };
-  if (bits < 60) return { score: 2, label: 'Fair' };
-  if (bits < 128) return { score: 3, label: 'Strong' };
-  return { score: 4, label: 'Very strong' };
+  const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
+  const s = (ei.strength ?? {}) as Record<string, string>;
+  if (bits < 28) return { score: 0, label: s.veryWeak ?? 'Very weak' };
+  if (bits < 40) return { score: 1, label: s.weak ?? 'Weak' };
+  if (bits < 60) return { score: 2, label: s.fair ?? 'Fair' };
+  if (bits < 128) return { score: 3, label: s.strong ?? 'Strong' };
+  return { score: 4, label: s.veryStrong ?? 'Very strong' };
 }
 
 // ── QR payload encoders ──────────────────────────────────────────────────────

@@ -146,8 +146,8 @@ function findAsset(match: RegExp | string): string | null {
 }
 
 function pageKind(rel: string): keyof typeof BUDGETS | null {
-  const bare = rel.replace(/^(es|de|fr)\//, '');
-  if (rel === 'es' || rel === 'de' || rel === 'fr') return 'page';
+  const bare = rel.replace(/^(es|de|fr|ja|pt|hi)\//, '');
+  if (/^(es|de|fr|ja|pt|hi)$/.test(rel)) return 'page';
   if (bare.startsWith('tool/')) return 'tool';
   if (bare.startsWith('guide/')) return 'guide';
   if (bare.startsWith('category/')) return 'category';

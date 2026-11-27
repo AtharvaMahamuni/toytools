@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Minificar JSON consiste en eliminar todos los espacios, tabulaciones y saltos de línea superfluos entre símbolos sin tocar los datos. Así obtienes el archivo JSON válido más pequeño posible para transferirlo por red o guardarlo en caché en producción.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Minificador JSON →</a>
+  </section>
+
+  <section id="cuanto-reduce">
+    <h2>Cuánto ahorro aporta y cómo combina con gzip <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      En documentos con mucha sangría y varios niveles de anidación, quitar los espacios reduce el peso en bruto entre un 20 % y un 40 %. Aunque HTTP utilice compresión gzip o Brotli en tránsito, entregar JSON ya minificado reduce el tamaño que debe procesarse y analizarse en el cliente.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Operación sin pérdidas y reversible">
+      <p>Minificar y formatear son operaciones inversas. Al no reconstruir objetos en memoria JavaScript, enteros largos y decimales como <code>19.90</code> permanecen idénticos.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="cuando-no-minificar">
+    <h2>Cuándo no conviene minificar <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Evita guardar JSON minificado dentro de repositorios Git, ya que cualquier cambio pequeño genera una sola línea ilegible en los diffs. Para inspección humana y control de versiones usa <a href={toolPathBySlug('json-formatter', 'es')}>Formateador JSON</a>, y antes de desplegar revisa la sintaxis con <a href={toolPathBySlug('json-validator', 'es')}>Validador JSON</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

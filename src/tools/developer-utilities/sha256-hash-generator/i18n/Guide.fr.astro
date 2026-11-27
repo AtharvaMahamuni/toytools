@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      SHA-256 est la fonction de hachage cryptographique de référence actuelle : elle réduit tout texte ou fichier à une empreinte déterministe de 256 bits (64 chiffres hexadécimaux). Indispensable pour TLS et les sommes de contrôle logicielles, elle reste à sens unique et inadaptée seule aux mots de passe.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir le Générateur SHA-256 →</a>
+  </section>
+
+  <section id="verification-systeme">
+    <h2>Vérifier un checksum SHA-256 en ligne de commande <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Sous Linux exécutez <code>sha256sum archive.zip</code>, sous macOS <code>shasum -a 256 archive.zip</code> et sous Windows PowerShell <code>Get-FileHash archive.zip -Algorithm SHA256</code>. Le moindre octet modifié bouleverse entièrement la signature grâce à l’effet avalanche.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Ne pas hacher les mots de passe en SHA-256 brut">
+      <p>Sa rapidité sur GPU facilite les attaques par dictionnaire ; protégez les mots de passe avec des fonctions lentes et salées comme Argon2 ou bcrypt.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="outils-lies">
+    <h2>Outils associés de hachage et d’encodage <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Contrôlez vos fichiers téléchargés dans <a href={toolPathBySlug('file-hash-verifier')}>File Hash Verifier</a>, encodez des digests via l’<a href={toolPathBySlug('base64-encoder-decoder', 'fr')}>Encodeur Base64</a> ou comparez d’anciennes empreintes avec <a href={toolPathBySlug('md5-hash-generator')}>MD5 Generator</a> et <a href={toolPathBySlug('sha1-hash-generator')}>SHA-1 Generator</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

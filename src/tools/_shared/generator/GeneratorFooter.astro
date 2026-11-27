@@ -3,11 +3,20 @@
 // already carries the TrustNotice badge; this restates the promise in plain words next to the
 // output, matching the platform's privacy-first messaging.
 import { PRIVACY_LINE } from '@lib/privacy';
+import type { LocaleCode } from '@data/locales';
+import { getUiStrings } from '@data/i18n';
+
+interface Props {
+  lang?: LocaleCode;
+}
+const { lang = 'en' } = Astro.props;
+const t = getUiStrings(lang);
+const privacyLine = lang === 'en' ? PRIVACY_LINE : t.footer.privacyByVariant.private;
 ---
 
 <p class="gen-footer">
   <span class="gen-footer-dot" aria-hidden="true">●</span>
-  {PRIVACY_LINE}
+  {privacyLine}
 </p>
 
 <style>

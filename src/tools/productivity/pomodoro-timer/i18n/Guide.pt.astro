@@ -1,0 +1,98 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="pt"
+>
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A Técnica Pomodoro organiza o trabalho em blocos cronometrados de 25 minutos seguidos por 5 minutos de pausa curta. Após quatro blocos consecutivos, entra uma pausa longa de 15 minutos. Esse ritmo reduz o atrito para começar, limita distrações e protege sua atenção até o fim do dia.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Timer Pomodoro →</a>
+  </section>
+
+  <section id="por-que-custa-focar">
+    <h2>Por que é difícil manter a concentração <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Interrupções quebram o contexto:</strong> voltar à profundidade anterior após uma notificação pode custar mais de vinte minutos.</li>
+      <li><strong>Trocas de tarefa consomem energia:</strong> alternar entre chat, e-mail e código aumenta erros.</li>
+      <li><strong>Tarefas vagas intimidam:</strong> combinar apenas 25 minutos torna o início muito mais leve.</li>
+      <li><strong>Fadiga silenciosa:</strong> pular descansos derruba o desempenho após a primeira hora.</li>
+    </ul>
+  </section>
+
+  <section id="como-funciona">
+    <h2>Como funciona um ciclo Pomodoro <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ol>
+      <li><strong>Escolha uma tarefa única:</strong> defina exatamente o que será avançado neste bloco.</li>
+      <li><strong>Trabalhe por 25 minutos sem alternar:</strong> anote distrações rapidamente e siga na meta.</li>
+      <li><strong>Faça uma pausa real de 5 minutos:</strong> levante-se e descanse os olhos da tela.</li>
+      <li><strong>Após quatro blocos, descanse 15 minutos:</strong> recarregue antes do ciclo seguinte.</li>
+    </ol>
+    <ReferenceBlock type="key-idea" heading="A pausa faz parte do método">
+      <p>Quando tocar o aviso aos 25 minutos, pare mesmo no meio de uma linha. Respeitar a pausa preserva sua energia para o próximo bloco.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="variacoes">
+    <h2>Variações comuns: 25/5, 50/10 e 90/20 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>25/5 (clássico):</strong> ideal para estudos, revisões e vencer a procrastinação.</li>
+      <li><strong>50/10 (estendido):</strong> indicado para programação, redação longa e design técnico.</li>
+      <li><strong>90/20 (ultradiano):</strong> acompanha ciclos naturais mais longos de atenção profunda.</li>
+    </ul>
+  </section>
+
+  <section id="erros-comuns">
+    <h2>Erros frequentes ao usar Pomodoro <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Olhar o celular na pausa:</strong> rolar feeds cansa a mesma atenção visual do trabalho.</li>
+      <li><strong>Contar tomates em tarefas triviais:</strong> dois blocos no que realmente importa valem mais que oito em tarefas secundárias.</li>
+    </ul>
+  </section>
+
+  <section id="ferramentas-relacionadas">
+    <h2>Ferramentas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('no-sleep-website', 'pt')}>Manter Tela Ligada</a>: evite que o celular apague com o cronômetro aberto.</li>
+      <li><a href={toolPathBySlug('todo-list')}>Todo List</a>: organize suas entregas antes de iniciar o bloco.</li>
+      <li><a href={toolPathBySlug('notepad')}>Notepad</a>: anote distrações para checar só na pausa.</li>
+    </ul>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

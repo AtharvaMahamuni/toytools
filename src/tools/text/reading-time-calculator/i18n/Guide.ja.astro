@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>結論とポイント <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      推定読了時間は総単語数を平均的な成人の黙読速度（毎分200語）で割って算出します。一方、プレゼンや動画ナレーションで声に出して読む場合は毎分130〜150語程度のゆっくりとしたペースになるため、スピーチ時間を基準に計画するのが安全です。
+    </p>
+    <a href={toolHref} class="cta-link">読了時間計算ツールを開く →</a>
+  </section>
+
+  <section id="benchmark-table">
+    <h2>語数別の時間目安と文章密度 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      標準的な読み物では400語が約2分、1,000語が約5分、2,000語が約10分の目安です。専門用語やコードブロック、図表が多い技術文書では理解のために実際の読了時間が3〜5割長くなる傾向があります。
+    </p>
+    <ReferenceBlock type="key-idea" heading="黙読とスピーチの使い分け">
+      <p>発表原稿やイベント台本の尺を決める際は、黙読ではなくスピーチ時間（130〜150語/分）を確認して間の取り方まで余裕を持たせましょう。</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>執筆・推敲に便利な関連ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      段落構成や語数の詳細チェックには <a href={toolPathBySlug('word-counter', 'ja')}>単語数カウンター</a>、導入文の文字数調整には <a href={toolPathBySlug('character-counter', 'ja')}>文字数カウンター</a>、改稿前後の差分確認には <a href={toolPathBySlug('text-compare', 'ja')}>テキスト比較</a> をご活用ください。
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

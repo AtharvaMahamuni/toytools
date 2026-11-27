@@ -1,11 +1,18 @@
 ---
 import StructuredDataWidget from '@tools/_shared/StructuredDataWidget.astro';
 import { config } from './config';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { uiStr } from '@lib/i18n/widget-utils';
+
+interface Props { lang?: LocaleCode; pack?: LocalizedToolPack | null; }
+const { lang = 'en', pack = null } = Astro.props;
 
 const modes = [
-  { value: 'pretty', label: 'Pretty print' },
-  { value: 'minify', label: 'Minify' },
+  { value: 'pretty', label: uiStr(pack, 'modePretty', 'Pretty print') },
+  { value: 'minify', label: uiStr(pack, 'modeMinify', 'Minify') },
 ];
+const toolNote = uiStr(pack, 'toolNote', 'The first well-formedness error includes a line number when the browser reports one.');
 ---
 
 <StructuredDataWidget
@@ -13,8 +20,10 @@ const modes = [
   structuredId={config.processorId!}
   config={config}
   modes={modes}
-  modeAriaLabel="Mode"
+  modeAriaLabel={uiStr(pack, 'modeAriaLabel', 'Mode')}
+  lang={lang}
+  pack={pack}
 />
 <p class="tool-note" data-craft={config.craft?.id} hidden>
-  The first well-formedness error includes a line number when the browser reports one.
+  {toolNote}
 </p>

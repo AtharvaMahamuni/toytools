@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="schnellantwort">
+    <h2>Schnellantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Der CSS Minifier und Beautifier verkleinert Stylesheets lokal im Browser durch Entfernen von Kommentaren und Leerzeichen oder entpackt kompaktes CSS wieder lesbar mit zwei Leerzeichen Einrückung – inklusive Anzeige der gesparten Bytes.
+    </p>
+    <a href={toolHref} class="cta-link">CSS Minifier öffnen →</a>
+  </section>
+
+  <section id="sicherheit">
+    <h2>Was sicher entfernt wird <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Zeichenketten, <code>url()</code>-Pfade, CSS-Variablen und <code>calc()</code> bleiben unangetastet, da ausschließlich auf Token-Ebene formatiert oder gekürzt wird.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Zum Bearbeiten formatieren, zum Ausliefern minifizieren">
+      <p>Halte in Git stets formatiertes CSS und komprimiere erst für die Auslieferung.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="verwandte-tools">
+    <h2>Verwandte Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Einheiten vorher umrechnen im <a href={toolPathBySlug('px-to-rem-converter', 'de')}>PX-zu-REM-Umrechner</a> oder JSON schrumpfen mit dem <a href={toolPathBySlug('json-minifier', 'de')}>JSON Minifier</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

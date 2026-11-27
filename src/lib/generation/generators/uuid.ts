@@ -7,6 +7,7 @@
 
 import type { Generator, GenerationResult, GeneratorOptions } from '../types';
 import { secureInt } from '../utils';
+import { readClientI18n } from '@lib/i18n/client';
 
 const bool = (v: unknown, fallback: boolean): boolean => (typeof v === 'boolean' ? v : fallback);
 
@@ -50,12 +51,16 @@ export const uuid: Generator = {
       if (uppercase) id = id.toUpperCase();
       lines.push(id);
     }
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     return {
       ok: true,
       kind: 'lines',
       lines,
       text: lines.join('\n'),
-      meta: [{ label: 'Version', value: '4 (random)' }, { label: 'Count', value: String(count) }],
+      meta: [
+        { label: ei.metaVersion ?? 'Version', value: ei.versionV4 ?? '4 (random)' },
+        { label: ei.metaCount ?? 'Count', value: String(count) },
+      ],
     };
   },
 };

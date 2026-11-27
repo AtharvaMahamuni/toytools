@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      El Formateador y Validador XML analiza tu documento directamente en el navegador mediante <code>DOMParser</code>, aplica sangría legible de dos espacios (o minifica entre etiquetas) y señala el primer error de buena formación con su línea cuando está disponible.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Formateador XML →</a>
+  </section>
+
+  <section id="reglas-xml">
+    <h2>Buena formación, mayúsculas y CDATA <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A diferencia de HTML, XML no perdona etiquetas sin cerrar ni diferencias de mayúsculas entre apertura y cierre. Esta herramienta preserva secciones CDATA, comentarios y espacios de nombres <code>xmlns</code> tal cual.
+    </p>
+    <ReferenceBlock type="note" heading="Buena formación frente a validación XSD">
+      <p>Comprobar buena formación verifica etiquetas y raíz única; si necesitas validar reglas XSD o DTD necesitarás un validador con ese esquema específico.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="herramientas-relacionadas">
+    <h2>Herramientas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Si trabajas con entidades HTML/XML o payloads JSON, revisa <a href={toolPathBySlug('html-entity-encoder-decoder', 'es')}>Entidades HTML</a> y <a href={toolPathBySlug('json-formatter', 'es')}>Formateador JSON</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

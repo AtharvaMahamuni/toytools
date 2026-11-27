@@ -1,0 +1,55 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Valider un JSON vérifie que le texte respecte strictement la grammaire RFC 8259 : guillemets doubles droits, absence de virgules finales, aucun commentaire et accolades équilibrées. Tout s’exécute dans votre navigateur avec réparation rapide des fautes courantes.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir le Validateur JSON →</a>
+  </section>
+
+  <section id="erreurs-courantes">
+    <h2>Les fautes syntaxiques les plus fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Virgule finale :</strong> <code>{"{\"a\": 1,}"}</code> est accepté en JS mais invalide en JSON.</li>
+      <li><strong>Guillemets simples ou courbes :</strong> seul le guillemet ASCII droit <code>"</code> est autorisé.</li>
+      <li><strong>Commentaires :</strong> <code>//</code> et <code>/* ... */</code> provoquent une erreur immédiate.</li>
+    </ul>
+    <ReferenceBlock type="common-mistake" heading="Validation syntaxique vs JSON Schema">
+      <p>Un JSON syntaxiquement exact peut encore manquer un champ métier attendu : c’est le rôle d’un JSON Schema.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="outils-associes">
+    <h2>Outils associés <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Une fois le JSON validé, mettez-le en forme avec le <a href={toolPathBySlug('json-formatter', 'fr')}>Formateur JSON</a> ou compressez-le avec le <a href={toolPathBySlug('json-minifier', 'fr')}>Minificateur JSON</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

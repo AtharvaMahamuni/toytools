@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="schnellantwort">
+    <h2>Schnellantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Base64 wandelt beliebige Bytefolgen in 64 sichere ASCII-Zeichen um (<code>A–Z</code>, <code>a–z</code>, <code>0–9</code>, <code>+</code>, <code>/</code>), damit Binärdaten verlustfrei durch reine Textprotokolle wie JSON, HTTP-Header oder E-Mail gelangen. Da kein geheimer Schlüssel nötig ist, ersetzt Base64 niemals eine Verschlüsselung.
+    </p>
+    <a href={toolHref} class="cta-link">Base64 Encoder und Decoder öffnen →</a>
+  </section>
+
+  <section id="padding-und-base64url">
+    <h2>Bedeutung von "=", 33 % Zuwachs & Base64URL <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Aus je 3 Eingabe-Bytes entstehen 4 Ausgabezeichen (~33 % Größenplus); geht die Bytezahl nicht durch 3 auf, füllen ein oder zwei <code>=</code> den Block. Für URLs und JWT-Tokens nutzt Base64URL stattdessen <code>-</code> und <code>_</code>.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Kodierung ist keine Verschlüsselung">
+      <p>Jeder Empfänger kann Base64 ohne Passwort zurückwandeln. Schütze sensible Daten im Netz konsequent mit TLS oder moderner Verschlüsselung wie AES.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="verwandte-tools">
+    <h2>Typische Folgewerkzeuge für Entwickler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Dekodierte JSON-Payloads machst du im <a href={toolPathBySlug('json-formatter', 'de')}>JSON-Formatierer</a> lesbar, Query-Strings sicherst du mit dem <a href={toolPathBySlug('url-encoder-decoder', 'de')}>URL-Encoder</a>, vollständige JWTs prüft der <a href={toolPathBySlug('jwt-decoder')}>JWT Decoder</a> und HTML-Zeichen behandelt der <a href={toolPathBySlug('html-entity-encoder-decoder', 'de')}>HTML-Entitäten-Encoder</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

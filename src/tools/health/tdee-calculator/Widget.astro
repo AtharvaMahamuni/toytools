@@ -1,6 +1,13 @@
 ---
 import WellnessWidget from '@tools/_shared/WellnessWidget.astro';
 import { config } from './config';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { uiStr } from '@lib/i18n/widget-utils';
+
+interface Props { lang?: LocaleCode; pack?: LocalizedToolPack | null; }
+const { lang = 'en', pack = null } = Astro.props;
+const emptyText = uiStr(pack, 'emptyText', 'Enter your details to estimate the calories you burn a day and your targets for losing, holding, or gaining weight.');
 ---
 
-<WellnessWidget slug={config.slug} wellnessId={config.processorId!} config={config} emptyText="Enter your details to estimate the calories you burn a day and your targets for losing, holding, or gaining weight." />
+<WellnessWidget slug={config.slug} wellnessId={config.processorId!} config={config} emptyText={emptyText} lang={lang} pack={pack} />

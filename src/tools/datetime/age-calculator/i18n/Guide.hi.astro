@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      सटीक उम्र केवल वर्तमान वर्ष में से जन्म वर्ष घटाकर नहीं निकाली जा सकती। यह इस बात पर निर्भर करती है कि इस साल आपका जन्मदिन बीता है या नहीं, हर महीने के असली दिन (28, 29, 30 या 31) और लीप वर्ष कैसे गिने गए हैं।
+    </p>
+    <a href={toolHref} class="cta-link">आयु कैलकुलेटर खोलें →</a>
+  </section>
+
+  <section id="months-and-leap-years">
+    <h2>महीनों की लंबाई और 29 फरवरी का नियम <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      यदि किसी का जन्म महीने की 31 तारीख को हुआ है और अगला महीना छोटा है, तो पूरा महीना उस महीने के अंतिम दिन (जैसे 28 या 29 फरवरी) पर पूरा होता है। 29 फरवरी को जन्मे लोगों के लिए सामान्य वर्षों में 28 फरवरी को जन्मदिन मानकर गणना की जाती है।
+    </p>
+    <ReferenceBlock type="key-idea" heading="किसी भी तारीख पर उम्र जांचें">
+      <p>दूसरे वैकल्पिक बॉक्स में परीक्षा की अंतिम तारीख या भविष्य की कोई भी तिथि डालकर उस दिन की बिल्कुल सही उम्र पता करें।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>तारीख और समय से जुड़े अन्य टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      किन्हीं दो अलग तारीखों के बीच कुल दिन और कार्यदिवस गिनने के लिए <a href={toolPathBySlug('date-difference-calculator', 'hi')}>तारीख अंतर कैलकुलेटर</a> देखें, या तारीख को Unix Epoch में बदलने के लिए <a href={toolPathBySlug('unix-timestamp-converter', 'hi')}>Unix टाइमस्टैम्प कन्वर्टर</a> उपयोग करें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -8,13 +8,20 @@ interface Props {
   label: string;
   formatter?: MetricFormatter;
   initialValue?: string;
+  emptyHint?: string;
 }
 
-const { metric, label, formatter = 'integer', initialValue = '0' } = Astro.props;
+const {
+  metric,
+  label,
+  formatter = 'integer',
+  initialValue = '0',
+  emptyHint = 'Paste or type text to begin.',
+} = Astro.props;
 ---
 
 <div class="tm-hero">
   <span class="hero-value" data-metric={metric} data-formatter={formatter}>{initialValue}</span>
   <span class="hero-label">{label}</span>
-  <p class="empty-hint">Paste or type text to begin.</p>
+  <p class="empty-hint">{emptyHint}</p>
 </div>

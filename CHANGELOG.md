@@ -2,6 +2,16 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v14.0] - 2026-11-27
+
+### Added
+
+- **Multilingual support Phase 2: 6 languages (`/es/`, `/de/`, `/fr/`, `/ja/`, `/pt/`, `/hi/`) covering the Top 30 flagship tools.**
+  - Added full site chrome, search, trust pages, homepage, and 16 category hubs in Japanese (`ja`), Portuguese (`pt`), and Hindi (`hi`) alongside Spanish (`es`), German (`de`), and French (`fr`).
+  - Backfilled all 10 Phase 1 tools into Japanese, Portuguese, and Hindi (30 tool packs + 30 technical guides).
+  - Localized Tools 11 to 30 across all 6 languages (120 tool packs + 120 full guides): `json-minifier`, `json-validator`, `sql-formatter`, `xml-formatter`, `css-minifier`, `password-generator`, `uuid-generator`, `lorem-ipsum-generator`, `character-counter`, `reading-time-calculator`, `tdee-calculator`, `bmr-calculator`, `age-calculator`, `date-difference-calculator`, `base64-encoder-decoder`, `url-encoder-decoder`, `html-entity-encoder-decoder`, `sha256-hash-generator`, `discount-calculator`, and `px-to-rem-converter`.
+  - Localized all corresponding tool widgets and client-side TypeScript engines (`repair`, `jsonValidator`, `sqlFormatter`, `xmlFormatter`, `cssMinifier`, `generation`, `wellness`, `datetime`, `encoding`, `hashing`, `pitfall`, `units`) via `#tt-i18n` payloads with 1:1 FAQ ID parity and availability-gated bidirectional `hreflang` sitemaps across 8 targets (`x-default`, `en`, `es`, `de`, `fr`, `ja`, `pt`, `hi`).
+
 ## [alpha-v13.31] - 2026-11-26
 
 ### Added

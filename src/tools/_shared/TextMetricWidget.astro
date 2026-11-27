@@ -32,7 +32,7 @@ interface Props {
   placeholder?: string;
 }
 
-const { slug, stats, sampleText, toolGroup, noticeId, craftId, lang = 'en', inputLabel, placeholder } = Astro.props;
+const { slug, stats, emptyMessage, sampleText, toolGroup, noticeId, craftId, lang = 'en', inputLabel, placeholder } = Astro.props;
 const c = WIDGET_CHROME[lang];
 const stateKey = toolGroup ? `group:${toolGroup}` : slug;
 const [primaryStat, ...secondaryStats] = stats;
@@ -43,12 +43,18 @@ const DEFAULT_INPUT_LABEL: Record<LocaleCode, string> = {
   es: 'Tu texto',
   de: 'Ihr Text',
   fr: 'Votre texte',
+  ja: 'テキスト入力',
+  pt: 'Seu texto',
+  hi: 'आपका टेक्स्ट',
 };
 const DEFAULT_PLACEHOLDER: Record<LocaleCode, string> = {
   en: 'Paste or type text here…',
   es: 'Pega o escribe texto aquí…',
   de: 'Text hier einfügen oder eingeben…',
   fr: 'Collez ou saisissez du texte ici…',
+  ja: 'ここにテキストを貼り付けまたは入力…',
+  pt: 'Cole ou digite seu texto aqui…',
+  hi: 'यहाँ टेक्स्ट पेस्ट करें या टाइप करें…',
 };
 ---
 
@@ -62,6 +68,7 @@ const DEFAULT_PLACEHOLDER: Record<LocaleCode, string> = {
       metric={primaryStat.metric}
       label={primaryStat.label}
       formatter={primaryStat.formatter}
+      emptyHint={emptyMessage || undefined}
     />
     {secondaryStats.length > 0 && <StatGrid stats={secondaryStats} />}
     {/* One line about the input the numbers above do not show. A line, not a box (R2/R5), and

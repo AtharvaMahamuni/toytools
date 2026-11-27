@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Una contraseña segura se basa sobre todo en su longitud y aleatoriedad real, no en sustituir letras por símbolos obvios. Usar al menos 16 caracteres generados mediante Web Crypto API evita ataques por diccionario y fuerza bruta moderna, manteniendo todo el proceso dentro de tu propio navegador.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Generador de Contraseñas →</a>
+  </section>
+
+  <section id="longitud-vs-complejidad">
+    <h2>Por qué la longitud importa más que los símbolos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Cada carácter adicional multiplica exponencialmente el número de combinaciones posibles. Añadir símbolos a una contraseña de 8 caracteres apenas suma unos pocos bits de entropía frente a ampliar a 16 o 20 caracteres con letras y números aleatorios.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Meta práctica de entropía">
+      <p>Supera los 60 bits para cuentas cotidianas y los 100 bits para correo principal, banca o bóvedas de contraseñas. Con 16 caracteres y cuatro conjuntos activos superas los 103 bits.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="almacenamiento-y-herramientas">
+    <h2>Cómo guardar tus claves y herramientas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Guarda siempre cada clave única en un gestor de contraseñas cifrado y activa excluir caracteres ambiguos si tendrás que escribirla manualmente. Si necesitas compartir una clave Wi-Fi de forma segura puedes pasarla al <a href={toolPathBySlug('qr-code-generator', 'es')}>Generador de Códigos QR</a>, crear identificadores con <a href={toolPathBySlug('uuid-generator', 'es')}>Generador UUID</a> o generar tokens técnicos con <a href={toolPathBySlug('random-string-generator')}>Random String Generator</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      La codificación URL (percent-encoding según RFC 3986) reemplaza espacios, acentos y símbolos reservados (<code>&amp;</code>, <code>=</code>, <code>?</code>, <code>/</code>) por <code>%</code> y dos dígitos hexadecimales UTF-8. Así evitas que los parámetros de consulta se dividan o trunquen al llegar al servidor.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Codificador URL →</a>
+  </section>
+
+  <section id="encodeuricomponent-vs-encodeuri">
+    <h2>encodeURIComponent frente a encodeURI y errores típicos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      En JavaScript, <code>encodeURIComponent</code> escapa también <code>&amp;</code>, <code>=</code> y <code>/</code> porque está pensado para valores sueltos; en cambio <code>encodeURI</code> respeta la estructura de una URL completa. Cuidado con la doble codificación: aplicar la función dos veces convierte <code>%20</code> en <code>%2520</code>.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Por qué importa %20 frente a +">
+      <p>Usa <code>%20</code> en rutas y consultas estándar; reserva el signo <code>+</code> solo para cuerpos de formularios <code>application/x-www-form-urlencoded</code>.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="herramientas-relacionadas">
+    <h2>Otras herramientas de codificación web <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Si quieres transportar datos binarios o cadenas Base64URL seguras en direcciones web combina este conversor con el <a href={toolPathBySlug('base64-encoder-decoder', 'es')}>Codificador Base64</a>, o escapa marcado HTML en el <a href={toolPathBySlug('html-entity-encoder-decoder', 'es')}>Codificador de Entidades HTML</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

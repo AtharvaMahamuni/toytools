@@ -1,0 +1,66 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="hi"
+>
+  <section id="summary">
+    <h2>सारांश <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      आस्पेक्ट रेशियो किसी छवि या वीडियो की चौड़ाई और ऊँचाई के बीच का अनुपात होता है (जैसे 16:9)। यह आकार के बजाय आकृति बताता है: 1280×720 और 1920×1080 दोनों 16:9 ही हैं। यह कैलकुलेटर अनुपात लॉक करके दूसरी भुजा तुरंत निकाल देता है।
+    </p>
+    <a href={toolHref} class="cta-link">आस्पेक्ट रेशियो कैलकुलेटर खोलें →</a>
+  </section>
+
+  <section id="formulas">
+    <h2>सूत्र और उदाहरण <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      अनुपात W:H होने पर <code>ऊँचाई = चौड़ाई × H ÷ W</code> और <code>चौड़ाई = ऊँचाई × W ÷ H</code> होता है। 16:9 में 1600 px चौड़ाई पर 900 px ऊँचाई आती है। वीडियो निर्यात (H.264/MP4) के लिए हमेशा सम (even) पिक्सेल चुनें।
+    </p>
+  </section>
+
+  <section id="uses">
+    <h2>लोकप्रिय अनुपात व CSS इकाइयाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>16:9 / 21:9:</strong> YouTube वीडियो और वाइडस्क्रीन मॉनिटर</li>
+      <li><strong>9:16 / 1:1:</strong> मोबाइल वर्टिकल वीडियो और सोशल मीडिया कार्ड</li>
+      <li><strong>3:2 / 4:3:</strong> कैमरा फ़ोटोग्राफ़ी और टैबलेट डिस्प्ले</li>
+    </ul>
+    <p>
+      पिक्सेल मानों को CSS की स्केलेबल इकाइयों में बदलने के लिए <a href={toolPathBySlug('px-to-rem-converter', 'hi')}>PX से REM कन्वर्टर</a> भी आज़माएँ।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

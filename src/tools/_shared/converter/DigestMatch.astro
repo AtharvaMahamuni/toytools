@@ -18,10 +18,11 @@
 interface Props {
   id: string;
   label: string;
+  placeholder?: string;
   /** The tool's declared craft id. check-craft.ts fails the build if it never reaches the DOM. */
   craftId?: string;
 }
-const { id, label, craftId } = Astro.props;
+const { id, label, placeholder = 'Expected digest, or a line of sha256sum output', craftId } = Astro.props;
 ---
 
 {/* The id is what ConverterWidget's controller looks this up by; without it the controller falls
@@ -33,7 +34,7 @@ const { id, label, craftId } = Astro.props;
     id={`${id}-input`}
     class="digest-match-input"
     data-digest-expected
-    placeholder="Expected digest, or a line of sha256sum output"
+    placeholder={placeholder}
     autocomplete="off"
     autocapitalize="off"
     autocorrect="off"

@@ -20,6 +20,11 @@ import { calories } from '../format';
 import { numberField, selectField } from '../validation';
 import { assumption, decisions, insight, toolDecision } from '../story';
 import { partsSpec } from '@lib/visualization/types';
+import { readClientI18n } from '@lib/i18n/client';
+
+function tpl(s: string, vars: Record<string, string>): string {
+  return s.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? `{${k}}`);
+}
 
 const UNITS = ['metric', 'imperial'] as const;
 const SEXES = ['male', 'female'] as const;
@@ -81,22 +86,23 @@ export const tdeeCalculator: WellnessCalculator = {
   ],
 
   calculate(input, _opts) {
-    const unit = selectField(input, 'unit', 'your unit system', UNITS);
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
+    const unit = selectField(input, 'unit', ei.fieldUnit ?? 'your unit system', UNITS);
     if (!unit.ok) return unit.result;
-    const sex = selectField(input, 'sex', 'a sex for the BMR equation', SEXES);
+    const sex = selectField(input, 'sex', ei.fieldSex ?? 'a sex for the BMR equation', SEXES);
     if (!sex.ok) return sex.result;
-    const activity = selectField(input, 'activity', 'your activity level', ACTIVITIES);
+    const activity = selectField(input, 'activity', ei.fieldActivity ?? 'your activity level', ACTIVITIES);
     if (!activity.ok) return activity.result;
     const isMetric = unit.value === 'metric';
 
-    const age = numberField(input, 'age', 'your age', { min: 14, max: 120 });
+    const age = numberField(input, 'age', ei.fieldAge ?? 'your age', { min: 14, max: 120 });
     if (!age.ok) return age.result;
-    const w = numberField(input, 'weight', 'your weight', { min: 0, max: isMetric ? 500 : 1100 });
+    const w = numberField(input, 'weight', ei.fieldWeight ?? 'your weight', { min: 0, max: isMetric ? 500 : 1100 });
     if (!w.ok) return w.result;
-    const h = numberField(input, 'height', 'your height', { min: 0, max: isMetric ? 260 : 102 });
+    const h = numberField(input, 'height', ei.fieldHeight ?? 'your height', { min: 0, max: isMetric ? 260 : 102 });
     if (!h.ok) return h.result;
-    if (w.value <= 0) return validationError('Enter a weight above zero to calculate your energy needs.');
-    if (h.value <= 0) return validationError('Enter a height above zero to calculate your energy needs.');
+    if (w.value <= 0) return validationError(ei.errWeightZero ?? 'Enter a weight above zero to calculate your energy needs.');
+    if (h.value <= 0) return validationError(ei.errHeightZero ?? 'Enter a height above zero to calculate your energy needs.');
 
     const weightKg = isMetric ? w.value : lbToKg(w.value);
     const heightCm = isMetric ? h.value : inToCm(h.value);
@@ -110,32 +116,39 @@ export const tdeeCalculator: WellnessCalculator = {
     const loss = Math.max(bmr, maintain - dailyCalorieDelta(0.5));
     const gain = maintain + dailyCalorieDelta(0.5);
 
-    const hero = card('tdee', 'Calories to maintain', calories(maintain), {
+    const hero = card('tdee', ei.heroLabel ?? 'Calories to maintain', calories(maintain), {
       raw: Math.round(maintain),
       emphasis: 'hero',
-      note: 'per day at your activity level',
+      note: ei.heroNote ?? 'per day at your activity level',
     });
 
     const metrics: ResultCard[] = [
-      card('bmr', 'BMR (at complete rest)', calories(bmr), { raw: Math.round(bmr), emphasis: 'primary' }),
-      card('mild-loss', 'Mild weight loss (0.25 kg/wk)', calories(mildLoss), { raw: Math.round(mildLoss) }),
-      card('loss', 'Weight loss (0.5 kg/wk)', calories(loss), { raw: Math.round(loss) }),
-      card('gain', 'Weight gain (0.5 kg/wk)', calories(gain), { raw: Math.round(gain) }),
+      card('bmr', ei.cardBmr ?? 'BMR (at complete rest)', calories(bmr), { raw: Math.round(bmr), emphasis: 'primary' }),
+      card('mild-loss', ei.cardMildLoss ?? 'Mild weight loss (0.25 kg/wk)', calories(mildLoss), { raw: Math.round(mildLoss) }),
+      card('loss', ei.cardLoss ?? 'Weight loss (0.5 kg/wk)', calories(loss), { raw: Math.round(loss) }),
+      card('gain', ei.cardGain ?? 'Weight gain (0.5 kg/wk)', calories(gain), { raw: Math.round(gain) }),
     ];
 
     const insights = [
       insight(
-        `Your body burns about ${calories(bmr)} at complete rest. Everyday movement and exercise raise that to roughly ${calories(maintain)} a day.`,
+        tpl(ei.insightRestingTpl ?? 'Your body burns about {bmr} at complete rest. Everyday movement and exercise raise that to roughly {maintain} a day.', {
+          bmr: calories(bmr),
+          maintain: calories(maintain),
+        }),
       ),
       insight(
-        'To lose weight, eat below the maintenance number; to gain, eat above it. About 7,700 kcal equals a kilogram, so a 550 kcal daily gap moves roughly half a kilogram a week.',
+        ei.insightGoal ?? 'To lose weight, eat below the maintenance number; to gain, eat above it. About 7,700 kcal equals a kilogram, so a 550 kcal daily gap moves roughly half a kilogram a week.',
         'info',
       ),
       insight(
-        'These are estimates from a formula, not a measurement. Track your real weight over two to three weeks and adjust the target up or down if it is not moving as expected.',
+        ei.insightCaveat ?? 'These are estimates from a formula, not a measurement. Track your real weight over two to three weeks and adjust the target up or down if it is not moving as expected.',
         'caution',
       ),
     ];
+
+    const pctRest = Math.round((bmr / maintain) * 100);
+    const actKey = activity.value as ActivityLevel;
+    const actShort = (ei.actShort?.[actKey] as string | undefined) ?? ACTIVITY_LABEL[actKey].split(' (')[0];
 
     return successResult({
       hero,
@@ -144,36 +157,47 @@ export const tdeeCalculator: WellnessCalculator = {
       // which is the point: "eat less, move more" is mostly a conversation about the smaller slice.
       visualization: partsSpec(
         [
-          { id: 'bmr', label: 'At rest', value: Math.round(bmr), display: calories(bmr) },
+          { id: 'bmr', label: ei.vizRest ?? 'At rest', value: Math.round(bmr), display: calories(bmr) },
           {
             id: 'activity',
-            label: 'Activity',
+            label: ei.vizActivity ?? 'Activity',
             value: Math.round(maintain - bmr),
             display: calories(maintain - bmr),
           },
         ],
         {
           kind: 'stacked',
-          title: 'What makes up your daily burn',
-          description: `Resting metabolism is ${Math.round((bmr / maintain) * 100)}% of your ${calories(maintain)} maintenance total.`,
+          title: ei.vizTitle ?? 'What makes up your daily burn',
+          description: tpl(ei.vizDescTpl ?? 'Resting metabolism is {pct}% of your {maintain} maintenance total.', {
+            pct: String(pctRest),
+            maintain: calories(maintain),
+          }),
         },
       ),
       assumptions: [
-        assumption('Units', isMetric ? 'metric (kg, cm)' : 'imperial (lb, in)'),
-        assumption('BMR formula', 'Mifflin-St Jeor'),
-        assumption('Activity factor', `${ACTIVITY_FACTOR[activity.value as ActivityLevel]} (${ACTIVITY_LABEL[activity.value as ActivityLevel].split(' (')[0]})`),
+        assumption(ei.assumpUnitsTerm ?? 'Units', isMetric ? (ei.assumpMetric ?? 'metric (kg, cm)') : (ei.assumpImperial ?? 'imperial (lb, in)')),
+        assumption(ei.assumpFormulaTerm ?? 'BMR formula', ei.assumpFormulaVal ?? 'Mifflin-St Jeor'),
+        assumption(ei.assumpActivityTerm ?? 'Activity factor', `${ACTIVITY_FACTOR[actKey]} (${actShort})`),
       ],
       decisions: decisions([
         toolDecision('Check your BMI and healthy weight range', 'bmi-calculator'),
         toolDecision('Estimate body fat, which changes calorie needs', 'body-fat-calculator'),
         toolDecision('Track your weight to see if the target works', 'body-weight-tracker'),
-      ]),
-      nextQuestions: [
+      ]).map((d) => {
+        const map: Record<string, string | undefined> = {
+          'bmi-calculator': ei.decBmi,
+          'body-fat-calculator': ei.decBodyFat,
+          'body-weight-tracker': ei.decWeight,
+        };
+        const ov = d.tool?.slug ? map[d.tool.slug] : undefined;
+        return ov ? { ...d, label: ov } : d;
+      }),
+      nextQuestions: ei.nextQuestions ?? [
         'How many calories should I eat to lose weight?',
         'What is the difference between BMR and TDEE?',
         'How do I split calories into protein, carbs, and fat?',
       ],
-      explanation:
+      explanation: ei.explanation ??
         'TDEE is your Basal Metabolic Rate multiplied by an activity factor. BMR is the energy your body uses at complete rest, estimated here with the Mifflin-St Jeor equation from your sex, age, height, and weight. The activity factor, from 1.2 for sedentary up to 1.9 for extra active, scales that resting figure up to account for daily movement and exercise. The result is a solid starting estimate; your true expenditure can differ by a few hundred calories, so treat the number as a hypothesis to test against the scale.',
       meta: { bmr: Math.round(bmr), tdee: Math.round(maintain) },
     });

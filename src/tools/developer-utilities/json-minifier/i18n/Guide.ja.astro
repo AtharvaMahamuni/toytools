@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>概要（クイック回答） <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      JSON圧縮（Minification）は、データ内容や構造を一切変えずにトークン間の空白・タブ・改行を取り除く処理です。本番環境で配信・保存するJSONのバイト数を抑えられます。
+    </p>
+    <a href={toolHref} class="cta-link">JSON圧縮ツールを開く →</a>
+  </section>
+
+  <section id="savings">
+    <h2>サイズ削減とgzip圧縮の併用 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      インデントの深いJSONファイルでは空白除去だけで20〜40%容量を削減でき、さらにHTTPのgzip/Brotli圧縮と組み合わせることで転送・解析の両面を軽量化できます。
+    </p>
+    <ReferenceBlock type="key-idea" heading="損失ゼロ・可逆変換・数値丸めなし">
+      <p>元のトークン文字を直接コピーするため長いIDや <code>19.90</code> が変わることなく、いつでも元のインデント形式へ戻せます。</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>関連ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      可読性を戻すには <a href={toolPathBySlug('json-formatter', 'ja')}>JSON 整形ツール</a>、構文エラーの確認には <a href={toolPathBySlug('json-validator', 'ja')}>JSON バリデーター</a> をご利用ください。
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

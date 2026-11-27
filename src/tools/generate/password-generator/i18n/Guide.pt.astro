@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Uma senha realmente segura depende acima de tudo de comprimento e aleatoriedade criptográfica, e não de trocas previsíveis como substituir letras por números. Usar pelo menos 16 caracteres gerados pela Web Crypto API no seu próprio navegador protege contra ataques de dicionário e força bruta sem expor nada na rede.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Gerador de Senhas →</a>
+  </section>
+
+  <section id="comprimento-vs-complexidade">
+    <h2>Por que o tamanho vale mais que símbolos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Cada caractere adicional multiplica exponencialmente o universo de combinações possíveis. Subir de 8 para 16 ou 20 caracteres adiciona muito mais entropia do que apenas ligar símbolos em uma senha curta.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Meta prática de entropia">
+      <p>Busque de 60 a 80 bits em contas comuns e acima de 100 bits em e-mail principal, banco e cofre de senhas. Dezesseis caracteres nos quatro conjuntos passam de 103 bits.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="armazenamento-seguro">
+    <h2>Onde salvar e ferramentas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Guarde cada senha exclusiva em um gerenciador criptografado e ative a exclusão de caracteres ambíguos se precisar digitar manualmente. Para compartilhar Wi-Fi use o <a href={toolPathBySlug('qr-code-generator', 'pt')}>Gerador de QR Code</a>, para identificadores use o <a href={toolPathBySlug('uuid-generator', 'pt')}>Gerador de UUID</a> ou para tokens técnicos acesse o <a href={toolPathBySlug('random-string-generator')}>Random String Generator</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

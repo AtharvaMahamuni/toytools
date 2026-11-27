@@ -126,6 +126,96 @@ const COPY: Record<LocalizedLocale, {
     feedbackTitle: 'Commentaires',
     feedbackBody: 'La page de contact prépare un message dans votre client mail habituel afin que vous voyiez exactement ce qui est envoyé.',
   },
+  ja: {
+    h1: 'プライバシーポリシー',
+    description: '入力内容はすべてお使いの端末内に留まります。アカウントもデータベースも不要で、サーバー送信はありません。例外となるアクセス解析のみ以下に記載します。',
+    updated: '2026年11月27日',
+    shortTitle: '概要',
+    shortBullets: [
+      '入力データが外部サーバーに送信されることはありません。',
+      'アカウント登録、ログイン、ユーザーデータベースはありません。',
+      '設定・メモ・リスト等の保存データはブラウザのローカルストレージにのみ保持され、「設定」から削除・書出できます。',
+      `Google Analytics (${GA_MEASUREMENT_ID}) は本番ドメインでのみページ閲覧数を計測し、入力内容は一切受け取りません。`,
+    ],
+    browserTitle: 'ブラウザ内完結の実行設計',
+    browserBody: [
+      'ToyToolsは静的サイトです。文字カウント、計算、パスワード生成、トークン解析などはすべてお使いのブラウザ内で動きます。',
+      '多くのユーティリティはページ読込後にインターネット接続なしでも動作します。',
+    ],
+    storageTitle: '端末へのローカル保存',
+    storageBody: [
+      '一部の生産性ツールはブラウザのlocalStorageキー（toytools: / toytools.）に状態を保存します。',
+      `入力保持対応ツール (${keepList}) は「保存された入力を消去」を押すまでブラウザ内にテキストを保持します。`,
+      '通常の計算・変換ツールはページを再読み込みすると入力内容を保持しません。',
+    ],
+    analyticsTitle: 'アクセス解析と外部通信',
+    analyticsBody: [
+      `toytoolsapp.com 上では利用状況把握のため Google Analytics (${GA_MEASUREMENT_ID}) を読み込みます（共有リンクの計算パラメータは除外）。`,
+      'ユーザー操作により外部IP確認サービスへ直接接続するのは公開IPアドレス確認ツールのみです。',
+    ],
+    feedbackTitle: 'ご意見・お問い合わせ',
+    feedbackBody: 'フィードバック画面ではお使いのメールアプリ上に下書きを作成するため、送信前に内容をご自身で確認できます。',
+  },
+  pt: {
+    h1: 'Privacidade',
+    description: 'O que você digita fica no seu aparelho. Sem conta, sem banco de dados e sem envio a servidores. Apenas a métrica de acessos descrita abaixo.',
+    updated: '27 de novembro de 2026',
+    shortTitle: 'Em resumo',
+    shortBullets: [
+      'Nenhuma ferramenta envia o que você digita para servidores externos.',
+      'Sem conta de usuário, login ou banco de dados.',
+      'Preferências, notas e listas ficam apenas no armazenamento local do navegador e podem ser apagadas em Configurações.',
+      `O Google Analytics (${GA_MEASUREMENT_ID}) mede acessos agregados apenas no domínio oficial, sem receber suas entradas.`,
+    ],
+    browserTitle: 'Execução local no navegador',
+    browserBody: [
+      'O ToyTools é um site estático: contagens, cálculos, senhas e validações rodam direto no seu navegador.',
+      'A maioria dos utilitários continua funcionando offline depois de aberta.',
+    ],
+    storageTitle: 'Armazenamento neste aparelho',
+    storageBody: [
+      'Ferramentas de produtividade salvam estado local em chaves toytools: e toytools. somente neste dispositivo.',
+      `Utilitários com rascunho (${keepList}) mantêm seu texto local até que você clique em Limpar entrada salva.`,
+      'Calculadoras comuns esquecem seus valores ao recarregar a página.',
+    ],
+    analyticsTitle: 'Métricas e chamadas de rede',
+    analyticsBody: [
+      `O Google Analytics (${GA_MEASUREMENT_ID}) é carregado somente em toytoolsapp.com para medir visualizações de página, removendo parâmetros de cálculo.`,
+      'A única ferramenta que faz consulta externa é a verificação de IP público direto do navegador.',
+    ],
+    feedbackTitle: 'Contato e sugestões',
+    feedbackBody: 'O formulário prepara a mensagem no seu próprio aplicativo de e-mail para que você revise tudo antes de enviar.',
+  },
+  hi: {
+    h1: 'गोपनीयता नीति',
+    description: 'आप जो भी दर्ज करते हैं वह आपके डिवाइस पर रहता है। न कोई खाता, न डेटाबेस और न सर्वर पर डेटा भेजा जाता है। नीचे केवल वेबसाइट विज़िट मापन की जानकारी है।',
+    updated: '27 नवंबर 2026',
+    shortTitle: 'संक्षेप में',
+    shortBullets: [
+      'कोई भी टूल आपके दर्ज किए गए टेक्स्ट या संख्याओं को बाहरी सर्वर पर नहीं भेजता।',
+      'कोई उपयोगकर्ता खाता, लॉगिन या डेटाबेस नहीं है।',
+      'नोट्स व प्राथमिकताएँ केवल आपके ब्राउज़र में सहेजी जाती हैं जिन्हें आप सेटिंग्स से एक्सपोर्ट या मिटा सकते हैं।',
+      `Google Analytics (${GA_MEASUREMENT_ID}) केवल आधिकारिक साइट पर पेज विज़िट गिनता है और आपके टूल इनपुट नहीं देखता।`,
+    ],
+    browserTitle: 'ब्राउज़र के भीतर निष्पादन',
+    browserBody: [
+      'ToyTools एक स्टैटिक वेबसाइट है। शब्द गिनती, गणना, पासवर्ड और फॉर्मेटिंग आपके ब्राउज़र में ही होती है।',
+      'लोड होने के बाद अधिकांश टूल बिना इंटरनेट के भी चलते हैं।',
+    ],
+    storageTitle: 'आपके डिवाइस पर संग्रहण',
+    storageBody: [
+      'उत्पादकता टूल केवल आपके ब्राउज़र के localStorage (toytools: और toytools.) में स्थिति सहेजते हैं।',
+      `ड्राफ़्ट सहेजने वाले टूल (${keepList}) "सहेजा गया इनपुट साफ़ करें" दबाने तक टेक्स्ट स्थानीय रखते हैं।`,
+      'सामान्य कैलकुलेटर पेज रीलोड होते ही इनपुट भूल जाते हैं।',
+    ],
+    analyticsTitle: 'एनालिटिक्स और नेटवर्क अनुरोध',
+    analyticsBody: [
+      `toytoolsapp.com पर सामान्य ट्रैफ़िक मापने के लिए Google Analytics (${GA_MEASUREMENT_ID}) उपयोग होता है, जिसमें शेयर लिंक पैरामीटर हटा दिए जाते हैं।`,
+      'केवल पब्लिक IP टूल ही ब्राउज़र से सीधे IP सेवा से संपर्क करता है।',
+    ],
+    feedbackTitle: 'प्रतिक्रिया फॉर्म',
+    feedbackBody: 'संपर्क पेज आपके स्वयं के ईमेल ऐप में ड्राफ़्ट खोलता है ताकि भेजने से पहले आप पूरा विवरण देख सकें।',
+  },
 };
 
 const c = COPY[lang];

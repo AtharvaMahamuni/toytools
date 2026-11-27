@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>結論とポイント <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      URLエンコード（RFC 3986のパーセントエンコーディング）は、日本語・スペース・予約文字（<code>&amp;</code>, <code>=</code>, <code>?</code>, <code>/</code>）をUTF-8バイトの <code>%XX</code> 形式に変換してURLの破損やクエリの分断を防ぐ仕組みです。
+    </p>
+    <a href={toolHref} class="cta-link">URLエンコードツールを開く →</a>
+  </section>
+
+  <section id="encodeuricomponent">
+    <h2>encodeURIComponent の使い分けと二重エンコード注意 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      クエリ値には構造記号まで変換する <code>encodeURIComponent</code>、URL全体には <code>encodeURI</code> を使います。エンコード済みの値へ再度適用すると <code>%20</code> が <code>%2520</code> に化ける二重エンコードが起きるため注意しましょう。
+    </p>
+    <ReferenceBlock type="key-idea" heading="空白の %20 と + の使い分け">
+      <p>標準のパスやURIでは <code>%20</code> を使い、<code>+</code> はフォーム送信形式（<code>application/x-www-form-urlencoded</code>）に限定されます。</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>関連するWebエンコーディングツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      バイナリやUTF-8を文字列化する場合は <a href={toolPathBySlug('base64-encoder-decoder', 'ja')}>Base64変換ツール</a>、HTMLタグ文字の無害化には <a href={toolPathBySlug('html-entity-encoder-decoder', 'ja')}>HTMLエンティティ変換ツール</a> をあわせてご利用ください。
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

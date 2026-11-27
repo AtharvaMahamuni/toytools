@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      लोरेम इप्सम (Lorem Ipsum) डिज़ाइन और टाइपोग्राफी का मानक डमी टेक्स्ट है, जिसका उपयोग असली कॉपी आने से पहले लेआउट, फ़ॉन्ट, लाइन स्पेसिंग और पदानुक्रम जांचने के लिए किया जाता है ताकि पढ़ने वाला शब्दों के अर्थ में न उलझे।
+    </p>
+    <a href={toolHref} class="cta-link">लोरेम इप्सम जनरेटर खोलें →</a>
+  </section>
+
+  <section id="history-and-typography">
+    <h2>सिसरो से जुड़ा इतिहास और टाइपोग्राफी में उपयोग <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      ईसा पूर्व 45 में सिसरो के लैटिन ग्रंथ से बदले गए इस पाठ में स्वाभाविक शब्द-लंबाई और विराम चिह्नों का संतुलन मिलता है, जिससे डिज़ाइन की बनावट असली लेख जैसी दिखती है।
+    </p>
+    <ReferenceBlock type="key-idea" heading="प्रकाशन से पहले असली सामग्री से जांचें">
+      <p>शुरुआती वायरफ्रेम और फ़ॉन्ट परीक्षण के लिए डमी टेक्स्ट बेहतरीन है, लेकिन लॉन्च से पहले हेडिंग, बटन और कार्ड को वास्तविक लंबाई वाली सामग्री से जरूर परखें।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>सटीक लंबाई जांचने के लिए संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      लेआउट के अनुसार शब्द संख्या मापने के लिए <a href={toolPathBySlug('word-counter', 'hi')}>शब्द गणक (Word Counter)</a> और सख्त अक्षर सीमाएं जांचने के लिए <a href={toolPathBySlug('character-counter', 'hi')}>अक्षर गणक (Character Counter)</a> उपयोग करें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

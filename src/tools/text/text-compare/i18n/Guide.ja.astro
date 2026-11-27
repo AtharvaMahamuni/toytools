@@ -1,0 +1,68 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath, categoryPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="ja"
+>
+  <section id="quick-answer">
+    <h2>概要（クイック回答） <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      テキスト比較（Diff）ツールは、2つの文章や設定ファイルを並べて行単位で照合し、追加行（緑 <strong>+</strong>）、削除行（赤 <strong>-</strong>）、未変更行および類似度を即座に表示します。ブラウザ内だけで処理されるため機密文書の比較も安全です。
+    </p>
+    <a href={toolHref} class="cta-link">テキスト比較ツールを開く →</a>
+  </section>
+
+  <section id="how-to-read">
+    <h2>Diff結果の見方 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>+（緑背景）:</strong> 新しいテキストのみに存在する追加行。</li>
+      <li><strong>-（赤背景）:</strong> 元のテキストのみにあった削除行。</li>
+      <li><strong>空白（グレー）:</strong> 両方で一致している変更なしの行。</li>
+    </ul>
+    <ReferenceBlock type="note" heading="改行や末尾スペースだけの差をワンクリック除外">
+      <p>WindowsとMacの改行コード差（CRLF/LF）や行末空白だけで差分が出た場合、上部のボタンから即座に空白差を無視できます。</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>関連ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <a href={categoryPath(category, 'ja')}>テキストツール一覧</a> からは <a href={toolPathBySlug('word-counter', 'ja')}>文字数・単語数カウンター</a> や <a href={toolPathBySlug('character-counter', 'ja')}>文字数カウントツール</a> も利用できます。
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

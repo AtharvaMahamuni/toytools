@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      मजबूत पासवर्ड की असली ताकत उसकी लंबाई और क्रिप्टोग्राफिक यादृच्छिकता (randomness) में होती है, न कि केवल कुछ अक्षरों की जगह प्रतीक लगाने में। ब्राउज़र में Web Crypto API के जरिए बनाए गए 16 या अधिक अक्षरों के पासवर्ड बिना किसी सर्वर को डेटा भेजे ब्रूट-फोर्स और डिक्शनरी हमलों से बचाते हैं।
+    </p>
+    <a href={toolHref} class="cta-link">पासवर्ड जनरेटर खोलें →</a>
+  </section>
+
+  <section id="length-vs-complexity">
+    <h2>लंबाई जटिलता से ज्यादा महत्वपूर्ण क्यों है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      पासवर्ड में जुड़ा हर नया अक्षर कुल संभावनाओं को कई गुना बढ़ा देता है। छोटे 8-अक्षर के पासवर्ड में प्रतीक डालने के बजाय 16 से 20 अक्षर चुनना एन्ट्रॉपी को कहीं तेजी से बढ़ाता है।
+    </p>
+    <ReferenceBlock type="key-idea" heading="एन्ट्रॉपी का व्यावहारिक लक्ष्य">
+      <p>सामान्य खातों के लिए 60 से 80 बिट और मुख्य ईमेल, बैंकिंग व पासवर्ड मैनेजर के लिए 100 बिट या अधिक का लक्ष्य रखें। चारों सेट के साथ 16 अक्षर लगभग 103 बिट एन्ट्रॉपी देते हैं।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="safe-storage">
+    <h2>सुरक्षित स्टोरेज और संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      हर खाते के लिए अलग पासवर्ड बनाकर उसे एन्क्रिप्टेड पासवर्ड मैनेजर में रखें और हाथ से टाइप करने की स्थिति में भ्रामक अक्षर हटाने का विकल्प चुनें। वाई-फाई साझा करने के लिए <a href={toolPathBySlug('qr-code-generator', 'hi')}>QR कोड जनरेटर</a>, यूनीक ID के लिए <a href={toolPathBySlug('uuid-generator', 'hi')}>UUID जनरेटर</a> या कस्टम टोकन के लिए <a href={toolPathBySlug('random-string-generator')}>Random String Generator</a> उपयोग करें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

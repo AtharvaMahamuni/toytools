@@ -7,12 +7,18 @@ import { EN_UI } from './en';
 import { ES_UI } from './es';
 import { DE_UI } from './de';
 import { FR_UI } from './fr';
+import { JA_UI } from './ja';
+import { PT_UI } from './pt';
+import { HI_UI } from './hi';
 
 const BUNDLES: Record<LocaleCode, SiteUiStrings> = {
   en: EN_UI,
   es: ES_UI,
   de: DE_UI,
   fr: FR_UI,
+  ja: JA_UI,
+  pt: PT_UI,
+  hi: HI_UI,
 };
 
 export function getUiStrings(locale?: string): SiteUiStrings {

@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Le Formateur SQL met en page vos requêtes compactes directement dans le navigateur : mots-clés en majuscules (<code>SELECT</code>, <code>JOIN</code>, <code>WHERE</code>) et clauses indentées à deux espaces sans jamais téléverser votre requête.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir le Formateur SQL →</a>
+  </section>
+
+  <section id="securite-secrets">
+    <h2>Protéger les identifiants dans vos requêtes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Les requêtes issues de journaux serveur contiennent parfois un mot de passe ou jeton. L’exécution locale empêche toute fuite réseau et affiche un avertissement lorsqu’un secret semble présent.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Commentaires préservés et guillemets stricts">
+      <p>Les commentaires sont conservés et tout guillemet non fermé bloque proprement le formatage pour éviter toute interprétation hasardeuse.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="outils-associes">
+    <h2>Outils associés <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Si votre requête renvoie des données JSON, utilisez ensuite le <a href={toolPathBySlug('json-formatter', 'fr')}>Formateur JSON</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

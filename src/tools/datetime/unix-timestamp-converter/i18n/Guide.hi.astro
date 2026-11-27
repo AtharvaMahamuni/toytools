@@ -1,0 +1,73 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug, toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="hi"
+>
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Unix टाइमस्टैम्प 1 जनवरी 1970 (00:00:00 UTC) से बीते सेकंड या मिलीसेकंड की संख्या होती है। यह टूल <code>1700000000</code> जैसी संख्याओं को पठनीय UTC, ISO 8601 और आपके स्थानीय समय में बदलता है तथा तारीखों को वापस Unix समय में भी परिवर्तित करता है।
+    </p>
+    <a href={toolHref} class="cta-link">Unix टाइमस्टैम्प कन्वर्टर खोलें →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>Unix समय और Epoch कैसे काम करते हैं <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      क्योंकि इसकी गिनती हमेशा UTC से होती है, भारत, यूरोप या अमेरिका सभी जगह एक ही पल का Unix टाइमस्टैम्प समान रहता है। <a href={guidePathBySlug('jwt-decoder')}>JWT टोकन के exp व iat फ़ील्ड</a> में भी यही Unix सेकंड उपयोग होता है।
+    </p>
+  </section>
+
+  <section id="seconds-vs-ms">
+    <h2>सेकंड (10 अंक) बनाम मिलीसेकंड (13 अंक) <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      10 अंकों का मान आमतौर पर सेकंड (जैसे <code>1700000000</code> = 14 नवम्बर 2023) होता है, जबकि JavaScript से मिले 13 अंक मिलीसेकंड होते हैं। सेकंड चुनने पर यदि वर्ष 50000+ दिखे तो इकाई को मिलीसेकंड पर बदलें।
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>आम गलतियाँ व संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="टाइमस्टैम्प को पहले से लोकल टाइमज़ोन में मान लेना">
+      <p>Unix टाइमस्टैम्प में कोई टाइमज़ोन नहीं होता; वह हमेशा UTC से शुरू होता है।</p>
+    </ReferenceBlock>
+    <p>
+      दो तारीखों के दिन गिनने के लिए <a href={toolPathBySlug('date-difference-calculator', 'hi')}>दिनांक अंतर कैलकुलेटर</a> और जन्मतिथि से उम्र जानने के लिए <a href={toolPathBySlug('age-calculator', 'hi')}>आयु कैलकुलेटर</a> देखें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

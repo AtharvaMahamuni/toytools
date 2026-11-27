@@ -1,5 +1,6 @@
 import type { EncodingTool } from './types';
 import { byteLength, count } from './util';
+import { readClientI18n } from '@lib/i18n/client';
 
 // HTML entity encoding — pure JS (no DOMParser, so it runs in the bundled module
 // context, not just the browser). Encodes the five characters that are significant
@@ -124,27 +125,33 @@ export const htmlEntity: EncodingTool = {
   // hard-fails. Report an informational note when nothing looks like an entity.
   validate(input, mode) {
     if (mode === 'encode' || !input) return { ok: true, severity: 'info' };
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     if (!ENTITY.test(input)) {
-      return { ok: true, severity: 'info', message: 'No HTML entities found, so the input is unchanged.' };
+      return { ok: true, severity: 'info', message: ei.infoNoEntities ?? 'No HTML entities found, so the input is unchanged.' };
     }
     return { ok: true, severity: 'info' };
   },
 
   meta(input, output, mode) {
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     const source = mode === 'decode' ? input : output;
     const entities = (source.match(/&(#[xX]?[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]*);/g) || []).length;
+    const entVal = typeof ei.entCountTpl === 'string' && ei.entCountTpl
+      ? ei.entCountTpl.replace(/\{n\}/g, String(entities))
+      : count(entities, 'reference');
     return [
-      { label: 'Entities', value: count(entities, 'reference') },
-      { label: 'Input length', value: String(input.length) },
-      { label: 'Output bytes', value: String(byteLength(output)) },
+      { label: ei.metaEntities ?? 'Entities', value: entVal },
+      { label: ei.metaInputLen ?? 'Input length', value: String(input.length) },
+      { label: ei.metaOutputBytes ?? 'Output bytes', value: String(byteLength(output)) },
     ];
   },
 
   recover(text, mode) {
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     if (mode === 'decode') {
       if (/&amp;(amp|lt|gt|quot|#39);/i.test(text)) {
         return {
-          label: 'Unwrap double-escaped entities',
+          label: ei.recDoubleEsc ?? 'Unwrap double-escaped entities',
           text: text.replace(/&amp;(amp|lt|gt|quot|#39);/gi, '&$1;'),
         };
       }
@@ -153,7 +160,7 @@ export const htmlEntity: EncodingTool = {
       const MISSING = /&(copy|reg|trade|amp|lt|gt|quot|COPY|REG|TRADE|AMP|LT|GT|QUOT)(?![;A-Za-z0-9])/g;
       if (MISSING.test(text)) {
         return {
-          label: 'Add missing semicolons to entities',
+          label: ei.recMissingSemi ?? 'Add missing semicolons to entities',
           text: text.replace(MISSING, '&$1;'),
         };
       }

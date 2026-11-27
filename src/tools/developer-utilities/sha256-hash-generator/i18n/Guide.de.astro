@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="schnellantwort">
+    <h2>Schnellantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      SHA-256 ist die bewährte Standard-Hashfunktion der Kryptografie: Sie verdichtet beliebige Texte oder Dateien eindeutig auf 256 Bit (64 Hex-Zeichen). Sie schützt TLS-Signaturen, Software-Downloads und Blockchain-Daten gegen Manipulation, ersetzt aber keine Passwort-Hashfunktion.
+    </p>
+    <a href={toolHref} class="cta-link">SHA-256 Generator öffnen →</a>
+  </section>
+
+  <section id="terminal-pruefung">
+    <h2>SHA-256-Prüfsummen auf Windows, macOS & Linux testen <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Unter Linux prüfst du per <code>sha256sum datei.zip</code>, unter macOS mit <code>shasum -a 256 datei.zip</code> und unter Windows PowerShell via <code>Get-FileHash datei.zip -Algorithm SHA256</code>. Durch den Lawineneffekt ändert schon ein gekipptes Bit die komplette Ausgabe.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Kein roher SHA-256 für Passwörter">
+      <p>Weil Grafikkarten Milliarden SHA-256-Runden pro Sekunde schaffen, gehören Passwörter ausschließlich mit langsamen, gesalzenen Verfahren wie Argon2 oder bcrypt gesichert.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="verwandte-tools">
+    <h2>Passende Hash- und Kodierungstools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Lokale Downloads prüfst du mit dem <a href={toolPathBySlug('file-hash-verifier')}>File Hash Verifier</a>, Base64-Kodierung erledigt der <a href={toolPathBySlug('base64-encoder-decoder', 'de')}>Base64-Encoder</a>, und ältere Prüfsummen findest du unter <a href={toolPathBySlug('md5-hash-generator')}>MD5 Generator</a> sowie <a href={toolPathBySlug('sha1-hash-generator')}>SHA-1 Generator</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

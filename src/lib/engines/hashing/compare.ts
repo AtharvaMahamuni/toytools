@@ -14,6 +14,7 @@
 // See docs/analysis/2026-08-11-tool-craft.md.
 
 import type { DigestComparison } from '../transform/types';
+import { readClientI18n } from '@lib/i18n/client';
 
 /**
  * Pull the digest out of the shapes people actually paste.
@@ -69,25 +70,32 @@ export function compareDigest(
   // digest is wrong before we have one of our own.
   if (!actual) return null;
 
+  const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
+
   if (!HEX_ONLY.test(expected)) {
     return {
       state: 'unreadable',
-      message: 'That does not look like a hex digest. Paste the hash on its own, or a line of sha256sum output.',
+      message: ei.digestUnreadable ?? 'That does not look like a hex digest. Paste the hash on its own, or a line of sha256sum output.',
     };
   }
 
   if (expected.length !== ownLength) {
     const match = Object.entries(expectedLengths).find(([, len]) => len === expected.length);
     const named = match ? (displayNames[match[0]] ?? match[0].toUpperCase()) : null;
+    const msg = named
+      ? (typeof ei.digestWrongNamedTpl === 'string' && ei.digestWrongNamedTpl
+          ? ei.digestWrongNamedTpl.replace(/\{len\}/g, String(expected.length)).replace(/\{algo\}/g, named)
+          : `That is ${expected.length} hex characters, the length of a ${named} digest. Nothing is wrong with your file: it was hashed with a different algorithm.`)
+      : (typeof ei.digestWrongLenTpl === 'string' && ei.digestWrongLenTpl
+          ? ei.digestWrongLenTpl.replace(/\{len\}/g, String(expected.length)).replace(/\{own\}/g, String(ownLength))
+          : `That is ${expected.length} hex characters, but this digest is ${ownLength}. Check which algorithm produced it.`);
     return {
       state: 'wrong-length',
-      message: named
-        ? `That is ${expected.length} hex characters, the length of a ${named} digest. Nothing is wrong with your file: it was hashed with a different algorithm.`
-        : `That is ${expected.length} hex characters, but this digest is ${ownLength}. Check which algorithm produced it.`,
+      message: msg,
     };
   }
 
   return expected === actual
-    ? { state: 'match', message: 'Matches. Same input, same digest.' }
-    : { state: 'mismatch', message: 'Does not match. The input or the expected digest is not what you think it is.' };
+    ? { state: 'match', message: ei.digestMatch ?? 'Matches. Same input, same digest.' }
+    : { state: 'mismatch', message: ei.digestMismatch ?? 'Does not match. The input or the expected digest is not what you think it is.' };
 }

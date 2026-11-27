@@ -20,6 +20,7 @@ import { crc32, crc32hexBytes } from './crc32';
 import { fileHash } from './file';
 import { compareDigest } from './compare';
 import { identifyHash, verifyHash } from './identify';
+import { readClientI18n } from '@lib/i18n/client';
 
 // Keyed by hasher id, referenced from a tool config's `processorId`.
 export const HASHERS: Record<string, HashTool> = {
@@ -139,13 +140,15 @@ export function compareHash(id: string, expected: string, actual: string): Diges
 
 /** Live metadata rows derived from the digest size. */
 export function hashMeta(id: string, input: string, output: string): MetaItem[] {
+  const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
   const h = HASHERS[id];
   const bits = h?.bits ?? output.length * 4;
+  const bitsVal = typeof ei.bitsTpl === 'string' && ei.bitsTpl ? ei.bitsTpl.replace(/\{bits\}/g, String(bits)) : `${bits} bits`;
   return [
-    { label: 'Algorithm', value: h?.displayName ?? id },
-    { label: 'Output', value: `${bits} bits` },
-    { label: 'Hex characters', value: String(output.length) },
-    { label: 'Input bytes', value: String(UTF8(input)) },
+    { label: ei.metaAlgorithm ?? 'Algorithm', value: h?.displayName ?? id },
+    { label: ei.metaOutput ?? 'Output', value: bitsVal },
+    { label: ei.metaHexChars ?? 'Hex characters', value: String(output.length) },
+    { label: ei.metaInputBytes ?? 'Input bytes', value: String(UTF8(input)) },
   ];
 }
 
@@ -158,11 +161,11 @@ export function validateHash(_id: string, _text: string): ValidationDetail {
  *  `run` is async (SHA via crypto.subtle); an empty digest is surfaced as an error. */
 export const hashingProvider: TransformProvider = {
   run: (id, _mode, input): Promise<TransformResult> =>
-    runHash(id, input).then((hex) =>
-      hex
-        ? { ok: true, output: hex }
-        : { ok: false, output: '', error: 'Unable to hash — a secure context is required for SHA.' },
-    ),
+    runHash(id, input).then((hex) => {
+      if (hex) return { ok: true, output: hex };
+      const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
+      return { ok: false, output: '', error: ei.errHash ?? 'Unable to hash — a secure context is required for SHA.' };
+    }),
   // Hashing is one-way; detection is unused but kept contract-complete.
   detect: (): DetectResult => ({ mode: 'hash', confidence: 'low' }),
   validate: (id, _mode, input) => validateHash(id, input),

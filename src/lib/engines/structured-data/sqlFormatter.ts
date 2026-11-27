@@ -3,6 +3,7 @@
 // 2-space indent, and one major clause per line. Never throws: failures become a result error.
 
 import type { StructuredDataTool } from './types';
+import { readClientI18n } from '@lib/i18n/client';
 
 const MAX_CHARS = 200_000;
 
@@ -157,7 +158,8 @@ export function secretWarning(input: string): string | undefined {
   const re =
     /\b(password|passwd|pwd|secret|api[_-]?key|access[_-]?token|private[_-]?key)\b\s*=\s*'[^']+'/i;
   if (re.test(input)) {
-    return 'This query looks like it contains a password or secret in a quoted value. Formatting runs only in this browser, but avoid pasting credentials into any site that uploads your text.';
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
+    return ei.warnSecret ?? 'This query looks like it contains a password or secret in a quoted value. Formatting runs only in this browser, but avoid pasting credentials into any site that uploads your text.';
   }
   return undefined;
 }
@@ -290,11 +292,15 @@ export const sqlFormatter: StructuredDataTool = {
   family: 'json',
   execute: (input) => {
     if (!input.trim()) return { ok: true, output: '' };
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     if (input.length > MAX_CHARS) {
+      const maxStr = MAX_CHARS.toLocaleString('en-US');
       return {
         ok: false,
         output: '',
-        error: `This SQL is larger than ${MAX_CHARS.toLocaleString('en-US')} characters. Trim it before formatting.`,
+        error: typeof ei.errTooLargeTpl === 'string' && ei.errTooLargeTpl
+          ? ei.errTooLargeTpl.replace(/\{max\}/g, maxStr)
+          : `This SQL is larger than ${maxStr} characters. Trim it before formatting.`,
       };
     }
     // Unclosed quote check (single, double, backtick). Dollar-quotes are validated by the tokenizer path.
@@ -308,7 +314,14 @@ export const sqlFormatter: StructuredDataTool = {
       }
       if (count % 2 !== 0) {
         const name = q === "'" ? 'single' : q === '"' ? 'double' : 'backtick';
-        return { ok: false, output: '', error: `Unclosed ${name}-quoted string. Add the missing ${q} and try again.` };
+        const qName = (ei.quoteNames?.[name] as string | undefined) ?? name;
+        return {
+          ok: false,
+          output: '',
+          error: typeof ei.errUnclosedTpl === 'string' && ei.errUnclosedTpl
+            ? ei.errUnclosedTpl.replace(/\{name\}/g, qName).replace(/\{q\}/g, q)
+            : `Unclosed ${name}-quoted string. Add the missing ${q} and try again.`,
+        };
       }
     }
     const output = formatSql(input);

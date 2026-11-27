@@ -8,6 +8,7 @@
 
 import type { Generator, GenerationResult, GeneratorOptions } from '../types';
 import { secureInt, pick, shuffle, entropyBits, strengthFromEntropy } from '../utils';
+import { readClientI18n } from '@lib/i18n/client';
 
 const UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const LOWER = 'abcdefghijklmnopqrstuvwxyz';
@@ -51,10 +52,11 @@ export const password: Generator = {
     },
   ],
   generate(opts: GeneratorOptions): GenerationResult {
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     const length = Math.max(4, Math.min(128, Math.round(Number(opts.length) || 16)));
     const sets = poolFor(opts);
     if (sets.length === 0) {
-      return { ok: false, kind: 'text', error: 'Enable at least one character set.' };
+      return { ok: false, kind: 'text', error: ei.errNoSet ?? 'Enable at least one character set.' };
     }
     const combined = sets.join('');
     const combinedArr = [...combined];
@@ -69,15 +71,17 @@ export const password: Generator = {
 
     const value = chars.join('');
     const bits = entropyBits(length, combined.length);
+    const bitsText = ei.bitsTpl ? String(ei.bitsTpl).replace('{bits}', String(bits)) : `${bits} bits`;
+    const poolText = ei.charsTpl ? String(ei.charsTpl).replace('{n}', String(combined.length)) : `${combined.length} chars`;
     return {
       ok: true,
       kind: 'text',
       text: value,
       strength: strengthFromEntropy(bits),
       meta: [
-        { label: 'Entropy', value: `${bits} bits` },
-        { label: 'Length', value: String(length) },
-        { label: 'Pool', value: `${combined.length} chars` },
+        { label: ei.metaEntropy ?? 'Entropy', value: bitsText },
+        { label: ei.metaLength ?? 'Length', value: String(length) },
+        { label: ei.metaPool ?? 'Pool', value: poolText },
       ],
     };
   },

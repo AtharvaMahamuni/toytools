@@ -3,6 +3,7 @@
 // with a line and column when the browser surfaces one.
 
 import type { StructuredDataTool, StructuredDataResult } from './types';
+import { readClientI18n } from '@lib/i18n/client';
 
 const MODE_PREFIX = /^@@(pretty|minify)@@\n/;
 
@@ -318,8 +319,9 @@ function serializeNode(
 
 export function formatXml(xml: string, mode: XmlMode = 'pretty'): StructuredDataResult {
   if (!xml.trim()) return { ok: true, output: '' };
+  const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
   if (typeof DOMParser === 'undefined') {
-    return { ok: false, output: '', error: 'XML parsing is not available in this environment.' };
+    return { ok: false, output: '', error: ei.errNoParser ?? 'XML parsing is not available in this environment.' };
   }
 
   const { prolog, body } = extractProlog(xml);
@@ -337,11 +339,16 @@ export function formatXml(xml: string, mode: XmlMode = 'pretty'): StructuredData
     const where =
       line != null
         ? loc.column != null
-          ? ` (line ${line}, column ${loc.column})`
-          : ` (line ${line})`
+          ? (typeof ei.whereLineColTpl === 'string' && ei.whereLineColTpl
+              ? ei.whereLineColTpl.replace(/\{line\}/g, String(line)).replace(/\{col\}/g, String(loc.column))
+              : ` (line ${line}, column ${loc.column})`)
+          : (typeof ei.whereLineTpl === 'string' && ei.whereLineTpl
+              ? ei.whereLineTpl.replace(/\{line\}/g, String(line))
+              : ` (line ${line})`)
         : '';
     const detail = cleanParserError(errMsg);
-    return { ok: false, output: '', error: detail ? `Malformed XML${where}: ${detail}` : `Malformed XML${where}`.trim() };
+    const prefix = ei.errMalformed ?? 'Malformed XML';
+    return { ok: false, output: '', error: detail ? `${prefix}${where}: ${detail}` : `${prefix}${where}`.trim() };
   }
 
   const parts: string[] = [];
@@ -350,7 +357,7 @@ export function formatXml(xml: string, mode: XmlMode = 'pretty'): StructuredData
   }
 
   const root = doc.documentElement;
-  if (!root) return { ok: false, output: '', error: 'Malformed XML: no root element.' };
+  if (!root) return { ok: false, output: '', error: ei.errNoRoot ?? 'Malformed XML: no root element.' };
   serializeNode(root, 0, mode === 'pretty', parts, placeholder, blocks);
   let output = parts.join('');
   if (mode === 'pretty') output = output.replace(/\n+$/, '\n');

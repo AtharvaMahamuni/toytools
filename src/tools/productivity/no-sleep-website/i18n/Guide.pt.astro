@@ -1,0 +1,149 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="pt"
+>
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Para manter a tela acesa online enquanto lê, cozinha seguindo uma receita, apresenta slides ou acompanha um painel, basta abrir nosso site para manter a tela ligada e clicar no botão principal. A ferramenta utiliza a API padrão Screen Wake Lock do navegador para suspender temporariamente o desligamento automático sem instalar aplicativos nem alterar ajustes globais do dispositivo.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Manter Tela Ligada →</a>
+  </section>
+
+  <section id="por-que-apaga">
+    <h2>Por que a tela se apaga sozinha <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Todo sistema operacional aplica um temporizador de inatividade que escurece e bloqueia o visor após alguns segundos ou minutos sem toques. Isso ocorre por quatro razões práticas:
+    </p>
+    <ul>
+      <li><strong>Economia de bateria:</strong> A tela iluminada é o componente que mais gasta energia em celulares e notebooks.</li>
+      <li><strong>Controle térmico:</strong> Manter a tela em brilho alto continuamente gera calor no aparelho.</li>
+      <li><strong>Segurança física:</strong> Bloquear telas sem uso evita acessos indesejados em locais públicos.</li>
+      <li><strong>Prevenção de burn-in OLED:</strong> Imagens estáticas com brilho máximo por longas horas podem marcar telas OLED.</li>
+    </ul>
+    <p>
+      Esse padrão protege o dispositivo no dia a dia, mas atrapalha sempre que você observa a tela continuamente sem precisar tocá-la.
+    </p>
+  </section>
+
+  <section id="como-funciona">
+    <h2>Como funciona a API Screen Wake Lock <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      O wake lock envia ao sistema operacional um pedido educado para manter o painel ligado enquanto a aba estiver ativa:
+    </p>
+    <ol>
+      <li><strong>O navegador</strong> disponibiliza a interface padrão <code>navigator.wakeLock.request('screen')</code> do W3C.</li>
+      <li><strong>A página</strong> solicita a trava ao clicar no botão de início.</li>
+      <li><strong>O navegador</strong> repassa esse pedido ao gerenciador de energia do sistema.</li>
+      <li><strong>O dispositivo</strong> mantém o visor aceso enquanto a aba seguir visível em primeiro plano.</li>
+      <li>Quando você para a sessão ou troca de aba, a trava é liberada e o tempo normal volta a valer.</li>
+    </ol>
+    <ReferenceBlock type="note" heading="Tela ligada vs. suspensão do computador">
+      <p>O Wake Lock atua apenas sobre a <em>suspensão automática da tela</em>. Fechar a tampa do notebook ou apertar o botão liga/desliga continua suspendendo o sistema.</p>
+    </ReferenceBlock>
+
+    <h3>Trava no navegador vs. utilitários de sistema (caffeinate)</h3>
+    <p>
+      Ferramentas nativas de linha de comando como <code>caffeinate</code> mantêm todo o hardware desperto em segundo plano. A trava do navegador fica isolada na aba aberta e desativa sozinha quando o usuário sai dela, protegendo a bateria.
+    </p>
+  </section>
+
+  <section id="casos-de-uso">
+    <h2>Quando usar no dia a dia <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h3>Receitas na cozinha</h3>
+    <p>Evita tocar na tela com as mãos molhadas ou sujas a cada minuto durante o preparo.</p>
+    <h3>Leitura de textos longos e estudos</h3>
+    <p>Mantém apostilas, códigos ou documentações técnicas visíveis sem precisar mover o cursor.</p>
+    <h3>Apresentações e chamadas de vídeo</h3>
+    <p>Garante que o monitor ou celular de apoio não escureça no meio de uma explicação.</p>
+    <h3>Painéis de métricas e cronômetros</h3>
+    <p>Útil para acompanhar gráficos, logs ou blocos de foco em um segundo visor.</p>
+  </section>
+
+  <section id="bateria">
+    <h2>Cuidados com a bateria <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Manter o visor ativo consome mais carga do que o modo ocioso. Em brilho médio, notebooks perdem cerca de 20% a 40% da autonomia e smartphones consomem em média 15% a 25% extras por hora contínua.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Dica rápida de economia">
+      <p>Reduza o brilho antes de iniciar a sessão. Em ambientes internos, 30% de brilho mantém ótima leitura e consome uma fração da energia do brilho máximo.</p>
+    </ReferenceBlock>
+    <p>
+      Ative também a opção integrada que encerra o bloqueio automaticamente abaixo de 15% de bateria.
+    </p>
+  </section>
+
+  <section id="compatibilidade">
+    <h2>Compatibilidade por dispositivo e navegador <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Chrome no Android e Desktop (Windows, macOS, Linux):</strong> compatível nativamente.</li>
+      <li><strong>Microsoft Edge e Samsung Internet:</strong> compatíveis nativamente.</li>
+      <li><strong>Safari (iPhone, iPad e Mac):</strong> compatível desde iOS/iPadOS 16.4 e Safari 16.4.</li>
+      <li><strong>Firefox:</strong> compatível a partir da versão 126.</li>
+    </ul>
+  </section>
+
+  <section id="limitacoes">
+    <h2>Limitações importantes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Trocar de aba libera o bloqueio">
+      <p>Todo navegador libera a trava assim que a aba deixa de ficar visível. Ao retornar para a página, ela tenta reconectar o bloqueio automaticamente.</p>
+    </ReferenceBlock>
+    <ul>
+      <li><strong>Modo de economia extrema:</strong> alguns telefones bloqueiam solicitações de Wake Lock quando a bateria está muito baixa.</li>
+      <li><strong>Estado real transparente:</strong> se o sistema cancelar a trava, a interface mostra a mudança imediatamente.</li>
+    </ul>
+  </section>
+
+  <section id="ferramentas-relacionadas">
+    <h2>Ferramentas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('pomodoro-timer', 'pt')}>Timer Pomodoro</a>: organize blocos de foco sem deixar o celular apagar.</li>
+      <li><a href={toolPathBySlug('todo-list')}>Todo List</a>: gerencie tarefas enquanto trabalha.</li>
+      <li><a href={toolPathBySlug('notepad')}>Notepad</a>: anote lembretes localmente no navegador.</li>
+    </ul>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

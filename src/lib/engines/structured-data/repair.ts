@@ -9,6 +9,8 @@
 // Same doctrine as the encoding recovery offer: the engine holds the knowledge, the shared widget
 // renders one button. See docs/analysis/2026-08-11-tool-craft.md.
 
+import { readClientI18n } from '@lib/i18n/client';
+
 /** What a repair pass changed, so the offer can say it in the user's words. */
 export interface JsonRepair {
   /** The repaired text. */
@@ -100,12 +102,13 @@ export function repairJson(input: string): JsonRepair | null {
     return null; // the repair did not get there; do not offer a half-fix
   }
 
+  const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
   const label =
     hasSmartQuotes && hadTrailingComma
-      ? 'Fix the smart quotes and trailing comma'
+      ? (ei.repairBoth ?? 'Fix the smart quotes and trailing comma')
       : hasSmartQuotes
-        ? 'Replace the smart quotes a document inserted'
-        : 'Remove the trailing comma';
+        ? (ei.repairQuotes ?? 'Replace the smart quotes a document inserted')
+        : (ei.repairComma ?? 'Remove the trailing comma');
 
   return { text: commaFixed, label };
 }

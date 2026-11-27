@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="schnellantwort">
+    <h2>Schnellantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Beim Minifizieren von JSON werden sämtliche überflüssigen Leerzeichen, Tabulatoren und Zeilenumbrüche zwischen Tokens entfernt, ohne Daten zu verändern. Das Ergebnis ist die kleinstmögliche gültige JSON-Datei für Produktion und Netzübertragung.
+    </p>
+    <a href={toolHref} class="cta-link">JSON Minifier öffnen →</a>
+  </section>
+
+  <section id="ersparnis">
+    <h2>Datenreduktion und Zusammenspiel mit gzip <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Stark eingerückte Dateien lassen sich um 20 bis 40 Prozent verkleinern. Auch wenn Server anschließend mit gzip oder Brotli komprimieren, reduziert eine Vorab-Minifizierung sowohl Transferzeit als auch Parser-Arbeit im Browser.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Vollständig umkehrbar ohne Zahlenrundung">
+      <p>Unser Minifier kopiert Original-Tokens zeichengenau, sodass lange IDs und <code>19.90</code> exakt erhalten bleiben.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="verwandte-tools">
+    <h2>Verwandte Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Für gute Lesbarkeit in Git nutze den <a href={toolPathBySlug('json-formatter', 'de')}>JSON Formatter</a> und zur schnellen Syntaxprüfung den <a href={toolPathBySlug('json-validator', 'de')}>JSON Validator</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

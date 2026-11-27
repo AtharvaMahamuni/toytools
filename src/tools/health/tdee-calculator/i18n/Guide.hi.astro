@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      TDEE (कुल दैनिक ऊर्जा व्यय) यह बताता है कि आपका शरीर एक पूरे दिन में कितनी कैलोरी खर्च करता है। इसमें विश्राम के समय की ऊर्जा (BMR) के साथ रोजमर्रा की हलचल, पाचन और कसरत शामिल होती है, जो वजन घटाने या बढ़ाने का सही आधार बनती है।
+    </p>
+    <a href={toolHref} class="cta-link">TDEE कैलकुलेटर खोलें →</a>
+  </section>
+
+  <section id="activity-level">
+    <h2>सही गतिविधि स्तर चुनने का तरीका <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      ज्यादातर लोग अपनी साप्ताहिक कसरत को थोड़ा बढ़ाकर आंकते हैं। यदि आपका काम बैठने का है और आप सप्ताह में दो दिन व्यायाम करते हैं, तो एक स्तर ऊपर चुनने से लक्ष्य रोज़ 250–350 कैलोरी अधिक निकल सकता है।
+    </p>
+    <ReferenceBlock type="key-idea" heading="BMR से नीचे जाने से बचें">
+      <p>मेंटेनेंस से 300 से 500 kcal की दैनिक कमी संतुलित मानी जाती है। दो से तीन सप्ताह तक वजन का औसत रुझान देखें और जरूरत पड़ने पर 150 kcal कम या ज्यादा करें।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>स्वास्थ्य और पोषण से जुड़े अन्य टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      केवल आराम की कैलोरी खपत देखने के लिए <a href={toolPathBySlug('bmr-calculator', 'hi')}>BMR कैलकुलेटर</a> या ऊंचाई-वजन अनुपात के लिए <a href={toolPathBySlug('bmi-calculator', 'hi')}>BMI कैलकुलेटर</a> देखें। प्रोटीन व मैक्रोज़ बांटने के लिए <a href={toolPathBySlug('macro-calculator')}>Macro Calculator</a> और घाटे की गति के लिए <a href={toolPathBySlug('calorie-deficit-calculator')}>Calorie Deficit Calculator</a> उपयोग करें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Mesmo quando a página utiliza UTF-8, você sempre deve escapar <code>&lt;</code> (<code>&amp;lt;</code>), <code>&gt;</code> (<code>&amp;gt;</code>), <code>&amp;</code> (<code>&amp;amp;</code>) e aspas em atributos (<code>&amp;quot;</code> e <code>&amp;#39;</code>). Isso impede que textos de usuários sejam interpretados como tags ou scripts XSS.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Codificador de Entidades HTML →</a>
+  </section>
+
+  <section id="nomeadas-vs-numericas">
+    <h2>Entidades nomeadas vs. numéricas e segurança XSS <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <code>&amp;amp;</code>, <code>&amp;#38;</code> e <code>&amp;#x26;</code> exibem o mesmo símbolo <code>&amp;</code>. Lembre-se que entidades HTML protegem texto comum e atributos padrão, mas blocos <code>&lt;script&gt;</code>, atributos <code>href</code> e CSS exigem sanitização específica do contexto.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Escape &amp; sempre primeiro">
+      <p>Ao escapar manualmente, troque primeiro <code>&amp;</code> para evitar escape duplo, e prefira <code>&amp;#39;</code> em vez de <code>&amp;apos;</code> para suportar HTML legado.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="ferramentas-relacionadas">
+    <h2>Outras ferramentas de escape <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Para escapar parâmetros de links use o <a href={toolPathBySlug('url-encoder-decoder', 'pt')}>Codificador URL</a>, para dados binários acesse o <a href={toolPathBySlug('base64-encoder-decoder', 'pt')}>Codificador Base64</a> ou prepare strings JSON no <a href={toolPathBySlug('json-escape')}>JSON Escape</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

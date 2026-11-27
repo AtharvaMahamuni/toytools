@@ -1,0 +1,55 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Validar JSON consiste en comprobar que un texto cumple estrictamente la gramática oficial RFC 8259: claves entre comillas dobles, cadenas válidas, ausencia de comas finales y llaves balanceadas. Todo se ejecuta localmente en tu navegador con reparación rápida para comas finales y comillas tipográficas.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Validador JSON →</a>
+  </section>
+
+  <section id="errores-comunes">
+    <h2>Los fallos sintácticos más frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Comas finales:</strong> <code>{"{\"a\": 1,}"}</code> es válido en JS pero ilegal en JSON.</li>
+      <li><strong>Comillas simples o tipográficas:</strong> JSON solo acepta <code>"</code> ASCII recto.</li>
+      <li><strong>Comentarios:</strong> las líneas con <code>//</code> o <code>/* ... */</code> rompen el análisis estándar.</li>
+    </ul>
+    <ReferenceBlock type="common-mistake" heading="Sintaxis válida frente a JSON Schema">
+      <p>Que un JSON sea sintácticamente correcto no garantiza que cumpla los campos requeridos o tipos esperados por una API; para eso existe JSON Schema.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="herramientas-relacionadas">
+    <h2>Herramientas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Una vez validado, ordena la sangría con <a href={toolPathBySlug('json-formatter', 'es')}>Formateador JSON</a> o compáctalo con <a href={toolPathBySlug('json-minifier', 'es')}>Minificador JSON</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

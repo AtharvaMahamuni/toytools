@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>結論とポイント <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Lorem Ipsumは、本番の原稿が入る前のワイヤーフレームやデザインカンプで、書体・余白・文字詰め・改行バランスを客観的に評価するための定番ダミーテキストです。文章の内容に意識を奪われずに見た目を検証できます。
+    </p>
+    <a href={toolHref} class="cta-link">Lorem Ipsum生成ツールを開く →</a>
+  </section>
+
+  <section id="history-and-use">
+    <h2>キケロに遡る由来と活用シーン <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      紀元前45年の古代ローマ哲学者キケロの文献を活版印刷向けに改変したものがルーツで、自然な単語長と句読点のリズムを持つためタイポグラフィ検証に長年使われています。
+    </p>
+    <ReferenceBlock type="key-idea" heading="本番公開前の実データ確認">
+      <p>デザイン初期やフォント比較ではダミーテキストが有効ですが、見出しの折り返しやUI崩れを防ぐため、仕上げ段階では実原稿に近い長さで最終テストを行いましょう。</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>文字数管理に役立つ関連ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      配置した仮テキストや本番原稿のボリューム確認には <a href={toolPathBySlug('word-counter', 'ja')}>単語数カウンター</a> や <a href={toolPathBySlug('character-counter', 'ja')}>文字数カウンター</a> をあわせてご活用ください。
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

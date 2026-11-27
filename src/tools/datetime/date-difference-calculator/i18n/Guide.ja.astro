@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>結論とポイント <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      2つの日付の期間を正確に求めるには、各月の日数（28〜31日）とうるう年を考慮し、さらに「総暦日数」と「月〜金の平日数（営業日目安）」を区別する必要があります。開始日と終了日の前後に関わらず正確な日数を即算出できます。
+    </p>
+    <a href={toolHref} class="cta-link">日数差計算ツールを開く →</a>
+  </section>
+
+  <section id="calendar-vs-business">
+    <h2>暦日数と平日（営業日）カウントの違い <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      ホテル宿泊や契約満了は暦日で数え、実務スケジュールや納品計画は土日を除いた平日数で組むのが一般的です。各国の祝日は地域により異なるため、実稼働日を厳密に出す際は祝日分を手動で差し引いてください。
+    </p>
+    <ReferenceBlock type="key-idea" heading="両端を含めるかどうかの注意点">
+      <p>日付差は開始日から終了日までの経過日数を返します。開始日と終了日の両方を含めた日数（例：初日から最終日まで）が必要な場合は1日足してご確認ください。</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>関連する日付・時間ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      生年月日からの満年齢計算には <a href={toolPathBySlug('age-calculator', 'ja')}>年齢計算ツール</a>、日付とエポック秒変換には <a href={toolPathBySlug('unix-timestamp-converter', 'ja')}>Unixタイムスタンプ変換</a>、時差確認には <a href={toolPathBySlug('timezone-converter')}>Timezone Converter</a> をご活用ください。
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

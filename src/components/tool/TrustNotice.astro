@@ -18,12 +18,18 @@ const KEEP_LINE_BY_LOCALE: Record<LocaleCode, string> = {
   es: 'Tu entrada permanece en este dispositivo (nunca se sube).',
   de: 'Ihre Eingabe bleibt auf diesem Gerät (kein Upload).',
   fr: 'Votre saisie reste sur cet appareil (aucun envoi).',
+  ja: '入力内容は端末内に保持されます（外部送信なし）。',
+  pt: 'O que você digita fica neste aparelho (nunca enviado).',
+  hi: 'आपका इनपुट इसी डिवाइस पर रहता है (कभी अपलोड नहीं होता)।',
 };
 const CLEAR_LINE_BY_LOCALE: Record<LocaleCode, string> = {
   en: 'Clear saved input removes it.',
   es: 'Borrar entrada guardada la elimina.',
   de: 'Gespeicherte Eingabe löschen entfernt sie.',
   fr: 'Effacer la saisie enregistrée la supprime.',
+  ja: '保存された入力を消去すると削除されます。',
+  pt: 'Limpar entrada salva remove os dados.',
+  hi: 'सहेजा गया इनपुट साफ़ करने पर यह हट जाता है।',
 };
 
 const keep = keepInput && variant === 'private';
@@ -55,6 +61,24 @@ const badgesByLocale: Record<LocaleCode, Record<'private' | 'offline' | 'local' 
     local: 'Local ● Données conservées sur cet appareil uniquement',
     lookup: 'Requête ● Votre navigateur interroge un écho IP',
   },
+  ja: {
+    private: `プライベート ● ${t.footer.privacyByVariant.private.replace(/。$/, '')}`,
+    offline: 'オフライン ● 読み込み後は通信なしで動作',
+    local: 'ローカル ● データはこの端末のみに保存',
+    lookup: '照会 ● ブラウザがIP確認サービスへ直接接続',
+  },
+  pt: {
+    private: `Privado ● ${t.footer.privacyByVariant.private.replace(/\.$/, '')}`,
+    offline: 'Offline ● Funciona sem internet após carregar',
+    local: 'Local ● Dados salvos apenas neste aparelho',
+    lookup: 'Consulta ● Seu navegador consulta um serviço IP',
+  },
+  hi: {
+    private: `निजी ● ${t.footer.privacyByVariant.private.replace(/।$/, '')}`,
+    offline: 'ऑफ़लाइन ● लोड होने के बाद बिना इंटरनेट चलता है',
+    local: 'लोकल ● डेटा केवल इसी डिवाइस पर सहेजा जाता है',
+    lookup: 'लुकअप ● आपका ब्राउज़र सीधे IP जांच करता है',
+  },
 };
 
 const tooltipsByLocale: Record<LocaleCode, Record<'private' | 'offline' | 'local' | 'lookup', string[]>> = {
@@ -82,6 +106,24 @@ const tooltipsByLocale: Record<LocaleCode, Record<'private' | 'offline' | 'local
     local: ['Aucune synchronisation, aucun cloud. Vos données restent sur cet appareil.'],
     lookup: ['Votre navigateur interroge un service écho IP pour lire votre adresse publique.', 'ToyTools ne voit jamais la réponse et rien n\'est conservé.'],
   },
+  ja: {
+    private: [t.footer.privacyByVariant.private, 'アカウント登録は不要です。', '明示的に保存しない限りデータは残りません。'],
+    offline: ['最初の読み込み後はインターネット接続なしで動作します。'],
+    local: ['クラウド同期なし。データはこの端末内のみに保存されます。'],
+    lookup: ['ブラウザが外部IP確認サービスへ直接公開アドレスを問い合わせます。', 'ToyToolsが応答を見たり保存したりすることはありません。'],
+  },
+  pt: {
+    private: [t.footer.privacyByVariant.private, 'Sem conta ou cadastro.', 'Nada fica salvo a menos que você escolha guardar.'],
+    offline: ['Após o primeiro carregamento, não precisa de internet.'],
+    local: ['Sem sincronização nem nuvem. Seus dados ficam neste aparelho.'],
+    lookup: ['Seu navegador consulta um serviço IP para exibir o endereço público.', 'O ToyTools nunca vê a resposta e nada é armazenado aqui.'],
+  },
+  hi: {
+    private: [t.footer.privacyByVariant.private, 'खाते की कोई आवश्यकता नहीं है।', 'जब तक आप स्वयं न सहेजें, कुछ भी संग्रहीत नहीं होता।'],
+    offline: ['पहली बार पेज खुलने के बाद इंटरनेट की आवश्यकता नहीं होती।'],
+    local: ['कोई क्लाउड सिंक नहीं। आपका डेटा इसी डिवाइस पर रहता है।'],
+    lookup: ['आपका ब्राउज़र सार्वजनिक पता देखने के लिए IP सेवा से पूछता है।', 'ToyTools उत्तर नहीं देखता और कुछ भी सहेजा नहीं जाता।'],
+  },
 };
 
 const noAccountByLocale: Record<LocaleCode, string> = {
@@ -89,6 +131,9 @@ const noAccountByLocale: Record<LocaleCode, string> = {
   es: 'Sin cuenta ni registro.',
   de: 'Kein Konto erforderlich.',
   fr: 'Aucun compte requis.',
+  ja: 'アカウント登録不要。',
+  pt: 'Sem necessidade de conta.',
+  hi: 'खाते की आवश्यकता नहीं।',
 };
 
 const noticeBadge = badgesByLocale[lang][variant];

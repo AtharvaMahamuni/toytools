@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      El recuento de caracteres puede variar según si se incluyen espacios, saltos de línea y cómo se codifican emojis o acentos. La mayoría de límites web (X/Twitter, SMS y meta descripciones SEO) contabilizan los espacios y cada salto de línea como un carácter completo.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Contador de Caracteres →</a>
+  </section>
+
+  <section id="con-vs-sin-espacios">
+    <h2>Con espacios vs. sin espacios y bytes UTF-8 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Mientras redes sociales y formularios HTML validan la longitud con espacios incluidos, traductores y editores a veces facturan sin espacios. Por su parte, algunas bases de datos miden bytes UTF-8, donde vocales acentuadas y emojis ocupan entre 2 y 4 bytes cada uno.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Atención a saltos de línea y emojis">
+      <p>Cada salto de línea añade 1 carácter en el total con espacios. Además, muchos emojis simples cuentan como 2 caracteres en UTF-16 en plataformas como X.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="herramientas-relacionadas">
+    <h2>Limpieza y conteo complementario <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Si necesitas controlar el total de palabras además de los caracteres prueba el <a href={toolPathBySlug('word-counter', 'es')}>Contador de Palabras</a>. Para eliminar espacios duplicados antes de publicar usa <a href={toolPathBySlug('remove-extra-spaces')}>Remove Extra Spaces</a> o separa solo letras alfabéticas con <a href={toolPathBySlug('letter-counter')}>Letter Counter</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      CSS मिनिफ़ायर और ब्यूटिफ़ायर प्रोडक्शन के लिए कमेंट और अनावश्यक स्पेस हटाकर स्टाइलशीट को हल्का करता है, या कॉम्पैक्ट CSS को 2-स्पेस इंडेंट में पठनीय बनाता है और बचाए गए बाइट्स दिखाता है।
+    </p>
+    <a href={toolHref} class="cta-link">CSS मिनिफ़ायर खोलें →</a>
+  </section>
+
+  <section id="safety">
+    <h2>क्या सुरक्षित रहता है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      स्ट्रिंग्स, <code>url()</code>, CSS वेरिएबल्स और <code>calc()</code> सूत्र बिल्कुल नहीं बदलते और सेलेक्टर ज्यों के त्यों रहते हैं।
+    </p>
+    <ReferenceBlock type="key-idea" heading="संपादन इंडेंट में, प्रकाशन मिनिफ़ाइड">
+      <p>कोड रिपॉज़िटरी में हमेशा ब्यूटिफ़ाइड कॉपी रखें और केवल अंतिम डिलीवरी फ़ाइल को मिनिफ़ाई करें।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      माप बदलने के लिए <a href={toolPathBySlug('px-to-rem-converter', 'hi')}>PX से REM कन्वर्टर</a> या डेटा कॉम्पैक्ट करने के लिए <a href={toolPathBySlug('json-minifier', 'hi')}>JSON मिनिफ़ायर</a> देखें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

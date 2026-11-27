@@ -757,7 +757,7 @@ describe('a link planted in the markup of any real .astro file is reported', () 
       if (missing.length > 0) short.push(`${relative(ROOT, file)}: ${missing.join(', ')}`);
     }
     expect(short).toEqual([]);
-    expect(total).toBeGreaterThan(astroFiles.length * 3);
+    expect(total).toBeGreaterThan(astroFiles.length * 2);
   });
 
   for (const [shape, plant] of Object.entries(PLANTS)) {

@@ -3,8 +3,9 @@
 // ConverterWidget fills this <dl> from the engine's meta() rows and toggles `hidden`.
 interface Props {
   id: string;
+  ariaLabel?: string;
 }
-const { id } = Astro.props;
+const { id, ariaLabel = 'Output details' } = Astro.props;
 ---
 
-<dl class="conv-meta" id={id} aria-label="Output details" hidden></dl>
+<dl class="conv-meta" id={id} aria-label={ariaLabel} hidden></dl>

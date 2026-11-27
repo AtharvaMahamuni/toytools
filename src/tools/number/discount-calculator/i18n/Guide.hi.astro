@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      प्रतिशत छूट के बाद बिक्री मूल्य निकालने के लिए मूल कीमत को <code>1 − छूट दर</code> से गुणा करें (जैसे 25% छूट के लिए 0.75 से गुणा)। यदि बिलिंग पर दूसरी अतिरिक्त छूट मिलती है, तो वह पहले से घटी हुई नई कीमत पर लगती है।
+    </p>
+    <a href={toolHref} class="cta-link">छूट कैलकुलेटर खोलें →</a>
+  </section>
+
+  <section id="stacked-discounts">
+    <h2>क्रमिक छूट और पुरानी कीमत की उलटी गणना <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      "30% और अतिरिक्त 20% छूट" कुल 50% नहीं बल्कि 44% होती है: 100 से 30% घटकर 70 होता है, फिर 70 का 20% (14) घटकर कीमत 56 रह जाती है। बिक्री मूल्य को <code>1 − छूट दर</code> से भाग देकर आप पुरानी कीमत भी जान सकते हैं।
+    </p>
+    <ReferenceBlock type="key-idea" heading="प्रतिशत कूपन बनाम तय राशि कूपन">
+      <p>कम कीमत की खरीदारी में तय राशि कूपन अधिक प्रतिशत बचाते हैं, जबकि महंगे उत्पादों पर प्रतिशत वाली छूट ज्यादा फायदा देती है।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>अन्य उपयोगी कैलकुलेटर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      टैक्स, टिप या अन्य प्रतिशत हिसाब के लिए <a href={toolPathBySlug('percentage-calculator', 'hi')}>प्रतिशत कैलकुलेटर</a> देखें, या समय के साथ मुद्रास्फीति जांचने हेतु <a href={toolPathBySlug('inflation-calculator')}>Inflation Calculator</a> उपयोग करें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

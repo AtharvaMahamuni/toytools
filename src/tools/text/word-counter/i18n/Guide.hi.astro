@@ -1,0 +1,77 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="hi"
+>
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      वर्ड काउंटर टेक्स्ट को स्पेस और लाइन ब्रेक पर विभाजित करके तुरंत शब्द, अक्षर, वाक्य और पैराग्राफ़ की संख्या बताता है। यह पूरी तरह आपके ब्राउज़र में चलता है ताकि निबंध, ड्राफ़्ट या आवेदन बिना कहीं अपलोड हुए सुरक्षित रहें।
+    </p>
+    <a href={toolHref} class="cta-link">वर्ड काउंटर खोलें →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>शब्द-सीमा का महत्व <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>शैक्षणिक व आवेदन सीमाएँ:</strong> निबंध और फ़ॉर्म में तय सीमा से अधिक लिखने पर पाठ कट सकता है।</li>
+      <li><strong>संपादकीय और SEO नियंत्रण:</strong> लक्ष्य पट्टी से लेख की गहराई और स्पष्टता संतुलित रहती है।</li>
+      <li><strong>पेशेवर अनुवाद व लेखन:</strong> शुल्क प्रायः सटीक शब्दों के आधार पर तय होता है।</li>
+    </ul>
+  </section>
+
+  <section id="how-words-are-counted">
+    <h2>गिनती के नियम (और टूल के बीच अंतर) <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>हाइफ़न वाले शब्द:</strong> कुछ प्रोग्राम हाइफ़न-युक्त शब्दों को 1 तो कुछ 2 गिनते हैं।</li>
+      <li><strong>डैश और विराम:</strong> बिना स्पेस वाले डैश पर कई एडिटर शब्दों को जोड़ देते हैं; यह टूल उन्हें सही से अलग करता है।</li>
+      <li><strong>संख्याएँ और URL:</strong> "2026" और वेब लिंक एक इकाई के रूप में गिने जाते हैं।</li>
+    </ul>
+    <ReferenceBlock type="note" heading="संदर्भ और फ़ुटनोट जाँचें">
+      <p>विश्वविद्यालय असाइनमेंट जमा करने से पहले देख लें कि शीर्षक और संदर्भ सूची कुल सीमा में गिने जाएँगे या नहीं।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      अक्षर-सीमा (Twitter/X, SMS, Meta विवरण) के लिए <a href={toolPathBySlug('character-counter', 'hi')}>कैरेक्टर काउंटर</a>, दो ड्राफ़्ट मिलाने के लिए <a href={toolPathBySlug('text-compare', 'hi')}>टेक्स्ट तुलना टूल</a>, और बोलने/पढ़ने के समय हेतु <a href={toolPathBySlug('reading-time-calculator', 'hi')}>रीडिंग टाइम कैलकुलेटर</a> देखें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

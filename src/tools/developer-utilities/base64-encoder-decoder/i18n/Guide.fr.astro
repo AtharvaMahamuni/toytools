@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Le Base64 transforme des octets binaires en 64 caractères ASCII imprimables (<code>A–Z</code>, <code>a–z</code>, <code>0–9</code>, <code>+</code>, <code>/</code>) afin de traverser sans corruption les canaux purement textuels comme JSON, les en-têtes HTTP ou les e-mails. Sans clé secrète, il est totalement réversible et ne protège rien.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir l’Encodeur Base64 →</a>
+  </section>
+
+  <section id="padding-et-base64url">
+    <h2>Rôle du "=", surcoût de 33 % et Base64URL <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Chaque tranche de 3 octets donne 4 caractères (~33 % de volume en plus), complétés par un ou deux <code>=</code> lorsque la taille n’est pas multiple de 3. Pour les URLs et jetons JWT, Base64URL remplace <code>+</code> par <code>-</code> et <code>/</code> par <code>_</code>.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Encodage ne signifie pas chiffrement">
+      <p>Tout utilisateur disposant de la chaîne Base64 retrouve instantanément la donnée d’origine. Utilisez AES ou TLS pour toute information sensible.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="outils-associes">
+    <h2>Chaîne d’outils développeur associée <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Mettez en forme un JSON décodé avec le <a href={toolPathBySlug('json-formatter', 'fr')}>Formateur JSON</a>, sécurisez vos paramètres d’adresse via l’<a href={toolPathBySlug('url-encoder-decoder', 'fr')}>Encodeur URL</a>, inspectez un jeton complet dans <a href={toolPathBySlug('jwt-decoder')}>JWT Decoder</a> ou échappez du HTML avec l’<a href={toolPathBySlug('html-entity-encoder-decoder', 'fr')}>Encodeur d’Entités HTML</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

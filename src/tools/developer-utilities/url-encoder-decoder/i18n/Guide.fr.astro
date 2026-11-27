@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      L’encodage URL (percent-encoding RFC 3986) convertit espaces, accents et séparateurs réservés (<code>&amp;</code>, <code>=</code>, <code>?</code>, <code>/</code>) en séquences <code>%XX</code> UTF-8 afin que vos valeurs de paramètres ne tronquent ni ne corrompent une adresse Web.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir l’Encodeur URL →</a>
+  </section>
+
+  <section id="encodeuricomponent">
+    <h2>encodeURIComponent vs encodeURI et double encodage <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <code>encodeURIComponent</code> échappe chaque valeur isolément (y compris <code>/</code> et <code>&amp;</code>), tandis que <code>encodeURI</code> préserve la syntaxe d’une URL complète. Veillez à ne jamais encoder deux fois une chaîne déjà traitée sous peine d’obtenir <code>%2520</code>.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Choisir entre %20 et +">
+      <p>Privilégiez <code>%20</code> dans les chemins et URLs standard ; le signe <code>+</code> ne remplace l’espace que dans les formulaires <code>application/x-www-form-urlencoded</code>.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="outils-lies">
+    <h2>Autres encodeurs web utiles <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Pour encoder des données binaires passez par l’<a href={toolPathBySlug('base64-encoder-decoder', 'fr')}>Encodeur Base64</a>, ou échappez du texte avant insertion dans une page HTML grâce à l’<a href={toolPathBySlug('html-entity-encoder-decoder', 'fr')}>Encodeur d’Entités HTML</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

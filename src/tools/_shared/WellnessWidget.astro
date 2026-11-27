@@ -34,10 +34,10 @@ interface Props {
 const { slug, wellnessId, config, emptyText, lang = 'en', pack = null } = Astro.props;
 const c = WIDGET_CHROME[lang];
 
-const forgetLabel: Record<LocaleCode, string> = { en: 'Forget', es: 'Olvidar', de: 'Vergessen', fr: 'Oublier' };
-const shareLabel: Record<LocaleCode, string> = { en: 'Copy link', es: 'Copiar enlace', de: 'Link kopieren', fr: 'Copier le lien' };
-const resetLabel: Record<LocaleCode, string> = { en: 'Reset to Defaults', es: 'Restablecer', de: 'Zurücksetzen', fr: 'Réinitialiser' };
-const loadExLabel: Record<LocaleCode, string> = { en: 'Load Example', es: 'Cargar ejemplo', de: 'Beispiel laden', fr: 'Charger un exemple' };
+const forgetLabel: Record<LocaleCode, string> = { en: 'Forget', es: 'Olvidar', de: 'Vergessen', fr: 'Oublier', ja: '消去', pt: 'Esquecer', hi: 'भुलाएँ' };
+const shareLabel: Record<LocaleCode, string> = { en: 'Copy link', es: 'Copiar enlace', de: 'Link kopieren', fr: 'Copier le lien', ja: 'リンクをコピー', pt: 'Copiar link', hi: 'लिंक कॉपी करें' };
+const resetLabel: Record<LocaleCode, string> = { en: 'Reset to Defaults', es: 'Restablecer', de: 'Zurücksetzen', fr: 'Réinitialiser', ja: '初期値に戻す', pt: 'Restaurar padrão', hi: 'डिफ़ॉल्ट पर रीसेट करें' };
+const loadExLabel: Record<LocaleCode, string> = { en: 'Load Example', es: 'Cargar ejemplo', de: 'Beispiel laden', fr: 'Charger un exemple', ja: '例を読み込む', pt: 'Carregar exemplo', hi: 'उदाहरण लोड करें' };
 
 // Shareable-link mode, decided at build time from the registry (src/lib/url-state.ts).
 // "auto" syncs the address bar as you type; "manual" only builds a link when asked.

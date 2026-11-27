@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      SHA-256 आज का मानक क्रिप्टोग्राफिक हैश फंक्शन है, जो किसी भी टेक्स्ट या फाइल को 256-बिट (64 हेक्साडेसिमल अक्षर) के निश्चित फिंगरप्रिंट में बदलता है। यह TLS प्रमाणपत्र, सॉफ्टवेयर चेकसम और Bitcoin में अखंडता जांचने के लिए उत्तम है, पर सीधे पासवर्ड स्टोर करने के लिए उपयुक्त नहीं।
+    </p>
+    <a href={toolHref} class="cta-link">SHA-256 हैश जनरेटर खोलें →</a>
+  </section>
+
+  <section id="checksum-commands">
+    <h2>कंप्यूटर पर SHA-256 चेकसम कैसे मिलाएं <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Linux पर <code>sha256sum file.zip</code>, macOS पर <code>shasum -a 256 file.zip</code> और Windows PowerShell में <code>Get-FileHash file.zip -Algorithm SHA256</code> चलाएं। फाइल में एक भी बाइट बदलने पर एवलांच प्रभाव से पूरा 64-अक्षर का हैश बदल जाता है।
+    </p>
+    <ReferenceBlock type="key-idea" heading="पासवर्ड के लिए हमेशा Argon2 या bcrypt चुनें">
+      <p>क्योंकि आधुनिक GPU सेकंड में अरबों SHA-256 गणना कर सकते हैं, इसलिए पासवर्ड सुरक्षित रखने हेतु धीमे और सॉल्टेड एल्गोरिदम जैसे Argon2 या bcrypt जरूरी हैं।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>संबंधित हैश और एनकोडिंग टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      डाउनलोड की गई फाइलों की जांच के लिए <a href={toolPathBySlug('file-hash-verifier')}>File Hash Verifier</a>, टोकन एनकोडिंग के लिए <a href={toolPathBySlug('base64-encoder-decoder', 'hi')}>Base64 एनकोडर</a> या पुराने एल्गोरिदम की तुलना के लिए <a href={toolPathBySlug('md5-hash-generator')}>MD5 Generator</a> व <a href={toolPathBySlug('sha1-hash-generator')}>SHA-1 Generator</a> देखें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

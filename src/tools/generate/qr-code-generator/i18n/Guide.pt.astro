@@ -1,0 +1,71 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath, categoryPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+const categoryHref = categoryPath(category, 'pt');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="pt"
+>
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Um QR Code transforma textos, links, credenciais Wi-Fi ou cartões vCard em uma grade legível instantaneamente pela câmera do celular. Nosso gerador cria o código ao vivo dentro do seu navegador, permitindo baixar em PNG ou SVG vetorial sem enviar dados privados a servidores.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Gerador de QR Code →</a>
+  </section>
+
+  <section id="por-que-local">
+    <h2>Por que gerar localmente faz diferença <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Ao gerar localmente no dispositivo, sua senha de Wi-Fi e contatos pessoais nunca passam pela rede, e você obtém um código estático puro que não expira nem depende de redirecionamentos pagos.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Formatos padrão que toda câmera entende">
+      <p>Ao escolher Wi-Fi ou Cartão de contato, a ferramenta monta automaticamente o esquema padrão esperado por Android e iOS.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="dicas-impressao">
+    <h2>Boas práticas de impressão e tamanho <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Use SVG para impressos:</strong> escala sem perder definição em panfletos, rótulos e placas.</li>
+      <li><strong>Preserve a margem branca:</strong> não recorte a zona tranquila externa nem inverta o contraste.</li>
+      <li><strong>Mantenha URLs curtas:</strong> menos caracteres geram módulos maiores e foco imediato.</li>
+    </ul>
+    <ReferenceBlock type="common-mistake" heading="QR Codes estáticos não mudam depois de impressos">
+      <p>Se quiser atualizar o destino mais tarde sem reimprimir, use uma URL curta sob seu domínio. Explore também outros utilitários em <a href={categoryHref}>Geradores</a>.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

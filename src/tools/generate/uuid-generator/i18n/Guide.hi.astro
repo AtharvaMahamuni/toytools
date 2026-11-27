@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      वर्जन 4 UUID (Universally Unique Identifier) <code>8-4-4-4-12</code> प्रारूप में लिखा गया 128-बिट का रैंडम मान है। इसके जरिए अलग-अलग क्लाइंट, माइक्रोसर्विसेस या ऑफलाइन ऐप बिना केंद्रीय सर्वर के भी टकराव-रहित प्राइमरी की बना सकते हैं।
+    </p>
+    <a href={toolHref} class="cta-link">UUID जनरेटर खोलें →</a>
+  </section>
+
+  <section id="rfc4122-design">
+    <h2>RFC 4122 संरचना और डेटाबेस स्टोरेज <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      कुल 128 बिट्स में से 122 बिट्स Web Crypto API द्वारा पूरी तरह रैंडम बनते हैं और बाकी 6 बिट्स 13वें स्थान पर वर्जन (<code>4</code>) तथा 17वें पर वैरिएंट (<code>8/9/a/b</code>) तय करते हैं। UUID v1 के विपरीत v4 समय या MAC एड्रेस उजागर नहीं करता।
+    </p>
+    <ReferenceBlock type="key-idea" heading="36 अक्षरों के बजाय 16-बाइट नेटिव UUID">
+      <p>PostgreSQL जैसे डेटाबेस में टेक्स्ट की जगह नेटिव <code>UUID</code> टाइप चुनें ताकि स्टोरेज बचे और इंडेक्सिंग तेज हो। क्योंकि v4 समय के क्रम में नहीं होता, इसलिए सॉर्टिंग के लिए अलग टाइमस्टैम्प कॉलम रखें।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="security-boundaries">
+    <h2>UUID को गुप्त कुंजी न मानें <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      UUID अक्सर URL और लॉग में दिखाई देते हैं, इसलिए इन्हें पासवर्ड या एक्सेस टोकन की तरह उपयोग न करें। मजबूत पासवर्ड बनाने के लिए <a href={toolPathBySlug('password-generator', 'hi')}>पासवर्ड जनरेटर</a> और कस्टम टोकन के लिए <a href={toolPathBySlug('random-string-generator')}>Random String Generator</a> का उपयोग करें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

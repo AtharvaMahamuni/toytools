@@ -1,0 +1,97 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+
+const exampleData = { user: { id: 1, name: 'Alice', roles: ['admin', 'editor'], active: true } };
+const compactJsonExample    = JSON.stringify(exampleData);
+const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="ja"
+>
+  <section id="quick-answer">
+    <h2>概要（クイック回答） <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      JSON整形（Pretty-Print）とは、1行に圧縮されたJSONテキストに一定の字下げ（インデント）と改行を加えて、人間が構造を一目で把握できるようにする処理です。データそのものは一切変わらず空白文字だけが変わるため、APIレスポンスや設定ファイルのデバッグに欠かせません。
+    </p>
+    <a href={toolHref} class="cta-link">JSON整形ツールを開く →</a>
+  </section>
+
+  <section id="what-is-formatting">
+    <h2>JSON整形とは？ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      JSONはプログラム向けの交換形式であるため、本番環境のAPIは通信量削減のために空白を含まない1行形式で返します。たとえば次のような文字列です:
+      <code>{compactJsonExample}</code>
+    </p>
+    <p>整形ツールを通すと、中身を保ったまま階層が視覚化されます:</p>
+    <pre class="json-example"><code>{formattedJsonExample}</code></pre>
+    <ReferenceBlock type="key-idea" heading="空白文字はJSONの意味を変えません">
+      <p>JSONパーサーはトークン間の空白・改行を無視するため、整形済みと圧縮済みはプログラム上まったく同じデータです。</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="real-world-uses">
+    <h2>よく使われる用途 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>APIレスポンスの調査:</strong> ネットワークタブからコピーした生JSONの入れ子構造を即座に確認できます。</li>
+      <li><strong>設定ファイルやWebhookの確認:</strong> ログに出力された圧縮JSONを読みやすく開きます。</li>
+      <li><strong>Git差分（Diff）の比較準備:</strong> 2スペース字下げに揃えてから比較すると変更キーだけが明確になります。</li>
+    </ul>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>よくある注意点 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="構文エラーのまま整形しようとする">
+      <p>JSON末尾の余分なカンマやシングルクォートがあると整形できません。先に <a href={toolPathBySlug('json-validator', 'ja')}>JSONバリデーター</a> で位置を特定してください。</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="JSON.stringify による数値丸めを起こさない安全設計">
+      <p>通常の JavaScript の <code>JSON.stringify(JSON.parse(text))</code> は 2<sup>53</sup> 超の整数丸めや <code>1.0 → 1</code> への変換、重複キーの上書きを引き起こします。本ツールは構文検証後に元のトークンをそのまま再インデントするため値が変質しません。</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>関連ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-minifier', 'ja')}>JSON 圧縮ツール</a>: 整形済みJSONから空白を取り除いて通信サイズを最小化します。</li>
+      <li><a href={toolPathBySlug('json-validator', 'ja')}>JSON バリデーター</a>: RFC 8259 準拠の構文チェックを単体で高速実行します。</li>
+    </ul>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+  .json-example {
+    background: var(--color-surface-2); border-radius: var(--radius-sm);
+    padding: var(--space-4); font-size: var(--text-sm); overflow-x: auto; line-height: 1.6;
+  }
+</style>

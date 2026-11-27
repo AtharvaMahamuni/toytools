@@ -1,0 +1,86 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+
+const exampleData = { user: { id: 1, name: 'Alice', roles: ['admin', 'editor'], active: true } };
+const compactJsonExample    = JSON.stringify(exampleData);
+const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="hi"
+>
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      JSON फ़ॉर्मेटिंग (Pretty-Printing) किसी एक-पंक्ति वाले कॉम्पैक्ट JSON में इंडेंट और लाइन ब्रेक जोड़कर उसे पढ़ने योग्य बनाती है। इसमें केवल खाली स्थान बदलता है, भीतर का डेटा बिल्कुल वही रहता है।
+    </p>
+    <a href={toolHref} class="cta-link">JSON फ़ॉर्मेटर खोलें →</a>
+  </section>
+
+  <section id="what-is-formatting">
+    <h2>JSON फ़ॉर्मेटिंग क्या है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      बैंडविड्थ बचाने के लिए अधिकतर API डेटा को एक लाइन में भेजती हैं जैसे <code>{compactJsonExample}</code>। इसे फ़ॉर्मेट करने पर पदानुक्रम तुरंत साफ़ दिखता है:
+    </p>
+    <pre class="json-example"><code>{formattedJsonExample}</code></pre>
+    <ReferenceBlock type="key-idea" heading="खाली स्थान से JSON का अर्थ नहीं बदलता">
+      <p>JSON पार्सर प्रतीकों के बीच स्पेस को अनदेखा करते हैं, इसलिए फ़ॉर्मेटेड और मिनिफ़ाइड दोनों समान डेटा देते हैं।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>आम गलतियाँ व डेटा सुरक्षा <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="गलत सिंटैक्स वाले JSON को फ़ॉर्मेट करना">
+      <p>यदि सिंगल कोट्स या अतिरिक्त कॉमा की गलती हो तो पहले <a href={toolPathBySlug('json-validator', 'hi')}>JSON वैलिडेटर</a> से सुधारें।</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="JSON.stringify से संख्याओं के बदलाव से बचाव">
+      <p>आम स्क्रिप्ट 2<sup>53</sup> से बड़े पूर्णांक या <code>1.0</code> जैसे मान बदल देती हैं। हमारा फ़ॉर्मेटर मूल टोकन को सुरक्षित रखकर केवल इंडेंट जोड़ता है।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-minifier', 'hi')}>JSON मिनिफ़ायर</a>: उत्पादन के लिए JSON से अनावश्यक स्पेस हटाएँ।</li>
+      <li><a href={toolPathBySlug('json-validator', 'hi')}>JSON वैलिडेटर</a>: त्वरित सिंटैक्स जाँच करें।</li>
+    </ul>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+  .json-example {
+    background: var(--color-surface-2); border-radius: var(--radius-sm);
+    padding: var(--space-4); font-size: var(--text-sm); overflow-x: auto; line-height: 1.6;
+  }
+</style>

@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>概要（クイック回答） <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      SQL 整形ツールは、1行に圧縮されたSQLクエリの予約語（<code>SELECT</code>・<code>FROM</code>・<code>WHERE</code>・<code>JOIN</code>）を大文字化し、句ごとに改行・2スペースインデントを施すことで瞬時に読みやすくします。すべてブラウザ内で動作します。
+    </p>
+    <a href={toolHref} class="cta-link">SQL 整形ツールを開く →</a>
+  </section>
+
+  <section id="credential-safety">
+    <h2>本番SQLを外部サイトに貼り付けてはいけない理由 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      障害調査などで抜き出したSQLには、パスワードやAPIトークン条件がそのまま含まれていることがあります。本ツールはサーバー通信を行わないだけでなく、クォート内の認証情報パターンを検知すると共有前に警告を表示します。
+    </p>
+    <ReferenceBlock type="common-mistake" heading="クォート閉じ忘れとコメント保持">
+      <p>コメント（<code>--</code>・<code>/* */</code>）は削除せずそのまま残し、引用符の閉じ忘れがある場合は推測整形せず正確にエラーを返します。</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>関連ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      クエリの返り値がJSON列である場合は <a href={toolPathBySlug('json-formatter', 'ja')}>JSON 整形ツール</a> もあわせてご利用ください。
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

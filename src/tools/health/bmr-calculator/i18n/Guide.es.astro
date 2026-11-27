@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Tu BMR (Basal Metabolic Rate) representa las calorías mínimas que consume tu organismo en reposo absoluto solo para mantener la respiración, el pulso cardíaco, la temperatura corporal y la actividad cerebral. No es la cantidad que debes comer cada día, sino el suelo fisiológico sobre el que se suma tu movimiento diario.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Calculadora BMR →</a>
+  </section>
+
+  <section id="por-que-no-comer-bmr">
+    <h2>Por qué no debes fijar tu dieta en tu BMR <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Incluso una persona con vida sedentaria quema aproximadamente un 20 % más que su BMR simplemente levantándose, caminando y digiriendo alimentos. Restringir tu alimentación al BMR suele crear un déficit excesivo difícil de sostener.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Interpretar el gasto por kilogramo">
+      <p>Una cifra inferior a 1.400 kcal no implica un metabolismo dañado si tienes complexión ligera; dividido entre tu peso corporal suele situarse alrededor de 22–25 kcal/kg.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="siguiente-paso">
+    <h2>Convertir tu BMR en un plan diario <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      El siguiente paso lógico es multiplicar tu metabolismo basal según tus hábitos diarios en la <a href={toolPathBySlug('tdee-calculator', 'es')}>Calculadora TDEE</a> o comprobar tu rango corporal con la <a href={toolPathBySlug('bmi-calculator', 'es')}>Calculadora IMC</a>. Después puedes repartir macronutrientes en <a href={toolPathBySlug('macro-calculator')}>Macro Calculator</a> o calcular déficits semanales en <a href={toolPathBySlug('calorie-deficit-calculator')}>Calorie Deficit Calculator</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

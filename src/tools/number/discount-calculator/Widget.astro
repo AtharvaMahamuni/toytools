@@ -2,46 +2,58 @@
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import CraftNote from '@tools/_shared/CraftNote.astro';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { WIDGET_CHROME, uiStr } from '@lib/i18n/widget-utils';
+
+interface Props {
+  lang?: LocaleCode;
+  pack?: LocalizedToolPack | null;
+}
+
+const { lang = 'en', pack = null } = Astro.props;
+const c = WIDGET_CHROME[lang];
+const u = (k: string, fb: string) => uiStr(pack, k, fb);
 ---
 
 <div class="calc-ledger">
 <ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
-  <IoPanel slot="input" label="Discount Details" variant="prose" bare data-tool="discount-calculator">
+  <IoPanel slot="input" label={u('panelDetails', 'Discount Details')} variant="prose" bare data-tool="discount-calculator">
     <div class="io-body">
-      <label class="widget-label" for="disc-mode">Discount Type</label>
+      <label class="widget-label" for="disc-mode">{u('lblMode', 'Discount Type')}</label>
       <select id="disc-mode" class="widget-select">
-        <option value="percent">Percentage off</option>
-        <option value="fixed">Fixed amount off</option>
+        <option value="percent">{u('optPercent', 'Percentage off')}</option>
+        <option value="fixed">{u('optFixed', 'Fixed amount off')}</option>
       </select>
 
-      <label class="widget-label" for="disc-price">Original Price</label>
-      <input id="disc-price" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 120.00" />
+      <label class="widget-label" for="disc-price">{u('lblPrice', 'Original Price')}</label>
+      <input id="disc-price" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder={u('phPrice', 'Example: 120.00')} />
 
-      <label class="widget-label" for="disc-amount" id="disc-amount-label">Discount (%)</label>
+      <label class="widget-label" for="disc-amount" id="disc-amount-label">{u('lblAmountPct', 'Discount (%)')}</label>
       <div class="disc-presets" id="disc-presets" role="group" aria-labelledby="disc-amount-label">
         <button type="button" class="disc-preset" data-pct="10">10%</button>
         <button type="button" class="disc-preset" data-pct="20">20%</button>
         <button type="button" class="disc-preset" data-pct="25">25%</button>
         <button type="button" class="disc-preset" data-pct="50">50%</button>
       </div>
-      <input id="disc-amount" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 25" aria-describedby="disc-warn" />
+      <input id="disc-amount" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder={u('phPct', 'Example: 25')} aria-describedby="disc-warn" />
       <p class="disc-warn" id="disc-warn" role="status" hidden></p>
     </div>
   </IoPanel>
 
-  <IoPanel slot="output" label="Result" variant="prose" result bare>
+  <IoPanel slot="output" label={c.result} variant="prose" result bare>
     <div class="tm-hero">
       <span class="hero-value" id="disc-final">$0.00</span>
-      <span class="hero-label">Final Price</span>
-      <p class="empty-hint" id="disc-hint">Enter a price to calculate.</p>
+      <span class="hero-label">{u('lblFinalPrice', 'Final Price')}</span>
+      <p class="empty-hint" id="disc-hint">{u('emptyHint', 'Enter a price to calculate.')}</p>
     </div>
     <dl class="tm-stats tm-secondary" aria-live="polite" hidden>
       <div class="tm-stat-row">
-        <dt class="tm-stat-label">You Save</dt>
+        <dt class="tm-stat-label">{u('lblSaved', 'You Save')}</dt>
         <dd class="tm-stat-value" id="disc-saved">$0.00</dd>
       </div>
       <div class="tm-stat-row">
-        <dt class="tm-stat-label">Discount Rate</dt>
+        <dt class="tm-stat-label">{u('lblRate', 'Discount Rate')}</dt>
         <dd class="tm-stat-value" id="disc-rate">0%</dd>
       </div>
     </dl>
@@ -51,13 +63,21 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
 </div>
 
 <div class="tool-actions">
-  <button class="action-btn action-btn--copy" id="disc-copy" data-label="Copy" type="button">Copy</button>
-  <button class="action-btn action-btn--clear" id="disc-clear" data-label="Clear" type="button">Clear</button>
+  <button class="action-btn action-btn--copy" id="disc-copy" data-label={c.copy} type="button">{c.copy}</button>
+  <button class="action-btn action-btn--clear" id="disc-clear" data-label={c.clear} type="button">{c.clear}</button>
 </div>
 
 
 <script is:inline>
   (function () {
+    var I = {};
+    try {
+      var i18nEl = document.getElementById('tt-i18n');
+      if (i18nEl && i18nEl.textContent) I = JSON.parse(i18nEl.textContent);
+    } catch (_) {}
+    function s(k, fb) { return (typeof I[k] === 'string' && I[k]) ? I[k] : fb; }
+    function tpl(str, vars) { return str.replace(/\{(\w+)\}/g, function (_, k) { return k in vars ? String(vars[k]) : '{' + k + '}'; }); }
+
     var modeEl   = document.getElementById('disc-mode');
     var priceEl  = document.getElementById('disc-price');
     var amountEl = document.getElementById('disc-amount');
@@ -117,12 +137,12 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
 
     function applyMode() {
       if (modeEl.value === 'fixed') {
-        if (amtLabel) amtLabel.textContent = 'Amount Off ($)';
-        amountEl.setAttribute('placeholder', 'Example: 30.00');
+        if (amtLabel) amtLabel.textContent = s('lblAmountFixed', 'Amount Off ($)');
+        amountEl.setAttribute('placeholder', s('phFixed', 'Example: 30.00'));
         if (presetsWrap) presetsWrap.hidden = true;
       } else {
-        if (amtLabel) amtLabel.textContent = 'Discount (%)';
-        amountEl.setAttribute('placeholder', 'Example: 25');
+        if (amtLabel) amtLabel.textContent = s('lblAmountPct', 'Discount (%)');
+        amountEl.setAttribute('placeholder', s('phPct', 'Example: 25'));
         if (presetsWrap) presetsWrap.hidden = false;
         syncPresets(amountEl.value === '' ? null : Number(amountEl.value));
       }
@@ -140,15 +160,15 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       lastResult = '';
       note({});
       finalEl.textContent = '$0.00';
-      if (hintEl) { hintEl.textContent = message || 'Enter a price to calculate.'; hintEl.hidden = false; }
+      if (hintEl) { hintEl.textContent = message || s('emptyHint', 'Enter a price to calculate.'); hintEl.hidden = false; }
       if (secondary) secondary.hidden = true;
     }
 
     function calc() {
       var priceRaw = priceEl.value;
-      if (priceRaw === '') { showEmpty('Enter a price to calculate.'); return; }
+      if (priceRaw === '') { showEmpty(s('emptyHint', 'Enter a price to calculate.')); return; }
       var price = Number(priceRaw);
-      if (!Number.isFinite(price) || price < 0) { showEmpty('Enter a valid price.'); return; }
+      if (!Number.isFinite(price) || price < 0) { showEmpty(s('errInvalidPrice', 'Enter a valid price.')); return; }
 
       var amtRaw = amountEl.value;
       var amt = amtRaw === '' ? 0 : Number(amtRaw);
@@ -158,11 +178,11 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       if (modeEl.value === 'fixed') {
         saved = Math.min(amt, price);          // can't discount below zero
         rate = price > 0 ? (saved / price) * 100 : 0;
-        warn(amt > price ? 'A discount of ' + money(amt) + ' is more than the price, so it is capped at ' + money(price) + ' and the item is free.' : '');
+        warn(amt > price ? tpl(s('warnFixedCapTpl', 'A discount of {amt} is more than the price, so it is capped at {price} and the item is free.'), { amt: money(amt), price: money(price) }) : '');
       } else {
         rate = Math.min(amt, 100);             // cap at 100% off
         saved = price * rate / 100;
-        warn(amt > 100 ? 'A discount over 100% is not possible: ' + pct(amt) + ' is capped at 100% off, so the item is free.' : '');
+        warn(amt > 100 ? tpl(s('warnPctCapTpl', 'A discount over 100% is not possible: {rate} is capped at 100% off, so the item is free.'), { rate: pct(amt) }) : '');
       }
       var final = price - saved;
 
@@ -222,15 +242,19 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
 
     // Copy with success state
     var copyTimer;
+    var copyLabel = s('copyLabel', copyBtn ? (copyBtn.getAttribute('data-label') || 'Copy') : 'Copy');
+    var copiedLabel = s('copiedLabel', '✓ Copied');
+    var clearLabel = s('clearLabel', clearBtn ? (clearBtn.getAttribute('data-label') || 'Clear') : 'Clear');
+    var confirmClearLabel = s('confirmClearLabel', 'Confirm Clear');
     if (copyBtn) copyBtn.addEventListener('click', function () {
-      if (!lastResult) { TT && TT.toast('Nothing to copy!'); return; }
+      if (!lastResult) { TT && TT.toast(s('nothingToCopy', 'Nothing to copy!')); return; }
       TT && TT.copy(lastResult);
       copyBtn.classList.add('is-success');
-      copyBtn.textContent = '✓ Copied';
+      copyBtn.textContent = copiedLabel;
       clearTimeout(copyTimer);
       copyTimer = setTimeout(function () {
         copyBtn.classList.remove('is-success');
-        copyBtn.textContent = 'Copy';
+        copyBtn.textContent = copyLabel;
       }, 2000);
     });
 
@@ -238,12 +262,12 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     var clearTimer;
     function resetClear() {
       clearTimeout(clearTimer);
-      if (clearBtn) { clearBtn.classList.remove('is-confirming'); clearBtn.textContent = 'Clear'; }
+      if (clearBtn) { clearBtn.classList.remove('is-confirming'); clearBtn.textContent = clearLabel; }
     }
     if (clearBtn) clearBtn.addEventListener('click', function () {
       if (!clearBtn.classList.contains('is-confirming')) {
         clearBtn.classList.add('is-confirming');
-        clearBtn.textContent = 'Confirm Clear';
+        clearBtn.textContent = confirmClearLabel;
         clearTimeout(clearTimer);
         clearTimer = setTimeout(resetClear, 3000);
         return;

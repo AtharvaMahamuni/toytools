@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Un UUID versión 4 (Identificador Único Universal) es un número aleatorio de 128 bits escrito en formato <code>8-4-4-4-12</code>. Permite crear claves primarias e identificadores distribuidos desde cualquier cliente o servicio sin coordinación central y con probabilidad práctica nula de repetición.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Generador UUID →</a>
+  </section>
+
+  <section id="estructura-rfc4122">
+    <h2>Estructura RFC 4122 y versión 4 frente a v1 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      De los 128 bits totales, 122 bits son puramente aleatorios generados con Web Crypto API; los 6 bits restantes fijan el dígito <code>4</code> en la posición 13 y la variante (<code>8</code>, <code>9</code>, <code>a</code> o <code>b</code>) en la 17. Frente a UUID v1, la versión 4 nunca filtra la hora ni la dirección MAC del equipo.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Almacenamiento y ordenación">
+      <p>Guarda siempre el tipo nativo <code>UUID</code> de 16 bytes en bases de datos como PostgreSQL cuando exista. Como los v4 no siguen orden cronológico, añade una columna de fecha si necesitas ordenar registros por creación.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="limites-seguridad">
+    <h2>Cuándo no usar un UUID y herramientas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Un UUID identifica un registro pero no sustituye a un secreto criptográfico porque suele viajar en URLs y logs. Para claves secretas utiliza el <a href={toolPathBySlug('password-generator', 'es')}>Generador de Contraseñas</a>, y si necesitas tokens alfanuméricos con longitud o alfabeto personalizado visita <a href={toolPathBySlug('random-string-generator')}>Random String Generator</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>
