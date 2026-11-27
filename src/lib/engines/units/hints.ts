@@ -20,6 +20,7 @@
 // See docs/analysis/2026-08-11-tool-craft.md.
 
 import { DENSITY_BUCKETS } from './convert';
+import { readClientI18n } from '@lib/i18n/client';
 
 export type UnitHintId = 'aspect-ratio-calculator' | 'px-to-dp-converter' | 'px-to-rem-converter';
 
@@ -92,6 +93,10 @@ export function unitHint(id: UnitHintId, input: UnitHintInput): string | null {
       // em is relative to the PARENT, and this tool has only one font size to work from.
       if (input.unit !== 'em') return null;
       const base = typeof input.base === 'number' && Number.isFinite(input.base) && input.base > 0 ? input.base : 16;
+      const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
+      if (typeof ei.emHintTpl === 'string' && ei.emHintTpl) {
+        return ei.emHintTpl.replace(/\{base\}/g, String(base));
+      }
       return `em is relative to the parent element, and this converts against the ${base}px root. Inside anything that sets its own font size, the same value renders differently, and nesting compounds it.`;
     }
 

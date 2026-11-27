@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      La robustesse d’un mot de passe repose avant tout sur sa longueur et son caractère véritablement aléatoire. En générant au moins 16 caractères via l’API Web Crypto localement dans votre navigateur, vous éliminez tout schéma prévisible sans jamais exposer le résultat sur le réseau.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir le Générateur de Mot de Passe →</a>
+  </section>
+
+  <section id="longueur-vs-complexite">
+    <h2>Pourquoi la longueur l’emporte sur la complexité <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Chaque caractère supplémentaire multiplie de manière exponentielle le nombre de combinaisons possibles. Allonger votre mot de passe à 16 ou 20 caractères apporte bien plus d’entropie que d’ajouter quelques symboles à une chaîne courte.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Repère pratique d’entropie">
+      <p>Visez 60 à 80 bits pour les comptes courants et plus de 100 bits pour votre messagerie principale, banque ou coffre-fort. Seize caractères sur les quatre jeux dépassent 103 bits.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="gestion-securisee">
+    <h2>Stockage sécurisé et outils complémentaires <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Enregistrez chaque mot de passe unique dans un gestionnaire chiffré et excluez les caractères ambigus si une saisie manuelle est prévue. Pour partager un code Wi-Fi utilisez le <a href={toolPathBySlug('qr-code-generator', 'fr')}>Générateur de QR Code</a>, pour créer des identifiants passez au <a href={toolPathBySlug('uuid-generator', 'fr')}>Générateur UUID</a> ou pour des jetons techniques au <a href={toolPathBySlug('random-string-generator')}>Random String Generator</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

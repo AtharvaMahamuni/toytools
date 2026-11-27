@@ -1,0 +1,69 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="hi"
+>
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      प्रतिशत का अर्थ 100 के सापेक्ष हिस्सा है। डिस्काउंट, टैक्स, परीक्षा अंक और व्यापार के अधिकतर सवाल तीन आसान सूत्रों से हल हो जाते हैं: X% हिस्सा निकालना, एक संख्या दूसरी का कितना % है, और प्रतिशत बदलाव।
+    </p>
+    <a href={toolHref} class="cta-link">प्रतिशत कैलकुलेटर खोलें →</a>
+  </section>
+
+  <section id="three-formulas">
+    <h2>तीन मुख्य सूत्र <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>1. Y का X% कितना है?</strong> <code>Y × X ÷ 100</code> (जैसे 200 का 15% = 30)।</p>
+    <p><strong>2. X, Y का कितना % है?</strong> <code>(X ÷ Y) × 100</code> (जैसे 45 / 180 = 25%)।</p>
+    <p><strong>3. X से Y में प्रतिशत बदलाव:</strong> <code>((Y - X) ÷ |X|) × 100</code> (80 से 100 = +25% वृद्धि)।</p>
+    <ReferenceBlock type="key-idea" heading="हमेशा आधार (Base) सही चुनें">
+      <p>हर प्रतिशत किसी मूल संख्या पर आधारित होता है। अंश और हर उलटने से जवाब पूरी तरह बदल जाता है।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>आम गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="प्रतिशत अंक और प्रतिशत बदलाव में भ्रम">
+      <p>दर 2% से 3% होने पर अंतर 1 प्रतिशत अंक का है, लेकिन सापेक्ष वृद्धि 50% की होती है।</p>
+    </ReferenceBlock>
+    <p>
+      सेल मूल्य या दोहरे डिस्काउंट के लिए हमारा <a href={toolPathBySlug('discount-calculator', 'hi')}>डिस्काउंट कैलकुलेटर</a> भी देखें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

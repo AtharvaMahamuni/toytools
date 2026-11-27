@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>結論とポイント <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      BMR（基礎代謝量）は、呼吸・心拍・体温維持・臓器機能など生命維持に最低限必要な完全安静時の消費エネルギーです。1日に食べる目標カロリーそのものではなく、日常生活や運動の消費を足す前の「土台となる下限値」として使います。
+    </p>
+    <a href={toolHref} class="cta-link">BMR計算ツールを開く →</a>
+  </section>
+
+  <section id="dont-eat-bmr">
+    <h2>基礎代謝量ちょうどしか食べないのが危険な理由 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      デスクワーク中心の日でも、起床して歩き、食事を消化するだけでBMRの1.2倍以上のエネルギーを消費します。BMRまで食事を削ると筋肉の分解や強い疲労を招きやすくなります。
+    </p>
+    <ReferenceBlock type="key-idea" heading="体重1kgあたりで見ると理解しやすい">
+      <p>基礎代謝が1,400kcal未満でも体格が小柄であればごく自然な数値であり、体重1kgあたりに換算すると標準的な22〜25kcal/kg前後に収まります。</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>TDEEへの換算と関連ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      活動係数を掛けた1日総消費量は <a href={toolPathBySlug('tdee-calculator', 'ja')}>TDEE計算ツール</a>、身長と体重のバランスは <a href={toolPathBySlug('bmi-calculator', 'ja')}>BMI計算ツール</a> で確認できます。栄養配分には <a href={toolPathBySlug('macro-calculator')}>Macro Calculator</a>、減量ペース設定には <a href={toolPathBySlug('calorie-deficit-calculator')}>Calorie Deficit Calculator</a> をどうぞ。
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>結論とポイント <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      破られにくいパスワードの鍵は「記号の複雑さ」よりも「十分な文字数」と「暗号論的な無作為性」にあります。Web Crypto APIを使ってブラウザ内で16文字以上のランダム文字列を生成すれば、外部サーバーに一切送信することなく安全なパスワードを即座に用意できます。
+    </p>
+    <a href={toolHref} class="cta-link">パスワード生成ツールを開く →</a>
+  </section>
+
+  <section id="length-and-entropy">
+    <h2>文字数が複雑さに勝る理由 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      文字数が1文字増えるたびに総当たりに必要な組み合わせ数は指数関数的に増大します。8文字に記号を混ぜるよりも、16〜20文字の長さを確保する方がはるかに高いエントロピー（解読困難度）を得られます。
+    </p>
+    <ReferenceBlock type="key-idea" heading="エントロピーの目安">
+      <p>日常的なサービスでは60〜80ビット、メインメールや金融・パスワード管理のマスターパスワードでは100ビット以上が安心です。4種類の文字種で16文字生成すると約103ビットに達します。</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="safe-storage">
+    <h2>安全な保管方法と関連ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      生成したパスワードは平文メモではなく暗号化パスワードマネージャーに保存し、手入力が必要な場合は紛らわしい文字を除外してください。Wi-Fi共有用のQR作成には <a href={toolPathBySlug('qr-code-generator', 'ja')}>QRコード生成ツール</a>、一意ID作成には <a href={toolPathBySlug('uuid-generator', 'ja')}>UUID生成ツール</a>、任意のAPIトークンには <a href={toolPathBySlug('random-string-generator')}>Random String Generator</a> も便利です。
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

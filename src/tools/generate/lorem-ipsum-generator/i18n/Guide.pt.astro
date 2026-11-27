@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Lorem Ipsum é o texto padrão de preenchimento em design gráfico e interfaces digitais para avaliar tipografia, espaçamento e hierarquia antes de receber o conteúdo final, evitando que o significado das palavras desvie a atenção visual.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Gerador de Lorem Ipsum →</a>
+  </section>
+
+  <section id="origem-e-tipografia">
+    <h2>Origem em Cícero e por que funciona no layout <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Adaptado de uma passagem clássica de Cícero (45 a.C.), o texto pseudo-latino reproduz ritmo de leitura e distribuição de palavras próximos à prosa real sem induzir o leitor a ler frase por frase.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Valide com texto real antes de lançar">
+      <p>Use Lorem Ipsum nos primeiros rascunhos e testes de fonte, mas confira títulos extensos, botões e cartões com copy realista antes de publicar.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="ferramentas-de-texto">
+    <h2>Controle de tamanho com outras ferramentas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Para ajustar espaços com precisão em layouts e banners, confira o volume no <a href={toolPathBySlug('word-counter', 'pt')}>Contador de Palavras</a> ou valide limites exatos no <a href={toolPathBySlug('character-counter', 'pt')}>Contador de Caracteres</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

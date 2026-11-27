@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      आपका BMR (बेसल मेटाबॉलिक रेट) वह न्यूनतम कैलोरी है जो आपका शरीर पूर्ण विश्राम में केवल सांस लेने, रक्त संचार और अंगों को चालू रखने के लिए खर्च करता है। यह दैनिक खाने का लक्ष्य नहीं है, बल्कि वह न्यूनतम स्तर है जिसके नीचे डाइट नहीं जानी चाहिए।
+    </p>
+    <a href={toolHref} class="cta-link">BMR कैलकुलेटर खोलें →</a>
+  </section>
+
+  <section id="dont-eat-bmr">
+    <h2>डाइट के लिए केवल BMR जितनी कैलोरी क्यों न चुनें <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      दफ्तर में बैठने वाले व्यक्ति का भी वास्तविक दैनिक खर्च उठने, चलने और पाचन के कारण BMR से कम से कम 20% ज्यादा होता है। केवल BMR पर खाना शरीर में थकान और अत्यधिक कमी पैदा कर सकता है।
+    </p>
+    <ReferenceBlock type="key-idea" heading="प्रति किलोग्राम वजन से तुलना करें">
+      <p>यदि आपका कद छोटा है तो 1,400 kcal से कम BMR आना बिल्कुल सामान्य है; वजन से भाग देने पर यह आमतौर पर 22–25 kcal/kg की मानक सीमा में रहता है।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="next-steps">
+    <h2>BMR से दैनिक योजना बनाने के अगले कदम <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      अपनी दैनिक गतिविधि जोड़कर कुल खपत जानने के लिए <a href={toolPathBySlug('tdee-calculator', 'hi')}>TDEE कैलकुलेटर</a> और ऊंचाई-वजन अनुपात के लिए <a href={toolPathBySlug('bmi-calculator', 'hi')}>BMI कैलकुलेटर</a> देखें। मैक्रोज़ बांटने हेतु <a href={toolPathBySlug('macro-calculator')}>Macro Calculator</a> और वजन घटाने की गति के लिए <a href={toolPathBySlug('calorie-deficit-calculator')}>Calorie Deficit Calculator</a> उपयोग करें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

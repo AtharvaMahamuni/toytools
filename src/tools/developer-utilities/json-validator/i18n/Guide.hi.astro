@@ -1,0 +1,55 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      JSON वैलिडेशन जाँचता है कि आपका टेक्स्ट आधिकारिक मानक RFC 8259 के अनुरूप है या नहीं: डबल कोट्स, बिना अतिरिक्त अंतिम कॉमा, बिना कमेंट और सही ब्रैकेट। यह पूरी तरह आपके ब्राउज़र में चलता है और आम गलतियों के लिए तुरंत सुधार बटन देता है।
+    </p>
+    <a href={toolHref} class="cta-link">JSON वैलिडेटर खोलें →</a>
+  </section>
+
+  <section id="common-errors">
+    <h2>सबसे आम सिंटैक्स गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>अतिरिक्त कॉमा:</strong> <code>{"{\"a\": 1,}"}</code> JS में चलता है पर JSON में अमान्य है।</li>
+      <li><strong>सिंगल या स्मार्ट कोट्स:</strong> JSON केवल सीधे ASCII <code>"</code> को स्वीकारता है।</li>
+      <li><strong>कमेंट्स:</strong> <code>//</code> या <code>/* ... */</code> पार्सर को रोक देते हैं।</li>
+    </ul>
+    <ReferenceBlock type="common-mistake" heading="सिंटैक्स बनाम JSON Schema">
+      <p>सिंटैक्स सही होने का यह अर्थ नहीं कि API को अपेक्षित सभी फ़ील्ड मौजूद हैं; उसके लिए JSON Schema इस्तेमाल होता है।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      सत्यापन के बाद <a href={toolPathBySlug('json-formatter', 'hi')}>JSON फ़ॉर्मेटर</a> से सुंदर रूप दें या <a href={toolPathBySlug('json-minifier', 'hi')}>JSON मिनिफ़ायर</a> से छोटा करें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

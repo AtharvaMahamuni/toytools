@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      El Formateador SQL transforma consultas comprimidas en una sola línea en bloques ordenados con palabras clave en mayúsculas (<code>SELECT</code>, <code>FROM</code>, <code>WHERE</code>, <code>JOIN</code>) y sangría clara de dos espacios, ejecutándose íntegramente en tu navegador.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Formateador SQL →</a>
+  </section>
+
+  <section id="privacidad-credenciales">
+    <h2>Por qué no debes subir consultas SQL de producción <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A menudo una consulta copiada desde un registro o incidencia aún incluye filtros con tokens, contraseñas o datos personales en comillas simples. Aquí todo ocurre localmente y además recibes un aviso si aparece una clave visible.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Comillas sin cerrar frente a optimización">
+      <p>El formateador respeta comentarios <code>--</code> y literales intactos, deteniéndose con aviso si falta cerrar unas comillas. No cambia ni reescribe tu consulta.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="herramientas-relacionadas">
+    <h2>Herramientas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Si la consulta devuelve JSON, inspecciónalo después con <a href={toolPathBySlug('json-formatter', 'es')}>Formateador JSON</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

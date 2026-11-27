@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>概要（クイック回答） <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      XML 整形・構文検証ツールは、ブラウザ組み込みの <code>DOMParser</code> を用いてXMLの2スペースインデント整形や圧縮を行い、タグの不整合など最初の整形式エラーを行番号付きで知らせます。
+    </p>
+    <a href={toolHref} class="cta-link">XML 整形ツールを開く →</a>
+  </section>
+
+  <section id="rules">
+    <h2>整形式チェック・大文字小文字・CDATA <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      XMLはHTMLよりも厳密で、タグ名の大文字小文字の不一致や閉じ忘れを許容しません。CDATAセクションや <code>xmlns</code> 名前空間は壊さずそのまま保持します。
+    </p>
+    <ReferenceBlock type="note" heading="整形式とXSDスキーマ検証の違い">
+      <p>タグやルート要素の正しさを確認するのが整形式検証です。業務ルールを含むXSD・DTD検証はここでは実行しません。</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>関連ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      文字エスケープには <a href={toolPathBySlug('html-entity-encoder-decoder', 'ja')}>HTMLエンティティ変換</a>、JSON扱う際は <a href={toolPathBySlug('json-formatter', 'ja')}>JSON 整形ツール</a> をご利用ください。
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

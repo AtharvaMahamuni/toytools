@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      दो तारीखों के बीच सही समय निकालने के लिए असली महीनों (28, 29, 30 या 31 दिन) व लीप वर्षों को गिनने के साथ-साथ कुल कैलेंडर दिनों और सोमवार से शुक्रवार के कार्यदिवसों में अंतर समझना जरूरी है। यह टूल दोनों आंकड़े तुरंत देता है।
+    </p>
+    <a href={toolHref} class="cta-link">तारीख अंतर कैलकुलेटर खोलें →</a>
+  </section>
+
+  <section id="calendar-vs-business">
+    <h2>कुल दिन बनाम कार्यदिवस (Business Days) <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      प्रोजेक्ट समय-सीमा और बैंकिंग नियम अक्सर सप्ताहांत छोड़कर कार्यदिवसों में चलते हैं, जबकि होटल बुकिंग और अनुबंध अवधि पूरे कैलेंडर दिन गिनती है। क्षेत्रीय सार्वजनिक छुट्टियां अलग-अलग होने से उन्हें अलग से घटाएं।
+    </p>
+    <ReferenceBlock type="key-idea" heading="समावेशी गिनती बनाम शुद्ध अंतर">
+      <p>तारीख अंतर प्रारंभ और अंतिम तिथि के बीच की अवधि गिनता है। यदि छुट्टी या प्रोजेक्ट में दोनों छोर वाले दिन शामिल करने हों, तो परिणाम में 1 दिन जोड़ लें।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>कैलेंडर और समय के अन्य टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      जन्म तिथि से सटीक उम्र जानने के लिए <a href={toolPathBySlug('age-calculator', 'hi')}>आयु कैलकुलेटर</a>, Epoch मान बदलने के लिए <a href={toolPathBySlug('unix-timestamp-converter', 'hi')}>Unix टाइमस्टैम्प कन्वर्टर</a> या टाइमज़ोन जांचने के लिए <a href={toolPathBySlug('timezone-converter')}>Timezone Converter</a> देखें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

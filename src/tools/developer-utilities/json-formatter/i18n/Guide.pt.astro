@@ -1,0 +1,86 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+
+const exampleData = { user: { id: 1, name: 'Alice', roles: ['admin', 'editor'], active: true } };
+const compactJsonExample    = JSON.stringify(exampleData);
+const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="pt"
+>
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Formatar JSON (pretty-print) reescreve um bloco compacto adicionando recuo e quebras de linha para leitura humana sem alterar em nada os dados internos. É o primeiro passo ao depurar respostas de APIs, arquivos de configuração e logs.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Formatador de JSON →</a>
+  </section>
+
+  <section id="o-que-e">
+    <h2>O que é formatação JSON <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Uma saída minificada como <code>{compactJsonExample}</code> economiza banda, mas dificulta encontrar aninhamentos errados. Ao formatar, a estrutura aparece clara:
+    </p>
+    <pre class="json-example"><code>{formattedJsonExample}</code></pre>
+    <ReferenceBlock type="key-idea" heading="Espaços em branco não alteram os dados">
+      <p>Todo parser JSON ignora espaços fora de strings; portanto a versão formatada e a minificada representam exatamente os mesmos dados.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="erros-frequentes">
+    <h2>Erros comuns e preservação de dados <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Tentar formatar JSON inválido">
+      <p>Aspas simples ou vírgula sobrando impedem a formatação. Valide e corrija primeiro com o <a href={toolPathBySlug('json-validator', 'pt')}>Validador de JSON</a>.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="Sem perda de precisão do JSON.stringify">
+      <p>Ao contrário de ferramentas que fazem parse e resserializam via JavaScript, nosso formatador preserva inteiros maiores que 2<sup>53</sup>, decimais como <code>1.0</code>, notação científica e chaves repetidas.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="ferramentas-relacionadas">
+    <h2>Ferramentas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-minifier', 'pt')}>Minificador de JSON</a>: remove espaços para reduzir o tamanho final de transferência.</li>
+      <li><a href={toolPathBySlug('json-validator', 'pt')}>Validador de JSON</a>: verifica sintaxe RFC 8259 com precisão.</li>
+    </ul>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+  .json-example {
+    background: var(--color-surface-2); border-radius: var(--radius-sm);
+    padding: var(--space-4); font-size: var(--text-sm); overflow-x: auto; line-height: 1.6;
+  }
+</style>

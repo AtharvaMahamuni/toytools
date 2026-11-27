@@ -51,7 +51,7 @@ const engineNames = [...new Set(categoryTools.map(t => t.engine))]
   .filter((name): name is string => Boolean(name))
   .sort();
 
-const andWord: Record<LocalizedLocale, string> = { es: 'y', de: 'und', fr: 'et' };
+const andWord: Record<LocalizedLocale, string> = { es: 'y', de: 'und', fr: 'et', ja: '・', pt: 'e', hi: 'और' };
 const engineList =
   engineNames.length <= 1
     ? engineNames.join('')
@@ -99,12 +99,18 @@ const aboutHeadingByLocale: Record<LocalizedLocale, string> = {
   es: `Acerca de ${headline}`,
   de: `Über ${headline}`,
   fr: `À propos : ${headline}`,
+  ja: `${headline}について`,
+  pt: `Sobre ${headline}`,
+  hi: `${headline} के बारे में`,
 };
 
 const engineLabelByLocale: Record<LocalizedLocale, string> = {
   es: engineNames.length === 1 ? `Motor: ${engineList}` : `Motores: ${engineList}`,
   de: engineNames.length === 1 ? `Engine: ${engineList}` : `Engines: ${engineList}`,
   fr: engineNames.length === 1 ? `Moteur : ${engineList}` : `Moteurs : ${engineList}`,
+  ja: `採用エンジン: ${engineList}`,
+  pt: engineNames.length === 1 ? `Motor: ${engineList}` : `Motores: ${engineList}`,
+  hi: `इंजन: ${engineList}`,
 };
 
 const hreflangLinks = categoryHreflangLinks(category, Astro.site);

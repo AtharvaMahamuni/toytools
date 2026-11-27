@@ -5,11 +5,13 @@
 // reload or a closed tab forgets it.
 interface Props {
   id: string;
+  title?: string;
+  ariaLabel?: string;
 }
-const { id } = Astro.props;
+const { id, title = 'Recent conversions', ariaLabel = 'Recent conversions — click to restore' } = Astro.props;
 ---
 
 <section class="conv-history" data-conv-history hidden>
-  <h2 class="conv-history-title">Recent conversions</h2>
-  <ul class="conv-history-list" id={id} aria-label="Recent conversions — click to restore"></ul>
+  <h2 class="conv-history-title">{title}</h2>
+  <ul class="conv-history-list" id={id} aria-label={ariaLabel}></ul>
 </section>

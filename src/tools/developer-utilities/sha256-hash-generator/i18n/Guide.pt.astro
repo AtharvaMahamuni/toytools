@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      SHA-256 é a função hash criptográfica padrão da atualidade: converte qualquer texto ou arquivo em uma assinatura determinística de 256 bits (64 caracteres hexadecimais). É ideal para certificados TLS, checksums e Bitcoin, mas não deve guardar senhas diretamente.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Gerador SHA-256 →</a>
+  </section>
+
+  <section id="verificar-checksum">
+    <h2>Como conferir checksums SHA-256 no computador <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      No Linux rode <code>sha256sum arquivo.zip</code>, no macOS use <code>shasum -a 256 arquivo.zip</code> e no Windows PowerShell execute <code>Get-FileHash arquivo.zip -Algorithm SHA256</code>. Qualquer bit alterado muda completamente os 64 dígitos pelo efeito avalanche.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Para senhas use Argon2 ou bcrypt">
+      <p>Como GPUs calculam bilhões de hashes SHA-256 por segundo, proteja senhas apenas com algoritmos lentos e com salt como Argon2, bcrypt ou scrypt.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="ferramentas-relacionadas">
+    <h2>Ferramentas relacionadas de hash e codificação <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Para conferir arquivos baixados use o <a href={toolPathBySlug('file-hash-verifier')}>File Hash Verifier</a>, codifique digests para tokens no <a href={toolPathBySlug('base64-encoder-decoder', 'pt')}>Codificador Base64</a> ou compare algoritmos antigos em <a href={toolPathBySlug('md5-hash-generator')}>MD5 Generator</a> e <a href={toolPathBySlug('sha1-hash-generator')}>SHA-1 Generator</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

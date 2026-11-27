@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Le décompte de caractères dépend des espaces, des sauts de ligne et du codage des caractères spéciaux. La quasi-totalité des limites Web (réseaux sociaux, SMS et balises méta SEO) incluent les espaces et chaque saut de ligne.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir le Compteur de Caractères →</a>
+  </section>
+
+  <section id="espaces-et-octets">
+    <h2>Avec ou sans espaces et octets UTF-8 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Les formulaires et réseaux sociaux vérifient la longueur espaces compris, tandis que certaines missions éditoriales facturent hors espaces. En base de données ou API, vérifiez aussi les limites en octets UTF-8 où accents et emojis pèsent de 2 à 4 octets.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Attention aux sauts de ligne et emojis">
+      <p>Chaque retour à la ligne ajoute 1 au total avec espaces. En UTF-16 (utilisé par X/Twitter), de nombreux emojis comptent pour 2 caractères.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="outils-associes">
+    <h2>Optimiser et ajuster vos textes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Pour suivre à la fois les mots et caractères, consultez le <a href={toolPathBySlug('word-counter', 'fr')}>Compteur de Mots</a>. Nettoyez les doubles espaces avec <a href={toolPathBySlug('remove-extra-spaces')}>Remove Extra Spaces</a> ou isolez les lettres via <a href={toolPathBySlug('letter-counter')}>Letter Counter</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

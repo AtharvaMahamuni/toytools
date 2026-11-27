@@ -1,0 +1,98 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="hi"
+>
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      पोमोडोरो तकनीक में 25 मिनट के फोकस ब्लॉक के बाद 5 मिनट का छोटा ब्रेक लिया जाता है, और चार ब्लॉक के बाद 15 मिनट का लंबा ब्रेक होता है। यह लय काम शुरू करने की झिझक कम करती है और दिन भर एकाग्रता बनाए रखती है।
+    </p>
+    <a href={toolHref} class="cta-link">पोमोडोरो टाइमर खोलें →</a>
+  </section>
+
+  <section id="why-focus-fails">
+    <h2>एकाग्रता क्यों टूटती है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>अचानक बाधाएँ:</strong> एक सूचना देखने के बाद फिर गहरे ध्यान में लौटने में 20 मिनट से अधिक लग सकते हैं।</li>
+      <li><strong>काम बदलने की लागत:</strong> चैट, ईमेल और काम के बीच स्विच करने से गलतियाँ बढ़ती हैं।</li>
+      <li><strong>अस्पष्ट लक्ष्य:</strong> बड़े कार्य भारी लगते हैं, जबकि "सिर्फ 25 मिनट" शुरू करना आसान बनाता है।</li>
+      <li><strong>थकान:</strong> बिना ब्रेक लगातार काम करने से एक घंटे बाद क्षमता तेज़ी से गिरती है।</li>
+    </ul>
+  </section>
+
+  <section id="how-cycle-works">
+    <h2>एक पोमोडोरो चक्र कैसे चलता है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ol>
+      <li><strong>एक स्पष्ट कार्य चुनें:</strong> तय करें कि इस ब्लॉक में क्या पूरा करना है।</li>
+      <li><strong>25 मिनट बिना भटके काम करें:</strong> कोई विचार आए तो कागज़ पर लिखकर तुरंत काम पर लौटें।</li>
+      <li><strong>5 मिनट का वास्तविक ब्रेक लें:</strong> उठें, आँखों को आराम दें और पानी पिएँ।</li>
+      <li><strong>4 सत्र के बाद 15 मिनट रुकें:</strong> अगले चक्र से पहले मन को तरोताज़ा करें।</li>
+    </ol>
+    <ReferenceBlock type="key-idea" heading="ब्रेक तकनीक का अनिवार्य हिस्सा है">
+      <p>25 मिनट की घंटी बजते ही चाहे वाक्य अधूरा हो, ब्रेक अवश्य लें। यही अगले सत्र की ऊर्जा बचाता है।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="variations">
+    <h2>लोकप्रिय विकल्प: 25/5, 50/10 और 90/20 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>25/5 (क्लासिक):</strong> पढ़ाई, दोहराव और टालमटोल दूर करने के लिए श्रेष्ठ।</li>
+      <li><strong>50/10 (विस्तारित):</strong> प्रोग्रामिंग, डिज़ाइन और लंबे लेखन के लिए उपयोगी।</li>
+      <li><strong>90/20 (अल्ट्राडियन):</strong> गहरे रचनात्मक सत्रों के लिए प्राकृतिक ऊर्जा चक्र के अनुरूप।</li>
+    </ul>
+  </section>
+
+  <section id="mistakes">
+    <h2>आम गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>ब्रेक में फोन स्क्रॉल करना:</strong> इससे आँखें और दिमाग वास्तव में आराम नहीं कर पाते।</li>
+      <li><strong>गलत काम पर सत्र गिनना:</strong> छोटे गैर-जरूरी कामों में 8 सत्र से बेहतर मुख्य काम पर 2 सत्र हैं।</li>
+    </ul>
+  </section>
+
+  <section id="related-tools">
+    <h2>संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('no-sleep-website', 'hi')}>स्क्रीन चालू रखें</a>: टाइमर देखते समय फोन स्क्रीन बंद होने से रोकें।</li>
+      <li><a href={toolPathBySlug('todo-list')}>Todo List</a>: शुरू करने से पहले स्पष्ट लक्ष्य लिखें।</li>
+      <li><a href={toolPathBySlug('notepad')}>Notepad</a>: मन में आए विचार तुरंत लिखकर ब्रेक के लिए छोड़ें।</li>
+    </ul>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

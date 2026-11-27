@@ -25,6 +25,7 @@ import { punycode } from './punycode';
 import { roman } from './roman';
 import { numberWords } from './numberWords';
 import { numberBase } from './numberBase';
+import { readClientI18n } from '@lib/i18n/client';
 
 // Keyed by encoder id, referenced from a tool config's `processorId`.
 export const ENCODERS: Record<string, EncodingTool> = {
@@ -57,10 +58,13 @@ export function runEncoding(id: string, mode: EncodingMode, text: string): Encod
     const output = mode === 'decode' ? encoder.decode(text) : encoder.encode(text);
     return { ok: true, output };
   } catch (_) {
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     return {
       ok: false,
       output: '',
-      error: mode === 'decode' ? 'Invalid input — could not decode.' : 'Unable to encode.',
+      error: mode === 'decode'
+        ? (ei.errDecode ?? 'Invalid input — could not decode.')
+        : (ei.errEncode ?? 'Unable to encode.'),
     };
   }
 }

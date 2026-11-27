@@ -1,0 +1,122 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="hi"
+>
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      पढ़ाई, रेसिपी देखते समय, प्रेज़ेंटेशन या मॉनिटरिंग के दौरान स्क्रीन को अपने-आप बंद होने से रोकने के लिए हमारी No Sleep Website खोलें और मुख्य बटन दबाएँ। यह टूल ब्राउज़र की मानक Screen Wake Lock API का उपयोग करता है, जिससे बिना किसी ऐप या सिस्टम सेटिंग बदले स्क्रीन चालू रहती है।
+    </p>
+    <a href={toolHref} class="cta-link">स्क्रीन चालू रखें टूल खोलें →</a>
+  </section>
+
+  <section id="why-screens-sleep">
+    <h2>स्क्रीन अपने-आप बंद क्यों होती है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      हर ऑपरेटिंग सिस्टम कुछ सेकंड या मिनट की निष्क्रियता के बाद स्क्रीन को मद्धम करके लॉक कर देता है। इसके चार मुख्य कारण हैं:
+    </p>
+    <ul>
+      <li><strong>बैटरी की बचत:</strong> फोन और लैपटॉप में सबसे ज़्यादा ऊर्जा डिस्प्ले लेता है।</li>
+      <li><strong>गर्मी नियंत्रण:</strong> तेज ब्राइटनेस पर लगातार चालू स्क्रीन डिवाइस को गर्म कर सकती है।</li>
+      <li><strong>सुरक्षा:</strong> खाली छोड़कर जाने पर स्क्रीन लॉक होना अनधिकृत उपयोग रोकता है।</li>
+      <li><strong>OLED बर्न-इन से बचाव:</strong> एक ही स्थिर चित्र लंबे समय तक दिखने से OLED स्क्रीन पर निशान पड़ सकते हैं।</li>
+    </ul>
+  </section>
+
+  <section id="how-wake-lock-works">
+    <h2>Screen Wake Lock API कैसे काम करता है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ol>
+      <li><strong>ब्राउज़र</strong> मानक W3C इंटरफ़ेस <code>navigator.wakeLock.request('screen')</code> देता है।</li>
+      <li><strong>वेब पेज</strong> आपके बटन दबाने पर स्क्रीन लॉक का अनुरोध भेजता है।</li>
+      <li><strong>ऑपरेटिंग सिस्टम</strong> तब तक डिस्प्ले चालू रखता है जब तक टैब स्क्रीन पर खुला रहे।</li>
+      <li>रोकते ही या टैब बदलने पर आपकी सामान्य टाइमआउट सेटिंग वापस लागू हो जाती है।</li>
+    </ol>
+    <ReferenceBlock type="note" heading="स्क्रीन अवेक बनाम पूरा सिस्टम स्लीप">
+      <p>Wake Lock केवल <em>स्क्रीन बंद होने</em> को रोकता है। लैपटॉप की लिड बंद करने या पावर बटन दबाने से सिस्टम फिर भी स्लीप में जाएगा।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="use-cases">
+    <h2>आम उपयोग के उदाहरण <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>खाना बनाते समय:</strong> गीले या गंदे हाथों से बार-बार फोन छुए बिना रेसिपी पढ़ना।</li>
+      <li><strong>लंबे दस्तावेज़ व पढ़ाई:</strong> बिना स्क्रॉल किए नोट्स और तकनीकी लेख पढ़ना।</li>
+      <li><strong>प्रेज़ेंटेशन व डेमो:</strong> बिना टाइप किए स्क्रीन को सक्रिय रखना।</li>
+      <li><strong>डैशबोर्ड व टाइमर:</strong> दूसरे मॉनिटर पर लाइव डेटा या फोकस टाइमर देखना।</li>
+    </ul>
+  </section>
+
+  <section id="battery">
+    <h2>बैटरी से जुड़ी बातें <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      स्क्रीन लगातार ऑन रहने पर बैटरी खपत बढ़ जाती है। मध्यम ब्राइटनेस पर लैपटॉप की बैटरी 20% से 40% तेज खत्म हो सकती है और फोन में प्रति घंटा लगभग 15% से 25% अधिक खपत होती है।
+    </p>
+    <ReferenceBlock type="key-idea" heading="सरल बचत टिप">
+      <p>सत्र शुरू करने से पहले स्क्रीन की ब्राइटनेस लगभग 30% कर लें और 15% बैटरी गार्ड विकल्प चालू रखें।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="compatibility">
+    <h2>ब्राउज़र और डिवाइस सपोर्ट <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Android Chrome, Edge और Samsung Internet:</strong> पूरी तरह समर्थित।</li>
+      <li><strong>डेस्कटॉप Chrome और Edge (Windows, macOS, Linux):</strong> पूरी तरह समर्थित।</li>
+      <li><strong>iPhone, iPad और Mac पर Safari:</strong> iOS 16.4 / Safari 16.4 से समर्थित।</li>
+      <li><strong>Firefox:</strong> वर्ज़न 126 और उसके बाद समर्थित।</li>
+    </ul>
+  </section>
+
+  <section id="limitations">
+    <h2>ध्यान रखने योग्य सीमाएँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="टैब बदलने पर लॉक हट जाता है">
+      <p>दूसरे टैब या ऐप पर जाने पर ब्राउज़र तुरंत वेक लॉक हटा देता है। इस टैब पर लौटते ही पेज लॉक फिर से लेने का प्रयास करता है।</p>
+    </ReferenceBlock>
+    <p>एक्सट्रीम बैटरी सेवर मोड या सिस्टम नीतियाँ ब्राउज़र के अनुरोध को अस्वीकार कर सकती हैं।</p>
+  </section>
+
+  <section id="related-tools">
+    <h2>संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('pomodoro-timer', 'hi')}>पोमोडोरो टाइमर</a>: चालू स्क्रीन के साथ फोकस सत्र चलाएँ।</li>
+      <li><a href={toolPathBySlug('todo-list')}>Todo List</a>: सत्र के दौरान कार्यों को ट्रैक करें।</li>
+      <li><a href={toolPathBySlug('notepad')}>Notepad</a>: सीधे ब्राउज़र में त्वरित नोट्स लिखें।</li>
+    </ul>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

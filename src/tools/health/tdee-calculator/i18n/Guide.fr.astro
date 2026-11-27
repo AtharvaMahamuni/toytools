@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Votre TDEE (Total Daily Energy Expenditure) estime le total des calories dépensées chaque jour en combinant votre métabolisme de base au repos (BMR) et vos mouvements quotidiens ou séances de sport. C’est la référence de maintien à partir de laquelle définir un déficit ou un surplus.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir le Calculateur TDEE →</a>
+  </section>
+
+  <section id="niveau-activite">
+    <h2>Choisir honnêtement son niveau d’activité <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      L’erreur la plus courante consiste à surestimer l’activité hebdomadaire. Avec un emploi de bureau et deux séances de sport, sélectionner un palier trop élevé gonfle facilement l’objectif de 250 à 350 kcal par jour.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Ne pas passer sous votre BMR">
+      <p>Un déficit modéré de 300 à 500 kcal sous le maintien reste durable. Suivez votre poids moyen sur deux à trois semaines puis ajustez par tranches de 150 kcal.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="outils-sante">
+    <h2>Compléter votre suivi nutritionnel <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Isolez votre dépense au repos via le <a href={toolPathBySlug('bmr-calculator', 'fr')}>Calculateur BMR</a> ou situez votre morphologie avec le <a href={toolPathBySlug('bmi-calculator', 'fr')}>Calculateur IMC</a>. Pour répartir vos macronutriments consultez <a href={toolPathBySlug('macro-calculator')}>Macro Calculator</a> et <a href={toolPathBySlug('calorie-deficit-calculator')}>Calorie Deficit Calculator</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

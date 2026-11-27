@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="schnellantwort">
+    <h2>Schnellantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Das exakte chronologische Alter ergibt sich nicht aus einer bloßen Jahressubtraktion: Es berücksichtigt, ob der diesjährige Geburtstag bereits stattfand, sowie die reale Monatslänge (28 bis 31 Tage) und Schaltjahre.
+    </p>
+    <a href={toolHref} class="cta-link">Altersrechner öffnen →</a>
+  </section>
+
+  <section id="monate-und-schaltjahre">
+    <h2>Echte Kalendermonate und der 29. Februar <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Fällt der Geburtstag auf einen 31. und ein kürzerer Folgemonat hat weniger Tage, endet der volle Monat an dessen letztem Tag (etwa 28./29. Februar). Wer am 29. Februar geboren ist, zählt in Nicht-Schaltjahren standardmäßig am 28. Februar ein Jahr älter.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Alter an einem künftigen Stichtag">
+      <p>Nutze das zweite Datumsfeld, um dein exaktes Alter für Stichtage wie Schulbeginn, Vertragsfristen oder Rentenantritte zu prüfen.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="verwandte-tools">
+    <h2>Weitere Datums- und Zeitwerkzeuge <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Für den Abstand zwischen zwei beliebigen Terminen öffne den <a href={toolPathBySlug('date-difference-calculator', 'de')}>Datumsdifferenz-Rechner</a>, oder wandle Daten im <a href={toolPathBySlug('unix-timestamp-converter', 'de')}>Unix-Timestamp-Umrechner</a> in Epoch-Sekunden um.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

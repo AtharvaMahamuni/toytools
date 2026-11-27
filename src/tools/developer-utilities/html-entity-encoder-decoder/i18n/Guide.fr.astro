@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Même sur une page encodée en UTF-8, vous devez toujours échapper <code>&lt;</code> (<code>&amp;lt;</code>), <code>&gt;</code> (<code>&amp;gt;</code>), <code>&amp;</code> (<code>&amp;amp;</code>) et les guillemets dans les attributs (<code>&amp;quot;</code> et <code>&amp;#39;</code>) afin d’éviter qu’un contenu utilisateur n’ouvre de balise ni n’injecte de script XSS.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir l’Encodeur d’Entités HTML →</a>
+  </section>
+
+  <section id="nommees-vs-numeriques">
+    <h2>Références nommées vs numériques et limites XSS <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <code>&amp;amp;</code>, <code>&amp;#38;</code> et <code>&amp;#x26;</code> produisent tous le même caractère <code>&amp;</code>. L’échappement HTML protège le texte et les attributs ordinaires, mais les blocs <code>&lt;script&gt;</code>, attributs <code>style</code> ou URLs <code>href</code> demandent un filtrage propre à leur contexte.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Échapper &amp; en premier">
+      <p>Traitez d’abord <code>&amp;</code> avant <code>&lt;</code> et <code>&gt;</code> pour ne pas rééchapper vos propres entités, et préférez <code>&amp;#39;</code> à <code>&amp;apos;</code> pour la compatibilité HTML4.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="outils-associes">
+    <h2>Autres encodeurs utiles <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Pour échapper les paramètres d’adresses Web utilisez l’<a href={toolPathBySlug('url-encoder-decoder', 'fr')}>Encodeur URL</a>, pour des octets bruts l’<a href={toolPathBySlug('base64-encoder-decoder', 'fr')}>Encodeur Base64</a> ou pour des chaînes JSON l’outil <a href={toolPathBySlug('json-escape')}>JSON Escape</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

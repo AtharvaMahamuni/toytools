@@ -7,6 +7,7 @@
 
 import type { Generator, GenerationResult, GeneratorOptions } from '../types';
 import { secureInt, pick } from '../utils';
+import { readClientI18n } from '@lib/i18n/client';
 
 const WORDS = [
   'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit', 'sed', 'do',
@@ -99,14 +100,15 @@ export const lorem: Generator = {
       text = paragraphs.join('\n\n');
     }
 
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
     return {
       ok: true,
       kind: 'text',
       text,
       meta: [
-        { label: 'Words', value: String(wordCount) },
-        { label: 'Characters', value: String(text.length) },
+        { label: ei.metaWords ?? 'Words', value: String(wordCount) },
+        { label: ei.metaChars ?? 'Characters', value: String(text.length) },
       ],
     };
   },

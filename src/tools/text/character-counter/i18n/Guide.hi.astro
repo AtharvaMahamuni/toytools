@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      किसी टेक्स्ट में अक्षरों की संख्या इस बात पर निर्भर करती है कि स्पेस, नई लाइन (line breaks) और इमोजी या मात्राएं कैसे गिनी जा रही हैं। X/Twitter, SMS और Google मेटा डिस्क्रिप्शन जैसी ज्यादातर सेवाएं स्पेस व लाइन ब्रेक को भी गिनती में शामिल करती हैं।
+    </p>
+    <a href={toolHref} class="cta-link">अक्षर गणक खोलें →</a>
+  </section>
+
+  <section id="spaces-and-utf8">
+    <h2>स्पेस सहित बनाम बिना स्पेस और UTF-8 बाइट्स <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      जहां वेबसाइट फॉर्म और सोशल मीडिया स्पेस सहित लंबाई जांचते हैं, वहीं कुछ संपादकीय कार्यों में बिना स्पेस की गणना देखी जाती है। दूसरी तरफ डेटाबेस और API में UTF-8 बाइट सीमा होती है, जहां हिंदी अक्षर और इमोजी 2 से 4 बाइट लेते हैं।
+    </p>
+    <ReferenceBlock type="key-idea" heading="लाइन ब्रेक और इमोजी का ध्यान रखें">
+      <p>हर लाइन ब्रेक "स्पेस सहित" गिनती में 1 जोड़ता है, जबकि UTF-16 आधारित कई प्लेटफॉर्म सामान्य इमोजी को भी 2 कैरेक्टर गिनते हैं।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>टेक्स्ट जांचने के लिए उपयोगी टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      अक्षरों के साथ कुल शब्द जांचने के लिए <a href={toolPathBySlug('word-counter', 'hi')}>शब्द गणक (Word Counter)</a> का उपयोग करें। सीमा के भीतर लाने हेतु अतिरिक्त स्पेस हटाने के लिए <a href={toolPathBySlug('remove-extra-spaces')}>Remove Extra Spaces</a> और केवल वर्ण गिनने के लिए <a href={toolPathBySlug('letter-counter')}>Letter Counter</a> देखें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

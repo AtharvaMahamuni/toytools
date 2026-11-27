@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A idade cronológica exata não é apenas subtrair o ano de nascimento do ano atual: ela considera se o aniversário do ano corrente já passou, o número real de dias em cada mês (28, 29, 30 ou 31) e os anos bissextos do calendário.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Calculadora de Idade →</a>
+  </section>
+
+  <section id="meses-e-bissextos">
+    <h2>Como funcionam meses curtos e 29 de fevereiro <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Quando o dia de nascimento não existe em um mês menor (como dia 31 antes de fevereiro), o mês fecha no último dia daquele mês e os dias seguintes somam na diferença. Nascidos em 29 de fevereiro seguem a convenção civil de 28 de fevereiro nos anos comuns.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Simular idade em datas futuras">
+      <p>Preencha o segundo campo para conferir exatamente quantos anos, meses e dias você terá na data de uma prova, edital ou aposentadoria.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="ferramentas-relacionadas">
+    <h2>Outras ferramentas de datas e horários <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Para medir o intervalo completo ou dias úteis entre quaisquer duas datas use a <a href={toolPathBySlug('date-difference-calculator', 'pt')}>Calculadora de Diferença entre Datas</a>, ou converta datas em segundos Epoch com o <a href={toolPathBySlug('unix-timestamp-converter', 'pt')}>Conversor Unix Timestamp</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

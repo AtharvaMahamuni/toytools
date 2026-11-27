@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      URL एनकोडिंग (RFC 3986 percent-encoding) स्पेस, गैर-ASCII अक्षरों और आरक्षित चिह्नों (<code>&amp;</code>, <code>=</code>, <code>?</code>, <code>/</code>) को UTF-8 के <code>%XX</code> रूप में बदलती है ताकि वेब पते के क्वेरी पैरामीटर सर्वर तक बिना टूटे पहुंचें।
+    </p>
+    <a href={toolHref} class="cta-link">URL एनकोडर खोलें →</a>
+  </section>
+
+  <section id="encodeuricomponent">
+    <h2>encodeURIComponent बनाम encodeURI और डबल-एनकोडिंग <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      अलग-अलग पैरामीटर मानों के लिए <code>encodeURIComponent</code> चुनें जो <code>/</code> और <code>&amp;</code> को भी सुरक्षित करता है, जबकि <code>encodeURI</code> पूरे URL के लिए होता है। पहले से एनकोड मान को दोबारा बदलने पर <code>%2520</code> जैसा बग आ जाता है।
+    </p>
+    <ReferenceBlock type="key-idea" heading="कब %20 और कब + उपयोग करें">
+      <p>मानक लिंक और पथ में <code>%20</code> का इस्तेमाल करें; स्पेस के लिए <code>+</code> केवल <code>application/x-www-form-urlencoded</code> फॉर्म डेटा में मान्य है।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>अन्य उपयोगी वेब एनकोडर टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      बाइनरी या टोकन डेटा तैयार करने के लिए <a href={toolPathBySlug('base64-encoder-decoder', 'hi')}>Base64 एनकोडर</a> और HTML आउटपुट को सुरक्षित करने के लिए <a href={toolPathBySlug('html-entity-encoder-decoder', 'hi')}>HTML एंटिटी एनकोडर</a> का उपयोग करें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      अनुमानित पठन समय कुल शब्दों को वयस्कों की औसत मौन पठन गति 200 शब्द प्रति मिनट (WPM) से भाग देकर निकाला जाता है। वहीं मंच पर बोलने या वीडियो वॉइसओवर के लिए औसत गति 130 से 150 शब्द प्रति मिनट होती है, जिससे बोलने का समय अधिक निकलता है।
+    </p>
+    <a href={toolHref} class="cta-link">पठन समय कैलकुलेटर खोलें →</a>
+  </section>
+
+  <section id="wpm-guide">
+    <h2>शब्दों के हिसाब से समय और विषय का असर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      सामान्य लेखों में ~400 शब्द करीब 2 मिनट, 1,000 शब्द करीब 5 मिनट और 2,000 शब्द करीब 10 मिनट लेते हैं। यदि लेख में जटिल शब्दावली, तालिकाएं या कोड शामिल हों, तो वास्तविक समय 30% से 50% तक बढ़ सकता है।
+    </p>
+    <ReferenceBlock type="key-idea" heading="चुपचाप पढ़ना बनाम भाषण देना">
+      <p>प्रेजेंटेशन या पॉडकास्ट स्क्रिप्ट तय करते समय हमेशा बोलने के समय (Speaking Time) को आधार बनाएं ताकि विराम और स्पष्ट उच्चारण के लिए पर्याप्त समय बचे।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>लेख की लंबाई जांचने के संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      शब्दों और वाक्यों का पूरा विवरण देखने के लिए <a href={toolPathBySlug('word-counter', 'hi')}>शब्द गणक (Word Counter)</a>, सारांश की सीमा जांचने के लिए <a href={toolPathBySlug('character-counter', 'hi')}>अक्षर गणक</a> या दो संपादित संस्करणों का अंतर देखने के लिए <a href={toolPathBySlug('text-compare', 'hi')}>टेक्स्ट तुलना</a> उपयोग करें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

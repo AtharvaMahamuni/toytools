@@ -18,7 +18,7 @@ import {
   toolHreflangLinks,
 } from './registry';
 
-const PILOT_TOOLS = [
+const LOCALIZED_TOOLS = [
   'no-sleep-website',
   'pomodoro-timer',
   'word-counter',
@@ -29,6 +29,26 @@ const PILOT_TOOLS = [
   'qr-code-generator',
   'unix-timestamp-converter',
   'text-compare',
+  'json-minifier',
+  'json-validator',
+  'sql-formatter',
+  'xml-formatter',
+  'css-minifier',
+  'password-generator',
+  'uuid-generator',
+  'lorem-ipsum-generator',
+  'character-counter',
+  'reading-time-calculator',
+  'tdee-calculator',
+  'bmr-calculator',
+  'age-calculator',
+  'date-difference-calculator',
+  'base64-encoder-decoder',
+  'url-encoder-decoder',
+  'html-entity-encoder-decoder',
+  'sha256-hash-generator',
+  'discount-calculator',
+  'px-to-rem-converter',
 ] as const;
 
 const SITE = 'https://toytoolsapp.com/';
@@ -43,9 +63,11 @@ function walkFiles(dir: string, out: string[] = []): string[] {
   return out;
 }
 
-describe('i18n Phase 1 coverage and parity', () => {
-  it('registers all 10 pilot tools and guides for es, de, fr', () => {
-    for (const slug of PILOT_TOOLS) {
+describe('i18n Phase 2 coverage and parity', () => {
+  it('registers all 30 localized tools and guides across all 6 locales', () => {
+    expect(LOCALIZED_TOOLS).toHaveLength(30);
+    expect(LOCALIZED_LOCALES).toEqual(['es', 'de', 'fr', 'ja', 'pt', 'hi']);
+    for (const slug of LOCALIZED_TOOLS) {
       const enTool = getToolBySlug(slug);
       const enFaqs = faqsByToolSlug[slug] ?? [];
       expect(enFaqs.length).toBeGreaterThan(0);
@@ -71,35 +93,38 @@ describe('i18n Phase 1 coverage and parity', () => {
   });
 
   it('keeps hreflang availability-gated so unlocalized tools emit no alternate links', () => {
-    const unlocalized = getToolBySlug('base64-encoder-decoder');
+    const unlocalized = getToolBySlug('hex-encoder-decoder');
     const unlocCat = categories.find(c => c.slug === unlocalized.categorySlug)!;
-    expect(availableLocalesForTool('base64-encoder-decoder')).toEqual(['en']);
-    expect(availableLocalesForGuide('base64-encoder-decoder')).toEqual(['en']);
+    expect(availableLocalesForTool('hex-encoder-decoder')).toEqual(['en']);
+    expect(availableLocalesForGuide('hex-encoder-decoder')).toEqual(['en']);
     expect(toolHreflangLinks(unlocalized, unlocCat, SITE)).toEqual([]);
     expect(guideHreflangLinks(unlocalized, SITE)).toEqual([]);
   });
 
-  it('emits reciprocal x-default + en/es/de/fr hreflang links for localized tools, guides, categories, and pages', () => {
+  it('emits reciprocal x-default + 7 locales hreflang links for localized tools, guides, categories, and pages', () => {
     const wc = getToolBySlug('word-counter');
     const wcCat = categories.find(c => c.slug === wc.categorySlug)!;
+    const expectedLangs = ['x-default', 'en', 'es', 'de', 'fr', 'ja', 'pt', 'hi'];
 
     const tLinks = toolHreflangLinks(wc, wcCat, SITE);
-    expect(tLinks.map(l => l.hreflang)).toEqual(['x-default', 'en', 'es', 'de', 'fr']);
+    expect(tLinks.map(l => l.hreflang)).toEqual(expectedLangs);
     expect(tLinks.find(l => l.hreflang === 'x-default')?.href).toBe('https://toytoolsapp.com/tool/text/word-counter/');
     expect(tLinks.find(l => l.hreflang === 'es')?.href).toBe('https://toytoolsapp.com/es/tool/text/word-counter/');
+    expect(tLinks.find(l => l.hreflang === 'ja')?.href).toBe('https://toytoolsapp.com/ja/tool/text/word-counter/');
 
     const gLinks = guideHreflangLinks(wc, SITE);
-    expect(gLinks.map(l => l.hreflang)).toEqual(['x-default', 'en', 'es', 'de', 'fr']);
+    expect(gLinks.map(l => l.hreflang)).toEqual(expectedLangs);
     expect(gLinks.find(l => l.hreflang === 'de')?.href).toBe(
       'https://toytoolsapp.com/de/guide/text/how-to-count-words-in-your-writing/',
     );
 
     const catLinks = categoryHreflangLinks(wcCat, SITE);
-    expect(catLinks).toHaveLength(5);
+    expect(catLinks).toHaveLength(8);
 
     const pageLinks = pageHreflangLinks('/about/', SITE);
-    expect(pageLinks.map(l => l.hreflang)).toEqual(['x-default', 'en', 'es', 'de', 'fr']);
+    expect(pageLinks.map(l => l.hreflang)).toEqual(expectedLangs);
     expect(pageLinks.find(l => l.hreflang === 'fr')?.href).toBe('https://toytoolsapp.com/fr/about/');
+    expect(pageLinks.find(l => l.hreflang === 'hi')?.href).toBe('https://toytoolsapp.com/hi/about/');
   });
 
   it('uses valid BCP-47 hreflang codes', () => {
@@ -116,7 +141,7 @@ describe('i18n Phase 1 coverage and parity', () => {
       ...walkFiles(join(root, 'src/tools')).filter(f => /\/i18n\//.test(f)),
     ].filter(f => /\.(ts|astro)$/.test(f));
 
-    expect(files.length).toBeGreaterThan(60);
+    expect(files.length).toBeGreaterThan(350);
     for (const file of files) {
       if (file.includes('/pages/[lang]/tool/')) continue;
       const content = readFileSync(file, 'utf8').replace(/\/\/[^\n]*/g, '');

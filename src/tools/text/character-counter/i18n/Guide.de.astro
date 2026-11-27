@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="schnellantwort">
+    <h2>Schnellantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Wie viele Zeichen ein Text belegt, hängt davon ab, ob Leerzeichen, Zeilenumbrüche und Unicode-Zeichen mitgezählt werden. Soziale Netzwerke, SMS-Anbieter und SEO-Snippets orientieren sich fast immer am Gesamtwert inklusive Leerzeichen.
+    </p>
+    <a href={toolHref} class="cta-link">Zeichenzähler öffnen →</a>
+  </section>
+
+  <section id="leerzeichen-und-bytes">
+    <h2>Mit Leerzeichen vs. ohne Leerzeichen und UTF-8-Bytes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Während UI-Felder und Social-Plattformen die Länge mit Leerzeichen begrenzen, rechnen manche Lektorate nach Zeichen ohne Leerzeichen ab. Technische APIs wiederum begrenzen mitunter UTF-8-Bytes, bei denen Umlaute 2 Bytes und Emojis bis zu 4 Bytes beanspruchen.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Zeilenumbrüche und Emojis beachten">
+      <p>Jeder Zeilenumbruch zählt im Gesamtwert mit Leerzeichen als 1 Zeichen. Einfache Emojis zählen in UTF-16-Systemen oft als 2 Zeichen.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="verwandte-tools">
+    <h2>Passende Werkzeuge für Textlängen <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Für die gleichzeitige Kontrolle von Wörtern nutze unseren <a href={toolPathBySlug('word-counter', 'de')}>Wörterzähler</a>. Überflüssige Leerzeichen entfernst du vor dem Einfügen mit <a href={toolPathBySlug('remove-extra-spaces')}>Remove Extra Spaces</a>, reine Buchstaben misst der <a href={toolPathBySlug('letter-counter')}>Letter Counter</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

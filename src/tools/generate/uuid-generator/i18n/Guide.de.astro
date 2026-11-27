@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="schnellantwort">
+    <h2>Schnellantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Eine Version-4-UUID (Universally Unique Identifier) ist ein 128-Bit-Zufallswert in der Schreibweise <code>8-4-4-4-12</code>. Clients, Microservices und Offline-Apps können sie unabhängig voneinander erzeugen, ohne dass eine zentrale Vergabestelle Kollisionen verhindern muss.
+    </p>
+    <a href={toolHref} class="cta-link">UUID-Generator öffnen →</a>
+  </section>
+
+  <section id="aufbau-und-datenbank">
+    <h2>RFC-4122-Aufbau und Datenbankspeicherung <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      122 Bits stammen aus der kryptografischen Web Crypto API; 6 Bits markieren Version <code>4</code> an Stelle 13 sowie die Variante (<code>8</code>, <code>9</code>, <code>a</code> oder <code>b</code>) an Stelle 17. Anders als UUID v1 verrät v4 weder Erstellungszeitpunkt noch Rechneradresse.
+    </p>
+    <ReferenceBlock type="key-idea" heading="16 Byte statt 36 Zeichen">
+      <p>Nutze nach Möglichkeit den nativen <code>UUID</code>-Spaltentyp deiner Datenbank (16 Byte binär) und ergänze einen separaten Zeitstempel, falls Datensätze chronologisch sortiert werden sollen.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="grenzen">
+    <h2>UUIDs sind keine Passwörter <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Weil UUIDs oft in URLs, Logs und API-Antworten auftauchen, gehören sie nicht als Zugriffsschlüssel oder Passwort verwendet. Sichere Zugangsdaten erstellt der <a href={toolPathBySlug('password-generator', 'de')}>Passwort-Generator</a>, individuelle Tokens liefert der <a href={toolPathBySlug('random-string-generator')}>Random String Generator</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

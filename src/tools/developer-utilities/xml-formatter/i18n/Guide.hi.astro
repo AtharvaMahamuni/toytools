@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      XML फ़ॉर्मेटर और वैलिडेटर सीधे ब्राउज़र के <code>DOMParser</code> की मदद से XML को 2-स्पेस इंडेंट या मिनिफ़ाई करता है और टैग की किसी भी गड़बड़ी पर लाइन नंबर दिखाता है।
+    </p>
+    <a href={toolHref} class="cta-link">XML फ़ॉर्मेटर खोलें →</a>
+  </section>
+
+  <section id="rules">
+    <h2>केस-सेंसिटिविटी, नेमस्पेस और CDATA <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      XML में बड़े और छोटे अक्षर अलग माने जाते हैं और हर टैग का ठीक उसी रूप में बंद होना आवश्यक है। कमेंट, CDATA और <code>xmlns</code> एट्रिब्यूट सुरक्षित रहते हैं।
+    </p>
+    <ReferenceBlock type="note" heading="शुद्ध संरचना बनाम XSD स्कीमा">
+      <p>यह केवल XML की संरचनात्मक शुद्धता जाँचता है; बाहरी DTD या XSD स्कीमा डाउनलोड या लागू नहीं किए जाते।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      अक्षर एन्कोडिंग के लिए <a href={toolPathBySlug('html-entity-encoder-decoder', 'hi')}>HTML एंटिटी एनकोडर</a> और JSON के लिए <a href={toolPathBySlug('json-formatter', 'hi')}>JSON फ़ॉर्मेटर</a> देखें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

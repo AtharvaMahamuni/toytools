@@ -1,5 +1,6 @@
 import type { EncodingTool } from './types';
 import { byteLength, count } from './util';
+import { readClientI18n } from '@lib/i18n/client';
 
 // URL (percent) encoding. encodeURIComponent escapes everything that isn't an
 // unreserved URI character; decodeURIComponent reverses it and throws on a
@@ -35,13 +36,17 @@ export const url: EncodingTool = {
   validate(input, mode) {
     if (mode === 'encode') return { ok: true, severity: 'info' };
     if (!input) return { ok: true };
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     // Find the first "%" not followed by two hex digits.
     const m = input.match(/%(?![0-9A-Fa-f]{2})/);
     if (m && m.index !== undefined) {
+      const pos = String(m.index + 1);
       return {
         ok: false,
         severity: 'error',
-        message: `Invalid percent-encoding at position ${m.index + 1}: "%" must be followed by two hex digits.`,
+        message: typeof ei.errInvalidPctTpl === 'string' && ei.errInvalidPctTpl
+          ? ei.errInvalidPctTpl.replace(/\{pos\}/g, pos)
+          : `Invalid percent-encoding at position ${pos}: "%" must be followed by two hex digits.`,
         position: m.index,
       };
     }
@@ -54,13 +59,14 @@ export const url: EncodingTool = {
   // and a stray "%" from ordinary prose ("50% off") that makes the whole decode throw.
   recover(input, mode) {
     if (mode !== 'decode' || !input) return null;
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
 
     // Double-encoded: one decode leaves percent escapes behind, so the user decodes twice by hand.
     if (/%25[0-9A-Fa-f]{2}/.test(input)) {
       try {
         const once = decodeURIComponent(input);
         if (/%[0-9A-Fa-f]{2}/.test(once)) {
-          return { label: 'Decode twice (this is double-encoded)', text: once, mode: 'decode' };
+          return { label: ei.recDouble ?? 'Decode twice (this is double-encoded)', text: once, mode: 'decode' };
         }
       } catch (_) {
         return null;
@@ -73,7 +79,7 @@ export const url: EncodingTool = {
       const escaped = input.replace(/%(?![0-9A-Fa-f]{2})/g, '%25');
       try {
         decodeURIComponent(escaped);
-        return { label: 'Treat the stray "%" as a literal percent sign', text: escaped, mode: 'decode' };
+        return { label: ei.recStrayPct ?? 'Treat the stray "%" as a literal percent sign', text: escaped, mode: 'decode' };
       } catch (_) {
         return null;
       }
@@ -82,7 +88,7 @@ export const url: EncodingTool = {
     // application/x-www-form-urlencoded uses "+" for space; decodeURIComponent does not.
     if (input.includes('+') && /%[0-9A-Fa-f]{2}/.test(input)) {
       return {
-        label: 'Treat "+" as spaces (form-encoded)',
+        label: ei.recPlus ?? 'Treat "+" as spaces (form-encoded)',
         text: input.replace(/\+/g, '%20'),
         mode: 'decode',
       };
@@ -92,12 +98,16 @@ export const url: EncodingTool = {
   },
 
   meta(input, output, mode) {
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     const source = mode === 'encode' ? output : input;
     const escapes = (source.match(/%[0-9A-Fa-f]{2}/g) || []).length;
+    const escVal = typeof ei.escCountTpl === 'string' && ei.escCountTpl
+      ? ei.escCountTpl.replace(/\{n\}/g, String(escapes))
+      : count(escapes, 'sequence');
     return [
-      { label: 'Escapes', value: count(escapes, 'sequence') },
-      { label: 'Input length', value: String(input.length) },
-      { label: 'Output bytes', value: String(byteLength(output)) },
+      { label: ei.metaEscapes ?? 'Escapes', value: escVal },
+      { label: ei.metaInputLen ?? 'Input length', value: String(input.length) },
+      { label: ei.metaOutputBytes ?? 'Output bytes', value: String(byteLength(output)) },
     ];
   },
 };

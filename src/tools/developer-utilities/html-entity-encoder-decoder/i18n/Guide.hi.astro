@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      भले ही आपका वेबपेज UTF-8 का उपयोग करता हो, फिर भी <code>&lt;</code> (<code>&amp;lt;</code>), <code>&gt;</code> (<code>&amp;gt;</code>), <code>&amp;</code> (<code>&amp;amp;</code>) और एट्रिब्यूट में कोट्स (<code>&amp;quot;</code> व <code>&amp;#39;</code>) को हमेशा एस्केप करना चाहिए ताकि उपयोगकर्ता डेटा HTML टैग या XSS स्क्रिप्ट के रूप में न चले।
+    </p>
+    <a href={toolHref} class="cta-link">HTML एंटिटी एनकोडर खोलें →</a>
+  </section>
+
+  <section id="named-vs-numeric">
+    <h2>नामित बनाम संख्यात्मक संदर्भ और XSS सीमाएं <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <code>&amp;amp;</code>, <code>&amp;#38;</code> और <code>&amp;#x26;</code> सभी एक ही <code>&amp;</code> चिह्न दिखाते हैं। HTML एंटिटी एस्केपिंग सामान्य टेक्स्ट और एट्रिब्यूट की रक्षा करती है, जबकि <code>&lt;script&gt;</code> ब्लॉक, <code>style</code> और <code>href</code> लिंक को अपने अलग नियमों की आवश्यकता होती है।
+    </p>
+    <ReferenceBlock type="key-idea" heading="&amp; को हमेशा सबसे पहले एस्केप करें">
+      <p>डबल एस्केप से बचने के लिए सबसे पहले <code>&amp;</code> बदलें, और पुराने HTML4 पार्सर के साथ अनुकूलता के लिए <code>&amp;apos;</code> की जगह <code>&amp;#39;</code> चुनें।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>संबंधित डेवलपर एस्केपिंग टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      वेब लिंक पैरामीटर के लिए <a href={toolPathBySlug('url-encoder-decoder', 'hi')}>URL एनकोडर</a>, बाइनरी डेटा के लिए <a href={toolPathBySlug('base64-encoder-decoder', 'hi')}>Base64 एनकोडर</a> और JSON स्ट्रिंग एस्केप के लिए <a href={toolPathBySlug('json-escape')}>JSON Escape</a> का उपयोग करें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

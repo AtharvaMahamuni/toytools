@@ -1,0 +1,69 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="pt"
+>
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Porcentagem é uma razão comparada a 100. Praticamente todo cálculo do dia a dia com descontos, juros, metas ou relatórios se resolve com três fórmulas: achar X% de Y, descobrir que porcentagem X representa de Y e calcular a variação percentual entre dois valores.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Calculadora de Porcentagem →</a>
+  </section>
+
+  <section id="tres-formulas">
+    <h2>As três fórmulas principais <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>1. Quanto é X% de Y?</strong> Multiplique Y por X e divida por 100. Ex.: 15% de 200 = (15 × 200) ÷ 100 = 30.</p>
+    <p><strong>2. X é quantos % de Y?</strong> Divida X por Y e multiplique por 100. Ex.: 45 de 180 = (45 ÷ 180) × 100 = 25%.</p>
+    <p><strong>3. Variação percentual de X para Y:</strong> <code>((Y - X) ÷ |X|) × 100</code>. Subir de 80 para 100 dá +25%; voltar de 100 para 80 dá -20% porque a base inicial mudou.</p>
+    <ReferenceBlock type="key-idea" heading="Identifique sempre a base">
+      <p>Todo percentual se refere a um valor de partida (denominador). Confundir parte e base é a origem mais comum de resultados errados.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="erros-frequentes">
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Trocar variação percentual por pontos percentuais">
+      <p>Quando uma taxa passa de 2% para 3%, ela subiu 1 ponto percentual, mas cresceu 50% relativamente à taxa anterior.</p>
+    </ReferenceBlock>
+    <p>
+      Para calcular preço promocional ou acumular dois descontos seguidos corretamente, use nossa <a href={toolPathBySlug('discount-calculator', 'pt')}>Calculadora de Desconto</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Os limites de caracteres variam conforme a inclusão de espaços, quebras de linha e codificação de emojis ou acentos. Na grande maioria das plataformas (X/Twitter, SMS e meta descrições de SEO), espaços e cada quebra de linha contam no limite total.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Contador de Caracteres →</a>
+  </section>
+
+  <section id="com-vs-sem-espacos">
+    <h2>Com espaços, sem espaços e bytes UTF-8 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Formulários e redes sociais validam o total com espaços, enquanto revisões editoriais por vezes consideram apenas o texto útil sem espaços. Já bancos de dados e APIs podem impor limites em bytes UTF-8, onde acentos e emojis ocupam 2 a 4 bytes.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Fique atento a quebras de linha e emojis">
+      <p>Cada quebra de linha soma 1 ao total com espaços. Além disso, emojis simples costumam contar como 2 caracteres em sistemas UTF-16 como o X.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="ferramentas-relacionadas">
+    <h2>Ferramentas complementares de texto <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Para acompanhar também palavras e tempo de leitura use o <a href={toolPathBySlug('word-counter', 'pt')}>Contador de Palavras</a>. Precisa ganhar espaço removendo duplos espaços? Acesse <a href={toolPathBySlug('remove-extra-spaces')}>Remove Extra Spaces</a> ou conte só letras no <a href={toolPathBySlug('letter-counter')}>Letter Counter</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

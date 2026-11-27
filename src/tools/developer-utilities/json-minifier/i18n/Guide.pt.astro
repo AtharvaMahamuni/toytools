@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Minificar JSON remove todos os espaços, tabulações e quebras de linha dispensáveis entre tokens mantendo exatamente os mesmos dados. O resultado reduz banda e acelera carregamentos em produção.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Minificador de JSON →</a>
+  </section>
+
+  <section id="gzip">
+    <h2>Economia de bytes e uso com gzip <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Arquivos muito indentados encolhem entre 20% e 40% em tamanho bruto, e aliados a gzip ou Brotli entregam payload enxuto ao cliente.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Reversível e fiel aos números exatos">
+      <p>Ao não reconstruir objetos na memória JS, preços como <code>19.90</code> e IDs grandes continuam exatamente iguais.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="ferramentas-relacionadas">
+    <h2>Ferramentas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Para voltar ao formato legível, use o <a href={toolPathBySlug('json-formatter', 'pt')}>Formatador de JSON</a>; para conferir erros antes, use o <a href={toolPathBySlug('json-validator', 'pt')}>Validador de JSON</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

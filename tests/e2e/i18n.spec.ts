@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('i18n multilingual routes and switcher', () => {
-  test('renders localized home pages with valid lang, canonical, and reciprocal hreflang links', async ({ page }) => {
-    for (const locale of ['es', 'de', 'fr'] as const) {
+  test('renders all 6 localized home pages with valid lang, canonical, and reciprocal hreflang links', async ({ page }) => {
+    for (const locale of ['es', 'de', 'fr', 'ja', 'pt', 'hi'] as const) {
       const errors: string[] = [];
       page.on('pageerror', err => errors.push(err.message));
 
@@ -25,7 +25,7 @@ test.describe('i18n multilingual routes and switcher', () => {
     }
   });
 
-  test('switches language cleanly via the LanguageSwitcher on localized tools', async ({ page }) => {
+  test('switches language cleanly across es, de, and ja via LanguageSwitcher', async ({ page }) => {
     await page.goto('/es/tool/text/word-counter/');
     await expect(page.locator('h1')).toContainText('Contador de Palabras');
 
@@ -36,9 +36,17 @@ test.describe('i18n multilingual routes and switcher', () => {
     await page.waitForURL('**/de/tool/text/word-counter/');
     await expect(page.locator('html')).toHaveAttribute('lang', 'de');
     await expect(page.locator('h1')).toContainText('Wörterzähler');
+
+    const details2 = page.locator('.lang-switcher').first();
+    await details2.locator('summary').click();
+    await details2.locator('a[href="/ja/tool/text/word-counter/"]').click();
+
+    await page.waitForURL('**/ja/tool/text/word-counter/');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'ja');
+    await expect(page.locator('h1')).toContainText('単語数カウンター');
   });
 
-  test('computes localized interactive tool workflows in browser', async ({ page }) => {
+  test('computes localized interactive tool workflows across groups and locales without template leaks', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', err => errors.push(err.message));
 
@@ -53,14 +61,57 @@ test.describe('i18n multilingual routes and switcher', () => {
     await page.fill('#bmi-calculator-f-height', '175');
     await expect(page.locator('.tm-hero, [data-field-id="bmi"], output, .res-hero, #bmi-calculator-results')).toBeVisible();
 
+    await page.goto('/pt/tool/text/character-counter/');
+    await expect(page.locator('.empty-hint')).not.toContainText('Paste or type');
+    await page.fill('#character-counter-input', 'Olá mundo');
+    await expect(page.locator('.hero-value[data-metric="characters"]')).toHaveText('9');
+    await expect(page.locator('[data-metric="charactersNoSpaces"]')).toHaveText('8');
+
+    await page.goto('/hi/tool/developer-utilities/base64-encoder-decoder/');
+    await page.fill('#base64-encoder-decoder-input', 'hello');
+    await expect(page.locator('#base64-encoder-decoder-output')).toHaveValue('aGVsbG8=');
+
+    await page.goto('/ja/tool/number/discount-calculator/');
+    await page.fill('#disc-price', '1000');
+    await page.fill('#disc-amount', '25');
+    await expect(page.locator('#disc-final')).toContainText('750');
+    await expect(page.locator('main')).not.toContainText('{pct}');
+
+    await page.goto('/es/tool/datetime/age-calculator/');
+    await page.fill('#age-calculator-f-birthDate', '2000-01-15');
+    await expect(page.locator('main')).not.toContainText('{totalDays}');
+    await expect(page.locator('main')).not.toContainText('{days}');
+
+    await page.goto('/de/tool/datetime/date-difference-calculator/');
+    await page.fill('#date-difference-calculator-f-startDate', '2026-01-01');
+    await page.fill('#date-difference-calculator-f-endDate', '2026-02-15');
+    await expect(page.locator('main')).not.toContainText('{n}');
+    await expect(page.locator('main')).not.toContainText('{start}');
+    await expect(page.locator('main')).not.toContainText('{end}');
+    await expect(page.locator('main')).not.toContainText('{days}');
+
+    await page.goto('/ja/tool/health/tdee-calculator/');
+    await page.fill('#tdee-calculator-f-age', '30');
+    await page.fill('#tdee-calculator-f-weight', '70');
+    await page.fill('#tdee-calculator-f-height', '175');
+    await expect(page.locator('main')).not.toContainText('{bmr}');
+    await expect(page.locator('main')).not.toContainText('{maintain}');
+    await expect(page.locator('main')).not.toContainText('{pct}');
+
+    await page.goto('/fr/tool/design/px-to-rem-converter/');
+    await expect(page.locator('main')).not.toContainText('{base}');
+
+    await page.goto('/de/tool/generate/password-generator/');
+    await expect(page.locator('h1')).toContainText('Passwort-Generator');
+
     expect(errors).toEqual([]);
   });
 
   test('does not advertise alternate locale links on unlocalized English tools', async ({ page }) => {
-    await page.goto('/tool/developer-utilities/base64-encoder-decoder/');
+    await page.goto('/tool/developer-utilities/hex-encoder-decoder/');
     await expect(page.locator('link[rel="alternate"][hreflang="es"]')).toHaveCount(0);
-    await expect(page.locator('link[rel="alternate"][hreflang="de"]')).toHaveCount(0);
-    await expect(page.locator('link[rel="alternate"][hreflang="fr"]')).toHaveCount(0);
+    await expect(page.locator('link[rel="alternate"][hreflang="ja"]')).toHaveCount(0);
+    await expect(page.locator('link[rel="alternate"][hreflang="hi"]')).toHaveCount(0);
   });
 
   test('preserves above-the-fold ToolBar budget on mobile for localized tool pages', async ({ page }) => {

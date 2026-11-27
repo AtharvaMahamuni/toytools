@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Le temps de lecture estimé divise le nombre total de mots par 200 mots par minute, soit la vitesse moyenne de lecture silencieuse chez l’adulte. Pour estimer un discours à voix haute, la cadence retenue baisse à environ 130–150 mots par minute.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir le Calculateur de Temps de Lecture →</a>
+  </section>
+
+  <section id="reperes-mots">
+    <h2>Repères pratiques selon le volume de mots <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Sur un article courant, comptez environ 2 minutes pour 400 mots, 5 minutes pour 1 000 mots et 10 minutes pour 2 000 mots. Les guides techniques comportant tableaux ou code demandent généralement 30 à 50 % de temps supplémentaire.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Lecture silencieuse vs prise de parole">
+      <p>Pour calibrer une conférence ou une voix off, utilisez toujours le temps de parole afin de préserver des pauses respiratoires naturelles.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="outils-lies">
+    <h2>Affiner la longueur de vos textes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Examinez la structure des phrases avec le <a href={toolPathBySlug('word-counter', 'fr')}>Compteur de Mots</a>, contrôlez les chapôs avec le <a href={toolPathBySlug('character-counter', 'fr')}>Compteur de Caractères</a> ou comparez deux révisions dans <a href={toolPathBySlug('text-compare', 'fr')}>Comparateur de Texte</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

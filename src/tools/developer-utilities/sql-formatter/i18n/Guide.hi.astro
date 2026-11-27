@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      SQL फ़ॉर्मेटर लंबी एक-लाइन क्वेरी को <code>SELECT</code>, <code>FROM</code>, <code>WHERE</code> जैसे बड़े कीवर्ड और 2-स्पेस इंडेंट के साथ तुरंत पठनीय रूप देता है, वह भी सीधे आपके ब्राउज़र में।
+    </p>
+    <a href={toolHref} class="cta-link">SQL फ़ॉर्मेटर खोलें →</a>
+  </section>
+
+  <section id="security">
+    <h2>प्रोडक्शन SQL अपलोड करना क्यों जोखिम भरा है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      लॉग से ली गई क्वेरी में अक्सर पासवर्ड या टोकन शामिल होते हैं। यहाँ सारा काम लोकल चलता है और संदिग्ध पासवर्ड दिखने पर अतिरिक्त चेतावनी भी मिलती है।
+    </p>
+    <ReferenceBlock type="common-mistake" heading="कमेंट सुरक्षा और कोट जाँच">
+      <p>कमेंट्स सुरक्षित रहते हैं और बिना बंद हुए कोट्स मिलने पर टूल अंदाज़ा लगाने के बजाय साफ़ त्रुटि दिखाता है।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      यदि आपकी क्वेरी JSON कॉलम लौटाती है, तो <a href={toolPathBySlug('json-formatter', 'hi')}>JSON फ़ॉर्मेटर</a> का उपयोग करें।
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -2,30 +2,42 @@
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import CraftNote from '@tools/_shared/CraftNote.astro';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { WIDGET_CHROME, uiStr } from '@lib/i18n/widget-utils';
+
+interface Props {
+  lang?: LocaleCode;
+  pack?: LocalizedToolPack | null;
+}
+
+const { lang = 'en', pack = null } = Astro.props;
+const c = WIDGET_CHROME[lang];
+const u = (k: string, fb: string) => uiStr(pack, k, fb);
 ---
 
 <div class="calc-ledger">
 <ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false} equalHeight={false} reserve="23rem">
-  <IoPanel slot="input" label="Value" variant="prose" bare data-tool="px-to-rem-converter">
+  <IoPanel slot="input" label={u('panelValue', 'Value')} variant="prose" bare data-tool="px-to-rem-converter">
     <div class="io-body">
-      <label class="widget-label" for="ptr-value">Value</label>
+      <label class="widget-label" for="ptr-value">{u('lblValue', 'Value')}</label>
       <div class="ptr-row">
         <input id="ptr-value" class="widget-input ptr-num" type="number" inputmode="decimal" step="any" placeholder="16" value="16" />
-        <select id="ptr-unit" class="widget-select ptr-unit" aria-label="From unit">
+        <select id="ptr-unit" class="widget-select ptr-unit" aria-label={u('ariaUnit', 'From unit')}>
           <option value="px" selected>px</option>
           <option value="rem">rem</option>
           <option value="em">em</option>
           <option value="pt">pt</option>
         </select>
       </div>
-      <label class="widget-label" for="ptr-base">Root font size (px)</label>
+      <label class="widget-label" for="ptr-base">{u('lblBase', 'Root font size (px)')}</label>
       <input id="ptr-base" class="widget-input ptr-num" type="number" inputmode="decimal" step="any" placeholder="16" value="16" />
-      <p class="ptr-note">Browsers default to a 16px root. Change it if your CSS sets a custom font size on the html element.</p>
+      <p class="ptr-note">{u('rootNote', 'Browsers default to a 16px root. Change it if your CSS sets a custom font size on the html element.')}</p>
       <p class="ptr-error" id="ptr-error" hidden></p>
     </div>
   </IoPanel>
 
-  <IoPanel slot="output" label="Converted" variant="mono" result bare>
+  <IoPanel slot="output" label={u('panelConverted', 'Converted')} variant="mono" result bare>
     <ul class="ptr-out" id="ptr-out"></ul>
     <CraftNote id="ptr-note" craftId="ptr-em-compounds" />
   </IoPanel>
@@ -35,6 +47,14 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
 
 <script is:inline>
   (function () {
+    var I = {};
+    try {
+      var i18nEl = document.getElementById('tt-i18n');
+      if (i18nEl && i18nEl.textContent) I = JSON.parse(i18nEl.textContent);
+    } catch (_) {}
+    function s(k, fb) { return (typeof I[k] === 'string' && I[k]) ? I[k] : fb; }
+    var copyLabel = s('copyLabel', 'Copy');
+
     var valEl = document.getElementById('ptr-value');
     var unitEl = document.getElementById('ptr-unit');
     var baseEl = document.getElementById('ptr-base');
@@ -62,7 +82,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       if (raw === '' || !Number.isFinite(Number(raw)) || !Number.isFinite(base) || base <= 0) {
         outEl.innerHTML = '';
         note({});
-        if (errEl) { errEl.textContent = 'Enter a number and a positive root size.'; errEl.hidden = false; }
+        if (errEl) { errEl.textContent = s('errInvalid', 'Enter a number and a positive root size.'); errEl.hidden = false; }
         return;
       }
       if (errEl) errEl.hidden = true;
@@ -75,7 +95,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
         return '<li class="ptr-item' + (u[0] === unitEl.value ? ' is-source' : '') + '">' +
           '<span class="ptr-label">' + u[1] + '</span>' +
           '<code class="ptr-value">' + display + '</code>' +
-          '<button class="ptr-copy" type="button" aria-label="Copy ' + u[1] + '" data-copy="' + display + '">Copy</button>' +
+          '<button class="ptr-copy" type="button" aria-label="' + copyLabel + ' ' + u[1] + '" data-copy="' + display + '">' + copyLabel + '</button>' +
           '</li>';
       }).join('');
       persist();
@@ -90,7 +110,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       if (!btn) return;
       if (TT && TT.copy) TT.copy(btn.getAttribute('data-copy'));
       btn.classList.add('is-success'); btn.textContent = '✓';
-      setTimeout(function () { btn.classList.remove('is-success'); btn.textContent = 'Copy'; }, 1500);
+      setTimeout(function () { btn.classList.remove('is-success'); btn.textContent = copyLabel; }, 1500);
     });
 
     valEl.addEventListener('input', render);

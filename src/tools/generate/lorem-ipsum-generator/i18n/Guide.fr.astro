@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Le Lorem ipsum est le texte de remplissage universel utilisé en maquette pour juger la hiérarchie visuelle, la typographie et les marges sans être distrait par la lecture d’un vrai contenu.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir le Générateur Lorem Ipsum →</a>
+  </section>
+
+  <section id="origine-ciceron">
+    <h2>Origine latine et équilibre typographique <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Inspiré d’un extrait remanié de Cicéron (45 av. J.-C.), il offre une répartition naturelle de longueurs de mots et de ponctuation qui simule une vraie prose tout en restant neutre pour l’œil.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Passer au contenu réel avant validation">
+      <p>Idéal pour tester polices et grilles au démarrage, le faux texte doit céder la place à des textes réalistes dès que l’on vérifie la taille des titres, cartes et boutons.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="outils-complementaires">
+    <h2>Vérifier vos gabarits et longueurs <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Pour caler précisément vos blocs éditoriaux, mesurez le volume exact dans le <a href={toolPathBySlug('word-counter', 'fr')}>Compteur de Mots</a> ou vérifiez les plafonds stricts avec le <a href={toolPathBySlug('character-counter', 'fr')}>Compteur de Caractères</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

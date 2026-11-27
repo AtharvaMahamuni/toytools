@@ -5,8 +5,9 @@
 // renders it only when info.byteView is set, and populates it live. Copy is unaffected.
 interface Props {
   id: string;
+  ariaLabel?: string;
 }
-const { id } = Astro.props;
+const { id, ariaLabel = 'Byte breakdown' } = Astro.props;
 ---
 
-<div class="conv-byteview" id={id} aria-label="Byte breakdown" hidden></div>
+<div class="conv-byteview" id={id} aria-label={ariaLabel} hidden></div>

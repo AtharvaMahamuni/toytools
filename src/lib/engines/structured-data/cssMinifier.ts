@@ -3,6 +3,7 @@
 // blocks with two spaces. Strings and url() contents stay intact.
 
 import type { StructuredDataTool, StructuredDataResult } from './types';
+import { readClientI18n } from '@lib/i18n/client';
 
 const MODE_PREFIX = /^@@(minify|beautify)@@\n/;
 
@@ -290,18 +291,23 @@ export function beautifyCss(css: string): string {
 
 export function processCss(css: string, mode: CssMode): StructuredDataResult {
   if (!css.trim()) return { ok: true, output: '' };
+  const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
   try {
     const output = mode === 'minify' ? minifyCss(css) : beautifyCss(css);
     if (mode === 'minify') {
       const before = css.length;
       const after = output.length;
       const saved = Math.max(0, before - after);
-      const warning = saved > 0 ? `Saved ${saved} byte${saved === 1 ? '' : 's'} (${before} → ${after}).` : undefined;
+      const warning = saved > 0
+        ? (typeof ei.savedBytesTpl === 'string' && ei.savedBytesTpl
+            ? ei.savedBytesTpl.replace(/\{saved\}/g, String(saved)).replace(/\{before\}/g, String(before)).replace(/\{after\}/g, String(after))
+            : `Saved ${saved} byte${saved === 1 ? '' : 's'} (${before} → ${after}).`)
+        : undefined;
       return warning ? { ok: true, output, warning } : { ok: true, output };
     }
     return { ok: true, output };
   } catch (e) {
-    return { ok: false, output: '', error: (e as Error).message || 'CSS processing failed' };
+    return { ok: false, output: '', error: (e as Error).message || (ei.errCss ?? 'CSS processing failed') };
   }
 }
 

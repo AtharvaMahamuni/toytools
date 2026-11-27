@@ -69,13 +69,16 @@ const CONTACT_LABELS_BY_PREFIX: Record<string, string> = {
   '/es': 'Contacto y comentarios',
   '/de': 'Kontakt und Feedback',
   '/fr': 'Contact et commentaires',
+  '/ja': 'お問い合わせ・ご意見',
+  '/pt': 'Contato e feedback',
+  '/hi': 'संपर्क और प्रतिक्रिया',
 };
 
 /** What the footer is missing, or null. The contact link may carry ?tool= on tool pages. */
 export function footerProblem(html: string, pagePath = '/'): string | null {
   const footer = html.match(/<footer[^>]*role="contentinfo"[\s\S]*?<\/footer>/)?.[0];
   if (!footer) return 'is missing';
-  const locMatch = pagePath.match(/^\/(es|de|fr)(?:\/|$)/);
+  const locMatch = pagePath.match(/^\/(es|de|fr|ja|pt|hi)(?:\/|$)/);
   const prefix = locMatch ? `/${locMatch[1]}` : '';
   for (const p of ['/about/', '/privacy/', '/terms/']) {
     if (!footer.includes(`${prefix}${p}"`)) return `has no ${prefix}${p} link`;

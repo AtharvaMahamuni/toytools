@@ -1,5 +1,6 @@
 import type { EncodingTool } from './types';
 import { byteLength } from './util';
+import { readClientI18n } from '@lib/i18n/client';
 
 // Base64 — byte-parity with the original hand-written widget:
 //   encode: btoa(unescape(encodeURIComponent(text)))
@@ -71,23 +72,31 @@ export const base64: EncodingTool = {
     if (mode === 'encode') return { ok: true, severity: 'info' };
     const s = input.replace(/\s+/g, '');
     if (!s) return { ok: true };
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     // First character outside the Base64 alphabet (ignoring trailing padding).
     const body = s.replace(/=+$/, '');
     const bad = body.search(/[^A-Za-z0-9+/]/);
     if (bad !== -1) {
+      const ch = body[bad];
+      const pos = String(bad + 1);
       return {
         ok: false,
         severity: 'error',
-        message: `Unexpected character "${body[bad]}" near position ${bad + 1}: not part of the Base64 alphabet.`,
+        message: typeof ei.errBadCharTpl === 'string' && ei.errBadCharTpl
+          ? ei.errBadCharTpl.replace(/\{ch\}/g, ch).replace(/\{pos\}/g, pos)
+          : `Unexpected character "${ch}" near position ${pos}: not part of the Base64 alphabet.`,
         position: bad,
       };
     }
     const padAt = s.indexOf('=');
     if (padAt !== -1 && !/=+$/.test(s.slice(padAt))) {
+      const pos = String(padAt + 1);
       return {
         ok: false,
         severity: 'error',
-        message: `Unexpected "=" padding near position ${padAt + 1}: padding may only appear at the very end.`,
+        message: typeof ei.errBadPadTpl === 'string' && ei.errBadPadTpl
+          ? ei.errBadPadTpl.replace(/\{pos\}/g, pos)
+          : `Unexpected "=" padding near position ${pos}: padding may only appear at the very end.`,
         position: padAt,
       };
     }
@@ -95,7 +104,7 @@ export const base64: EncodingTool = {
       return {
         ok: false,
         severity: 'warning',
-        message: 'Base64 length should be a multiple of 4, so the string may be truncated.',
+        message: ei.warnLen ?? 'Base64 length should be a multiple of 4, so the string may be truncated.',
       };
     }
     return { ok: true, severity: 'info' };
@@ -108,13 +117,14 @@ export const base64: EncodingTool = {
   recover(input) {
     const raw = input.trim();
     if (!raw) return null;
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
 
     // data:[<mime>][;charset=…];base64,<payload>
     const dataUri = raw.match(/^data:[^,]*;base64,([\s\S]*)$/i);
     if (dataUri) {
       const payload = dataUri[1].replace(/\s+/g, '');
       if (payload && B64.test(payload) && decodesToText(pad(payload))) {
-        return { label: 'Decode the data URI payload', text: pad(payload), mode: 'decode' };
+        return { label: ei.recDataUri ?? 'Decode the data URI payload', text: pad(payload), mode: 'decode' };
       }
       return null;
     }
@@ -126,7 +136,7 @@ export const base64: EncodingTool = {
     if (/[-_]/.test(s) && /^[A-Za-z0-9\-_]+={0,2}$/.test(s)) {
       const standard = pad(s.replace(/-/g, '+').replace(/_/g, '/'));
       if (s.length % 4 !== 1 && decodesToText(standard)) {
-        return { label: 'Decode as base64url', text: standard, mode: 'decode' };
+        return { label: ei.recBase64Url ?? 'Decode as base64url', text: standard, mode: 'decode' };
       }
       return null;
     }
@@ -136,7 +146,7 @@ export const base64: EncodingTool = {
     if (B64.test(s) && !s.includes('=') && s.length % 4 !== 0 && s.length % 4 !== 1) {
       const padded = pad(s);
       if (decodesToText(padded)) {
-        return { label: 'Add the missing padding and decode', text: padded, mode: 'decode' };
+        return { label: ei.recPadding ?? 'Add the missing padding and decode', text: padded, mode: 'decode' };
       }
     }
 
@@ -144,13 +154,14 @@ export const base64: EncodingTool = {
   },
 
   meta(input, output, mode) {
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     const sourceBytes = byteLength(mode === 'encode' ? input : output);
     const encoded = mode === 'encode' ? output : input.replace(/\s+/g, '');
     const ratio = sourceBytes ? (encoded.length / sourceBytes).toFixed(2) : '0';
     return [
-      { label: 'Input bytes', value: String(sourceBytes) },
-      { label: 'Base64 length', value: String(encoded.length) },
-      { label: 'Expansion', value: `${ratio}×` },
+      { label: ei.metaInputBytes ?? 'Input bytes', value: String(sourceBytes) },
+      { label: ei.metaB64Length ?? 'Base64 length', value: String(encoded.length) },
+      { label: ei.metaExpansion ?? 'Expansion', value: `${ratio}×` },
     ];
   },
 };

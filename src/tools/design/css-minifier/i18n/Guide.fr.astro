@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Le Minificateur et Formateur CSS réduit la taille des feuilles de style en retirant commentaires et espaces inutiles, ou déploie un CSS compact avec indentation à deux espaces, le tout localement avec affichage des octets économisés.
+    </p>
+    <a href={toolHref} class="cta-link">Ouvrir le Minificateur CSS →</a>
+  </section>
+
+  <section id="securite">
+    <h2>Ce qui est retiré en toute sécurité <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Chaînes entre guillemets, <code>url()</code>, variables CSS et formules <code>calc()</code> sont respectés à la lettre sans réécrire aucun sélecteur.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Éditer en clair, publier minifié">
+      <p>Conservez toujours la version formatée pour vos révisions et minifiez uniquement le fichier final publié.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="outils-associes">
+    <h2>Outils associés <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Convertissez vos tailles CSS avec le <a href={toolPathBySlug('px-to-rem-converter', 'fr')}>Convertisseur PX en REM</a> ou compactez vos données avec le <a href={toolPathBySlug('json-minifier', 'fr')}>Minificateur JSON</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

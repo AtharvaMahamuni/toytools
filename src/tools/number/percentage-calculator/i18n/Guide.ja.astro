@@ -1,0 +1,77 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="ja"
+>
+  <section id="quick-answer">
+    <h2>概要（クイック回答） <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      パーセントとは全体を100として比率を表す数字です（25%＝100分の25＝4分の1）。日常や実務のパーセント計算のほとんどは、「全体のX%を求める」「部分Aが全体Bの何%かを求める」「AからBへの増減率を求める」の3パターンに分類できます。
+    </p>
+    <a href={toolHref} class="cta-link">パーセント計算機を開く →</a>
+  </section>
+
+  <section id="three-formulas">
+    <h2>基本となる3つの公式 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>1. BのA%はいくら？</strong><br /><code>B × A ÷ 100</code>。例: 200の15%は 200 × 15 ÷ 100 = 30。</p>
+    <p><strong>2. AはBの何%？</strong><br /><code>(A ÷ B) × 100</code>。例: 45は180の何%か → (45 ÷ 180) × 100 = 25%。</p>
+    <p><strong>3. AからBへの増減率は？</strong><br /><code>((B - A) ÷ |A|) × 100</code>。例: 80から100は +25%増加、92から80は -13.04%減少。</p>
+    <ReferenceBlock type="key-idea" heading="常に「基準（分母）」を確認する">
+      <p>計算を始める前に「何の割合を求めているのか」を特定してください。分母と分子を逆にすると正反対の答えになります。</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="everyday-uses">
+    <h2>よく使う場面と逆算のコツ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>セール・割引計算:</strong> 30%オフは定価の0.7倍です。重ね割引も正確に計算したい場合は <a href={toolPathBySlug('discount-calculator', 'ja')}>割引計算ツール</a> をご利用ください。</li>
+      <li><strong>税込価格からの税抜逆算:</strong> 10%税込価格から税抜き金額を出すときは「× 0.9」ではなく「÷ 1.1」で割り戻します。</li>
+    </ul>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>よくある計算ミス <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="増減率とパーセントポイントの混同">
+      <p>支持率や金利が2%から3%に上がったとき、差は「+1ポイント」ですが、相対変化率としては「+50%増加」です。両方を区別して読み解くことが大切です。</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="50%下げて50%上げても元に戻らない">
+      <p>100の50%引きは50、その50の50%増しは75です。基準額が変わるため上下の割合は対称になりません。</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

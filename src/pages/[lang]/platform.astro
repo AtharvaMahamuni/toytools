@@ -82,6 +82,48 @@ const COPY: Record<LocalizedLocale, {
       { title: 'Accessibilité & clavier', body: 'Palette de recherche rapide, contraste AA et raccourcis unifiés.' },
     ],
   },
+  ja: {
+    description: 'ToyToolsは共通エンジン、軽量ランタイム、端末完結のプライバシー保護を統合した単一プラットフォームです。',
+    h1: 'ツールを支えるプラットフォーム設計',
+    lede: `全${toolCount}ツールは同一基盤の上に構築されており、${engineCount}個の共通エンジンと自動品質チェックによって一貫性を保っています。`,
+    stats: ['エンジン', 'パターン', 'カテゴリー', 'ツール'],
+    enginesHeading: '共有エンジン一覧',
+    enginesIntro: '各エンジンが対象分野の計算式・変換ロジック・検証処理を一括して担います。',
+    guaranteesHeading: '共通の安全保証',
+    guarantees: [
+      { title: '端末内処理', body: 'アプリケーションサーバー不要。すべての計算はブラウザ内で完了します。' },
+      { title: '厳格な容量制限', body: 'ビルド時にCSS・JS・HTMLの上限サイズを自動検証します。' },
+      { title: 'アクセシビリティと操作性', body: '検索パレット、AA準拠の配色コントラスト、キーボード操作を統一しています。' },
+    ],
+  },
+  pt: {
+    description: 'ToyTools é uma plataforma unificada: motores testados, execução leve no navegador e garantias comuns de privacidade.',
+    h1: 'A plataforma por trás das ferramentas',
+    lede: `Cada uma das ${toolCount} ferramentas compartilha a mesma arquitetura: ${engineCount} motores independentes e verificações automáticas de desempenho.`,
+    stats: ['Motores', 'Padrões', 'Categorias', 'Ferramentas'],
+    enginesHeading: 'Motores compartilhados',
+    enginesIntro: 'Cada motor concentra fórmulas, conversões e validações de toda uma família de utilitários.',
+    guaranteesHeading: 'Garantias compartilhadas',
+    guarantees: [
+      { title: 'Cálculo local', body: 'Sem servidor de aplicação: seus dados permanecem no seu navegador.' },
+      { title: 'Orçamentos rígidos', body: 'Cada build confere limites estritos de CSS, JS e HTML.' },
+      { title: 'Acessibilidade e teclado', body: 'Busca rápida, contraste AA e atalhos padronizados em todo o site.' },
+    ],
+  },
+  hi: {
+    description: 'ToyTools एक एकीकृत प्लेटफ़ॉर्म है: प्रमाणित साझा इंजन, तेज़ ब्राउज़र रनटाइम और हर टूल में समान निजता गारंटी।',
+    h1: 'इन टूल के पीछे का प्लेटफ़ॉर्म',
+    lede: `सभी ${toolCount} टूल एक ही आर्किटेक्चर पर बने हैं: ${engineCount} साझा इंजन और स्वचालित गुणवत्ता जांच।`,
+    stats: ['इंजन', 'पैटर्न', 'श्रेणियाँ', 'टूल'],
+    enginesHeading: 'साझा इंजन',
+    enginesIntro: 'प्रत्येक इंजन अपने श्रेणी के सभी टूल के लिए फ़ॉर्मूले, रूपांतरण और जांच संभालता है।',
+    guaranteesHeading: 'समान सुरक्षा गारंटी',
+    guarantees: [
+      { title: 'स्थानीय गणना', body: 'कोई सर्वर नहीं: आपका इनपुट आपके ब्राउज़र में ही रहता है।' },
+      { title: 'आकार सीमा जांच', body: 'हर बिल्ड CSS, JS और HTML के सख्त आकार बजट को सत्यापित करता है।' },
+      { title: 'सुगम्यता और शॉर्टकट', body: 'तेज़ सर्च पैलेट, AA कंट्रास्ट और कीबोर्ड नेविगेशन।' },
+    ],
+  },
 };
 
 const c = COPY[lang];

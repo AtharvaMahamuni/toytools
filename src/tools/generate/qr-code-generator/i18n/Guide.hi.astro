@@ -1,0 +1,71 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath, categoryPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+const categoryHref = categoryPath(category, 'hi');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={pack.name}
+  toolCategorySlug={config.categorySlug}
+  lang="hi"
+>
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      QR कोड मोबाइल कैमरे को तुरंत वेबसाइट खोलने, Wi-Fi नेटवर्क जोड़ने या vCard संपर्क सेव करने का निर्देश देता है। यह जनरेटर सीधे आपके ब्राउज़र में चलता है ताकि आपका पासवर्ड या डेटा बाहर न जाए, और PNG व वेक्टर SVG दोनों में मुफ्त डाउनलोड देता है।
+    </p>
+    <a href={toolHref} class="cta-link">QR कोड जनरेटर खोलें →</a>
+  </section>
+
+  <section id="why-local">
+    <h2>लोकल जनरेशन क्यों सुरक्षित है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      क्योंकि सारी गणना आपके ब्राउज़र में होती है, आपके Wi-Fi पासवर्ड व संपर्क नंबर निजी रहते हैं और तैयार स्टैटिक QR कोड कभी एक्सपायर नहीं होता।
+    </p>
+    <ReferenceBlock type="key-idea" heading="मानक प्रारूप जो हर कैमरा पढ़ता है">
+      <p>Wi-Fi या संपर्क कार्ड चुनने पर टूल अपने-आप मानक <code>WIFI:</code> या vCard टेक्स्ट बनाता है जिसे Android व iOS कैमरे तुरंत पहचानते हैं।</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="printing-tips">
+    <h2>प्रिंट और आकार के ज़रूरी नियम <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>प्रिंटिंग के लिए SVG चुनें:</strong> बड़े बैनर पर भी बिना धुंधलाए तीखा प्रिंट मिलता है।</li>
+      <li><strong>सफ़ेद किनारा (Quiet Zone) न काटें:</strong> चारों तरफ़ खाली सफ़ेद जगह होना स्कैनिंग के लिए अनिवार्य है।</li>
+      <li><strong>लिंक छोटे रखें:</strong> कम बाइट्स से बड़े डॉट्स बनते हैं जो कम रोशनी में भी जल्दी स्कैन होते हैं।</li>
+    </ul>
+    <ReferenceBlock type="common-mistake" heading="प्रिंट के बाद लिंक नहीं बदला जा सकता">
+      <p>स्टैटिक कोड में डेटा सीधे पैटर्न में होता है। अधिक जनरेटर टूल देखने के लिए <a href={categoryHref}>जनरेटर श्रेणी</a> देखें।</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

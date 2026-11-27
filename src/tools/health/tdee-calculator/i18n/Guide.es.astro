@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Tu TDEE (Total Daily Energy Expenditure) estima las calorías totales que quemas al día sumando tu metabolismo en reposo (BMR) y toda tu actividad física, digestión y movimiento cotidiano. Es el punto de partida real para mantener, perder o ganar peso.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Calculadora TDEE →</a>
+  </section>
+
+  <section id="factor-actividad">
+    <h2>Cómo elegir bien el nivel de actividad <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Casi todo el error de las calculadoras nace al elegir un nivel de actividad superior al real. Si trabajas sentado y entrenas dos veces por semana, un escalón intermedio infla tu presupuesto diario en 250–350 kcal, estancando cualquier déficit planificado.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Nunca bajes de tu BMR sin control médico">
+      <p>Un déficit moderado de 300 a 500 kcal bajo tu mantenimiento es sostenible. Evaluar tu peso medio cada dos o tres semanas te dirá si conviene ajustar ±150 kcal.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="pasos-siguientes">
+    <h2>Herramientas relacionadas de nutrición y salud <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Consulta solo tu gasto basal en la <a href={toolPathBySlug('bmr-calculator', 'es')}>Calculadora BMR</a> o revisa tu rango ponderal con la <a href={toolPathBySlug('bmi-calculator', 'es')}>Calculadora IMC</a>. Para repartir calorías en proteína, grasas y carbohidratos abre <a href={toolPathBySlug('macro-calculator')}>Macro Calculator</a> o planifica ritmos de bajada en <a href={toolPathBySlug('calorie-deficit-calculator')}>Calorie Deficit Calculator</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

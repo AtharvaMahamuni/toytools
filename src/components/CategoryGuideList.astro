@@ -31,6 +31,9 @@ const headingByLocale: Record<LocaleCode, string> = {
   es: 'Guías',
   de: 'Ratgeber',
   fr: 'Guides',
+  ja: '解説ガイド',
+  pt: 'Guias',
+  hi: 'गाइड',
 };
 
 const introByLocale: Record<LocaleCode, string> = {
@@ -38,6 +41,9 @@ const introByLocale: Record<LocaleCode, string> = {
   es: `Cómo funcionan las herramientas de ${category.name.toLowerCase()} y dónde suelen surgir errores.`,
   de: `Wie die Berechnungen in ${category.name} funktionieren und welche Fehler vermieden werden sollten.`,
   fr: `Comment fonctionnent les outils de ${category.name.toLowerCase()} et quels pièges éviter.`,
+  ja: `${category.name} ツールの仕組みと計算で間違いやすいポイントを解説します。`,
+  pt: `Como funcionam as ferramentas de ${category.name.toLowerCase()} e onde costumam ocorrer erros.`,
+  hi: `${category.name} टूल कैसे काम करते हैं और आमतौर पर कहाँ गलतियाँ होती हैं।`,
 };
 
 const guides = categoryTools

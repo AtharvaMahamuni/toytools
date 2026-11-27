@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="schnellantwort">
+    <h2>Schnellantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Dein TDEE (Total Daily Energy Expenditure) beziffert deinen gesamten Kalorienbedarf pro Tag: Grundumsatz in völliger Ruhe (BMR) multipliziert mit Alltagsbewegung und Training. Dieser Erhaltungswert dient als Ausgangspunkt für Abnahme, Gewichtserhalt oder Muskelaufbau.
+    </p>
+    <a href={toolHref} class="cta-link">TDEE-Rechner öffnen →</a>
+  </section>
+
+  <section id="aktivitaetsfaktor">
+    <h2>Den richtigen Aktivitätsfaktor wählen <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Die häufigste Fehlerquelle ist ein zu optimistisch eingestuftes Aktivitätslevel. Wer überwiegend sitzt und zweimal wöchentlich trainiert, rutscht durch eine Stufe zu hoch schnell 300 kcal über den realen Bedarf.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Untergrenze BMR respektieren">
+      <p>Ein nachhaltiges Defizit liegt bei 300 bis 500 kcal unter dem TDEE. Prüfe deinen Gewichtstrend über zwei bis drei Wochen und steuere bei Bedarf um 150 kcal nach.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="naechste-schritte">
+    <h2>Passende Gesundheits- und Ernährungsrechner <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Betrachte deinen reinen Ruheverbrauch im <a href={toolPathBySlug('bmr-calculator', 'de')}>BMR-Rechner</a> oder ordne deinen Wert über den <a href={toolPathBySlug('bmi-calculator', 'de')}>BMI-Rechner</a> ein. Für die Nährstoffverteilung hilft der <a href={toolPathBySlug('macro-calculator')}>Macro Calculator</a> und für das Abnehmtempo der <a href={toolPathBySlug('calorie-deficit-calculator')}>Calorie Deficit Calculator</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

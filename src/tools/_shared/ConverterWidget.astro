@@ -28,14 +28,21 @@ import BinaryByteViewer from '@tools/_shared/converter/BinaryByteViewer.astro';
 import { encodingInfo } from '@lib/engines/encoding/registry';
 import { hashInfo } from '@lib/engines/hashing/registry';
 import type { ToolConfig } from '@data/types';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { WIDGET_CHROME } from '@lib/i18n/widget-utils';
 
 interface Props {
   slug: string;
   processorId: string;
   config: ToolConfig;
+  lang?: LocaleCode;
+  pack?: LocalizedToolPack | null;
 }
 
-const { slug, processorId, config } = Astro.props;
+const { slug, processorId, config, lang = 'en', pack = null } = Astro.props;
+const c = WIDGET_CHROME[lang];
+const ui = (pack?.ui ?? {}) as Record<string, any>;
 
 // Tools in a group share one input envelope so text survives mode switches; the
 // conversion direction (mode/override) stays per-slug — base64 in decode mode must
@@ -45,7 +52,21 @@ const stateKey = config?.toolGroup ? `group:${config.toolGroup}` : slug;
 // `kind` selects the transform provider. Build-time static info comes from the matching
 // registry; new kinds add a branch here (and a runtime provider) without touching markup.
 const kind = config.engine ?? 'encoding';
-const info = kind === 'hashing' ? hashInfo(processorId) : encodingInfo(processorId);
+const rawInfo = kind === 'hashing' ? hashInfo(processorId) : encodingInfo(processorId);
+const info = {
+  ...rawInfo,
+  displayName: ui.displayName ?? rawInfo.displayName,
+  modes: {
+    ...rawInfo.modes,
+    forwardLabel: ui.forwardLabel ?? rawInfo.modes.forwardLabel,
+    inverseLabel: ui.inverseLabel ?? rawInfo.modes.inverseLabel,
+  },
+  outputLabel: ui.outputLabel ?? rawInfo.outputLabel,
+  placeholder: ui.placeholder ?? rawInfo.placeholder,
+  insight: ui.insight ?? rawInfo.insight,
+  technical: (ui.technical as typeof rawInfo.technical) ?? rawInfo.technical,
+  compareLabel: ui.compareLabel ?? rawInfo.compareLabel,
+};
 const reversible = info.reversible !== false;
 
 const inputId = `${slug}-input`;
@@ -62,7 +83,7 @@ const matchId = `${slug}-match`;
 <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
   <IoPanel
     slot="input"
-    label="Input"
+    label={c.input}
     labelFor={inputId}
     data-converter
     data-kind={kind}
@@ -71,14 +92,14 @@ const matchId = `${slug}-match`;
     data-state-key={stateKey}
   >
     {reversible && (
-      <select slot="header-end" id={modeId} class="io-mode" aria-label="Conversion direction">
+      <select slot="header-end" id={modeId} class="io-mode" aria-label={ui.modeAriaLabel ?? 'Conversion direction'}>
         <option value="encode">{info.modes.forwardLabel ?? 'Encode →'}</option>
         <option value="decode">{info.modes.inverseLabel ?? 'Decode ←'}</option>
       </select>
     )}
     <textarea
       id={inputId}
-      aria-label="Text to convert"
+      aria-label={ui.inputAriaLabel ?? 'Text to convert'}
       placeholder={info.placeholder ?? 'Type or paste here'}
       spellcheck="false"
       autocomplete="off"
@@ -87,11 +108,11 @@ const matchId = `${slug}-match`;
   </IoPanel>
 
   {reversible ? (
-    <IoPanel slot="output" label="Output" labelFor={outputId} copyTargetId={outputId}>
+    <IoPanel slot="output" label={c.output} labelFor={outputId} copyTargetId={outputId}>
       <textarea
         id={outputId}
-        aria-label="Converted result (editable)"
-        placeholder="Result appears here. You can edit this side too."
+        aria-label={ui.outputAriaLabel ?? 'Converted result (editable)'}
+        placeholder={ui.outputPlaceholder ?? 'Result appears here. You can edit this side too.'}
         spellcheck="false"
         autocomplete="off"
         autocorrect="off"
@@ -99,9 +120,9 @@ const matchId = `${slug}-match`;
         data-empty></textarea>
     </IoPanel>
   ) : (
-    <IoPanel slot="output" label={info.outputLabel ?? 'Output'} copyTargetId={outputId}>
-      <output id={outputId} aria-live="polite" aria-label={info.outputLabel ?? 'Output'} data-empty
-        >Result appears here.</output>
+    <IoPanel slot="output" label={info.outputLabel ?? c.output} copyTargetId={outputId}>
+      <output id={outputId} aria-live="polite" aria-label={info.outputLabel ?? c.output} data-empty
+        >{ui.emptyOutput ?? c.emptyOutput}</output>
     </IoPanel>
   )}
 </ToolSplit>
@@ -112,6 +133,7 @@ const matchId = `${slug}-match`;
   <DigestMatch
     id={matchId}
     label={info.compareLabel ?? 'Check against a digest you were given'}
+    placeholder={ui.comparePlaceholder}
     craftId={config.craft?.id}
   />
 )}
@@ -121,22 +143,38 @@ const matchId = `${slug}-match`;
   clearTarget={inputId}
   downloadTarget={reversible ? outputId : undefined}
   downloadFilename={reversible ? `${slug}-output.txt` : undefined}
+  lang={lang}
 >
   {reversible && (
-    <button type="button" class="action-btn" data-conv-swap aria-label="Swap input and output">Swap</button>
+    <button type="button" class="action-btn" data-conv-swap aria-label={ui.swapAriaLabel ?? 'Swap input and output'}>{ui.swapLabel ?? 'Swap'}</button>
   )}
-  <ExampleLoader hasSample={!!info.sample} />
+  <ExampleLoader hasSample={!!info.sample} label={lang === 'en' ? undefined : c.loadExample} />
 </ToolActions>
 
-<MetadataPanel id={metaId} />
-{info.byteView && <BinaryByteViewer id={byteId} />}
-<HistoryPanel id={historyId} />
-<EducationalInsight insight={info.insight} />
-<TechnicalDetails technical={info.technical} />
+<MetadataPanel id={metaId} ariaLabel={ui.metaAriaLabel} />
+{info.byteView && <BinaryByteViewer id={byteId} ariaLabel={ui.byteAriaLabel} />}
+<HistoryPanel id={historyId} title={ui.historyTitle} ariaLabel={ui.historyAriaLabel} />
+<EducationalInsight insight={info.insight} ariaLabel={ui.insightAriaLabel} />
+<TechnicalDetails technical={info.technical} lang={lang} />
 
 
 <script is:inline>
   (function () {
+    var i18n = {};
+    try {
+      var i18nEl = document.getElementById('tt-i18n');
+      if (i18nEl && i18nEl.textContent) i18n = JSON.parse(i18nEl.textContent);
+    } catch (_) {}
+    var appliedPrefix = i18n.appliedPrefix || 'Applied: ';
+    var checkInputMsg = i18n.checkInputMsg || 'Check the input.';
+    var invalidInputMsg = i18n.invalidInputMsg || 'Invalid input.';
+    var couldNotConvertMsg = i18n.couldNotConvertMsg || 'Could not convert.';
+    var detectedPrefix = i18n.detectedPrefix || 'Detected: ';
+    var validPrefix = i18n.validPrefix || '✓ Valid ';
+    var digestSuffix = i18n.digestSuffix || ' digest';
+    var digestPrefix = i18n.digestPrefix || '';
+    var detectLabels = i18n.detectLabels || {};
+
     var root = document.querySelector('[data-converter][data-slug]');
     if (!root) return;
     var slug = root.getAttribute('data-slug');
@@ -187,7 +225,7 @@ const matchId = `${slug}-match`;
           hide();
           execForward();
           persist();
-          if (TT.toast) TT.toast('Applied: ' + next.label);
+          if (TT.toast) TT.toast(appliedPrefix + next.label);
           input.focus();
         });
       }
@@ -320,16 +358,19 @@ const matchId = `${slug}-match`;
 
     function renderStatus(v, res, detect) {
       if (v && v.ok === false) {
-        if ((v.severity || 'error') === 'warning') status.show('warn', '⚠ ' + (v.message || 'Check the input.'));
-        else status.show('false', '✗ ' + (v.message || (res && res.error) || 'Invalid input.'));
+        if ((v.severity || 'error') === 'warning') status.show('warn', '⚠ ' + (v.message || checkInputMsg));
+        else status.show('false', '✗ ' + (v.message || (res && res.error) || invalidInputMsg));
         return;
       }
-      if (res && !res.ok) { status.show('false', '✗ ' + (res.error || 'Could not convert.')); return; }
+      if (res && !res.ok) { status.show('false', '✗ ' + (res.error || couldNotConvertMsg)); return; }
       if (reversible) {
-        if (detect && !override && detect.confidence !== 'low' && detect.label) { status.show('', 'Detected: ' + detect.label); return; }
-        status.show('true', '✓ Valid ' + info.displayName);
+        if (detect && !override && detect.confidence !== 'low' && detect.label) {
+          var dLbl = (detectLabels && detectLabels[detect.label]) || detect.label;
+          status.show('', detectedPrefix + dLbl); return;
+        }
+        status.show('true', validPrefix + (i18n.displayName || info.displayName));
       } else {
-        status.show('true', '✓ ' + info.displayName + ' digest');
+        status.show('true', '✓ ' + digestPrefix + (i18n.displayName || info.displayName) + digestSuffix);
       }
     }
 

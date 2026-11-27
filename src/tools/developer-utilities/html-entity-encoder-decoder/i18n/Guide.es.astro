@@ -1,0 +1,53 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Aunque una página use UTF-8 para mostrar cualquier idioma o símbolo directamente, siempre debes escapar <code>&lt;</code> (<code>&amp;lt;</code>), <code>&gt;</code> (<code>&amp;gt;</code>), <code>&amp;</code> (<code>&amp;amp;</code>) y las comillas en atributos (<code>&amp;quot;</code> y <code>&amp;#39;</code>). Así impides que datos de usuarios abran etiquetas ni ejecuten scripts XSS.
+    </p>
+    <a href={toolHref} class="cta-link">Abrir Codificador de Entidades HTML →</a>
+  </section>
+
+  <section id="nombradas-vs-numericas">
+    <h2>Entidades nombradas frente a numéricas y contexto XSS <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <code>&amp;amp;</code>, <code>&amp;#38;</code> y <code>&amp;#x26;</code> representan exactamente el mismo ampersand. Ten presente que escapar entidades protege texto y atributos HTML normales, mientras que bloques <code>&lt;script&gt;</code>, atributos <code>href</code> y estilos CSS requieren validación de su propio contexto.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Usa &amp; primero y evita &amp;apos; en HTML4">
+      <p>Al escribir entidades a mano o en plantillas, escapa primero <code>&amp;</code> para no generar doble escape, y prefiere <code>&amp;#39;</code> frente a <code>&amp;apos;</code> si necesitas compatibilidad con HTML antiguo.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="herramientas-relacionadas">
+    <h2>Otras herramientas de escape web <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Si estás preparando parámetros para enlaces web utiliza el <a href={toolPathBySlug('url-encoder-decoder', 'es')}>Codificador URL</a>, para datos binarios el <a href={toolPathBySlug('base64-encoder-decoder', 'es')}>Codificador Base64</a> o escapa literales JSON con <a href={toolPathBySlug('json-escape')}>JSON Escape</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

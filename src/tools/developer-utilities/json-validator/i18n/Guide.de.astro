@@ -1,0 +1,55 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="schnellantwort">
+    <h2>Schnellantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      JSON-Validierung prüft, ob ein Text exakt den Regeln der Spezifikation RFC 8259 folgt: doppelte gerade Anführungszeichen, keine nachgestellten Kommas, keine Kommentare und passende Klammerpaare. Alles läuft privat im Browser samt Ein-Klick-Reparatur für typische Stolperfallen.
+    </p>
+    <a href={toolHref} class="cta-link">JSON Validator öffnen →</a>
+  </section>
+
+  <section id="haeufige-fehler">
+    <h2>Typische JSON-Syntaxfehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Trailing Comma:</strong> <code>{"{\"a\": 1,}"}</code> ist in JS erlaubt, in JSON ungültig.</li>
+      <li><strong>Einfache oder geschweifte Anführungszeichen:</strong> Nur ASCII <code>"</code> ist zulässig.</li>
+      <li><strong>Kommentare:</strong> <code>//</code> oder <code>/* ... */</code> führen zum Abbruch.</li>
+    </ul>
+    <ReferenceBlock type="common-mistake" heading="Syntaxprüfung ist keine Schema-Prüfung">
+      <p>Syntaktisch gültiges JSON kann dennoch fachlich falsche Typen oder fehlende Pflichtfelder enthalten – dafür prüft man gegen ein JSON Schema.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="verwandte-tools">
+    <h2>Verwandte Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Nach erfolgreicher Prüfung formatierst du den Code bequem im <a href={toolPathBySlug('json-formatter', 'de')}>JSON Formatter</a> oder schrumpfst ihn mit dem <a href={toolPathBySlug('json-minifier', 'de')}>JSON Minifier</a>.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none;
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>
