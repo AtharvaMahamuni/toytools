@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section>
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Informe data, hora e dois fusos: as regras IANA para a data exata ajustam o horário de verão e indicam o horário final, o UTC e mudanças de dia.</p>
+    <a class="cta-link" href={toolHref}>Abrir Conversor de fuso horário &rarr;</a>
+  </section>
+  <section>
+    <h2>Como funciona a conversão de fuso horário <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Mapeia a hora local para o instante global UTC segundo o deslocamento daquele dia e traduz para o fuso de destino.</p>
+  </section>
+  <section>
+    <h2>Exemplos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>09:00 em Nova York em julho (-04:00) equivalem a 22:00 em Tóquio (+09:00), 13 horas à frente no mesmo dia.</p>
+  </section>
+  <section>
+    <h2>Offset UTC vs horário de verão <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Regiões que adotam horário de verão mudam os relógios em datas distintas, alterando temporariamente a diferença entre cidades.</p>
+  </section>
+  <section>
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Assumir que a diferença nunca muda no ano">
+      <p>Sempre confira com a data real do compromisso em vez de usar diferenças fixas de cabeça.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Ignorar o dia do calendário">
+      <p>Observe os avisos de dia seguinte ou anterior em ligações transoceânicas.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="Tudo roda localmente">
+      <p>Seus compromissos e viagens permanecem privados no seu navegador.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

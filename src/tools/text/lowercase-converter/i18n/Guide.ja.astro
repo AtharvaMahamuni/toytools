@@ -1,0 +1,32 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>概要 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>すべての英字を一瞬で小文字（lowercase）に揃えます。メールアドレス、タグ、URL準備や重複行削除の前処理に最適です。</p>
+    <a href={toolHref} class="cta-link">小文字変換ツールを使う →</a>
+  </section>
+  <section id="usage">
+    <h2>小文字化が必要になる場面 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>大文字と小文字が混在したリストを比較・統合する際は、両側を小文字へ統一することで確実な照合が行えます。</p>
+  </section>
+  <section id="mistakes">
+    <h2>よくある注意点 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="固有名詞や略語の大文字情報を失う">
+      <p>APIや地名・人名などを一度小文字にすると自動では元に戻せないため、本文用には原文を残してください。</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

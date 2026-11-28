@@ -1,0 +1,52 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Un conversor de JSON a YAML transforma datos JSON con llaves y corchetes en YAML estructurado por sangría de espacios, manteniendo intactos tipos, listas y objetos para Kubernetes, Docker Compose o Ansible.</p>
+    <a class="cta-link" href={toolHref}>Abrir Conversor JSON a YAML &rarr;</a>
+  </section>
+  <section>
+    <h2>Cómo funciona la conversión de JSON a YAML <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Analiza la jerarquía JSON y la reescribe usando sangría de dos espacios, guiones para listas y comillas automáticas donde YAML podría malinterpretar texto como número o booleano.</p>
+  </section>
+  <section>
+    <h2>Volver de YAML a JSON <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Siempre que necesites enviar un manifiesto YAML a un endpoint REST o validarlo con un esquema JSON, la conversión inversa recupera la notación estricta RFC 8259.</p>
+  </section>
+  <section>
+    <h2>Cuándo convertir JSON a YAML <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ideal al adaptar respuestas de API en archivos Docker Compose, flujos CI/CD de GitHub Actions o variables de despliegue en Helm.</p>
+  </section>
+  <section>
+    <h2>JSON frente a YAML: cuál utilizar <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Prefiere JSON para intercambio máquina a máquina en APIs; elige YAML para archivos de configuración que mantienen personas, gracias a su limpieza visual y soporte de comentarios.</p>
+  </section>
+  <section>
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Introducir tabuladores al editar YAML a mano o dejar códigos numéricos con ceros sin comillas son los fallos más habituales.</p>
+  </section>
+  <section>
+    <h2>Herramientas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-formatter', 'es')}>Formateador JSON</a>: limpia e indenta tu JSON antes de convertir.</li>
+      <li><a href={toolPathBySlug('json-validator', 'es')}>Validador JSON</a>: confirma la validez antes del paso a YAML.</li>
+      <li><a href={toolPathBySlug('json-to-csv-converter', 'es')}>Conversor JSON a CSV</a>: exporta arrays planos a hojas de cálculo.</li>
+      <li><a href={toolPathBySlug('json-tree-viewer')}>Visor de árbol JSON</a>: explora visualmente claves profundas.</li>
+    </ul>
+  </section>
+</GuideLayout>

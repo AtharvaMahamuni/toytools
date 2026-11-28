@@ -1,0 +1,35 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Un plan d’investissement mensuel place le même montant chaque mois afin d’accumuler un capital tout en moyennant les points d’entrée sur la durée.</p>
+    <a href={toolHref} class="cta-link">Ouvrir la calculatrice SIP →</a>
+  </section>
+  <section id="formule">
+    <h2>La formule mathématique <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>FV = P · ((1 + i)^n − 1) / i</strong></p>
+    <ReferenceBlock type="key-idea" heading="La durée prime sur la taille des mensualités">
+      <p>Démarrer tôt avec des montants raisonnables surpasse presque toujours un démarrage tardif à gros versements.</p>
+    </ReferenceBlock>
+  </section>
+  <section id="erreurs">
+    <h2>Erreurs courantes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Négliger la volatilité et l’inflation">
+      <p>Simulez toujours un scénario prudent avant de fixer un objectif de long terme et tenez compte de la hausse future des prix.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

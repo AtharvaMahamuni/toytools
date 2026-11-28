@@ -5,6 +5,11 @@
 import type { WellnessInput } from './types';
 import { validationError } from '@lib/results/index';
 import type { InteractiveResult } from '@lib/results/types';
+import { readClientI18n } from '@lib/i18n/client';
+
+function tpl(s: string, vars: Record<string, string | number>): string {
+  return s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : `{${k}}`));
+}
 
 export interface Ok<T> { ok: true; value: T; }
 export interface Err { ok: false; result: InteractiveResult; }
@@ -25,14 +30,15 @@ export function numberField(
   label: string,
   opts: { min?: number; max?: number } = {},
 ): Coerced<number> {
+  const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
   const raw = input[key];
   if (raw === undefined || raw === '' || raw === null) {
-    return fail(`Enter ${label} to calculate.`);
+    return fail(ei.errEnterTpl ? tpl(ei.errEnterTpl, { label }) : `Enter ${label} to calculate.`);
   }
   const n = typeof raw === 'number' ? raw : Number(raw);
-  if (!Number.isFinite(n)) return fail(`${label} must be a number.`);
-  if (opts.min !== undefined && n < opts.min) return fail(`${label} cannot be less than ${opts.min}.`);
-  if (opts.max !== undefined && n > opts.max) return fail(`${label} cannot be more than ${opts.max}.`);
+  if (!Number.isFinite(n)) return fail(ei.errNotNumberTpl ? tpl(ei.errNotNumberTpl, { label }) : `${label} must be a number.`);
+  if (opts.min !== undefined && n < opts.min) return fail(ei.errMinTpl ? tpl(ei.errMinTpl, { label, min: opts.min }) : `${label} cannot be less than ${opts.min}.`);
+  if (opts.max !== undefined && n > opts.max) return fail(ei.errMaxTpl ? tpl(ei.errMaxTpl, { label, max: opts.max }) : `${label} cannot be more than ${opts.max}.`);
   return ok(n);
 }
 
@@ -63,7 +69,10 @@ export function positiveField(
 ): Coerced<number> {
   const c = numberField(input, key, label, opts);
   if (!c.ok) return c;
-  if (c.value <= 0) return fail(`${label} must be greater than zero.`);
+  if (c.value <= 0) {
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
+    return fail(ei.errPositiveTpl ? tpl(ei.errPositiveTpl, { label }) : `${label} must be greater than zero.`);
+  }
   return c;
 }
 
@@ -76,5 +85,6 @@ export function selectField<T extends string>(
 ): Coerced<T> {
   const raw = String(input[key] ?? '');
   if ((allowed as readonly string[]).includes(raw)) return ok(raw as T);
-  return fail(`Choose ${label}.`);
+  const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
+  return fail(ei.errChooseTpl ? tpl(ei.errChooseTpl, { label }) : `Choose ${label}.`);
 }

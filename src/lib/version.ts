@@ -10,12 +10,12 @@ export interface VersionConfig {
 }
 
 export const VERSION_CONFIG: VersionConfig = {
-  major: 14,
+  major: 15,
   minor: 0,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-11-27',
-  description: 'Phase 2 multilingual expansion: Top 30 tools and guides localized across Spanish, German, French, Japanese, Portuguese, and Hindi',
+  releaseDate: '2026-11-28',
+  description: 'Phase 3 multilingual expansion: 60 flagship tools and guides localized across Spanish, German, French, Japanese, Portuguese, and Hindi',
 };
 
 export function formatVersion(config: VersionConfig): string {

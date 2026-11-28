@@ -1,0 +1,35 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>概要 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>積立投資（SIP）は毎月一定額を継続購入することで、購入時期の分散と長期の複利成長を同時に取り入れる王道の投資手法です。</p>
+    <a href={toolHref} class="cta-link">積立投資シミュレーターを使う →</a>
+  </section>
+  <section id="formula">
+    <h2>積立の計算式と時間効果 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>FV = P · ((1 + i)^n − 1) / i</strong></p>
+    <ReferenceBlock type="key-idea" heading="金額よりも投資期間">
+      <p>複利曲線は後半に大きく伸びるため、少額でも早く始め、途中で止めずに続けることが最も重要です。</p>
+    </ReferenceBlock>
+  </section>
+  <section id="mistakes">
+    <h2>注意点とよくある誤解 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="名目金額をそのまま将来の生活費とみなす">
+      <p>長期運用ではインフレによる価値低下と手数料コストも考慮し、低めの利回りで保守的な下限値もあわせて確認してください。</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

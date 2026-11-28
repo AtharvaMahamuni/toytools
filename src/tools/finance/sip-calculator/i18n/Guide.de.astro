@@ -1,0 +1,35 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ein monatlicher SIP-Sparplan wandelt regelmäßige Beträge Schritt für Schritt in Kapital um. Jede Sparrate verzinst sich über ihre individuelle Restlaufzeit und glättet Einstiegskurse automatisch.</p>
+    <a href={toolHref} class="cta-link">Zum SIP-Rechner →</a>
+  </section>
+  <section id="formel">
+    <h2>Die Sparplan-Formel <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>FV = P · ((1 + i)^n − 1) / i</strong></p>
+    <ReferenceBlock type="key-idea" heading="Laufzeit schlägt Ratenhöhe">
+      <p>Früher Beginn mit kleinerer Rate überholt auf lange Sicht fast immer einen späten Start mit hohen Beträgen.</p>
+    </ReferenceBlock>
+  </section>
+  <section id="fehler">
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Erwartungsrendite als Garantie missverstehen">
+      <p>Aktienmärkte schwanken spürbar; überprüfe immer eine vorsichtigere Renditevariante sowie den realen Kaufkraftwert nach Inflation.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

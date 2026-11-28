@@ -10,6 +10,11 @@ import { futureValueCompound, futureValueAnnuity } from '../models';
 import { money, percent, roundMoney } from '../format';
 import { number, positive, choice } from '../validation';
 import { insight, milestone, assumption, toolDecision } from '../story';
+import { readClientI18n } from '@lib/i18n/client';
+
+function tpl(s: string, vars: Record<string, string | number>): string {
+  return s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : `{${k}}`));
+}
 
 const FREQUENCY_LABEL: Record<string, string> = {
   '1': 'annually',
@@ -41,7 +46,10 @@ export const compoundInterest: FinanceCalculator = {
     { label: 'Dream house', values: { principal: 30000, rate: 5, frequency: '12', years: 10, contribution: 800 } },
   ],
 
-  calculate(input, { currency }) {
+  calculate(input, { currency, locale }) {
+    const loc = locale && locale !== 'en' ? locale : '';
+    const ei = loc ? (readClientI18n().engine ?? {}) as Record<string, any> : {};
+
     const p = positive(input, 'principal', 'an initial amount');
     if (!p.ok) return p.result;
     const r = number(input, 'rate', 'an interest rate', { min: 0, max: 100 });
@@ -54,6 +62,7 @@ export const compoundInterest: FinanceCalculator = {
     const n = Number(choice(input, 'frequency', '12'));
     const rate = r.value / 100;
     const years = y.value;
+    const freqLabel = (ei.freqs && ei.freqs[String(n)]) || FREQUENCY_LABEL[String(n)] || `${n}/year`;
 
     const fromPrincipal = futureValueCompound(p.value, rate, n, years);
     const fromContrib = futureValueAnnuity(c.value, rate, n, years);
@@ -62,14 +71,18 @@ export const compoundInterest: FinanceCalculator = {
     const principalInvested = roundMoney(p.value);
     const interestEarned = roundMoney(finalAmount - principalInvested - totalContrib);
 
-    const hero = card('final', 'Final amount', money(finalAmount, currency), { raw: finalAmount, emphasis: 'hero', note: `after ${years} ${years === 1 ? 'year' : 'years'}` });
+    const yearWord = years === 1 ? (ei.yearOne ?? 'year') : (ei.yearMany ?? 'years');
+    const hero = card('final', ei.heroLabel ?? 'Final amount', money(finalAmount, currency), {
+      raw: finalAmount,
+      emphasis: 'hero',
+      note: ei.heroNoteTpl ? tpl(ei.heroNoteTpl, { years, unit: yearWord }) : `after ${years} ${yearWord}`,
+    });
     const metrics: ResultCard[] = [
-      card('interest', 'Interest earned', money(interestEarned, currency), { raw: interestEarned, emphasis: 'primary' }),
-      card('principal', 'Principal invested', money(principalInvested, currency), { raw: principalInvested }),
+      card('interest', ei.cardInterest ?? 'Interest earned', money(interestEarned, currency), { raw: interestEarned, emphasis: 'primary' }),
+      card('principal', ei.cardPrincipal ?? 'Principal invested', money(principalInvested, currency), { raw: principalInvested }),
     ];
-    if (totalContrib > 0) metrics.push(card('contributions', 'Total contributions', money(totalContrib, currency), { raw: totalContrib }));
+    if (totalContrib > 0) metrics.push(card('contributions', ei.cardContrib ?? 'Total contributions', money(totalContrib, currency), { raw: totalContrib }));
 
-    // Yearly timeline (and a chart-ready series for the future).
     const timeline: TimelinePoint[] = [];
     const series: number[] = [];
     for (let yr = 0; yr <= years; yr++) {
@@ -81,37 +94,50 @@ export const compoundInterest: FinanceCalculator = {
     }
 
     const breakdown: BreakdownPart[] = [
-      { id: 'principal', label: 'Principal', value: principalInvested, display: money(principalInvested, currency) },
-      ...(totalContrib > 0 ? [{ id: 'contrib', label: 'Contributions', value: totalContrib, display: money(totalContrib, currency) }] : []),
-      { id: 'interest', label: 'Interest', value: Math.max(0, interestEarned), display: money(interestEarned, currency) },
+      { id: 'principal', label: ei.brkPrincipal ?? 'Principal', value: principalInvested, display: money(principalInvested, currency) },
+      ...(totalContrib > 0 ? [{ id: 'contrib', label: ei.brkContrib ?? 'Contributions', value: totalContrib, display: money(totalContrib, currency) }] : []),
+      { id: 'interest', label: ei.brkInterest ?? 'Interest', value: Math.max(0, interestEarned), display: money(interestEarned, currency) },
     ];
 
     const invested = principalInvested + totalContrib;
     const insights = [];
     if (interestEarned > 0 && invested > 0) {
       const sharePct = (interestEarned / finalAmount) * 100;
-      insights.push(insight(`Interest makes up ${Math.round(sharePct)}% of your final balance; the rest is money you put in.`, sharePct >= 50 ? 'positive' : 'info'));
+      insights.push(insight(
+        ei.insShareTpl
+          ? tpl(ei.insShareTpl, { pct: Math.round(sharePct) })
+          : `Interest makes up ${Math.round(sharePct)}% of your final balance; the rest is money you put in.`,
+        sharePct >= 50 ? 'positive' : 'info',
+      ));
     }
     if (totalContrib > 0) {
-      insights.push(insight('Most of your final wealth tends to come from compounding over time rather than the initial deposit.'));
+      insights.push(insight(ei.insContrib ?? 'Most of your final wealth tends to come from compounding over time rather than the initial deposit.'));
     }
 
     const milestones = [
-      milestone('Money doubled', finalAmount >= principalInvested * 2),
-      milestone('Interest exceeds your deposits', interestEarned > invested),
+      milestone(ei.msDoubled ?? 'Money doubled', finalAmount >= principalInvested * 2),
+      milestone(ei.msExceeds ?? 'Interest exceeds your deposits', interestEarned > invested),
     ];
 
     const assumptions = [
-      assumption('Annual rate', percent(r.value)),
-      assumption('Compounding', FREQUENCY_LABEL[String(n)] ?? `${n}/year`),
-      assumption('Contribution', c.value > 0 ? `${money(c.value, currency)}/mo` : 'none'),
+      assumption(ei.asmRate ?? 'Annual rate', percent(r.value)),
+      assumption(ei.asmCompounding ?? 'Compounding', freqLabel),
+      assumption(ei.asmContrib ?? 'Contribution', c.value > 0 ? `${money(c.value, currency)}/${ei.moUnit ?? 'mo'}` : (ei.none ?? 'none')),
     ];
 
     const decisions = [
       toolDecision('See what inflation does to this amount', 'inflation-calculator'),
       toolDecision('Estimate how long until it doubles', 'rule-of-72-calculator'),
       toolDecision('Work backwards from a savings goal', 'savings-goal-calculator'),
-    ];
+    ].map((d) => {
+      const map: Record<string, string | undefined> = {
+        'inflation-calculator': ei.decInflation,
+        'rule-of-72-calculator': ei.decRule72,
+        'savings-goal-calculator': ei.decGoal,
+      };
+      const label = d.tool?.slug ? map[d.tool.slug] : undefined;
+      return label ? { ...d, label } : d;
+    });
 
     return successResult({
       hero,
@@ -124,11 +150,23 @@ export const compoundInterest: FinanceCalculator = {
       assumptions,
       decisions,
       nextQuestions: [
-        'How much should I contribute each month to hit a target?',
-        'What will this be worth in today’s money after inflation?',
+        ei.q1 ?? 'How much should I contribute each month to hit a target?',
+        ei.q2 ?? 'What will this be worth in today’s money after inflation?',
       ],
-      explanation: `Starting with ${money(principalInvested, currency)}${totalContrib > 0 ? ` and adding ${money(c.value, currency)} a month` : ''} at ${percent(r.value)} compounded ${FREQUENCY_LABEL[String(n)] ?? `${n}/year`}, the balance grows to ${money(finalAmount, currency)} after ${years} ${years === 1 ? 'year' : 'years'}.`,
-      visualization: lineSpec('balance', series.map((v, i) => ({ x: i, y: v })), { kind: 'area', title: 'Balance over time' }),
+      explanation: ei.explanationTpl
+        ? tpl(ei.explanationTpl, {
+            principal: money(principalInvested, currency),
+            contribClause: totalContrib > 0
+              ? (ei.expContribTpl ? tpl(ei.expContribTpl, { amount: money(c.value, currency) }) : ` and adding ${money(c.value, currency)} a month`)
+              : '',
+            rate: percent(r.value),
+            freq: freqLabel,
+            final: money(finalAmount, currency),
+            years,
+            unit: yearWord,
+          })
+        : `Starting with ${money(principalInvested, currency)}${totalContrib > 0 ? ` and adding ${money(c.value, currency)} a month` : ''} at ${percent(r.value)} compounded ${freqLabel}, the balance grows to ${money(finalAmount, currency)} after ${years} ${yearWord}.`,
+      visualization: lineSpec('balance', series.map((v, i) => ({ x: i, y: v })), { kind: 'area', title: ei.vizTitle ?? 'Balance over time' }),
       meta: { years, finalAmount },
     });
   },

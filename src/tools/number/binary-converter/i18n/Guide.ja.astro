@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>要点まとめ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>2進数は各桁が右から2倍（1・2・4・8…）になる進数表記です。本ツールはBigIntにより512ビットまで正確に10進数・2進数を相互変換し、16進数・8進数・ビット数を同時計算します。</p>
+    <a class="cta-link" href={toolHref}>2進数変換ツールを開く &rarr;</a>
+  </section>
+  <section>
+    <h2>2進数（基数2）とは？ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>0と1の2種類だけを使う数値体系で、コンピュータの論理回路やフラグ管理の根幹をなします。</p>
+  </section>
+  <section>
+    <h2>変換の仕組み <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>2による連続除算の余りと2のべき乗和を任意精度整数（BigInt）で計算するため、64ビット以上の値でも桁落ちしません。</p>
+  </section>
+  <section>
+    <h2>2進数ではなく16進数が使われる理由 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>4ビット＝16進1桁に厳密対応するため、32ビットや64ビットの値を人間が一目で比較・入力しやすくなります。</p>
+  </section>
+  <section>
+    <h2>ビット幅と先頭ゼロの意味 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>1バイト（8ビット）やレジスタ幅に揃えてマスクを比較する際、先頭ゼロを何個補うかをビット数表示から直感的に判断できます。</p>
+  </section>
+  <section>
+    <h2>数値の2進数と文字列の2進数 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>文字や文章をUTF-8ビット列に変換したい場合は <a href={toolPathBySlug('binary-text-converter')}>テキスト2進変換ツール</a> をご利用ください。</p>
+  </section>
+  <section>
+    <h2>貼り付けた2進数の自動整形について <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><code>0b</code> 接頭辞や空白区切りを含むコード片も簡単に整形でき、そのまま <a href={toolPathBySlug('hex-encoder-decoder')}>16進エンコーダ・デコーダ</a> も併用できます。</p>
+  </section>
+</GuideLayout>

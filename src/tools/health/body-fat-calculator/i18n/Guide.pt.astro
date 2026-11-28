@@ -1,0 +1,37 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section>
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Informe altura, pescoço e cintura (mais quadril para mulheres) para estimar gordura corporal pelo método US Navy junto da massa gorda e massa magra.</p>
+    <a class="cta-link" href={toolHref}>Abrir Calculadora de gordura corporal &rarr;</a>
+  </section>
+  <section>
+    <h2>Como funciona o método Navy <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Relaciona medidas de circunferência à estatura para estimar a composição corporal com apenas uma fita métrica.</p>
+  </section>
+  <section>
+    <h2>Onde medir corretamente <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Mantenha a fita nivelada sem comprimir a pele e respire naturalmente ao medir cada ponto.</p>
+  </section>
+  <section>
+    <h2>Gordura corporal vs IMC <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Pessoas musculosas frequentemente têm IMC alto mesmo com baixa gordura; informar o peso revela a massa magra separadamente.</p>
+  </section>
+  <section>
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Pressionar demais a fita métrica ou variar o horário das medições semanais.</p>
+  </section>
+</GuideLayout>

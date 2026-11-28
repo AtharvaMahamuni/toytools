@@ -1,0 +1,27 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Title Case setzt jedes Wort mit großem Anfangsbuchstaben um – ideal für Headlines. Für normale Sätze eignet sich <a href={guidePathBySlug('sentence-case-converter')}>Sentence Case</a>.</p>
+    <a href={toolHref} class="cta-link">Zum Title Case Konverter →</a>
+  </section>
+  <section id="regeln">
+    <h2>Kurzwörter und Bindestriche <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Englische Stilführer wie AP und Chicago lassen kurze Artikel und Präpositionen im Titelinneren klein; der Konverter weist dich automatisch auf enthaltene Kurzwörter hin.</p>
+  </section>
+</GuideLayout>

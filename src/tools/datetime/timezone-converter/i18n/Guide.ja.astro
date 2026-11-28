@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>要点まとめ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>日時と2つの都市（タイムゾーン）を選ぶだけで、その日付のサマータイムを含めた現地時間・UTC・日付の跨ぎをブラウザ上で即座に計算します。</p>
+    <a class="cta-link" href={toolHref}>タイムゾーン（時差）変換を開く &rarr;</a>
+  </section>
+  <section>
+    <h2>タイムゾーン変換の仕組み <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>入力時刻をまず指定日時点のオフセットで世界標準時（UTC）の瞬間に変換し、続いて変換先タイムゾーンのルールで現地時刻へ直します。</p>
+  </section>
+  <section>
+    <h2>変換例 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>夏時間のニューヨーク（-04:00）で朝09:00の時刻は、東京（+09:00）では同日の22:00（13時間進み）になります。</p>
+  </section>
+  <section>
+    <h2>UTCオフセットとサマータイムの関係 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>米国・欧州・日本などでは夏時間の有無や切り替え日が異なるため、時期によって都市間の時差が1時間前後することがあります。</p>
+  </section>
+  <section>
+    <h2>よくある失敗 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="時差が年間固定だと思い込む">
+      <p>3月・10月〜11月頃は欧米で夏時間切り替え日がずれるため、必ず予定日ベースで確認してください。</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="日付変更を見落とす">
+      <p>同じ10時でも「翌日」か「前日」かの表示バッジを必ずあわせて確認しましょう。</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="すべて端末内で動作">
+      <p>大切なフライトや会議の予定は外部へ一切送信されません。</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

@@ -1,0 +1,37 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>लंबाई, गर्दन और कमर (महिलाओं में कूल्हे सहित) का नाप भरकर U.S. Navy विधि से अपना अनुमानित बॉडी फ़ैट प्रतिशत और लीन मास जानें।</p>
+    <a class="cta-link" href={toolHref}>बॉडी फ़ैट कैलकुलेटर खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>नेवी विधि कैसे काम करती है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>शरीर के प्रमुख घेरों और लंबाई के अनुपात से चर्बी व मांसपेशी वितरण का व्यावहारिक अनुमान मिलता है।</p>
+  </section>
+  <section>
+    <h2>सटीक मापन बिंदु <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>टेप को समतल रखें और सामान्य सांस के साथ त्वचा को दबाए बिना हर सप्ताह एक ही समय पर मापें।</p>
+  </section>
+  <section>
+    <h2>बॉडी फ़ैट बनाम BMI <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>ज्यादा मांसपेशी वालों का BMI अधिक हो सकता है जबकि बॉडी फ़ैट कम होता है; वजन डालने पर लीन मास भी अलग दिखता है।</p>
+  </section>
+  <section>
+    <h2>सामान्य गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>अलग-अलग समय पर मापना या टेप को कसकर खींच लेने से परिणाम अस्थायी रूप से बदल जाते हैं।</p>
+  </section>
+</GuideLayout>

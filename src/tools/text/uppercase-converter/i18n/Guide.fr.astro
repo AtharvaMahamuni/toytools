@@ -1,0 +1,32 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Convertissez instantanément tout texte en MAJUSCULES en préservant chiffres, ponctuation, retours à la ligne et accents.</p>
+    <a href={toolHref} class="cta-link">Ouvrir le convertisseur →</a>
+  </section>
+  <section id="css-vs-reel">
+    <h2>CSS text-transform contre texte réel <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Le CSS modifie l’apparence sans altérer le presse-papiers. Ce convertisseur transforme réellement les caractères pour vos exports ou constantes.</p>
+  </section>
+  <section id="unicode">
+    <h2>Bonnes pratiques <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Écrire de longs textes en tout-majuscules">
+      <p>Réservez les capitales aux acronymes et titres courts; pour le corps de texte, préférez une casse standard.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

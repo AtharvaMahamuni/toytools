@@ -1,0 +1,51 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>概要 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>CSVからJSONへの変換ツールは、1行目にヘッダーを持つ表形式データを、APIやWebアプリでそのまま扱えるJSONオブジェクト配列へ変換します。</p>
+    <a class="cta-link" href={toolHref}>CSVからJSONへの変換を開く &rarr;</a>
+  </section>
+  <section>
+    <h2>CSVからJSON変換で行われる処理 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>ヘッダー行をプロパティ名に割り当て、各データ行を1つのオブジェクトに変換します。RFC 4180準拠のため、値の中のカンマや改行も崩れません。</p>
+  </section>
+  <section>
+    <h2>型判定とクォート処理のルール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>数値や真偽値を適切に型付けしつつ、007や郵便番号のように先頭ゼロを持つ値は情報欠落を防ぐため文字列として安全に保ちます。</p>
+  </section>
+  <section>
+    <h2>この変換が役立つシーン <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Excelでまとめたマスターデータをフロントエンドアプリに取り込んだり、テスト用JSONフィクスチャを一括作成する際に重宝します。</p>
+  </section>
+  <section>
+    <h2>CSVとJSONの使い分け <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>CSVは表計算向けの軽量なフラットデータに向き、JSONは階層構造や明示的な型が必要なWeb API・設定ファイルに適しています。</p>
+  </section>
+  <section>
+    <h2>よくある失敗例 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>ヘッダー行を入れ忘れると1件目のデータが列名に化けてしまい、またTSVやセミコロン区切りなのにカンマ指定のままだと1列に固まってしまいます。</p>
+  </section>
+  <section>
+    <h2>関連ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-to-csv-converter', 'ja')}>JSONからCSV変換</a>：JSON配列を表形式のCSVに戻します。</li>
+      <li><a href={toolPathBySlug('json-formatter', 'ja')}>JSON整形ツール</a>：生成されたJSONを見やすく整形します。</li>
+      <li><a href={toolPathBySlug('json-validator', 'ja')}>JSON構文チェッカー</a>：JSONの書式エラーがないか検証します。</li>
+    </ul>
+  </section>
+</GuideLayout>

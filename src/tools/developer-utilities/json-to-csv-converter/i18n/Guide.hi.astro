@@ -1,0 +1,51 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>JSON से CSV कन्वर्टर ऑब्जेक्ट ऐरे की कुंजियों को कॉलम शीर्षक बनाकर तुरंत Excel और स्प्रेडशीट में खुलने वाली CSV तालिका तैयार कर देता है।</p>
+    <a class="cta-link" href={toolHref}>JSON से CSV कन्वर्टर खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>JSON से CSV रूपांतरण क्या करता है? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>यह सभी ऑब्जेक्ट्स से कुंजियाँ इकट्ठा कर हेडर पंक्ति बनाता है और कॉमा व लाइन ब्रेक वाले मानों को सुरक्षित कोट्स में लपेटता है।</p>
+  </section>
+  <section>
+    <h2>असमान कुंजियों और स्पार्स डेटा का संचालन <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>यदि कुछ प्रविष्टियों में अतिरिक्त फ़ील्ड हैं, तो बाकी पंक्तियों में उस स्थान पर खाली सेल रखकर कॉलम संरेखण सही रखा जाता है।</p>
+  </section>
+  <section>
+    <h2>JSON को CSV में कब बदलें <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>जब API आउटपुट को बिज़नेस रिपोर्ट के लिए Excel में देना हो या SQL डेटाबेस में बल्क इम्पोर्ट करना हो।</p>
+  </section>
+  <section>
+    <h2>CSV सीधे नेस्टेड JSON क्यों नहीं दिखा सकता <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>CSV केवल पंक्तियों और कॉलम तक सीमित है, इसलिए भीतर मौजूद ऑब्जेक्ट्स को सेल स्तर पर टेक्स्ट रूप में समेटा जाता है।</p>
+  </section>
+  <section>
+    <h2>सामान्य गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>ऐरे <code>[...]</code> के बजाय केवल एक ऑब्जेक्ट डाल देने से रूपांतरण विफल हो जाता है।</p>
+  </section>
+  <section>
+    <h2>संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-formatter', 'hi')}>JSON फ़ॉर्मेटर</a>: एक्सपोर्ट से पहले JSON व्यवस्थित करें।</li>
+      <li><a href={toolPathBySlug('json-validator', 'hi')}>JSON वैलिडेटर</a>: सिंटैक्स की शुद्धता सुनिश्चित करें।</li>
+      <li><a href={toolPathBySlug('json-minifier', 'hi')}>JSON मिनिफ़ायर</a>: ट्रांसमिशन के लिए JSON छोटा करें।</li>
+    </ul>
+  </section>
+</GuideLayout>

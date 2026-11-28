@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section>
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Entrez une date, une heure et deux fuseaux : les règles IANA adaptées à cette date exacte gèrent automatiquement l’heure d’été et signalent tout passage à la veille ou au lendemain.</p>
+    <a class="cta-link" href={toolHref}>Ouvrir Convertisseur de fuseaux horaires &rarr;</a>
+  </section>
+  <section>
+    <h2>Comment fonctionne la conversion de fuseau <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Chaque horaire local est d’abord converti en temps universel UTC selon le décalage officiel du jour choisi, puis projeté sur le fuseau cible.</p>
+  </section>
+  <section>
+    <h2>Exemples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>09:00 à New York en juillet (-04:00) équivaut à 22:00 à Tokyo (+09:00), soit exactement 13 heures d’avance le même jour.</p>
+  </section>
+  <section>
+    <h2>Décalage UTC vs heure d’été <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>L’Europe et l’Amérique du Nord ne basculant pas aux mêmes dates, l’écart entre Paris et New York varie brièvement de 5 h à 6 h selon les semaines.</p>
+  </section>
+  <section>
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Croire que l’écart reste fixe toute l’année">
+      <p>Vérifiez toujours à la date réelle du rendez-vous plutôt qu’à l’œil nu.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Oublier le changement de jour">
+      <p>Surveillez les mentions de veille ou lendemain pour les appels intercontinentaux.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="Tout tourne en local">
+      <p>Vos horaires et voyages restent entièrement privés sur votre appareil.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

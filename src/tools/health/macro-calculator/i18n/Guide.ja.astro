@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>要点まとめ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>目標カロリーに各比率を掛け、タンパク質・炭水化物は4 kcal/g、脂質は9 kcal/gで割るだけで1日のPFCグラム数が求まります。</p>
+    <a class="cta-link" href={toolHref}>マクロ栄養素（PFC）計算機を開く &rarr;</a>
+  </section>
+  <section>
+    <h2>マクロ栄養素（PFC）とは <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>食事のエネルギー源となるタンパク質・脂質・炭水化物の3つの主要栄養素を指します。</p>
+  </section>
+  <section>
+    <h2>カロリーからグラムへの変換例 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>1日2,000 kcalでタンパク質35%なら、700 kcal ÷ 4 = 175g が日次目標になります。</p>
+  </section>
+  <section>
+    <h2>続けやすい配分の選び方 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>バランス・高タンパク・低糖質・ケトの4パターンを比べ、普段の食事に最も馴染むものを選んでください。</p>
+  </section>
+  <section>
+    <h2>マクロ管理と他の食事法との違い <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>まず総カロリーと十分なタンパク質量を押さえることが体作りの大部分を占めます。</p>
+  </section>
+  <section>
+    <h2>よくある失敗 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>合計が100%にならない独自比率や、継続困難な極端な糖質制限から始めることです。</p>
+  </section>
+</GuideLayout>

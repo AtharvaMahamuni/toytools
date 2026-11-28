@@ -1,0 +1,32 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Arrondir chaque part individuellement produit souvent un écart sur le total. En calculant en sous-unités entières et en ajoutant le reliquat à la dernière part, la somme reste strictement exacte.</p>
+    <a href={toolHref} class="cta-link">Ouvrir Partager l’Addition →</a>
+  </section>
+  <section id="exemple">
+    <h2>Exemple concret et règles <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Pour 1000 avec 10% de pourboire (1100) entre 3 personnes, les parts valent 366,66, 366,66 et 366,68. Accepte 2 à 30 personnes et un pourboire entier de 0 à 30%.</p>
+  </section>
+  <section id="erreurs">
+    <h2>Erreurs courantes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Arrondir chaque convive séparément">
+      <p>Trois fois 366,67 font 1100,01 au lieu de 1100. Reporter les quelques unités restantes sur une seule part garantit l’équilibre.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

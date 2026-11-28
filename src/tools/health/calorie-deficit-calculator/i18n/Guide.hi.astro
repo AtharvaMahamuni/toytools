@@ -1,0 +1,49 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>लगभग 500 से 550 kcal दैनिक डेफिसिट से सप्ताह में करीब 0.5 kg वजन घटता है। हमेशा अपने BMR स्तर से ऊपर रहकर ही योजना बनाएं।</p>
+    <a class="cta-link" href={toolHref}>कैलोरी डेफिसिट कैलकुलेटर खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>कैलोरी डेफिसिट कैसे काम करता है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>दैनिक खर्च (TDEE) से कम कैलोरी लेने पर शरीर ~7,700 kcal प्रति किलोग्राम की दर से संचित ऊर्जा का उपयोग करता है।</p>
+  </section>
+  <section>
+    <h2>सही घटती दर का चुनाव <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>प्रति सप्ताह शरीर के वजन का 0.5% से 1% घटाना ऊर्जा, ताकत और निरंतरता बनाए रखने में मदद करता है।</p>
+  </section>
+  <section>
+    <h2>समय के साथ लक्ष्य क्यों बदलता है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="key-idea" heading="वजन घटने पर लक्ष्य दोबारा तय करें">
+      <p>हर 4 से 5 kg कम होने पर मेंटेनेंस ऊर्जा घटती है, इसलिए नया लक्ष्य निकालना पठार तोड़ने के लिए जरूरी है।</p>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>उदाहरण <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>2,400 kcal मेंटेनेंस पर 1,850 kcal लेने से रोज़ 550 kcal का अंतर (~0.5 kg/सप्ताह) बनता है।</p>
+  </section>
+  <section>
+    <h2>सामान्य गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="सबसे तेज दर चुन लेना">
+      <p>अत्यधिक कम कैलोरी थकान और मांसपेशी क्षय लाती है; BMR सीमा का पालन करें।</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="एक दिन के वजन से प्रगति आंकना">
+      <p>शरीर के पानी से वजन रोज़ बदलता है; साप्ताहिक औसत देखें।</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

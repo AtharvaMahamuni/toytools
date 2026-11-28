@@ -1,6 +1,7 @@
 import type { StructuredDataTool } from './types';
 import { LosslessInt, stringifyLossless } from '@lib/json/losslessInt';
 import { parseJsonLossless } from './losslessJson';
+import { clientStr } from '@lib/i18n/client';
 
 function escapeCell(value: unknown): string {
   const str =
@@ -23,9 +24,9 @@ export const jsonToCsv: StructuredDataTool = {
     try { parsed = parseJsonLossless(input); }
     catch (e) { return { ok: false, output: '', error: (e as Error).message }; }
     if (!Array.isArray(parsed))
-      return { ok: false, output: '', error: 'Input must be a JSON array.' };
+      return { ok: false, output: '', error: clientStr('errMustBeArray', 'Input must be a JSON array.') };
     if (parsed.length === 0)
-      return { ok: false, output: '', error: 'Array is empty — nothing to convert.' };
+      return { ok: false, output: '', error: clientStr('errEmptyArray', 'Array is empty: nothing to convert.') };
 
     // Collect union of keys across all objects (handles sparse rows)
     const headers: string[] = [];

@@ -1,0 +1,39 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>हर पंक्ति की पहली उपस्थिति अपने स्थान पर रहती है और नीचे आने वाले सभी हूबहू दोहराव बिना किसी क्रम-परिवर्तन के तुरंत हटा दिए जाते हैं।</p>
+    <a class="cta-link" href={toolHref}>डुप्लिकेट पंक्तियाँ हटाएं खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>सूची डीडुप्लिकेट कब करें <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>ग्राहक सूची अपलोड करने, URL एकत्र करने या सर्वर लॉग की दोहराई गई त्रुटियों को छांटने से पहले इसका प्रयोग बहुत कारगर है।</p>
+  </section>
+  <section>
+    <h2>यह कैसे काम करता है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>प्रोसेसर हर पंक्ति की जांच करता है और पहले से देखी गई पंक्ति को छोड़ देता है। छोटे-बड़े अक्षर एक करने के लिए पहले <a href={toolPathBySlug('lowercase-converter', 'hi')}>लोअरकेस कन्वर्टर</a> चलाएं।</p>
+  </section>
+  <section>
+    <h2>सामान्य गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>पंक्ति के अंत में छिपा स्पेस या छोटे-बड़े अक्षरों का अंतर डुप्लिकेट को बचा सकता है; बॉक्स के नीचे मिलने वाले संकेतों पर ध्यान दें।</p>
+  </section>
+  <section>
+    <h2>अन्य सफाई टूल से तुलना <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>डुप्लिकेट हटाना दोहराव मिटाता है, खाली पंक्ति हटाना रिक्त स्थान साफ करता है और टेक्स्ट तुलना दो अलग पाठों के बीच अंतर दिखाता है।</p>
+  </section>
+</GuideLayout>

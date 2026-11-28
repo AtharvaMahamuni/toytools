@@ -19,6 +19,9 @@ import { SUPPORTED_CURRENCIES, groupingFor } from '@lib/inputs/currency';
 import { DEFAULT_CAPABILITIES } from '@lib/results/types';
 import { toolUrlStateMode } from '@lib/url-state';
 import type { ToolConfig } from '@data/types';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { WIDGET_CHROME, localizeFields, uiStr } from '@lib/i18n/widget-utils';
 
 interface Props {
   slug: string;
@@ -29,22 +32,38 @@ interface Props {
   splitScreens?: boolean;
   /** Which experience node carries this tool's craft id. Omit when the tool has no craft here. */
   craftOn?: 'visualization' | 'hero-note' | 'empty';
+  lang?: LocaleCode;
+  pack?: LocalizedToolPack | null;
 }
 
-const { slug, financeId, config, emptyText, splitScreens: splitScreensProp, craftOn } = Astro.props;
+const { slug, financeId, config, emptyText, splitScreens: splitScreensProp, craftOn, lang = 'en', pack = null } = Astro.props;
+const c = WIDGET_CHROME[lang];
+const shareLabel: Record<LocaleCode, string> = { en: 'Copy link', es: 'Copiar enlace', de: 'Link kopieren', fr: 'Copier le lien', ja: 'リンクをコピー', pt: 'Copiar link', hi: 'लिंक कॉपी करें' };
+const linkCopiedLabel: Record<LocaleCode, string> = { en: '✓ Link copied', es: '✓ Enlace copiado', de: '✓ Link kopiert', fr: '✓ Lien copié', ja: '✓ リンクをコピー済み', pt: '✓ Link copiado', hi: '✓ लिंक कॉपी हुआ' };
+const resetLabel: Record<LocaleCode, string> = { en: 'Reset to Defaults', es: 'Restablecer', de: 'Zurücksetzen', fr: 'Réinitialiser', ja: '初期値に戻す', pt: 'Restaurar padrão', hi: 'डिफ़ॉल्ट पर रीसेट करें' };
+const confirmResetLabel: Record<LocaleCode, string> = { en: 'Confirm Reset', es: 'Confirmar reinicio', de: 'Zurücksetzen bestätigen', fr: 'Confirmer la réinitialisation', ja: 'リセットを確認', pt: 'Confirmar restauração', hi: 'रीसेट की पुष्टि करें' };
+const loadExLabel: Record<LocaleCode, string> = { en: 'Load Example', es: 'Cargar ejemplo', de: 'Beispiel laden', fr: 'Charger un exemple', ja: '例を読み込む', pt: 'Carregar exemplo', hi: 'उदाहरण लोड करें' };
+const undoLabel: Record<LocaleCode, string> = { en: 'Undo', es: 'Deshacer', de: 'Rückgängig', fr: 'Annuler', ja: '元に戻す', pt: 'Desfazer', hi: 'पूर्ववत करें' };
+const scenariosAria: Record<LocaleCode, string> = { en: 'Scenarios', es: 'Escenarios', de: 'Szenarien', fr: 'Scénarios', ja: 'シナリオ', pt: 'Cenários', hi: 'परिदृश्य' };
 const calc = getFinanceCalculator(financeId);
-const fields = calc?.fields ?? [];
+const rawFields = calc?.fields ?? [];
+const fields = localizeFields(rawFields, pack);
 const splitScreens = splitScreensProp ?? fields.length <= 2;
 const splitRatio = splitScreens ? '1-1' : '3-2';
-const scenarios = calc?.scenarios ?? [];
+const scenarioMap = (pack?.ui?.scenarios && typeof pack.ui.scenarios === 'object') ? pack.ui.scenarios as Record<string, string> : null;
+const scenarios = (calc?.scenarios ?? []).map((s) => ({
+  ...s,
+  label: scenarioMap?.[s.label] ?? s.label,
+}));
 const caps = { ...DEFAULT_CAPABILITIES, ...(calc?.capabilities ?? {}) };
 const examples = financeExamplesFor(financeId).map((e) => e.inputs);
-const defaults = Object.fromEntries(fields.map((f) => [f.id, f.default]));
+const defaults = Object.fromEntries(rawFields.map((f) => [f.id, f.default]));
 // Space held for the result on phones (ToolSplit `reserve`). The full calculators (the ones with
 // examples) settle at 391-549px tall at 393px wide; the small split and UPI tallies at 195-226px
 // and get none, so their settled layout does not grow.
 const financeReserve = caps.loadExample ? '23rem' : undefined;
-const resolvedEmpty = emptyText ?? 'Enter your values to calculate, visualize milestones, and see what happens over time.';
+const resolvedEmpty = uiStr(pack, 'emptyText', emptyText ?? 'Enter your values to calculate, visualize milestones, and see what happens over time.');
+const yearlyRateToken = uiStr(pack, 'yearlyRateToken', 'is a yearly rate');
 
 // "A shareable link to this calculation" is the most requested thing an online calculator does, and
 // finance inputs are impersonal amounts, so these are shareable. On a private page (all of them
@@ -67,7 +86,7 @@ const currencyMeta = Object.fromEntries(
   <ToolSplit ratio={splitRatio} stackOrder="output-first" stickyOutput={false} equalHeight={false} reserve={financeReserve}>
     <IoPanel
       slot="input"
-      label="Details"
+      label={c.details}
       variant="prose"
       bare
       data-finance={financeId}
@@ -75,12 +94,13 @@ const currencyMeta = Object.fromEntries(
       data-defaults={JSON.stringify(defaults)}
       data-currency-meta={JSON.stringify(currencyMeta)}
       data-url-state={urlMode}
+      data-yearly-rate-token={yearlyRateToken}
     >
       <div class="io-body finance-form" id={`${slug}-form`} data-finance-form>
         <div class="finance-ledger-toolbar">
           {!calc?.fixedCurrency && <CurrencyInput id={`${slug}-currency`} />}
           {scenarios.length > 0 && (
-            <div class="finance-scenarios" role="group" aria-label="Scenarios">
+            <div class="finance-scenarios" role="group" aria-label={scenariosAria[lang]}>
               {scenarios.map((s) => (
                 <button type="button" class="smart-preset finance-scenario" data-scenario={JSON.stringify(s.values)}>{s.label}</button>
               ))}
@@ -99,22 +119,23 @@ const currencyMeta = Object.fromEntries(
       capabilities={caps}
       craftId={craftOn ? config.craft?.id : undefined}
       craftOn={craftOn}
+      lang={lang}
     />
   </ToolSplit>
 </div>
 
 <div class="tool-actions">
-  <button class="action-btn action-btn--copy" id={`${slug}-copy`} data-label="Copy" type="button">Copy</button>
+  <button class="action-btn action-btn--copy" id={`${slug}-copy`} data-label={c.copy} data-copied-label={c.copied} data-empty-copy={c.nothingToCopy} type="button">{c.copy}</button>
   {caps.loadExample && examples.length > 0 && (
-    <button class="action-btn" id={`${slug}-example`} type="button">Load Example</button>
+    <button class="action-btn" id={`${slug}-example`} type="button">{loadExLabel[lang]}</button>
   )}
   {caps.undo && (
-    <button class="action-btn" id={`${slug}-undo`} type="button" hidden>Undo</button>
+    <button class="action-btn" id={`${slug}-undo`} type="button" hidden>{undoLabel[lang]}</button>
   )}
   {urlMode !== 'off' && (
-    <button class="action-btn" id={`${slug}-share`} data-label="Copy link" type="button">Copy link</button>
+    <button class="action-btn" id={`${slug}-share`} data-label={shareLabel[lang]} data-copied-label={linkCopiedLabel[lang]} type="button">{shareLabel[lang]}</button>
   )}
-  <button class="action-btn action-btn--clear" id={`${slug}-reset`} data-label="Reset" type="button">Reset to Defaults</button>
+  <button class="action-btn action-btn--clear" id={`${slug}-reset`} data-label={resetLabel[lang]} data-confirm-label={confirmResetLabel[lang]} type="button">{resetLabel[lang]}</button>
 </div>
 
 {examples.length > 0 && (
@@ -127,6 +148,7 @@ const currencyMeta = Object.fromEntries(
       var root = document.querySelector('[data-finance="loan"]');
       if (!root) return;
       var slug = root.getAttribute('data-slug');
+      var rateToken = root.getAttribute('data-yearly-rate-token') || 'is a yearly rate';
       var exp = document.getElementById(slug + '-experience');
       var rate = document.querySelector('[data-finance="loan"] [data-field-id="rate"]');
       if (!exp || !rate) return;
@@ -141,7 +163,7 @@ const currencyMeta = Object.fromEntries(
         timer = 0;
         var el = note();
         if (!el || el.hidden || document.activeElement !== rate || !partial()) return;
-        if ((el.textContent || '').indexOf('is a yearly rate') === -1) return;
+        if ((el.textContent || '').indexOf(rateToken) === -1) return;
         var seen = rate.getAttribute('data-raw');
         el.hidden = true;
         timer = setTimeout(function () {
@@ -149,13 +171,14 @@ const currencyMeta = Object.fromEntries(
           if (rate.getAttribute('data-raw') === seen) el.hidden = false;
         }, 500);
       });
+      root.addEventListener('tt-loan-blur', function () {});
       rate.addEventListener('blur', function () {
         if (timer) clearTimeout(timer);
         timer = 0;
         var el = note();
         var raw = rate.getAttribute('data-raw');
         if (!el || (raw !== '1' && raw !== '2')) return;
-        if ((el.textContent || '').indexOf('is a yearly rate') === -1) return;
+        if ((el.textContent || '').indexOf(rateToken) === -1) return;
         el.hidden = false;
       });
     })();
@@ -348,7 +371,7 @@ const currencyMeta = Object.fromEntries(
         ToyTools.experience.render(expRoot, { ok: false, uiState: 'empty', metrics: [] });
         return;
       }
-      var res = ToyTools.runFinance(fid, c.input, { currency: currency });
+      var res = ToyTools.runFinance(fid, c.input, { currency: currency, locale: document.documentElement.lang || 'en' });
       ToyTools.experience.render(expRoot, res);
       if (fid === 'loan') root.dispatchEvent(new Event('tt-loan'));
     }
@@ -525,11 +548,13 @@ const currencyMeta = Object.fromEntries(
       if (!(window.ToyTools && ToyTools.url)) return;
       ToyTools.url.share(shareValues(), document.title);
       if (!navigator.share) {
+        var shareIdle = shareBtn.getAttribute('data-label') || 'Copy link';
+        var shareDone = shareBtn.getAttribute('data-copied-label') || '✓ Link copied';
         shareBtn.classList.add('is-success');
-        shareBtn.textContent = '✓ Link copied';
+        shareBtn.textContent = shareDone;
         setTimeout(function () {
           shareBtn.classList.remove('is-success');
-          shareBtn.textContent = 'Copy link';
+          shareBtn.textContent = shareIdle;
         }, 2000);
       }
     });
@@ -546,16 +571,18 @@ const currencyMeta = Object.fromEntries(
     var resetBtn = document.getElementById(slug + '-reset');
     var resetTimer;
     if (resetBtn) resetBtn.addEventListener('click', function () {
+      var resetIdle = resetBtn.getAttribute('data-label') || 'Reset to Defaults';
+      var resetConfirm = resetBtn.getAttribute('data-confirm-label') || 'Confirm Reset';
       if (!resetBtn.classList.contains('is-confirming')) {
         resetBtn.classList.add('is-confirming');
-        resetBtn.textContent = 'Confirm Reset';
+        resetBtn.textContent = resetConfirm;
         clearTimeout(resetTimer);
-        resetTimer = setTimeout(function () { resetBtn.classList.remove('is-confirming'); resetBtn.textContent = 'Reset to Defaults'; }, 3000);
+        resetTimer = setTimeout(function () { resetBtn.classList.remove('is-confirming'); resetBtn.textContent = resetIdle; }, 3000);
         return;
       }
       pushUndo();
       resetBtn.classList.remove('is-confirming');
-      resetBtn.textContent = 'Reset to Defaults';
+      resetBtn.textContent = resetIdle;
       var code = currencyEl ? currencyEl.value : 'USD';
       for (var id in defaults) {
         var del = fieldById(id);
@@ -590,11 +617,14 @@ const currencyMeta = Object.fromEntries(
     var copyTimer;
     if (copyBtn) copyBtn.addEventListener('click', function () {
       var val = heroEl ? heroEl.textContent : '';
-      if (!val || val === '0') { if (window.ToyTools) ToyTools.toast('Nothing to copy yet!'); return; }
+      var emptyMsg = copyBtn.getAttribute('data-empty-copy') || 'Nothing to copy yet!';
+      var copyIdle = copyBtn.getAttribute('data-label') || 'Copy';
+      var copyDone = copyBtn.getAttribute('data-copied-label') || '✓ Copied';
+      if (!val || val === '0') { if (window.ToyTools) ToyTools.toast(emptyMsg); return; }
       if (window.ToyTools) ToyTools.copy(val);
-      copyBtn.classList.add('is-success'); copyBtn.textContent = '✓ Copied';
+      copyBtn.classList.add('is-success'); copyBtn.textContent = copyDone;
       clearTimeout(copyTimer);
-      copyTimer = setTimeout(function () { copyBtn.classList.remove('is-success'); copyBtn.textContent = 'Copy'; }, 2000);
+      copyTimer = setTimeout(function () { copyBtn.classList.remove('is-success'); copyBtn.textContent = copyIdle; }, 2000);
     });
 
     // runFinance + experience attach via the deferred runtime module — wait so restored input renders.

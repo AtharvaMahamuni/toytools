@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Inflation verringert die Kaufkraft eines festen Geldbetrags geometrisch. Teilt man die Summe durch (1 + Inflationsrate)^Jahre, erhält man ihren realen Wert in heutiger Kaufkraft.</p>
+    <a href={toolHref} class="cta-link">Zum Inflationsrechner →</a>
+  </section>
+  <section id="formel">
+    <h2>Formel und Realzins <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Realer Wert = Betrag / (1 + i)^t</strong></p>
+    <p>Über die <a href={toolPathBySlug('rule-of-72-calculator')}>72er-Regel</a> oder den <a href={toolPathBySlug('compound-interest-calculator', 'de')}>Zinseszinsrechner</a> erkennst du schnell, welche Rendite den Preisauftrieb ausgleicht.</p>
+  </section>
+  <section id="fehler">
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Sparziele nominal ohne Preissteigerung festlegen">
+      <p>Passe größere Zukunftsziele vor dem Sparplan erst an die künftigen Preise an.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

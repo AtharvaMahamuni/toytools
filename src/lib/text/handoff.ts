@@ -26,6 +26,8 @@
 //
 // See docs/analysis/2026-08-11-tool-craft.md.
 
+import { readClientI18n } from '@lib/i18n/client';
+
 export interface Handoff {
   /** One line about this result. Never restates what the tool obviously did. */
   text: string;
@@ -35,6 +37,8 @@ export interface Handoff {
 
 const count = (s: string, re: RegExp): number => (s.match(re) ? (s.match(re) as string[]).length : 0);
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+const tpl = (s: string, vars: Record<string, string | number>) =>
+  s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : `{${k}}`));
 
 /** Non-ASCII letters that survived a transform, which is what separates kebab from a URL slug. */
 const NON_ASCII_LETTER = /[^\x00-\x7F]/;
@@ -52,6 +56,12 @@ const MINOR_WORDS = /\b(?:a|an|and|as|at|but|by|for|in|nor|of|on|or|the|to|up|vi
 export function textHandoff(processorId: string, input: string, output: string): Handoff | null {
   if (!input) return null;
   const unchanged = input === output;
+  const d = readClientI18n();
+  const h = (d.handoff && typeof d.handoff === 'object') ? (d.handoff as Record<string, any>) : {};
+  const sib = (slug: string, fallback: string) => ({
+    slug,
+    name: (h.siblings && typeof h.siblings[slug] === 'string' && h.siblings[slug]) || fallback,
+  });
 
   switch (processorId) {
     // ── cleanup: what this one deliberately left alone ────────────────────────
@@ -62,8 +72,10 @@ export function textHandoff(processorId: string, input: string, output: string):
       const edges = output.split('\n').filter(l => /^[ \t]|[ \t]$/.test(l)).length;
       if (edges === 0) return null;
       return {
-        text: `Runs of spaces are collapsed, but ${plural(edges, 'line still starts or ends', 'lines still start or end')} with one.`,
-        tool: { slug: 'trim-text', name: 'Trim Text' },
+        text: h.msgTpl
+          ? tpl(h.msgTpl, { n: edges })
+          : `Runs of spaces are collapsed, but ${plural(edges, 'line still starts or ends', 'lines still start or end')} with one.`,
+        tool: sib('trim-text', 'Trim Text'),
       };
     }
 
@@ -72,8 +84,10 @@ export function textHandoff(processorId: string, input: string, output: string):
       const inner = count(output, /\S[ \t]{2,}\S/g);
       if (inner === 0) return null;
       return {
-        text: `Line edges are trimmed, but ${plural(inner, 'gap', 'gaps')} of two or more spaces remain inside the lines.`,
-        tool: { slug: 'remove-extra-spaces', name: 'Remove Extra Spaces' },
+        text: h.msgTpl
+          ? tpl(h.msgTpl, { n: inner })
+          : `Line edges are trimmed, but ${plural(inner, 'gap', 'gaps')} of two or more spaces remain inside the lines.`,
+        tool: sib('remove-extra-spaces', 'Remove Extra Spaces'),
       };
     }
 
@@ -82,8 +96,10 @@ export function textHandoff(processorId: string, input: string, output: string):
       const runs = count(output, /[ ]{2,}/g);
       if (runs === 0) return null;
       return {
-        text: `Each tab became one space, which leaves ${plural(runs, 'run', 'runs')} of two or more spaces behind.`,
-        tool: { slug: 'remove-extra-spaces', name: 'Remove Extra Spaces' },
+        text: h.msgTpl
+          ? tpl(h.msgTpl, { n: runs })
+          : `Each tab became one space, which leaves ${plural(runs, 'run', 'runs')} of two or more spaces behind.`,
+        tool: sib('remove-extra-spaces', 'Remove Extra Spaces'),
       };
     }
 
@@ -93,8 +109,10 @@ export function textHandoff(processorId: string, input: string, output: string):
       const breaks = count(input, /\r\n?|\n/g);
       if (breaks === 0) return null;
       return {
-        text: `This collapsed ${plural(breaks, 'line break', 'line breaks')} into spaces as well.`,
-        tool: { slug: 'remove-extra-spaces', name: 'Remove Extra Spaces' },
+        text: h.msgTpl
+          ? tpl(h.msgTpl, { n: breaks })
+          : `This collapsed ${plural(breaks, 'line break', 'line breaks')} into spaces as well.`,
+        tool: sib('remove-extra-spaces', 'Remove Extra Spaces'),
       };
     }
 
@@ -103,8 +121,10 @@ export function textHandoff(processorId: string, input: string, output: string):
       const paras = count(input, /\n[ \t]*\n/g);
       if (paras === 0) return null;
       return {
-        text: `${plural(paras + 1, 'paragraph is', 'paragraphs are')} now one block of text.`,
-        tool: { slug: 'remove-blank-lines', name: 'Remove Blank Lines' },
+        text: h.msgTpl
+          ? tpl(h.msgTpl, { n: paras + 1 })
+          : `${plural(paras + 1, 'paragraph is', 'paragraphs are')} now one block of text.`,
+        tool: sib('remove-blank-lines', 'Remove Blank Lines'),
       };
     }
 
@@ -112,8 +132,10 @@ export function textHandoff(processorId: string, input: string, output: string):
       // Did nothing, on multi-line input. Almost always means the other line tool was wanted.
       if (!unchanged || !/\n/.test(input)) return null;
       return {
-        text: `No blank lines to remove: these ${count(input, /\n/g) + 1} lines are all content.`,
-        tool: { slug: 'remove-line-breaks', name: 'Remove Line Breaks' },
+        text: h.msgTpl
+          ? tpl(h.msgTpl, { n: count(input, /\n/g) + 1 })
+          : `No blank lines to remove: these ${count(input, /\n/g) + 1} lines are all content.`,
+        tool: sib('remove-line-breaks', 'Remove Line Breaks'),
       };
     }
 
@@ -128,13 +150,17 @@ export function textHandoff(processorId: string, input: string, output: string):
       if (byTrim === 0 && byCase === 0) return null;
       if (byTrim >= byCase) {
         return {
-          text: `${plural(byTrim, 'more line is', 'more lines are')} a duplicate once the whitespace is trimmed.`,
-          tool: { slug: 'trim-text', name: 'Trim Text' },
+          text: h.trimTpl
+            ? tpl(h.trimTpl, { n: byTrim })
+            : `${plural(byTrim, 'more line is', 'more lines are')} a duplicate once the whitespace is trimmed.`,
+          tool: sib('trim-text', 'Trim Text'),
         };
       }
       return {
-        text: `${plural(byCase, 'more line is', 'more lines are')} a duplicate if case is ignored.`,
-        tool: { slug: 'lowercase-converter', name: 'Lowercase' },
+        text: h.lowerTpl
+          ? tpl(h.lowerTpl, { n: byCase })
+          : `${plural(byCase, 'more line is', 'more lines are')} a duplicate if case is ignored.`,
+        tool: sib('lowercase-converter', 'Lowercase'),
       };
     }
 
@@ -142,8 +168,8 @@ export function textHandoff(processorId: string, input: string, output: string):
       // Found no emoji but the text is not ASCII, so whatever looked "weird" was something else.
       if (!unchanged || !NON_ASCII_LETTER.test(input)) return null;
       return {
-        text: 'No emoji here. The non-ASCII characters in this text are letters, not pictographs.',
-        tool: { slug: 'remove-accents', name: 'Remove Accents' },
+        text: h.msg || 'No emoji here. The non-ASCII characters in this text are letters, not pictographs.',
+        tool: sib('remove-accents', 'Remove Accents'),
       };
     }
 
@@ -151,8 +177,8 @@ export function textHandoff(processorId: string, input: string, output: string):
       // The mirror: nothing decomposed, yet the text is not ASCII.
       if (!unchanged || !NON_ASCII_LETTER.test(input)) return null;
       return {
-        text: 'Nothing here carries a separable accent, so the non-ASCII characters are unchanged.',
-        tool: { slug: 'remove-emoji', name: 'Remove Emoji' },
+        text: h.msg || 'Nothing here carries a separable accent, so the non-ASCII characters are unchanged.',
+        tool: sib('remove-emoji', 'Remove Emoji'),
       };
     }
 
@@ -162,8 +188,10 @@ export function textHandoff(processorId: string, input: string, output: string):
       const lost = input.split('\n').filter((l, i) => l.trim() !== '' && (output.split('\n')[i] ?? '') === '').length;
       if (lost === 0) return null;
       return {
-        text: `${plural(lost, 'line has', 'lines have')} no Latin letters or digits (Cyrillic, Greek, Chinese and other scripts are not transliterated) and slugified to nothing.`,
-        tool: { slug: 'kebab-case-converter', name: 'Kebab Case' },
+        text: h.msgTpl
+          ? tpl(h.msgTpl, { n: lost })
+          : `${plural(lost, 'line has', 'lines have')} no Latin letters or digits (Cyrillic, Greek, Chinese and other scripts are not transliterated) and slugified to nothing.`,
+        tool: sib('kebab-case-converter', 'Kebab Case'),
       };
     }
 
@@ -173,8 +201,8 @@ export function textHandoff(processorId: string, input: string, output: string):
       // These keep accented letters, which is right for prose and wrong for a URL or a filename.
       if (!NON_ASCII_LETTER.test(output)) return null;
       return {
-        text: 'Accented letters are kept as they are, which a URL, a filename or an ASCII-only identifier will not accept.',
-        tool: { slug: 'remove-accents', name: 'Remove Accents' },
+        text: h.msg || 'Accented letters are kept as they are, which a URL, a filename or an ASCII-only identifier will not accept.',
+        tool: sib('remove-accents', 'Remove Accents'),
       };
     }
 
@@ -183,8 +211,8 @@ export function textHandoff(processorId: string, input: string, output: string):
       // my text" — the documented confusion, verbatim.
       if (/[.!?]/.test(input)) return null;
       return {
-        text: 'No sentence endings found, so only the very first letter was capitalized.',
-        tool: { slug: 'title-case-converter', name: 'Title Case' },
+        text: h.msg || 'No sentence endings found, so only the very first letter was capitalized.',
+        tool: sib('title-case-converter', 'Title Case'),
       };
     }
 
@@ -193,8 +221,10 @@ export function textHandoff(processorId: string, input: string, output: string):
       const minor = (input.trim().split(/\s+/).slice(1).join(' ').match(MINOR_WORDS) ?? []).length;
       if (minor === 0) return null;
       return {
-        text: `${plural(minor, 'short word is', 'short words are')} capitalized here that Chicago and AP both leave lowercase.`,
-        tool: { slug: 'sentence-case-converter', name: 'Sentence Case' },
+        text: h.msgTpl
+          ? tpl(h.msgTpl, { n: minor })
+          : `${plural(minor, 'short word is', 'short words are')} capitalized here that Chicago and AP both leave lowercase.`,
+        tool: sib('sentence-case-converter', 'Sentence Case'),
       };
     }
 
@@ -203,7 +233,9 @@ export function textHandoff(processorId: string, input: string, output: string):
       const breaks = count(input, /\n/g);
       if (breaks === 0) return null;
       return {
-        text: `Every character is reversed, not the word order, so ${plural(breaks, 'line break', 'line breaks')} moved to the other end of the text.`,
+        text: h.msgTpl
+          ? tpl(h.msgTpl, { n: breaks })
+          : `Every character is reversed, not the word order, so ${plural(breaks, 'line break', 'line breaks')} moved to the other end of the text.`,
       };
     }
 
@@ -212,8 +244,11 @@ export function textHandoff(processorId: string, input: string, output: string):
       const acronyms = input.match(/\b[A-Z]{2,}\b/g);
       if (!acronyms || acronyms.length === 0) return null;
       const unique = [...new Set(acronyms)].slice(0, 3);
+      const list = `${unique.join(', ')}${acronyms.length > unique.length ? ', …' : ''}`;
       return {
-        text: `${plural(acronyms.length, 'acronym', 'acronyms')} lost its capitals (${unique.join(', ')}${acronyms.length > unique.length ? ', …' : ''}), and nothing here restores them.`,
+        text: h.msgTpl
+          ? tpl(h.msgTpl, { n: acronyms.length, list })
+          : `${plural(acronyms.length, 'acronym', 'acronyms')} lost its capitals (${list}), and nothing here restores them.`,
       };
     }
 

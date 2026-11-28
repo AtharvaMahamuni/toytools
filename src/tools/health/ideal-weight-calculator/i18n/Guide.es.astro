@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Compara Devine, Robinson, Miller y Hamwi frente a la franja saludable de IMC (18,5-24,9) para elegir un intervalo realista en lugar de obsesionarte con un número único.</p>
+    <a class="cta-link" href={toolHref}>Abrir Calculadora de peso ideal &rarr;</a>
+  </section>
+  <section>
+    <h2>Cómo funcionan las fórmulas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Cada ecuación fija un peso base a 152,4 cm (5 pies) según sexo y suma una constante fija por cada centímetro adicional.</p>
+  </section>
+  <section>
+    <h2>Por qué discrepan entre sí <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Se ajustaron sobre muestras poblacionales y décadas distintas (desde 1964 hasta 1983), creando una banda natural de referencia.</p>
+  </section>
+  <section>
+    <h2>Usa el rango, no el punto exacto <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Dos personas igual de altas con distinta masa muscular u ósea pueden estar sanas en extremos opuestos del intervalo IMC.</p>
+  </section>
+  <section>
+    <h2>Ejemplos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Para un hombre de 175 cm las fórmulas se mueven en torno a 67-72 kg, mientras que el rango IMC sano abarca de 56,7 kg a 76,3 kg.</p>
+  </section>
+  <section>
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Confundir un cálculo estadístico basado únicamente en altura con un objetivo estético obligatorio.</p>
+  </section>
+</GuideLayout>

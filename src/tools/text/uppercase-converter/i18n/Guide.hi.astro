@@ -1,0 +1,32 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>यह टूल किसी भी टेक्स्ट के सभी अक्षरों को तुरंत UPPERCASE में बदल देता है, जबकि संख्याएँ, चिह्न और लाइन ब्रेक जस के तस रहते हैं।</p>
+    <a href={toolHref} class="cta-link">अपरकेस कन्वर्टर खोलें →</a>
+  </section>
+  <section id="css-vs-real">
+    <h2>CSS text-transform बनाम वास्तविक अक्षर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>CSS केवल स्क्रीन पर अक्षर बड़े दिखाता है, कॉपी करने पर मूल टेक्स्ट ही मिलता है। डेटाबेस या कोड के लिए यह कन्वर्टर असली अक्षर बदलता है।</p>
+  </section>
+  <section id="best-practice">
+    <h2>सही उपयोग <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="पूरे लेख को अपरकेस में लिखना">
+      <p>बड़े अक्षर छोटे लेबल और संक्षिप्त नामों के लिए बेहतर हैं; लंबे पैराग्राफ पढ़ने में कठिन हो जाते हैं।</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

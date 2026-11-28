@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section>
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Multiplique suas calorias pela fração de cada macronutriente e divida por 4 para proteínas e carboidratos ou por 9 para gorduras.</p>
+    <a class="cta-link" href={toolHref}>Abrir Calculadora de macros &rarr;</a>
+  </section>
+  <section>
+    <h2>O que são macronutrientes de verdade <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Proteína, carboidrato e gordura são os três pilares que compõem todo o valor energético da alimentação.</p>
+  </section>
+  <section>
+    <h2>Convertendo calorias em gramas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Em uma dieta de 2.000 kcal com 35% de proteína, 700 kcal resultam em 175 g de proteína diárias.</p>
+  </section>
+  <section>
+    <h2>Como escolher uma divisão sustentável <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Compare os presets equilibrado, proteico, low-carb e keto até encontrar o que melhor encaixa na sua rotina.</p>
+  </section>
+  <section>
+    <h2>Calculadora de macros vs outras abordagens <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Atingir a meta global de calorias e proteína diária explica a maior parte do sucesso alimentar.</p>
+  </section>
+  <section>
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Percentuais desalinhados ou trocas radicais difíceis de manter por várias semanas.</p>
+  </section>
+</GuideLayout>

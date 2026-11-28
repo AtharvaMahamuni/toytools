@@ -1,0 +1,42 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>何時にベッドに入るべき？ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>朝7:00起き・入眠まで15分と想定すると、5サイクル（7.5時間睡眠）なら23:15、6サイクルなら21:45が就寝目安になります。</p>
+    <a class="cta-link" href={toolHref}>睡眠サイクル計算機を開く &rarr;</a>
+  </section>
+  <section>
+    <h2>90分睡眠サイクルとは <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>浅い睡眠・深い睡眠・レム睡眠が約90分で1周する周期です。周期の境目で起きると朝の寝起きが軽くなりやすいとされます。</p>
+  </section>
+  <section>
+    <h2>なぜ入眠時間を別枠で足すのか <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>消灯から眠るまでの時間を含めずに逆算すると、実際の入眠が遅れた分だけ朝深い眠りの途中でアラームが鳴ってしまいます。</p>
+  </section>
+  <section>
+    <h2>起床時刻基準と就寝時刻基準の違い <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>明朝の起床予定が決まっている日は「起きる時刻」基準、今からすぐ眠りたいときは「布団に入る時刻」基準が便利です。</p>
+  </section>
+  <section>
+    <h2>よくある失敗 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>入眠時間を0分のまま使うことや、慢性的に3〜4サイクルの短時間睡眠だけで済ませることです。</p>
+  </section>
+  <section>
+    <h2>次に便利なツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>スケジュールの日数確認には <a href={toolPathBySlug('date-difference-calculator', 'ja')}>日数差計算機</a> や <a href={toolPathBySlug('age-calculator', 'ja')}>年齢計算機</a> も活用できます。</p>
+  </section>
+</GuideLayout>

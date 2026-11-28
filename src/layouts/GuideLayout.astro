@@ -423,6 +423,16 @@ const articleSchema = {
   /* Hand guides each ship their own fill and an opacity hover. These win without editing those files.
      The resting fill is the AA orange, not #f54e00, whose white label is 3.52:1. */
   :global(.guide-content .cta-link) {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
     background: var(--color-action) !important;
     color: var(--color-text-inverse) !important;
   }

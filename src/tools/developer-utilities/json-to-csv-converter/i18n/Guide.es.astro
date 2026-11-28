@@ -1,0 +1,51 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Un conversor de JSON a CSV transforma un array de objetos en una tabla CSV donde las propiedades se convierten en encabezados de columna y cada elemento en una fila lista para Excel.</p>
+    <a class="cta-link" href={toolHref}>Abrir Conversor JSON a CSV &rarr;</a>
+  </section>
+  <section>
+    <h2>¿Qué hace la conversión de JSON a CSV? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Recoge la unión de claves de todos los objetos del array, construye la fila de cabeceras y escapa comas, saltos de línea y comillas para garantizar compatibilidad con hojas de cálculo.</p>
+  </section>
+  <section>
+    <h2>Cómo gestiona filas dispersas y datos complejos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Si unos objetos traen un campo opcional y otros no, la columna aparece alineada con celdas vacías donde falte el dato.</p>
+  </section>
+  <section>
+    <h2>Cuándo convertir JSON a CSV <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Al entregar listados de respuestas API a equipos de negocio en Excel o preparar cargas masivas hacia bases relacionales.</p>
+  </section>
+  <section>
+    <h2>Por qué CSV no puede representar JSON anidado directamente <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>CSV es estrictamente bidimensional (filas y columnas), de modo que cualquier subobjeto o lista interna debe aplanarse o serializarse en texto dentro de su celda.</p>
+  </section>
+  <section>
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Intentar convertir un objeto raíz único en lugar de un array <code>[...]</code> es la causa número uno de error.</p>
+  </section>
+  <section>
+    <h2>Herramientas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-formatter', 'es')}>Formateador JSON</a>: revisa el JSON antes de exportarlo.</li>
+      <li><a href={toolPathBySlug('json-validator', 'es')}>Validador JSON</a>: confirma que no haya comas colgantes.</li>
+      <li><a href={toolPathBySlug('json-minifier', 'es')}>Minificador JSON</a>: reduce el tamaño de archivo JSON.</li>
+    </ul>
+  </section>
+</GuideLayout>

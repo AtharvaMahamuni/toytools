@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug, toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section>
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Os algarismos romanos somam seus valores com seis pares subtrativos fixos (IV, IX, XL, XC, CD, CM), indo de I (1) até MMMCMXCIX (3999). Veja também <a href={guidePathBySlug('number-to-words')}>como escrever números por extenso</a>.</p>
+    <a class="cta-link" href={toolHref}>Abrir Conversor de números romanos &rarr;</a>
+  </section>
+  <section>
+    <h2>O que é notação subtrativa? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Colocar I antes de V/X, X antes de L/C ou C antes de D/M subtrai a primeira letra, evitando repetir quatro símbolos iguais.</p>
+  </section>
+  <section>
+    <h2>Como funciona a conversão? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>De número para romano decompõe do maior bloco ao menor; na volta interpreta inclusive inscrições antigas como MDCCCCX.</p>
+  </section>
+  <section>
+    <h2>Por que os relógios usam IIII? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Traz simetria visual frente ao VIII oposto e evitava inversões entre IV e VI nos mostradores clássicos.</p>
+  </section>
+  <section>
+    <h2>Por que param em 3999? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>A partir de 4000 seria necessário um traço sobreposto (vinculum) multiplicador por mil indisponível no texto plano.</p>
+  </section>
+  <section>
+    <h2>Como ler uma data em algarismos romanos? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Separe primeiro os M de milhar e leia os grupos CM/CD, XC/XL e IX/IV da esquerda para a direita.</p>
+  </section>
+  <section>
+    <h2>Números romanos vs sistema decimal <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Para escrever por extenso use o <a href={toolPathBySlug('number-to-words')}>conversor para palavras</a>, e para base 2 acesse nosso <a href={toolPathBySlug('binary-converter', 'pt')}>conversor binário</a>.</p>
+  </section>
+</GuideLayout>

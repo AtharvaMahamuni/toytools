@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug, toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Los números romanos suman valores de izquierda a derecha salvo seis pares sustractivos (IV, IX, XL, XC, CD y CM), abarcando del 1 (I) al 3999 (MMMCMXCIX). También puedes consultar <a href={guidePathBySlug('number-to-words')}>cómo escribir el número en palabras</a>.</p>
+    <a class="cta-link" href={toolHref}>Abrir Conversor de números romanos &rarr;</a>
+  </section>
+  <section>
+    <h2>¿Qué es la notación sustractiva? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Cuando un símbolo menor precede a uno mayor (solo I antes de V/X, X antes de L/C y C antes de D/M) se resta en lugar de sumar, evitando cuatro signos seguidos.</p>
+  </section>
+  <section>
+    <h2>Cómo funciona la conversión <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>De decimal a romano descompone la cifra de mayor a menor valor canónico; de romano a decimal suma o resta letra a letra aceptando variantes históricas.</p>
+  </section>
+  <section>
+    <h2>Por qué los relojes usan IIII <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Aporta simetría visual frente al VIII y facilitaba fundir veinte letras I iguales por esfera sin errores frente a IV y VI invertidos.</p>
+  </section>
+  <section>
+    <h2>Por qué se detienen en 3999 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Para pasar de MMMCMXCIX hace falta el vinculum superior multiplicador por mil, ausente en texto plano ASCII.</p>
+  </section>
+  <section>
+    <h2>Cómo leer una fecha en números romanos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Agrupa primero M, luego los pares CD/CM de centenas, XL/XC de decenas y IV/IX de unidades.</p>
+  </section>
+  <section>
+    <h2>Números romanos frente al sistema decimal <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Para escribir cantidades en letras visita el <a href={toolPathBySlug('number-to-words')}>conversor de número a palabras</a>, y para representación en base 2 usa nuestro <a href={toolPathBySlug('binary-converter', 'es')}>conversor binario</a>.</p>
+  </section>
+</GuideLayout>

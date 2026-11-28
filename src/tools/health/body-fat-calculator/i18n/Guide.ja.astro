@@ -1,0 +1,37 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>要点まとめ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>身長と首・ウエスト（女性はヒップも）のメジャー計測値から、米海軍式の計算式で体脂肪率・体脂肪量・除脂肪体重を即座に推定します。</p>
+    <a class="cta-link" href={toolHref}>体脂肪率計算機を開く &rarr;</a>
+  </section>
+  <section>
+    <h2>米海軍式体脂肪計算法とは <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>部位ごとの周径と身長の対数差を用いて体組成を導き出す方法で、高価な専用機器を使わず体形の変化を追えます。</p>
+  </section>
+  <section>
+    <h2>正しい計測ポイント <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>力を抜いて普通に息を吐いた状態で、皮膚に食い込ませず床と水平に測ることが毎回同じ基準を保つコツです。</p>
+  </section>
+  <section>
+    <h2>体脂肪率とBMIの違い <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>筋肉質でBMIが高く出る方でも、体脂肪率と除脂肪体重を把握することで実態に即した健康管理ができます。</p>
+  </section>
+  <section>
+    <h2>よくある測定ミス <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>お腹をへこませたり食後に測ったりすると誤差が大きくなります。朝の同じ条件での週次計測が最適です。</p>
+  </section>
+</GuideLayout>

@@ -1,0 +1,29 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Slugify किसी शीर्षक से एक्सेंट हटाकर (<a href={guidePathBySlug('remove-accents')}>Remove Accents</a> की तरह) छोटे अक्षरों और हाइफ़न वाला साफ URL स्लग तैयार करता है।</p>
+    <a href={toolHref} class="cta-link">URL स्लग जनरेटर खोलें →</a>
+  </section>
+  <section id="mistakes">
+    <h2>SEO और आम गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="गैर-लैटिन अक्षरों वाली पंक्तियों का खाली होना">
+      <p>बिना लैटिन अक्षर या अंक वाली लाइनें स्लग में खाली हो जाती हैं, इसलिए हमेशा रोमन/अंग्रेजी कीवर्ड उपयोग करें।</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

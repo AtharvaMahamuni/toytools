@@ -49,6 +49,36 @@ const LOCALIZED_TOOLS = [
   'sha256-hash-generator',
   'discount-calculator',
   'px-to-rem-converter',
+  'compound-interest-calculator',
+  'loan-calculator',
+  'sip-calculator',
+  'roi-calculator',
+  'inflation-calculator',
+  'savings-goal-calculator',
+  'cagr-calculator',
+  'split-bill',
+  'uppercase-converter',
+  'lowercase-converter',
+  'title-case-converter',
+  'slugify-text',
+  'reverse-text',
+  'remove-extra-spaces',
+  'remove-duplicate-lines',
+  'word-frequency-counter',
+  'csv-to-json-converter',
+  'json-to-csv-converter',
+  'json-to-yaml-converter',
+  'yaml-to-json-converter',
+  'md5-hash-generator',
+  'roman-numeral-converter',
+  'binary-converter',
+  'calorie-deficit-calculator',
+  'macro-calculator',
+  'body-fat-calculator',
+  'ideal-weight-calculator',
+  'protein-intake-calculator',
+  'sleep-cycle-calculator',
+  'timezone-converter',
 ] as const;
 
 const SITE = 'https://toytoolsapp.com/';
@@ -63,9 +93,9 @@ function walkFiles(dir: string, out: string[] = []): string[] {
   return out;
 }
 
-describe('i18n Phase 2 coverage and parity', () => {
-  it('registers all 30 localized tools and guides across all 6 locales', () => {
-    expect(LOCALIZED_TOOLS).toHaveLength(30);
+describe('i18n Phase 3 coverage and parity', () => {
+  it('registers all 60 localized tools and guides across all 6 locales', () => {
+    expect(LOCALIZED_TOOLS).toHaveLength(60);
     expect(LOCALIZED_LOCALES).toEqual(['es', 'de', 'fr', 'ja', 'pt', 'hi']);
     for (const slug of LOCALIZED_TOOLS) {
       const enTool = getToolBySlug(slug);
@@ -141,7 +171,7 @@ describe('i18n Phase 2 coverage and parity', () => {
       ...walkFiles(join(root, 'src/tools')).filter(f => /\/i18n\//.test(f)),
     ].filter(f => /\.(ts|astro)$/.test(f));
 
-    expect(files.length).toBeGreaterThan(350);
+    expect(files.length).toBeGreaterThan(700);
     for (const file of files) {
       if (file.includes('/pages/[lang]/tool/')) continue;
       const content = readFileSync(file, 'utf8').replace(/\/\/[^\n]*/g, '');

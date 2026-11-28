@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Der ROI setzt den Nettogewinn ins Verhältnis zum eingesetzten Kapital. Erst zusammen mit der Haltedauer und der annualisierten Rendite lässt sich eine Geldanlage fair gegen Benchmarks messen.</p>
+    <a href={toolHref} class="cta-link">Zum ROI-Rechner →</a>
+  </section>
+  <section id="formel">
+    <h2>ROI-Formel und Annualisierung <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>ROI% = (V − C) / C × 100</strong></p>
+    <p>Die prozentuale Veränderung entspricht der Formel aus unserem <a href={guidePathBySlug('percentage-calculator', 'de')}>Prozentrechner-Leitfaden</a>; mit Zeitdauer t folgt ((V / C)^(1/t) − 1) × 100 als Jahresrendite.</p>
+  </section>
+  <section id="fehler">
+    <h2>Typische Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Haltedauer und Nebenkosten weglassen">
+      <p>Ohne Gebühren, Steuern und Haltedauer wirkt ein roher ROI oft zu hoch. Vergleiche Anlageklassen stets über die jährliche Netto-Rate.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug, toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section>
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Les chiffres romains additionnent leurs symboles avec six paires soustractives officielles (IV, IX, XL, XC, CD, CM), couvrant de I (1) à MMMCMXCIX (3999). Voir aussi <a href={guidePathBySlug('number-to-words')}>écrire un nombre en lettres</a>.</p>
+    <a class="cta-link" href={toolHref}>Ouvrir Convertisseur de chiffres romains &rarr;</a>
+  </section>
+  <section>
+    <h2>Qu’est-ce que la notation soustractive ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Placer I devant V/X, X devant L/C ou C devant D/M soustrait le premier symbole pour éviter de répéter quatre fois la même lettre.</p>
+  </section>
+  <section>
+    <h2>Comment fonctionne la conversion ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>La conversion vers le romain décompose du plus grand bloc au plus petit ; le décodage accepte également les anciennes graphies d’inscriptions.</p>
+  </section>
+  <section>
+    <h2>Pourquoi les cadrans portent-ils IIII ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>IIII équilibre visuellement le VIII en vis-à-vis et évite les confusions avec VI sur un cadran incliné.</p>
+  </section>
+  <section>
+    <h2>Pourquoi s’arrêter à 3999 ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Au-delà de MMMCMXCIX, le surlignage multiplicatif (vinculum) est indispensable et ne s’écrit pas en texte brut.</p>
+  </section>
+  <section>
+    <h2>Comment déchiffrer une date romaine ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Repérez les M initiaux puis lisez par groupes CM/CD, XC/XL et IX/IV de gauche à droite.</p>
+  </section>
+  <section>
+    <h2>Chiffres romains vs système décimal <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Pour épeler un nombre utilisez le <a href={toolPathBySlug('number-to-words')}>convertisseur en mots</a>, et pour la base 2 essayez notre <a href={toolPathBySlug('binary-converter', 'fr')}>convertisseur binaire</a>.</p>
+  </section>
+</GuideLayout>

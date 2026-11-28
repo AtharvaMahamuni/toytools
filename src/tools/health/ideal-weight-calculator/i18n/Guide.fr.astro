@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section>
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Comparez Devine, Robinson, Miller et Hamwi avec l’intervalle IMC sain (18,5 à 24,9) pour définir une zone de poids réaliste adaptée à votre morphologie.</p>
+    <a class="cta-link" href={toolHref}>Ouvrir Calculateur de poids idéal &rarr;</a>
+  </section>
+  <section>
+    <h2>Fonctionnement des formules <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Chacune part d’un poids de base à 152,4 cm puis ajoute une constante fixe pour chaque pouce supplémentaire.</p>
+  </section>
+  <section>
+    <h2>Pourquoi elles divergent <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Conçues entre 1964 et 1983 pour des usages médicaux distincts, leurs écarts dessinent une fourchette naturelle.</p>
+  </section>
+  <section>
+    <h2>Privilégier la fourchette plutôt qu’un point fixe <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>La bande IMC tient compte des différences naturelles de charpente et de musculature.</p>
+  </section>
+  <section>
+    <h2>Exemples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Pour un homme de 175 cm, les formules donnent 67 à 72 kg au cœur d’une zone IMC saine allant de 56,7 à 76,3 kg.</p>
+  </section>
+  <section>
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Confondre un calcul purement statistique avec un idéal absolu obligatoire.</p>
+  </section>
+</GuideLayout>

@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>सक्रिय जीवनशैली में 1.2–1.6 g/kg और स्ट्रेंथ ट्रेनिंग में 1.6–2.2 g/kg प्रोटीन लेकर उसे दिन के 3 से 5 भोजनों में बराबर बांटें।</p>
+    <a class="cta-link" href={toolHref}>प्रोटीन सेवन कैलकुलेटर खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>प्रोटीन जरूरत कैसे तय होती है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>वजन और मांसपेशियों के दबाव से प्रति किलोग्राम सीमा निकलती है और भोजन संख्या से प्रति थाली मात्रा।</p>
+  </section>
+  <section>
+    <h2>RDA एक न्यूनतम आधार है, अंतिम लक्ष्य नहीं <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>0.8 g/kg की अनुशंसा केवल कमी से बचाव करती है, न कि व्यायाम के बाद मांसपेशियों की पूरी मरम्मत।</p>
+  </section>
+  <section>
+    <h2>भोजनों में विभाजन <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>हर भोजन में 30–40 g प्रोटीन लेने से पूरे दिन मांसपेशियों का निर्माण संतुलित रहता है।</p>
+  </section>
+  <section>
+    <h2>उदाहरण <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>70 kg व्यक्ति को स्ट्रेंथ ट्रेनिंग में 112–154 g रोज़ यानी 4 भोजनों में ~33 g प्रति भोजन चाहिए।</p>
+  </section>
+  <section>
+    <h2>सामान्य गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>नाश्ते में प्रोटीन छोड़ देना या अधिक वजन होने पर बिना घटाए कुल वजन से अत्यधिक लक्ष्य बना लेना।</p>
+  </section>
+</GuideLayout>

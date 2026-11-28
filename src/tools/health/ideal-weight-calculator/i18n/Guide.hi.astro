@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Devine, Robinson, Miller व Hamwi सूत्रों की तुलना 18.5–24.9 BMI की स्वस्थ सीमा से करें और एक सख्त अंक की बजाय यथार्थवादी रेंज चुनें।</p>
+    <a class="cta-link" href={toolHref}>आदर्श वजन कैलकुलेटर खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>सूत्र कैसे काम करते हैं <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>हर सूत्र 5 फीट (152.4 cm) पर लिंग के अनुसार आधार वजन लेकर ऊपर हर इंच पर निश्चित किलोग्राम जोड़ता है।</p>
+  </section>
+  <section>
+    <h2>वे आपस में सहमत क्यों नहीं होते <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>अलग दशकों और क्लिनिकल नमूनों से विकसित होने के कारण इन चारों के बीच कुछ किलोग्राम का प्राकृतिक अंतर रहता है।</p>
+  </section>
+  <section>
+    <h2>बिंदु नहीं, सीमा को आधार बनाएं <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>BMI की स्वस्थ पट्टी पतले और मस्कुलर दोनों तरह के स्वस्थ शरीरों को जगह देती है।</p>
+  </section>
+  <section>
+    <h2>उदाहरण <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>175 cm पुरुष के लिए चारों सूत्र ~67–72 kg पर आते हैं, जबकि स्वस्थ BMI सीमा 56.7 kg से 76.3 kg तक रहती है।</p>
+  </section>
+  <section>
+    <h2>सामान्य गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>साधारण सांख्यिकीय सूत्र को हर शरीर के लिए अनिवार्य मान लेना।</p>
+  </section>
+</GuideLayout>

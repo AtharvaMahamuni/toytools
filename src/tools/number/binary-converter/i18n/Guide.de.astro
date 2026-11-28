@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Im Dualsystem verdoppelt sich der Stellenwert nach links von Bit zu Bit (1, 2, 4, 8...). Dieses Tool rechnet Zahlen exakt bis 512 Bit um und zeigt Hex, Oktal und Bitzahl parallel an.</p>
+    <a class="cta-link" href={toolHref}>Binär-Konverter öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>Was ist das Zweiersystem (Basis 2)? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Es bildet alle Zahlen ausschließlich mit 0 und 1 ab und bildet das Fundament digitaler Schaltungen und Speicherregister.</p>
+  </section>
+  <section>
+    <h2>Wie funktioniert die Umrechnung? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Durch Restwert-Halbierung nach Binär und Zweierpotenz-Summierung zurück nach Dezimal auf exakter BigInt-Basis.</p>
+  </section>
+  <section>
+    <h2>Warum Hexadezimal statt reinem Binär nutzen? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Vier Bit ergeben exakt eine Hex-Ziffer, wodurch Speicheradressen und Farbcodes extrem kompakt ablesbar bleiben.</p>
+  </section>
+  <section>
+    <h2>Bitbreite und führende Nullen verstehen <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Die Bitzahl verrät, wie viele Stellen bis zum nächsten vollen Byte (8, 16, 32 Bit) vorne mit Nullen aufzufüllen sind.</p>
+  </section>
+  <section>
+    <h2>Binärzahlen vs. Binärtext <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Für Buchstaben und Zeichenketten in 8-Bit-Folgen wähle bitte den <a href={toolPathBySlug('binary-text-converter')}>Binärtext-Konverter</a>.</p>
+  </section>
+  <section>
+    <h2>Warum musste mein Binärwert bereinigt werden? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Literale aus Quellcode tragen oft <code>0b</code> oder Unterstriche. Bereinige sie mit einem Klick oder arbeite direkt weiter im <a href={toolPathBySlug('hex-encoder-decoder')}>Hex-Konverter</a>.</p>
+  </section>
+</GuideLayout>

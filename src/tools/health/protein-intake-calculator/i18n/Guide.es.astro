@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Multiplica tu peso por 1,2-1,6 g/kg si eres activo o por 1,6-2,2 g/kg si entrenas fuerza, y divide el resultado entre tus comidas del día.</p>
+    <a class="cta-link" href={toolHref}>Abrir Calculadora de ingesta de proteínas &rarr;</a>
+  </section>
+  <section>
+    <h2>Cómo funciona el cálculo de proteína <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Combina tu masa corporal con el nivel de demanda muscular y te ofrece una horquilla realista más el objetivo por comida.</p>
+  </section>
+  <section>
+    <h2>La RDA es un suelo mínimo, no la meta óptima <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Los 0,8 g/kg clásicos previenen déficits en personas sedentarias, muy por debajo de lo ideal en entrenamiento o pérdida de grasa.</p>
+  </section>
+  <section>
+    <h2>Repartir la proteína entre comidas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Tomar cantidades homogéneas repartidas en 3 a 5 ingestas optimiza la respuesta anabólica diaria.</p>
+  </section>
+  <section>
+    <h2>Ejemplos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Con 70 kg entrenando fuerza el rango marca 112-154 g diarios, unos 33 g en cada una de 4 comidas.</p>
+  </section>
+  <section>
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Aplicar cálculos por peso total sin descontar sobrepeso acusado o saltarse proteína en el desayuno.</p>
+  </section>
+</GuideLayout>

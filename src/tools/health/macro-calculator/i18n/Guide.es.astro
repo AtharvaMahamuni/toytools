@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Multiplica tus calorías diarias por el porcentaje de cada macronutriente y divide entre 4 para proteínas y carbohidratos o entre 9 para grasas.</p>
+    <a class="cta-link" href={toolHref}>Abrir Calculadora de macros &rarr;</a>
+  </section>
+  <section>
+    <h2>Qué son realmente los macronutrientes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Proteína, hidratos de carbono y grasa son las tres fuentes energéticas que estructuran tu ingesta calórica diaria.</p>
+  </section>
+  <section>
+    <h2>Pasar calorías a gramos paso a paso <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Con 2.000 kcal y un 35 % de proteína obtienes 700 kcal de proteína, equivalentes a 175 gramos al día.</p>
+  </section>
+  <section>
+    <h2>Cómo elegir un reparto que puedas mantener <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Compara equilibrado, alto en proteína, bajo en carbos o keto y elige el patrón que encaje con tus comidas habituales.</p>
+  </section>
+  <section>
+    <h2>Calculadora de macros frente a otros métodos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Prioriza primero alcanzar las calorías diarias y un mínimo proteico adecuado antes de ajustar proporciones finas.</p>
+  </section>
+  <section>
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Porcentajes que no suman 100 % o dietas extremas imposibles de sostener más allá de dos semanas.</p>
+  </section>
+</GuideLayout>

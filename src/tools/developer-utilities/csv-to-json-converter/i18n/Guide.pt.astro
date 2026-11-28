@@ -1,0 +1,51 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section>
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Um conversor de CSV para JSON transforma uma tabela plana com cabeçalhos em um array JSON de objetos pronto para integração com APIs, JavaScript e bancos de dados.</p>
+    <a class="cta-link" href={toolHref}>Abrir Conversor CSV para JSON &rarr;</a>
+  </section>
+  <section>
+    <h2>O que faz a conversão de CSV para JSON? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Mapeia cada nome da primeira linha para a chave do objeto correspondente em cada registro, respeitando aspas e escapes da norma RFC 4180.</p>
+  </section>
+  <section>
+    <h2>Como o conversor trata tipos e aspas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Números e booleanos recebem tipo nativo, enquanto códigos com zero à esquerda são preservados como texto para impedir perda silenciosa de informação.</p>
+  </section>
+  <section>
+    <h2>Quando converter CSV para JSON <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ao importar dados do Excel para aplicações web, montar mocks de testes ou enviar registros tabulares para APIs REST.</p>
+  </section>
+  <section>
+    <h2>CSV vs JSON: qual usar <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>CSV é ideal para tabelas simples e compactas em planilhas; JSON é superior quando há hierarquia, tipos explícitos e integração direta com código.</p>
+  </section>
+  <section>
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Deixar o CSV sem cabeçalho ou usar vírgula em exportações brasileiras com ponto e vírgula costuma ser a origem da maioria das falhas.</p>
+  </section>
+  <section>
+    <h2>Ferramentas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-to-csv-converter', 'pt')}>Conversor JSON para CSV</a>: faça o caminho inverso de volta à planilha.</li>
+      <li><a href={toolPathBySlug('json-formatter', 'pt')}>Formatador JSON</a>: indente e inspecione a saída JSON.</li>
+      <li><a href={toolPathBySlug('json-validator', 'pt')}>Validador JSON</a>: confirme se a sintaxe está perfeita.</li>
+    </ul>
+  </section>
+</GuideLayout>

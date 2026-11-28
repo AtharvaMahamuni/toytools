@@ -1,0 +1,62 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Was bedeutet Überflüssige Leerzeichen entfernen? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Dieses Werkzeug ersetzt aufeinanderfolgende Leerzeichen und Tabulatoren durch ein einziges Leerzeichen, sodass ungleichmäßige Abstände sofort verschwinden, ohne Absätze aufzulösen.</p>
+    <a class="cta-link" href={toolHref}>Überflüssige Leerzeichen entfernen öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>Warum doppelte Leerzeichen stören <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Überzählige Leerzeichen verfälschen exakte Suchabfragen, CSV-Importe und Zeichenvergleiche. Wer auch Zeilenumbrüche glätten will, schaut bei <a href={`${guidePathBySlug('remove-blank-lines')}#normalize-whitespace`}>Whitespace normalisieren</a> vorbei.</p>
+  </section>
+  <section>
+    <h2>Funktionsweise <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Jede Gruppe aus Leerzeichen und Tabulatoren innerhalb einer Zeile wird zuverlässig auf genau ein Standard-Leerzeichen reduziert.</p>
+  </section>
+  <section>
+    <h2>Beispiele <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock>
+      <pre>"Hallo    Welt   da"    -> "Hallo Welt da"
+"Eins		zwei"          -> "Eins zwei"</pre>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>Doppelte Leerzeichen in Word entfernen <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>In Microsoft Word kannst du über Suchen und Ersetzen zwei Leerzeichen durch eines ersetzen, bis keine Treffer mehr übrig bleiben.</p>
+  </section>
+  <section>
+    <h2>Abstände in Google Docs korrigieren <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Google Docs unterstützt in der Suche reguläre Ausdrücke wie <code> &#123;2,&#125;</code>, um alle Mehrfachabstände in einem Durchgang auf ein Leerzeichen zu setzen.</p>
+  </section>
+  <section>
+    <h2>Warum Excels GLÄTTEN auch innere Leerzeichen stutzt <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Im Gegensatz zu JavaScript oder Python trimmt Excel GLÄTTEN (TRIM) nicht nur den Rand, sondern staucht auch Wortzwischenräume auf ein Leerzeichen zusammen, lässt aber U+00A0 stehen.</p>
+  </section>
+  <section>
+    <h2>Vorher und Nachher beim PDF-Export <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Blocksatz-Spalten aus PDFs erzeugen beim Kopieren breite Lücken. Ein einziger Durchlauf stellt gleichmäßigen Fließtext wieder her.</p>
+  </section>
+  <section>
+    <h2>Häufige Irrtümer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ein einzelnes Leerzeichen direkt am Anfang oder Ende einer Zeile bleibt stehen; nutze dafür bei Bedarf das Rand-Trimmen.</p>
+  </section>
+  <section>
+    <h2>Abgrenzung zu anderen Whitespace-Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Dieses Tool bereinigt nur innerhalb von Zeilen; Trimmen entfernt Ränder, Normalisieren flacht auch Zeilenumbrüche und Unicode-Leerzeichen ab.</p>
+  </section>
+</GuideLayout>

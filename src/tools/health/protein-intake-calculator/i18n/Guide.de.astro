@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Orientiere dich bei regelmäßigem Sport an 1,2-1,6 g/kg (Ausdauer/Aktivität) bzw. 1,6-2,2 g/kg (Krafttraining) und teile die Summe auf 3 bis 5 Mahlzeiten auf.</p>
+    <a class="cta-link" href={toolHref}>Proteinbedarf-Rechner öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>So wird der Proteinbedarf ermittelt <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Körpergewicht und Belastungsart bestimmen den g/kg-Korridor, die Mahlzeitenanzahl liefert das praktische Ziel pro Teller.</p>
+  </section>
+  <section>
+    <h2>Die 0,8 g/kg sind Untergrenze, kein Optimum <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Der klassische Referenzwert verhindert nur Mangelerscheinungen bei Inaktivität – er optimiert weder Leistung noch Regeneration.</p>
+  </section>
+  <section>
+    <h2>Verteilung auf mehrere Mahlzeiten <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Mehrere mittelgroße Proteinportionen schlagen eine riesige Einzelportion am Abend deutlich.</p>
+  </section>
+  <section>
+    <h2>Beispiele <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Mit 70 kg im Krafttraining liegen 112-154 g pro Tag nahe ~33 g Protein je Mahlzeit bei vier Mahlzeiten.</p>
+  </section>
+  <section>
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Bei starkem Übergewicht ohne Korrektur mit Gesamtgewicht rechnen oder Eiweiß beim Frühstück vergessen.</p>
+  </section>
+</GuideLayout>

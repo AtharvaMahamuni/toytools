@@ -1,0 +1,42 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section>
+    <h2>À quelle heure aller dormir ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Pour un réveil à 07:00 avec 15 minutes pour vous endormir, cinq cycles de 90 minutes placent le coucher à 23:15 et six cycles à 21:45.</p>
+    <a class="cta-link" href={toolHref}>Ouvrir Calculateur de cycles de sommeil &rarr;</a>
+  </section>
+  <section>
+    <h2>Qu’est-ce qu’un cycle de 90 minutes ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>C’est une boucle complète de sommeil léger, profond et paradoxal ; se réveiller en fin de cycle facilite le lever.</p>
+  </section>
+  <section>
+    <h2>Pourquoi l’endormissement est compté à part <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Le temps passé les yeux fermés avant le premier cycle ne compte pas comme sommeil : le déduire évite d’être réveillé au mauvais stade.</p>
+  </section>
+  <section>
+    <h2>Différence entre mode coucher et mode réveil <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Utilisez le mode réveil pour une alarme fixe ou le mode coucher au moment d’éteindre la lumière.</p>
+  </section>
+  <section>
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Laisser l’endormissement sur zéro ou multiplier les nuits courtes de 3 à 4 cycles.</p>
+  </section>
+  <section>
+    <h2>Prochaine étape <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Calculez vos échéances avec le <a href={toolPathBySlug('date-difference-calculator', 'fr')}>calculateur d’écart de dates</a> ou explorez le <a href={toolPathBySlug('age-calculator', 'fr')}>calculateur d’âge</a>.</p>
+  </section>
+</GuideLayout>

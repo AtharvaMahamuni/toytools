@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>फिक्स्ड-रेट लोन में हर महीने एक समान EMI चुकानी होती है, जिसमें शुरुआती महीनों में ब्याज अधिक और बाद में मूलधन अधिक कटता है। डाउन पेमेंट बढ़ाने से ऋण राशि और कुल ब्याज दोनों घटते हैं।</p>
+    <a href={toolHref} class="cta-link">लोन EMI कैलकुलेटर खोलें →</a>
+  </section>
+  <section id="formula">
+    <h2>EMI सूत्र और प्री-पेमेंट का लाभ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)</strong></p>
+    <p>हर महीने थोड़ा अतिरिक्त भुगतान सीधे मूलधन को घटाता है, जिससे ब्याज का बड़ा हिस्सा बचता है और लोन जल्दी खत्म होता है।</p>
+  </section>
+  <section id="mistakes">
+    <h2>आम गलतियाँ और निवेश तुलना <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="वार्षिक कॉलम में मासिक दर लिख देना">
+      <p>दर हमेशा वार्षिक प्रतिशत में डालें (2% मासिक का मतलब 24% वार्षिक)। इसी मासिक रकम से निवेश का असर देखने के लिए <a href={toolPathBySlug('sip-calculator', 'hi')}>SIP कैलकुलेटर</a> या <a href={toolPathBySlug('compound-interest-calculator', 'hi')}>चक्रवृद्धि ब्याज कैलकुलेटर</a> आज़माएँ।</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

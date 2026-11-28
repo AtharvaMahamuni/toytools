@@ -1,0 +1,62 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>अतिरिक्त स्पेस हटाना क्या है? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>यह लगातार आने वाले स्पेस और टैब को एक सिंगल स्पेस से बदलता है, जिससे पैराग्राफ तोड़े बिना असमान स्पेसिंग तुरंत सुधर जाती है।</p>
+    <a class="cta-link" href={toolHref}>अतिरिक्त स्पेस हटाएं खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>अतिरिक्त स्पेस से समस्याएं क्यों होती हैं <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>ये सटीक खोज, डेटा तुलना और फॉर्म वैलिडेशन को बिगाड़ देते हैं। यदि लाइन ब्रेक भी हटाने हों तो <a href={`${guidePathBySlug('remove-blank-lines')}#normalize-whitespace`}>व्हाइटस्पेस नॉर्मलाइज़</a> देखें।</p>
+  </section>
+  <section>
+    <h2>यह कैसे काम करता है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>प्रोसेसर हर पंक्ति में लगातार क्षैतिज स्पेस और टैब को एक सामान्य स्पेस में बदलता है और लाइन ब्रेक को जस का तस रखता है।</p>
+  </section>
+  <section>
+    <h2>उदाहरण <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock>
+      <pre>"नमस्ते    दुनिया   यहाँ"  -> "नमस्ते दुनिया यहाँ"
+"एक		दो"                 -> "एक दो"</pre>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>Word में डबल स्पेस कैसे हटाएं <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Word में Find and Replace का उपयोग करके दो स्पेस को एक स्पेस से तब तक बदलें जब तक परिणाम शून्य न हो जाएं।</p>
+  </section>
+  <section>
+    <h2>Google Docs में डबल स्पेस कैसे ठीक करें <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Google Docs में रेगुलर एक्सप्रेशन चालू करके <code> &#123;2,&#125;</code> को एक सिंगल स्पेस से बदलें।</p>
+  </section>
+  <section>
+    <h2>Excel TRIM अंदरूनी स्पेस को भी क्यों सिकोड़ता है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>अन्य भाषाओं के विपरीत, Excel का TRIM फ़ंक्शन किनारों के साथ शब्दों के बीच के अतिरिक्त स्पेस को भी एक में बदल देता है (U+00A0 को छोड़कर)।</p>
+  </section>
+  <section>
+    <h2>PDF पेस्ट: पहले और बाद में <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>PDF से जस्टिफाइड टेक्स्ट कॉपी करने पर शब्दों के बीच बड़े गैप आते हैं; एक क्लिक से वे सामान्य हो जाते हैं।</p>
+  </section>
+  <section>
+    <h2>सामान्य गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>पंक्ति के किनारों पर एक स्पेस बच सकता है; यदि पूरी सफाई चाहिए तो ट्रिम टूल का उपयोग करें।</p>
+  </section>
+  <section>
+    <h2>अन्य व्हाइटस्पेस टूल से तुलना <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>यह शब्दों के बीच सफाई करता है, ट्रिम किनारों को काटता है और नॉर्मलाइज़र सभी प्रकार के व्हाइटस्पेस व लाइन ब्रेक संभालता है।</p>
+  </section>
+</GuideLayout>

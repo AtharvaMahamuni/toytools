@@ -1,0 +1,33 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Der Sparziel-Rechner dreht die gewohnte Frage um: Aus Zielbetrag, Startguthaben, Zeitraum und erwarteter Rendite ermittelt er deine exakte monatliche Sparrate.</p>
+    <a href={toolHref} class="cta-link">Zum Sparziel-Rechner →</a>
+  </section>
+  <section id="laufzeit-und-zins">
+    <h2>Laufzeit, Zins und Planung <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ein längerer Zeitraum halbiert oder drittelt oft die nötige Rate. Teste Verläufe ergänzend im <a href={toolPathBySlug('compound-interest-calculator', 'de')}>Zinseszinsrechner</a>.</p>
+  </section>
+  <section id="fehler">
+    <h2>Typische Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Zu optimistische Renditen für kurze Fristen">
+      <p>Für kurze Horizonte zählen Sicherheit und Planbarkeit; berücksichtige bei fernen Zielen zusätzlich den <a href={toolPathBySlug('inflation-calculator', 'de')}>Inflationsrechner</a>.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

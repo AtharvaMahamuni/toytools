@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>La mensualité constante d’un crédit à taux fixe couvre d’abord les intérêts sur le capital restant dû, puis amortit le principal. L’apport personnel diminue directement le montant emprunté.</p>
+    <a href={toolHref} class="cta-link">Ouvrir le simulateur de prêt →</a>
+  </section>
+  <section id="formule-et-anticipe">
+    <h2>Amortissement et remboursement anticipé <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Mensualité = P × r × (1 + r)^n / ((1 + r)^n - 1)</strong></p>
+    <p>Tout versement mensuel supplémentaire réduit directement le principal et fait économiser des années d’intérêts cumulés.</p>
+  </section>
+  <section id="erreurs-et-comparaison">
+    <h2>Pièges courants et comparatif <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Confondre taux mensuel et taux annuel">
+      <p>Saisissez un taux annuel (2% par mois équivaut à 24% par an). Vous pouvez comparer cette échéance avec un placement via le <a href={toolPathBySlug('sip-calculator', 'fr')}>Simulateur SIP</a> ou la <a href={toolPathBySlug('compound-interest-calculator', 'fr')}>Calculatrice Intérêts Composés</a>.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

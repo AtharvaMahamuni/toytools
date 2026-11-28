@@ -1,0 +1,32 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Arredondar cada parte isoladamente quase sempre gera diferença na soma final. Trabalhar na menor unidade inteira e atribuir o resto à última pessoa mantém o total exato.</p>
+    <a href={toolHref} class="cta-link">Abrir Dividir Conta →</a>
+  </section>
+  <section id="exemplo">
+    <h2>Exemplo e regras <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Em uma conta de 1000 com 10% de gorjeta (1100) para 3 pessoas, os valores são 366,66, 366,66 e 366,68. Suporta de 2 a 30 pessoas e gorjeta inteira de 0 a 30%.</p>
+  </section>
+  <section id="erros">
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Arredondar cotas individuais por conta própria">
+      <p>Três cotas de 366,67 somam 1100,01. Concentrar a sobra em uma única cota garante o fechamento exato.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

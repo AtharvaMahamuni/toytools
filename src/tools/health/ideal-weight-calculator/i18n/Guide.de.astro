@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Vergleiche Devine, Robinson, Miller und Hamwi direkt mit dem gesunden BMI-Korridor (18,5–24,9), um eine passende Spanne statt eines einzelnen starren Punktwerts zu nutzen.</p>
+    <a class="cta-link" href={toolHref}>Idealgewicht-Rechner öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>Wie die Formeln rechnen <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Alle vier starten mit einem geschlechtsspezifischen Basisgewicht bei 152,4 cm und addieren je weiteren Zentimeter einen festen Betrag.</p>
+  </section>
+  <section>
+    <h2>Warum sie sich unterscheiden <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Unterschiedliche Entstehungsjahre und medizinische Zielsetzungen erklären den typischen Abstand von wenigen Kilogramm zwischen Miller und Hamwi.</p>
+  </section>
+  <section>
+    <h2>Den Bereich nutzen statt einer Einzelzahl <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Der gesunde BMI-Korridor bietet Platz für schlanke wie auch athletisch gebaute Menschen gleicher Körpergröße.</p>
+  </section>
+  <section>
+    <h2>Beispiele <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Bei 175 cm (Mann) liegen die Formeln um 67–72 kg, während der gesunde BMI-Bereich von 56,7 kg bis 76,3 kg reicht.</p>
+  </section>
+  <section>
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Historische Dosierungsformeln mit einem individuellen Fitnessziel zu verwechseln.</p>
+  </section>
+</GuideLayout>

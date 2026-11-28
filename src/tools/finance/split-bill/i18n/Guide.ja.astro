@@ -1,0 +1,32 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>概要 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>1人分をそれぞれ四捨五入すると合計額に1円〜数銭のずれが生じます。最小整数単位で基本額を配分し、余りを最後の1人に寄せることで過不足ゼロを実現します。</p>
+    <a href={toolHref} class="cta-link">割り勘ツールを使う →</a>
+  </section>
+  <section id="example">
+    <h2>計算例と入力条件 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>会計1000・チップ10%（合計1100）・3人の場合、支払額は366.66・366.66・366.68となり合計1100に一致します。人数は2〜30人、チップは0〜30%の整数に対応します。</p>
+  </section>
+  <section id="mistakes">
+    <h2>注意点 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="各自の金額を個別に切り上げる">
+      <p>366.67 × 3 は 1100.01 となり元の請求額を超えてしまいます。端数1〜2単位を1か所で調整する方式なら毎回ぴったり合います。</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

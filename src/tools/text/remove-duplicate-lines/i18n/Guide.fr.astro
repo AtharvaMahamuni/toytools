@@ -1,0 +1,39 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section>
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Chaque ligne est conservée à l’endroit où elle apparaît pour la première fois et toutes ses répliques exactes plus bas sont supprimées instantanément sans trier votre liste.</p>
+    <a class="cta-link" href={toolHref}>Ouvrir Supprimer les lignes en double &rarr;</a>
+  </section>
+  <section>
+    <h2>Quand dédoublonner une liste <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Indispensable avant d’importer des contacts, de compiler des URLs de suivi ou de dégager les erreurs uniques d’un gros fichier log.</p>
+  </section>
+  <section>
+    <h2>Fonctionnement <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Chaque ligne lue est mémorisée ; si la même chaîne revient, elle est ignorée. Pour ignorer les différences majuscules/minuscules, utilisez d’abord le <a href={toolPathBySlug('lowercase-converter', 'fr')}>convertisseur en minuscules</a>.</p>
+  </section>
+  <section>
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Un espace en fin de ligne ou une majuscule isolée suffit à empêcher la détection d’un doublon visuel. Surveillez les alertes affichées sous la boîte.</p>
+  </section>
+  <section>
+    <h2>Différence avec les autres outils de nettoyage <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Supprimer les doublons retire les entrées répétées, supprimer les lignes vides retire les sauts vides et comparer deux textes affiche leurs écarts.</p>
+  </section>
+</GuideLayout>

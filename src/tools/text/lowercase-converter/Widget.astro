@@ -1,6 +1,11 @@
 ---
 import TextProcessorWidget from '@tools/_shared/TextProcessorWidget.astro';
 import { config } from './config';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+
+interface Props { lang?: LocaleCode; pack?: LocalizedToolPack | null; }
+const { lang = 'en', pack = null } = Astro.props;
 ---
 
-<TextProcessorWidget slug={config.slug} processorId={config.processorId!} config={config} />
+<TextProcessorWidget slug={config.slug} processorId={config.processorId!} config={config} lang={lang} pack={pack} />

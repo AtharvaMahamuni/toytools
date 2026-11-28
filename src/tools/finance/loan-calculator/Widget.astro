@@ -1,6 +1,12 @@
 ---
 import FinanceWidget from '@tools/_shared/FinanceWidget.astro';
 import { config } from './config';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { uiStr } from '@lib/i18n/widget-utils';
+
+interface Props { lang?: LocaleCode; pack?: LocalizedToolPack | null; }
+const { lang = 'en', pack = null } = Astro.props;
 ---
 
 <FinanceWidget
@@ -8,5 +14,5 @@ import { config } from './config';
   financeId={config.processorId!}
   config={config}
   craftOn="hero-note"
-  emptyText="Enter a price, a yearly rate, and a term in years."
+  emptyText={uiStr(pack, "emptyText", "Enter a price, a yearly rate, and a term in years.")} lang={lang} pack={pack}
 />

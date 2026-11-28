@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Introduce fecha, hora y dos zonas horarias: el conversor aplica las reglas IANA para esa fecha exacta (incluyendo horario de verano) y muestra la hora destino, UTC y si cambia de día.</p>
+    <a class="cta-link" href={toolHref}>Abrir Conversor de zonas horarias &rarr;</a>
+  </section>
+  <section>
+    <h2>Cómo funciona la conversión entre zonas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Convierte la hora local de origen al instante universal UTC usando su desplazamiento exacto ese día y la traduce luego al huso de destino.</p>
+  </section>
+  <section>
+    <h2>Ejemplos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Las 09:00 en Nueva York en julio (-04:00) equivalen a las 22:00 en Tokio (+09:00), trece horas por delante ese mismo día.</p>
+  </section>
+  <section>
+    <h2>Desfase UTC frente a horario de verano <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Europa, EE. UU. y el hemisferio sur cambian de hora en semanas diferentes o no cambian, por lo que la brecha entre dos ciudades varía según la estación.</p>
+  </section>
+  <section>
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Asumir que la diferencia es fija todo el año">
+      <p>Comprueba siempre la fecha exacta de la reunión o vuelo antes de sumar horas de memoria.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Pasar por alto el cambio de fecha">
+      <p>Una llamada nocturna puede corresponder ya a la mañana del día siguiente en destino.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="Todo se ejecuta en local">
+      <p>Tus itinerarios y horarios de reunión permanecen privados en tu navegador.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

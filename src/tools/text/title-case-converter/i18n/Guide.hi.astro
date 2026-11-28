@@ -1,0 +1,27 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>टाइटल केस हर शब्द के पहले अक्षर को बड़ा करता है ताकि हेडिंग साफ दिखें। सामान्य वाक्यों के लिए <a href={guidePathBySlug('sentence-case-converter')}>Sentence Case</a> बेहतर विकल्प है।</p>
+    <a href={toolHref} class="cta-link">टाइटल केस कन्वर्टर खोलें →</a>
+  </section>
+  <section id="rules">
+    <h2>छोटे शब्द और हाइफ़न नियम <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>AP/Chicago गाइड अंग्रेजी शीर्षकों के बीच आने वाले छोटे शब्दों को छोटा रखती हैं; यह टूल उन शब्दों की गिनती भी नीचे दिखाता है।</p>
+  </section>
+</GuideLayout>

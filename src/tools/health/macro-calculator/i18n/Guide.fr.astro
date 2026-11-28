@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section>
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Multipliez vos calories journalières par la part de chaque macro et divisez par 4 pour protéines et glucides ou par 9 pour les lipides.</p>
+    <a class="cta-link" href={toolHref}>Ouvrir Calculateur de macros &rarr;</a>
+  </section>
+  <section>
+    <h2>Ce que sont les macronutriments <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Protéines, glucides et lipides composent l’ensemble de l’énergie alimentaire, chacun jouant un rôle distinct.</p>
+  </section>
+  <section>
+    <h2>Convertir les calories en grammes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>À 2 000 kcal avec 35 % de protéines, 700 kcal correspondent exactement à 175 g de protéines par jour.</p>
+  </section>
+  <section>
+    <h2>Choisir sa répartition <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Comparez équilibré, hyperprotéiné, low-carb et cétogène pour retenir le mode alimentaire le plus naturel pour vous.</p>
+  </section>
+  <section>
+    <h2>Calculateur de macros vs autres approches <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>L’essentiel des résultats dépend de la régularité sur le total calorique et d’un apport suffisant en protéines.</p>
+  </section>
+  <section>
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Des taux qui ne font pas 100 % ou un passage trop brutal vers des restrictions extrêmes.</p>
+  </section>
+</GuideLayout>

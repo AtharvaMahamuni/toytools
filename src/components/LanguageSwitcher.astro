@@ -104,6 +104,7 @@ const show = alternates.length > 1;
 </style>
 )}
 
+{show && variant === 'header' && (
 <script is:inline>
   (function () {
     if (window.__ttLangInit) return;
@@ -123,3 +124,4 @@ const show = alternates.length > 1;
     });
   })();
 </script>
+)}

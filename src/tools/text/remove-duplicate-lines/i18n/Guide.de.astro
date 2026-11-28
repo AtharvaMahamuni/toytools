@@ -1,0 +1,39 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Jede Zeile bleibt bei ihrem ersten Auftreten an ihrem ursprünglichen Platz stehen, während alle exakten Wiederholungen weiter unten sofort entfernt werden.</p>
+    <a class="cta-link" href={toolHref}>Doppelte Zeilen entfernen öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>Wann sich das Deduplizieren lohnt <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ideal vor CRM-Importen, zur Bereinigung von URL-Beständen oder um wiederholte Fehlermeldungen aus Protokollen übersichtlich darzustellen.</p>
+  </section>
+  <section>
+    <h2>So funktioniert es <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Der Algorithmus merkt sich jede bereits gesehene Zeile und überspringt spätere Treffer. Falls nur Groß-/Kleinschreibung abweicht, nutze vorher den <a href={toolPathBySlug('lowercase-converter', 'de')}>Kleinschreibung-Konverter</a>.</p>
+  </section>
+  <section>
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Nachgestellte Leerzeichen oder abweichende Großbuchstaben lassen scheinbare Dubletten oft überleben. Achte direkt im Hinweisbanner auf entsprechende Zähler.</p>
+  </section>
+  <section>
+    <h2>Abgrenzung zu anderen Bereinigungstools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Doppelte Zeilen entfernen tilgt Wiederholungen; Leerzeilen entfernen tilgt leere Abstände; Textvergleich zeigt Unterschiede zwischen zwei getrennten Texten.</p>
+  </section>
+</GuideLayout>

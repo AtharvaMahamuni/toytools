@@ -1,0 +1,49 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>要点まとめ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>1日約500〜550 kcalの赤字で週0.5 kg前後の減量が目安です。筋肉と体調を守るため基礎代謝（BMR）を下回らない摂取量を維持しましょう。</p>
+    <a class="cta-link" href={toolHref}>カロリー赤字計算機を開く &rarr;</a>
+  </section>
+  <section>
+    <h2>カロリー赤字の仕組み <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>総消費カロリー（TDEE）より食事量を抑えることで、不足分のエネルギーが体脂肪1kgあたり約7,700 kcalの換算で補われます。</p>
+  </section>
+  <section>
+    <h2>減量ペースの選び方 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>週あたり体重の0.5%〜1%以内がリバウンドや筋力低下を防ぎやすい適正ペースです。</p>
+  </section>
+  <section>
+    <h2>途中で目標値がずれていく理由 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="key-idea" heading="体重減少に合わせて目標を再計算する">
+      <p>体重が4〜5 kg減るたびに維持カロリーも下がるため、定期的な見直しが停滞打破のカギになります。</p>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>計算例 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>維持カロリーが2,400 kcalの人が毎日1,850 kcalに抑えると、1日550 kcalの赤字（週約0.5 kg減）となります。</p>
+  </section>
+  <section>
+    <h2>よくある失敗 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="最初から極端なペースを選ぶ">
+      <p>急激な食事制限は筋肉減少と挫折を招きます。BMR以上のラインを目安にしましょう。</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="1回の体重計測で判断する">
+      <p>前日の塩分や水分量で簡単に増減するため、週平均の推移を見るのが確実です。</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

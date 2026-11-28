@@ -1,0 +1,37 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section>
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Avec votre stature et vos tours de cou et taille (plus hanches pour les femmes), la formule US Navy estime taux de masse grasse, masse grasse et masse maigre.</p>
+    <a class="cta-link" href={toolHref}>Ouvrir Calculateur de masse grasse &rarr;</a>
+  </section>
+  <section>
+    <h2>Fonctionnement de la méthode Navy <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Le rapport logarithmique entre circonférences corporelles et taille estime fidèlement la tendance adipeuse au fil des semaines.</p>
+  </section>
+  <section>
+    <h2>Repères anatomiques exacts <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Gardez le ruban horizontal sans comprimer les tissus et mesurez toujours dans les mêmes conditions.</p>
+  </section>
+  <section>
+    <h2>Masse grasse vs IMC <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Un physique musclé peut afficher un IMC élevé tout en restant sec ; ce calcul complète parfaitement l’indice classique.</p>
+  </section>
+  <section>
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Tension inégale du ruban ou mesures à des heures différentes fausseraient la comparaison.</p>
+  </section>
+</GuideLayout>

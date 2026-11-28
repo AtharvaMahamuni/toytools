@@ -1,0 +1,51 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ein JSON-zu-CSV-Konverter verwandelt ein Array aus JSON-Objekten in eine flache Tabelle, bei der Objektschlüssel die Spaltennamen und jedes Objekt eine Datenzeile bilden.</p>
+    <a class="cta-link" href={toolHref}>JSON-zu-CSV-Konverter öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>Was macht die JSON-zu-CSV-Umwandlung? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Sie sammelt sämtliche Schlüssel aller Datensätze, erstellt eine gemeinsame Kopfzeile und maskiert Kommas sowie Umbrüche sauber für Tabellenprogramme.</p>
+  </section>
+  <section>
+    <h2>Umgang mit unterschiedlichen Feldern pro Objekt <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Auch wenn optionale Attribute nur bei einzelnen Einträgen vorkommen, bleiben alle Spalten durch leere Zellen exakt ausgerichtet.</p>
+  </section>
+  <section>
+    <h2>Wann konvertiert man JSON zu CSV? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Sobald API-Ergebnisse oder Logdaten an Excel-Nutzer übergeben oder per Bulk-Import in eine Datenbank geladen werden sollen.</p>
+  </section>
+  <section>
+    <h2>Warum CSV keine tief verschachtelten Daten direkt abbildet <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>CSV besitzt nur Zeilen und Spalten ohne Hierarchie, weshalb innere Objekte oder Arrays auf Zellebene serialisiert werden müssen.</p>
+  </section>
+  <section>
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ein einzelnes JSON-Objekt statt eines Arrays in eckigen Klammern <code>[...]</code> zu übergeben führt zu einem Validierungsfehler.</p>
+  </section>
+  <section>
+    <h2>Verwandte Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-formatter', 'de')}>JSON-Formatierer</a>: Quelldaten übersichtlich prüfen.</li>
+      <li><a href={toolPathBySlug('json-validator', 'de')}>JSON-Validator</a>: Syntax vor dem Export testen.</li>
+      <li><a href={toolPathBySlug('json-minifier', 'de')}>JSON-Minifizierer</a>: JSON-Dateigröße reduzieren.</li>
+    </ul>
+  </section>
+</GuideLayout>

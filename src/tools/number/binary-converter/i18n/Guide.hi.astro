@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>बेस-2 में हर अंक दाईं से बाईं ओर दोगुने मान (1, 2, 4, 8...) का होता है। यह कन्वर्टर 512 बिट तक सटीक बदलाव के साथ हेक्स, ऑक्टल और बिट गिनती दिखाता है।</p>
+    <a class="cta-link" href={toolHref}>बाइनरी कन्वर्टर खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>बेस-2 क्या है? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>केवल 0 और 1 पर आधारित संख्या प्रणाली जिस पर डिजिटल सर्किट और मेमोरी रजिस्टर चलते हैं।</p>
+  </section>
+  <section>
+    <h2>रूपांतरण कैसे काम करता है? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>BigInt पूर्णांकों पर 2 से क्रमिक भाग और स्थानीय मान जोड़कर बिना त्रुटि मान निकाला जाता है।</p>
+  </section>
+  <section>
+    <h2>बाइनरी के बदले हेक्स क्यों? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>हर हेक्स चिह्न ठीक 4 बिट दर्शाता है, जिससे लंबे बाइनरी डेटा को पढ़ना चार गुना सरल हो जाता है।</p>
+  </section>
+  <section>
+    <h2>बिट चौड़ाई और शुरुआती शून्य <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>बिट गिनती देखकर आप 8, 16 या 32 बिट रजिस्टर में बाईं ओर आवश्यक शून्य जोड़ सकते हैं।</p>
+  </section>
+  <section>
+    <h2>बाइनरी संख्या बनाम बाइनरी टेक्स्ट <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>अक्षरों और शब्दों को बिट्स में बदलने के लिए <a href={toolPathBySlug('binary-text-converter')}>बाइनरी टेक्स्ट कन्वर्टर</a> उपयोग करें।</p>
+  </section>
+  <section>
+    <h2>पेस्ट किया गया बाइनरी साफ करने की आवश्यकता <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>कोड से आए <code>0b</code> या अंडरस्कोर को एक क्लिक से साफ़ करें या <a href={toolPathBySlug('hex-encoder-decoder')}>हेक्स एन्कोडर</a> आजमाएं।</p>
+  </section>
+</GuideLayout>

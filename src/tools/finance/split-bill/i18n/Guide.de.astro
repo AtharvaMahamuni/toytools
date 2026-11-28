@@ -1,0 +1,32 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Werden Teilbeträge separat gerundet, stimmt am Ende oft der Gesamtbetrag nicht mehr. Dieses Tool rechnet exakt in Untereinheiten und gibt einen unteilbaren Rest an die letzte Person.</p>
+    <a href={toolHref} class="cta-link">Rechnung-Teilen öffnen →</a>
+  </section>
+  <section id="beispiel-und-regeln">
+    <h2>Rechenbeispiel und Eingaberegeln <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Bei 1000 Rechnung, 10% Trinkgeld (1100 gesamt) und 3 Personen zahlt man 366,66, 366,66 und 366,68. Zulässig sind 2–30 Personen und ganze Prozentwerte von 0–30%.</p>
+  </section>
+  <section id="fehler">
+    <h2>Typische Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Einzelbeträge getrennt aufrunden">
+      <p>Dreimal 366,67 ergäbe 1100,01. Nur das Übertragen des exakten Rests sorgt für eine stimmige Gesamtrechnung.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

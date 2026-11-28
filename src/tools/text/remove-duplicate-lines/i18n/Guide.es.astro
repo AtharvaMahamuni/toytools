@@ -1,0 +1,39 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Cada línea que aparece por primera vez se conserva en su posición original y todas las repeticiones exactas posteriores se descartan al instante sin ordenar alfabéticamente el resultado.</p>
+    <a class="cta-link" href={toolHref}>Abrir Eliminar líneas duplicadas &rarr;</a>
+  </section>
+  <section>
+    <h2>Cuándo conviene depurar listas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Es imprescindible antes de importar suscriptores, cruzar catálogos de URLs o revisar miles de filas idénticas en logs de servidor.</p>
+  </section>
+  <section>
+    <h2>Cómo funciona <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>El procesador lee línea por línea y recuerda las cadenas ya vistas; si una línea coincide exactamente con una anterior, la omite. Si existen variaciones de mayúsculas, puedes unificarlas primero con <a href={toolPathBySlug('lowercase-converter', 'es')}>convertidor a minúsculas</a>.</p>
+  </section>
+  <section>
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Espacios invisibles al final de una celda o diferencias entre mayúsculas y minúsculas hacen que líneas aparentemente iguales sobrevivan separadas.</p>
+  </section>
+  <section>
+    <h2>Comparación con otras herramientas de limpieza <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Depurar duplicados quita elementos repetidos; eliminar líneas vacías limpia huecos en blanco; y comparar textos muestra diferencias entre dos documentos distintos.</p>
+  </section>
+</GuideLayout>

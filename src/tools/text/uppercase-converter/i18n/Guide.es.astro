@@ -1,0 +1,32 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Pega cualquier cadena y conviértela a MAYÚSCULAS conservando números, puntuación, saltos de línea y acentos en tu propio dispositivo.</p>
+    <a href={toolHref} class="cta-link">Abrir Convertidor a Mayúsculas →</a>
+  </section>
+  <section id="css-vs-real">
+    <h2>CSS text-transform frente a texto real <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>El estilo CSS solo cambia cómo se dibuja el texto en pantalla; al copiarlo o guardarlo sigue en minúsculas. Este conversor modifica los caracteres reales para constantes, siglas o bases de datos.</p>
+  </section>
+  <section id="unicode">
+    <h2>Comportamiento Unicode y buenas prácticas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Abusar de mayúsculas en párrafos largos">
+      <p>Reserva todo en altas para siglas y etiquetas breves; en textos extensos utiliza mejor minúsculas o formato de oración.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

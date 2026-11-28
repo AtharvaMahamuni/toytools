@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>要点まとめ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Devine・Robinson・Miller・Hamwiの4つの公式とBMI適正範囲（18.5〜24.9）を比較し、自分の体格に合った現実的な体重ゾーンを把握できます。</p>
+    <a class="cta-link" href={toolHref}>標準体重（理想体重）計算機を開く &rarr;</a>
+  </section>
+  <section>
+    <h2>4つの公式の仕組み <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>いずれも身長5フィート（約152.4cm）の基準体重に対し、超過身長ごとに一定係数（1.9〜2.7 kg/インチ）を加算します。</p>
+  </section>
+  <section>
+    <h2>公式ごとに数値がずれる理由 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>1960年代から1980年代にかけて異なる母集団や薬用量設計から導かれたため、数kgの自然な幅が生じます。</p>
+  </section>
+  <section>
+    <h2>「1点」ではなく「範囲」で捉える <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>骨格の大きさや筋肉量には個人差があるため、BMI 18.5〜24.9の幅全体を目安にするのが現代的です。</p>
+  </section>
+  <section>
+    <h2>計算例 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>身長175cmの男性では4公式の平均が69kg前後となり、BMI健康範囲は56.7 kg〜76.3 kgにわたります。</p>
+  </section>
+  <section>
+    <h2>よくある誤解 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>身長だけで弾かれた数値を、筋肉量や体調を無視して唯一のゴールとみなしてしまうことです。</p>
+  </section>
+</GuideLayout>

@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>CAGR कई वर्षों की असमान बढ़त को एक स्थिर वार्षिक चक्रवृद्धि दर में बदलकर बताता है ताकि अलग-अलग समय अवधि के निवेशों की सही तुलना की जा सके।</p>
+    <a href={toolHref} class="cta-link">CAGR कैलकुलेटर खोलें →</a>
+  </section>
+  <section id="formula">
+    <h2>सूत्र और ROI तुलना <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>CAGR = (अंतिम मूल्य / प्रारंभिक मूल्य)^(1 / t) − 1</strong></p>
+    <p>कुल प्रतिशत लाभ देखने के लिए <a href={toolPathBySlug('roi-calculator', 'hi')}>ROI कैलकुलेटर</a> और दोगुना समय जानने के लिए <a href={toolPathBySlug('rule-of-72-calculator')}>72 का नियम</a> भी देखें।</p>
+  </section>
+  <section id="mistakes">
+    <h2>आम गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="बीच में जमा-निकासी होने पर भी CAGR निकालना">
+      <p>यदि बीच में पैसे जोड़े या निकाले गए हों तो CAGR गलत दिखता है; मासिक निवेश के लिए SIP कैलकुलेटर का उपयोग करें।</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

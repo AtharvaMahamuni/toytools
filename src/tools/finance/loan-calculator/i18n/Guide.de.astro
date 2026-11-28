@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Bei einem Annuitätendarlehen bleibt die monatliche Rate über die Laufzeit konstant, während der Zinsanteil sinkt und der Tilgungsanteil steigt. Kaufpreis minus Anzahlung ergibt deine Kreditsumme.</p>
+    <a href={toolHref} class="cta-link">Zum Kreditrechner →</a>
+  </section>
+  <section id="formel-und-sondertilgung">
+    <h2>Formel und Sondertilgung <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Rate = P × r × (1 + r)^n / ((1 + r)^n - 1)</strong></p>
+    <p>Monatliche Sondertilgungen fließen zu 100% in die Restschuld, verkürzen die Laufzeit spürbar und sparen überproportionale Zinskosten.</p>
+  </section>
+  <section id="fehler-und-vergleich">
+    <h2>Häufige Fehler und Vergleich <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Monatszins statt Jahreszins eingeben">
+      <p>2% pro Monat bedeuten 24% im Jahr. Gib stets den Jahreszins an und vergleiche die Rate alternativ mit unserem <a href={toolPathBySlug('sip-calculator', 'de')}>Sparplan-/SIP-Rechner</a> oder <a href={toolPathBySlug('compound-interest-calculator', 'de')}>Zinseszinsrechner</a>.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

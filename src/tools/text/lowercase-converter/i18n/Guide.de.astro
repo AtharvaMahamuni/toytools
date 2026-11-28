@@ -1,0 +1,32 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Verwandle Text sofort in Kleinbuchstaben – ideal zum Vereinheitlichen von E-Mail-Listen, Tags, URLs und versehentlicher Feststelltaste.</p>
+    <a href={toolHref} class="cta-link">Zum Kleinbuchstaben-Konverter →</a>
+  </section>
+  <section id="einsatz">
+    <h2>Wann Kleinschreibung nötig ist <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Vor dem Entfernen doppelter Zeilen oder dem Datenbankabgleich verhindert durchgängige Kleinschreibung unnötige Dubletten.</p>
+  </section>
+  <section id="fehler">
+    <h2>Typische Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Akronyme unwiderruflich einebnen">
+      <p>Aus „API“ oder „HTTP“ wird „api“ und „http“, was sich anschließend nicht automatisch rekonstruieren lässt.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

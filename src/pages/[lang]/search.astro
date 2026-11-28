@@ -34,7 +34,7 @@ const searchItems = tools.map(raw => {
   const blurb = t.tagline || t.description;
   const seen = new Set(`${t.name} ${blurb} ${catName}`.toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(Boolean));
   const extra: string[] = [];
-  for (const rawPhrase of [raw.name, ...(t.tags ?? []), ...(t.keywords ?? []), t.family ?? '']) {
+  for (const rawPhrase of [raw.name, ...(t.tags ?? []).slice(0, 4), ...(t.keywords ?? []).slice(0, 4), t.family ?? '']) {
     for (const word of rawPhrase.toLowerCase().split(/[^\p{L}\p{N}]+/u)) {
       if (word.length < 2 || seen.has(word)) continue;
       seen.add(word);

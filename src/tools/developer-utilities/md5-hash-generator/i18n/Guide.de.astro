@@ -1,0 +1,45 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>MD5 erzeugt aus beliebigen Texten oder Dateien einen kompakten 32-stelligen Hex-Fingerabdruck (128 Bit). Praktisch für Cache-Keys und zufällige Bitfehler, aber für Passwörter oder Signaturen ungeeignet.</p>
+    <a class="cta-link" href={toolHref}>MD5-Hash-Generator öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>Was ist MD5? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Als Standard RFC 1321 spezifiziert, fasst MD5 beliebig große Bytefolgen deterministisch auf exakt 16 Byte zusammen.</p>
+  </section>
+  <section>
+    <h2>So funktioniert der Algorithmus <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Nach Auffüllen auf 512-Bit-Blöcke durchlaufen vier nichtlineare Runden die Daten und mischen alle Bits über einen Lawineneffekt durch.</p>
+  </section>
+  <section>
+    <h2>Wofür MD5 heute noch genutzt wird <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Cache-Schlüssel, interne Inhalts-IDs zur Deduplizierung und einfache Download-Checksummen ohne Angreiferszenario.</p>
+  </section>
+  <section>
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>MD5 für Passwortspeicherung oder Manipulationsschutz einzusetzen. Nutze dafür kollisionssichere Alternativen wie <a href={toolPathBySlug('sha256-hash-generator', 'de')}>SHA-256</a>.</p>
+  </section>
+  <section>
+    <h2>Verwandte Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('sha256-hash-generator', 'de')}>SHA-256 Hash Generator</a>: sicherer Standard für Integritätsschutz.</li>
+      <li><a href={toolPathBySlug('sha1-hash-generator')}>SHA-1 Hash Generator</a>: 160-Bit-Verfahren, ebenfalls veraltet für Security.</li>
+    </ul>
+  </section>
+</GuideLayout>

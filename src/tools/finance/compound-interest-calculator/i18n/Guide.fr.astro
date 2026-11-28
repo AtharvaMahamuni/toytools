@@ -1,0 +1,33 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Les intérêts composés s’appliquent sur votre capital initial ainsi que sur les intérêts accumulés. Grâce à cet effet boule de neige, des versements mensuels réguliers et un horizon long pèsent davantage que le montant déposé au départ.</p>
+    <a href={toolHref} class="cta-link">Ouvrir la calculatrice →</a>
+  </section>
+  <section id="frequence-et-versements">
+    <h2>Fréquence de capitalisation et versements <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Une capitalisation mensuelle (10 000 à 7% sur 20 ans donne environ 40 387 contre 38 697 en annuel) devance légèrement l’annuelle, mais la durée d’investissement et la régularité des apports restent déterminantes.</p>
+  </section>
+  <section id="formule-et-erreurs">
+    <h2>Formule et pièges fréquents <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>FV = P (1 + r/n)^(n · t)</strong></p>
+    <ReferenceBlock type="common-mistake" heading="Confondre valeur nominale et pouvoir d’achat">
+      <p>Les marchés fluctuent et l’inflation érode le montant futur. Privilégiez une hypothèse prudente et vérifiez la valeur réelle dans le simulateur d’inflation.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

@@ -1,0 +1,45 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>概要 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>MD5は任意のテキストを32文字の16進数（128ビット）要約へ変換する高速なハッシュ関数です。キャッシュキーや重複検知には便利ですが、パスワードや改ざん防止などのセキュリティ用途には使えません。</p>
+    <a class="cta-link" href={toolHref}>MD5ハッシュ生成を開く &rarr;</a>
+  </section>
+  <section>
+    <h2>MD5とは <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>RFC 1321で標準化されたMessage Digestアルゴリズムであり、どんな長さのデータからも常に一定の16バイト出力を得られます。</p>
+  </section>
+  <section>
+    <h2>計算の仕組み <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>入力を512ビット単位にパディング・分割し、4段階の論理演算とビット回転を行うことで1文字の違いでも全体が激変します。</p>
+  </section>
+  <section>
+    <h2>現在も使われている用途 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>ネットワーク攻撃のない環境での破損検知、キャッシュキー生成、重複ファイル判定などに活用されています。</p>
+  </section>
+  <section>
+    <h2>よくある誤用 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>パスワード保存や真正性検証にMD5を使うのは危険です。セキュリティが必要な場面では <a href={toolPathBySlug('sha256-hash-generator', 'ja')}>SHA-256</a> を選択してください。</p>
+  </section>
+  <section>
+    <h2>関連ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('sha256-hash-generator', 'ja')}>SHA-256ハッシュ生成</a>：衝突耐性が高い現在の暗号学的標準ハッシュ。</li>
+      <li><a href={toolPathBySlug('sha1-hash-generator')}>SHA-1ハッシュ生成</a>：160ビット長の旧来ハッシュアルゴリズム。</li>
+    </ul>
+  </section>
+</GuideLayout>

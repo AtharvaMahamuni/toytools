@@ -1,0 +1,35 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Un SIP invierte una cuota mensual constante a lo largo del tiempo. Cada depósito capitaliza los meses que restan hasta el cierre del plan, combinando disciplina de ahorro con promediado de costo ante caídas de mercado.</p>
+    <a href={toolHref} class="cta-link">Abrir Calculadora SIP →</a>
+  </section>
+  <section id="formula">
+    <h2>La fórmula del SIP <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>FV = P · ((1 + i)^n − 1) / i</strong></p>
+    <ReferenceBlock type="key-idea" heading="El plazo supera al importe">
+      <p>Empezar pronto con una cuota modesta supera casi siempre a entrar tarde con cuotas altas gracias al tramo final del interés compuesto.</p>
+    </ReferenceBlock>
+  </section>
+  <section id="errores">
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Leer el resultado sin descontar la inflación">
+      <p>Un monto futuro elevado tendrá menor poder adquisitivo dentro de 15 o 20 años. Modela un rendimiento prudente y compáralo con el impacto de la inflación.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

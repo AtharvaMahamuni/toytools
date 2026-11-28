@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>El CAGR resume una trayectoria desigual de varios años en una única tasa anual constante. A diferencia de dividir la subida total entre los años, respeta la lógica geométrica del interés compuesto.</p>
+    <a href={toolHref} class="cta-link">Abrir Calculadora CAGR →</a>
+  </section>
+  <section id="formula">
+    <h2>Fórmula y comparación con ROI <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>CAGR = (V_final / V_inicial)^(1 / t) − 1</strong></p>
+    <p>Complementa la lectura viendo el retorno absoluto en la <a href={toolPathBySlug('roi-calculator', 'es')}>Calculadora de ROI</a> o estima la duplicación con la <a href={toolPathBySlug('rule-of-72-calculator')}>Regla del 72</a>.</p>
+  </section>
+  <section id="errores">
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Aplicar CAGR cuando hubo aportes o retiros intermedios">
+      <p>Si hubo ingresos mensuales entre inicio y fin, el CAGR confunde capital aportado con ganancia real.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

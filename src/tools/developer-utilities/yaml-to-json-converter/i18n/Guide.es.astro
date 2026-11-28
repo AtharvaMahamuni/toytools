@@ -1,0 +1,51 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Un conversor de YAML a JSON analiza la estructura indentada de un archivo YAML, expande anclas o alias y genera JSON estricto compatible con APIs y validadores de esquema.</p>
+    <a class="cta-link" href={toolHref}>Abrir Conversor YAML a JSON &rarr;</a>
+  </section>
+  <section>
+    <h2>¿Qué hace la conversión de YAML a JSON? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Traduce mapas clave-valor y listas con guiones a objetos <code>&#123;&#125;</code> y arrays <code>[]</code> JSON válidos según RFC 8259, descartando únicamente comentarios.</p>
+  </section>
+  <section>
+    <h2>Cómo gestiona características propias de YAML <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Resuelve referencias <code>&amp;anchor</code> / <code>*alias</code> copiando los valores reales y convierte fechas nativas a cadenas ISO 8601 sin pérdida.</p>
+  </section>
+  <section>
+    <h2>Cuándo convertir YAML a JSON <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Para validar manifiestos con herramientas JSON Schema, enviar configuraciones hacia endpoints HTTP o procesar datos en entornos sin parser YAML.</p>
+  </section>
+  <section>
+    <h2>YAML frente a JSON: cuál elegir <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Usa YAML cuando necesites edición manual cómoda y comentarios; elige JSON para contratos API, almacenamiento y validación estricta.</p>
+  </section>
+  <section>
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Mezclar espacios y tabuladores o esperar que los comentarios <code>#</code> sobrevivan dentro del resultado JSON.</p>
+  </section>
+  <section>
+    <h2>Herramientas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-to-yaml-converter', 'es')}>Conversor JSON a YAML</a>: convierte en sentido inverso hacia YAML.</li>
+      <li><a href={toolPathBySlug('json-formatter', 'es')}>Formateador JSON</a>: ajusta la indentación de la salida JSON.</li>
+      <li><a href={toolPathBySlug('json-validator', 'es')}>Validador JSON</a>: confirma que el JSON obtenido es impecable.</li>
+    </ul>
+  </section>
+</GuideLayout>

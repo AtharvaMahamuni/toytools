@@ -1,0 +1,42 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>किस समय सोना बेहतर है? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>सुबह 7:00 बजे उठने और नींद आने में 15 मिनट लगने पर 5 चक्र के लिए रात 11:15 बजे या 6 चक्र के लिए 9:45 बजे बिस्तर पर जाएं।</p>
+    <a class="cta-link" href={toolHref}>नींद चक्र कैलकुलेटर खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>90 मिनट का नींद चक्र क्या है? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>हल्की नींद, गहरी नींद और REM चरण का एक पूरा दौर लगभग 90 मिनट का होता है; चक्र पूरा होने पर जागना सुस्ती कम करता है।</p>
+  </section>
+  <section>
+    <h2>नींद आने का समय चक्र के बाहर क्यों रहता है? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>लेटते ही नींद नहीं आती; 15 मिनट का अंतर जोड़ने से सुबह अलार्म अंतिम चक्र पूरा होने पर ही बजता है।</p>
+  </section>
+  <section>
+    <h2>सोने के समय और जागने के समय में अंतर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>सुबह का समय तय होने पर "कब जागना है" चुनें और तुरंत सोने जा रहे हों तो "कब बिस्तर पर जाना है" चुनें।</p>
+  </section>
+  <section>
+    <h2>सामान्य गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>लेटेंसी 0 मिनट छोड़ देना या लगातार 3–4 चक्र की कम नींद को पर्याप्त मान लेना।</p>
+  </section>
+  <section>
+    <h2>आगे क्या देखें <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>योजना बनाने के लिए <a href={toolPathBySlug('date-difference-calculator', 'hi')}>तारीख अंतर कैलकुलेटर</a> या <a href={toolPathBySlug('age-calculator', 'hi')}>आयु कैलकुलेटर</a> आज़माएं।</p>
+  </section>
+</GuideLayout>

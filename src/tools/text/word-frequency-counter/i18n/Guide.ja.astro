@@ -1,0 +1,43 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>概要 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>単語頻度カウンターは文章中の固有語をすべて抽出し、それぞれの出現回数と構成比（%）を算出することで、過剰な繰り返しや頻出トピックを素早く可視化します。</p>
+    <a class="cta-link" href={toolHref}>単語頻度カウンターを開く &rarr;</a>
+  </section>
+  <section>
+    <h2>集計の仕組み <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>空白や改行を区切りとして単語を取り出し、末尾の記号を整えたうえで小文字統一してカウントします。ハイフン連結語や小数点は1つの語として扱われます。</p>
+  </section>
+  <section>
+    <h2>ストップワードが常に上位になる理由 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>英文などでは冠詞や前置詞がどうしても最上位を占めます。フィルタをオンにすることで記事の核心となる名詞や動詞をすぐに拾い上げられます。</p>
+  </section>
+  <section>
+    <h2>単語頻度分析と通常の単語数カウントの違い <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>総文字数や読了時間の目安だけを知りたいときは <a href={toolPathBySlug('word-counter', 'ja')}>文字・単語数カウンター</a> を使い、語彙ごとの内訳を調べたいときに頻度分析を活用します。</p>
+  </section>
+  <section>
+    <h2>主な活用シーン <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>推敲時の口癖チェック、SEOライティングのキーワード比率確認、アンケート自由記述の頻出キーワード抽出などに幅広く使われています。</p>
+  </section>
+  <section>
+    <h2>よくある見間違い <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>長さの異なる2つの文章を比べる際は、出現回数ではなくパーセンテージ（%）欄を比較するようにしましょう。</p>
+  </section>
+</GuideLayout>

@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug, toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>रोमन अंक बाएँ से दाएँ जुड़ते हैं और 1 (I) से 3999 (MMMCMXCIX) तक छह मानक घटाव जोड़ों (IV, IX, XL, XC, CD, CM) का उपयोग करते हैं। आप <a href={guidePathBySlug('number-to-words')}>संख्या को शब्दों में लिखना</a> भी पढ़ सकते हैं।</p>
+    <a class="cta-link" href={toolHref}>रोमन अंक कन्वर्टर खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>घटाव संकेतन (Subtractive notation) क्या है? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>एक ही अक्षर को चार बार दोहराने से बचने के लिए V/X से पहले I, L/C से पहले X तथा D/M से पहले C रखकर मान घटाया जाता है।</p>
+  </section>
+  <section>
+    <h2>रूपांतरण कैसे काम करता है? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>अंक से रोमन बनाते समय बड़े से छोटे खंड जोड़े जाते हैं; विपरीत दिशा में पुरानी घड़ी या शिलालेख वर्तनी भी पढ़ ली जाती है।</p>
+  </section>
+  <section>
+    <h2>घड़ियों में IIII क्यों होता है? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>यह VIII के सामने दृश्य संतुलन बनाए रखता है और पुराने समय में साँचों की ढलाई को सरल बनाता था।</p>
+  </section>
+  <section>
+    <h2>रोमन अंक 3999 पर क्यों रुकते हैं? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>4000 और उससे आगे के लिए अक्षर के ऊपर रेखा (विनकुलम) जरूरी होती है जो सादे टेक्स्ट में उपलब्ध नहीं है।</p>
+  </section>
+  <section>
+    <h2>रोमन तारीख कैसे पढ़ें? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>पहले M गिनें और फिर CM/CD, XC/XL और IX/IV जोड़ों को जोड़ते जाएं।</p>
+  </section>
+  <section>
+    <h2>रोमन अंक बनाम दशमलव प्रणाली <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>शब्दों में लिखने के लिए <a href={toolPathBySlug('number-to-words')}>नंबर टू वर्ड्स</a> और बेस-2 के लिए <a href={toolPathBySlug('binary-converter', 'hi')}>बाइनरी कन्वर्टर</a> उपयोग करें।</p>
+  </section>
+</GuideLayout>

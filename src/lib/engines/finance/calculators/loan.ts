@@ -8,6 +8,11 @@ import type { TimelinePoint } from '@lib/results/types';
 import { money, roundMoney } from '../format';
 import { number, positive } from '../validation';
 import { insight, milestone, assumption, toolDecision } from '../story';
+import { readClientI18n } from '@lib/i18n/client';
+
+function tpl(s: string, vars: Record<string, string | number>): string {
+  return s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : `{${k}}`));
+}
 
 /** Below this yearly percent, a typed value is easy to mistake for a monthly rate. */
 const LOW_YEARLY_RATE = 3;
@@ -20,21 +25,27 @@ function rateText(value: number): string {
   return `${body}%`;
 }
 
-function payoffLabel(months: number): string {
+function payoffLabel(months: number, ei: Record<string, any> = {}): string {
   const wholeYears = Math.floor(months / 12);
   const rest = months % 12;
-  const yearPart = wholeYears > 0 ? `${wholeYears} ${wholeYears === 1 ? 'year' : 'years'}` : '';
-  const monthPart = rest > 0 ? `${rest} ${rest === 1 ? 'month' : 'months'}` : '';
-  return [yearPart, monthPart].filter(Boolean).join(' ') || '0 months';
+  const yUnit = wholeYears === 1 ? (ei.yearOne ?? 'year') : (ei.yearMany ?? 'years');
+  const mUnit = rest === 1 ? (ei.monthOne ?? 'month') : (ei.monthMany ?? 'months');
+  const yearPart = wholeYears > 0 ? `${wholeYears} ${yUnit}` : '';
+  const monthPart = rest > 0 ? `${rest} ${mUnit}` : '';
+  return [yearPart, monthPart].filter(Boolean).join(' ') || `0 ${ei.monthMany ?? 'months'}`;
 }
 
 /** The unit warning, or undefined when the yearly rate sits in the ordinary band. */
-export function loanRateNote(rate: number): string | undefined {
+export function loanRateNote(rate: number, ei: Record<string, any> = {}): string | undefined {
   if (rate > 0 && rate < LOW_YEARLY_RATE) {
-    return `${rateText(rate)} is a yearly rate. ${rateText(rate)} a month would be ${rateText(rate * 12)} a year, and that is not what this payment uses.`;
+    return ei.noteLowRateTpl
+      ? tpl(ei.noteLowRateTpl, { rate: rateText(rate), annualized: rateText(rate * 12) })
+      : `${rateText(rate)} is a yearly rate. ${rateText(rate)} a month would be ${rateText(rate * 12)} a year, and that is not what this payment uses.`;
   }
   if (rate > HIGH_YEARLY_RATE) {
-    return `${rateText(rate)} is a yearly rate, about ${rateText(rate / 12)} a month. The payment uses the yearly rate.`;
+    return ei.noteHighRateTpl
+      ? tpl(ei.noteHighRateTpl, { rate: rateText(rate), monthly: rateText(rate / 12) })
+      : `${rateText(rate)} is a yearly rate, about ${rateText(rate / 12)} a month. The payment uses the yearly rate.`;
   }
   return undefined;
 }
@@ -206,7 +217,10 @@ export const loan: FinanceCalculator = {
     { label: 'Home loan, 30 years', values: { price: 5000000, down: 1000000, rate: 8.5, years: 30, extra: 0 } },
   ],
 
-  calculate(input, { currency }) {
+  calculate(input, { currency, locale }) {
+    const loc = locale && locale !== 'en' ? locale : '';
+    const ei = loc ? (readClientI18n().engine ?? {}) as Record<string, any> : {};
+
     const price = positive(input, 'price', 'a price or amount borrowed');
     if (!price.ok) return price.result;
     const down = number(input, 'down', 'the down payment', { optional: true, min: 0 });
@@ -215,16 +229,15 @@ export const loan: FinanceCalculator = {
     if (!rate.ok) return rate.result;
     const years = number(input, 'years', 'a term in years', { min: 0, max: 40 });
     if (!years.ok) return years.result;
-    // Terms under a year are fractions of a year, rounded to whole months.
     if (Math.round(years.value * 12) < 1) {
-      return validationError('The shortest term is one month. Type 0.08 for one month or 0.5 for six.');
+      return validationError(ei.errShortTerm ?? 'The shortest term is one month. Type 0.08 for one month or 0.5 for six.');
     }
     const extra = number(input, 'extra', 'the extra monthly payment', { optional: true, min: 0 });
     if (!extra.ok) return extra.result;
 
     const principal = roundMoney(price.value - down.value);
     if (principal <= 0) {
-      return validationError('The down payment leaves nothing to borrow.');
+      return validationError(ei.errNoBorrow ?? 'The down payment leaves nothing to borrow.');
     }
 
     const termMonths = Math.round(years.value * 12);
@@ -235,35 +248,33 @@ export const loan: FinanceCalculator = {
       : plain;
     if (schedule.balance >= 0.01) {
       return validationError(
-        'This yearly rate and term never pay the balance down. Lower the rate, shorten the term, or add an extra payment.',
+        ei.errUnpaid ?? 'This yearly rate and term never pay the balance down. Lower the rate, shorten the term, or add an extra payment.',
       );
     }
 
     const payment = roundMoney(schedule.payment);
     const interest = roundMoney(schedule.interest);
     const total = roundMoney(principal + interest);
-    // Interest saved is the gap between two finished schedules. A plain schedule that
-    // never pays the balance down is not a comparable total.
     const saved = plain.balance < 0.01 ? roundMoney(plain.interest - schedule.interest) : 0;
-    const note = loanRateNote(rate.value);
+    const note = loanRateNote(rate.value, ei);
     const paymentText = payment === 0 && schedule.months > 0
-      ? `Under ${money(0.01, currency)}`
+      ? (ei.underTpl ? tpl(ei.underTpl, { amt: money(0.01, currency) }) : `Under ${money(0.01, currency)}`)
       : money(payment, currency);
 
-    const hero = card('payment', 'Monthly payment', paymentText, {
+    const hero = card('payment', ei.heroLabel ?? 'Monthly payment', paymentText, {
       raw: payment,
       emphasis: 'hero',
       note,
     });
 
     const metrics = [
-      card('borrowed', 'Amount borrowed', money(principal, currency), { raw: principal }),
-      card('interest', 'Total interest', money(interest, currency), { raw: interest, emphasis: 'primary' }),
-      card('total', 'Total paid', money(total, currency), { raw: total }),
-      card('payoff', 'Payoff', payoffLabel(schedule.months), { raw: schedule.months }),
+      card('borrowed', ei.cardBorrowed ?? 'Amount borrowed', money(principal, currency), { raw: principal }),
+      card('interest', ei.cardInterest ?? 'Total interest', money(interest, currency), { raw: interest, emphasis: 'primary' }),
+      card('total', ei.cardTotal ?? 'Total paid', money(total, currency), { raw: total }),
+      card('payoff', ei.cardPayoff ?? 'Payoff', payoffLabel(schedule.months, ei), { raw: schedule.months }),
     ];
     if (extraCents > 0 && saved > 0) {
-      metrics.push(card('saved', 'Interest saved', money(saved, currency), { raw: saved }));
+      metrics.push(card('saved', ei.cardSaved ?? 'Interest saved', money(saved, currency), { raw: saved }));
     }
 
     const interestShare = total > 0 ? Math.round((interest / total) * 100) : 0;
@@ -271,32 +282,34 @@ export const loan: FinanceCalculator = {
     if (extraCents > 0 && saved > 0) {
       insights.push(
         insight(
-          `An extra ${money(extraCents, currency)} a month clears the loan in ${payoffLabel(schedule.months)} and saves ${money(saved, currency)} of interest.`,
+          ei.insExtraTpl
+            ? tpl(ei.insExtraTpl, { extra: money(extraCents, currency), payoff: payoffLabel(schedule.months, ei), saved: money(saved, currency) })
+            : `An extra ${money(extraCents, currency)} a month clears the loan in ${payoffLabel(schedule.months, ei)} and saves ${money(saved, currency)} of interest.`,
           'positive',
         ),
       );
     } else if (rate.value === 0) {
-      insights.push(insight('A zero yearly rate splits the amount into equal months, so you pay no interest.'));
+      insights.push(insight(ei.insZero ?? 'A zero yearly rate splits the amount into equal months, so you pay no interest.'));
     } else if (interest > 0) {
-      insights.push(insight(`Interest is ${interestShare}% of what you pay back.`));
+      insights.push(insight(ei.insShareTpl ? tpl(ei.insShareTpl, { pct: interestShare }) : `Interest is ${interestShare}% of what you pay back.`));
     } else {
-      insights.push(insight('The interest on this amount is under half a cent.'));
+      insights.push(insight(ei.insTiny ?? 'The interest on this amount is under half a cent.'));
     }
 
     const milestones = [
-      milestone('Paid off', schedule.balance < 0.01, schedule.months / 12),
-      milestone('Extra payment shortened the term', extraCents > 0 && schedule.months < plain.months),
+      milestone(ei.msPaid ?? 'Paid off', schedule.balance < 0.01, schedule.months / 12),
+      milestone(ei.msShortened ?? 'Extra payment shortened the term', extraCents > 0 && schedule.months < plain.months),
     ];
 
     const assumptions = [
-      assumption('Yearly rate', rateText(rate.value)),
-      assumption('Schedule', 'Monthly. The yearly rate is divided by 12.'),
-      assumption('Down payment', down.value > 0 ? money(down.value, currency) : 'none'),
-      assumption('Extra payment', extraCents > 0 ? `${money(extraCents, currency)} a month, off the principal` : 'none'),
+      assumption(ei.asmRate ?? 'Yearly rate', rateText(rate.value)),
+      assumption(ei.asmSchedule ?? 'Schedule', ei.asmScheduleVal ?? 'Monthly. The yearly rate is divided by 12.'),
+      assumption(ei.asmDown ?? 'Down payment', down.value > 0 ? money(down.value, currency) : (ei.none ?? 'none')),
+      assumption(ei.asmExtra ?? 'Extra payment', extraCents > 0 ? (ei.asmExtraTpl ? tpl(ei.asmExtraTpl, { extra: money(extraCents, currency) }) : `${money(extraCents, currency)} a month, off the principal`) : (ei.none ?? 'none')),
     ];
 
     const shortened = extraCents > 0 && schedule.months < termMonths
-      ? ` An extra ${money(extraCents, currency)} a month pays it off in ${payoffLabel(schedule.months)}.`
+      ? (ei.expShortTpl ? tpl(ei.expShortTpl, { extra: money(extraCents, currency), payoff: payoffLabel(schedule.months, ei) }) : ` An extra ${money(extraCents, currency)} a month pays it off in ${payoffLabel(schedule.months, ei)}.`)
       : '';
 
     return successResult({
@@ -304,8 +317,8 @@ export const loan: FinanceCalculator = {
       metrics,
       timeline: schedule.timeline,
       breakdown: [
-        { id: 'principal', label: 'Principal', value: principal, display: money(principal, currency) },
-        { id: 'interest', label: 'Interest', value: interest, display: money(interest, currency) },
+        { id: 'principal', label: ei.brkPrincipal ?? 'Principal', value: principal, display: money(principal, currency) },
+        { id: 'interest', label: ei.brkInterest ?? 'Interest', value: interest, display: money(interest, currency) },
       ],
       insights,
       milestones,
@@ -313,12 +326,28 @@ export const loan: FinanceCalculator = {
       decisions: [
         toolDecision('See what the same monthly amount could grow to if invested', 'sip-calculator'),
         toolDecision('Project a lump sum at compound interest instead', 'compound-interest-calculator'),
-      ],
+      ].map((d) => {
+        const map: Record<string, string | undefined> = {
+          'sip-calculator': ei.decSip,
+          'compound-interest-calculator': ei.decCompound,
+        };
+        const label = d.tool?.slug ? map[d.tool.slug] : undefined;
+        return label ? { ...d, label } : d;
+      }),
       nextQuestions: [
-        'How much sooner does an extra payment clear it?',
-        'What would this monthly amount become if it were invested instead?',
+        ei.q1 ?? 'How much sooner does an extra payment clear it?',
+        ei.q2 ?? 'What would this monthly amount become if it were invested instead?',
       ],
-      explanation: `Borrowing ${money(principal, currency)} at ${rateText(rate.value)} a year over ${payoffLabel(termMonths)} needs ${paymentText} a month. You pay ${money(interest, currency)} in interest.${shortened}`,
+      explanation: ei.explanationTpl
+        ? tpl(ei.explanationTpl, {
+            principal: money(principal, currency),
+            rate: rateText(rate.value),
+            term: payoffLabel(termMonths, ei),
+            payment: paymentText,
+            interest: money(interest, currency),
+            shortened,
+          })
+        : `Borrowing ${money(principal, currency)} at ${rateText(rate.value)} a year over ${payoffLabel(termMonths, ei)} needs ${paymentText} a month. You pay ${money(interest, currency)} in interest.${shortened}`,
     });
   },
 };

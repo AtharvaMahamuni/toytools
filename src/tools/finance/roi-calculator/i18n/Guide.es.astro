@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>El ROI mide la ganancia porcentual neta respecto al importe invertido. Añadir los años de tenencia revela el retorno anualizado equivalente, imprescindible para no confundir un 50% logrado en 2 años con uno obtenido en 15 años.</p>
+    <a href={toolHref} class="cta-link">Abrir Calculadora de ROI →</a>
+  </section>
+  <section id="formula">
+    <h2>La fórmula y anualización <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>ROI% = (V − C) / C × 100</strong></p>
+    <p>El porcentaje total sigue la lógica de variación porcentual que explicamos en la <a href={guidePathBySlug('percentage-calculator', 'es')}>guía de porcentajes</a>; al incluir t años calculamos además ((V / C)^(1/t) − 1) × 100.</p>
+  </section>
+  <section id="errores">
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Comparar porcentajes sin el plazo ni comisiones">
+      <p>Incluye comisiones de entrada en el costo, dividendos cobrados en el valor final y juzga siempre según la tasa anualizada.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

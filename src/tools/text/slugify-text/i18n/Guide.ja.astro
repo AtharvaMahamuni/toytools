@@ -1,0 +1,29 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>概要 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>見出しや商品名からSEOに最適なURLスラッグを作成します。<a href={guidePathBySlug('remove-accents')}>アクセント記号の除去</a> と同様に記号をASCII化し、空白や記号をハイフンで繋ぎます。</p>
+    <a href={toolHref} class="cta-link">URLスラッグ生成を使う →</a>
+  </section>
+  <section id="mistakes">
+    <h2>SEOとよくある注意点 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="非ラテン文字のみの行が消える現象">
+      <p>日本語やキリル文字のみの行は英数字に自動変換されないため空行になります。英数字を含む見出しに対して使用してください。</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

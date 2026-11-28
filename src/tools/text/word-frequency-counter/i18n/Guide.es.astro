@@ -1,0 +1,43 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Un contador de frecuencia extrae cada palabra distinta de un texto, suma sus apariciones y calcula su porcentaje respecto al total para detectar temas dominantes y muletillas.</p>
+    <a class="cta-link" href={toolHref}>Abrir Contador de frecuencia de palabras &rarr;</a>
+  </section>
+  <section>
+    <h2>Cómo funciona <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>El analizador limpia signos de puntuación externos, unifica mayúsculas y minúsculas y agrupa los términos conservando guiones y decimales internos.</p>
+  </section>
+  <section>
+    <h2>Palabras vacías: por qué siempre ganan los artículos y preposiciones <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>En cualquier texto real las palabras funcionales ocupan la cabeza de la tabla. Activar el filtro de palabras comunes ayuda a descubrir rápidamente los sustantivos y verbos clave.</p>
+  </section>
+  <section>
+    <h2>Frecuencia de palabras frente a conteo total <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Si solo necesitas longitud total y tiempo de lectura usa el <a href={toolPathBySlug('word-counter', 'es')}>contador de palabras</a>; usa la frecuencia para revisar qué términos se repiten más y en qué proporción.</p>
+  </section>
+  <section>
+    <h2>Para qué lo utiliza la gente <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Desde depurar muletillas en ensayos y detectar saturación de términos en SEO hasta estudiar reseñas de clientes en busca de problemas repetidos.</p>
+  </section>
+  <section>
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Comparar recuentos brutos entre un texto de 200 palabras y otro de 2.000 lleva a engaño; guíate siempre por el porcentaje de participación.</p>
+  </section>
+</GuideLayout>

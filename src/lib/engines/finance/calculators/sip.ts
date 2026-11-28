@@ -10,6 +10,11 @@ import { futureValueCompound, futureValueAnnuity } from '../models';
 import { money, percent, roundMoney } from '../format';
 import { number, positive } from '../validation';
 import { insight, milestone, assumption, toolDecision } from '../story';
+import { readClientI18n } from '@lib/i18n/client';
+
+function tpl(s: string, vars: Record<string, string | number>): string {
+  return s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : `{${k}}`));
+}
 
 export const sip: FinanceCalculator = {
   id: 'sip',
@@ -30,7 +35,10 @@ export const sip: FinanceCalculator = {
     { label: 'Short-term goal', values: { monthly: 750, rate: 8, years: 5, initial: 2000 } },
   ],
 
-  calculate(input, { currency }) {
+  calculate(input, { currency, locale }) {
+    const loc = locale && locale !== 'en' ? locale : '';
+    const ei = loc ? (readClientI18n().engine ?? {}) as Record<string, any> : {};
+
     const m = positive(input, 'monthly', 'a monthly investment');
     if (!m.ok) return m.result;
     const r = number(input, 'rate', 'an expected return', { min: 0, max: 100 });
@@ -49,17 +57,19 @@ export const sip: FinanceCalculator = {
     const finalValue = roundMoney(fromSip + fromLump);
     const totalInvested = roundMoney(m.value * months + init.value);
     const wealthGained = roundMoney(finalValue - totalInvested);
+    const yearWord = years === 1 ? (ei.yearOne ?? 'year') : (ei.yearMany ?? 'years');
 
-    const hero = card('final', 'Investment value', money(finalValue, currency), {
-      raw: finalValue, emphasis: 'hero', note: `after ${years} ${years === 1 ? 'year' : 'years'}`,
+    const hero = card('final', ei.heroLabel ?? 'Investment value', money(finalValue, currency), {
+      raw: finalValue,
+      emphasis: 'hero',
+      note: ei.heroNoteTpl ? tpl(ei.heroNoteTpl, { years, unit: yearWord }) : `after ${years} ${yearWord}`,
     });
     const metrics: ResultCard[] = [
-      card('gain', 'Wealth gained', money(Math.max(0, wealthGained), currency), { raw: Math.max(0, wealthGained), emphasis: 'primary' }),
-      card('invested', 'Total invested', money(totalInvested, currency), { raw: totalInvested }),
-      card('months', 'Instalments', `${months}`, { raw: months }),
+      card('gain', ei.cardGain ?? 'Wealth gained', money(Math.max(0, wealthGained), currency), { raw: Math.max(0, wealthGained), emphasis: 'primary' }),
+      card('invested', ei.cardInvested ?? 'Total invested', money(totalInvested, currency), { raw: totalInvested }),
+      card('months', ei.cardMonths ?? 'Instalments', `${months}`, { raw: months }),
     ];
 
-    // Yearly timeline plus a chart-ready series.
     const timeline: TimelinePoint[] = [];
     const series: number[] = [];
     for (let yr = 0; yr <= years; yr++) {
@@ -71,35 +81,46 @@ export const sip: FinanceCalculator = {
     }
 
     const breakdown: BreakdownPart[] = [
-      ...(init.value > 0 ? [{ id: 'lump', label: 'Lump sum', value: roundMoney(init.value), display: money(init.value, currency) }] : []),
-      { id: 'invested', label: 'Monthly instalments', value: roundMoney(m.value * months), display: money(m.value * months, currency) },
-      { id: 'gain', label: 'Growth', value: Math.max(0, wealthGained), display: money(wealthGained, currency) },
+      ...(init.value > 0 ? [{ id: 'lump', label: ei.brkLump ?? 'Lump sum', value: roundMoney(init.value), display: money(init.value, currency) }] : []),
+      { id: 'invested', label: ei.brkMonthly ?? 'Monthly instalments', value: roundMoney(m.value * months), display: money(m.value * months, currency) },
+      { id: 'gain', label: ei.brkGrowth ?? 'Growth', value: Math.max(0, wealthGained), display: money(wealthGained, currency) },
     ];
 
     const insights = [];
     if (wealthGained > 0 && finalValue > 0) {
       const sharePct = (wealthGained / finalValue) * 100;
-      insights.push(insight(`Market growth contributes ${Math.round(sharePct)}% of the final value; the rest is money you put in.`, sharePct >= 50 ? 'positive' : 'info'));
+      insights.push(insight(
+        ei.insShareTpl ? tpl(ei.insShareTpl, { pct: Math.round(sharePct) }) : `Market growth contributes ${Math.round(sharePct)}% of the final value; the rest is money you put in.`,
+        sharePct >= 50 ? 'positive' : 'info',
+      ));
     }
-    insights.push(insight('A SIP invests the same amount every month, so you buy more units when prices are low and fewer when they are high (rupee/dollar cost averaging).'));
+    insights.push(insight(ei.insAvg ?? 'A SIP invests the same amount every month, so you buy more units when prices are low and fewer when they are high (rupee/dollar cost averaging).'));
 
     const milestones = [
-      milestone('Value doubled your contributions', finalValue >= totalInvested * 2),
-      milestone('Growth exceeds what you invested', wealthGained > totalInvested),
+      milestone(ei.msDoubled ?? 'Value doubled your contributions', finalValue >= totalInvested * 2),
+      milestone(ei.msExceeds ?? 'Growth exceeds what you invested', wealthGained > totalInvested),
     ];
 
     const assumptions = [
-      assumption('Expected return', percent(r.value)),
-      assumption('Instalment timing', 'end of each month'),
-      assumption('Compounding', 'monthly'),
-      assumption('Starting lump sum', init.value > 0 ? money(init.value, currency) : 'none'),
+      assumption(ei.asmRate ?? 'Expected return', percent(r.value)),
+      assumption(ei.asmTiming ?? 'Instalment timing', ei.asmTimingVal ?? 'end of each month'),
+      assumption(ei.asmCompounding ?? 'Compounding', ei.asmMonthly ?? 'monthly'),
+      assumption(ei.asmLump ?? 'Starting lump sum', init.value > 0 ? money(init.value, currency) : (ei.none ?? 'none')),
     ];
 
     const decisions = [
       toolDecision('Check what this is worth after inflation', 'inflation-calculator'),
       toolDecision('Compare with a one-time lump sum', 'compound-interest-calculator'),
       toolDecision('Work backwards from a savings target', 'savings-goal-calculator'),
-    ];
+    ].map((d) => {
+      const map: Record<string, string | undefined> = {
+        'inflation-calculator': ei.decInflation,
+        'compound-interest-calculator': ei.decCompound,
+        'savings-goal-calculator': ei.decGoal,
+      };
+      const label = d.tool?.slug ? map[d.tool.slug] : undefined;
+      return label ? { ...d, label } : d;
+    });
 
     return successResult({
       hero,
@@ -112,11 +133,24 @@ export const sip: FinanceCalculator = {
       assumptions,
       decisions,
       nextQuestions: [
-        'What monthly SIP do I need to reach a specific target?',
-        'How much difference does starting five years earlier make?',
+        ei.q1 ?? 'What monthly SIP do I need to reach a specific target?',
+        ei.q2 ?? 'How much difference does starting five years earlier make?',
       ],
-      explanation: `Investing ${money(m.value, currency)} every month${init.value > 0 ? ` plus a ${money(init.value, currency)} lump sum` : ''} at an expected ${percent(r.value)} annual return grows to ${money(finalValue, currency)} after ${years} ${years === 1 ? 'year' : 'years'}. You invest ${money(totalInvested, currency)} in total; growth adds ${money(Math.max(0, wealthGained), currency)}.`,
-      visualization: lineSpec('balance', series.map((v, i) => ({ x: i, y: v })), { kind: 'area', title: 'Investment value over time' }),
+      explanation: ei.explanationTpl
+        ? tpl(ei.explanationTpl, {
+            monthly: money(m.value, currency),
+            lumpClause: init.value > 0
+              ? (ei.expLumpTpl ? tpl(ei.expLumpTpl, { lump: money(init.value, currency) }) : ` plus a ${money(init.value, currency)} lump sum`)
+              : '',
+            rate: percent(r.value),
+            final: money(finalValue, currency),
+            years,
+            unit: yearWord,
+            invested: money(totalInvested, currency),
+            gain: money(Math.max(0, wealthGained), currency),
+          })
+        : `Investing ${money(m.value, currency)} every month${init.value > 0 ? ` plus a ${money(init.value, currency)} lump sum` : ''} at an expected ${percent(r.value)} annual return grows to ${money(finalValue, currency)} after ${years} ${yearWord}. You invest ${money(totalInvested, currency)} in total; growth adds ${money(Math.max(0, wealthGained), currency)}.`,
+      visualization: lineSpec('balance', series.map((v, i) => ({ x: i, y: v })), { kind: 'area', title: ei.vizTitle ?? 'Investment value over time' }),
       meta: { years, finalValue, totalInvested },
     });
   },
