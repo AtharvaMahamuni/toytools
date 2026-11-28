@@ -10,6 +10,11 @@ import { num1 } from '../format';
 import { numberField, selectField } from '../validation';
 import { assumption, decisions, insight, toolDecision } from '../story';
 import { partsSpec } from '@lib/visualization/types';
+import { readClientI18n } from '@lib/i18n/client';
+
+function tpl(s: string, vars: Record<string, string | number>): string {
+  return s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : `{${k}}`));
+}
 
 const DIETS = ['balanced', 'high-protein', 'low-carb', 'keto'] as const;
 type Diet = (typeof DIETS)[number];
@@ -59,53 +64,61 @@ export const macroCalculator: WellnessCalculator = {
     },
   ],
 
-  calculate(input, _opts) {
-    const diet = selectField(input, 'diet', 'a diet style', DIETS);
+  calculate(input, opts) {
+    const loc = opts?.locale && opts.locale !== 'en' ? opts.locale : '';
+    const ei = loc ? (readClientI18n().engine ?? {}) as Record<string, any> : {};
+
+    const diet = selectField(input, 'diet', ei.fieldDiet ?? 'a diet style', DIETS);
     if (!diet.ok) return diet.result;
-    const cal = numberField(input, 'calories', 'your daily calories', { min: 0, max: 10000 });
+    const cal = numberField(input, 'calories', ei.fieldCalories ?? 'your daily calories', { min: 0, max: 10000 });
     if (!cal.ok) return cal.result;
-    if (cal.value <= 0) return validationError('Enter a calorie target above zero to split into macros.');
+    if (cal.value <= 0) return validationError(ei.errCalZero ?? 'Enter a calorie target above zero to split into macros.');
 
     const split = DIET_SPLIT[diet.value as Diet];
     const g = macroGrams(cal.value, split);
+    const dietName = (ei.diets && ei.diets[diet.value]) || DIET_LABEL[diet.value as Diet];
 
-    const hero = card('protein', 'Protein', `${num1(g.protein)} g`, {
+    const hero = card('protein', ei.heroProtein ?? 'Protein', `${num1(g.protein)} g`, {
       raw: Number(g.protein.toFixed(1)),
       emphasis: 'hero',
-      note: `${split.protein}% of ${num1(cal.value)} kcal`,
+      note: ei.notePctKcalTpl ? tpl(ei.notePctKcalTpl, { pct: split.protein, kcal: num1(cal.value) }) : `${split.protein}% of ${num1(cal.value)} kcal`,
     });
 
     const metrics: ResultCard[] = [
-      card('carb', 'Carbohydrate', `${num1(g.carb)} g`, { raw: Number(g.carb.toFixed(1)), emphasis: 'primary', note: `${split.carb}% of calories` }),
-      card('fat', 'Fat', `${num1(g.fat)} g`, { raw: Number(g.fat.toFixed(1)), emphasis: 'primary', note: `${split.fat}% of calories` }),
-      card('split', 'Split (C/P/F)', `${split.carb}/${split.protein}/${split.fat}`),
+      card('carb', ei.cardCarb ?? 'Carbohydrate', `${num1(g.carb)} g`, { raw: Number(g.carb.toFixed(1)), emphasis: 'primary', note: ei.notePctTpl ? tpl(ei.notePctTpl, { pct: split.carb }) : `${split.carb}% of calories` }),
+      card('fat', ei.cardFat ?? 'Fat', `${num1(g.fat)} g`, { raw: Number(g.fat.toFixed(1)), emphasis: 'primary', note: ei.notePctTpl ? tpl(ei.notePctTpl, { pct: split.fat }) : `${split.fat}% of calories` }),
+      card('split', ei.cardSplit ?? 'Split (C/P/F)', `${split.carb}/${split.protein}/${split.fat}`),
     ];
 
     // Split by CALORIES, not grams: the percentages are calorie shares, and fat carries 9 kcal/g
     // against 4 for protein and carbs, so a gram-width bar would misrepresent the same split.
     const viz = partsSpec(
       [
-        { id: 'carb', label: 'Carbs', value: split.carb, display: `${num1(g.carb)} g` },
-        { id: 'protein', label: 'Protein', value: split.protein, display: `${num1(g.protein)} g` },
-        { id: 'fat', label: 'Fat', value: split.fat, display: `${num1(g.fat)} g` },
+        { id: 'carb', label: ei.vizCarb ?? 'Carbs', value: split.carb, display: `${num1(g.carb)} g` },
+        { id: 'protein', label: ei.vizProtein ?? 'Protein', value: split.protein, display: `${num1(g.protein)} g` },
+        { id: 'fat', label: ei.vizFat ?? 'Fat', value: split.fat, display: `${num1(g.fat)} g` },
       ],
       {
         kind: 'distribution',
-        title: 'Your macro split',
-        description: `${split.carb}% carbs, ${split.protein}% protein, ${split.fat}% fat of ${num1(cal.value)} kcal.`,
+        title: ei.vizTitle ?? 'Your macro split',
+        description: ei.vizDescTpl
+          ? tpl(ei.vizDescTpl, { carb: split.carb, protein: split.protein, fat: split.fat, kcal: num1(cal.value) })
+          : `${split.carb}% carbs, ${split.protein}% protein, ${split.fat}% fat of ${num1(cal.value)} kcal.`,
       },
     );
 
     const insights = [
       insight(
-        `On a ${DIET_LABEL[diet.value as Diet].split(' (')[0].toLowerCase()} split, ${num1(cal.value)} kcal works out to ${num1(g.protein)} g protein, ${num1(g.carb)} g carbs, and ${num1(g.fat)} g fat a day.`,
+        ei.insSplitTpl
+          ? tpl(ei.insSplitTpl, { diet: dietName, kcal: num1(cal.value), protein: num1(g.protein), carb: num1(g.carb), fat: num1(g.fat) })
+          : `On a ${DIET_LABEL[diet.value as Diet].split(' (')[0].toLowerCase()} split, ${num1(cal.value)} kcal works out to ${num1(g.protein)} g protein, ${num1(g.carb)} g carbs, and ${num1(g.fat)} g fat a day.`,
       ),
       insight(
-        'Protein and carbs carry 4 calories per gram, fat carries 9. There is no single correct split: protein supports muscle, carbs fuel training, and fat supports hormones, so pick a ratio you can actually stick to.',
+        ei.insEnergy ?? 'Protein and carbs carry 4 calories per gram, fat carries 9. There is no single correct split: protein supports muscle, carbs fuel training, and fat supports hormones, so pick a ratio you can actually stick to.',
         'info',
       ),
       insight(
-        'Hitting your calorie total matters more than nailing the exact ratio. Treat these grams as targets to aim near, not numbers to obsess over.',
+        ei.insTotal ?? 'Hitting your calorie total matters more than nailing the exact ratio. Treat these grams as targets to aim near, not numbers to obsess over.',
         'caution',
       ),
     ];
@@ -116,20 +129,26 @@ export const macroCalculator: WellnessCalculator = {
       visualization: viz,
       insights,
       assumptions: [
-        assumption('Diet style', DIET_LABEL[diet.value as Diet]),
-        assumption('Energy per gram', 'protein 4, carb 4, fat 9 kcal'),
+        assumption(ei.asmDiet ?? 'Diet style', dietName),
+        assumption(ei.asmEnergy ?? 'Energy per gram', ei.asmEnergyVal ?? 'protein 4, carb 4, fat 9 kcal'),
       ],
       decisions: decisions([
         toolDecision('Find your calorie target first', 'tdee-calculator'),
         toolDecision('Check your BMI and healthy range', 'bmi-calculator'),
-      ]),
+      ]).map((d) => {
+        const map: Record<string, string | undefined> = {
+          'tdee-calculator': ei.decTdee,
+          'bmi-calculator': ei.decBmi,
+        };
+        const label = d.tool?.slug ? map[d.tool.slug] : undefined;
+        return label ? { ...d, label } : d;
+      }),
       nextQuestions: [
-        'How many calories should I eat a day?',
-        'How much protein do I need?',
-        'What is a good macro split for weight loss?',
+        ei.q1 ?? 'How many calories should I eat a day?',
+        ei.q2 ?? 'How much protein do I need?',
+        ei.q3 ?? 'What is a good macro split for weight loss?',
       ],
-      explanation:
-        'Macros are the three nutrients that supply calories: protein, carbohydrate, and fat. A macro split assigns a percentage of your daily calories to each, then converts those calories to grams using 4 kcal per gram for protein and carbs and 9 for fat. The right split depends on your goals and preferences, not a universal rule, so this tool offers common presets and shows the grams each one produces. Consistency with your calorie total beats chasing a perfect ratio.',
+      explanation: ei.explanation ?? 'Macros are the three nutrients that supply calories: protein, carbohydrate, and fat. A macro split assigns a percentage of your daily calories to each, then converts those calories to grams using 4 kcal per gram for protein and carbs and 9 for fat. The right split depends on your goals and preferences, not a universal rule, so this tool offers common presets and shows the grams each one produces. Consistency with your calorie total beats chasing a perfect ratio.',
       meta: { protein: Number(g.protein.toFixed(1)), carb: Number(g.carb.toFixed(1)), fat: Number(g.fat.toFixed(1)) },
     });
   },

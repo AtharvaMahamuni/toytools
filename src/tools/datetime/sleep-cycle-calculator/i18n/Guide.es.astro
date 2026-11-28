@@ -1,0 +1,42 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>¿A qué hora conviene acostarse? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Para despertar despejado tras 5 ciclos de 90 minutos a las 07:00 y tardando 15 minutos en dormirte, acuéstate a las 23:15 (o a las 21:45 para 6 ciclos completos).</p>
+    <a class="cta-link" href={toolHref}>Abrir Calculadora de ciclos de sueño &rarr;</a>
+  </section>
+  <section>
+    <h2>Qué es un ciclo de sueño de 90 minutos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Es una vuelta completa por sueño ligero, sueño profundo y fase REM. Despertar justo al cerrarse un ciclo evita la pesadez de inercia del sueño.</p>
+  </section>
+  <section>
+    <h2>Por qué el tiempo hasta dormirte queda fuera del ciclo <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Apagar la luz no significa dormirse al segundo; añadir esos 10-20 minutos previos evita descuadrar la alarma de la mañana.</p>
+  </section>
+  <section>
+    <h2>Diferencia entre partir de la alarma o de acostarse <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Usa "Quiero despertarme" al programar una alarma fija y "Me acuesto" cuando vayas a dormir ya mismo y quieras fijar el despertador.</p>
+  </section>
+  <section>
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Dejar la latencia a cero o elegir sistemáticamente 3-4 ciclos creyendo que bastan a largo plazo.</p>
+  </section>
+  <section>
+    <h2>Qué abrir a continuación <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Planifica fechas futuras con la <a href={toolPathBySlug('date-difference-calculator', 'es')}>calculadora de diferencia de fechas</a> o calcula edades exactas en la <a href={toolPathBySlug('age-calculator', 'es')}>calculadora de edad</a>.</p>
+  </section>
+</GuideLayout>

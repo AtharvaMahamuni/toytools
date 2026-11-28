@@ -1,0 +1,62 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section>
+    <h2>O que faz Remover espaços extras? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Substitui qualquer grupo consecutivo de espaços ou tabulações por um único espaço normal, corrigindo rapidamente textos desformatados sem desfazer parágrafos.</p>
+    <a class="cta-link" href={toolHref}>Abrir Remover espaços extras &rarr;</a>
+  </section>
+  <section>
+    <h2>Por que espaços duplos atrapalham <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Quebram pesquisas literais, comparações de planilhas e validação de campos. Se precisar remover quebras de linha também, veja <a href={`${guidePathBySlug('remove-blank-lines')}#normalize-whitespace`}>normalizar espaços em branco</a>.</p>
+  </section>
+  <section>
+    <h2>Como funciona <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Cada sequência repetida de espaços horizontais e tabs vira exatamente um espaço padrão, preservando intactas todas as quebras de linha.</p>
+  </section>
+  <section>
+    <h2>Exemplos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock>
+      <pre>"Olá    mundo   novo"   -> "Olá mundo novo"
+"Um		dois"             -> "Um dois"</pre>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>Como tirar espaços duplos no Word <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>No Word, utilize Localizar e Substituir trocando dois espaços por um até zerar as ocorrências ou limpe o texto antes de colar.</p>
+  </section>
+  <section>
+    <h2>Como corrigir espaços duplos no Google Docs <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>No Google Docs, ative expressões regulares em Localizar e substituir usando <code> &#123;2,&#125;</code> para substituir por um único espaço.</p>
+  </section>
+  <section>
+    <h2>Por que ARRUMAR (TRIM) no Excel comprime o interior <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ao contrário da maioria das linguagens de programação, a função ARRUMAR/TRIM do Excel limpa bordas e ainda comprime espaços múltiplos internos para um só, exceto U+00A0.</p>
+  </section>
+  <section>
+    <h2>Antes e depois ao colar de PDF <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Colunas justificadas em PDF costumam gerar grandes buracos ao copiar; uma única limpeza restaura a leitura fluida.</p>
+  </section>
+  <section>
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Lembre que um espaço solto na margem esquerda ou direita não é apagado por completo aqui; apare as bordas separadamente se precisar.</p>
+  </section>
+  <section>
+    <h2>Comparação com outras ferramentas de espaços <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Esta ferramenta limpa vãos internos, aparar limpa bordas e normalizar converte também quebras de linha e espaços Unicode especiais.</p>
+  </section>
+</GuideLayout>

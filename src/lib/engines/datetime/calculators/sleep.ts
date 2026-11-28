@@ -6,6 +6,11 @@ import type { DateTimeTool } from '../types';
 import { successResult, card, validationError } from '@lib/results/index';
 import type { ResultCard } from '@lib/results/types';
 import { assumption, decisions, insight, toolDecision } from '../story';
+import { readClientI18n } from '@lib/i18n/client';
+
+function tpl(s: string, vars: Record<string, string | number>): string {
+  return s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : `{${k}}`));
+}
 
 const CYCLES = [6, 5, 4, 3] as const;
 
@@ -40,11 +45,19 @@ export function formatClock(mins: number): string {
 }
 
 function whole(input: Record<string, number | string>, key: string, label: string, min: number, max: number): number | string {
+  const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
+  const vLabel = String(ei[`vLabel_${key}`] ?? label);
   const raw = input[key];
-  if (raw === undefined || raw === '' || raw === null) return `Enter ${label}.`;
+  if (raw === undefined || raw === '' || raw === null) {
+    return ei.errEnterTpl ? tpl(ei.errEnterTpl, { label: vLabel }) : `Enter ${vLabel}.`;
+  }
   const n = typeof raw === 'number' ? raw : Number(String(raw).trim());
-  if (!Number.isFinite(n) || !Number.isInteger(n)) return `${label} should be a whole number.`;
-  if (n < min || n > max) return `${label} should be between ${min} and ${max}.`;
+  if (!Number.isFinite(n) || !Number.isInteger(n)) {
+    return ei.errWholeTpl ? tpl(ei.errWholeTpl, { label: vLabel }) : `${vLabel} should be a whole number.`;
+  }
+  if (n < min || n > max) {
+    return ei.errRangeTpl ? tpl(ei.errRangeTpl, { label: vLabel, min, max }) : `${vLabel} should be between ${min} and ${max}.`;
+  }
   return n;
 }
 
@@ -99,9 +112,10 @@ export const sleepCalculator: DateTimeTool = {
   ],
 
   calculate(input) {
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     const direction = String(input.direction ?? 'wake') === 'sleep' ? 'sleep' : 'wake';
     const clock = parseClock(String(input.time ?? ''));
-    if (clock == null) return validationError('Enter a clock time like 7:00 am, 07:00, or 19:00.');
+    if (clock == null) return validationError(ei.errBadClock ?? 'Enter a clock time like 7:00 am, 07:00, or 19:00.');
     const latency = whole(input, 'latency', 'Minutes to fall asleep', 0, 180);
     if (typeof latency === 'string') return validationError(latency);
     const cycle = whole(input, 'cycle', 'Cycle length', 60, 120);
@@ -111,31 +125,31 @@ export const sleepCalculator: DateTimeTool = {
     const recommended = times.find((t) => t.n === 5)!;
     const waking = direction === 'wake';
 
-    const hero = card('recommended', waking ? 'Go to bed' : 'Wake up', formatClock(recommended.at), {
+    const hero = card('recommended', waking ? (ei.heroWake ?? 'Go to bed') : (ei.heroSleep ?? 'Wake up'), formatClock(recommended.at), {
       raw: recommended.at,
       emphasis: 'hero',
       note: latency === 0
-        ? '5 cycles. This list assumes you fall asleep the moment you lie down.'
-        : `5 cycles, after ${latency} minutes to fall asleep.`,
+        ? (ei.heroInstant ?? '5 cycles. This list assumes you fall asleep the moment you lie down.')
+        : (ei.heroLatencyTpl ? tpl(ei.heroLatencyTpl, { latency }) : `5 cycles, after ${latency} minutes to fall asleep.`),
     });
 
     const metrics: ResultCard[] = times.map((t) => card(
       `cycle-${t.n}`,
-      `${t.n} cycles`,
+      ei.cycleCardTpl ? tpl(ei.cycleCardTpl, { n: t.n }) : `${t.n} cycles`,
       formatClock(t.at),
-      { raw: t.at, note: `${t.n} × ${cycle} min asleep` },
+      { raw: t.at, note: ei.cycleNoteTpl ? tpl(ei.cycleNoteTpl, { n: t.n, cycle }) : `${t.n} × ${cycle} min asleep` },
     ));
 
     const insights = [
       insight(
         waking
-          ? `Wake at ${formatClock(clock)}. Each bedtime is ${latency} minutes to fall asleep, then 3 to 6 cycles of ${cycle} minutes.`
-          : `Into bed at ${formatClock(clock)}. Each wake time is ${latency} minutes to fall asleep, then 3 to 6 cycles of ${cycle} minutes.`,
+          ? (ei.insWakeTpl ? tpl(ei.insWakeTpl, { time: formatClock(clock), latency, cycle }) : `Wake at ${formatClock(clock)}. Each bedtime is ${latency} minutes to fall asleep, then 3 to 6 cycles of ${cycle} minutes.`)
+          : (ei.insSleepTpl ? tpl(ei.insSleepTpl, { time: formatClock(clock), latency, cycle }) : `Into bed at ${formatClock(clock)}. Each wake time is ${latency} minutes to fall asleep, then 3 to 6 cycles of ${cycle} minutes.`),
       ),
     ];
     if (latency === 0) {
       insights.push(insight(
-        'These times assume instant sleep. Add the minutes it usually takes to fall asleep, or the alarm lands in the middle of a cycle.',
+        ei.insInstant ?? 'These times assume instant sleep. Add the minutes it usually takes to fall asleep, or the alarm lands in the middle of a cycle.',
         'caution',
       ));
     }
@@ -145,13 +159,16 @@ export const sleepCalculator: DateTimeTool = {
       metrics,
       insights,
       assumptions: [
-        assumption('Cycle length', `${cycle} minutes`),
-        assumption('Time to fall asleep', latency === 0 ? 'none (instant sleep)' : `${latency} minutes`),
+        assumption(ei.asmCycle ?? 'Cycle length', ei.minTpl ? tpl(ei.minTpl, { n: cycle }) : `${cycle} minutes`),
+        assumption(ei.asmLatency ?? 'Time to fall asleep', latency === 0 ? (ei.asmInstant ?? 'none (instant sleep)') : (ei.minTpl ? tpl(ei.minTpl, { n: latency }) : `${latency} minutes`)),
       ],
-      decisions: decisions([toolDecision('Count the days between two dates', 'date-difference-calculator')]),
-      explanation:
-        `A cycle here is ${cycle} minutes of sleep, and the ${latency} minutes before sleep starts are not part of a cycle. `
-        + `The four times are 6, 5, 4, and 3 whole cycles. Waking at the end of a cycle is the aim, not a medical prescription.`,
+      decisions: decisions([toolDecision('Count the days between two dates', 'date-difference-calculator')]).map((d) =>
+        d.tool?.slug === 'date-difference-calculator' && ei.decDateDiff ? { ...d, label: ei.decDateDiff } : d,
+      ),
+      explanation: ei.explanationTpl
+        ? tpl(ei.explanationTpl, { cycle, latency })
+        : (`A cycle here is ${cycle} minutes of sleep, and the ${latency} minutes before sleep starts are not part of a cycle. `
+          + `The four times are 6, 5, 4, and 3 whole cycles. Waking at the end of a cycle is the aim, not a medical prescription.`),
     });
   },
 };

@@ -1,5 +1,10 @@
 import type { EncodingTool, EncodingMode } from './types';
 import type { DetectResult, MetaItem, RecoveryOffer, ValidationDetail } from '../transform/types';
+import { readClientI18n } from '@lib/i18n/client';
+
+function tpl(s: string, vars: Record<string, string | number>): string {
+  return s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : `{${k}}`));
+}
 
 // Roman numerals, both directions. Standard (subtractive) notation covers 1 to 3999: there is no
 // agreed ASCII spelling for 4000 and above, since it needs the vinculum overbar, so the range is a
@@ -108,28 +113,38 @@ export const roman: EncodingTool = {
   },
 
   detect(input: string): DetectResult {
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     const s = input.trim();
     if (!s) return { mode: 'encode', confidence: 'low' };
-    if (/^-?\d+$/.test(s)) return { mode: 'encode', confidence: 'high', label: 'Number' };
-    if (/^[IVXLCDMivxlcdm\s]+$/.test(s)) return { mode: 'decode', confidence: 'high', label: 'Roman numeral' };
+    if (/^-?\d+$/.test(s)) return { mode: 'encode', confidence: 'high', label: ei.detNumber ?? 'Number' };
+    if (/^[IVXLCDMivxlcdm\s]+$/.test(s)) return { mode: 'decode', confidence: 'high', label: ei.detRoman ?? 'Roman numeral' };
     return { mode: 'encode', confidence: 'low' };
   },
 
   validate(input: string, mode: EncodingMode): ValidationDetail {
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     const s = input.trim();
     if (!s) return { ok: true };
     if (mode === 'encode') {
       const n = parseArabic(s);
-      if (n === null) return { ok: false, severity: 'error', message: 'Enter a whole number, digits only.' };
+      if (n === null) return { ok: false, severity: 'error', message: ei.errWhole ?? 'Enter a whole number, digits only.' };
       if (n < MIN_ROMAN) {
         return {
           ok: false,
           severity: 'error',
-          message: n === 0 ? 'Rome had no numeral for zero. The smallest is I.' : 'Roman numerals have no sign, so negatives cannot be written.',
+          message: n === 0
+            ? (ei.errZero ?? 'Rome had no numeral for zero. The smallest is I.')
+            : (ei.errNegative ?? 'Roman numerals have no sign, so negatives cannot be written.'),
         };
       }
       if (n > MAX_ROMAN) {
-        return { ok: false, severity: 'error', message: `${n} needs an overbar to write, so plain text stops at ${MAX_ROMAN} (MMMCMXCIX).` };
+        return {
+          ok: false,
+          severity: 'error',
+          message: ei.errOverbarTpl
+            ? tpl(ei.errOverbarTpl, { n, max: MAX_ROMAN })
+            : `${n} needs an overbar to write, so plain text stops at ${MAX_ROMAN} (MMMCMXCIX).`,
+        };
       }
       return { ok: true };
     }
@@ -139,25 +154,28 @@ export const roman: EncodingTool = {
       return {
         ok: false,
         severity: 'error',
-        message: `"${cleaned[bad]}" is not a Roman letter. Only I, V, X, L, C, D and M are.`,
+        message: ei.errBadRomanTpl
+          ? tpl(ei.errBadRomanTpl, { ch: cleaned[bad] })
+          : `"${cleaned[bad]}" is not a Roman letter. Only I, V, X, L, C, D and M are.`,
         position: bad,
       };
     }
     if (canonicalise(cleaned)) {
-      return { ok: true, severity: 'warning', message: 'Readable, but not the standard spelling.' };
+      return { ok: true, severity: 'warning', message: ei.warnNonStd ?? 'Readable, but not the standard spelling.' };
     }
     return { ok: true };
   },
 
   meta(input: string, output: string, mode: EncodingMode): MetaItem[] {
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     const numeral = mode === 'encode' ? output : input.trim().toUpperCase().replace(/\s+/g, '');
     const value = mode === 'encode' ? parseArabic(input) : Number(output);
     const rows: MetaItem[] = [];
-    if (value !== null && Number.isFinite(value)) rows.push({ label: 'Value', value: value.toLocaleString('en-US') });
-    if (numeral) rows.push({ label: 'Letters', value: String(numeral.length) });
+    if (value !== null && Number.isFinite(value)) rows.push({ label: ei.metaValue ?? 'Value', value: value.toLocaleString('en-US') });
+    if (numeral) rows.push({ label: ei.metaLetters ?? 'Letters', value: String(numeral.length) });
     if (numeral && /^[IVXLCDM]+$/.test(numeral)) {
       const subtractive = (numeral.match(/IV|IX|XL|XC|CD|CM/g) ?? []).length;
-      rows.push({ label: 'Subtractive pairs', value: String(subtractive) });
+      rows.push({ label: ei.metaSubtractive ?? 'Subtractive pairs', value: String(subtractive) });
     }
     return rows;
   },
@@ -172,8 +190,11 @@ export const roman: EncodingTool = {
     if (mode !== 'decode') return null;
     const found = canonicalise(input);
     if (!found) return null;
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     return {
-      label: `Rewrite as ${found.canonical}, the standard spelling of ${found.value}`,
+      label: ei.recCanonicalTpl
+        ? tpl(ei.recCanonicalTpl, { canonical: found.canonical, value: found.value })
+        : `Rewrite as ${found.canonical}, the standard spelling of ${found.value}`,
       text: found.canonical,
       mode: 'decode',
     };

@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section>
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>En base 2 chaque rang vaut une puissance de 2 (1, 2, 4, 8...). Cet outil convertit sans arrondi jusqu’à 512 bits et affiche hexadécimal, octal et nombre de bits.</p>
+    <a class="cta-link" href={toolHref}>Ouvrir Convertisseur binaire &rarr;</a>
+  </section>
+  <section>
+    <h2>Qu’est-ce que la base 2 ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Système à deux chiffres (0 et 1) sur lequel reposent circuits logiques, registres et masques de droits.</p>
+  </section>
+  <section>
+    <h2>Comment fonctionne la conversion ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Par divisions successives par 2 vers le binaire et somme pondérée vers le décimal en entiers exacts BigInt.</p>
+  </section>
+  <section>
+    <h2>Pourquoi utiliser l’hexadécimal plutôt que le binaire ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Chaque symbole hexadécimal condense quatre bits exacts, rendant adresses mémoire et couleurs faciles à relire.</p>
+  </section>
+  <section>
+    <h2>Largeur en bits et zéros initiaux <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Connaître le nombre de bits permet de compléter jusqu’à la taille d’octet ou de registre voulue (8, 16, 32 bits).</p>
+  </section>
+  <section>
+    <h2>Nombres binaires vs texte binaire <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Pour convertir des caractères et phrases en bits utilisez le <a href={toolPathBySlug('binary-text-converter')}>convertisseur texte vers binaire</a>.</p>
+  </section>
+  <section>
+    <h2>Pourquoi mon collage binaire devait-il être nettoyé ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Les littéraux techniques comportent souvent <code>0b</code>, des espaces ou des tirets bas. Nettoyez-les d’un clic ou passez au <a href={toolPathBySlug('hex-encoder-decoder')}>convertisseur hexadécimal</a>.</p>
+  </section>
+</GuideLayout>

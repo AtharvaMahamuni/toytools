@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>दिनांक, समय और दो टाइमज़ोन चुनें: टूल उस तारीख़ के वास्तविक IANA नियमों (DST सहित) से लक्ष्य समय, UTC और तारीख़ बदलाव तुरंत बताता है।</p>
+    <a class="cta-link" href={toolHref}>टाइमज़ोन कन्वर्टर खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>टाइमज़ोन रूपांतरण कैसे काम करता है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>मूल समय को उस दिन के सटीक ऑफ़सेट से सार्वभौमिक UTC क्षण में बदलकर लक्ष्य क्षेत्र के ऑफ़सेट में अनुवाद किया जाता है।</p>
+  </section>
+  <section>
+    <h2>उदाहरण <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>जुलाई में न्यूयॉर्क (-04:00) के सुबह 09:00 बजे टोक्यो (+09:00) में उसी दिन के रात 22:00 बजे (13 घंटे आगे) होते हैं।</p>
+  </section>
+  <section>
+    <h2>UTC ऑफ़सेट बनाम डेलाइट सेविंग <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>अमेरिका, यूरोप और अन्य देश अलग तारीखों पर घड़ी बदलते हैं या बिल्कुल नहीं बदलते (जैसे भारत IST +05:30), इसलिए अंतर मौसम अनुसार बदलता है।</p>
+  </section>
+  <section>
+    <h2>सामान्य गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="साल भर एक समान अंतर मान लेना">
+      <p>हमेशा वास्तविक मीटिंग तिथि भरकर अंतर जांचें, न कि अंदाज़े से।</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="कैलेंडर की तारीख़ अनदेखी करना">
+      <p>अंतरराष्ट्रीय कॉल में समय के साथ "अगला दिन" या "पिछला दिन" सूचना अवश्य देखें।</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="सब कुछ स्थानीय रूप से चलता है">
+      <p>आपकी यात्रा व मीटिंग योजनाएं आपके ब्राउज़र से बाहर नहीं जातीं।</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

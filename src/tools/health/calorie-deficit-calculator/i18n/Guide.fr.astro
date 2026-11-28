@@ -1,0 +1,49 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section>
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Un déficit de 500 à 550 kcal/jour permet de perdre environ 0,5 kg par semaine tout en respectant votre métabolisme basal (BMR) comme plancher de sécurité.</p>
+    <a class="cta-link" href={toolHref}>Ouvrir Calculateur de déficit calorique &rarr;</a>
+  </section>
+  <section>
+    <h2>Comment fonctionne un déficit calorique <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Lorsque vos apports restent inférieurs à votre dépense totale (TDEE), l’organisme puise environ 7 700 kcal par kilogramme de graisse mobilisé.</p>
+  </section>
+  <section>
+    <h2>Choisir son rythme de perte <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Viser 0,5 à 1 % du poids corporel par semaine maximise la perte grasse en épargnant les muscles.</p>
+  </section>
+  <section>
+    <h2>Pourquoi la cible évolue au fil des semaines <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="key-idea" heading="Réajustez lorsque votre poids baisse">
+      <p>Chaque baisse de 4 à 5 kg réduit votre dépense au repos ; mettez vos chiffres à jour pour éviter la stagnation.</p>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>Exemples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Avec un maintien à 2 400 kcal, consommer 1 850 kcal génère un écart de 550 kcal/jour, soit près de 0,5 kg par semaine.</p>
+  </section>
+  <section>
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Choisir la baisse la plus agressive">
+      <p>Descendre sous votre BMR fatigue l’organisme et favorise la reprise.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Se fier à une seule pesée">
+      <p>L’eau corporelle fluctue au quotidien : appuyez-vous sur la moyenne hebdomadaire.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

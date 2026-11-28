@@ -1,0 +1,51 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Un conversor de CSV a JSON transforma una tabla plana con encabezados en un array JSON de objetos donde cada fila pasa a ser un registro estructurado listo para APIs o bases de datos.</p>
+    <a class="cta-link" href={toolHref}>Abrir Conversor CSV a JSON &rarr;</a>
+  </section>
+  <section>
+    <h2>¿Qué hace la conversión de CSV a JSON? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Asigna cada columna de la primera línea como clave del objeto JSON, convierte los datos fila por fila y aplica reglas RFC 4180 para respetar comas o saltos de línea entrecomillados.</p>
+  </section>
+  <section>
+    <h2>Cómo trata los datos y los tipos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Detecta números, booleanos y valores nulos mientras protege automáticamente identificadores con ceros iniciales como códigos postales o teléfonos manteniéndolos como texto.</p>
+  </section>
+  <section>
+    <h2>Cuándo convertir CSV a JSON <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Al importar listados exportados desde Excel hacia aplicaciones JavaScript, generar fixtures de prueba o alimentar endpoints REST que exigen objetos tipados.</p>
+  </section>
+  <section>
+    <h2>CSV frente a JSON: cuál elegir <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>CSV destaca por su ligereza para tablas planas en hojas de cálculo; JSON es el estándar cuando necesitas jerarquías, booleanos reales e integración directa con código.</p>
+  </section>
+  <section>
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Omitir la línea de encabezados consume la primera fila como claves, y elegir un delimitador equivocado frente a archivos europeos con punto y coma agrupa todas las columnas en una.</p>
+  </section>
+  <section>
+    <h2>Herramientas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-to-csv-converter', 'es')}>Conversor de JSON a CSV</a>: vuelve de objetos JSON a tabla plana.</li>
+      <li><a href={toolPathBySlug('json-formatter', 'es')}>Formateador JSON</a>: indenta e inspecciona el JSON obtenido.</li>
+      <li><a href={toolPathBySlug('json-validator', 'es')}>Validador JSON</a>: comprueba la sintaxis antes de importar.</li>
+    </ul>
+  </section>
+</GuideLayout>

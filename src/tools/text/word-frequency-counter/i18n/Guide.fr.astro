@@ -1,0 +1,43 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section>
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Cet analyseur dénombre chaque mot unique dans votre document et calcule son poids en pourcentage afin de révéler immédiatement mots-clés et répétitions involontaires.</p>
+    <a class="cta-link" href={toolHref}>Ouvrir Compteur de fréquence de mots &rarr;</a>
+  </section>
+  <section>
+    <h2>Comment fonctionne le calcul <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Après retrait de la ponctuation périphérique et mise en minuscules, les occurrences sont agrégées en préservant les mots composés par trait d’union ou apostrophe.</p>
+  </section>
+  <section>
+    <h2>Mots vides : pourquoi les petits mots dominent toujours <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Les articles et prépositions occupent mécaniquement les premières places d’un texte brut. Le filtre dédié permet d’aller droit aux notions réellement significatives.</p>
+  </section>
+  <section>
+    <h2>Fréquence des mots vs compteur global <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Pour le volume total et le temps de lecture utilisez le <a href={toolPathBySlug('word-counter', 'fr')}>compteur de mots</a> ; la fréquence complète cette vue par le détail terme par terme.</p>
+  </section>
+  <section>
+    <h2>Usages courants <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Affiner le style d’un article, auditer le champ lexical d’une page web ou résumer les remarques récurrentes d’un questionnaire client.</p>
+  </section>
+  <section>
+    <h2>Erreurs d’interprétation fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Appuyez-vous sur le pourcentage plutôt que sur le chiffre brut dès que vous comparez deux textes de longueurs différentes.</p>
+  </section>
+</GuideLayout>

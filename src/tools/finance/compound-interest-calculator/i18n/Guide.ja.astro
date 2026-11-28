@@ -1,0 +1,33 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>概要 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>複利とは、元本だけでなく過去の利息も元本に組み入れて再投資する計算方法です。運用期間が長いほど増加曲線が急になり、毎月の定額積立を組み合わせることで資産形成の速度が大きく高まります。</p>
+    <a href={toolHref} class="cta-link">複利計算シミュレーターを使う →</a>
+  </section>
+  <section id="frequency">
+    <h2>複利周期と積立の効果 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>10,000を年利7%で20年運用すると、年1回複利は約38,697、毎月複利は約40,387になります。頻度よりも「年利」「運用期間」「継続積立」の3点が結果を大きく左右します。</p>
+  </section>
+  <section id="formula">
+    <h2>計算式と注意点 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>FV = P (1 + r/n)^(n · t)</strong></p>
+    <ReferenceBlock type="common-mistake" heading="インフレと価格変動の見落とし">
+      <p>計算式は一定利回りを仮定しますが、実際の投資信託や株式は変動し、インフレで将来の購買力も目減りします。保守的な年利で試算するのが安全です。</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

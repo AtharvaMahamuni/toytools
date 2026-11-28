@@ -1,38 +1,57 @@
 ---
 import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
 import { config } from './config';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { uiStr } from '@lib/i18n/widget-utils';
+
+interface Props { lang?: LocaleCode; pack?: LocalizedToolPack | null; }
+const { lang = 'en', pack = null } = Astro.props;
+const statsMap = (pack?.ui?.stats && typeof pack.ui.stats === 'object') ? (pack.ui.stats as Record<string, string>) : null;
+const emptyMessage = uiStr(pack, 'emptyMessage', 'Paste or type text to count word frequency.');
+const sampleText = uiStr(pack, 'sampleText', 'The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun.');
+const heading = uiStr(pack, 'heading', 'Word Frequency');
+const hideCommon = uiStr(pack, 'hideCommon', 'Hide common words');
+const ignoreNumbers = uiStr(pack, 'ignoreNumbers', 'Ignore numbers');
+const byFreqLabel = uiStr(pack, 'byFrequency', 'By frequency');
+const alphaLabel = uiStr(pack, 'alphabetical', 'Alphabetical');
+const listAria = uiStr(pack, 'listAria', 'Words by frequency');
+const noWordsMsg = uiStr(pack, 'noWords', 'No words found.');
+const topWordsTpl = uiStr(pack, 'topWordsTpl', 'Showing the top {limit} of {total} distinct words.');
 ---
 
 <TextMetricWidget
   slug="word-frequency-counter"
   toolGroup={config.toolGroup}
-  emptyMessage="Paste or type text to count word frequency."
-  sampleText="The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun."
+  emptyMessage={emptyMessage}
+  sampleText={sampleText}
+  lang={lang}
   stats={[
-    { metric: 'uniqueWords', label: 'Unique Words', formatter: 'integer' },
-    { metric: 'words',       label: 'Total Words',  formatter: 'integer' },
-    { metric: 'sentences',   label: 'Sentences',    formatter: 'integer' },
-    { metric: 'averageWordLength', label: 'Avg Word Length', formatter: 'decimal' },
+    { metric: 'uniqueWords', label: statsMap?.uniqueWords ?? 'Unique Words', formatter: 'integer' },
+    { metric: 'words',       label: statsMap?.words ?? 'Total Words',  formatter: 'integer' },
+    { metric: 'sentences',   label: statsMap?.sentences ?? 'Sentences',    formatter: 'integer' },
+    { metric: 'averageWordLength', label: statsMap?.averageWordLength ?? 'Avg Word Length', formatter: 'decimal' },
   ]}
 >
-  <section class="wf-section" id="wf-section" hidden data-url-state data-craft={config.craft?.id}>
+  <section class="wf-section" id="wf-section" hidden data-url-state data-craft={config.craft?.id}
+    data-by-freq={byFreqLabel} data-alpha={alphaLabel} data-no-words={noWordsMsg} data-top-tpl={topWordsTpl}>
     <div class="wf-header">
-      <h2 class="wf-heading">Word Frequency</h2>
+      <h2 class="wf-heading">{heading}</h2>
       <div class="wf-controls">
         <label class="wf-toggle-label">
           <input type="checkbox" id="wf-stop-filter" />
-          Hide common words
+          {hideCommon}
         </label>
         <label class="wf-toggle-label">
           <input type="checkbox" id="wf-ignore-numbers" />
-          Ignore numbers
+          {ignoreNumbers}
         </label>
         <button class="wf-sort-btn" id="wf-sort-btn" data-sort="freq" aria-pressed="true">
-          By frequency
+          {byFreqLabel}
         </button>
       </div>
     </div>
-    <ol class="wf-list" id="wf-list" aria-label="Words by frequency"></ol>
+    <ol class="wf-list" id="wf-list" aria-label={listAria}></ol>
     <p class="wf-more" id="wf-more" hidden></p>
   </section>
 </TextMetricWidget>
@@ -59,9 +78,13 @@ import { config } from './config';
   if (q.common === 'hide') stopFilter.checked = true;
   else if (q.common === 'show') stopFilter.checked = false;
   ignoreNumbers.checked = q.numbers === 'ignore';
+  var byFreqText = section.getAttribute('data-by-freq') || 'By frequency';
+  var alphaText = section.getAttribute('data-alpha') || 'Alphabetical';
+  var noWordsText = section.getAttribute('data-no-words') || 'No words found.';
+  var topTpl = section.getAttribute('data-top-tpl') || 'Showing the top {limit} of {total} distinct words.';
   if (q.sort === 'alpha') {
     sortMode = 'alpha';
-    sortBtn.textContent = 'Alphabetical';
+    sortBtn.textContent = alphaText;
     sortBtn.dataset.sort = 'alpha';
   }
   var currentWords = [];
@@ -107,14 +130,14 @@ import { config } from './config';
         '<span class="wf-share">' + sharePct + '%</span>' +
         '</li>';
     });
-    list.innerHTML = html || '<li class="wf-empty">No words found.</li>';
+    list.innerHTML = html || ('<li class="wf-empty">' + noWordsText + '</li>');
     // Word text set via textContent (never innerHTML) — the input is user-controlled.
     var wordEls = list.querySelectorAll('.wf-word');
     top.forEach(function (entry, i) { if (wordEls[i]) wordEls[i].textContent = entry[0]; });
 
     if (entries.length > LIMIT) {
       more.hidden = false;
-      more.textContent = 'Showing the top ' + LIMIT + ' of ' + entries.length + ' distinct words.';
+      more.textContent = topTpl.replace('{limit}', String(LIMIT)).replace('{total}', String(entries.length));
     } else {
       more.hidden = true;
     }
@@ -132,7 +155,7 @@ import { config } from './config';
   ignoreNumbers.addEventListener('change', build);
   sortBtn.addEventListener('click', function () {
     sortMode = sortMode === 'freq' ? 'alpha' : 'freq';
-    sortBtn.textContent = sortMode === 'freq' ? 'By frequency' : 'Alphabetical';
+    sortBtn.textContent = sortMode === 'freq' ? byFreqText : alphaText;
     sortBtn.dataset.sort = sortMode;
     build();
   });

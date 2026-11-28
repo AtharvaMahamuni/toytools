@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>L’inflation diminue ce qu’un même capital peut acheter au fil des décennies. Diviser le capital par (1 + taux)^années donne sa valeur réelle en monnaie d’aujourd’hui.</p>
+    <a href={toolHref} class="cta-link">Ouvrir la calculatrice d’inflation →</a>
+  </section>
+  <section id="formule">
+    <h2>Formule et rendement réel <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Valeur réelle = Montant / (1 + i)^t</strong></p>
+    <p>Comparez ce taux au simulateur <a href={toolPathBySlug('rule-of-72-calculator')}>Règle de 72</a> ou à la <a href={toolPathBySlug('compound-interest-calculator', 'fr')}>Calculatrice Intérêts Composés</a>.</p>
+  </section>
+  <section id="erreurs">
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Oublier l’indexation des objectifs lointains">
+      <p>Recalculez d’abord le coût futur d’un projet avant de fixer votre épargne mensuelle.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

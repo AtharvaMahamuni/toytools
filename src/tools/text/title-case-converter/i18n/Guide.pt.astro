@@ -1,0 +1,27 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Formate manchetes em segundos colocando inicial maiúscula em cada palavra. Para textos corridos use <a href={guidePathBySlug('sentence-case-converter')}>Sentence Case</a>.</p>
+    <a href={toolHref} class="cta-link">Abrir Conversor Title Case →</a>
+  </section>
+  <section id="regras">
+    <h2>Preposições curtas e palavras hifenizadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Estilos editoriais em inglês mantêm artigos e preposições curtas minúsculas no meio do título; revise-as rapidamente após converter.</p>
+  </section>
+</GuideLayout>

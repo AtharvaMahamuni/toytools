@@ -1,0 +1,51 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section>
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Um conversor de JSON para CSV transforma um array de objetos em uma tabela CSV, usando as chaves como títulos de coluna e cada item como linha.</p>
+    <a class="cta-link" href={toolHref}>Abrir Conversor JSON para CSV &rarr;</a>
+  </section>
+  <section>
+    <h2>O que faz a conversão de JSON para CSV? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Extrai todas as chaves únicas do array, gera a linha de cabeçalho e protege vírgulas e quebras de linha com aspas padrão RFC.</p>
+  </section>
+  <section>
+    <h2>Como o conversor lida com campos opcionais <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Objetos com chaves extras não quebram o alinhamento: as demais linhas recebem células em branco na coluna correspondente.</p>
+  </section>
+  <section>
+    <h2>Quando converter JSON para CSV <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ótimo para entregar dados de API para análise no Excel ou realizar cargas em sistemas que importam apenas CSV.</p>
+  </section>
+  <section>
+    <h2>Por que o CSV não representa hierarquias diretamente <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Sendo um formato estritamente tabular, objetos internos precisam ser serializados dentro da própria célula.</p>
+  </section>
+  <section>
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Enviar um objeto isolado em vez de um array <code>[...]</code> é o erro mais frequente ao converter JSON.</p>
+  </section>
+  <section>
+    <h2>Ferramentas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-formatter', 'pt')}>Formatador JSON</a>: revise e indente seu JSON antes de exportar.</li>
+      <li><a href={toolPathBySlug('json-validator', 'pt')}>Validador JSON</a>: confira se não há erros de sintaxe.</li>
+      <li><a href={toolPathBySlug('json-minifier', 'pt')}>Minificador JSON</a>: reduza o tamanho do payload JSON.</li>
+    </ul>
+  </section>
+</GuideLayout>

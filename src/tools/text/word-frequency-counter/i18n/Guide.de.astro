@@ -1,0 +1,43 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ein Worthäufigkeits-Zähler erfasst jedes vorkommende Wort, ermittelt seine Gesamtzahl sowie den prozentualen Anteil und macht Wiederholungen auf einen Blick sichtbar.</p>
+    <a class="cta-link" href={toolHref}>Worthäufigkeits-Zähler öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>Wie die Auswertung funktioniert <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Nach der Vereinheitlichung auf Kleinschreibung trennt der Parser Satzzeichen an den Wortgrenzen sauber ab und belässt Bindestrich-Komposita sowie Dezimalzahlen zusammen.</p>
+  </section>
+  <section>
+    <h2>Stoppwörter: Warum Funktionswörter immer führen <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Kurze Strukturwörter dominieren jeden Text statistisch. Mit dem Filter blendest du Standard-Stoppwörter aus und erkennst direkt die eigentlichen Kernthemen.</p>
+  </section>
+  <section>
+    <h2>Worthäufigkeit vs. reiner Wortzähler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Für Gesamtumfang und Lesezeit nutzt man den <a href={toolPathBySlug('word-counter', 'de')}>Wortzähler</a>; die Häufigkeitsliste zeigt dagegen konkret, welche einzelnen Begriffe den Text prägen.</p>
+  </section>
+  <section>
+    <h2>Typische Anwendungsfälle <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ideal zum Entschlacken von Stilblüten in Artikeln, für präzise SEO-Content-Reviews oder zum Clustern wiederkehrender Themen in Rezensionen.</p>
+  </section>
+  <section>
+    <h2>Häufige Auswertungsfehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Vergleiche bei unterschiedlich langen Texten niemals nur rohe Trefferzahlen, sondern immer die Prozentangabe je Begriff.</p>
+  </section>
+</GuideLayout>

@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>O CAGR resume variações irregulares de vários anos em uma taxa anual composta constante, evitando distorções causadas por médias aritméticas.</p>
+    <a href={toolHref} class="cta-link">Abrir Calculadora CAGR →</a>
+  </section>
+  <section id="formula">
+    <h2>Fórmula e relação com ROI <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>CAGR = (V_final / V_inicial)^(1 / t) − 1</strong></p>
+    <p>Veja também o retorno acumulado na <a href={toolPathBySlug('roi-calculator', 'pt')}>Calculadora de ROI</a> ou o prazo de dobra na <a href={toolPathBySlug('rule-of-72-calculator')}>Regra dos 72</a>.</p>
+  </section>
+  <section id="erros">
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Aplicar CAGR com aportes no meio do período">
+      <p>Novos depósitos durante o intervalo inflam artificialmente o resultado; utilize apenas quando não há fluxos intermediários.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

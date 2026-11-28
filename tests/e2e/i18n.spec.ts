@@ -104,6 +104,44 @@ test.describe('i18n multilingual routes and switcher', () => {
     await page.goto('/de/tool/generate/password-generator/');
     await expect(page.locator('h1')).toContainText('Passwort-Generator');
 
+    // Phase 3 interactive workflows
+    await page.goto('/es/tool/finance/compound-interest-calculator/');
+    await expect(page.locator('main')).not.toContainText('{principal}');
+    await expect(page.locator('main')).not.toContainText('{rate}');
+    await page.fill('#compound-interest-calculator-f-principal', '10000');
+    await page.fill('#compound-interest-calculator-f-years', '10');
+    await expect(page.locator('#compound-interest-calculator-hero')).toBeVisible();
+
+    await page.goto('/hi/tool/finance/loan-calculator/');
+    await expect(page.locator('main')).not.toContainText('{years}');
+    await expect(page.locator('main')).not.toContainText('{total}');
+
+    await page.goto('/de/tool/text/slugify-text/');
+    await page.fill('#slugify-text-input', 'Hallo Welt Überschrift');
+    await expect(page.locator('#slugify-text-output')).toHaveValue('hallo-welt-uberschrift');
+
+    await page.goto('/fr/tool/text/word-frequency-counter/');
+    await page.fill('#word-frequency-counter-input', 'chat chien chat');
+    await expect(page.locator('#wf-list')).toContainText('chat');
+    await expect(page.locator('main')).not.toContainText('{limit}');
+    await expect(page.locator('main')).not.toContainText('{total}');
+
+    await page.goto('/pt/tool/number/roman-numeral-converter/');
+    await page.fill('#roman-numeral-converter-input', '1999');
+    await expect(page.locator('#roman-numeral-converter-output')).toHaveValue('MCMXCIX');
+
+    await page.goto('/ja/tool/health/calorie-deficit-calculator/');
+    await expect(page.locator('main')).not.toContainText('{maint}');
+    await expect(page.locator('main')).not.toContainText('{daily}');
+    await page.fill('#calorie-deficit-calculator-f-weight', '72');
+    await expect(page.locator('#calorie-deficit-calculator-hero')).toBeVisible();
+
+    await page.goto('/es/tool/datetime/sleep-cycle-calculator/');
+    await page.fill('#sleep-cycle-calculator-f-time', '07:00');
+    await expect(page.locator('#sleep-cycle-calculator-hero')).toBeVisible();
+    await expect(page.locator('main')).not.toContainText('{cycle}');
+    await expect(page.locator('main')).not.toContainText('{latency}');
+
     expect(errors).toEqual([]);
   });
 

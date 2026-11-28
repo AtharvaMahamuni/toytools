@@ -1,0 +1,52 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>概要 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>JSONからYAML変換ツールは、括弧とカンマで構成されたJSONデータを、スペース2文字のインデントで整えられた読みやすいYAML形式へ変換します。</p>
+    <a class="cta-link" href={toolHref}>JSONからYAML変換ツールを開く &rarr;</a>
+  </section>
+  <section>
+    <h2>JSONからYAMLへの変換ロジック <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>JSONのツリーを解析し、YAMLの予約語や数字文字列を自動でダブルクォート保護しながら正しい階層構造へシリアライズします。</p>
+  </section>
+  <section>
+    <h2>YAMLからJSONへの逆変換 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>APIリクエストへ渡す場合やJSON Schemaで検証したい場合には、YAMLからJSONへのツールで即座に厳格なJSON形式へ戻せます。</p>
+  </section>
+  <section>
+    <h2>JSONからYAML変換の活用シーン <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>KubernetesやDocker Compose、GitHub Actions、OpenAPI仕様書など人間が保守する設定ファイルを素早く用意するときに最適です。</p>
+  </section>
+  <section>
+    <h2>JSONとYAMLの使い分け <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>プログラム間の高速なデータ受け渡しにはJSON、人が直接編集したりコメントを書いたりする設定ファイルにはYAMLが向いています。</p>
+  </section>
+  <section>
+    <h2>よくある失敗 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>編集時に誤ってタブ文字を混入させたり、ZIPコード等の数字列から引用符を外してしまうことが代表的なトラブルです。</p>
+  </section>
+  <section>
+    <h2>関連ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-formatter', 'ja')}>JSON整形ツール</a>：変換前のJSONを見やすく整えます。</li>
+      <li><a href={toolPathBySlug('json-validator', 'ja')}>JSON構文チェッカー</a>：JSONの文法ミスを事前確認します。</li>
+      <li><a href={toolPathBySlug('json-to-csv-converter', 'ja')}>JSONからCSV変換</a>：表計算ソフト向けに出力します。</li>
+      <li><a href={toolPathBySlug('json-tree-viewer')}>JSONツリービューア</a>：階層構造を視覚的にたどれます。</li>
+    </ul>
+  </section>
+</GuideLayout>

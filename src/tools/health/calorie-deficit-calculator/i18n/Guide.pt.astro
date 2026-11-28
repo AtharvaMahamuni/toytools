@@ -1,0 +1,49 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section>
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Um déficit de 500 a 550 kcal diárias rende cerca de 0,5 kg de perda por semana. Mantenha sempre sua taxa metabólica basal (BMR) como limite mínimo seguro.</p>
+    <a class="cta-link" href={toolHref}>Abrir Calculadora de déficit calórico &rarr;</a>
+  </section>
+  <section>
+    <h2>Como funciona um déficit calórico <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Consumindo menos do que o gasto diário total (TDEE), o corpo utiliza cerca de 7.700 kcal de reserva energética por quilograma reduzido.</p>
+  </section>
+  <section>
+    <h2>Escolhendo a taxa de perda <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ritmos de 0,5% a 1% do peso corporal por semana equilibram resultados rápidos com proteção muscular.</p>
+  </section>
+  <section>
+    <h2>Por que o alvo muda durante o processo <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="key-idea" heading="Ajuste a meta conforme o peso cai">
+      <p>Corpos mais leves consomem menos energia em repouso; recalcule a cada 4 a 5 kg eliminados.</p>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>Exemplos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Com manutenção de 2.400 kcal, consumir 1.850 kcal gera déficit diário de 550 kcal (~0,5 kg/semana).</p>
+  </section>
+  <section>
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Escolher o corte mais radical">
+      <p>Cortar abaixo da BMR derruba rendimento e adesão; use metas sustentáveis.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Ler uma pesagem isolada como tendência">
+      <p>Flutuações hídricas diárias enganam; acompanhe sempre médias semanais.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

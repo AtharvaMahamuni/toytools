@@ -1,0 +1,62 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>¿Qué hace Eliminar espacios extra? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Sustituye cualquier sucesión de dos o más espacios normales o tabuladores por un único espacio sencillo. Así corriges textos desalineados sin perder ni un salto de línea ni alterar la puntuación.</p>
+    <a class="cta-link" href={toolHref}>Abrir Eliminar espacios extra &rarr;</a>
+  </section>
+  <section>
+    <h2>Por qué los espacios extra generan problemas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Rompen búsquedas literales, ensucian campos de formularios y desajustan fórmulas o comparaciones de texto. Para aplanar también los saltos de línea revisa <a href={`${guidePathBySlug('remove-blank-lines')}#normalize-whitespace`}>normalizar espacios</a>.</p>
+  </section>
+  <section>
+    <h2>Cómo funciona <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>El procesador recorre la cadena agrupando únicamente espacios horizontales y tabulaciones consecutivas en un solo carácter de espacio, respetando intactos los saltos de párrafo.</p>
+  </section>
+  <section>
+    <h2>Ejemplos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock>
+      <pre>"Hola    mundo   nuevo"  -> "Hola mundo nuevo"
+"Uno		dos"            -> "Uno dos"</pre>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>Cómo quitar dobles espacios en Word <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>En Word puedes usar Buscar y reemplazar sustituyendo dos espacios por uno repetidamente hasta llegar a cero coincidencias, o limpiar el párrafo aquí antes de pegarlo.</p>
+  </section>
+  <section>
+    <h2>Cómo corregir espacios dobles en Google Docs <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Google Docs permite buscar con expresión regular <code> &#123;2,&#125;</code> y reemplazar por un único espacio desde Buscar y reemplazar (Ctrl+H).</p>
+  </section>
+  <section>
+    <h2>Por qué ESPACIOS / TRIM en Excel también comprime el interior <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>A diferencia de la mayoría de lenguajes de programación, la función TRIM (ESPACIOS) de Excel elimina bordes y además reduce los espacios internos entre palabras a uno solo, aunque deja intactos los espacios duros (CHAR 160).</p>
+  </section>
+  <section>
+    <h2>Antes y después: pegar desde un PDF <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Al copiar columnas justificadas desde un PDF aparecen huecos amplios entre palabras. Un solo paso devuelve el texto limpio listo para editar.</p>
+  </section>
+  <section>
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Recuerda que un espacio al principio de una línea se reduce de varios a uno, pero no desaparece por completo; revisa el indicador de bordes si quieres recortar márgenes.</p>
+  </section>
+  <section>
+    <h2>Diferencias con otras utilidades de espaciado <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Esta utilidad actúa dentro de cada línea; recortar limpia los extremos y normalizar convierte además saltos de línea y espacios especiales Unicode.</p>
+  </section>
+</GuideLayout>

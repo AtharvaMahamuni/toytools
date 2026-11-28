@@ -1,0 +1,51 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>概要 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>JSONからCSV変換ツールは、JSONオブジェクト配列のプロパティ名を列ヘッダーに展開し、ExcelやGoogleスプレッドシートで扱いやすいCSV形式へ変換します。</p>
+    <a class="cta-link" href={toolHref}>JSONからCSV変換ツールを開く &rarr;</a>
+  </section>
+  <section>
+    <h2>変換で行われる処理 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>全オブジェクトから共通・固有キーを抽出し、RFC標準のクォート処理でカンマや引用符を保護しながら1行1レコードのCSVを組み立てます。</p>
+  </section>
+  <section>
+    <h2>キーが不揃いなJSON配列の扱い <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>一部の要素だけに任意フィールドが存在しても、全ヘッダーが生成され該当しない行は空白セルになるため列ズレが起きません。</p>
+  </section>
+  <section>
+    <h2>JSONからCSVへ変換する主な用途 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>APIレスポンスをビジネスメンバー向けExcel資料にしたり、データベース一括登録用ファイルを作成する場面で活躍します。</p>
+  </section>
+  <section>
+    <h2>CSVがネスト構造を直接持てない理由 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>CSVは2次元の行・列構造しか持たないため、階層構造を残したい場合は文字列化して1セルに格納する必要があります。</p>
+  </section>
+  <section>
+    <h2>よくあるエラー原因 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>配列 <code>[...]</code> ではなく単一のオブジェクト <code>&#123;...&#125;</code> を入力すると変換エラーとなります。</p>
+  </section>
+  <section>
+    <h2>関連ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-formatter', 'ja')}>JSON整形ツール</a>：変換前のJSON構造を見やすく整理します。</li>
+      <li><a href={toolPathBySlug('json-validator', 'ja')}>JSON構文チェッカー</a>：構文ミスを事前チェックします。</li>
+      <li><a href={toolPathBySlug('json-minifier', 'ja')}>JSON圧縮ツール</a>：不要な空白を削って軽量化します。</li>
+    </ul>
+  </section>
+</GuideLayout>

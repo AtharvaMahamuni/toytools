@@ -1,19 +1,25 @@
 ---
 import FinanceWidget from '@tools/_shared/FinanceWidget.astro';
 import { config } from './config';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { uiStr } from '@lib/i18n/widget-utils';
+
+interface Props { lang?: LocaleCode; pack?: LocalizedToolPack | null; }
+const { lang = 'en', pack = null } = Astro.props;
 ---
 
 <div class="bill-note" data-craft="bill-split-fair" role="note">
-  <p>If the total does not divide evenly, the last person takes the leftover paise so the shares still add up.</p>
-  <p>This is a dinner split. It is not a payment-fee tool, and it keeps no accounts. What you enter stays on your device.</p>
+  <p>{uiStr(pack, "billNote1", "If the total does not divide evenly, the last person takes the leftover paise so the shares still add up.")}</p>
+  <p>{uiStr(pack, "billNote2", "This is a dinner split. It is not a payment-fee tool, and it keeps no accounts. What you enter stays on your device.")}</p>
 </div>
 
 <FinanceWidget
   slug={config.slug}
   financeId="split-bill"
   config={config}
-  emptyText="Enter the bill, how many people, and an optional tip."
-  splitScreens
+  emptyText={uiStr(pack, "emptyText", "Enter the bill, how many people, and an optional tip.")}
+  splitScreens lang={lang} pack={pack}
 />
 
 <style>

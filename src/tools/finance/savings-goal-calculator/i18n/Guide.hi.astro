@@ -1,0 +1,33 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>यह कैलकुलेटर आपके लक्ष्य, मौजूदा बचत, अवधि और अपेक्षित रिटर्न दर के आधार पर बताता है कि आपको हर महीने कितना पैसा अलग रखना होगा।</p>
+    <a href={toolHref} class="cta-link">बचत लक्ष्य कैलकुलेटर खोलें →</a>
+  </section>
+  <section id="horizon">
+    <h2>अवधि और रिटर्न का असर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>समय बढ़ाने पर मासिक बचत की जरूरत काफी घट जाती है। <a href={toolPathBySlug('compound-interest-calculator', 'hi')}>चक्रवृद्धि ब्याज कैलकुलेटर</a> से इसकी पूरी वृद्धि भी देखें।</p>
+  </section>
+  <section id="mistakes">
+    <h2>आम गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="महंगाई के बिना लंबा लक्ष्य तय करना">
+      <p>कई साल बाद के लक्ष्य की सही राशि पहले <a href={toolPathBySlug('inflation-calculator', 'hi')}>महंगाई कैलकुलेटर</a> से जांच लें।</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

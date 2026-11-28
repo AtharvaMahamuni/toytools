@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>अपनी दैनिक कैलोरी को प्रत्येक पोषक तत्व के प्रतिशत से गुणा करें और प्रोटीन व कार्ब्स के लिए 4 से तथा फ़ैट के लिए 9 से भाग दें।</p>
+    <a class="cta-link" href={toolHref}>मैक्रो कैलकुलेटर खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>मैक्रोज़ वास्तव में क्या हैं <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>प्रोटीन, कार्बोहाइड्रेट और वसा भोजन से मिलने वाली ऊर्जा के तीन मुख्य स्रोत हैं।</p>
+  </section>
+  <section>
+    <h2>कैलोरी को ग्राम में बदलना <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>2,000 kcal वाले आहार में 35% प्रोटीन लेने पर 700 kcal यानी 175 ग्राम प्रोटीन प्रतिदिन बनता है।</p>
+  </section>
+  <section>
+    <h2>सही अनुपात चुनना <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>संतुलित, हाई-प्रोटीन, लो-कार्ब व कीटो विकल्पों की तुलना कर अपने भोजन के अनुकूल पैटर्न चुनें।</p>
+  </section>
+  <section>
+    <h2>मैक्रो कैलकुलेटर बनाम अन्य तरीके <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>लगातार कुल कैलोरी और पर्याप्त प्रोटीन पूरा करना किसी जटिल नियम से कहीं अधिक प्रभावी होता है।</p>
+  </section>
+  <section>
+    <h2>सामान्य गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>100% से कम या अधिक जोड़ वाले प्रतिशत चुनना या अचानक असंभव प्रतिबंध लगाना।</p>
+  </section>
+</GuideLayout>

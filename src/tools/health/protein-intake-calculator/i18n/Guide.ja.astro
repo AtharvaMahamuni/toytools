@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>要点まとめ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>活動的な人は体重1kgあたり1.2〜1.6g、筋トレ時は1.6〜2.2gを目安にし、1日の食事回数で均等に割ると効率よく活用できます。</p>
+    <a class="cta-link" href={toolHref}>タンパク質摂取量計算機を開く &rarr;</a>
+  </section>
+  <section>
+    <h2>タンパク質必要量の求め方 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>体重・運動目的から適正g/kgレンジを算出し、食事回数から1回あたりのグラム数まで落とし込みます。</p>
+  </section>
+  <section>
+    <h2>RDA（0.8 g/kg）は「最低ライン」であり最適値ではない <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>食事摂取基準の0.8 g/kgは非運動者の欠乏予防値であり、トレーニングやダイエット時の筋維持には不足しがちです。</p>
+  </section>
+  <section>
+    <h2>1日の食事に均等に分散させるメリット <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>朝・昼・晩・間食に約30〜40gずつ取り入れることで、日中の筋合成シグナルを安定させられます。</p>
+  </section>
+  <section>
+    <h2>計算例 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>体重70kgで筋トレ目的の場合、1日112〜154g（4食なら1食あたり約33g）が目安です。</p>
+  </section>
+  <section>
+    <h2>よくある失敗 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>朝食でほとんどタンパク質を摂らず夜にまとめ食いすることや、肥満気味の方が総体重のまま過大設定することです。</p>
+  </section>
+</GuideLayout>

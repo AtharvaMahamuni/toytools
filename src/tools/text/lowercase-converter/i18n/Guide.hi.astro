@@ -1,0 +1,32 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>ईमेल पते, हैशटैग और तुलना से पहले टेक्स्ट को समान बनाने के लिए पूरे टेक्स्ट को तुरंत लोअरकेस में बदलें।</p>
+    <a href={toolHref} class="cta-link">लोअरकेस कन्वर्टर खोलें →</a>
+  </section>
+  <section id="usage">
+    <h2>लोअरकेस कब आवश्यक होता है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>डुप्लीकेट लाइनें हटाने या दो सूचियों की तुलना करने से पहले छोटे अक्षरों में बदलने से सही मिलान सुनिश्चित होता है।</p>
+  </section>
+  <section id="mistakes">
+    <h2>आम गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="जरूरी संक्षिप्त नामों का केस खो देना">
+      <p>API या किसी नाम के बड़े अक्षर हटने पर उन्हें अपने आप वापस नहीं लाया जा सकता, इसलिए मूल पाठ की प्रति सहेजकर रखें।</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

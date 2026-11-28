@@ -1,0 +1,33 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Resolver una meta de ahorro invierte la pregunta habitual: partes del objetivo y del plazo para hallar la cuota mensual exacta considerando tu saldo actual y una tasa de retorno prudente.</p>
+    <a href={toolHref} class="cta-link">Abrir Meta de Ahorro →</a>
+  </section>
+  <section id="plazo-y-formula">
+    <h2>Plazo, rentabilidad y fórmula <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Duplicar el plazo reduce mucho más de la mitad la cuota mensual necesaria cuando hay rendimientos compuestos, como puedes comprobar junto a la <a href={toolPathBySlug('compound-interest-calculator', 'es')}>Calculadora de Interés Compuesto</a>.</p>
+  </section>
+  <section id="errores">
+    <h2>Errores comunes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Asumir retornos altos a corto plazo">
+      <p>Para plazos menores a tres años prioriza liquidez y estabilidad; ajusta antes las metas largas con la <a href={toolPathBySlug('inflation-calculator', 'es')}>Calculadora de Inflación</a>.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

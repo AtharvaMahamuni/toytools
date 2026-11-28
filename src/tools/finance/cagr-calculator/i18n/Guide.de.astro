@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section id="kurzantwort">
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Der CAGR verdichtet schwankende Mehrjahresrenditen auf eine saubere konstante Jahreswachstumsrate und vermeidet damit die Überschätzung durch einfache Division.</p>
+    <a href={toolHref} class="cta-link">Zum CAGR-Rechner →</a>
+  </section>
+  <section id="formel">
+    <h2>Formel und Abgrenzung zu ROI <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>CAGR = (Endwert / Anfangswert)^(1 / t) − 1</strong></p>
+    <p>Ergänzend liefert der <a href={toolPathBySlug('roi-calculator', 'de')}>ROI-Rechner</a> die absolute Gesamtrendite, und die <a href={toolPathBySlug('rule-of-72-calculator')}>72er-Regel</a> überschlägt die Verdopplungszeit.</p>
+  </section>
+  <section id="fehler">
+    <h2>Typische Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="CAGR trotz Ein- oder Auszahlungen verwenden">
+      <p>Sobald laufende Zuflüsse dazwischenliegen, zählt die Formel eigene Einlagen fälschlich als Wachstum.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>ROI बताता है कि लागत की तुलना में कुल कितने प्रतिशत शुद्ध लाभ या हानि हुई। अवधि (वर्ष) जोड़ने पर वार्षिक रिटर्न भी मिलता है, जिससे अलग-अलग समय वाले निवेशों की सही तुलना संभव होती है।</p>
+    <a href={toolHref} class="cta-link">ROI कैलकुलेटर खोलें →</a>
+  </section>
+  <section id="formula">
+    <h2>सूत्र और वार्षिक तुलना <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>ROI% = (V − C) / C × 100</strong></p>
+    <p>प्रतिशत बदलाव का यही नियम हमारे <a href={guidePathBySlug('percentage-calculator', 'hi')}>प्रतिशत कैलकुलेटर गाइड</a> में समझाया गया है; अवधि t वर्ष होने पर वार्षिक दर ((V / C)^(1/t) − 1) × 100 से निकलती है।</p>
+  </section>
+  <section id="mistakes">
+    <h2>आम गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="अवधि और खर्चों को छोड़कर तुलना करना">
+      <p>खरीद-बिक्री शुल्क और टैक्स हटाए बिना ROI बढ़ा हुआ दिखता है। हमेशा वार्षिक रिटर्न के आधार पर तुलना करें।</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

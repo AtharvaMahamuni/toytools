@@ -1,0 +1,32 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>हर हिस्से को अलग से राउंड करने पर कुल जोड़ मूल बिल से कम या ज्यादा हो जाता है। पैसे (paise) के पूर्णांकों में गिनती करके बचे हुए पैसे अंतिम व्यक्ति में जोड़ने से हिसाब 100% सटीक बैठता है।</p>
+    <a href={toolHref} class="cta-link">बिल स्प्लिट खोलें →</a>
+  </section>
+  <section id="example">
+    <h2>उदाहरण और नियम <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>1000 रुपये के बिल पर 10% टिप (कुल 1100) को 3 लोगों में बाँटने पर 366.66, 366.66 और 366.68 बनते हैं। यह 2 से 30 लोगों और 0–30% टिप तक काम करता है।</p>
+  </section>
+  <section id="mistakes">
+    <h2>आम गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="हर व्यक्ति की रकम अलग राउंड कर देना">
+      <p>तीन हिस्सों को 366.67 मानने से जोड़ 1100.01 हो जाएगा। बचा हुआ 2 पैसे का अंतर एक व्यक्ति के हिस्से में रखने से हिसाब सटीक रहता है।</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

@@ -1,0 +1,37 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Größe, Hals- und Taillenumfang (plus Hüfte bei Frauen) genügen, um nach der US-Navy-Formel Körperfettanteil sowie Fett- und Magermasse zu schätzen.</p>
+    <a class="cta-link" href={toolHref}>Körperfettanteil-Rechner öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>Wie die Navy-Methode arbeitet <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Aus dem logarithmischen Verhältnis der Körperumfänge zur Körpergröße lässt sich auf das gespeicherte Fett schließen.</p>
+  </section>
+  <section>
+    <h2>Wo genau angesetzt wird <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Maßband locker waagerecht anlegen und normal ausatmen – konstante Bedingungen machen den Verlauf aussagekräftig.</p>
+  </section>
+  <section>
+    <h2>Körperfettanteil vs. BMI <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Sportliche Menschen zeigen oft einen hohen BMI trotz geringem Fettanteil; mit Gewichtsangabe siehst du beide Anteile getrennt.</p>
+  </section>
+  <section>
+    <h2>Häufige Messfehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Unterschiedliche Tageszeiten oder zu fest gezogenes Maßband verzerren Vergleiche.</p>
+  </section>
+</GuideLayout>

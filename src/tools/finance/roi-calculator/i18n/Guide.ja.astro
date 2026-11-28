@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>概要 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>ROI（投資利益率）は投入元本に対して何%の純利益が出たかを示す指標です。保有年数を添えて年換算リターン（CAGR）を算出することで、期間の異なる投資を公平に比較できます。</p>
+    <a href={toolHref} class="cta-link">ROI計算ツールを使う →</a>
+  </section>
+  <section id="formula">
+    <h2>計算式と年率換算 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>ROI% = (V − C) / C × 100</strong></p>
+    <p>変化率の基礎は <a href={guidePathBySlug('percentage-calculator', 'ja')}>パーセント計算ガイド</a> と共通で、保有年数 t を指定すると ((V / C)^(1/t) − 1) × 100 で年率化します。</p>
+  </section>
+  <section id="mistakes">
+    <h2>よくある失敗 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="保有期間と諸費用を無視する">
+      <p>手数料・税金・配当金を抜いた数字や期間無視のROIでは正確な評価ができません。年率換算値でインデックスなどと比較してください。</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

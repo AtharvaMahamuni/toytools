@@ -1,0 +1,27 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>El convertidor a Tipo Título pone en mayúscula la inicial de cada palabra de tus encabezados en segundos. Si buscas estilo editorial de cuerpo, consulta <a href={guidePathBySlug('sentence-case-converter')}>Sentence Case</a>.</p>
+    <a href={toolHref} class="cta-link">Abrir Tipo Título →</a>
+  </section>
+  <section id="reglas">
+    <h2>Palabras cortas y compuestos con guion <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>En inglés, guías como AP o Chicago dejan minúsculas palabras menores («of», «the», «in») en el interior del titular. La herramienta aplica la regla mecánica base y señala cuántas palabras menores conviene revisar.</p>
+  </section>
+</GuideLayout>

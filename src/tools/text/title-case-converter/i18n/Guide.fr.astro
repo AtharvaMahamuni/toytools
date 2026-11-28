@@ -1,0 +1,27 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Le convertisseur Title Case applique une majuscule au début de chaque mot pour uniformiser vos titres. Pour des phrases classiques, préférez la <a href={guidePathBySlug('sentence-case-converter')}>casse de phrase</a>.</p>
+    <a href={toolHref} class="cta-link">Ouvrir Casse Titre →</a>
+  </section>
+  <section id="regles">
+    <h2>Mots courts et traits d’union <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>En typographie anglaise (AP/Chicago), les articles et prépositions courts restent minuscules au milieu d’un titre; ajustez-les selon votre charte éditoriale.</p>
+  </section>
+</GuideLayout>

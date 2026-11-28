@@ -1,0 +1,43 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>शब्द आवृत्ति काउंटर आपके टेक्स्ट के हर अनोखे शब्द की गिनती और कुल प्रतिशत निकालकर तुरंत दिखाता है कि किन शब्दों का प्रयोग सबसे अधिक हुआ है।</p>
+    <a class="cta-link" href={toolHref}>शब्द आवृत्ति काउंटर खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>यह कैसे काम करता है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>किनारों के विराम चिह्न हटाकर और अक्षरों का केस एकसमान करके गिनती होती है, जबकि हाइफ़न वाले शब्द व दशमलव संख्याएं एक इकाई मानी जाती हैं।</p>
+  </section>
+  <section>
+    <h2>स्टॉप-वर्ड्स हमेशा शीर्ष पर क्यों रहते हैं <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>व्याकरण के सहायक शब्द हर वाक्य में बार-बार आते हैं। सामान्य शब्द छिपाने वाला फ़िल्टर चालू करने पर असली विषय वाले शब्द ऊपर आ जाते हैं।</p>
+  </section>
+  <section>
+    <h2>शब्द आवृत्ति बनाम कुल शब्द गिनती <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>कुल लंबाई और पढ़ने का समय जानने के लिए <a href={toolPathBySlug('word-counter', 'hi')}>वर्ड काउंटर</a> देखें; शब्द-दर-शब्द दोहराव देखने के लिए आवृत्ति विश्लेषण उपयोग करें।</p>
+  </section>
+  <section>
+    <h2>लोग इसका उपयोग किसलिए करते हैं <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>लेख संपादन में दोहराव कम करने, SEO कीवर्ड अनुपात जांचने और समीक्षाओं से मुख्य विषय निकालने के लिए यह बेहद उपयोगी है।</p>
+  </section>
+  <section>
+    <h2>सामान्य गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>छोटे और बड़े लेखों की तुलना करते समय केवल गिनती के बजाय हमेशा प्रतिशत कॉलम पर ध्यान दें।</p>
+  </section>
+</GuideLayout>

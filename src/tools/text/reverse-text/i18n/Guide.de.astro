@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Was bedeutet Text umkehren? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Beim Umkehren eines Textes wird die Zeichenfolge von hinten nach vorne neu angeordnet. Jeder Buchstabe und jedes Satzzeichen bleibt erhalten, lediglich die Leserichtung kehrt sich um.</p>
+    <a class="cta-link" href={toolHref}>Text umkehren öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>Wann Rückwärtstext praktisch ist <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Beliebt für verdeckte Antworten in Rätselheften, Palindrom-Prüfungen wie "Rentner" oder "Lagerregal" sowie zum schnellen Prüfen von Suffixen in langen Zeichenketten.</p>
+  </section>
+  <section>
+    <h2>So arbeitet das Tool <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Die Segmentierung berücksichtigt vollständige Schriftzeichen (Grapheme), weshalb zusammengesetzte Emojis und kombinierte Diakritika exakt als Einheit gedreht werden.</p>
+  </section>
+  <section>
+    <h2>Beispiele <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock>
+      <pre>hallo         -> ollah
+Rentner       -> rentneR
+a🚀b          -> b🚀a</pre>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>Zeichenumkehr vs. Wortreihenfolge <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Während eine Wortumkehr aus "guter Tag" noch "Tag guter" macht, erzeugt die Zeichenumkehr "gaT retug". Dieses Werkzeug dreht konsequent jedes einzelne Zeichen um.</p>
+  </section>
+  <section>
+    <h2>Häufige Stolperfallen <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Bei mehrzeiligen Eingaben landen untere Zeilen nach dem Spiegeln oben. Prüfe bei Listen das Ergebnis kurz oder verarbeite wichtige Zeilen einzeln.</p>
+  </section>
+</GuideLayout>

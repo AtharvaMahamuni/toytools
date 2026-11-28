@@ -1,0 +1,51 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ein YAML-zu-JSON-Konverter übersetzt eingerücktes YAML in striktes JSON, löst YAML-Anker auf und formatiert Zeitstempel als ISO-Strings für APIs und Schemaprüfungen.</p>
+    <a class="cta-link" href={toolHref}>YAML-zu-JSON-Konverter öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>Was bewirkt die YAML-zu-JSON-Konvertierung? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Sie überführt YAML-Mappings und Listen in normgerechtes RFC-8259-JSON aus geschweiften Objekten und Arrays.</p>
+  </section>
+  <section>
+    <h2>Wie werden YAML-Spezialfunktionen verarbeitet? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Anker (<code>&amp;</code>) und Aliase (<code>*</code>) werden komplett expandiert, während Kommentare entfallen und Datumswerte als ISO-Strings erhalten bleiben.</p>
+  </section>
+  <section>
+    <h2>Wann konvertiert man YAML nach JSON? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Für API-Payloads, JSON-Schema-Validierungen oder Auswertungen in Programmiersprachen ohne YAML-Parser.</p>
+  </section>
+  <section>
+    <h2>YAML vs. JSON: wann passt welches Format? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>YAML eignet sich für von Menschen gepflegte Konfigurationsdateien; JSON überzeugt beim Datenaustausch zwischen Diensten.</p>
+  </section>
+  <section>
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Tab-Zeichen bei der Einrückung oder die Erwartung, dass Kommentare ins JSON übernommen werden, sorgen am oftsten für Überraschungen.</p>
+  </section>
+  <section>
+    <h2>Verwandte Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-to-yaml-converter', 'de')}>JSON-zu-YAML-Konverter</a>: in umgekehrter Richtung zurück nach YAML.</li>
+      <li><a href={toolPathBySlug('json-formatter', 'de')}>JSON-Formatierer</a>: JSON-Ergebnis übersichtlich formatieren.</li>
+      <li><a href={toolPathBySlug('json-validator', 'de')}>JSON-Validator</a>: Gültigkeit des erzeugten JSON bestätigen.</li>
+    </ul>
+  </section>
+</GuideLayout>

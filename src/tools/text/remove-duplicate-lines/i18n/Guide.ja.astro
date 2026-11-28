@@ -1,0 +1,39 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>要点まとめ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>各行が最初に現れた位置を保ったまま、2回目以降に登場する完全一致の重複行だけを瞬時に取り除きます。五十音順やアルファベット順に勝手に並び替えられることはありません。</p>
+    <a class="cta-link" href={toolHref}>重複行の削除を開く &rarr;</a>
+  </section>
+  <section>
+    <h2>重複削除が活躍する場面 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>メールリストの名寄せ、アクセス解析用URL一覧の整理、同じ警告が大量に並ぶログデータの要約前処理に欠かせません。</p>
+  </section>
+  <section>
+    <h2>仕組みについて <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>1行目から順に内容を確認し、既出リストにある行だけをスキップします。大文字小文字の違いを無視してまとめたい場合は先に <a href={toolPathBySlug('lowercase-converter', 'ja')}>小文字変換ツール</a> を使うのが近道です。</p>
+  </section>
+  <section>
+    <h2>見落としやすい注意点 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>目に見えない末尾スペースや大文字小文字の違いがあると別行として残ります。結果欄の下にそれらの候補件数が自動で案内されるので参考にしてください。</p>
+  </section>
+  <section>
+    <h2>他の行整理ツールとの違い <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>重複行削除は同じ内容の重複を除去し、空白行削除は空行だけを取り除き、テキスト比較は2つの文章の差分を確認するために使います。</p>
+  </section>
+</GuideLayout>

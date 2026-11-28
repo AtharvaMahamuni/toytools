@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>No financiamento com parcelas fixas, cada pagamento mensal cobre primeiro os juros sobre o saldo devedor e amortiza o principal com a diferença. Entrada maior reduz o valor financiado desde o primeiro dia.</p>
+    <a href={toolHref} class="cta-link">Abrir Calculadora de Empréstimo →</a>
+  </section>
+  <section id="formula-e-amortizacao">
+    <h2>Fórmula e amortização extra <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Parcela = P × r × (1 + r)^n / ((1 + r)^n - 1)</strong></p>
+    <p>Amortizações mensais extras reduzem diretamente o saldo devedor, derrubando os juros totais e antecipando a quitação.</p>
+  </section>
+  <section id="erros-e-comparacao">
+    <h2>Erros comuns e comparação <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Informar taxa mensal no campo anual">
+      <p>2% ao mês corresponde a 24% ao ano. Compare o custo da parcela contra o potencial de investir o mesmo valor na <a href={toolPathBySlug('sip-calculator', 'pt')}>Calculadora SIP</a> ou em <a href={toolPathBySlug('compound-interest-calculator', 'pt')}>Juros Compostos</a>.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

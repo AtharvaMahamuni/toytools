@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>テキスト反転とは <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>テキスト反転は、文字列の並びを先頭から末尾まで1文字単位でひっくり返す処理です。文字の種類や数自体は変わらず、順番だけが完全な逆順になります。</p>
+    <a class="cta-link" href={toolHref}>テキスト反転を開く &rarr;</a>
+  </section>
+  <section>
+    <h2>逆さ文字が役立つ場面 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>謎解きやクイズの解答欄をさりげなく伏せたいとき、日本語や英語の回文を素早く確かめたいとき、長い文字列を末尾から確認したいときに便利です。</p>
+  </section>
+  <section>
+    <h2>変換の仕組み <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>単純な文字コード配列ではなく書記素単位で分割してから反転するため、複合絵文字や結合アクセント記号が途中で分解されて文字化けする心配がありません。</p>
+  </section>
+  <section>
+    <h2>変換例 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock>
+      <pre>hello         -> olleh
+しんぶんし    -> しんぶんし
+a🚀b          -> b🚀a</pre>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>1文字反転と単語順の反転の違い <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>単語単位の反転では「blue sky」が「sky blue」になりますが、本ツールは1文字ずつ反転するため「yks eulb」となります。</p>
+  </section>
+  <section>
+    <h2>よくある注意点 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>複数行を一度に入力すると、最終行の内容が先頭行へ移動します。リストの並びを崩さず行内だけを反転したい場合は、1行ずつ分けて処理してください。</p>
+  </section>
+</GuideLayout>

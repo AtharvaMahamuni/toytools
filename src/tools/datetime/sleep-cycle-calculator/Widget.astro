@@ -3,6 +3,12 @@
 // src/lib/engines/datetime/calculators/sleep.ts.
 import DateTimeWidget from '@tools/_shared/DateTimeWidget.astro';
 import { config } from './config';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { uiStr } from '@lib/i18n/widget-utils';
+
+interface Props { lang?: LocaleCode; pack?: LocalizedToolPack | null; }
+const { lang = 'en', pack = null } = Astro.props;
 ---
 
 <DateTimeWidget
@@ -10,5 +16,5 @@ import { config } from './config';
   dateTimeId="sleep"
   config={config}
   craftOn="hero-note"
-  emptyText="Enter a wake time or a bedtime to see the other end of the night."
+  emptyText={uiStr(pack, "emptyText", "Enter a wake time or a bedtime to see the other end of the night.")} lang={lang} pack={pack}
 />

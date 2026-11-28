@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section>
+    <h2>O que é inverter texto? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Inverter texto significa reorganizar todos os caracteres do fim para o começo. As letras, números e símbolos originais continuam idênticos, mudando somente a direção da sequência.</p>
+    <a class="cta-link" href={toolHref}>Abrir Inverter texto &rarr;</a>
+  </section>
+  <section>
+    <h2>Quando o texto ao contrário é útil <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Funciona muito bem para esconder respostas em folhas de quiz, validar palíndromos e criar efeitos divertidos em mensagens.</p>
+  </section>
+  <section>
+    <h2>Como funciona <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Os caracteres são segmentados em unidades visuais reais antes da inversão, impedindo que emojis complexos ou acentos combinados sejam quebrados.</p>
+  </section>
+  <section>
+    <h2>Exemplos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock>
+      <pre>casa          -> asac
+arara         -> arara
+a🚀b          -> b🚀a</pre>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>Inverter caracteres vs ordem das palavras <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Inverter palavras mudaria "dia bom" para "bom dia", enquanto inverter caracteres transforma "bom dia" em "aid mob". Esta página aplica a inversão caractere por caractere.</p>
+  </section>
+  <section>
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Em listas com várias linhas, as linhas finais passam para o início. Se precisar preservar a ordem das linhas, inverta uma linha por vez.</p>
+  </section>
+</GuideLayout>

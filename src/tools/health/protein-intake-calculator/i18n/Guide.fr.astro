@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section>
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Comptez 1,2-1,6 g/kg si vous êtes actif ou 1,6-2,2 g/kg en musculation, répartis équitablement sur 3 à 5 prises dans la journée.</p>
+    <a class="cta-link" href={toolHref}>Ouvrir Calculateur d’apport en protéines &rarr;</a>
+  </section>
+  <section>
+    <h2>Comment fixer son besoin en protéines <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Le calculateur combine votre poids et votre effort hebdomadaire puis divise le point médian par le nombre de repas.</p>
+  </section>
+  <section>
+    <h2>Les AJR de 0,8 g/kg sont un plancher minimal <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ce repère suffit à éviter les carences chez les sédentaires mais sous-estime nettement les besoins des sportifs.</p>
+  </section>
+  <section>
+    <h2>Fractionner sur la journée <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Des apports réguliers de 30 à 40 g par repas optimisent la récupération musculaire.</p>
+  </section>
+  <section>
+    <h2>Exemples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>À 70 kg en musculation (112-154 g/jour), viser 4 repas donne ~33 g de protéines à chaque prise.</p>
+  </section>
+  <section>
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Calculer sur poids total en cas de surpoids important ou négliger les protéines du matin.</p>
+  </section>
+</GuideLayout>

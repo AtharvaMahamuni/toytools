@@ -1,0 +1,42 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section>
+    <h2>Que horas você deve ir para a cama? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Para acordar às 07:00 levando 15 minutos para pegar no sono, cinco ciclos de 90 minutos apontam deitar às 23:15 e seis ciclos às 21:45.</p>
+    <a class="cta-link" href={toolHref}>Abrir Calculadora de ciclos de sono &rarr;</a>
+  </section>
+  <section>
+    <h2>O que é um ciclo de sono de 90 minutos? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>É a alternância completa entre sono leve, profundo e REM. Despertar ao final do ciclo evita a sonolência pesada matinal.</p>
+  </section>
+  <section>
+    <h2>Por que o tempo para adormecer fica fora do ciclo <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Se você ignora esses 15 minutos prévios, começa o primeiro ciclo atrasado e o despertador toca antes de completar o último.</p>
+  </section>
+  <section>
+    <h2>Diferença entre calcular pela hora de dormir ou de acordar <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Use "Vou acordar" quando já tiver alarme fixo e "Vou para a cama" quando for dormir imediatamente.</p>
+  </section>
+  <section>
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Deixar a latência em zero por engano ou depender frequentemente de apenas 3 a 4 ciclos.</p>
+  </section>
+  <section>
+    <h2>O que abrir em seguida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Conte intervalos de agenda na <a href={toolPathBySlug('date-difference-calculator', 'pt')}>calculadora de diferença de datas</a> ou acesse a <a href={toolPathBySlug('age-calculator', 'pt')}>calculadora de idade</a>.</p>
+  </section>
+</GuideLayout>

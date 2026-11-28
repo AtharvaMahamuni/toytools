@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section>
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Compare Devine, Robinson, Miller e Hamwi ao lado da faixa saudável de IMC (18,5-24,9) para trabalhar com um intervalo realista para sua estrutura.</p>
+    <a class="cta-link" href={toolHref}>Abrir Calculadora de peso ideal &rarr;</a>
+  </section>
+  <section>
+    <h2>Como funcionam as fórmulas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Partem de uma referência em 152,4 cm para cada sexo e somam um valor fixo por centímetro extra.</p>
+  </section>
+  <section>
+    <h2>Por que elas divergem <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Elaboradas em décadas e populações distintas, definem uma dispersão natural de poucos quilos.</p>
+  </section>
+  <section>
+    <h2>Use a faixa, não apenas um ponto <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>O intervalo de IMC comporta corpos mais esguios ou mais musculosos na mesma altura.</p>
+  </section>
+  <section>
+    <h2>Exemplos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Aos 175 cm (homem), as fórmulas ficam próximas de 67-72 kg dentro de uma faixa IMC entre 56,7 e 76,3 kg.</p>
+  </section>
+  <section>
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Tratar uma fórmula estatística simples como obrigação estética rígida.</p>
+  </section>
+</GuideLayout>

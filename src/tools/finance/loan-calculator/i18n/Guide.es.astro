@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Un préstamo a tipo fijo se amortiza en cuotas mensuales constantes. Divides el tipo anual entre 12 para obtener la tasa mensual y aplicas la fórmula de anualidad sobre el importe financiado tras descontar tu entrada.</p>
+    <a href={toolHref} class="cta-link">Abrir Calculadora de Préstamos →</a>
+  </section>
+  <section id="formula">
+    <h2>Amortización y pagos adicionales <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Cuota = P × r × (1 + r)^n / ((1 + r)^n - 1)</strong></p>
+    <p>Cada euro adicional aportado cada mes rebaja el capital pendiente sin alterar la cuota base, ahorrando años de intereses.</p>
+  </section>
+  <section id="errores-y-alternativas">
+    <h2>Errores frecuentes y comparación <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Introducir un tipo mensual en el campo anual">
+      <p>Un 2% mensual equivale al 24% anual. Introduce siempre tasas anuales; compara la cuota mensual frente a invertir ese flujo en nuestra <a href={toolPathBySlug('sip-calculator', 'es')}>Calculadora SIP</a> o <a href={toolPathBySlug('compound-interest-calculator', 'es')}>Interés Compuesto</a>.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

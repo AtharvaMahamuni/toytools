@@ -1,7 +1,13 @@
 ---
 import StructuredDataWidget from '@tools/_shared/StructuredDataWidget.astro';
 import { config } from './config';
+import type { LocaleCode } from '@data/locales';
+import type { LocalizedToolPack } from '@lib/i18n/types';
+import { uiStr } from '@lib/i18n/widget-utils';
+
+interface Props { lang?: LocaleCode; pack?: LocalizedToolPack | null; }
+const { lang = 'en', pack = null } = Astro.props;
 ---
 
-<StructuredDataWidget slug={config.slug} structuredId={config.processorId!} config={config} />
-<p class="tool-note" data-craft={config.craft?.id} hidden>Leading zeros and large integers in CSV columns are preserved safely during JSON serialization.</p>
+<StructuredDataWidget slug={config.slug} structuredId={config.processorId!} config={config} lang={lang} pack={pack} />
+<p class="tool-note" data-craft={config.craft?.id} hidden>{uiStr(pack, "craftNote", "Leading zeros and large integers in CSV columns are preserved safely during JSON serialization.")}</p>

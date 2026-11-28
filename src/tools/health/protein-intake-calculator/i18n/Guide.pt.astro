@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section>
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Multiplique seu peso por 1,2-1,6 g/kg em atividades gerais ou 1,6-2,2 g/kg em musculação e divida em 3 a 5 refeições ao dia.</p>
+    <a class="cta-link" href={toolHref}>Abrir Calculadora de proteína &rarr;</a>
+  </section>
+  <section>
+    <h2>Como calculamos sua necessidade de proteína <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Cruzamos seu peso com a demanda muscular do treino para devolver faixa diária e cota por refeição.</p>
+  </section>
+  <section>
+    <h2>A RDA de 0,8 g/kg é piso mínimo, não alvo ótimo <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Serve para prevenir carências em pessoas sedentárias, ficando abaixo do necessário para ganho ou manutenção muscular.</p>
+  </section>
+  <section>
+    <h2>Dividindo entre as refeições <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Doses constantes de 30-40 g em cada refeição mantêm a síntese muscular ativa durante todo o dia.</p>
+  </section>
+  <section>
+    <h2>Exemplos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Para 70 kg focando em força (112-154 g/dia), dividir em 4 refeições resulta em cerca de 33 g por prato.</p>
+  </section>
+  <section>
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Usar peso total sem ajuste em sobrepeso acentuado ou deixar o café da manhã quase sem proteína.</p>
+  </section>
+</GuideLayout>

@@ -1,0 +1,45 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>MD5 transforma cualquier cadena de bytes en una firma fija de 32 caracteres hexadecimales (128 bits). Sirve para claves de caché o detectar errores accidentales, pero nunca debe utilizarse para contraseñas ni seguridad.</p>
+    <a class="cta-link" href={toolHref}>Abrir Generador de hash MD5 &rarr;</a>
+  </section>
+  <section>
+    <h2>¿Qué es MD5? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Publicado en la especificación RFC 1321, toma mensajes de longitud arbitraria y genera un resumen compacto determinista.</p>
+  </section>
+  <section>
+    <h2>Cómo funciona <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Procesa bloques de 512 bits en cuatro rondas de operaciones lógicas y rotaciones binarias de 32 bits hasta producir los 16 bytes finales.</p>
+  </section>
+  <section>
+    <h2>Para qué se sigue usando MD5 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Deduplicación de ficheros, generación rápida de ETags, distribución en tablas hash y detección de descargas corruptas sin adversario.</p>
+  </section>
+  <section>
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Usar MD5 como protección frente a manipulaciones deliberadas. Cuando necesites resistencia real a colisiones usa <a href={toolPathBySlug('sha256-hash-generator', 'es')}>SHA-256</a>.</p>
+  </section>
+  <section>
+    <h2>Herramientas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('sha256-hash-generator', 'es')}>Generador de hash SHA-256</a>: estándar seguro recomendado para integridad y seguridad.</li>
+      <li><a href={toolPathBySlug('sha1-hash-generator')}>Generador de hash SHA-1</a>: digest de 160 bits también obsoleto en seguridad.</li>
+    </ul>
+  </section>
+</GuideLayout>

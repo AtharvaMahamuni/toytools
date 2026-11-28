@@ -2,6 +2,14 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v15.0] - 2026-11-28
+
+### Added
+
+- **Multilingual support Phase 3: 6 languages (`/es/`, `/de/`, `/fr/`, `/ja/`, `/pt/`, `/hi/`) expanded from 30 to 60 flagship tools.**
+  - Localized 30 additional high-traffic tools across Finance, Text Processing, Developer Data/Encodings, Wellness, and Date/Time (180 `.ts` tool packs + 180 full technical guides = +360 static localized HTML pages): `compound-interest-calculator`, `loan-calculator`, `sip-calculator`, `roi-calculator`, `inflation-calculator`, `savings-goal-calculator`, `cagr-calculator`, `split-bill`, `uppercase-converter`, `lowercase-converter`, `title-case-converter`, `slugify-text`, `reverse-text`, `remove-extra-spaces`, `remove-duplicate-lines`, `word-frequency-counter`, `csv-to-json-converter`, `json-to-csv-converter`, `json-to-yaml-converter`, `yaml-to-json-converter`, `md5-hash-generator`, `roman-numeral-converter`, `binary-converter`, `calorie-deficit-calculator`, `macro-calculator`, `body-fat-calculator`, `ideal-weight-calculator`, `protein-intake-calculator`, `sleep-cycle-calculator`, and `timezone-converter`.
+  - Localized `FinanceWidget.astro`, `TextProcessorWidget.astro`, `word-frequency-counter/Widget.astro`, and all corresponding TypeScript calculation/validation/handoff engines (`finance`, `text/handoff`, `structured-data`, `encoding`, `wellness`, `datetime`) via `#tt-i18n` payloads with 1:1 FAQ ID parity and availability-gated bidirectional `hreflang` sitemaps.
+
 ## [alpha-v14.0] - 2026-11-27
 
 ### Added

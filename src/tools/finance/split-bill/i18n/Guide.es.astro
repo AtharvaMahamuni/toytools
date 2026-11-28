@@ -1,0 +1,32 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Al repartir una factura de mesa entre amigos, redondear individualmente suele dejar céntimos perdidos. Este divisor calcula en unidades mínimas enteras y asigna cualquier resto al último comensal para garantizar suma exacta.</p>
+    <a href={toolHref} class="cta-link">Abrir Dividir la Cuenta →</a>
+  </section>
+  <section id="ejemplo-y-reglas">
+    <h2>Ejemplo práctico y reglas de propina <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Con una cuenta de 1000, un 10% de propina (1100 total) y 3 personas, dos pagan 366,66 y la tercera paga 366,68. Admite entre 2 y 30 personas y propinas enteras de 0 a 30%.</p>
+  </section>
+  <section id="errores">
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Redondear cada cuota por separado">
+      <p>Tres cuotas redondeadas a 366,67 suman 1100,01 y no 1100. Dejar el resto entero en un único ajuste final evita cualquier desajuste.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

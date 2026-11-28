@@ -1,0 +1,43 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section>
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Um contador de frequência lista cada palavra distinta do texto com sua contagem exata e porcentagem, permitindo enxergar rapidamente temas dominantes e repetições.</p>
+    <a class="cta-link" href={toolHref}>Abrir Contador de frequência de palavras &rarr;</a>
+  </section>
+  <section>
+    <h2>Como funciona <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>O analisador remove pontuação nas bordas, unifica maiúsculas e minúsculas e soma as ocorrências mantendo compostos com hífen e números decimais juntos.</p>
+  </section>
+  <section>
+    <h2>Stopwords: por que artigos e preposições lideram <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Palavras gramaticais aparecem em quase toda frase. Ative o filtro de palavras comuns para trazer os termos temáticos para o topo da lista.</p>
+  </section>
+  <section>
+    <h2>Frequência de palavras vs contador simples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Para totais gerais e tempo de leitura use o <a href={toolPathBySlug('word-counter', 'pt')}>contador de palavras</a>; use a frequência para inspecionar quais termos dominam o texto.</p>
+  </section>
+  <section>
+    <h2>Principais usos práticos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Revisão estilística de rascunhos, verificação de densidade em conteúdo SEO e mineração rápida de respostas em formulários.</p>
+  </section>
+  <section>
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Sempre olhe para a coluna de porcentagem em vez da contagem absoluta ao comparar textos curtos e longos.</p>
+  </section>
+</GuideLayout>

@@ -1,0 +1,29 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Transforma títulos em URLs limpas removendo acentos (veja também <a href={guidePathBySlug('remove-accents')}>remover acentos</a>), convertendo para minúsculas e separando palavras por um único hífen.</p>
+    <a href={toolHref} class="cta-link">Abrir Gerador de Slugs →</a>
+  </section>
+  <section id="erros">
+    <h2>SEO e erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Confundir slugify com kebab-case">
+      <p>Kebab-case preserva acentos, enquanto slugify mantém apenas a-z e 0-9 para compatibilidade total em navegadores.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

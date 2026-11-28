@@ -1,5 +1,10 @@
 import type { EncodingTool, EncodingMode } from './types';
 import type { DetectResult, MetaItem, RecoveryOffer, ValidationDetail } from '../transform/types';
+import { readClientI18n } from '@lib/i18n/client';
+
+function tpl(s: string, vars: Record<string, string | number>): string {
+  return s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : `{${k}}`));
+}
 
 // Numbers between decimal and binary, with hex and octal alongside as metadata.
 //
@@ -98,25 +103,27 @@ export const numberBase: EncodingTool = {
   decode: (input: string) => toDecimal(input),
 
   detect(input: string): DetectResult {
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     const s = normalise(input).replace(/^[+-]/, '');
     if (!s) return { mode: 'encode', confidence: 'low' };
-    if (/^0b[01]+$/i.test(s)) return { mode: 'decode', confidence: 'high', label: 'Binary' };
+    if (/^0b[01]+$/i.test(s)) return { mode: 'decode', confidence: 'high', label: ei.detBinary ?? 'Binary' };
     if (!/^\d+$/.test(s)) return { mode: 'encode', confidence: 'low' };
     // A run of only 0s and 1s is almost always binary, but 10 and 11 are ordinary decimals too, so
     // short strings stay a guess rather than a claim.
     if (/^[01]+$/.test(s)) {
       return s.length >= 4
-        ? { mode: 'decode', confidence: 'high', label: 'Binary' }
-        : { mode: 'encode', confidence: 'low', label: 'Number' };
+        ? { mode: 'decode', confidence: 'high', label: ei.detBinary ?? 'Binary' }
+        : { mode: 'encode', confidence: 'low', label: ei.detNumber ?? 'Number' };
     }
-    return { mode: 'encode', confidence: 'high', label: 'Number' };
+    return { mode: 'encode', confidence: 'high', label: ei.detNumber ?? 'Number' };
   },
 
   validate(input: string, mode: EncodingMode): ValidationDetail {
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     const raw = input.trim();
     if (!raw) return { ok: true };
     const s = normalise(raw).replace(/^[+-]/, '').replace(/^0b/i, '');
-    if (!s) return { ok: false, severity: 'error', message: 'Enter a number.' };
+    if (!s) return { ok: false, severity: 'error', message: ei.errEnterNumber ?? 'Enter a number.' };
 
     if (mode === 'decode') {
       const bad = s.split('').findIndex((c) => c !== '0' && c !== '1');
@@ -124,22 +131,31 @@ export const numberBase: EncodingTool = {
         return {
           ok: false,
           severity: 'error',
-          message: `"${s[bad]}" is not a binary digit. Binary uses only 0 and 1.`,
+          message: ei.errBadBinTpl
+            ? tpl(ei.errBadBinTpl, { ch: s[bad] })
+            : `"${s[bad]}" is not a binary digit. Binary uses only 0 and 1.`,
           position: bad,
         };
       }
     } else if (!/^\d+$/.test(s)) {
-      return { ok: false, severity: 'error', message: 'Enter a whole number, digits only.' };
+      return { ok: false, severity: 'error', message: ei.errWhole ?? 'Enter a whole number, digits only.' };
     }
 
     const bits = mode === 'decode' ? s.length : BigInt(s).toString(2).length;
     if (bits > MAX_BITS) {
-      return { ok: false, severity: 'error', message: `That is ${bits} bits. The ceiling here is ${MAX_BITS}.` };
+      return {
+        ok: false,
+        severity: 'error',
+        message: ei.errMaxBitsTpl
+          ? tpl(ei.errMaxBitsTpl, { bits, max: MAX_BITS })
+          : `That is ${bits} bits. The ceiling here is ${MAX_BITS}.`,
+      };
     }
     return { ok: true };
   },
 
   meta(input: string, output: string, mode: EncodingMode): MetaItem[] {
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
     const decimal = mode === 'encode' ? normalise(input) : output;
     let n: bigint;
     try {
@@ -150,10 +166,10 @@ export const numberBase: EncodingTool = {
     const magnitude = n < 0n ? -n : n;
     const bits = magnitude.toString(2).length;
     return [
-      { label: 'Hex', value: `0x${magnitude.toString(16).toUpperCase()}` },
-      { label: 'Octal', value: `0o${magnitude.toString(8)}` },
-      { label: 'Bits', value: String(bits) },
-      { label: 'Bytes', value: String(Math.ceil(bits / 8)) },
+      { label: ei.metaHex ?? 'Hex', value: `0x${magnitude.toString(16).toUpperCase()}` },
+      { label: ei.metaOctal ?? 'Octal', value: `0o${magnitude.toString(8)}` },
+      { label: ei.metaBits ?? 'Bits', value: String(bits) },
+      { label: ei.metaBytes ?? 'Bytes', value: String(Math.ceil(bits / 8)) },
     ];
   },
 
@@ -171,6 +187,11 @@ export const numberBase: EncodingTool = {
     const body = cleaned.replace(/^[+-]/, '');
     const valid = mode === 'decode' ? /^[01]+$/.test(body) : /^\d+$/.test(body);
     if (!valid) return null;
-    return { label: `Use ${cleaned}`, text: cleaned, mode };
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
+    return {
+      label: ei.recUseTpl ? tpl(ei.recUseTpl, { cleaned }) : `Use ${cleaned}`,
+      text: cleaned,
+      mode,
+    };
   },
 };

@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>टेक्स्ट रिवर्स क्या है? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>टेक्स्ट रिवर्स करने का अर्थ किसी स्ट्रिंग के अक्षरों को आखिरी से पहले तक उल्टे क्रम में लगाना है। मूल अक्षर व चिह्न वही रहते हैं, केवल दिशा बदलती है।</p>
+    <a class="cta-link" href={toolHref}>टेक्स्ट उल्टा करें खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>उल्टा टेक्स्ट कब उपयोगी होता है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>पहेली पत्रकों में उत्तर छिपाने, पैलिंड्रोम जांचने और कोडिंग में किसी स्ट्रिंग को अंतिम छोर से पढ़ने में यह टूल मददगार है।</p>
+  </section>
+  <section>
+    <h2>यह कैसे काम करता है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>ब्राउज़र के मानक ग्राफीम विभाजन से पहले पूरे दृश्य अक्षर अलग किए जाते हैं और फिर क्रम पलटा जाता है, जिससे इमोजी और मात्राएं सुरक्षित रहती हैं।</p>
+  </section>
+  <section>
+    <h2>उदाहरण <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock>
+      <pre>hello         -> olleh
+नमन           -> नमन
+a🚀b          -> b🚀a</pre>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>अक्षर पलटना बनाम शब्दों का क्रम पलटना <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>शब्द क्रम पलटने पर "good day" का "day good" बनता है, जबकि अक्षर पलटने पर "yad doog" बनता है। यह टूल पूरे टेक्स्ट के अक्षर पलटता है।</p>
+  </section>
+  <section>
+    <h2>सामान्य गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>कई पंक्तियों वाला ब्लॉक पलटने पर नीचे वाली पंक्ति सबसे ऊपर आ जाती है। सूची का क्रम बनाए रखने के लिए एक बार में एक पंक्ति पलटें।</p>
+  </section>
+</GuideLayout>

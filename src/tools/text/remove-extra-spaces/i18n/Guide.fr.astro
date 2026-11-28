@@ -1,0 +1,62 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section>
+    <h2>Qu’est-ce que la suppression des espaces en trop ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Cet utilitaire condense chaque série d’espaces ou de tabulations en un unique espace ordinaire, réparant les textes copiés sans supprimer vos sauts de ligne.</p>
+    <a class="cta-link" href={toolHref}>Ouvrir Supprimer les espaces en trop &rarr;</a>
+  </section>
+  <section>
+    <h2>Pourquoi les doubles espaces posent problème <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ils faussent les comparaisons exactes, les recherches et les importations de données. Pour aplatir également les retours à la ligne, consultez <a href={`${guidePathBySlug('remove-blank-lines')}#normalize-whitespace`}>normaliser les espaces</a>.</p>
+  </section>
+  <section>
+    <h2>Fonctionnement <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Chaque bloc consécutif d’espaces et de tabulations est ramené à un seul caractère espace tandis que les retours chariot sont respectés.</p>
+  </section>
+  <section>
+    <h2>Exemples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock>
+      <pre>"Bonjour    tout   le monde"  -> "Bonjour tout le monde"
+"Un		deux"                  -> "Un deux"</pre>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>Supprimer les doubles espaces dans Word <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Dans Word, remplacez deux espaces par un seul dans Rechercher et remplacer jusqu’à ce qu’il n’y ait plus de correspondances.</p>
+  </section>
+  <section>
+    <h2>Corriger les espacements dans Google Docs <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Activez les expressions régulières dans Google Docs pour remplacer <code> &#123;2,&#125;</code> par un espace unique en une seule opération.</p>
+  </section>
+  <section>
+    <h2>Pourquoi SUPPRESPACE d’Excel compresse aussi l’intérieur <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Contrairement à la fonction trim classique de nombreux langages, SUPPRESPACE (TRIM) sous Excel retire les bords et réduit aussi chaque écart interne à un seul espace, hors U+00A0.</p>
+  </section>
+  <section>
+    <h2>Avant et après un collage PDF <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Le texte justifié d’un PDF génère souvent des trouées irrégulières au collage ; un passage ici redonne immédiatement une fluidité normale.</p>
+  </section>
+  <section>
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>N’oubliez pas qu’un espace isolé au tout début ou en fin de ligne subsiste après réduction ; utilisez un rognage de bords si nécessaire.</p>
+  </section>
+  <section>
+    <h2>Comparer les outils de nettoyage des blancs <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Cet outil agit entre les mots, le rognage nettoie les extrémités de lignes, et la normalisation gère en plus les sauts de ligne et espaces Unicode.</p>
+  </section>
+</GuideLayout>

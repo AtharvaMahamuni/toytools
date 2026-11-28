@@ -1,0 +1,32 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section id="respuesta-rapida">
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Convierte al instante cualquier texto a minúsculas para unificar correos, etiquetas, URLs o limpiar texto tecleado por descuido con Bloq Mayús.</p>
+    <a href={toolHref} class="cta-link">Abrir Convertidor a Minúsculas →</a>
+  </section>
+  <section id="usos">
+    <h2>Cuándo normalizar a minúsculas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Normalizar correos o listas antes de dedupar evita falsos duplicados por diferencias de mayúsculas en sistemas sensibles al caso.</p>
+  </section>
+  <section id="errores">
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Aplastar siglas y nombres propios sin copia">
+      <p>Una vez que conviertes «API» o «NASA» en minúsculas, no hay vuelta automática atrás; conserva siempre una copia para textos editoriales.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

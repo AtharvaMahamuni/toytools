@@ -1,0 +1,39 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section>
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>A primeira ocorrência de cada linha permanece em seu lugar original e todas as repetições exatas posteriores são descartadas instantaneamente sem reordenar alfabeticamente.</p>
+    <a class="cta-link" href={toolHref}>Abrir Remover linhas duplicadas &rarr;</a>
+  </section>
+  <section>
+    <h2>Quando desduplicar uma lista <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ideal antes de importar leads em planilhas, consolidar URLs ou identificar erros distintos dentro de grandes logs.</p>
+  </section>
+  <section>
+    <h2>Como funciona <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>O algoritmo percorre as linhas e ignora qualquer linha já vista. Se houver diferenças apenas de caixa alta/baixa, converta antes com o <a href={toolPathBySlug('lowercase-converter', 'pt')}>conversor para minúsculas</a>.</p>
+  </section>
+  <section>
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Espaços sobrando no fim da linha ou letras maiúsculas impedem a eliminação exata. Confira os avisos automáticos logo abaixo da lista.</p>
+  </section>
+  <section>
+    <h2>Comparação com outras ferramentas de limpeza <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Remover duplicadas apaga repetições, remover linhas vazias limpa espaços verticais e comparar textos aponta diferenças entre dois arquivos.</p>
+  </section>
+</GuideLayout>

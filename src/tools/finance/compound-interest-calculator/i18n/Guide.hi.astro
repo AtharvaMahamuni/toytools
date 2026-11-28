@@ -1,0 +1,33 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>चक्रवृद्धि ब्याज में मूलधन के साथ-साथ पिछले ब्याज पर भी ब्याज जुड़ता है। समय बढ़ने पर यह असर तेजी से बढ़ता है और नियमित मासिक योगदान के साथ लंबी अवधि में बड़ी संपत्ति बनती है।</p>
+    <a href={toolHref} class="cta-link">चक्रवृद्धि ब्याज कैलकुलेटर खोलें →</a>
+  </section>
+  <section id="frequency">
+    <h2>चक्रवृद्धि आवृत्ति और मासिक योगदान <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>10,000 रुपये 7% दर से 20 वर्षों में वार्षिक चक्रवृद्धि पर लगभग 38,697 और मासिक पर 40,387 बनते हैं। फिर भी सबसे बड़ा फर्क समय अवधि और नियमित निवेश से पड़ता है।</p>
+  </section>
+  <section id="formula">
+    <h2>सूत्र और आम गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>FV = P (1 + r/n)^(n · t)</strong></p>
+    <ReferenceBlock type="common-mistake" heading="महंगाई और बाजार जोखिम को अनदेखा करना">
+      <p>गणना स्थिर रिटर्न मानती है, जबकि वास्तविक बाजार घटते-बढ़ते हैं और महंगाई क्रय शक्ति कम करती है। हमेशा व्यावहारिक दर से अनुमान लगाएँ।</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

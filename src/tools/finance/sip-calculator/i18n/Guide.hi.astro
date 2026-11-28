@@ -1,0 +1,35 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section id="quick-answer">
+    <h2>त्वरित उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>SIP हर महीने तय राशि निवेश करके समय और बाजार उतार-चढ़ाव को आपके पक्ष में काम कराता है। शुरुआती किस्तें पूरी अवधि तक चक्रवृद्धि होकर कुल कॉर्पस का बड़ा हिस्सा बनाती हैं।</p>
+    <a href={toolHref} class="cta-link">SIP कैलकुलेटर खोलें →</a>
+  </section>
+  <section id="formula">
+    <h2>SIP का गणितीय सूत्र <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>FV = P · ((1 + i)^n − 1) / i</strong></p>
+    <ReferenceBlock type="key-idea" heading="बड़ी राशि से ज्यादा कीमती समय है">
+      <p>कम राशि से जल्दी शुरू की गई SIP अक्सर देर से शुरू की गई बड़ी SIP को भी पीछे छोड़ देती है।</p>
+    </ReferenceBlock>
+  </section>
+  <section id="mistakes">
+    <h2>आम गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="महंगाई को अनदेखा करना">
+      <p>20 साल बाद की राशि का वास्तविक मूल्य कम होगा; हमेशा कम रिटर्न दर से भी जांचें और महंगाई का असर जोड़कर योजना बनाएँ।</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

@@ -1,0 +1,41 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Multipliziere dein Kalorienziel mit dem Prozentanteil und teile durch 4 kcal/g für Protein sowie Kohlenhydrate oder 9 kcal/g für Fett.</p>
+    <a class="cta-link" href={toolHref}>Makro-Rechner öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>Was Makronährstoffe eigentlich sind <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Eiweiß, Kohlenhydrate und Fette liefern sämtliche Kalorien der Ernährung mit jeweils eigenen Aufgaben für Muskeln, Energie und Hormone.</p>
+  </section>
+  <section>
+    <h2>Kalorien in Gramm umrechnen <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Bei 2.000 kcal und 35 % Protein ergeben 700 kcal exakt 175 Gramm Eiweiß pro Tag.</p>
+  </section>
+  <section>
+    <h2>Die passende Aufteilung wählen <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Vergleiche Ausgewogen, High-Protein, Low-Carb und Keto und entscheide dich für das Muster, das zu deinen Vorlieben passt.</p>
+  </section>
+  <section>
+    <h2>Makro-Rechner vs. andere Methoden <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Gesamtkalorien und ausreichende Proteinzufuhr machen den Großteil des Erfolgs aus – Feinheiten dienen dem Komfort.</p>
+  </section>
+  <section>
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Prozentanteile, die nicht exakt 100 % ergeben, oder zu radikale Umstellungen über Nacht.</p>
+  </section>
+</GuideLayout>

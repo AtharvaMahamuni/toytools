@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug, toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>要点まとめ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>ローマ数字は左から順に加算し、6組の減算ペア（IV・IX・XL・XC・CD・CM）を使って I（1）から MMMCMXCIX（3999）までを表します。<a href={guidePathBySlug('number-to-words')}>英語での数字スペル表記</a>もあわせてご参照ください。</p>
+    <a class="cta-link" href={toolHref}>ローマ数字変換ツールを開く &rarr;</a>
+  </section>
+  <section>
+    <h2>減算記法（引き算ルール）とは？ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>同じ記号を4つ並べないよう、IをV/Xの前、XをL/Cの前、CをD/Mの前に置いたときだけ前の数を引くルールです。</p>
+  </section>
+  <section>
+    <h2>変換の仕組み <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>数値からローマ数字へは大きい記号順に分解し、逆方向ではIIIIなどの非標準表記も柔軟にデコードして標準表記を提案します。</p>
+  </section>
+  <section>
+    <h2>なぜ時計の文字盤は IIII なのか <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>対面のVIIIと字面の重さを釣り合わせる視覚効果と、文字鋳型の本数管理という時計職人の歴史的慣習に由来します。</p>
+  </section>
+  <section>
+    <h2>3999が上限となる理由 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>4000以上は上付き横線が必要となり通常のテキスト文字では表現できないため、一般の変換器はすべて3999までを扱います。</p>
+  </section>
+  <section>
+    <h2>ローマ数字の年号の読み方 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Mの並びで千の位を数え、続く CM・CD（百の位）、XC・XL（十の位）、IX・IV（一の位）をまとまりで足せば簡単に読めます。</p>
+  </section>
+  <section>
+    <h2>ローマ数字と十進法の比較 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>数字の単語変換には <a href={toolPathBySlug('number-to-words')}>Number to Words</a>、2進数への変換には <a href={toolPathBySlug('binary-converter', 'ja')}>2進数変換ツール</a> が使えます。</p>
+  </section>
+</GuideLayout>

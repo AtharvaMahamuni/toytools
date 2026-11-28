@@ -1,0 +1,45 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section>
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>MD5 condense n’importe quel texte en une empreinte fixe de 32 caractères hexadécimaux. Rapide pour les clés de cache ou la déduplication, mais à proscrire pour les mots de passe et signatures.</p>
+    <a class="cta-link" href={toolHref}>Ouvrir Générateur de hash MD5 &rarr;</a>
+  </section>
+  <section>
+    <h2>Qu’est-ce que MD5 ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Décrit dans la RFC 1321, MD5 produit une signature déterministe de 128 bits quelle que soit la taille du texte fourni.</p>
+  </section>
+  <section>
+    <h2>Comment ça fonctionne <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Le message est découpé en blocs de 512 bits puis brassé sur quatre rondes logiques assurant un fort effet avalanche.</p>
+  </section>
+  <section>
+    <h2>Ce à quoi MD5 sert encore <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Contrôle d’erreurs de transfert non malveillantes, clés d’indexation, ETag internes et déduplication.</p>
+  </section>
+  <section>
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Utiliser MD5 pour protéger des secrets ou vérifier l’authenticité d’un binaire. Préférez <a href={toolPathBySlug('sha256-hash-generator', 'fr')}>SHA-256</a> dès que la sécurité compte.</p>
+  </section>
+  <section>
+    <h2>Outils associés <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('sha256-hash-generator', 'fr')}>Générateur SHA-256</a> : hachage sécurisé résistant aux collisions.</li>
+      <li><a href={toolPathBySlug('sha1-hash-generator')}>Générateur SHA-1</a> : empreinte 160 bits également dépréciée en sécurité.</li>
+    </ul>
+  </section>
+</GuideLayout>

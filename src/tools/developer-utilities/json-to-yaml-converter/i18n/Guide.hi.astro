@@ -1,0 +1,52 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>JSON से YAML कन्वर्टर कोष्ठकों वाले JSON को साफ़ 2-स्पेस इंडेंटेड YAML में बदल देता है, जिससे डेटा प्रकार सुरक्षित रहते हुए Kubernetes व Docker कॉन्फ़िग तुरंत तैयार हो जाते हैं।</p>
+    <a class="cta-link" href={toolHref}>JSON से YAML कन्वर्टर खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>JSON से YAML रूपांतरण कैसे काम करता है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>यह JSON पदानुक्रम को पढ़ता है और आरक्षित शब्दों या संख्यात्मक स्ट्रिंग्स को स्वचालित कोट्स देकर सही इंडेंटेशन के साथ लिखता है।</p>
+  </section>
+  <section>
+    <h2>YAML को वापस JSON में बदलना <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>जब किसी API या स्कीमा वैलिडेटर को JSON चाहिए हो, तब विपरीत टूल तुरंत सटीक JSON वापस दे देता है।</p>
+  </section>
+  <section>
+    <h2>JSON से YAML का उपयोग कब करें <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Kubernetes मैनिफेस्ट, Docker Compose, GitHub Actions और मानव द्वारा संपादित की जाने वाली कॉन्फ़िग फ़ाइलों के लिए उपयुक्त।</p>
+  </section>
+  <section>
+    <h2>JSON बनाम YAML: किसे चुनें <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>मशीन व API संचार में JSON तेज़ और सख्त है; कॉन्फ़िग व DevOps में YAML पढ़ने-लिखने में अधिक आसान है।</p>
+  </section>
+  <section>
+    <h2>सामान्य गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>स्पेस के बजाय टैब से इंडेंट करना या "yes"/"on" जैसे मान बिना कोट्स छोड़ना आम त्रुटियाँ हैं।</p>
+  </section>
+  <section>
+    <h2>संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-formatter', 'hi')}>JSON फ़ॉर्मेटर</a>: बदलने से पहले JSON संवारें।</li>
+      <li><a href={toolPathBySlug('json-validator', 'hi')}>JSON वैलिडेटर</a>: सिंटैक्स शुद्धता की जांच करें।</li>
+      <li><a href={toolPathBySlug('json-to-csv-converter', 'hi')}>JSON से CSV कन्वर्टर</a>: स्प्रेडशीट तालिका बनाएं।</li>
+      <li><a href={toolPathBySlug('json-tree-viewer')}>JSON ट्री व्यूअर</a>: गहरी संरचनाएं एक्सप्लोर करें।</li>
+    </ul>
+  </section>
+</GuideLayout>

@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug, toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Römische Zahlen addieren Zeichen von links nach rechts und nutzen genau sechs Subtraktionspaare (IV, IX, XL, XC, CD, CM) im Bereich von 1 bis 3999. Sieh dir auch <a href={guidePathBySlug('number-to-words')}>Zahlen als Wörter ausschreiben</a> an.</p>
+    <a class="cta-link" href={toolHref}>Römische-Zahlen-Konverter öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>Was ist die Subtraktionsschreibweise? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Steht I vor V/X, X vor L/C oder C vor D/M, wird der kleinere Wert abgezogen, um vier identische Ziffern in Folge zu vermeiden.</p>
+  </section>
+  <section>
+    <h2>Wie funktioniert die Umrechnung? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>In Richtung Römisch zerlegt der Algorithmus nach festen Wertblöcken; rückwärts liest er auch alte Inschriften wie MDCCCCX zuverlässig.</p>
+  </section>
+  <section>
+    <h2>Warum verwenden Uhren IIII? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>IIII balanciert die schwere VIII gegenüber aus und ersparte Uhrmachern beim Zinnguss zusätzliche IV/VI-Verwechslungen.</p>
+  </section>
+  <section>
+    <h2>Warum ist bei 3999 Schluss? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Alles ab 4000 verlangt einen Tausender-Balken über der Ziffer, der im regulären Klartext nicht existiert.</p>
+  </section>
+  <section>
+    <h2>Wie liest man eine römische Jahreszahl? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Teile von links nach rechts in Tausender, Hunderterpaare (CM/CD), Zehnerpaare (XC/XL) und Einer auf.</p>
+  </section>
+  <section>
+    <h2>Römische Ziffern vs. Dezimalsystem <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Zum Ausschreiben als Text gibt es den <a href={toolPathBySlug('number-to-words')}>Zahl-zu-Wort-Konverter</a>, und für das Zweiersystem unseren <a href={toolPathBySlug('binary-converter', 'de')}>Binär-Konverter</a>.</p>
+  </section>
+</GuideLayout>

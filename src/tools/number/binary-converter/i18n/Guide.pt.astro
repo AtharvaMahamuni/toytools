@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section>
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Na base 2 cada dígito vale o dobro da posição à direita (1, 2, 4, 8...). O conversor opera com exatidão até 512 bits mostrando hex, octal e contagem de bits.</p>
+    <a class="cta-link" href={toolHref}>Abrir Conversor binário &rarr;</a>
+  </section>
+  <section>
+    <h2>O que é base 2? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>É o sistema de dois algarismos (0 e 1) utilizado por portas lógicas, registradores e permissões em sistemas operacionais.</p>
+  </section>
+  <section>
+    <h2>Como funciona a conversão? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Aplica divisões sucessivas por 2 rumo ao binário e soma posicional na volta usando BigInt exato.</p>
+  </section>
+  <section>
+    <h2>Por que usar hexadecimal em vez de binário? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Cada símbolo hex representa exatos quatro bits, tornando endereços de memória e cores muito mais legíveis.</p>
+  </section>
+  <section>
+    <h2>O que significa largura em bits e zeros à esquerda? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>A contagem de bits mostra quantos dígitos faltam para completar bytes de 8, 16 ou 32 bits.</p>
+  </section>
+  <section>
+    <h2>Números binários vs texto em binário <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Para transformar letras e frases em bits utilize o <a href={toolPathBySlug('binary-text-converter')}>conversor de texto para binário</a>.</p>
+  </section>
+  <section>
+    <h2>Por que meu binário colado precisou de limpeza? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Literais de código vêm com <code>0b</code>, espaços ou underscores. Limpe em um toque ou explore também o <a href={toolPathBySlug('hex-encoder-decoder')}>conversor hexadecimal</a>.</p>
+  </section>
+</GuideLayout>

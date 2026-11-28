@@ -1,0 +1,27 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>概要 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>すべての単語の先頭文字を大文字（Title Case）に揃えます。本文向けの通常の文表記については <a href={guidePathBySlug('sentence-case-converter')}>Sentence Caseガイド</a> もご参照ください。</p>
+    <a href={toolHref} class="cta-link">タイトルケース変換を使う →</a>
+  </section>
+  <section id="rules">
+    <h2>前置詞・ハイフン語のルール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>AP・Chicago形式では文中の短い前置詞や冠詞を小文字に保ちます。本ツールは機械的に全単語を大文字化したうえで対象語数を知らせるため、最後の微調整が簡単です。</p>
+  </section>
+</GuideLayout>

@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Gib Datum, Uhrzeit und zwei Zeitzonen an: Der Umrechner nutzt echte IANA-Regeln exakt für dieses Datum inklusive Sommerzeit und markiert jeden Tageswechsel.</p>
+    <a class="cta-link" href={toolHref}>Zeitzonen-Umrechner öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>So funktioniert die Zeitzonen-Umrechnung <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Die lokale Uhrzeit wird mithilfe ihres datumsgenauen UTC-Abstands auf die Weltzeit und von dort in die Zielzeitzone übertragen.</p>
+  </section>
+  <section>
+    <h2>Beispiele <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>09:00 Uhr im Juli in New York (-04:00) entspricht 22:00 Uhr in Tokio (+09:00) – genau 13 Stunden voraus am selben Tag.</p>
+  </section>
+  <section>
+    <h2>UTC-Offset vs. Sommerzeit <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Da Europa, Nordamerika und andere Regionen an unterschiedlichen Tagen umstellen, verschiebt sich der Abstand mehrmals im Jahr.</p>
+  </section>
+  <section>
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Ganzjährig festen Abstand annehmen">
+      <p>Zwischen USA und Europa ändert sich die Differenz im Frühjahr und Herbst vorübergehend um eine Stunde.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Kalenderdatum übersehen">
+      <p>Bei Transpazifik-Terminen verschiebt sich neben der Uhrzeit oft auch der Wochentag.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="Alles läuft lokal">
+      <p>Deine Reise- und Besprechungszeiten verbleiben vollständig privat in deinem Browser.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

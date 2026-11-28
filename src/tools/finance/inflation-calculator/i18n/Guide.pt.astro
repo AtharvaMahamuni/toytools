@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>A inflação reduz o que um mesmo valor consegue comprar ao longo dos anos. Dividir o montante por (1 + inflação)^anos mostra o valor real em poder de compra atual.</p>
+    <a href={toolHref} class="cta-link">Abrir Calculadora de Inflação →</a>
+  </section>
+  <section id="formula">
+    <h2>Fórmula e juro real <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Valor real = Montante / (1 + i)^t</strong></p>
+    <p>Use junto à <a href={toolPathBySlug('rule-of-72-calculator')}>Regra dos 72</a> ou à <a href={toolPathBySlug('compound-interest-calculator', 'pt')}>Calculadora de Juros Compostos</a> para garantir ganhos acima da inflação.</p>
+  </section>
+  <section id="erros">
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Projetar metas distantes com preços atuais">
+      <p>Atualize primeiro o valor da sua meta futura pela inflação antes de definir os aportes.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

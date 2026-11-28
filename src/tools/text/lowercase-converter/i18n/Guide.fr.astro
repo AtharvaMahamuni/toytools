@@ -1,0 +1,32 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Passez tout texte en minuscules pour normaliser adresses e-mail, tags, URL ou corriger une saisie effectuée avec Verr. Maj activé.</p>
+    <a href={toolHref} class="cta-link">Ouvrir le convertisseur →</a>
+  </section>
+  <section id="usages">
+    <h2>Quand normaliser en minuscules <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Uniformiser la casse avant déduplication ou comparaison garantit des correspondances fiables entre listes.</p>
+  </section>
+  <section id="erreurs">
+    <h2>Erreurs courantes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Perdre la casse des acronymes et noms propres">
+      <p>Conservez l’original si vous publiez du texte éditorial, car la conversion efface de façon irréversible sigles et noms propres.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

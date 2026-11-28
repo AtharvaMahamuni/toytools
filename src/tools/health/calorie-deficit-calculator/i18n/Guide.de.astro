@@ -1,0 +1,49 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Etwa 500 bis 550 kcal Einsparung täglich führen rechnerisch zu rund 0,5 kg Abnahme je Woche. Halte dabei deinen Grundumsatz (BMR) als sichere Untergrenze ein.</p>
+    <a class="cta-link" href={toolHref}>Kaloriendefizit-Rechner öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>So wirkt ein Kaloriendefizit <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Liegt die Energiezufuhr unter dem Gesamtumsatz (TDEE), mobilisiert der Körper Reserven von etwa 7.700 kcal je Kilogramm Fettgewebe.</p>
+  </section>
+  <section>
+    <h2>Das passende Abnehmtempo wählen <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>0,5 bis 1 % Körpergewicht wöchentlich schützt Muskulatur, Trainingsleistung und Alltagstauglichkeit.</p>
+  </section>
+  <section>
+    <h2>Warum sich das Zielgewicht im Verlauf verschiebt <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="key-idea" heading="Zielkalorien unterwegs nachjustieren">
+      <p>Alle 4 bis 5 verlorenen Kilogramm sinkt dein Erhaltungsbedarf spürbar – eine kurze Neuberechnung verhindert Plateaus.</p>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>Rechenbeispiele <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Bei 2.400 kcal Gesamtumsatz ergeben 1.850 kcal Aufnahme ein Defizit von 550 kcal pro Tag (~0,5 kg pro Woche).</p>
+  </section>
+  <section>
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Maximales Defizit erzwingen">
+      <p>Extrem niedrige Kalorien unter dem BMR führen meist zu Muskelverlust und Abbruch.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Einzelne Waagenwerte bewerten">
+      <p>Salz, Training und Stress beeinflussen Wasser – vergleiche immer Wochendurchschnitte.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

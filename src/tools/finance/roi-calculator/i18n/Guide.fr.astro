@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Le retour sur investissement mesure le gain net en pourcentage du capital initial. Y joindre la durée de détention fournit le rendement annualisé indispensable aux comparaisons sérieuses.</p>
+    <a href={toolHref} class="cta-link">Ouvrir la calculatrice ROI →</a>
+  </section>
+  <section id="formule">
+    <h2>Formule et annualisation <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>ROI% = (V − C) / C × 100</strong></p>
+    <p>La variation relative s’appuie sur le calcul présenté dans le <a href={guidePathBySlug('percentage-calculator', 'fr')}>guide des pourcentages</a>; la durée t ajoute ((V / C)^(1/t) − 1) × 100.</p>
+  </section>
+  <section id="erreurs">
+    <h2>Erreurs à éviter <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Comparer des ROI de durées différentes">
+      <p>Un gain de 50% en deux ans et en quinze ans n’ont rien de comparable. Intégrez également frais et dividendes avant d’évaluer le taux annuel.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

@@ -1,0 +1,37 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Introduce altura, contorno de cuello y cintura (más cadera en mujeres) para obtener tu porcentaje estimado de grasa corporal con la ecuación U.S. Navy y tu masa magra.</p>
+    <a class="cta-link" href={toolHref}>Abrir Calculadora de grasa corporal &rarr;</a>
+  </section>
+  <section>
+    <h2>Cómo funciona el método Navy <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Relaciona la distribución de circunferencias en tronco y cuello frente a tu estatura mediante fórmulas logarítmicas calibradas frente a pesaje bajo el agua.</p>
+  </section>
+  <section>
+    <h2>Dónde medir exactamente <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Mantén la cinta nivelada sin hundir la piel ni contener el aliento para que las mediciones semanales sean comparables.</p>
+  </section>
+  <section>
+    <h2>Grasa corporal frente a IMC <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Personas musculosas pueden mostrar un IMC alto teniendo poca grasa; sumar el peso corporal aquí separa ambos componentes.</p>
+  </section>
+  <section>
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Medirse a horas distintas o tensar la cinta de forma desigual distorsiona los resultados de una semana a otra.</p>
+  </section>
+</GuideLayout>

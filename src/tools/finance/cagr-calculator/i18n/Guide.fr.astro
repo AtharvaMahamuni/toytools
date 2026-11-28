@@ -1,0 +1,34 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Le CAGR (TCAM) résume une performance irrégulière sur plusieurs années en un taux annuel composé constant, permettant de comparer équitablement différents actifs.</p>
+    <a href={toolHref} class="cta-link">Ouvrir la calculatrice CAGR →</a>
+  </section>
+  <section id="formule">
+    <h2>Formule et comparaison au ROI <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>CAGR = (V_finale / V_initiale)^(1 / t) − 1</strong></p>
+    <p>Consultez aussi le gain global dans la <a href={toolPathBySlug('roi-calculator', 'fr')}>Calculatrice ROI</a> ou la <a href={toolPathBySlug('rule-of-72-calculator')}>Règle de 72</a>.</p>
+  </section>
+  <section id="erreurs">
+    <h2>Pièges courants <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Utiliser le CAGR en présence de versements intermédiaires">
+      <p>Des apports ou retraits en cours de période faussent la lecture; réservez le CAGR à un capital fixe entre deux dates.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

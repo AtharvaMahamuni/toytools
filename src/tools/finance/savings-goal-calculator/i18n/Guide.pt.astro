@@ -1,0 +1,33 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Informando sua meta, o prazo desejado e quanto já possui guardado, você descobre na hora o aporte mensal exato para chegar lá.</p>
+    <a href={toolHref} class="cta-link">Abrir Calculadora de Meta →</a>
+  </section>
+  <section id="prazo">
+    <h2>Prazo e juros a favor <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Estender o prazo reduz fortemente a parcela mensal graças aos juros compostos, que você pode visualizar também na <a href={toolPathBySlug('compound-interest-calculator', 'pt')}>Calculadora de Juros Compostos</a>.</p>
+  </section>
+  <section id="erros">
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Desconsiderar a inflação em metas longas">
+      <p>Ajuste metas de longo prazo com a <a href={toolPathBySlug('inflation-calculator', 'pt')}>Calculadora de Inflação</a> para preservar o poder de compra real.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

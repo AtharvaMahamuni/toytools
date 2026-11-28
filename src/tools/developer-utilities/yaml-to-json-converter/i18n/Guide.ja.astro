@@ -1,0 +1,51 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>概要 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>YAMLからJSON変換ツールは、インデント記述されたYAML設定を解析し、アンカーやエイリアスを展開したうえでAPI・Schema検証で使える厳格なJSONへ変換します。</p>
+    <a class="cta-link" href={toolHref}>YAMLからJSON変換ツールを開く &rarr;</a>
+  </section>
+  <section>
+    <h2>YAMLからJSON変換でできること <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>YAMLのマッピングやハイフンリストをRFC 8259準拠のJSONオブジェクト・配列構造へ忠実にマッピングします。</p>
+  </section>
+  <section>
+    <h2>YAML特有機能の変換ルール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><code>&amp;アンカー</code> と <code>*エイリアス</code> は実体データへ展開され、日付値はISO文字列化、<code>#</code> コメントは自動的に除去されます。</p>
+  </section>
+  <section>
+    <h2>YAMLをJSONへ変換する場面 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>KubernetesマニフェストをJSON Schemaチェックにかけたり、JSON入力のみ受け付けるAPIやコマンドラインへデータを渡すときに有効です。</p>
+  </section>
+  <section>
+    <h2>YAMLとJSONの使い分け <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>手書き設定の保守性にはYAML、厳格なデータ契約・API連携にはJSONを選ぶのが定石です。</p>
+  </section>
+  <section>
+    <h2>よくあるエラー原因 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>スペースとタブの混在や、コメントがJSONに残ると期待してしまう点が代表的な落とし穴です。</p>
+  </section>
+  <section>
+    <h2>関連ツール <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-to-yaml-converter', 'ja')}>JSONからYAML変換</a>：JSONを再びYAML形式へ変換します。</li>
+      <li><a href={toolPathBySlug('json-formatter', 'ja')}>JSON整形ツール</a>：変換結果のインデントを見やすく整えます。</li>
+      <li><a href={toolPathBySlug('json-validator', 'ja')}>JSON構文チェッカー</a>：JSONとして正しいか検証します。</li>
+    </ul>
+  </section>
+</GuideLayout>

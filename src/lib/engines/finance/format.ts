@@ -4,6 +4,7 @@
 
 import { formatGrouped } from '@lib/inputs/format';
 import { groupingFor } from '@lib/inputs/currency';
+import { clientStr } from '@lib/i18n/client';
 
 /** Round to cents to avoid floating-point noise leaking into displayed/raw money values. */
 export function roundMoney(n: number): number {
@@ -42,7 +43,10 @@ export function percent(value: number, fractionDigits = 1): string {
 
 /** Year string: years(1) === '1 year', years(11.3) === '11.3 years'. */
 export function years(value: number): string {
-  if (!Number.isFinite(value)) return 'never';
+  if (!Number.isFinite(value)) return clientStr('neverLabel', 'never');
   const rounded = Number(value.toFixed(1));
-  return `${rounded} ${rounded === 1 ? 'year' : 'years'}`;
+  const unit = rounded === 1
+    ? clientStr('yearSingular', 'year')
+    : clientStr('yearsPlural', 'years');
+  return `${rounded} ${unit}`;
 }

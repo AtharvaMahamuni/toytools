@@ -1,0 +1,51 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>YAML से JSON कन्वर्टर आपके इंडेंटेड YAML को पार्स कर एंकर व एलियास खोलता है और API तथा Schema सत्यापन के लिए सख्त JSON तैयार करता है।</p>
+    <a class="cta-link" href={toolHref}>YAML से JSON कन्वर्टर खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>YAML से JSON रूपांतरण क्या करता है? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>यह YAML की कुंजी-मान मैपिंग और सूचियों को RFC 8259 अनुरूप JSON ऑब्जेक्ट व ऐरे में बदल देता है।</p>
+  </section>
+  <section>
+    <h2>YAML विशेषताओं का संचालन <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>एंकर (<code>&amp;</code>) व एलियास (<code>*</code>) विस्तारित होते हैं, तिथियाँ ISO 8601 स्ट्रिंग बनती हैं और <code>#</code> टिप्पणियाँ हट जाती हैं।</p>
+  </section>
+  <section>
+    <h2>YAML को JSON में कब बदलें <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>जब Kubernetes कॉन्फ़िग को JSON Schema से जांचना हो या किसी वेब API एंडपॉइंट पर भेजना हो।</p>
+  </section>
+  <section>
+    <h2>YAML बनाम JSON: किसे चुनें <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>मनुष्य द्वारा लिखी कॉन्फ़िग फ़ाइलों में YAML आसान है, जबकि सेवा-से-सेवा API और सख्त वैलिडेशन में JSON बेहतर है।</p>
+  </section>
+  <section>
+    <h2>सामान्य गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>इंडेंटेशन में टैब का इस्तेमाल करना YAML पार्सिंग टूटने का सबसे बड़ा कारण है।</p>
+  </section>
+  <section>
+    <h2>संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-to-yaml-converter', 'hi')}>JSON से YAML कन्वर्टर</a>: वापस YAML रूप में बदलें।</li>
+      <li><a href={toolPathBySlug('json-formatter', 'hi')}>JSON फ़ॉर्मेटर</a>: आउटपुट JSON को सुव्यवस्थित देखें।</li>
+      <li><a href={toolPathBySlug('json-validator', 'hi')}>JSON वैलिडेटर</a>: सिंटैक्स वैधता सत्यापित करें।</li>
+    </ul>
+  </section>
+</GuideLayout>

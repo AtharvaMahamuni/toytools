@@ -1,0 +1,35 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>O plano SIP aplica um valor fixo todos os meses, transformando a renda mensal em patrimônio com diluição do preço médio e juros compostos a favor.</p>
+    <a href={toolHref} class="cta-link">Abrir Calculadora SIP →</a>
+  </section>
+  <section id="formula">
+    <h2>A fórmula por trás do cálculo <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>FV = P · ((1 + i)^n − 1) / i</strong></p>
+    <ReferenceBlock type="key-idea" heading="Tempo vale mais que aporte isolado">
+      <p>Iniciar alguns anos antes quase sempre entrega mais patrimônio final do que tentar compensar depois com parcelas maiores.</p>
+    </ReferenceBlock>
+  </section>
+  <section id="erros">
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Tratar retorno projetado como garantia">
+      <p>Simule também uma taxa mais conservadora e compare o resultado final ajustado pela inflação para decisões de longo prazo.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

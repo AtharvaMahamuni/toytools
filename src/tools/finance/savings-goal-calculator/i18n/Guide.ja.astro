@@ -1,0 +1,33 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>概要 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>目標金額と期限が決まっている場合、現在の貯蓄額と想定年利を入力するだけで毎月いくら積み立てればよいかを逆算できます。</p>
+    <a href={toolHref} class="cta-link">目標貯蓄シミュレーターを使う →</a>
+  </section>
+  <section id="horizon">
+    <h2>期間と利回りのバランス <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>積立期間が長いほど運用益が目標の一部を補うため毎月の負担が軽くなります。<a href={toolPathBySlug('compound-interest-calculator', 'ja')}>複利計算シミュレーター</a> でも残高推移を確認できます。</p>
+  </section>
+  <section id="mistakes">
+    <h2>よくある注意点 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="インフレ未調整の目標額を使う">
+      <p>長期の目標では <a href={toolPathBySlug('inflation-calculator', 'ja')}>インフレ計算ツール</a> で物価上昇分を見積もっておくと安心です。</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

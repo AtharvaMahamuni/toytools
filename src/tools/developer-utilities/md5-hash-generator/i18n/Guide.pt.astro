@@ -1,0 +1,45 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section>
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>MD5 gera uma assinatura fixa de 32 caracteres hexadecimais (128 bits) para qualquer texto. É útil em chaves de cache e checagem acidental, mas impróprio para senhas ou segurança.</p>
+    <a class="cta-link" href={toolHref}>Abrir Gerador de hash MD5 &rarr;</a>
+  </section>
+  <section>
+    <h2>O que é MD5? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Definido na RFC 1321, condensa entradas de qualquer tamanho em 16 bytes determinísticos.</p>
+  </section>
+  <section>
+    <h2>Como funciona <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Divide os bits em blocos de 512 bits e executa quatro rodadas de operações lógicas com efeito avalanche.</p>
+  </section>
+  <section>
+    <h2>Para que ainda se usa MD5 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Deduplicação por conteúdo, chaves de cache e verificação de integridade onde não há atacante.</p>
+  </section>
+  <section>
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Empregar MD5 em senhas ou detecção de fraude. Use <a href={toolPathBySlug('sha256-hash-generator', 'pt')}>SHA-256</a> para qualquer requisito criptográfico.</p>
+  </section>
+  <section>
+    <h2>Ferramentas relacionadas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('sha256-hash-generator', 'pt')}>Gerador SHA-256</a>: hash seguro recomendado contra colisões.</li>
+      <li><a href={toolPathBySlug('sha1-hash-generator')}>Gerador SHA-1</a>: hash de 160 bits também descontinuado para segurança.</li>
+    </ul>
+  </section>
+</GuideLayout>

@@ -1,0 +1,51 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>CSV से JSON कन्वर्टर हेडर वाली तालिका को सीधे ऑब्जेक्ट के JSON ऐरे में बदल देता है, जहाँ पहली पंक्ति कुंजी और बाद की पंक्तियाँ डेटा ऑब्जेक्ट बनती हैं।</p>
+    <a class="cta-link" href={toolHref}>CSV से JSON कन्वर्टर खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>CSV से JSON रूपांतरण क्या करता है? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>यह हर कॉलम शीर्षक को डेटा सेल से जोड़ता है और RFC 4180 नियमों के अनुसार कोट्स व विशेष चिह्नों को सुरक्षित रखते हुए JSON बनाता है।</p>
+  </section>
+  <section>
+    <h2>टाइप और कोटिंग कैसे संभाली जाती है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>सामान्य संख्याओं को नंबर टाइप मिलता है, जबकि शुरुआती शून्य वाले पहचान कोड स्ट्रिंग रहकर सुरक्षित रहते हैं।</p>
+  </section>
+  <section>
+    <h2>CSV को JSON में कब बदलें <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>जब स्प्रेडशीट डेटा को वेब ऐप, REST API या डेटाबेस इम्पोर्ट स्क्रिप्ट में भेजना हो।</p>
+  </section>
+  <section>
+    <h2>CSV बनाम JSON: किसे चुनें <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>सपाट तालिकाओं और एक्सेल समीक्षा के लिए CSV हल्का है, जबकि नेस्टेड संरचना और प्रोग्रामिंग API के लिए JSON बेहतर है।</p>
+  </section>
+  <section>
+    <h2>सामान्य गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>हेडर पंक्ति भूलना या सेमीकोलन फ़ाइल में कॉमा डिलिमिटर चुनना सबसे आम गलतियाँ हैं।</p>
+  </section>
+  <section>
+    <h2>संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-to-csv-converter', 'hi')}>JSON से CSV कन्वर्टर</a>: वापस स्प्रेडशीट फॉर्मेट में बदलें।</li>
+      <li><a href={toolPathBySlug('json-formatter', 'hi')}>JSON फ़ॉर्मेटर</a>: प्राप्त JSON को व्यवस्थित करें।</li>
+      <li><a href={toolPathBySlug('json-validator', 'hi')}>JSON वैलिडेटर</a>: सिंटैक्स की शुद्धता जांचें।</li>
+    </ul>
+  </section>
+</GuideLayout>

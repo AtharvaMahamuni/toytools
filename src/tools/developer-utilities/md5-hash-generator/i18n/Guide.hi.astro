@@ -1,0 +1,45 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './hi';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'hi');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="hi">
+  <section>
+    <h2>संक्षिप्त उत्तर <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>MD5 किसी भी टेक्स्ट को 32-अक्षर के हेक्साडेसिमल (128-बिट) डाइजेस्ट में बदल देता है। कैश की और आकस्मिक त्रुटि जांच के लिए यह तेज़ है, पर पासवर्ड व सुरक्षा के लिए अनुपयुक्त है।</p>
+    <a class="cta-link" href={toolHref}>MD5 हैश जनरेटर खोलें &rarr;</a>
+  </section>
+  <section>
+    <h2>MD5 क्या है? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>RFC 1321 में परिभाषित यह एल्गोरिदम किसी भी आकार के डेटा से हमेशा एक निश्चित 16-बाइट पहचान उत्पन्न करता है।</p>
+  </section>
+  <section>
+    <h2>यह कैसे काम करता है <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>डेटा को 512-बिट ब्लॉकों में बांटकर चार राउंड के बिटवाइज संचालन किए जाते हैं जिससे हल्के बदलाव पर भी पूरा हैश बदल जाता है।</p>
+  </section>
+  <section>
+    <h2>MD5 का वर्तमान उपयोग <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>डुप्लिकेट फ़ाइल पहचान, कैश कुंजियाँ और गैर-सुरक्षा चेकसम सत्यापन में इसका उपयोग होता है।</p>
+  </section>
+  <section>
+    <h2>सामान्य गलतियाँ <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>पासवर्ड या सुरक्षा सत्यापन के लिए MD5 इस्तेमाल करना। सुरक्षा के लिए <a href={toolPathBySlug('sha256-hash-generator', 'hi')}>SHA-256</a> अपनाएं।</p>
+  </section>
+  <section>
+    <h2>संबंधित टूल <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('sha256-hash-generator', 'hi')}>SHA-256 हैश जनरेटर</a>: कोलिज़न-सुरक्षित आधुनिक हैश।</li>
+      <li><a href={toolPathBySlug('sha1-hash-generator')}>SHA-1 हैश जनरेटर</a>: 160-बिट हैश (सुरक्षा हेतु पुराना)।</li>
+    </ul>
+  </section>
+</GuideLayout>

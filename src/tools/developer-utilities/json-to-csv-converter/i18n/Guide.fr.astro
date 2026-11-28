@@ -1,0 +1,51 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section>
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Un convertisseur JSON vers CSV transforme un tableau d’objets en feuille CSV prête pour Excel en plaçant chaque propriété unique en colonne d’en-tête.</p>
+    <a class="cta-link" href={toolHref}>Ouvrir Convertisseur JSON vers CSV &rarr;</a>
+  </section>
+  <section>
+    <h2>Que fait la conversion JSON vers CSV ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Elle extrait l’ensemble des clés présentes, construit la ligne de titres et protège chaque valeur contenant virgules ou guillemets.</p>
+  </section>
+  <section>
+    <h2>Comment sont gérés les objets JSON clairsemés ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Si certains objets contiennent des clés optionnelles manquantes ailleurs, des cellules vides alignent parfaitement chaque ligne.</p>
+  </section>
+  <section>
+    <h2>Quand exporter du JSON en CSV ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Idéal pour transmettre des extractions d’API à des équipes métier sous Excel ou alimenter un import SQL massif.</p>
+  </section>
+  <section>
+    <h2>Pourquoi le CSV ne gère pas l’imbrication native <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Le CSV étant purement bidimensionnel, les sous-objets doivent être sérialisés en texte dans une seule case.</p>
+  </section>
+  <section>
+    <h2>Erreurs courantes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Oublier d’envelopper un objet unique dans un tableau <code>[...]</code> bloque la transformation.</p>
+  </section>
+  <section>
+    <h2>Outils associés <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-formatter', 'fr')}>Formateur JSON</a> : relire la structure avant export.</li>
+      <li><a href={toolPathBySlug('json-validator', 'fr')}>Validateur JSON</a> : contrôler la validité JSON.</li>
+      <li><a href={toolPathBySlug('json-minifier', 'fr')}>Minificateur JSON</a> : compacter votre JSON.</li>
+    </ul>
+  </section>
+</GuideLayout>

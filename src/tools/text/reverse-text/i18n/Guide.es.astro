@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>¿Qué es invertir texto? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Invertir texto consiste en dar la vuelta a una secuencia de caracteres para que el último aparezca primero y el primero al final. Es una transformación reversible carácter por carácter que conserva todas las letras originales cambiando solo el orden.</p>
+    <a class="cta-link" href={toolHref}>Abrir Invertir texto &rarr;</a>
+  </section>
+  <section>
+    <h2>Cuándo resulta útil el texto al revés <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Es práctico para diseñar pasatiempos, ocultar soluciones en hojas de preguntas, probar rápidamente palíndromos como "reconocer" o inspeccionar cadenas técnicas desde el final.</p>
+  </section>
+  <section>
+    <h2>Cómo funciona <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>La herramienta segmenta la entrada en caracteres visuales reales mediante la API estándar del navegador antes de invertir la lista. Así las tildes combinadas y los emojis compuestos permanecen unidos en lugar de corromperse.</p>
+  </section>
+  <section>
+    <h2>Ejemplos <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock>
+      <pre>hola          -> aloh
+Anita         -> atinA
+a🚀b          -> b🚀a</pre>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>Invertir caracteres frente a invertir orden de palabras <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Invertir caracteres cambia "buenos días" en "saíd soneub". Invertir el orden de palabras daría "días buenos". Esta utilidad realiza la inversión completa carácter por carácter sobre toda la entrada.</p>
+  </section>
+  <section>
+    <h2>Errores frecuentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ten en cuenta que al pegar varias líneas el bloque entero gira de principio a fin, subiendo las últimas líneas arriba. Si necesitas mantener cada renglón en su sitio, invierte cada línea por separado.</p>
+  </section>
+</GuideLayout>

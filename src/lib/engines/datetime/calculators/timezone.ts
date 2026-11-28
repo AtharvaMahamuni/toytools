@@ -8,19 +8,26 @@ import { successResult, card, validationError } from '@lib/results/index';
 import type { ResultCard } from '@lib/results/types';
 import { datetimeField } from '../validation';
 import { insight, milestone, toolDecision, decisions } from '../story';
+import { readClientI18n } from '@lib/i18n/client';
 import {
   ZONES, zoneLabel, partsInZone, zoneOffsetMs, zonedWallToUtc, wallTimeStatus, offsetLabel, clock,
   formatReading, monthShort,
 } from '../zones';
 
+function tpl(s: string, vars: Record<string, string | number>): string {
+  return s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : `{${k}}`));
+}
+
 /** 'is 13h 30m ahead of' / 'is 5h behind' / 'is the same time as'. */
-function diffPhrase(diffMin: number): string {
-  if (diffMin === 0) return 'is the same time as';
+function diffPhrase(diffMin: number, ei: Record<string, any>): string {
+  if (diffMin === 0) return ei.sameTimePhrase ?? 'is the same time as';
   const ahead = diffMin > 0;
   const total = Math.abs(diffMin);
   const h = Math.floor(total / 60);
   const m = total % 60;
   const span = m === 0 ? `${h}h` : `${h}h ${m}m`;
+  if (ahead && ei.aheadTpl) return tpl(ei.aheadTpl, { span });
+  if (!ahead && ei.behindTpl) return tpl(ei.behindTpl, { span });
   return `is ${span} ${ahead ? 'ahead of' : 'behind'}`;
 }
 
@@ -41,13 +48,14 @@ export const timezoneConverter: DateTimeTool = {
   ],
 
   calculate(input, _opts) {
-    const dt = datetimeField(input, 'datetime', 'a date and time');
+    const ei = (readClientI18n().engine ?? {}) as Record<string, any>;
+    const dt = datetimeField(input, 'datetime', ei.vLabel_datetime ?? 'a date and time');
     if (!dt.ok) return dt.result;
 
     const fromZone = String(input.fromZone ?? 'UTC');
     const toZone = String(input.toZone ?? 'UTC');
     if (!isKnownZone(fromZone) || !isKnownZone(toZone)) {
-      return validationError('Pick a timezone from the list to convert between.');
+      return validationError(ei.errBadZone ?? 'Pick a timezone from the list to convert between.');
     }
 
     // Treat the entered wall-clock time as local to fromZone, resolve the true instant, then read it
@@ -73,41 +81,56 @@ export const timezoneConverter: DateTimeTool = {
       Date.UTC(sourceRead.y, sourceRead.m - 1, sourceRead.d);
     const dayShiftDays = Math.round(dayShift / 86_400_000);
 
-    const hero = card('converted', `Time in ${toName}`, clock(targetRead), {
+    const hero = card('converted', ei.timeInTpl ? tpl(ei.timeInTpl, { zone: toName }) : `Time in ${toName}`, clock(targetRead), {
       raw: utcMs,
       emphasis: 'hero',
       note: formatReading(targetRead),
     });
 
+    const phrase = diffPhrase(diffMin, ei);
     const metrics: ResultCard[] = [
-      card('source', `In ${fromName}`, clock(sourceRead), {
+      card('source', ei.inZoneTpl ? tpl(ei.inZoneTpl, { zone: fromName }) : `In ${fromName}`, clock(sourceRead), {
         emphasis: 'primary',
         note: `${formatReading(sourceRead)} (${offsetLabel(fromOffset)})`,
       }),
-      card('utc', 'In UTC', clock(utcRead), { note: formatReading(utcRead) }),
-      card('difference', 'Time difference', diffMin === 0 ? 'Same time' : offsetDiffLabel(diffMin), {
+      card('utc', ei.inUtc ?? 'In UTC', clock(utcRead), { note: formatReading(utcRead) }),
+      card('difference', ei.diffLabel ?? 'Time difference', diffMin === 0 ? (ei.sameTime ?? 'Same time') : offsetDiffLabel(diffMin), {
         raw: diffMin,
-        note: `${toName} ${diffPhrase(diffMin)} ${fromName}`,
+        note: `${toName} ${phrase} ${fromName}`,
       }),
-      card('target-offset', `${toName} offset`, offsetLabel(toOffset), { note: 'From UTC on this date' }),
+      card('target-offset', ei.offsetTpl ? tpl(ei.offsetTpl, { zone: toName }) : `${toName} offset`, offsetLabel(toOffset), { note: ei.fromUtcNote ?? 'From UTC on this date' }),
     ];
 
     const insights = [
-      insight(`${toName} ${diffPhrase(diffMin)} ${fromName}.`),
+      insight(`${toName} ${phrase} ${fromName}.`),
       dayShiftDays === 0
-        ? insight(`Both zones are on the same calendar day for this time.`)
+        ? insight(ei.sameDay ?? 'Both zones are on the same calendar day for this time.')
         : insight(
             dayShiftDays > 0
-              ? `In ${toName} it is already the next day.`
-              : `In ${toName} it is still the previous day.`,
+              ? (ei.nextDayTpl ? tpl(ei.nextDayTpl, { zone: toName }) : `In ${toName} it is already the next day.`)
+              : (ei.prevDayTpl ? tpl(ei.prevDayTpl, { zone: toName }) : `In ${toName} it is still the previous day.`),
             'info',
           ),
       ...(wallStatus === 'nonexistent'
-        ? [insight(`${clock(dt.value)} does not exist in ${fromName} on this date: the clocks jump forward over it for daylight saving. The result uses the time just after the jump, ${clock(sourceRead)}.`, 'warning')]
+        ? [insight(
+            ei.dstMissingTpl
+              ? tpl(ei.dstMissingTpl, { time: clock(dt.value), zone: fromName, after: clock(sourceRead) })
+              : `${clock(dt.value)} does not exist in ${fromName} on this date: the clocks jump forward over it for daylight saving. The result uses the time just after the jump, ${clock(sourceRead)}.`,
+            'warning',
+          )]
         : wallStatus === 'ambiguous'
-          ? [insight(`${clock(dt.value)} happens twice in ${fromName} on this date because the clocks fall back an hour. The result uses the first of the two (${offsetLabel(fromOffset)}); the second is an hour later.`, 'warning')]
+          ? [insight(
+              ei.dstAmbigTpl
+                ? tpl(ei.dstAmbigTpl, { time: clock(dt.value), zone: fromName, offset: offsetLabel(fromOffset) })
+                : `${clock(dt.value)} happens twice in ${fromName} on this date because the clocks fall back an hour. The result uses the first of the two (${offsetLabel(fromOffset)}); the second is an hour later.`,
+              'warning',
+            )]
           : []),
-      insight(`Offsets are read for ${sourceRead.d} ${monthShort(sourceRead.m)} ${sourceRead.y}, so daylight saving is accounted for.`),
+      insight(
+        ei.dstReadTpl
+          ? tpl(ei.dstReadTpl, { date: `${sourceRead.d} ${monthShort(sourceRead.m)} ${sourceRead.y}` })
+          : `Offsets are read for ${sourceRead.d} ${monthShort(sourceRead.m)} ${sourceRead.y}, so daylight saving is accounted for.`,
+      ),
     ];
 
     return successResult({
@@ -115,21 +138,38 @@ export const timezoneConverter: DateTimeTool = {
       metrics,
       insights,
       milestones: [
-        milestone('Zones differ by a whole hour', diffMin % 60 === 0 && diffMin !== 0),
-        milestone('Conversion crosses a calendar day', dayShiftDays !== 0),
+        milestone(ei.msWholeHour ?? 'Zones differ by a whole hour', diffMin % 60 === 0 && diffMin !== 0),
+        milestone(ei.msCrossDay ?? 'Conversion crosses a calendar day', dayShiftDays !== 0),
       ],
       decisions: decisions([
         toolDecision('Turn a date into a Unix timestamp', 'unix-timestamp-converter'),
         toolDecision('Count the days between two dates', 'date-difference-calculator'),
-      ]),
+      ]).map((d) => {
+        const map: Record<string, string | undefined> = {
+          'unix-timestamp-converter': ei.decUnix,
+          'date-difference-calculator': ei.decDateDiff,
+        };
+        const label = d.tool?.slug ? map[d.tool.slug] : undefined;
+        return label ? { ...d, label } : d;
+      }),
       nextQuestions: [
-        'What is this time in UTC?',
-        'How many hours ahead is one city from another?',
+        ei.q1 ?? 'What is this time in UTC?',
+        ei.q2 ?? 'How many hours ahead is one city from another?',
       ],
-      explanation:
-        `${clock(sourceRead)} in ${fromName} (${offsetLabel(fromOffset)}) is the same instant as `
-        + `${clock(targetRead)} in ${toName} (${offsetLabel(toOffset)}), which is ${clock(utcRead)} UTC. `
-        + `The two zones differ by ${offsetDiffLabel(diffMin)} on this date.`,
+      explanation: ei.explanationTpl
+        ? tpl(ei.explanationTpl, {
+            srcTime: clock(sourceRead),
+            srcZone: fromName,
+            srcOffset: offsetLabel(fromOffset),
+            dstTime: clock(targetRead),
+            dstZone: toName,
+            dstOffset: offsetLabel(toOffset),
+            utcTime: clock(utcRead),
+            diff: offsetDiffLabel(diffMin),
+          })
+        : (`${clock(sourceRead)} in ${fromName} (${offsetLabel(fromOffset)}) is the same instant as `
+          + `${clock(targetRead)} in ${toName} (${offsetLabel(toOffset)}), which is ${clock(utcRead)} UTC. `
+          + `The two zones differ by ${offsetDiffLabel(diffMin)} on this date.`),
       assumptions: [],
       meta: {
         utcMs,

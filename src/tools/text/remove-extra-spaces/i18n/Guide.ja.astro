@@ -1,0 +1,62 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section>
+    <h2>余分なスペース削除とは <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>連続した半角スペースとタブ文字を1つの半角スペースへと変換する整形ツールです。段落の改行は維持したまま、不揃いな間隔だけを取り除きます。</p>
+    <a class="cta-link" href={toolHref}>余分なスペース削除を開く &rarr;</a>
+  </section>
+  <section>
+    <h2>連続スペースがトラブルになる理由 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>データの完全一致検索やCSV取り込み、文字カウントなどで予期せぬ不一致を引き起こします。改行も含めて1行に整えたい場合は<a href={`${guidePathBySlug('remove-blank-lines')}#normalize-whitespace`}>空白正規化</a>も参考にしてください。</p>
+  </section>
+  <section>
+    <h2>処理の仕組み <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>行内の水平スペースおよびタブの並びを検出して単一のスペースへ置換し、改行コードには一切触れません。</p>
+  </section>
+  <section>
+    <h2>変換例 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock>
+      <pre>"Hello    world   test"  -> "Hello world test"
+"A		B"                -> "A B"</pre>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>Wordで二重スペースを消す手順 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Wordの検索と置換でスペース2個をスペース1個に置換するか、事前に当ツールで整形してから貼り付けると確実です。</p>
+  </section>
+  <section>
+    <h2>Googleドキュメントでの修正方法 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>検索と置換ダイアログで正規表現を有効にし、<code> &#123;2,&#125;</code> を半角スペース1つへ一括置換できます。</p>
+  </section>
+  <section>
+    <h2>ExcelのTRIM関数が文中の空白も詰める理由 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>一般的なプログラミング言語のtrimとは異なり、ExcelのTRIM関数は文字列前後の空白削除に加えて単語間の連続空白も1個へ短縮します。</p>
+  </section>
+  <section>
+    <h2>PDFコピー時のビフォー・アフター <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>PDFの両端揃えからコピーすると単語間が不自然に広がりますが、1回通すだけで自然な間隔に戻ります。</p>
+  </section>
+  <section>
+    <h2>よくある間違い <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>行頭や行末の空白は1個分残る仕様のため、端まで完全に消したい場合はトリム系ツールを併用してください。</p>
+  </section>
+  <section>
+    <h2>他の空白整形ツールとの使い分け <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>行内整理は本ツール、行端の除去はトリム、改行や全角・特殊空白の一括変換は正規化ツールという役割分担になっています。</p>
+  </section>
+</GuideLayout>

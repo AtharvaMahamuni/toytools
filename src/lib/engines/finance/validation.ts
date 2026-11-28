@@ -7,6 +7,11 @@ import { parseHumanNumber } from '@lib/inputs/parse';
 import type { FinanceInput } from './types';
 import { validationError } from '@lib/results/index';
 import type { InteractiveResult } from '@lib/results/types';
+import { readClientI18n } from '@lib/i18n/client';
+
+function tpl(s: string, vars: Record<string, string | number>): string {
+  return s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : `{${k}}`));
+}
 
 export interface Ok { ok: true; value: number; }
 export interface Err { ok: false; result: InteractiveResult; }
@@ -38,17 +43,27 @@ export function number(
   label: string,
   opts: { optional?: boolean; min?: number; max?: number } = {},
 ): Coerced {
+  const d = readClientI18n();
+  const vLabel = String(d.vLabels?.[key] ?? label);
+  const VLabel = vLabel.charAt(0).toUpperCase() + vLabel.slice(1);
   const raw = input[key];
   if (raw === undefined || raw === '' || raw === null) {
     if (opts.optional) return ok(0);
-    return fail(`Enter ${label} to calculate.`);
+    return fail(tpl(d.errEnterTpl || 'Enter {label} to calculate.', { label: vLabel }));
   }
   const n = parseAmount(raw);
-  if (!Number.isFinite(n)) return fail(`${label} must be a number.`);
-  const Label = label.charAt(0).toUpperCase() + label.slice(1);
-  if (opts.min === 0 && n < 0) return fail(`${Label} cannot be negative. Enter 0 or more.`);
-  if (opts.min !== undefined && n < opts.min) return fail(`${Label} cannot be less than ${opts.min}.`);
-  if (opts.max !== undefined && n > opts.max) return fail(`${Label} cannot be more than ${opts.max}.`);
+  if (!Number.isFinite(n)) {
+    return fail(tpl(d.errNotNumberTpl || '{label} must be a number.', { label: vLabel }));
+  }
+  if (opts.min === 0 && n < 0) {
+    return fail(tpl(d.errNotNegativeTpl || '{Label} cannot be negative. Enter 0 or more.', { Label: VLabel }));
+  }
+  if (opts.min !== undefined && n < opts.min) {
+    return fail(tpl(d.errMinTpl || '{Label} cannot be less than {min}.', { Label: VLabel, min: opts.min }));
+  }
+  if (opts.max !== undefined && n > opts.max) {
+    return fail(tpl(d.errMaxTpl || '{Label} cannot be more than {max}.', { Label: VLabel, max: opts.max }));
+  }
   return ok(n);
 }
 
@@ -56,7 +71,11 @@ export function number(
 export function positive(input: FinanceInput, key: string, label: string, opts: { max?: number } = {}): Coerced {
   const c = number(input, key, label, { min: 0, max: opts.max });
   if (!c.ok) return c;
-  if (c.value <= 0) return fail(`${label} must be greater than zero.`);
+  if (c.value <= 0) {
+    const d = readClientI18n();
+    const vLabel = String(d.vLabels?.[key] ?? label);
+    return fail(tpl(d.errPositiveTpl || '{label} must be greater than zero.', { label: vLabel }));
+  }
   return c;
 }
 

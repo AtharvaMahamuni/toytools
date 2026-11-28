@@ -1,0 +1,42 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Wann solltest du schlafen gehen? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Für einen Wecker um 07:00 Uhr bei 15 Minuten Einschlafzeit ergeben fünf 90-Minuten-Zyklen 23:15 Uhr und sechs Zyklen 21:45 Uhr als Bettzeit.</p>
+    <a class="cta-link" href={toolHref}>Schlafzyklus-Rechner öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>Was ist ein 90-Minuten-Schlafzyklus? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ein kompletter Durchlauf aus Leicht-, Tief- und REM-Schlaf. Am Zyklusende aufzuwachen reduziert morgendliche Schlaftrunkenheit spürbar.</p>
+  </section>
+  <section>
+    <h2>Warum Einschlafzeit vor den Zyklen liegt <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Die ersten Minuten bis zum Wegdämmern zählen nicht zum Schlaf; sie davor einzukalkulieren schützt vor verfrühtem Weckerklingeln.</p>
+  </section>
+  <section>
+    <h2>Unterschied zwischen Weck- und Bettzeit-Modus <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Nutze die Aufwachzeit bei festem Morgentermin und die Zubettgehzeit, wenn du gerade ins Bett schlüpfst.</p>
+  </section>
+  <section>
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Einschlafminuten auf null lassen oder dauerhaft mit 3-4 Zyklen planen.</p>
+  </section>
+  <section>
+    <h2>Nächste Schritte <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Plane weitere Termine im <a href={toolPathBySlug('date-difference-calculator', 'de')}>Datumsdifferenz-Rechner</a> oder prüfe Daten im <a href={toolPathBySlug('age-calculator', 'de')}>Altersrechner</a>.</p>
+  </section>
+</GuideLayout>

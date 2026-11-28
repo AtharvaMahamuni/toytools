@@ -14,9 +14,10 @@ export type FinanceInput = Record<string, number | string>;
 /** A finance result is the platform interactive-result. */
 export type FinanceResult = InteractiveResult;
 
-/** Options passed to every calculation (currently just the display currency). */
+/** Options passed to every calculation (display currency and active UI locale). */
 export interface FinanceOpts {
   currency: string;
+  locale?: string;
 }
 
 /** A one-tap scenario that fills several fields at once (e.g. "Retirement"). Editable after applying. */

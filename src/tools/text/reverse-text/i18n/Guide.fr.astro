@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section>
+    <h2>Qu’est-ce que l’inversion de texte ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Inverser un texte consiste à renverser l’ordre complet des caractères du dernier jusqu’au premier. Chaque lettre, chiffre ou signe conserve sa valeur d’origine, seul le sens change.</p>
+    <a class="cta-link" href={toolHref}>Ouvrir Inverser le texte &rarr;</a>
+  </section>
+  <section>
+    <h2>Quand utiliser du texte à l’envers <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Pratique pour masquer une solution sur un support ludique, contrôler des palindromes ou examiner rapidement la fin d’identifiants techniques.</p>
+  </section>
+  <section>
+    <h2>Fonctionnement interne <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>L’outil s’appuie sur une segmentation par graphèmes afin que les caractères accentués et les emojis multi-points restent parfaitement intacts.</p>
+  </section>
+  <section>
+    <h2>Exemples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock>
+      <pre>bonjour       -> ruojnob
+radar         -> radar
+a🚀b          -> b🚀a</pre>
+    </ReferenceBlock>
+  </section>
+  <section>
+    <h2>Inversion de caractères vs ordre des mots <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Inverser les mots transformerait "chat noir" en "noir chat", alors qu’inverser les caractères donne "rion tahc". Cet outil effectue une inversion caractère par caractère.</p>
+  </section>
+  <section>
+    <h2>Erreurs courantes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Sur plusieurs lignes, la dernière ligne remonte tout en haut après inversion. Si vous souhaitez conserver la hiérarchie des lignes, traitez chaque ligne séparément.</p>
+  </section>
+</GuideLayout>

@@ -1,0 +1,32 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './pt';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'pt');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="pt">
+  <section id="resposta-rapida">
+    <h2>Resposta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Converta rapidamente qualquer lista ou texto para minúsculas, padronizando e-mails, tags e entradas digitadas com Caps Lock ligado.</p>
+    <a href={toolHref} class="cta-link">Abrir Conversor de Minúsculas →</a>
+  </section>
+  <section id="usos">
+    <h2>Quando padronizar em minúsculas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Padronizar os dois lados de uma comparação ou limpar listas antes de deduplicar evita entradas repetidas por causa de maiúsculas.</p>
+  </section>
+  <section id="erros">
+    <h2>Erros comuns <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Apagar siglas e nomes próprios sem backup">
+      <p>Depois que siglas como HTTP ou nomes próprios viram minúsculas, só é possível restaurá-los manualmente.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

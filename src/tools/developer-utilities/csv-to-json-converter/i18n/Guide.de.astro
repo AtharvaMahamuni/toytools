@@ -1,0 +1,51 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './de';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'de');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="de">
+  <section>
+    <h2>Kurzantwort <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Ein CSV-zu-JSON-Konverter verwandelt flache Tabellendaten mit Überschriften in ein JSON-Array aus typisierten Objekten für APIs, Datenbanken und Skripte.</p>
+    <a class="cta-link" href={toolHref}>CSV-zu-JSON-Konverter öffnen &rarr;</a>
+  </section>
+  <section>
+    <h2>Was macht die Umwandlung von CSV in JSON? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Die erste Zeile legt die Schlüsselfelder fest, während jede weitere Zeile nach RFC-4180-Regeln sauber geparst und als eigenständiges Objekt ausgegeben wird.</p>
+  </section>
+  <section>
+    <h2>Wie werden Datentypen und Anführungszeichen behandelt? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Eindeutige Zahlen und Booleans werden konvertiert, während führende Nullen etwa bei Postleitzahlen sicher als Zeichenkette geschützt bleiben.</p>
+  </section>
+  <section>
+    <h2>Wann braucht man CSV zu JSON? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Beim Einlesen von Excel-Exporten in Web-Frontends, beim Vorbereiten von API-Payloads oder zum Erstellen realistischer Testdaten.</p>
+  </section>
+  <section>
+    <h2>CSV vs. JSON im Vergleich <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>CSV ist kompakt für flache Tabellenkalkulationen; JSON eignet sich für strukturierte Schnittstellen mit klaren Datentypen und optionaler Verschachtelung.</p>
+  </section>
+  <section>
+    <h2>Häufige Fehler <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Fehlende Spaltenüberschriften oder ein falsch gewähltes Trennzeichen bei deutschen Semikolon-Dateien zählen zu den häufigsten Stolpersteinen.</p>
+  </section>
+  <section>
+    <h2>Verwandte Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolPathBySlug('json-to-csv-converter', 'de')}>JSON-zu-CSV-Konverter</a>: der umgekehrte Weg zurück zur Tabelle.</li>
+      <li><a href={toolPathBySlug('json-formatter', 'de')}>JSON-Formatierer</a>: Ausgabe sauber einrücken und prüfen.</li>
+      <li><a href={toolPathBySlug('json-validator', 'de')}>JSON-Validator</a>: Syntaxfehler sofort ausschließen.</li>
+    </ul>
+  </section>
+</GuideLayout>

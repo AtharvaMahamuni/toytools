@@ -1,0 +1,32 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './ja';
+import { toolPath } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'ja');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="ja">
+  <section id="quick-answer">
+    <h2>概要 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>アルファベットの小文字をすべて大文字（UPPERCASE）に変換します。数字・記号・改行・日本語はそのまま保持されます。</p>
+    <a href={toolHref} class="cta-link">大文字変換ツールを使う →</a>
+  </section>
+  <section id="css-vs-real">
+    <h2>CSS text-transform と実データ変換の違い <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>CSSは大文字風の見た目にするだけで実文字列は小文字のままです。コードの定数や保存データには文字自体の変換が必要です。</p>
+  </section>
+  <section id="best-practice">
+    <h2>使い分けのポイント <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="長文すべてを大文字にする">
+      <p>全大文字は略語や見出しラベル向けです。長い文章をすべて大文字にすると読みにくくなるため避けましょう。</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

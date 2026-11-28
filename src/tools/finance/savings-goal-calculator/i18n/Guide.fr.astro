@@ -1,0 +1,33 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from '../config';
+import { pack } from './fr';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'fr');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="fr">
+  <section id="reponse-rapide">
+    <h2>Réponse rapide <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Partir d’un objectif financier et d’une date cible permet d’obtenir immédiatement la mensualité d’épargne nécessaire en tenant compte de votre capital déjà constitué.</p>
+    <a href={toolHref} class="cta-link">Ouvrir l’objectif d’épargne →</a>
+  </section>
+  <section id="horizon">
+    <h2>Horizon et rendement <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Allonger la durée réduit fortement l’effort mensuel grâce aux intérêts composés, à tester aussi avec la <a href={toolPathBySlug('compound-interest-calculator', 'fr')}>Calculatrice Intérêts Composés</a>.</p>
+  </section>
+  <section id="erreurs">
+    <h2>Erreurs fréquentes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Ignorer l’inflation sur les projets longs">
+      <p>Ajustez d’abord votre objectif futur via la <a href={toolPathBySlug('inflation-calculator', 'fr')}>Calculatrice d’Inflation</a> si l’échéance dépasse cinq ans.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

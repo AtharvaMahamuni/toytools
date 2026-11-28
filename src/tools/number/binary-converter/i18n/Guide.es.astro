@@ -1,0 +1,46 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from '../config';
+import { pack } from './es';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props { title: string; description: string; readMinutes: number; updatedAt: string; entry: EcosystemEntry; }
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment }, 'es');
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={pack.name} toolCategorySlug={config.categorySlug} lang="es">
+  <section>
+    <h2>Respuesta rápida <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Cada dígito binario representa una potencia de 2 creciente de derecha a izquierda (1, 2, 4, 8...). El conversor traduce entre base 10 y base 2 hasta 512 bits mostrando hexadecimal, octal y ancho en bits.</p>
+    <a class="cta-link" href={toolHref}>Abrir Conversor binario &rarr;</a>
+  </section>
+  <section>
+    <h2>¿Qué es la base 2? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Es el sistema numérico de dos dígitos (0 y 1) sobre el que operan circuitos lógicos, permisos UNIX y registros de memoria.</p>
+  </section>
+  <section>
+    <h2>¿Cómo funciona la conversión? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Usa divisiones sucesivas entre dos hacia binario y sumas posicionales hacia decimal, operando enteramente en BigInt exacto.</p>
+  </section>
+  <section>
+    <h2>¿Por qué usar hexadecimal en lugar de binario? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Cuatro bits forman un dígito hex (nibble), reduciendo cuatro veces la longitud visual sin cálculo mental.</p>
+  </section>
+  <section>
+    <h2>¿Qué significa el ancho en bits y los ceros iniciales? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>El hardware lee en múltiplos de 8, 16 o 32 bits; conocer la longitud exacta permite completar ceros a la izquierda sin errores de alineación.</p>
+  </section>
+  <section>
+    <h2>Números binarios frente a texto en binario <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Si quieres codificar letras y palabras ASCII/UTF-8 en octetos de bits, utiliza el <a href={toolPathBySlug('binary-text-converter')}>conversor de texto a binario</a>.</p>
+  </section>
+  <section>
+    <h2>¿Por qué mi binario pegado necesitaba limpieza? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Código fuente y hojas técnicas añaden 0b, espacios o guiones bajos. Puedes limpiarlos con un clic y también convertir hacia hex con el <a href={toolPathBySlug('hex-encoder-decoder')}>codificador hexadecimal</a>.</p>
+  </section>
+</GuideLayout>
